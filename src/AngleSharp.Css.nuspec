@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>AngleSharp.Css</id>
+    <version>$version$</version>
+    <authors>AngleSharp</authors>
+    <owners>Florian Rappl</owners>
+    <licenseUrl>https://github.com/AngleSharp/AngleSharp.Css/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://anglesharp.github.io</projectUrl>
+    <iconUrl>https://raw.github.com/AngleSharp/AngleSharp.Css/master/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Extends the CSSOM from the core AngleSharp library.</description>
+    <releaseNotes>For all changes see: https://github.com/AngleSharp/AngleSharp/wiki/ChangeLog</releaseNotes>
+    <copyright>Copyright 2016, AngleSharp</copyright>
+    <tags>html html5 css css3 dom styling library anglesharp angle</tags>
+    <dependencies> 
+      <dependency id="AngleSharp" version="0.9.8.1" />
+    </dependencies>
+  </metadata>
+</package>
