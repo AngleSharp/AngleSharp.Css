@@ -10,7 +10,9 @@ Current status of this repository:
 [![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp-Css.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp-Css)
 [![Issues open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/issues)
 
-:warning: **WARNING** The library is currently under construction and is not ready yet. The initial version will be released soon. This message will then be removed appropriately.
+:warning: **WARNING** :warning:
+
+The library is currently under construction and is not ready yet. The initial version will be released soon. This message will then be removed.
 
 Advantages of AngleSharp.Css
 ----------------------------
