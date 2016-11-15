@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Css", "AngleSharp.Css\AngleSharp.Css.csproj", "{73856B9E-967D-44AA-A644-91CBBE75BF9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Css.Tests", "AngleSharp.Css.Tests\AngleSharp.Css.Tests.csproj", "{9136D59F-9F50-4E02-96B2-3EAC114B95FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Common", "AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj", "{CB9D1E29-D529-4525-B139-2A25115BCA96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Utilities", "AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj", "{1FF31B98-B7D2-4694-A430-09DD112BBE33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Css", "AngleSharp.Performance.Css\AngleSharp.Performance.Css.csproj", "{37F366DB-78D6-485F-9D8C-7C65A4B0186D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{9136D59F-9F50-4E02-96B2-3EAC114B95FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9136D59F-9F50-4E02-96B2-3EAC114B95FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9136D59F-9F50-4E02-96B2-3EAC114B95FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
