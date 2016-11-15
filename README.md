@@ -10,10 +10,12 @@ Current status of this repository:
 [![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp-Css.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp-Css)
 [![Issues open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/issues)
 
+:warning: **WARNING** The library is currently under construction and is not ready yet. The initial version will be released soon. This message will then be removed appropriately.
+
 Advantages of AngleSharp.Css
 ----------------------------
 
-The core library already contains the CSS parser and the most basic classes and interfaces for dealing with the CSSOM. AngleSharp.Css brings the following advantages and use cases to life:
+The core library already contains the CSS selector parser and the most basic classes and interfaces for dealing with the CSSOM. AngleSharp.Css brings the following advantages and use cases to life:
 
 * Correct identification of edge cases
 * A live CSSOM model, i.e., callbacks and everything
@@ -22,7 +24,7 @@ The core library already contains the CSS parser and the most basic classes and 
 * Validation (and property-based exposure) of CSS declarations
 * Responsive design considerations
 
-The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the browser (and beyond, i.e., useful for being used by editors). Originally, most of the code found here was embedded in the AngleSharp core library, however, due to the bloat for HTML use cases it was decided to transfer the code into its own repository.
+The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the browser (and potentially beyond, i.e., useful for being used by editors). Originally, most of the code found here was embedded in the AngleSharp.Core library, however, due to the overhead for HTML use cases it was decided to transfer the code into its own repository.
 
 Participating
 -------------
