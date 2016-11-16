@@ -55,8 +55,15 @@
                     return null;
 
                 default:
-                    return CreateNormalRule(token);
+                    return CreateNormalRule(sheet, token);
             }
+        }
+
+        public ICssRule CreateNormalRule(ICssStyleSheet sheet, CssToken token)
+        {
+            var style = new CssStyleRule(sheet);
+            CreateStyle(style, token);
+            return style;
         }
 
         public ICssRule CreateAtRule(ICssStyleSheet sheet, CssToken token)
@@ -133,7 +140,6 @@
 
         public Boolean CreateCharset(CssCharsetRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
 
@@ -148,7 +154,6 @@
 
         public Boolean CreateDocument(CssDocumentRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
             FillFunctions(function => rule.Add(function), ref token);
@@ -166,7 +171,6 @@
 
         public Boolean CreateViewport(CssViewportRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
 
@@ -182,7 +186,6 @@
 
         public Boolean CreateFontFace(CssFontFaceRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
 
@@ -198,7 +201,6 @@
 
         public Boolean CreateImport(CssImportRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
 
@@ -217,7 +219,6 @@
 
         public Boolean CreateKeyframes(CssKeyframesRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
             rule.Name = GetRuleName(ref token);
@@ -235,7 +236,6 @@
 
         public Boolean CreateMedia(CssMediaRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
             FillMediaList(rule.Media, CssTokenType.CurlyBracketOpen, ref token);
@@ -260,7 +260,6 @@
 
         public Boolean CreateNamespace(CssNamespaceRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
             rule.Prefix = GetRuleName(ref token);
@@ -277,26 +276,22 @@
 
         public Boolean CreatePage(CssPageRule rule, CssToken current)
         {
-            var start = current.Position;
-            var token = NextToken();
-            CollectTrivia(ref token);
-            rule.Selector = CreateSelector();
-            token = NextToken();
-            CollectTrivia(ref token);
+            current = NextToken();
+            rule.Selector = CreateSelector(ref current);
+            CollectTrivia(ref current);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
+            if (current.Type == CssTokenType.CurlyBracketOpen)
             {
                 FillDeclarations(rule.Style);
                 return true;
             }
 
-            SkipDeclarations(token);
+            SkipDeclarations(current);
             return false;
         }
 
         public Boolean CreateSupports(CssSupportsRule rule, CssToken current)
         {
-            var start = current.Position;
             var token = NextToken();
             CollectTrivia(ref token);
             rule.Condition = AggregateCondition(ref token);
@@ -314,17 +309,13 @@
 
         public Boolean CreateStyle(CssStyleRule rule, CssToken current)
         {
-            var start = current.Position;
-            CollectTrivia(ref current);
-            rule.Selector = CreateSelector();
-            current = NextToken();
+            rule.Selector = CreateSelector(ref current);
             FillDeclarations(rule.Style);
             return rule.Selector != null;
         }
 
         public Boolean CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
-            var start = current.Position;
             CollectTrivia(ref current);
             rule.Key = CreateKeyframeSelector(ref current);
             var end = FillDeclarations(rule.Style);
@@ -476,12 +467,6 @@
                     });
                 }
             }
-        }
-
-        public CssRule CreateNormalRule(CssToken current)
-        {
-            //TODO
-            return null;
         }
 
         #endregion
@@ -654,9 +639,9 @@
 
                 if (token.Type == CssTokenType.Colon)
                 {
-                    var important = false;
-                    var value = CreateValue('}', out important);
                     token = NextToken();
+                    var important = false;
+                    var value = CreateValue(ref token, Symbols.CurlyBracketClose, out important);
 
                     if (value == null)
                     {
@@ -976,9 +961,9 @@
 
             if (token.Type == CssTokenType.Colon)
             {
-                var important = false;
-                var result = CreateValue(')', out important);
                 token = NextToken();
+                var important = false;
+                var result = CreateValue(ref token, Symbols.RoundBracketClose, out important);
                 property.IsImportant = important;
 
                 if (result != null)
@@ -1025,14 +1010,22 @@
 
             do
             {
-                var url = token as CssUrlToken;
-
-                if (url == null)
+                if (token.Type != CssTokenType.Url && token.Type != CssTokenType.Function)
                     break;
 
-                var functionName = url.FunctionName;
-                var data = url.Data;
-                var function = factory.Create(functionName, data);
+                var functionName = token.Data;
+                var data = token.Data;
+
+                if (token.Type == CssTokenType.Url)
+                {
+                    functionName = FunctionNames.Url;
+                }
+                else
+                {
+                    data = _tokenizer.ContentTo(ref token, Symbols.RoundBracketClose);
+                }
+
+                var function = factory?.Create(functionName, data);
                 token = NextToken();
                 CollectTrivia(ref token);
 
@@ -1050,17 +1043,17 @@
             while (token.Type != CssTokenType.EndOfFile);
         }
 
-        private String CreateValue(Char closing, out Boolean important)
+        private String CreateValue(ref CssToken token, Char closing, out Boolean important)
         {
             var keyword = "!important";
-            var value = _tokenizer.ContentTo(';', closing);
+            var value = _tokenizer.ContentTo(ref token, ';', closing).Trim();
             important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
             return important ? value.Substring(0, value.Length - keyword.Length) : value;
         }
 
-        private ISelector CreateSelector()
+        private ISelector CreateSelector(ref CssToken token)
         {
-            var value = _tokenizer.ContentTo('{');
+            var value = _tokenizer.ContentTo(ref token, '{');
             var parser = _context.GetService<ICssSelectorParser>();
             return parser.ParseSelector(value);
         }
@@ -1089,10 +1082,9 @@
 
                 if (token.Type == CssTokenType.Colon)
                 {
+                    token = NextToken();
                     var important = false;
-                    token = NextToken();
-                    value = CreateValue(')', out important);
-                    token = NextToken();
+                    value = CreateValue(ref token, Symbols.RoundBracketClose, out important);
                 }
 
                 return new MediaFeature(name, value);

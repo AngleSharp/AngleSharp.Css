@@ -4,6 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class FunctionValueConverter : IValueConverter
     {
@@ -18,8 +19,7 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var index = source.Index;
-            var rest = source.Content.Length - index;
+            var rest = source.Content.Length - source.Index;
 
             if (rest >= _name.Length + 2)
             {
@@ -42,7 +42,7 @@
 
                     if (args != null)
                     {
-                        return new FunctionValue(source.Substring(index), _name, args);
+                        return new FunctionValue(_name, args);
                     }
                 }
             }
@@ -50,16 +50,25 @@
             return null;
         }
 
-        private sealed class FunctionValue : BaseValue
+        private sealed class FunctionValue : ICssValue
         {
             private readonly String _name;
             private readonly ICssValue _arguments;
 
-            public FunctionValue(String value, String name, ICssValue arguments)
-                : base(value)
+            public FunctionValue(String name, ICssValue arguments)
             {
                 _name = name;
                 _arguments = arguments;
+            }
+
+            public String CssText
+            {
+                get { return _name.CssFunction(_arguments.CssText); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

@@ -5,6 +5,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class EndListValueConverter : IValueConverter
     {
@@ -19,9 +20,8 @@
 
         public ICssValue Convert(StringSource source)
         {
+            var last = false;
             var values = new List<ICssValue>();
-            var endValue = default(ICssValue);
-            var start = source.Index;
 
             while (!source.IsDone)
             {
@@ -32,8 +32,15 @@
                 if (value == null || source.IsDone)
                 {
                     source.BackTo(index);
-                    endValue = _endConverter.Convert(source);
+                    value = _endConverter.Convert(source);
                     source.SkipSpaces();
+
+                    if (value != null)
+                    {
+                        values.Add(value);
+                        last = true;
+                    }
+
                     break;
                 }
                 
@@ -46,24 +53,31 @@
                 values.Add(value);
             }
 
-            if (endValue != null)
+            if (last)
             {
-                return new ListValue(source.Substring(start), values.ToArray(), endValue);
+                return new ListValue(values.ToArray());
             }
 
             return null;
         }
 
-        private sealed class ListValue : BaseValue
+        private sealed class ListValue : ICssValue
         {
             private readonly ICssValue[] _items;
-            private readonly ICssValue _last;
 
-            public ListValue(String value, ICssValue[] items, ICssValue last)
-                : base(value)
+            public ListValue(ICssValue[] items)
             {
                 _items = items;
-                _last = last;
+            }
+
+            public String CssText
+            {
+                get { return _items.Join(", "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

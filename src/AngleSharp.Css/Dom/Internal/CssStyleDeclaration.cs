@@ -342,14 +342,16 @@
 
         internal void SetProperty(ICssProperty property)
         {
-            if (property is CssShorthandProperty)
-            {
-                SetShorthand((CssShorthandProperty)property);
-            }
-            else
-            {
-                SetLonghand(property);
-            }
+            SetLonghand(property);
+
+            //if (property is CssShorthandProperty)
+            //{
+            //    SetShorthand((CssShorthandProperty)property);
+            //}
+            //else
+            //{
+            //    SetLonghand(property);
+            //}
         }
 
         internal void SetDeclarations(IEnumerable<ICssProperty> decls)
@@ -437,9 +439,11 @@
                 if (declaration.Name.Is(property.Name))
                 {
                     _declarations[i] = property;
-                    break;
+                    return;
                 }
             }
+
+            _declarations.Add(property);
         }
 
         private void SetShorthand(ICssProperty shorthand)

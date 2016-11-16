@@ -5,6 +5,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class ListValueConverter : IValueConverter
     {
@@ -18,7 +19,6 @@
         public ICssValue Convert(StringSource source)
         {
             var values = new List<ICssValue>();
-            var start = source.Index;
 
             while (!source.IsDone)
             {
@@ -34,18 +34,27 @@
                 source.SkipCurrentAndSpaces();
                 values.Add(value);
             }
-
-            return new ListValue(source.Substring(start), values.ToArray());
+            
+            return new ListValue(values.ToArray());
         }
 
-        private sealed class ListValue : BaseValue
+        private sealed class ListValue : ICssValue
         {
             private readonly ICssValue[] _items;
 
-            public ListValue(String value, ICssValue[] items)
-                : base(value)
+            public ListValue(ICssValue[] items)
             {
                 _items = items;
+            }
+
+            public String CssText
+            {
+                get { return _items.Join(", "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

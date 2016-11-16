@@ -67,7 +67,7 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(_style);
-            writer.Write(formatter.Rule("@page", _selectorText, rules));
+            writer.Write(formatter.Rule(RuleNames.Page, _selectorText, rules));
         }
 
         #endregion

@@ -143,7 +143,7 @@
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 128, 128)", concrete.Value);
+            Assert.AreEqual("rgba(0, 128, 128, 1)", concrete.Value);
         }
 
         [Test]
@@ -157,13 +157,13 @@
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 255, 128)", concrete.Value);
+            Assert.AreEqual("rgba(255, 255, 128, 1)", concrete.Value);
         }
 
         [Test]
         public void CssBackgroundColorHslaLegal()
         {
-            var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";//equal to rgba(85, 78, 43, 0.75)
+            var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
@@ -171,7 +171,7 @@
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("hsla(50deg, 33%, 25%, 0.75)", concrete.Value);
+            Assert.AreEqual("rgba(85, 78, 43, 0.75)", concrete.Value);
         }
 
         [Test]
@@ -199,7 +199,7 @@
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(187, 255, 0)", concrete.Value);
+            Assert.AreEqual("rgba(187, 255, 0, 1)", concrete.Value);
         }
 
         [Test]

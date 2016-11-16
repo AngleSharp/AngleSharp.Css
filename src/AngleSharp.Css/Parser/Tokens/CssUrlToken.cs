@@ -10,17 +10,15 @@
         #region Fields
 
         private readonly Boolean _bad;
-        private readonly String _functionName;
 
         #endregion
 
         #region ctor
 
-        public CssUrlToken(String functionName, String data, Boolean bad = false)
+        public CssUrlToken(String data, Boolean bad = false)
             : base(CssTokenType.Url, data)
         {
             _bad = bad;
-            _functionName = functionName;
         }
 
         #endregion
@@ -30,11 +28,6 @@
         public Boolean IsBad
         {
             get { return _bad; }
-        }
-
-        public String FunctionName
-        {
-            get { return _functionName; }
         }
 
         #endregion

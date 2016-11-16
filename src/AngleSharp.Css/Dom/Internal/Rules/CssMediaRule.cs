@@ -57,7 +57,7 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(Rules);
-            writer.Write(formatter.Rule("@media", ConditionText, rules));
+            writer.Write(formatter.Rule(RuleNames.Media, ConditionText, rules));
         }
 
         #endregion

@@ -4,6 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class PeriodicValueConverter : IValueConverter
     {
@@ -16,7 +17,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var options = new ICssValue[4];
 
             for (var i = 0; i < options.Length; i++)
@@ -25,23 +25,57 @@
                 source.SkipSpaces();
             }
 
-            return options[0] != null ? new PeriodicValue(source.Substring(start), options) : null;
+            return options[0] != null ? new PeriodicValue(options) : null;
         }
 
-        private sealed class PeriodicValue : BaseValue
+        private sealed class PeriodicValue : ICssValue
         {
-            private readonly ICssValue _top;
-            private readonly ICssValue _right; 
-            private readonly ICssValue _bottom;
-            private readonly ICssValue _left;
+            private readonly ICssValue[] _values;
 
-            public PeriodicValue(String value, ICssValue[] options)
-                : base(value)
+            public PeriodicValue(ICssValue[] values)
             {
-                _top = options[0];
-                _right = options[1] ?? _top;
-                _bottom = options[2] ?? _top;
-                _left = options[3] ?? _right;
+                _values = values;
+            }
+
+            public String CssText
+            {
+                get
+                {
+                    var l = _values[3] != null ? 4 : _values[2] != null ? 3 : _values[1] != null ? 2 : 1;
+                    var parts = new String[l];
+
+                    for (var i = 0; i < l; i++)
+                    {
+                        parts[i] = _values[i].CssText;
+                    }
+                    
+                    return String.Join(" ", parts);
+                }
+            }
+
+            public ICssValue Top
+            {
+                get { return _values[0]; }
+            }
+
+            public ICssValue Right
+            {
+                get { return _values[1] ?? Top; }
+            }
+
+            public ICssValue Bottom
+            {
+                get { return _values[2] ?? Top; }
+            }
+
+            public ICssValue Left
+            {
+                get { return _values[3] ?? Right; }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

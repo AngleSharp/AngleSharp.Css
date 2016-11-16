@@ -64,7 +64,7 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(Rules);
-            writer.Write(formatter.Rule("@keyframes", _name, rules));
+            writer.Write(formatter.Rule(RuleNames.Keyframes, _name, rules));
         }
 
         #endregion

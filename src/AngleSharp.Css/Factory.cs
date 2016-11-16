@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Css
+﻿using System;
+
+namespace AngleSharp.Css
 {
     static class Factory
     {
@@ -7,5 +9,7 @@
         public static DefaultCssPropertyFactory Property = new DefaultCssPropertyFactory();
 
         public static DefaultPseudoElementFactory PseudoElement = new DefaultPseudoElementFactory();
+
+        public static DefaultDocumentFunctionFactory DocumentFunction = new DefaultDocumentFunctionFactory();
     }
 }

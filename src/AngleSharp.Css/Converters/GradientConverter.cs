@@ -75,17 +75,13 @@
         {
             var color = source.ToColor();
             source.SkipSpaces();
-            var position = source.ToLengthOrPercent();
+            var position = source.ToDistance();
 
             if (color.HasValue)
             {
-                if (position is Length)
+                if (position.HasValue)
                 {
-                    return new GradientStop(color.Value, (Length)position);
-                }
-                else if (position is Percent)
-                {
-                    return new GradientStop(color.Value, (Percent)position);
+                    return new GradientStop(color.Value, position.Value);
                 }
                 else
                 {

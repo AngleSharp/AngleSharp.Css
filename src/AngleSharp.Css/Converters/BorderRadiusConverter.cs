@@ -5,6 +5,7 @@
     using AngleSharp.Text;
     using System;
     using static ValueConverters;
+    using System.IO;
 
     sealed class BorderRadiusConverter : IValueConverter
     {
@@ -26,19 +27,36 @@
                 vertical = _converter.Convert(source);
             }
 
-            return vertical != null ? new BorderRadiusValue(source.Substring(start), horizontal, vertical) : null;
+            return vertical != null ? new BorderRadiusValue(horizontal, vertical) : null;
         }
 
-        private sealed class BorderRadiusValue : BaseValue
+        private sealed class BorderRadiusValue : ICssValue
         {
             private readonly ICssValue _horizontal;
             private readonly ICssValue _vertical;
 
-            public BorderRadiusValue(String value, ICssValue horizontal, ICssValue vertical)
-                : base(value)
+            public BorderRadiusValue(ICssValue horizontal, ICssValue vertical)
             {
                 _horizontal = horizontal;
                 _vertical = vertical;
+            }
+
+            public String CssText
+            {
+                get
+                {
+                    if (!Object.ReferenceEquals(_horizontal, _vertical))
+                    {
+                        return String.Concat(_horizontal.CssText, " / ", _vertical.CssText);
+                    }
+
+                    return _horizontal.CssText;
+                }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

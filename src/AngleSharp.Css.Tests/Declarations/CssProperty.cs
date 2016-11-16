@@ -380,7 +380,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60px -16px rgb(0, 128, 128)", concrete.Value);
+            Assert.AreEqual("60px -16px rgba(0, 128, 128, 1)", concrete.Value);
         }
 
         [Test]
@@ -394,7 +394,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5px 5px rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("10px 5px 5px rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -408,7 +408,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3px 3px rgb(255, 0, 0), -1em 0 0.4em rgb(128, 128, 0)", concrete.Value);
+            Assert.AreEqual("3px 3px rgba(255, 0, 0, 1), -1em 0 0.4em rgba(128, 128, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -422,7 +422,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 5em 1em rgb(255, 215, 0)", concrete.Value);
+            Assert.AreEqual("inset 5em 1em rgba(255, 215, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -436,7 +436,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0 0 1em rgb(255, 215, 0)", concrete.Value);
+            Assert.AreEqual("0 0 1em rgba(255, 215, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -450,7 +450,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 0 0 1em rgb(255, 215, 0)", concrete.Value);
+            Assert.AreEqual("inset 0 0 1em rgba(255, 215, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -464,7 +464,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 0 0 1em rgb(255, 215, 0), 0 0 1em rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("inset 0 0 1em rgba(255, 215, 0, 1), 0 0 1em rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -478,7 +478,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5px 4px rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("5px 4px rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -492,7 +492,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5px 4px 2px rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("5px 4px 2px rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -724,7 +724,7 @@
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(18, 52, 86)", concrete.Value);
+            Assert.AreEqual("rgba(18, 52, 86, 1)", concrete.Value);
         }
 
         [Test]
@@ -738,7 +738,7 @@
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(121, 181, 201)", concrete.Value);
+            Assert.AreEqual("rgba(121, 181, 201, 1)", concrete.Value);
         }
 
         [Test]
@@ -766,7 +766,7 @@
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -780,7 +780,7 @@
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 0, 255)", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 255, 1)", concrete.Value);
         }
 
         [Test]

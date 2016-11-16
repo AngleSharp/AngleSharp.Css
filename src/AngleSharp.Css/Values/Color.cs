@@ -398,7 +398,7 @@
         /// </summary>
         public Double Alpha
         {
-            get { return _alpha / 255.0; }
+            get { return Math.Round(_alpha / 255.0, 2); }
         }
 
         /// <summary>
@@ -579,27 +579,14 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            if (_alpha == 255)
+            var arguments = String.Join(", ", new[]
             {
-                var arguments = String.Join(", ", new[]
-                {
-                    R.ToString(),
-                    G.ToString(),
-                    B.ToString()
-                });
-                return FunctionNames.Rgb.CssFunction(arguments);
-            }
-            else
-            {
-                var arguments = String.Join(", ", new[]
-                {
-                    R.ToString(),
-                    G.ToString(),
-                    B.ToString(),
-                    Alpha.ToString()
-                });
-                return FunctionNames.Rgba.CssFunction(arguments);
-            }
+                R.ToString(),
+                G.ToString(),
+                B.ToString(),
+                Alpha.ToString()
+            });
+            return FunctionNames.Rgba.CssFunction(arguments);
         }
 
         /// <summary>
@@ -610,27 +597,14 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            if (_alpha == 255)
+            var arguments = String.Join(", ", new[]
             {
-                var arguments = String.Join(", ", new[]
-                {
-                    R.ToString(format, formatProvider),
-                    G.ToString(format, formatProvider),
-                    B.ToString(format, formatProvider)
-                });
-                return FunctionNames.Rgb.CssFunction(arguments);
-            }
-            else
-            {
-                var arguments = String.Join(", ", new[]
-                {
-                    R.ToString(format, formatProvider),
-                    G.ToString(format, formatProvider),
-                    B.ToString(format, formatProvider),
-                    Alpha.ToString(format, formatProvider)
-                });
-                return FunctionNames.Rgba.CssFunction(arguments);
-            }
+                R.ToString(format, formatProvider),
+                G.ToString(format, formatProvider),
+                B.ToString(format, formatProvider),
+                Alpha.ToString(format, formatProvider)
+            });
+            return FunctionNames.Rgba.CssFunction(arguments);
         }
 
         #endregion

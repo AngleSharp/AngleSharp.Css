@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BrowsingContextExtensions.cs" />
+    <Compile Include="Converters\MultipleValueExtensions.cs" />
     <Compile Include="DefaultDocumentFunctionFactory.cs" />
     <Compile Include="DefaultPseudoElementFactory.cs" />
     <Compile Include="DeviceCategory.cs" />
@@ -102,11 +103,8 @@
     <Compile Include="Parser\StringParser.cs" />
     <Compile Include="Parser\StringSourceExtensions.cs" />
     <Compile Include="Parser\Tokens\CssCommentToken.cs" />
-    <Compile Include="Parser\Tokens\CssNumberToken.cs" />
-    <Compile Include="Parser\Tokens\CssRangeToken.cs" />
     <Compile Include="Parser\Tokens\CssStringToken.cs" />
     <Compile Include="Parser\Tokens\CssToken.cs" />
-    <Compile Include="Parser\Tokens\CssUnitToken.cs" />
     <Compile Include="Parser\Tokens\CssUrlToken.cs" />
     <Compile Include="Parser\UnitParser.cs" />
     <Compile Include="Parser\UriParser.cs" />

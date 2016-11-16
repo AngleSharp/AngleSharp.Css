@@ -4,6 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class OrderedOptionsConverter: IValueConverter
     {
@@ -16,7 +17,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var options = new ICssValue[_converters.Length];
 
             for (var i = 0; i < _converters.Length; i++)
@@ -32,17 +32,26 @@
                 options[i] = option;
             }
 
-            return new OptionsValue(source.Substring(start), options);
+            return new OptionsValue(options);
         }
 
-        private sealed class OptionsValue : BaseValue
+        private sealed class OptionsValue : ICssValue
         {
             private readonly ICssValue[] _options;
 
-            public OptionsValue(String value, ICssValue[] options)
-                : base(value)
+            public OptionsValue(ICssValue[] options)
             {
                 _options = options;
+            }
+
+            public string CssText
+            {
+                get { return _options.Join(" "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

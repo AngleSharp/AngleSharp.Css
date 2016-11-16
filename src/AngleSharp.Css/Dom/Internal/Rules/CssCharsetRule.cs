@@ -44,7 +44,7 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(formatter.Rule("@charset", _charSet.CssString()));
+            writer.Write(formatter.Rule(RuleNames.Charset, _charSet.CssString()));
         }
 
         #endregion

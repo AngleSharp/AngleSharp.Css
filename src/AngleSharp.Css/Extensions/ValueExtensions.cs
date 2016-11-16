@@ -12,18 +12,6 @@
     /// </summary>
     static class ValueExtensions
     {
-        public static Length? ToDistance(this StringSource value)
-        {
-            var percent = value.ToPercent();
-
-            if (percent.HasValue)
-            {
-                return new Length(percent.Value.Value, Length.Unit.Percent);
-            }
-
-            return value.ToLength();
-        }
-
         public static Length ToLength(this FontSize fontSize)
         {
             switch (fontSize)
@@ -74,12 +62,12 @@
 
             while (!str.IsDone)
             {
-                var test = str.ParseIdent();
+                str.SkipSpaces();
 
-                if (test == null)
+                if (str.ParseIdent() == null)
                     break;
 
-                str.SkipSpaces();
+                detected++;
             }
 
             return detected > 0;
@@ -172,8 +160,7 @@
 
             return null;
         }
-
-        public static Object ToLengthOrPercent(this StringSource str)
+        public static Length? ToDistance(this StringSource str)
         {
             var test = str.ParseUnit();
 
@@ -182,11 +169,7 @@
                 var unit = Length.Unit.Px;
                 var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
 
-                if (test.Dimension == "%")
-                {
-                    return new Percent(value);
-                }
-                else if ((test.Dimension == String.Empty && test.Value == "0") ||
+                if ((test.Dimension == String.Empty && test.Value == "0") ||
                     (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
                 {
                     return new Length(value, unit);
@@ -195,6 +178,7 @@
 
             return null;
         }
+
 
         public static Length? ToLength(this StringSource str)
         {
@@ -207,8 +191,11 @@
                 if ((test.Dimension == String.Empty && test.Value == "0") ||
                     (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
                 {
-                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
-                    return new Length(value, unit);
+                    if (unit != Length.Unit.Percent)
+                    {
+                        var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                        return new Length(value, unit);
+                    }
                 }
             }
 

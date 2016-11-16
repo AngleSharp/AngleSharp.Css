@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
 
@@ -15,7 +16,16 @@
 
         public ICssValue Convert(StringSource source)
         {
-            return _converter.Convert(source) ?? new OptionValue();
+            var start = source.Index;
+            var result = _converter.Convert(source);
+
+            if (result == null)
+            {
+                result = new OptionValue();
+                source.BackTo(start);
+            }
+
+            return result;
         }
 
         private sealed class OptionValue : BaseValue
@@ -40,7 +50,16 @@
 
         public ICssValue Convert(StringSource source)
         {
-            return _converter.Convert(source) ?? new OptionValue(_defaultValue);
+            var start = source.Index;
+            var result = _converter.Convert(source);
+
+            if (result == null)
+            {
+                result = new OptionValue(_defaultValue);
+                source.BackTo(start);
+            }
+
+            return result;
         }
 
         private sealed class OptionValue : BaseValue

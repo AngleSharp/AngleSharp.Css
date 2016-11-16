@@ -69,7 +69,7 @@
             var media = Media.MediaText;
             var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
             var value = String.Concat(_href.CssUrl(), space, media);
-            writer.Write(formatter.Rule("@import", value));
+            writer.Write(formatter.Rule(RuleNames.Import, value));
         }
 
         #endregion

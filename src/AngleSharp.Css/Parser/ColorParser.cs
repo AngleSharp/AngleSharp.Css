@@ -32,20 +32,23 @@
             {
                 var ident = source.ParseIdent();
 
-                if (ident != null && source.Current == Symbols.RoundBracketOpen)
+                if (ident != null)
                 {
-                    var function = default(Func<StringSource, Color?>);
-
-                    if (ColorFunctions.TryGetValue(ident, out function))
+                    if (source.Current == Symbols.RoundBracketOpen)
                     {
-                        source.SkipCurrentAndSpaces();
-                        return function.Invoke(source);
+                        var function = default(Func<StringSource, Color?>);
+
+                        if (ColorFunctions.TryGetValue(ident, out function))
+                        {
+                            source.SkipCurrentAndSpaces();
+                            return function.Invoke(source);
+                        }
+
+                        return null;
                     }
 
-                    return null;
+                    return Color.FromName(ident);
                 }
-
-                return Color.FromName(ident);
             }
 
             return Literal(source);
@@ -84,6 +87,7 @@
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
             var f = source.SkipSpaces();
+            source.SkipCurrentAndSpaces();
 
             if (r != null && g != null && b != null)
             {
@@ -113,6 +117,7 @@
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
             var f = source.SkipSpaces();
+            source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)
             {
@@ -136,6 +141,7 @@
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
             var f = source.SkipSpaces();
+            source.SkipCurrentAndSpaces();
 
             if (n != null)
             {
@@ -165,6 +171,7 @@
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
             var f = source.SkipSpaces();
+            source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)
             {

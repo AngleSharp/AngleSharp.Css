@@ -5,12 +5,12 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class QuotesValueConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)
         {
-            var index = source.Index;
             var quotes = new List<Quote>();
 
             while (!source.IsDone)
@@ -26,18 +26,26 @@
                 quotes.Add(new Quote { Open = open, Close = close });
             }
 
-            var value = source.Substring(index);
-            return new StringsValue(value, quotes.ToArray());
+            return new StringsValue(quotes.ToArray());
         }
 
-        private sealed class StringsValue : BaseValue
+        private sealed class StringsValue : ICssValue
         {
             private readonly Quote[] _quotes;
 
-            public StringsValue(String value, Quote[] quotes)
-                : base(value)
+            public StringsValue(Quote[] quotes)
             {
                 _quotes = quotes;
+            }
+
+            public String CssText
+            {
+                get { return String.Join(" ", _quotes); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
 
@@ -45,6 +53,11 @@
         {
             public String Open;
             public String Close;
+
+            public override String ToString()
+            {
+                return String.Concat(Open.CssString(), " ", Close.CssString());
+            }
         }
     }
 }

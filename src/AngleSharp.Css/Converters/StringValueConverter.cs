@@ -4,24 +4,33 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class StringValueConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)
         {
-            var index = source.Index;
-            var url = source.ParseString();
-            return url != null ? new StringValue(source.Substring(index), url) : null;
+            var str = source.ParseString();
+            return str != null ? new StringValue(str) : null;
         }
 
-        private sealed class StringValue : BaseValue
+        private sealed class StringValue : ICssValue
         {
             private readonly String _content;
 
-            public StringValue(String value, String content)
-                : base(value)
+            public StringValue(String content)
             {
                 _content = content;
+            }
+
+            public String CssText
+            {
+                get { return _content.CssString(); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

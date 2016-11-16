@@ -29,7 +29,12 @@
             {
                 configuration = configuration.With(Factory.FeatureValidator);
             }
-            
+
+            if (!configuration.Has<IDocumentFunctionFactory>())
+            {
+                configuration = configuration.With(Factory.DocumentFunction);
+            }
+
             if (!configuration.Has<IPseudoElementFactory>())
             {
                 configuration = configuration.With(Factory.PseudoElement);

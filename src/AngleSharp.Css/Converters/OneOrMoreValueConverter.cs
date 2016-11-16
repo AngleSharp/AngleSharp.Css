@@ -5,6 +5,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class OneOrMoreValueConverter : IValueConverter
     {
@@ -21,7 +22,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var values = new List<ICssValue>();
 
             for (var i = 0; i < _maximum; i++)
@@ -37,21 +37,29 @@
 
             if (values.Count >= _minimum)
             {
-                var value = source.Substring(start);
-                return new MultipleValue(value, values.ToArray());
+                return new MultipleValue(values.ToArray());
             }
 
             return null;
         }
         
-        private sealed class MultipleValue : BaseValue
+        private sealed class MultipleValue : ICssValue
         {
             private readonly ICssValue[] _items;
 
-            public MultipleValue(String value, ICssValue[] items)
-                : base(value)
+            public MultipleValue(ICssValue[] items)
             {
                 _items = items;
+            }
+
+            public String CssText
+            {
+                get { return _items.Join(" "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

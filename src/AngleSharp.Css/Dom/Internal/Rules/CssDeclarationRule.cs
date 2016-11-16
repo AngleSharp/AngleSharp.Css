@@ -110,7 +110,7 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = new FormatTransporter(_declarations);
-            var content = formatter.Style("@" + _name, rules);
+            var content = formatter.Style(_name, rules);
             writer.Write(content);
         }
 

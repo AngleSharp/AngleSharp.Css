@@ -87,7 +87,7 @@
             var concrete = (CssBorderBottomColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -101,7 +101,7 @@
             var concrete = (CssBorderTopColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 255, 0)", concrete.Value);
+            Assert.AreEqual("rgba(0, 255, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -129,7 +129,7 @@
             var concrete = (CssBorderLeftColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(1, 255, 100)", concrete.Value);
+            Assert.AreEqual("rgba(1, 255, 100, 1)", concrete.Value);
         }
 
         [Test]
@@ -157,7 +157,7 @@
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 128, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 128, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -171,7 +171,7 @@
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -185,7 +185,7 @@
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 255) rgb(0, 128, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1) rgba(0, 128, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -199,7 +199,7 @@
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 255) rgb(0, 128, 0) rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1) rgba(0, 128, 0, 1) rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -574,7 +574,7 @@
             var concrete = (CssBorderTopProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("2px rgba(255, 0, 0, 1)", concrete.Value);
             //Assert.AreEqual(new Length(2f, Length.Unit.Px), concrete.Width);
             //Assert.AreEqual(Color.Red, concrete.Color);
             //Assert.AreEqual(LineStyle.None, concrete.Style);
@@ -591,7 +591,7 @@
             var concrete = (CssBorderBottomProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 100, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 100, 0, 1)", concrete.Value);
             //Assert.AreEqual(Length.Medium, concrete.Width);
             //Assert.AreEqual(Color.FromRgb(255, 100, 0), concrete.Color);
             //Assert.AreEqual(LineStyle.None, concrete.Style);

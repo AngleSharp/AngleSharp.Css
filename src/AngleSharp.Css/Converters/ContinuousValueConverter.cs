@@ -5,6 +5,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class ContinuousValueConverter : IValueConverter
     {
@@ -17,7 +18,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var options = new List<ICssValue>();
 
             while (!source.IsDone)
@@ -33,17 +33,26 @@
                 options.Add(option);
             }
             
-            return new OptionsValue(source.Substring(start), options.ToArray());
+            return new OptionsValue(options.ToArray());
         }
 
-        private sealed class OptionsValue : BaseValue
+        private sealed class OptionsValue : ICssValue
         {
             private readonly ICssValue[] _options;
 
-            public OptionsValue(String value, ICssValue[] options)
-                : base(value)
+            public OptionsValue(ICssValue[] options)
             {
                 _options = options;
+            }
+
+            public String CssText
+            {
+                get { return _options.Join(" "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

@@ -32,6 +32,10 @@
             if (_mapping.Contains(url) == false)
             {
                 var response = await _default.RequestAsync(request, cancel).ConfigureAwait(false);
+
+                if (response == null)
+                    return response;
+
                 var fileName = await AddResourceAsync(url, response).ConfigureAwait(false);
                 _mapping.Add(url, fileName);
             }

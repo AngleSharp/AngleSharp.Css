@@ -10,17 +10,15 @@
         #region Fields
 
         private readonly Boolean _bad;
-        private readonly Char _quote;
 
         #endregion
 
         #region ctor
 
-        public CssStringToken(String data, Char quote, Boolean bad = false)
+        public CssStringToken(String data, Boolean bad = false)
             : base(CssTokenType.String, data)
         {
             _bad = bad;
-            _quote = quote;
         }
 
         #endregion
@@ -30,11 +28,6 @@
         public Boolean IsBad
         {
             get { return _bad; }
-        }
-
-        public Char Quote
-        {
-            get { return _quote; }
         }
 
         #endregion

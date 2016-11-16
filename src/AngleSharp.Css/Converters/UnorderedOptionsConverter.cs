@@ -3,7 +3,7 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
-    using System;
+    using System.IO;
 
     sealed class UnorderedOptionsConverter : IValueConverter
     {
@@ -16,7 +16,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var options = new ICssValue[_converters.Length];
             var i = 0;
             var failed = true;
@@ -44,17 +43,26 @@
                 i++;
             }
             
-            return failed ? null : new OptionsValue(source.Substring(start), options);
+            return failed ? null : new OptionsValue(options);
         }
-
-        private sealed class OptionsValue : BaseValue
+        
+        private sealed class OptionsValue : ICssValue
         {
             private readonly ICssValue[] _options;
 
-            public OptionsValue(String value, ICssValue[] options)
-                : base(value)
+            public OptionsValue(ICssValue[] options)
             {
                 _options = options;
+            }
+
+            public string CssText
+            {
+                get { return _options.Join(" "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

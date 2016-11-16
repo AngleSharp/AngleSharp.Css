@@ -19,31 +19,34 @@
 
             if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
             {
-                current = source.Next();
+                var next = source.Next();
 
-                if (current == Symbols.Dot)
+                if (next == Symbols.Dot)
                 {
-                    return Fraction(source, StringBuilderPool.Obtain());
+                    var buffer = StringBuilderPool.Obtain().Append(current).Append(next);
+                    return Fraction(source, buffer);
                 }
-
-                return Rest(source);
+                else if (next.IsDigit())
+                {
+                    var buffer = StringBuilderPool.Obtain().Append(current).Append(next);
+                    return Rest(source, buffer);
+                }
             }
             else if (current == Symbols.Dot)
             {
-                return Fraction(source, StringBuilderPool.Obtain());
+                return Fraction(source, StringBuilderPool.Obtain().Append(current));
             }
             else if (current.IsDigit())
             {
-                return Rest(source);
+                return Rest(source, StringBuilderPool.Obtain().Append(current));
             }
 
             return null;
         }
 
-        private static Unit Rest(StringSource source)
+        private static Unit Rest(StringSource source, StringBuilder buffer)
         {
-            var buffer = StringBuilderPool.Obtain();
-            var current = source.Current;
+            var current = source.Next();
 
             while (true)
             {

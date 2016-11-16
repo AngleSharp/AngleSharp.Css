@@ -364,7 +364,7 @@
             var concrete = (CssColumnRuleColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(192, 56, 78)", concrete.Value);
+            Assert.AreEqual("rgba(192, 56, 78, 1)", concrete.Value);
         }
 
         [Test]
@@ -378,7 +378,7 @@
             var concrete = (CssColumnRuleColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]

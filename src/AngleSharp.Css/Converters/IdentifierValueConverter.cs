@@ -43,9 +43,8 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var index = source.Index;
             var ident = source.ParseIdent();
-            return ident != null && ident.Is(_identifier) ? new IdentifierValue(source.Substring(index), _result) : null;
+            return ident != null && ident.Is(_identifier) ? new IdentifierValue(_identifier, _result) : null;
         }
 
         private sealed class IdentifierValue : BaseValue

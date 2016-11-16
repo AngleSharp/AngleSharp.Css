@@ -57,7 +57,7 @@
         {
             var space = String.IsNullOrEmpty(_prefix) ? String.Empty : " ";
             var value = String.Concat(_prefix, space, _namespaceUri.CssUrl());
-            writer.Write(formatter.Rule("@namespace", value));
+            writer.Write(formatter.Rule(RuleNames.Namespace, value));
         }
 
         #endregion

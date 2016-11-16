@@ -4,6 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class ArgumentsValueConverter : IValueConverter
     {
@@ -16,7 +17,6 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
             var index = 0;
             var n = _converters.Length;
             var args = new ICssValue[n];
@@ -25,7 +25,7 @@
             {
                 var arg = _converters[index].Convert(source);
                 var current = source.SkipSpaces();
-                index++;
+                args[index++] = arg;
 
                 if (arg == null)
                 {
@@ -39,22 +39,28 @@
                 {
                     return null;
                 }
-
-                args[index] = arg;
             }
 
-            var value = source.Substring(start);
-            return new ArgumentsValue(value, args);
+            return new ArgumentsValue(args);
         }
 
-        private sealed class ArgumentsValue : BaseValue
+        private sealed class ArgumentsValue : ICssValue
         {
             private readonly ICssValue[] _arguments;
 
-            public ArgumentsValue(String value, ICssValue[] arguments)
-                : base(value)
+            public ArgumentsValue(ICssValue[] arguments)
             {
                 _arguments = arguments;
+            }
+
+            public String CssText
+            {
+                get { return _arguments.Join(", "); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

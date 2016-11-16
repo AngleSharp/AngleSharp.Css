@@ -1,9 +1,10 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.Globalization;
+    using System.IO;
 
     sealed class StructValueConverter<T> : IValueConverter
         where T : struct, IFormattable
@@ -17,19 +18,27 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var index = source.Index;
             var result = _converter.Invoke(source);
-            return result.HasValue ? new StructValue(source.Substring(index), result.Value) : null;
+            return result.HasValue ? new StructValue(result.Value) : null;
         }
 
-        private sealed class StructValue : BaseValue
+        private sealed class StructValue : ICssValue
         {
             private readonly T _data;
 
-            public StructValue(String value, T data)
-                : base(value)
+            public StructValue(T data)
             {
                 _data = data;
+            }
+
+            public String CssText
+            {
+                get { return _data.ToString(null,  CultureInfo.InvariantCulture); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

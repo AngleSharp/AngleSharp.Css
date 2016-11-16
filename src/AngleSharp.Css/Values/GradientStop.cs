@@ -11,20 +11,8 @@
         #region Fields
 
         private readonly Color _color;
-        private readonly Length _locationAbsolute;
-        private readonly Percent _locationRelative;
-        private readonly State _state;
-
-        #endregion
-
-        #region Stop State
-
-        private enum State
-        {
-            Absolute,
-            Relative,
-            Undetermined
-        }
+        private readonly Length _location;
+        private readonly Boolean _determined;
 
         #endregion
 
@@ -38,22 +26,8 @@
         public GradientStop(Color color, Length location)
         {
             _color = color;
-            _locationRelative = Percent.Zero;
-            _state = State.Absolute;
-            _locationAbsolute = location;
-        }
-
-        /// <summary>
-        /// Creates a new gradient stop.
-        /// </summary>
-        /// <param name="color">The color of the stop.</param>
-        /// <param name="location">The location of the stop.</param>
-        public GradientStop(Color color, Percent location)
-        {
-            _color = color;
-            _locationRelative = location;
-            _state = State.Relative;
-            _locationAbsolute = Length.Zero;
+            _location = location;
+            _determined = true;
         }
 
         /// <summary>
@@ -63,9 +37,8 @@
         public GradientStop(Color color)
         {
             _color = color;
-            _locationRelative = Percent.Zero;
-            _state = State.Undetermined;
-            _locationAbsolute = Length.Zero;
+            _determined = false;
+            _location = Length.Zero;
         }
 
         #endregion
@@ -81,19 +54,11 @@
         }
 
         /// <summary>
-        /// Gets if relative positioning is used.
+        /// Gets if the position is determined.
         /// </summary>
-        public Boolean IsRelative
+        public Boolean IsDetermined
         {
-            get { return _state == State.Relative; }
-        }
-
-        /// <summary>
-        /// Gets if absolute positioning is used.
-        /// </summary>
-        public Boolean IsAbsolute
-        {
-            get { return _state == State.Absolute; }
+            get { return _determined; }
         }
 
         /// <summary>
@@ -101,23 +66,15 @@
         /// </summary>
         public Boolean IsUndetermined
         {
-            get { return _state == State.Undetermined; }
+            get { return !_determined; }
         }
 
         /// <summary>
-        /// Gets the absolute location of the gradient stop.
+        /// Gets the location of the gradient stop.
         /// </summary>
-        public Length AbsoluteLocation
+        public Length Location
         {
-            get { return _locationAbsolute; }
-        }
-
-        /// <summary>
-        /// Gets the relative location of the gradient stop.
-        /// </summary>
-        public Percent RelativeLocation
-        {
-            get { return _locationRelative; }
+            get { return _location; }
         }
 
         #endregion

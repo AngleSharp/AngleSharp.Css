@@ -32,7 +32,7 @@
         public ISelector Selector
         {
             get { return _selector ?? (_selector = ParseSelector(_selectorText)); }
-            set { _selector = value; _selectorText = value.Text; }
+            set { _selector = value; _selectorText = value?.Text ?? "*"; }
         }
 
         public String SelectorText
