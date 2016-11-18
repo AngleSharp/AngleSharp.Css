@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -10,9 +11,8 @@
     sealed class CssBorderImageRepeatProperty : CssProperty
     {
         #region Fields
-
-        internal static readonly IValueConverter TheConverter = Map.BorderRepeats.ToConverter().Many(1, 2);
-        static readonly IValueConverter StyleConverter = TheConverter.OrDefault(BorderRepeat.Stretch);
+        
+        private static readonly IValueConverter StyleConverter = Or(BorderImageRepeatConverter, AssignInitial(BorderRepeat.Stretch));
 
         #endregion
 

@@ -62,7 +62,7 @@
 
             while (!str.IsDone)
             {
-                str.SkipSpaces();
+                str.SkipSpacesAndComments();
 
                 if (str.ParseIdent() == null)
                     break;

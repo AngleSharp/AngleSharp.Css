@@ -16,17 +16,18 @@
         // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
         // caption | icon | menu | message-box | small-caption | status-bar
 
-        private static readonly IValueConverter StyleConverter = WithOrder(
-            WithAny(
-                FontStyleConverter.Option().For(PropertyNames.FontStyle),
-                FontVariantConverter.Option().For(PropertyNames.FontVariant),
-                FontWeightConverter.Or(WeightIntegerConverter).Option().For(PropertyNames.FontWeight),
-                FontStretchConverter.Option().For(PropertyNames.FontStretch)),
+        private static readonly IValueConverter StyleConverter = Or(
             WithOrder(
-                FontSizeConverter.Required().For(PropertyNames.FontSize),
-                LineHeightConverter.StartsWithDelimiter().Option().For(PropertyNames.LineHeight),
-            FontFamiliesConverter.Required().For(PropertyNames.FontFamily))).Or(
-        SystemFontConverter);
+                WithAny(
+                    FontStyleConverter.Option().For(PropertyNames.FontStyle),
+                    FontVariantConverter.Option().For(PropertyNames.FontVariant),
+                    Or(FontWeightConverter, WeightIntegerConverter).Option().For(PropertyNames.FontWeight),
+                    FontStretchConverter.Option().For(PropertyNames.FontStretch)),
+                WithOrder(
+                    FontSizeConverter.Required().For(PropertyNames.FontSize),
+                    LineHeightConverter.StartsWithDelimiter().Option().For(PropertyNames.LineHeight),
+                FontFamiliesConverter.Required().For(PropertyNames.FontFamily))), 
+            SystemFontConverter);
 
         #endregion
 

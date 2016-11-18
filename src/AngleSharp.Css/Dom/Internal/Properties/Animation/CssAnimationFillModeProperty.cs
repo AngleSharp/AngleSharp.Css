@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = AnimationFillStyleConverter.FromList().OrDefault(AnimationFillStyle.None);
+        private static readonly IValueConverter ListConverter = Or(AnimationFillStyleConverter.FromList(), AssignInitial(AnimationFillStyle.None));
 
         #endregion
 

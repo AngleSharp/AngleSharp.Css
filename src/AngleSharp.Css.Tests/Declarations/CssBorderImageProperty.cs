@@ -465,7 +465,7 @@
             var concrete = (CssBorderImageProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 / 15px", concrete.Value);
+            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px", concrete.Value);
         }
 
         [Test]

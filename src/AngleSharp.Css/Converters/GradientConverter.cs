@@ -26,7 +26,7 @@
 
             if (initial.HasValue)
             {
-                var current = source.SkipSpaces();
+                var current = source.SkipSpacesAndComments();
 
                 if (current != Symbols.Comma)
                 {
@@ -59,7 +59,7 @@
                 if (stop == null)
                     break;
 
-                var current = source.SkipSpaces();
+                var current = source.SkipSpacesAndComments();
                 stops.Add(stop.Value);
 
                 if (current != Symbols.Comma)
@@ -74,7 +74,7 @@
         private static GradientStop? ToGradientStop(StringSource source)
         {
             var color = source.ToColor();
-            source.SkipSpaces();
+            source.SkipSpacesAndComments();
             var position = source.ToDistance();
 
             if (color.HasValue)
@@ -135,9 +135,9 @@
             if (ident != null && ident.Is(CssKeywords.To))
             {
                 var tmp = Angle.Zero;
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
                 var a = source.ParseIdent();
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
                 var b = source.ParseIdent();
                 var keyword = default(String);
 
@@ -192,7 +192,7 @@
             var ellipse = WithOrder(WithAny(Assign(CssKeywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).Option()), position);
             var extents = WithOrder(WithAny(Toggle(CssKeywords.Circle, CssKeywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
 
-            _initialConverter = circle.Or(ellipse.Or(extents));
+            _initialConverter = Or(circle, ellipse, extents);
         }
 
         protected override Options? ConvertInitial(StringSource source)

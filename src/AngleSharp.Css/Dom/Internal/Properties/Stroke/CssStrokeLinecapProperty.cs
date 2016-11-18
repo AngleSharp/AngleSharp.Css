@@ -12,7 +12,7 @@
 	{
 		#region Fields
 
-		private static readonly IValueConverter StyleConverter = StrokeLinecapConverter.OrDefault(StrokeLinecap.Butt);
+		private static readonly IValueConverter StyleConverter = Or(StrokeLinecapConverter, AssignInitial(StrokeLinecap.Butt));
 
 		#endregion
 

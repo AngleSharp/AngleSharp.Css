@@ -333,7 +333,7 @@
             Assert.AreEqual(1, style.Length);
 
             Assert.AreEqual("color", style[0]);
-            Assert.AreEqual("rgb(255, 0, 0)", style.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
         }
 
         [Test]
@@ -351,8 +351,8 @@
 
             var style = (elements[0] as IHtmlElement).Style;
 
-            Assert.AreEqual("rgb(255, 0, 0)", style.GetColor());
-            Assert.AreEqual("rgb(0, 128, 0)", style.GetBackgroundColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetBackgroundColor());
             Assert.AreEqual("\"Tahoma\"", style.GetFontFamily());
             Assert.AreEqual("10px", style.GetFontSize());
             Assert.AreEqual("0.5", style.GetOpacity());
@@ -370,32 +370,32 @@
 
             var test1 = style1[0];
             Assert.AreEqual("color", test1);
-            Assert.AreEqual("rgb(255, 0, 0)", style1.GetPropertyValue(test1));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style1.GetPropertyValue(test1));
 
             var style2 = (elements[1] as IHtmlElement).Style;
             Assert.AreEqual(1, style2.Length);
 
             var test2 = style2[0];
             Assert.AreEqual("color", test2);
-            Assert.AreEqual("rgb(255, 0, 0)", style2.GetPropertyValue(test2));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style2.GetPropertyValue(test2));
 
             var style3 = (elements[2] as IHtmlElement).Style;
             Assert.AreEqual(1, style3.Length);
 
             var test3 = style3[0];
             Assert.AreEqual("color", test3);
-            Assert.AreEqual("rgb(255, 0, 0)", style3.GetPropertyValue(test3));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style3.GetPropertyValue(test3));
 
             var style4 = (elements[3] as IHtmlElement).Style;
             Assert.AreEqual(2, style4.Length);
 
             var background = style4[0];
             Assert.AreEqual("background-color", background);
-            Assert.AreEqual("rgb(0, 0, 255)", style4.GetPropertyValue(background));
+            Assert.AreEqual("rgba(0, 0, 255, 1)", style4.GetPropertyValue(background));
 
             var color = style4[1];
             Assert.AreEqual("color", color);
-            Assert.AreEqual("rgb(255, 0, 0)", style4.GetPropertyValue(color));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style4.GetPropertyValue(color));
         }
     }
 }

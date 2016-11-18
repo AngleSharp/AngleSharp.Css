@@ -4,6 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     sealed class StartsWithValueConverter : IValueConverter
     {
@@ -36,7 +37,7 @@
 
                 if (length == _start.Length)
                 {
-                    source.SkipCurrentAndSpaces();
+                    source.SkipSpacesAndComments();
                     var data = _converter.Convert(source);
                     return data != null ? new StartValue(_start, data) : null;
                 }
@@ -45,14 +46,25 @@
             return null;
         }
 
-        private sealed class StartValue : BaseValue
+        private sealed class StartValue : ICssValue
         {
+            private readonly String _start;
             private readonly ICssValue _data;
 
-            public StartValue(String value, ICssValue data)
-                : base(value)
+            public StartValue(String start, ICssValue data)
             {
+                _start = start;
                 _data = data;
+            }
+
+            public String CssText
+            {
+                get { return String.Concat(_start, " ", _data.CssText); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }

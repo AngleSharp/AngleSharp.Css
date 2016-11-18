@@ -17,8 +17,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = LengthOrPercentConverter.Or(
-            VerticalAlignmentConverter).OrDefault(VerticalAlignment.Baseline);
+        private static readonly IValueConverter StyleConverter = Or(LengthOrPercentConverter, VerticalAlignmentConverter, AssignInitial(VerticalAlignment.Baseline));
 
         #endregion
 

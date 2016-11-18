@@ -29,7 +29,7 @@
 
             return Tuple.Create("", "");
         */
-        private static readonly IValueConverter StyleConverter = QuotesConverter.OrNone().OrDefault(new[] { "«", "»" });
+        private static readonly IValueConverter StyleConverter = Or(QuotesConverter, None, AssignInitial(new[] { "«", "»" }));
 
         #endregion
 

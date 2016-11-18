@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = WithAny(
+        private static readonly IValueConverter StyleConverter = Or(WithAny(
             AutoLengthConverter.Option().For(PropertyNames.ColumnWidth),
-            OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)).OrDefault();
+            OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)), Initial);
 
         #endregion
 

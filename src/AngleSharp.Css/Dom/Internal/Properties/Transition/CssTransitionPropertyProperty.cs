@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -12,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = ValueConverters.AnimatableConverter.FromList().OrNone().OrDefault(CssKeywords.All);
+        private static readonly IValueConverter ListConverter = Or(AnimatableConverter.FromList(), None, AssignInitial(CssKeywords.All));
         
         #endregion
 

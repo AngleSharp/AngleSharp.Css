@@ -27,7 +27,7 @@
             for (var i = 0; i < _maximum; i++)
             {
                 var value = _converter.Convert(source);
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
 
                 if (value == null)
                     break;
@@ -35,12 +35,7 @@
                 values.Add(value);
             }
 
-            if (values.Count >= _minimum)
-            {
-                return new MultipleValue(values.ToArray());
-            }
-
-            return null;
+            return values.Count >= _minimum ? new MultipleValue(values.ToArray()) : null;
         }
         
         private sealed class MultipleValue : ICssValue

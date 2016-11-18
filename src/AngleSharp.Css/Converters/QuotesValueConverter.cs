@@ -16,7 +16,9 @@
             while (!source.IsDone)
             {
                 var open = source.ParseString();
+                source.SkipSpacesAndComments();
                 var close = source.ParseString();
+                source.SkipSpacesAndComments();
 
                 if (open == null || close == null)
                 {

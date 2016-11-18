@@ -26,7 +26,7 @@
         [Test]
         public void CssDocumentRuleSingleUrlPrefixFunction()
         {
-            var snippet = "@document url-prefix(http://www.w3.org/Style/) { }";
+            var snippet = "@document url-prefix('http://www.w3.org/Style/') { }";
             var rule = ParseRule(snippet) as ICssDocumentRule;
             Assert.IsNotNull(rule);
             Assert.AreEqual(CssRuleType.Document, rule.Type);
@@ -73,7 +73,7 @@
         [Test]
         public void CssDocumentRuleMultipleFunctions()
         {
-            var snippet = "@document url(http://www.w3.org/), url-prefix(http://www.w3.org/Style/), domain(mozilla.org), regexp(\"https:.*\") { }";
+            var snippet = "@document url(http://www.w3.org/), url-prefix('http://www.w3.org/Style/'), domain('mozilla.org'), regexp(\"https:.*\") { }";
             var rule = ParseRule(snippet) as CssDocumentRule;
             Assert.IsNotNull(rule);
             Assert.AreEqual(CssRuleType.Document, rule.Type);

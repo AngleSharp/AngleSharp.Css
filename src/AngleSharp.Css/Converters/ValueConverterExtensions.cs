@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -14,9 +14,9 @@
         public static ICssValue Convert(this IValueConverter converter, String value)
         {
             var source = new StringSource(value);
-            source.SkipSpaces();
+            source.SkipSpacesAndComments();
             var result = converter.Convert(source);
-            source.SkipSpaces();
+            source.SkipSpacesAndComments();
             return source.IsDone ? result : null;
         }
 
@@ -52,7 +52,7 @@
 
         public static IValueConverter Required(this IValueConverter converter)
         {
-            return new RequiredValueConverter(converter);
+            return converter;
         }
 
         public static IValueConverter Option(this IValueConverter converter)
@@ -70,47 +70,6 @@
             return new OptionValueConverter<T>(converter, defaultValue);
         }
 
-        public static IValueConverter Or(this IValueConverter primary, IValueConverter secondary)
-        {
-            return new OrValueConverter(primary, secondary);
-        }
-
-        public static IValueConverter Or(this IValueConverter primary, String keyword)
-        {
-            return primary.Or<Object>(keyword, null);
-        }
-
-        public static IValueConverter Or<T>(this IValueConverter primary, String keyword, T value)
-        {
-            var identifier = new IdentifierValueConverter<T>(keyword, value);
-            return new OrValueConverter(primary, identifier);
-        }
-
-        public static IValueConverter OrNone(this IValueConverter primary)
-        {
-            return primary.Or(CssKeywords.None);
-        }
-
-        public static IValueConverter OrDefault(this IValueConverter primary)
-        {
-            return primary.OrInherit().Or(CssKeywords.Initial);
-        }
-
-        public static IValueConverter OrDefault<T>(this IValueConverter primary, T value)
-        {
-            return primary.OrInherit().Or(CssKeywords.Initial, value);
-        }
-
-        public static IValueConverter OrInherit(this IValueConverter primary)
-        {
-            return primary.Or(CssKeywords.Inherit);
-        }
-
-        public static IValueConverter OrAuto(this IValueConverter primary)
-        {
-            return primary.Or(CssKeywords.Auto);
-        }
-
         public static IValueConverter StartsWithKeyword(this IValueConverter converter, String keyword)
         {
             return new StartsWithValueConverter(keyword, converter);
@@ -119,11 +78,6 @@
         public static IValueConverter StartsWithDelimiter(this IValueConverter converter)
         {
             return new StartsWithValueConverter("/", converter);
-        }
-
-        public static IValueConverter WithCurrentColor(this IValueConverter converter)
-        {
-            return converter.Or(CssKeywords.CurrentColor, Color.Transparent);
         }
     }
 }

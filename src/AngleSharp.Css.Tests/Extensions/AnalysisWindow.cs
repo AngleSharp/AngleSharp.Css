@@ -103,7 +103,7 @@
             Assert.AreEqual("prioOne", prioOne.Id);
 
             var computePrioOneStyle = window.GetComputedStyle(prioOne);
-            Assert.AreEqual("rgb(0, 0, 0)", computePrioOneStyle.GetColor());
+            Assert.AreEqual("rgba(0, 0, 0, 1)", computePrioOneStyle.GetColor());
         }
 
         [Test]
@@ -132,7 +132,7 @@
             Assert.AreEqual("span", element.LocalName);
 
             var computedStyle = window.GetComputedStyle(element);
-            Assert.AreEqual("rgb(255, 0, 0)", computedStyle.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", computedStyle.GetColor());
             Assert.AreEqual(1, computedStyle.Length);
         }
 
@@ -174,7 +174,7 @@ em { font-style: italic !important; }
             Assert.AreEqual(8, style.Length);
 
             Assert.AreEqual("0", style.GetMargin());
-            Assert.AreEqual("rgb(255, 0, 0)", style.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
             Assert.AreEqual("bold", style.GetFontWeight());
             Assert.AreEqual("italic", style.GetFontStyle());
             Assert.AreEqual("20px", style.GetFontSize());

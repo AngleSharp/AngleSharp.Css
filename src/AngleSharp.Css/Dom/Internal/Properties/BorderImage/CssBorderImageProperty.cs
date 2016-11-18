@@ -12,14 +12,16 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ImageConverter = WithAny(
-            OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
-            WithOrder(
-                CssBorderImageSliceProperty.TheConverter.Option().For(PropertyNames.BorderImageSlice),
-                CssBorderImageWidthProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageWidth),
-                CssBorderImageOutsetProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageOutset)),
-            CssBorderImageRepeatProperty.TheConverter.Option().For(PropertyNames.BorderImageRepeat)).OrDefault();
-
+        private static readonly IValueConverter ImageConverter = Or(
+            WithAny(
+                OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
+                WithOrder(
+                    BorderImageSliceConverter.Option().For(PropertyNames.BorderImageSlice),
+                    BorderImageWidthConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageWidth),
+                    BorderImageOutsetConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageOutset)),
+                BorderImageRepeatConverter.Option().For(PropertyNames.BorderImageRepeat)),
+            Initial);
+        
         #endregion
 
         #region ctor

@@ -31,12 +31,16 @@
             var parts = values.Select(m => m.Stringify(element));
             return String.Join(String.Empty, parts);
         */
-        private static readonly IValueConverter StyleConverter = Assign(CssKeywords.Normal, Default).OrNone().Or(
-            ContentModes.ToConverter().Or(
-            UrlConverter).Or(
-            StringConverter).Or(
-            AttrConverter).Or(
-            CounterConverter).Many()).OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(
+            Or(
+                Assign(CssKeywords.Normal, Default),
+                None,
+                ContentModes.ToConverter(),
+                UrlConverter,
+                StringConverter,
+                AttrConverter,
+                CounterConverter).Many(),
+            Initial);
 
         #endregion
 

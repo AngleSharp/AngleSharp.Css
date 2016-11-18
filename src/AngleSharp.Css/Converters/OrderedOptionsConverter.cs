@@ -28,7 +28,7 @@
                     return null;
                 }
 
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
                 options[i] = option;
             }
 

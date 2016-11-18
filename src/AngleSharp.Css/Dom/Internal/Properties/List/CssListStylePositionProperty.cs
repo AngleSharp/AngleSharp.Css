@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at
@@ -12,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.ListPositionConverter.OrDefault(ListPosition.Outside);
+        private static readonly IValueConverter StyleConverter = Or(ListPositionConverter, AssignInitial(ListPosition.Outside));
 
         #endregion
 

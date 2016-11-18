@@ -12,11 +12,12 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = WithAny(
-            LineWidthConverter.Option().For(PropertyNames.BorderBottomWidth),
-            LineStyleConverter.Option().For(PropertyNames.BorderBottomStyle),
-            CurrentColorConverter.Option().For(PropertyNames.BorderBottomColor)
-        ).OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(
+            WithAny(
+                LineWidthConverter.Option().For(PropertyNames.BorderBottomWidth),
+                LineStyleConverter.Option().For(PropertyNames.BorderBottomStyle),
+                CurrentColorConverter.Option().For(PropertyNames.BorderBottomColor)),
+            Initial);
 
         #endregion
 

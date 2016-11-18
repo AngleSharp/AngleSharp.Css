@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = PlayStateConverter.FromList().OrDefault(PlayState.Running);
+        private static readonly IValueConverter ListConverter = Or(PlayStateConverter.FromList(), AssignInitial(PlayState.Running));
 
         #endregion
 

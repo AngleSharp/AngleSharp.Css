@@ -44,7 +44,7 @@
 
         private static Url Start(StringSource source)
         {
-            var current = source.SkipSpaces();
+            var current = source.SkipSpacesAndComments();
 
             switch (current)
             {
@@ -195,20 +195,15 @@
 
         private static Url End(StringSource source, StringBuilder buffer)
         {
-            while (true)
-            {
-                var current = source.Next();
+            var current = source.SkipCurrentAndSpaces();
 
-                if (current == Symbols.RoundBracketClose)
-                {
-                    source.Next();
-                    return new Url(buffer.ToPool());
-                }
-                else if (!current.IsSpaceCharacter())
-                {
-                    return Bad(source, buffer);
-                }
+            if (current == Symbols.RoundBracketClose)
+            {
+                source.Next();
+                return new Url(buffer.ToPool());
             }
+
+            return Bad(source, buffer);
         }
 
         private static Url Bad(StringSource source, StringBuilder buffer)

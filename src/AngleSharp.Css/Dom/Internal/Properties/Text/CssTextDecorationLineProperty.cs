@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// Information:
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = ValueConverters.TextDecorationLinesConverter.OrDefault();
+        private static readonly IValueConverter ListConverter = Or(TextDecorationLinesConverter, Initial);
 
         #endregion
 

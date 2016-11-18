@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = FontWeightConverter.Or(
-            WeightIntegerConverter).OrDefault(FontWeight.Normal);
+        private static readonly IValueConverter StyleConverter = Or(FontWeightConverter, WeightIntegerConverter, AssignInitial(FontWeight.Normal));
 
         #endregion
 

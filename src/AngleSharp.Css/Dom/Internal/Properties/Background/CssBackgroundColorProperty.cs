@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = CurrentColorConverter.OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(CurrentColorConverter, Initial);
 
         #endregion
 

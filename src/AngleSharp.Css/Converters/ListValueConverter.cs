@@ -24,9 +24,9 @@
             {
                 var index = source.Index;
                 var value = _converter.Convert(source);
-                source.SkipSpaces();
+                var current = source.SkipSpacesAndComments();
 
-                if (value == null || (!source.IsDone && source.Current != Symbols.Comma))
+                if (value == null || (!source.IsDone && current != Symbols.Comma))
                 {
                     return null;
                 }
@@ -34,8 +34,8 @@
                 source.SkipCurrentAndSpaces();
                 values.Add(value);
             }
-            
-            return new ListValue(values.ToArray());
+
+            return values.Count > 0 ? new ListValue(values.ToArray()) : null;
         }
 
         private sealed class ListValue : ICssValue

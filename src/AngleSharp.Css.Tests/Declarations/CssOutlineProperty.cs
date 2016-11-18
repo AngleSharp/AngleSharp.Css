@@ -65,7 +65,7 @@
         [Test]
         public void CssOutlineColorHslLegal()
         {
-            var snippet = "outline-color :  hsl(320, 80%, 50%) ";//equivalent to rgba(229, 26, 161, 1)
+            var snippet = "outline-color :  hsl(320, 80%, 50%) ";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
@@ -73,7 +73,7 @@
             var concrete = (CssOutlineColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("hsl(320deg, 80%, 50%)", concrete.Value);
+            Assert.AreEqual("rgba(229, 26, 161, 1)", concrete.Value);
         }
 
         [Test]
@@ -87,7 +87,7 @@
             var concrete = (CssOutlineColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 0, 255)", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 255, 1)", concrete.Value);
         }
 
         [Test]
@@ -101,7 +101,7 @@
             var concrete = (CssOutlineColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -198,7 +198,7 @@
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3em dotted rgb(255, 255, 255)", concrete.Value);
+            Assert.AreEqual("0.3em dotted rgba(255, 255, 255, 1)", concrete.Value);
         }
 
         [Test]
@@ -225,7 +225,7 @@
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px solid rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -239,7 +239,7 @@
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px solid rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", concrete.Value);
         }
     }
 }

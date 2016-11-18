@@ -12,7 +12,7 @@
 	{
 		#region Fields
 
-		private static readonly IValueConverter StyleConverter = NumberConverter.OrDefault(1f);
+		private static readonly IValueConverter StyleConverter = Or(NumberConverter, AssignInitial(1f));
 
 		#endregion
 

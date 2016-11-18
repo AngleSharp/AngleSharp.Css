@@ -77,16 +77,16 @@
         private static Color? ParseRgba(StringSource source)
         {
             var r = ParseRgbComponent(source);
-            var c1 = source.SkipSpaces();
+            var c1 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var g = ParseRgbComponent(source);
-            var c2 = source.SkipSpaces();
+            var c2 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var b = ParseRgbComponent(source);
-            var c3 = source.SkipSpaces();
+            var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
-            var f = source.SkipSpaces();
+            var f = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
 
             if (r != null && g != null && b != null)
@@ -107,16 +107,16 @@
         private static Color? ParseHsla(StringSource source)
         {
             var h = ParseAngle(source);
-            var c1 = source.SkipSpaces();
+            var c1 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var s = ParsePercent(source);
-            var c2 = source.SkipSpaces();
+            var c2 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var l = ParsePercent(source);
-            var c3 = source.SkipSpaces();
+            var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
-            var f = source.SkipSpaces();
+            var f = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)
@@ -137,10 +137,10 @@
         private static Color? ParseGray(StringSource source)
         {
             var n = ParseRgbComponent(source);
-            var c = source.SkipSpaces();
+            var c = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
-            var f = source.SkipSpaces();
+            var f = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
 
             if (n != null)
@@ -161,16 +161,16 @@
         private static Color? ParseHwba(StringSource source)
         {
             var h = ParseAngle(source);
-            var c1 = source.SkipSpaces();
+            var c1 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var s = ParsePercent(source);
-            var c2 = source.SkipSpaces();
+            var c2 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var l = ParsePercent(source);
-            var c3 = source.SkipSpaces();
+            var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
             var a = ParseAlpha(source);
-            var f = source.SkipSpaces();
+            var f = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)

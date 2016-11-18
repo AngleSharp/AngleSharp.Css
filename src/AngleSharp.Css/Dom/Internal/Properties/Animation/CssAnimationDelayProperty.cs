@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Values;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = ValueConverters.TimeConverter.FromList().OrDefault(Time.Zero);
+        private static readonly IValueConverter ListConverter = Or(TimeConverter.FromList(), AssignInitial(Time.Zero));
 
         #endregion
 

@@ -15,14 +15,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter TheConverter = WithAny(
-            BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
-            BorderSliceConverter.Option(),
-            BorderSliceConverter.Option(),
-            BorderSliceConverter.Option(),
-            Assign(CssKeywords.Fill, true).Option(false));
-
-        private static readonly IValueConverter StyleConverter = TheConverter.OrDefault(Length.Full);
+        private static readonly IValueConverter StyleConverter = Or(BorderImageSliceConverter, AssignInitial(Length.Full));
 
         #endregion
 

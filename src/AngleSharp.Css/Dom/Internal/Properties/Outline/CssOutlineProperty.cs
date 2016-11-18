@@ -12,10 +12,12 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = WithAny(
-            LineWidthConverter.Option().For(PropertyNames.OutlineWidth),
-            LineStyleConverter.Option().For(PropertyNames.OutlineStyle),
-            InvertedColorConverter.Option().For(PropertyNames.OutlineColor)).OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(
+            WithAny(
+                LineWidthConverter.Option().For(PropertyNames.OutlineWidth),
+                LineStyleConverter.Option().For(PropertyNames.OutlineStyle),
+                InvertedColorConverter.Option().For(PropertyNames.OutlineColor)),
+            Initial);
 
         #endregion
 

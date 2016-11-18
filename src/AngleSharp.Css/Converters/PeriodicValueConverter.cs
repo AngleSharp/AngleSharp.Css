@@ -22,7 +22,7 @@
             for (var i = 0; i < options.Length; i++)
             {
                 options[i] = _converter.Convert(source);
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
             }
 
             return options[0] != null ? new PeriodicValue(options) : null;

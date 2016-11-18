@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -12,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = ValueConverters.AnimationDirectionConverter.FromList().OrDefault(AnimationDirection.Normal);
+        private static readonly IValueConverter ListConverter = Or(AnimationDirectionConverter.FromList(), AssignInitial(AnimationDirection.Normal));
 
         #endregion
 

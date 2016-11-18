@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -11,7 +12,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = ValueConverters.BackgroundSizeConverter.FromList().OrDefault();
+        private static readonly IValueConverter ListConverter = Or(BackgroundSizeConverter.FromList(), Initial);
 
         #endregion
 

@@ -12,8 +12,9 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = CurrentColorConverter.Periodic(
-            PropertyNames.BorderTopColor, PropertyNames.BorderRightColor, PropertyNames.BorderBottomColor, PropertyNames.BorderLeftColor).OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(
+            CurrentColorConverter.Periodic(PropertyNames.BorderTopColor, PropertyNames.BorderRightColor, PropertyNames.BorderBottomColor, PropertyNames.BorderLeftColor),
+            Initial);
 
         #endregion
 

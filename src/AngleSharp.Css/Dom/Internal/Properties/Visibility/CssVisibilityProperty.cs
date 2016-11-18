@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = VisibilityConverter.OrDefault(Visibility.Visible);
+        private static readonly IValueConverter StyleConverter = Or(VisibilityConverter, AssignInitial(Visibility.Visible));
 
         #endregion
 

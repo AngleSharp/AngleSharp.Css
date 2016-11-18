@@ -13,8 +13,9 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = AutoLengthOrPercentConverter.Periodic(
-            PropertyNames.MarginTop, PropertyNames.MarginRight, PropertyNames.MarginBottom, PropertyNames.MarginLeft).OrDefault(Length.Zero);
+        private static readonly IValueConverter StyleConverter = Or(
+            AutoLengthOrPercentConverter.Periodic(PropertyNames.MarginTop, PropertyNames.MarginRight, PropertyNames.MarginBottom, PropertyNames.MarginLeft),
+            AssignInitial(Length.Zero));
 
         #endregion
 

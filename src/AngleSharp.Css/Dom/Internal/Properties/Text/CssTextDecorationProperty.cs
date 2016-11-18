@@ -12,10 +12,10 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = WithAny(
+        private static readonly IValueConverter StyleConverter = Or(WithAny(
             ColorConverter.Option().For(PropertyNames.TextDecorationColor),
             TextDecorationStyleConverter.Option().For(PropertyNames.TextDecorationStyle),
-            TextDecorationLinesConverter.Option().For(PropertyNames.TextDecorationLine)).OrDefault();
+            TextDecorationLinesConverter.Option().For(PropertyNames.TextDecorationLine)), Initial);
 
         #endregion
 

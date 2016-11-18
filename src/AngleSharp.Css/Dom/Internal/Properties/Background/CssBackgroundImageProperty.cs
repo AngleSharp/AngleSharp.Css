@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = MultipleImageSourceConverter.OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(MultipleImageSourceConverter, Initial);
 
         #endregion
 

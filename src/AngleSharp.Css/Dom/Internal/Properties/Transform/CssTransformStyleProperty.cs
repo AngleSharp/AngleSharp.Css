@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -14,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.Toggle(CssKeywords.Flat, CssKeywords.Preserve3d).OrDefault(true);
+        private static readonly IValueConverter StyleConverter = Or(Toggle(CssKeywords.Flat, CssKeywords.Preserve3d), AssignInitial(true));
 
         #endregion
 

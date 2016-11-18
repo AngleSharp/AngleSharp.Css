@@ -6,27 +6,31 @@
 
     sealed class OrValueConverter : IValueConverter
     {
-        private readonly IValueConverter _previous;
-        private readonly IValueConverter _next;
+        private readonly IValueConverter[] _converters;
 
-        public OrValueConverter(IValueConverter previous, IValueConverter next)
+        public OrValueConverter(IValueConverter[] converters)
         {
-            _previous = previous;
-            _next = next;
+            _converters = converters;
         }
 
         public ICssValue Convert(StringSource source)
         {
             var start = source.Index;
-            var result = _previous.Convert(source);
 
-            if (result == null)
+            for (var i = 0; i < _converters.Length; i++)
             {
+                var result = _converters[i].Convert(source);
+
+                if (result != null)
+                {
+                    return result;
+                }
+
                 source.BackTo(start);
-                result = _next.Convert(source);
             }
 
-            return result;
+
+            return null;
         }
     }
 }

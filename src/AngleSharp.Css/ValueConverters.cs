@@ -14,6 +14,36 @@
         #region Elementary
 
         /// <summary>
+        /// Represents a converter for anything. Just copies the tokens.
+        /// </summary>
+        public static IValueConverter Any = new AnyValueConverter();
+
+        /// <summary>
+        /// Represents a converter for the none keyword with no value.
+        /// </summary>
+        public static IValueConverter None = new IdentifierValueConverter<Object>(CssKeywords.None, null);
+
+        /// <summary>
+        /// Represents a converter for the initial keyword with no value.
+        /// </summary>
+        public static IValueConverter Initial = new IdentifierValueConverter<Object>(CssKeywords.Initial, null);
+
+        /// <summary>
+        /// Represents a converter for the inherit keyword with no value.
+        /// </summary>
+        public static IValueConverter Inherit = new IdentifierValueConverter<Object>(CssKeywords.Inherit, null);
+
+        /// <summary>
+        /// Represents a converter for the auto keyword with no value.
+        /// </summary>
+        public static IValueConverter Auto = new IdentifierValueConverter<Object>(CssKeywords.Auto, null);
+
+        /// <summary>
+        /// Represents a converter for the currentColor keyword with the transparent value.
+        /// </summary>
+        public static IValueConverter CurrentColor = new IdentifierValueConverter<Color>(CssKeywords.CurrentColor, Color.Transparent);
+
+        /// <summary>
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
@@ -137,6 +167,13 @@
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
 
+        /// <summary>
+        /// Represents a converter for the BorderImageOutset property.
+        /// </summary>
+        public static readonly IValueConverter BorderImageOutsetConverter = Or(
+            LengthOrPercentConverter, 
+            AssignInitial(Length.Zero));
+
         #endregion
 
         #region Functions
@@ -147,37 +184,43 @@
         /// </summary>
         public static readonly IValueConverter PointConverter = Construct(() =>
         {
-            var hi = Assign(CssKeywords.Left, Length.Zero).Or(CssKeywords.Right, new Length(100f, Length.Unit.Percent)).Or(CssKeywords.Center, new Length(50f, Length.Unit.Percent));
-            var vi = Assign(CssKeywords.Top, Length.Zero).Or(CssKeywords.Bottom, new Length(100f, Length.Unit.Percent)).Or(CssKeywords.Center, new Length(50f, Length.Unit.Percent));
-            var h = hi.Or(LengthOrPercentConverter).Required();
-            var v = vi.Or(LengthOrPercentConverter).Required();
+            var hi = Or(
+                Assign(CssKeywords.Left, Length.Zero),
+                Assign(CssKeywords.Right, new Length(100f, Length.Unit.Percent)),
+                Assign(CssKeywords.Center, new Length(50f, Length.Unit.Percent)));
+            var vi = Or(
+                Assign(CssKeywords.Top, Length.Zero),
+                Assign(CssKeywords.Bottom, new Length(100f, Length.Unit.Percent)),
+                Assign(CssKeywords.Center, new Length(50f, Length.Unit.Percent)));
+            var h = Or(hi, LengthOrPercentConverter);
+            var v = Or(vi, LengthOrPercentConverter);
 
-            return LengthOrPercentConverter.Or(
-                   Toggle(CssKeywords.Left, CssKeywords.Right)).Or(
-                   Toggle(CssKeywords.Top, CssKeywords.Bottom)).Or(
-                   CssKeywords.Center, Point.Center).Or(
-                   WithOrder(h, v)).Or(
-                   WithOrder(v, h)).Or(
-                   WithOrder(hi, vi, LengthOrPercentConverter)).Or(
-                   WithOrder(hi, LengthOrPercentConverter, vi)).Or(
-                   WithOrder(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter));
+            return Or(
+                WithOrder(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter),
+                WithOrder(hi, LengthOrPercentConverter, vi),
+                WithOrder(hi, vi, LengthOrPercentConverter),
+                WithOrder(h, v),
+                WithOrder(v, h),
+                LengthOrPercentConverter,
+                Toggle(CssKeywords.Left, CssKeywords.Right),
+                Toggle(CssKeywords.Top, CssKeywords.Bottom),
+                Assign(CssKeywords.Center, Point.Center));
         });
 
         /// <summary>
         /// Represents an attribute retriever object.
         /// http://dev.w3.org/csswg/css-values/#funcdef-attr
         /// </summary>
-        public static readonly IValueConverter AttrConverter = new FunctionValueConverter(
-            FunctionNames.Attr, WithArgs(StringConverter.Or(IdentifierConverter)));
+        public static readonly IValueConverter AttrConverter = Func(FunctionNames.Attr, WithArgs(
+            Or(StringConverter, IdentifierConverter)));
 
         /// <summary>
         /// Represents a steps timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter StepsConverter = new FunctionValueConverter(
-            FunctionNames.Steps, WithArgs(
-                IntegerConverter.Required(), 
-                Assign(CssKeywords.Start, true).Or(CssKeywords.End, false).Option(false)));
+        public static readonly IValueConverter StepsConverter = Func(FunctionNames.Steps, WithArgs(
+            IntegerConverter, 
+            Or(Assign(CssKeywords.Start, true), Assign(CssKeywords.End, false)).Option(false)));
 
         /// <summary>
         /// Represents a cubic-bezier timing-function object.
@@ -185,9 +228,8 @@
         /// </summary>
         public static readonly IValueConverter CubicBezierConverter = Construct(() =>
         {
-            var number = NumberConverter.Required();
-            return new FunctionValueConverter(FunctionNames.CubicBezier,
-                    WithArgs(number, number, number, number));
+            var number = NumberConverter;
+            return Func(FunctionNames.CubicBezier, WithArgs(number, number, number, number));
         });
 
         /// <summary>
@@ -196,13 +238,12 @@
         /// </summary>
         public static readonly IValueConverter CounterConverter = Construct(() =>
         {
-            var name = IdentifierConverter.Required();
-            var kind = IdentifierConverter.Option(CssKeywords.Decimal);
-            var def = StringConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Counter,
-                        WithArgs(name, kind).Or(
-                   new FunctionValueConverter(FunctionNames.Counters,
-                        WithArgs(name, def, kind))));
+            var name = IdentifierConverter;
+            var def = StringConverter;
+            var kind = name.Option(CssKeywords.Decimal);
+            return Or(
+                Func(FunctionNames.Counter, WithArgs(name, kind)),
+                Func(FunctionNames.Counters, WithArgs(name, def, kind)));
         });
 
         /// <summary>
@@ -211,11 +252,13 @@
         /// </summary>
         public static readonly IValueConverter ShapeConverter = Construct(() =>
         {
-            var length = LengthConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Rect,
-                        WithArgs(length, length, length, length).Or(
-                        WithArgs(LengthConverter.Many(4, 4))));
-        }).OrAuto();
+            var length = LengthConverter;
+            return Or(
+                Func(FunctionNames.Rect, Or(
+                    WithArgs(length, length, length, length),
+                    WithArgs(LengthConverter.Many(4, 4)))),
+                Auto);
+        });
 
         /// <summary>
         /// Represents a linear-gradient object.
@@ -223,8 +266,9 @@
         /// </summary>
         public static readonly IValueConverter LinearGradientConverter = Construct(() =>
         {
-            return new FunctionValueConverter(FunctionNames.LinearGradient, new LinearGradientConverter(false)).Or(
-                   new FunctionValueConverter(FunctionNames.RepeatingLinearGradient, new LinearGradientConverter(true)));
+            return Or(
+                Func(FunctionNames.LinearGradient, new LinearGradientConverter(false)),
+                Func(FunctionNames.RepeatingLinearGradient, new LinearGradientConverter(true)));
         });
 
         /// <summary>
@@ -233,8 +277,9 @@
         /// </summary>
         public static readonly IValueConverter RadialGradientConverter = Construct(() =>
         {            
-            return new FunctionValueConverter(FunctionNames.RadialGradient, new RadialGradientConverter(false)).Or(
-                   new FunctionValueConverter(FunctionNames.RepeatingRadialGradient, new RadialGradientConverter(true)));
+            return Or(
+                Func(FunctionNames.RadialGradient, new RadialGradientConverter(false)),
+                Func(FunctionNames.RepeatingRadialGradient, new RadialGradientConverter(true)));
         });
 
         /// <summary>
@@ -243,7 +288,7 @@
         /// </summary>
         public static readonly IValueConverter PerspectiveConverter = Construct(() =>
         {
-            return new FunctionValueConverter(FunctionNames.Perspective, WithArgs(LengthConverter));
+            return Func(FunctionNames.Perspective, WithArgs(LengthConverter));
         });
 
         /// <summary>
@@ -252,8 +297,9 @@
         /// </summary>
         public static readonly IValueConverter MatrixTransformConverter = Construct(() =>
         {
-            return new FunctionValueConverter(FunctionNames.Matrix, WithArgs(NumberConverter, 6)).Or(
-                   new FunctionValueConverter(FunctionNames.Matrix3d, WithArgs(NumberConverter, 16)));
+            return Or(
+                Func(FunctionNames.Matrix, WithArgs(NumberConverter, 6)),
+                Func(FunctionNames.Matrix3d, WithArgs(NumberConverter, 16)));
         });
 
         /// <summary>
@@ -262,13 +308,14 @@
         /// </summary>
         public static readonly IValueConverter TranslateTransformConverter = Construct(() =>
         {
-            var distance = LengthOrPercentConverter.Required();
-            var option = LengthOrPercentConverter.Option(Length.Zero);
-            return new FunctionValueConverter(FunctionNames.Translate, WithArgs(distance, option)).Or(
-                   new FunctionValueConverter(FunctionNames.Translate3d, WithArgs(distance, option, option))).Or(
-                   new FunctionValueConverter(FunctionNames.TranslateX, WithArgs(LengthOrPercentConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.TranslateY, WithArgs(LengthOrPercentConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.TranslateZ, WithArgs(LengthOrPercentConverter)));
+            var distance = LengthOrPercentConverter;
+            var option = distance.Option(Length.Zero);
+            return Or(
+                Func(FunctionNames.Translate, WithArgs(distance, option)),
+                Func(FunctionNames.Translate3d, WithArgs(distance, option, option)),
+                Func(FunctionNames.TranslateX, WithArgs(distance)),
+                Func(FunctionNames.TranslateY, WithArgs(distance)),
+                Func(FunctionNames.TranslateZ, WithArgs(distance)));
         });
 
         /// <summary>
@@ -277,13 +324,14 @@
         /// </summary>
         public static readonly IValueConverter ScaleTransformConverter = Construct(() =>
         {
-            var number = NumberConverter.Required();
-            var option = NumberConverter.Option(Single.NaN);
-            return new FunctionValueConverter(FunctionNames.Scale, WithArgs(number, option)).Or(
-                   new FunctionValueConverter(FunctionNames.Scale3d, WithArgs(number, option, option))).Or(
-                   new FunctionValueConverter(FunctionNames.ScaleX, WithArgs(NumberConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.ScaleY, WithArgs(NumberConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.ScaleZ, WithArgs(NumberConverter)));
+            var number = NumberConverter;
+            var option = number.Option(Single.NaN);
+            return Or(
+                Func(FunctionNames.Scale, WithArgs(number, option)),
+                Func(FunctionNames.Scale3d, WithArgs(number, option, option)),
+                Func(FunctionNames.ScaleX, WithArgs(number)),
+                Func(FunctionNames.ScaleY, WithArgs(number)),
+                Func(FunctionNames.ScaleZ, WithArgs(number)));
         });
 
         /// <summary>
@@ -292,12 +340,14 @@
         /// </summary>
         public static readonly IValueConverter RotateTransformConverter = Construct(() =>
         {
-            var number = NumberConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Rotate, WithArgs(AngleConverter)).Or(
-                   new FunctionValueConverter(FunctionNames.Rotate3d, WithArgs(number, number, number, AngleConverter.Required()))).Or(
-                   new FunctionValueConverter(FunctionNames.RotateX, WithArgs(AngleConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.RotateY, WithArgs(AngleConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.RotateZ, WithArgs(AngleConverter)));
+            var angle = AngleConverter;
+            var number = NumberConverter;
+            return Or(
+                Func(FunctionNames.Rotate, WithArgs(angle)),
+                Func(FunctionNames.Rotate3d, WithArgs(number, number, number, angle)),
+                Func(FunctionNames.RotateX, WithArgs(angle)),
+                Func(FunctionNames.RotateY, WithArgs(angle)),
+                Func(FunctionNames.RotateZ, WithArgs(angle)));
         });
 
         /// <summary>
@@ -306,10 +356,11 @@
         /// </summary>
         public static readonly IValueConverter SkewTransformConverter = Construct(() =>
         {
-            var angle = AngleConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Skew, WithArgs(angle, angle)).Or(
-                   new FunctionValueConverter(FunctionNames.SkewX, WithArgs(AngleConverter))).Or(
-                   new FunctionValueConverter(FunctionNames.SkewY, WithArgs(AngleConverter)));
+            var angle = AngleConverter;
+            return Or(
+                Func(FunctionNames.Skew, WithArgs(angle, angle)),
+                Func(FunctionNames.SkewX, WithArgs(angle)),
+                Func(FunctionNames.SkewY, WithArgs(angle)));
         });
 
         #endregion
@@ -360,7 +411,7 @@
         /// Represents a converter for the TextDecorationLine enumeration, 
         /// taking many values or none.
         /// </summary>
-        public static readonly IValueConverter TextDecorationLinesConverter = Map.TextDecorationLines.ToConverter().Many().OrNone();
+        public static readonly IValueConverter TextDecorationLinesConverter = Or(Map.TextDecorationLines.ToConverter().Many(), None);
 
         /// <summary>
         /// Represents a converter for the ListPosition enumeration.
@@ -517,54 +568,77 @@
 		/// </summary>
 		public static readonly IValueConverter OverflowWrapConverter = Map.OverflowWraps.ToConverter();
 
-		#endregion
+        /// <summary>
+        /// Represents a converter for the BorderImageRepeat property.
+        /// </summary>
+        public static readonly IValueConverter BorderImageRepeatConverter = Map.BorderRepeats.ToConverter().Many(1, 2);
 
-		#region Specific
+        #endregion
 
-		/// <summary>
-		/// Represents an optional integer object.
-		/// </summary>
-		public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
+        #region Specific
+
+        /// <summary>
+        /// Represents an optional integer object.
+        /// </summary>
+        public static readonly IValueConverter OptionalIntegerConverter = Or(
+            IntegerConverter, 
+            Auto);
 
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
-        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalNumberConverter.Or(CssKeywords.Infinite, Single.PositiveInfinity);
+        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = Or(
+            NaturalNumberConverter, 
+            Assign(CssKeywords.Infinite, Single.PositiveInfinity));
 
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
-        public static readonly IValueConverter OptionalNumberConverter = NumberConverter.OrNone();
+        public static readonly IValueConverter OptionalNumberConverter = Or(
+            NumberConverter, 
+            None);
 
         /// <summary>
         /// Represents a length object or alternatively a fixed length when "normal" is given.
         /// </summary>
-        public static readonly IValueConverter LengthOrNormalConverter = LengthConverter.Or(CssKeywords.Normal, new Length(1f, Length.Unit.Em));
+        public static readonly IValueConverter LengthOrNormalConverter = Or(
+            LengthConverter, 
+            Assign(CssKeywords.Normal, new Length(1f, Length.Unit.Em)));
 
         /// <summary>
         /// Represents a length object or null, when "normal" is given.
         /// </summary>
-        public static readonly IValueConverter OptionalLengthConverter = LengthConverter.Or(CssKeywords.Normal);
+        public static readonly IValueConverter OptionalLengthConverter = Or(
+            LengthConverter, 
+            Assign(CssKeywords.Normal));
 
         /// <summary>
         /// Represents a length (or default).
         /// </summary>
-        public static readonly IValueConverter AutoLengthConverter = LengthConverter.OrAuto();
+        public static readonly IValueConverter AutoLengthConverter = Or(
+            LengthConverter, 
+            Auto);
 
         /// <summary>
         /// Represents a distance object (either Length or Percent) or none.
         /// </summary>
-        public static readonly IValueConverter OptionalLengthOrPercentConverter = LengthOrPercentConverter.OrNone();
+        public static readonly IValueConverter OptionalLengthOrPercentConverter = Or(
+            LengthOrPercentConverter, 
+            None);
 
         /// <summary>
         /// Represents a distance object (or default).
         /// </summary>
-        public static readonly IValueConverter AutoLengthOrPercentConverter = LengthOrPercentConverter.OrAuto();
+        public static readonly IValueConverter AutoLengthOrPercentConverter = Or(
+            LengthOrPercentConverter, 
+            Auto);
 
         /// <summary>
         /// Represents a length for a font size.
         /// </summary>
-        public static readonly IValueConverter FontSizeConverter = LengthOrPercentConverter.Or(Map.FontSizes.ToConverter());
+        public static readonly IValueConverter FontSizeConverter = Or(
+            LengthOrPercentConverter, 
+            Map.FontSizes.ToConverter());
 
         #endregion
 
@@ -574,64 +648,95 @@
         /// Represents a distance object with line-height additions.
         /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
         /// </summary>
-        public static readonly IValueConverter LineHeightConverter = LengthOrPercentConverter.Or(NumberConverter).Or(CssKeywords.Normal);
+        public static readonly IValueConverter LineHeightConverter = Or(
+            LengthOrPercentConverter, 
+            NumberConverter, 
+            Assign(CssKeywords.Normal));
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter BorderSliceConverter = PercentConverter.Or(NumberConverter);
+        public static readonly IValueConverter BorderSliceConverter = Or(
+            PercentConverter, 
+            NumberConverter);
+
+        public static readonly IValueConverter BorderImageSliceConverter = WithAny(
+            BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
+            BorderSliceConverter.Option(),
+            BorderSliceConverter.Option(),
+            BorderSliceConverter.Option(),
+            Assign(CssKeywords.Fill, true).Option(false));
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
         /// </summary>
-        public static readonly IValueConverter ImageBorderWidthConverter = LengthOrPercentConverter.Or(NumberConverter).Or(CssKeywords.Auto);
+        public static readonly IValueConverter ImageBorderWidthConverter = Or(
+            LengthOrPercentConverter, 
+            NumberConverter, 
+            Assign(CssKeywords.Auto));
+
+        public static readonly IValueConverter BorderImageWidthConverter = ImageBorderWidthConverter.Periodic();
 
         /// <summary>
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter TransitionConverter = new DictionaryValueConverter<ITimingFunction>(Map.TimingFunctions).Or(
-            StepsConverter).Or(CubicBezierConverter);
+        public static readonly IValueConverter TransitionConverter = Or(
+            Map.TimingFunctions.ToConverter(), 
+            StepsConverter, 
+            CubicBezierConverter);
 
         /// <summary>
         /// Represents a gradient object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
         /// </summary>
-        public static readonly IValueConverter GradientConverter = LinearGradientConverter.Or(RadialGradientConverter);
+        public static readonly IValueConverter GradientConverter = Or(
+            LinearGradientConverter, 
+            RadialGradientConverter);
 
         /// <summary>
         /// Represents a transform function.
         /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
         /// </summary>
-        public static readonly IValueConverter TransformConverter = MatrixTransformConverter.Or(
-            ScaleTransformConverter).Or(
-            RotateTransformConverter).Or(
-            TranslateTransformConverter).Or(
-            SkewTransformConverter).Or(
+        public static readonly IValueConverter TransformConverter = Or(
+            MatrixTransformConverter,
+            ScaleTransformConverter,
+            RotateTransformConverter,
+            TranslateTransformConverter,
+            SkewTransformConverter,
             PerspectiveConverter);
 
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = ColorConverter.WithCurrentColor();
+        public static readonly IValueConverter CurrentColorConverter = Or(
+            ColorConverter, 
+            CurrentColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.
         /// </summary>
-        public static readonly IValueConverter InvertedColorConverter = CurrentColorConverter.Or(CssKeywords.Invert);
+        public static readonly IValueConverter InvertedColorConverter = Or(
+            CurrentColorConverter, 
+            Assign(CssKeywords.Invert));
 
 		/// <summary>
 		/// Represents a paint object.
 		/// </summary>
-		public static readonly IValueConverter PaintConverter = UrlConverter.Or(CurrentColorConverter.OrNone());
+		public static readonly IValueConverter PaintConverter = Or(
+            UrlConverter, 
+            CurrentColorConverter, 
+            None);
 
 		/// <summary>
 		/// Represents a converter for Stroke Dasharray property
 		/// taking many values or none.
 		/// </summary>
-		public static readonly IValueConverter StrokeDasharrayConverter = LengthOrPercentConverter.Or(NumberConverter).Many().OrNone();
+		public static readonly IValueConverter StrokeDasharrayConverter = Or(
+            Or(LengthOrPercentConverter, NumberConverter).Many(), 
+            None);
 
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
@@ -643,33 +748,38 @@
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
 		public static readonly IValueConverter RatioConverter = WithOrder(
-            IntegerConverter.Required(), 
-            IntegerConverter.StartsWithDelimiter().Required());
+            IntegerConverter, IntegerConverter.StartsWithDelimiter());
 
         /// <summary>
         /// Represents a shadow object.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
         public static readonly IValueConverter ShadowConverter = WithAny(
-            Assign(CssKeywords.Inset, true).Option(false),
-            LengthConverter.Many(2, 4).Required(),
-            ColorConverter.WithCurrentColor().Option(Color.Black));
+            Assign(CssKeywords.Inset, true).Option(false), 
+            LengthConverter.Many(2, 4), 
+            CurrentColorConverter.Option(Color.Black));
 
         /// <summary>
         /// Represents multiple shadow objects.
         /// </summary>
-        public static readonly IValueConverter MultipleShadowConverter = ShadowConverter.FromList().OrNone();
+        public static readonly IValueConverter MultipleShadowConverter = Or(
+            ShadowConverter.FromList(), 
+            None);
 
         /// <summary>
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        public static readonly IValueConverter ImageSourceConverter = UrlConverter.Or(GradientConverter);
+        public static readonly IValueConverter ImageSourceConverter = Or(
+            UrlConverter, 
+            GradientConverter);
 
         /// <summary>
         /// Represents an optional image source object.
         /// </summary>
-        public static readonly IValueConverter OptionalImageSourceConverter = ImageSourceConverter.OrNone();
+        public static readonly IValueConverter OptionalImageSourceConverter = Or(
+            ImageSourceConverter, 
+            None);
 
         /// <summary>
         /// Represents multiple image source object.
@@ -684,26 +794,35 @@
         /// <summary>
         /// Represents the border-radius (horizontal / vertical; radius) converter.
         /// </summary>
-        public static readonly IValueConverter BorderRadiusConverter = WithOrder(
-            LengthOrPercentConverter.Required(), LengthOrPercentConverter.Option());
+        public static readonly IValueConverter BorderRadiusLonghandConverter = WithOrder(
+            LengthOrPercentConverter, 
+            LengthOrPercentConverter.Option());
 
         /// <summary>
         /// Represents a converter for font families.
         /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(StringConverter).Or(LiteralsConverter).FromList();
+        public static readonly IValueConverter FontFamiliesConverter = Or(
+            DefaultFontFamiliesConverter, 
+            StringConverter, 
+            LiteralsConverter).FromList();
 
         /// <summary>
         /// Represents a converter for background size.
         /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = AutoLengthOrPercentConverter.Or(
-            CssKeywords.Cover).Or(CssKeywords.Contain).Or(
-            WithOrder(AutoLengthOrPercentConverter.Required(), AutoLengthOrPercentConverter.Required()));
+        public static readonly IValueConverter BackgroundSizeConverter = Or(
+            WithOrder(AutoLengthOrPercentConverter, AutoLengthOrPercentConverter),
+            AutoLengthOrPercentConverter,
+            Assign(CssKeywords.Cover), 
+            Assign(CssKeywords.Contain));
 
         /// <summary>
         /// Represents a converter for background repeat.
         /// </summary>
-        public static readonly IValueConverter BackgroundRepeatsConverter = BackgroundRepeatConverter.Or(CssKeywords.RepeatX).Or(CssKeywords.RepeatY).Or(
-            WithOrder(BackgroundRepeatConverter.Required(), BackgroundRepeatConverter.Required()));
+        public static readonly IValueConverter BackgroundRepeatsConverter = Or(
+            WithOrder(BackgroundRepeatConverter, BackgroundRepeatConverter),
+            BackgroundRepeatConverter,
+            Assign(CssKeywords.RepeatX), 
+            Assign(CssKeywords.RepeatY));
 
         #endregion
 
@@ -754,32 +873,34 @@
         #region Misc
 
         /// <summary>
-        /// Represents a converter for anything. Just copies the tokens.
+        /// Creates an or converter for the given converters.
         /// </summary>
-        public static IValueConverter Any = new AnyValueConverter();
+        public static IValueConverter Or(params IValueConverter[] converters) => new OrValueConverter(converters);
+
+        /// <summary>
+        /// Creates a converter for the initial keyword with the given value.
+        /// </summary>
+        public static IValueConverter AssignInitial<T>(T value) => new IdentifierValueConverter<T>(CssKeywords.Initial, value);
+
+        /// <summary>
+        /// Creates a new function converter for the function name.
+        /// </summary>
+        public static IValueConverter Func(String name, IValueConverter args) => new FunctionValueConverter(name, args);
 
         /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.
         /// </summary>
-        /// <typeparam name="T">The type of the result.</typeparam>
-        /// <param name="identifier">The identifier (keyword) to use.</param>
-        /// <param name="result">The fixed result that is returned if the identifier is found.</param>
-        /// <returns>The new converter.</returns>
-        public static IValueConverter Assign<T>(String identifier, T result)
-        {
-            return new IdentifierValueConverter<T>(identifier, result);
-        }
+        public static IValueConverter Assign<T>(String identifier, T result) => new IdentifierValueConverter<T>(identifier, result);
+
+        /// <summary>
+        /// Creates a new converter by assigning the given identifier to a fixed result.
+        /// </summary>
+        public static IValueConverter Assign(String identifier) => new IdentifierValueConverter<Object>(identifier, null);
 
         /// <summary>
         /// Creates a new boolean converter that toggles between the two given keywords.
         /// </summary>
-        /// <param name="on">The keyword to use for returning true.</param>
-        /// <param name="off">The keyword to use for returning false.</param>
-        /// <returns>The new converter.</returns>
-        public static IValueConverter Toggle(String on, String off)
-        {
-            return Assign(on, true).Or(off, false);
-        }
+        public static IValueConverter Toggle(String on, String off) => Or(Assign(on, true), Assign(off, false));
 
         #endregion
 
@@ -790,52 +911,43 @@
         /// </summary>
         /// <param name="converters">The converters that are used.</param>
         /// <returns>The new converter.</returns>
-        public static IValueConverter WithOrder(params IValueConverter[] converters)
-        {
-            return new OrderedOptionsConverter(converters);
-        }
+        public static IValueConverter WithOrder(params IValueConverter[] converters) => new OrderedOptionsConverter(converters);
 
         /// <summary>
         /// Uses the converters in any order to convert provided values.
         /// </summary>
         /// <param name="converters">The converters that are used.</param>
         /// <returns>The new converter.</returns>
-        public static IValueConverter WithAny(params IValueConverter[] converters)
-        {
-            return new UnorderedOptionsConverter(converters);
-        }
+        public static IValueConverter WithAny(params IValueConverter[] converters) => new UnorderedOptionsConverter(converters);
 
         /// <summary>
         /// Uses the provided converter for the whole value.
         /// </summary>
         /// <param name="converter">The converter that is used.</param>
         /// <returns>The new converter.</returns>
-        public static IValueConverter Continuous(IValueConverter converter)
-        {
-            return new ContinuousValueConverter(converter);
-        }
+        public static IValueConverter Continuous(IValueConverter converter) => new ContinuousValueConverter(converter);
 
         #endregion
 
         #region Helper
 
-        static IValueConverter Construct(Func<IValueConverter> f)
+        private static IValueConverter Construct(Func<IValueConverter> f)
         {
             return f();
         }
 
-        static IValueConverter WithArgs(IValueConverter converter, Int32 arguments)
+        private static IValueConverter WithArgs(IValueConverter converter, Int32 arguments)
         {
             var converters = Enumerable.Repeat(converter, arguments).ToArray();
             return WithArgs(converters);
         }
 
-        static IValueConverter WithArgs(IValueConverter converter)
+        private static IValueConverter WithArgs(IValueConverter converter)
         {
             return new ArgumentsValueConverter(converter);
         }
 
-        static IValueConverter WithArgs(params IValueConverter[] converters)
+        private static IValueConverter WithArgs(params IValueConverter[] converters)
         {
             return new ArgumentsValueConverter(converters);
         }

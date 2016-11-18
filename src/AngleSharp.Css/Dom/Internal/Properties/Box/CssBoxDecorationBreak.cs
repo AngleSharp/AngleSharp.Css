@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// More infos can be found on the W3C homepage or
@@ -15,7 +16,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.BoxDecorationConverter.OrDefault(false);
+        private static readonly IValueConverter StyleConverter = Or(BoxDecorationConverter, AssignInitial(false));
 
         #endregion
 

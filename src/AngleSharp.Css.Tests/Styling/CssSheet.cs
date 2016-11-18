@@ -187,7 +187,7 @@ h1 {
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("rgb(255, 0, 0)", h1.Style.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
         }
 
         [Test]
@@ -221,7 +221,7 @@ h1 {
             Assert.NotNull(style);
             Assert.AreEqual("#hi", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("rgb(0, 128, 0)", style.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.Style.GetColor());
         }
 
         [Test]
@@ -240,7 +240,7 @@ h1 {
             Assert.NotNull(style);
             Assert.AreEqual("p", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("rgb(0, 128, 0)", style.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.Style.GetColor());
         }
 
         [Test]
@@ -260,7 +260,7 @@ h1 { color: blue }");
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("rgb(0, 0, 255)", h1.Style.GetColor());
+            Assert.AreEqual("rgba(0, 0, 255, 1)", h1.Style.GetColor());
         }
 
         [Test]
@@ -319,7 +319,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]
@@ -332,7 +332,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]
@@ -345,7 +345,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]
@@ -358,7 +358,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]
@@ -371,7 +371,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]
@@ -384,7 +384,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
         }
 
         [Test]

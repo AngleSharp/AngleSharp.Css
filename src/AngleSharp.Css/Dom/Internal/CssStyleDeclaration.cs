@@ -332,7 +332,7 @@
                 property = factory.Create(propertyName);
             }
 
-            return property ?? new CssUnknownProperty(propertyName);
+            return property;
         }
 
         internal ICssProperty GetProperty(String name)

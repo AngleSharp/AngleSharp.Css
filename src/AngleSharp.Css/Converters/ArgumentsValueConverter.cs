@@ -24,7 +24,7 @@
             while (index < n)
             {
                 var arg = _converters[index].Convert(source);
-                var current = source.SkipSpaces();
+                var current = source.SkipSpacesAndComments();
                 args[index++] = arg;
 
                 if (arg == null)

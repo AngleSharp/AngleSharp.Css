@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter AttachmentConverter = BackgroundAttachmentConverter.FromList().OrDefault(BackgroundAttachment.Scroll);
+        private static readonly IValueConverter AttachmentConverter = Or(BackgroundAttachmentConverter.FromList(), AssignInitial(BackgroundAttachment.Scroll));
 
         #endregion
 

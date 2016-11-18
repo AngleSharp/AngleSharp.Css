@@ -29,7 +29,7 @@
 
                     if (option != null)
                     {
-                        source.SkipSpaces();
+                        source.SkipSpacesAndComments();
                         options[i] = option;
                         i = 0;
                         failed = false;

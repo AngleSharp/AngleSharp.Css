@@ -202,7 +202,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
 			Assert.AreEqual(1, sheet.Rules.Length);
 
             Assert.AreEqual(@"head,body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"""bar""", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
+            Assert.AreEqual(@"'bar'", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
 		}
 
 		[Test]

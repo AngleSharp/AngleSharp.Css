@@ -12,10 +12,12 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = WithAny(
-            ListStyleConverter.Option().For(PropertyNames.ListStyleType),
-            ListPositionConverter.Option().For(PropertyNames.ListStylePosition),
-            OptionalImageSourceConverter.Option().For(PropertyNames.ListStyleImage)).OrDefault();
+        private static readonly IValueConverter StyleConverter = Or(
+            WithAny(
+                ListStyleConverter.Option().For(PropertyNames.ListStyleType),
+                ListPositionConverter.Option().For(PropertyNames.ListStylePosition),
+                OptionalImageSourceConverter.Option().For(PropertyNames.ListStyleImage)),
+            Initial);
 
         #endregion
 

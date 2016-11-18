@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using static ValueConverters;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -14,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.BreakInsideModeConverter.OrDefault(BreakMode.Auto);
+        private static readonly IValueConverter StyleConverter = Or(BreakInsideModeConverter, AssignInitial(BreakMode.Auto));
 
         #endregion
 

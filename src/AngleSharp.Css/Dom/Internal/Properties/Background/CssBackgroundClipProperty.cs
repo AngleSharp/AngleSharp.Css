@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = BoxModelConverter.FromList().OrDefault(BoxModel.BorderBox);
+        private static readonly IValueConverter ListConverter = Or(BoxModelConverter.FromList(), AssignInitial(BoxModel.BorderBox));
 
         #endregion
 

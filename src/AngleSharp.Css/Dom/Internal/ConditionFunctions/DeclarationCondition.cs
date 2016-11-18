@@ -17,7 +17,9 @@
 
         public Boolean Check()
         {
-            if (_property is CssUnknownProperty == false)
+            var unknown = _property is CssUnknownProperty;
+
+            if (!unknown)
             {
                 _property.Value = _value;
                 return _property.Value.Is(_value);

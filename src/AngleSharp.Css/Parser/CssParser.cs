@@ -182,7 +182,7 @@
         public ICssStyleDeclaration ParseDeclaration(String declarationText)
         {
             var style = new CssStyleDeclaration(_context);
-            Parse(declarationText, (b, t) => b.FillDeclarations(style));
+            Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
             return style;
         }
 
@@ -221,7 +221,13 @@
             var builder = new CssBuilder(_options, tokenizer, _context);
             var context = sheet.Context;
             var loader = context.GetService<IResourceLoader>();
-            var baseUrl = new Url(context.Active.BaseUrl, sheet.Href);
+            var baseUrl = sheet.OwnerNode?.BaseUrl ?? context.Active?.BaseUrl;
+            
+            if (!String.IsNullOrEmpty(sheet.Href))
+            {
+                baseUrl = baseUrl != null ? new Url(baseUrl, sheet.Href) : Url.Create(sheet.Href);
+            }
+
             var tasks = new List<Task>();
             InvokeEventListener(new CssParseEvent(sheet, completed: false));
             builder.CreateRules(sheet);
@@ -236,9 +242,9 @@
                     break;
 
                 var import = (CssImportRule)rule;
-                var url = new Url(baseUrl, import.Href);
+                var url = baseUrl != null ? new Url(baseUrl, import.Href) : Url.Create(import.Href);
 
-                if (!IsRecursion(sheet, url) && loader != null)
+                if (!url.IsInvalid && !IsRecursion(sheet, url) && loader != null)
                 {
                     var request = sheet.OwnerNode.CreateRequestFor(url);
                     var download = loader.FetchAsync(request);

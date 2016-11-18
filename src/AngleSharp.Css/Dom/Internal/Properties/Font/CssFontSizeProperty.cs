@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = FontSizeConverter.OrDefault(FontSize.Medium.ToLength());
+        private static readonly IValueConverter StyleConverter = Or(FontSizeConverter, AssignInitial(FontSize.Medium.ToLength()));
 
         #endregion
 

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = PositiveOrInfiniteNumberConverter.FromList().OrDefault(1f);
+        private static readonly IValueConverter ListConverter = Or(PositiveOrInfiniteNumberConverter.FromList(), AssignInitial(1f));
 
         #endregion
 

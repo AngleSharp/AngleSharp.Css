@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Values;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -12,8 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter TheConverter = ValueConverters.ImageBorderWidthConverter.Periodic();
-        static readonly IValueConverter StyleConverter = TheConverter.OrDefault(Length.Full);
+        private static readonly IValueConverter StyleConverter = Or(BorderImageWidthConverter, AssignInitial(Length.Full));
 
         #endregion
 

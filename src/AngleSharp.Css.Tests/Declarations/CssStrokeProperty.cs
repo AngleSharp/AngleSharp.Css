@@ -18,7 +18,7 @@
 			var concrete = (CssStrokeProperty)property;
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+			Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
 		}
 
 		[Test]
@@ -32,7 +32,7 @@
 			var concrete = (CssStrokeProperty)property;
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgb(0, 255, 0)", concrete.Value);
+			Assert.AreEqual("rgba(0, 255, 0, 1)", concrete.Value);
 		}
 
 		[Test]
@@ -60,7 +60,7 @@
 			var concrete = (CssStrokeProperty)property;
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgb(1, 255, 100)", concrete.Value);
+			Assert.AreEqual("rgba(1, 255, 100, 1)", concrete.Value);
 		}
 
 		[Test]

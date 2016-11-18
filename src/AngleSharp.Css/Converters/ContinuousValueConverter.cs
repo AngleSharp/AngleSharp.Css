@@ -29,7 +29,7 @@
                     return null;
                 }
 
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
                 options.Add(option);
             }
             

@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = DirectionModeConverter.OrDefault(DirectionMode.Ltr);
+        private static readonly IValueConverter StyleConverter = Or(DirectionModeConverter, AssignInitial(DirectionMode.Ltr));
 
         #endregion
 

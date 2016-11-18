@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = HorizontalAlignmentConverter.OrDefault(HorizontalAlignment.Left);
+        private static readonly IValueConverter StyleConverter = Or(HorizontalAlignmentConverter, AssignInitial(HorizontalAlignment.Left));
 
         #endregion
 

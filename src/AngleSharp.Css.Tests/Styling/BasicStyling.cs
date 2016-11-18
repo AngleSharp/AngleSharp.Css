@@ -118,9 +118,8 @@
         public void CssStyleDeclarationUnbound()
         {
             var css = ParseDeclarations(String.Empty);
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            css.CssText = text;
-            Assert.AreEqual(text, css.CssText);
+            css.CssText = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", css.CssText);
             Assert.AreEqual(2, css.Length);
         }
 
@@ -129,9 +128,8 @@
         {
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            element.SetAttribute("style", text);
-            Assert.AreEqual(text, element.Style.CssText);
+            element.SetAttribute("style", "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.Style.CssText);
             Assert.AreEqual(2, element.Style.Length);
         }
 
@@ -140,11 +138,10 @@
         {
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);
-            element.SetAttribute("style", text);
-            Assert.AreEqual(text, element.Style.CssText);
+            element.SetAttribute("style", "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.Style.CssText);
             Assert.AreEqual(2, element.Style.Length);
         }
 
@@ -153,9 +150,8 @@
         {
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            element.Style.CssText = text;
-            Assert.AreEqual(text, element.GetAttribute("style"));
+            element.Style.CssText = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.GetAttribute("style"));
             Assert.AreEqual(2, element.Style.Length);
         }
     }

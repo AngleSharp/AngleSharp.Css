@@ -413,7 +413,6 @@
     <Compile Include="Converters\OrderedOptionsConverter.cs" />
     <Compile Include="Converters\OrValueConverter.cs" />
     <Compile Include="Converters\PeriodicValueConverter.cs" />
-    <Compile Include="Converters\RequiredValueConverter.cs" />
     <Compile Include="Converters\StartsWithValueConverter.cs" />
     <Compile Include="Converters\QuotesValueConverter.cs" />
     <Compile Include="Converters\StringValueConverter.cs" />

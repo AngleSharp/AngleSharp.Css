@@ -18,14 +18,17 @@
     {
         #region Fields
 
-        private static IValueConverter StyleConverter = WithOrder(
-            LengthOrPercentConverter.Or(CssKeywords.Center, Point.Center).Or(WithAny(
-                LengthOrPercentConverter.Or(CssKeywords.Left, Length.Zero).Or(CssKeywords.Right, Length.Full).Or(CssKeywords.Center, Length.Half).Option(Length.Half),
-                LengthOrPercentConverter.Or(CssKeywords.Top, Length.Zero).Or(CssKeywords.Bottom, Length.Full).Or(CssKeywords.Center, Length.Half).Option(Length.Half))).Or(
-            WithAny(
-                LengthOrPercentConverter.Or(CssKeywords.Top, Length.Zero).Or(CssKeywords.Bottom, Length.Full).Or(CssKeywords.Center, Length.Half).Option(Length.Half),
-                LengthOrPercentConverter.Or(CssKeywords.Left, Length.Zero).Or(CssKeywords.Right, Length.Full).Or(CssKeywords.Center, Length.Half).Option(Length.Half))).Required(),
-            LengthConverter.Option(Length.Zero)).OrDefault(Point.Center);
+        private static IValueConverter StyleConverter = Or(
+            WithOrder(
+                Or(
+                    LengthOrPercentConverter, 
+                    Assign(CssKeywords.Center, Point.Center),
+                    WithAny(Or(LengthOrPercentConverter, Assign(CssKeywords.Left, Length.Zero), Assign(CssKeywords.Right, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)), 
+                    Or(LengthOrPercentConverter, Assign(CssKeywords.Top, Length.Zero), Assign(CssKeywords.Bottom, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half))),
+                    WithAny(Or(LengthOrPercentConverter, Assign(CssKeywords.Top, Length.Zero), Assign(CssKeywords.Bottom, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)),
+                    Or(LengthOrPercentConverter, Assign(CssKeywords.Left, Length.Zero), Assign(CssKeywords.Right, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)))).Required(),
+                LengthConverter.Option(Length.Zero)),
+            AssignInitial(Point.Center));
 
         #endregion
 

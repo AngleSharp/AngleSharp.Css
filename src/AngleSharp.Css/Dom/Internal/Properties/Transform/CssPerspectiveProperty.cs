@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Values;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -15,7 +16,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.LengthConverter.OrNone().OrDefault(Length.Zero);
+        private static readonly IValueConverter StyleConverter = Or(LengthConverter, None, AssignInitial(Length.Zero));
 
         #endregion
 

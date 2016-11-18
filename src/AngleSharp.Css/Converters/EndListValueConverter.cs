@@ -27,13 +27,13 @@
             {
                 var index = source.Index;
                 var value = _listConverter.Convert(source);
-                source.SkipSpaces();
+                source.SkipSpacesAndComments();
 
                 if (value == null || source.IsDone)
                 {
                     source.BackTo(index);
                     value = _endConverter.Convert(source);
-                    source.SkipSpaces();
+                    source.SkipSpacesAndComments();
 
                     if (value != null)
                     {
@@ -44,7 +44,7 @@
                     break;
                 }
                 
-                if (source.SkipSpaces() != Symbols.Comma)
+                if (source.SkipSpacesAndComments() != Symbols.Comma)
                 {
                     return null;
                 }

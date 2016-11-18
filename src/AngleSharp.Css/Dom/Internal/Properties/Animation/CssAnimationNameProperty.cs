@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = IdentifierConverter.FromList().OrNone().OrDefault();
+        private static readonly IValueConverter ListConverter = Or(IdentifierConverter.FromList(), None, Initial);
 
         #endregion
 

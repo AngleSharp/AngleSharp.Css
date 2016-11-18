@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Values;
+    using static ValueConverters;
 
     /// <summary>
     /// More information available at:
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = ValueConverters.ColorConverter.OrDefault(Color.Transparent);
+        private static readonly IValueConverter StyleConverter = Or(ColorConverter, AssignInitial(Color.Transparent));
 
         #endregion
 

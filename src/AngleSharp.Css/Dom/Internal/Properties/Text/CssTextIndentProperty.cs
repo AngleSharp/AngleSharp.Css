@@ -16,7 +16,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = LengthOrPercentConverter.OrDefault(Length.Zero);
+        private static readonly IValueConverter StyleConverter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
 
         #endregion
 

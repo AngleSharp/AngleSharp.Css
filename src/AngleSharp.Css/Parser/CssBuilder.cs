@@ -282,7 +282,7 @@
 
             if (current.Type == CssTokenType.CurlyBracketOpen)
             {
-                FillDeclarations(rule.Style);
+                FillDeclarations(rule.Style, NextToken());
                 return true;
             }
 
@@ -310,7 +310,7 @@
         public Boolean CreateStyle(CssStyleRule rule, CssToken current)
         {
             rule.Selector = CreateSelector(ref current);
-            FillDeclarations(rule.Style);
+            FillDeclarations(rule.Style, NextToken());
             return rule.Selector != null;
         }
 
@@ -318,7 +318,7 @@
         {
             CollectTrivia(ref current);
             rule.Key = CreateKeyframeSelector(ref current);
-            var end = FillDeclarations(rule.Style);
+            var end = FillDeclarations(rule.Style, NextToken());
             return rule.Key != null;
         }
 
@@ -511,7 +511,11 @@
                 var rule = CreateRule(sheet, token);
                 token = NextToken();
                 CollectTrivia(ref token);
-                sheet.Add(rule);
+
+                if (rule != null)
+                {
+                    sheet.Add(rule);
+                }
             }
 
             return token.Position;
@@ -594,14 +598,13 @@
         /// <summary>
         /// Fills the given parent style with declarations given by the tokens.
         /// </summary>
-        public TextPosition FillDeclarations(CssStyleDeclaration style)
+        public TextPosition FillDeclarations(CssStyleDeclaration style, CssToken token)
         {
-            var token = NextToken();
             CollectTrivia(ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                var factory = _context.GetService<ICssPropertyFactory>();
+                var factory = _context.GetService<ICssPropertyFactory>() ?? Factory.Property;
                 var property = CreateDeclarationWith(factory.Create, ref token);
 
                 if (property != null)
@@ -628,29 +631,32 @@
             {
                 var propertyName = token.Data;
                 token = NextToken();
-                property = _options.IsIncludingUnknownDeclarations ? new CssUnknownProperty(propertyName) : createProperty(propertyName);
-
-                if (property == null)
-                {
-                    RaiseErrorOccurred(CssParseError.UnknownDeclarationName, start);
-                }
-
                 CollectTrivia(ref token);
 
                 if (token.Type == CssTokenType.Colon)
                 {
-                    token = NextToken();
-                    var important = false;
-                    var value = CreateValue(ref token, Symbols.CurlyBracketClose, out important);
+                    property = _options.IsIncludingUnknownDeclarations ? new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
-                    if (value == null)
+                    if (property != null)
                     {
-                        RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);
+                        var important = false;
+                        token = NextToken();
+                        CollectTrivia(ref token);
+                        var value = CreateValue(ref token, Symbols.CurlyBracketClose, out important);
+
+                        if (value == null)
+                        {
+                            RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);
+                        }
+                        else if (property != null)
+                        {
+                            property.Value = value;
+                            property.IsImportant = important;
+                        }
                     }
-                    else if (property != null)
+                    else
                     {
-                        property.Value = value;
-                        property.IsImportant = important;
+                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName, start);
                     }
 
                     CollectTrivia(ref token);
@@ -954,7 +960,8 @@
         private IConditionFunction DeclarationCondition(ref CssToken token)
         {
             var factory = _context.GetService<ICssPropertyFactory>();
-            var property = factory.Create(token.Data) ?? new CssUnknownProperty(token.Data);
+            var propertyName = token.Data;
+            var property = factory.Create(propertyName) ?? new CssUnknownProperty(propertyName);
             var declaration = default(DeclarationCondition);
             token = NextToken();
             CollectTrivia(ref token);
@@ -1022,7 +1029,13 @@
                 }
                 else
                 {
-                    data = _tokenizer.ContentTo(ref token, Symbols.RoundBracketClose);
+                    token = NextToken();
+                    data = token.Type == CssTokenType.String ? token.Data : String.Empty;
+
+                    while (token.Type != CssTokenType.RoundBracketClose)
+                    {
+                        token = NextToken();
+                    }
                 }
 
                 var function = factory?.Create(functionName, data);
