@@ -22,7 +22,7 @@
             if (!unknown)
             {
                 _property.Value = _value;
-                return _property.Value.Is(_value);
+                return !_property.Value.Is(CssKeywords.Initial);
             }
 
             return false;

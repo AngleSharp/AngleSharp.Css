@@ -23,7 +23,7 @@ h1 {
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual("rgb(255, 0, 0)", h1.Style.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
             Assert.AreEqual("bold", h1.Style.GetFontWeight());
         }
 

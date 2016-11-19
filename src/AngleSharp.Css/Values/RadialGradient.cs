@@ -3,17 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Text;
 
     /// <summary>
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class RadialGradient : IImageSource
+    public sealed class RadialGradient : IGradient
     {
         #region Fields
 
         private readonly GradientStop[] _stops;
-        private readonly Point _pt;
+        private readonly Point _center;
         private readonly Length _width;
         private readonly Length _height;
         private readonly Boolean _repeating;
@@ -28,16 +29,16 @@
         /// Creates a new radial gradient.
         /// </summary>
         /// <param name="circle">Determines if the radial gradient has to be forced to a circle form.</param>
-        /// <param name="pt">The center point of the gradient.</param>
+        /// <param name="center">The center point of the gradient.</param>
         /// <param name="width">The width of the ellipsoid.</param>
         /// <param name="height">The height of the ellipsoid.</param>
         /// <param name="sizeMode">The size mode of the ellipsoid.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public RadialGradient(Boolean circle, Point pt, Length width, Length height, SizeMode sizeMode, GradientStop[] stops, Boolean repeating = false)
+        public RadialGradient(Boolean circle, Point center, Length width, Length height, SizeMode sizeMode, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
-            _pt = pt;
+            _center = center;
             _width = width;
             _height = height;
             _repeating = repeating;
@@ -70,7 +71,7 @@
         /// </summary>
         public Point Position
         {
-            get { return _pt; }
+            get { return _center; }
         }
 
         /// <summary>
@@ -103,7 +104,40 @@
         public Boolean IsRepeating
         {
             get { return _repeating; }
-        } 
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the string representation of the radial gradient function.
+        /// </summary>
+        public override String ToString()
+        {
+            var fn = _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
+            var isDefault = _center == Point.Center && !_circle && _height == Length.Full && _width == Length.Full && _sizeMode == SizeMode.None;
+            var offset = isDefault ? 0 : 1;
+            var args = new String[_stops.Length + offset];
+
+            if (!isDefault)
+            {
+                var parts = new[] 
+                {
+                    _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
+                    CssKeywords.At,
+                    _center.ToString()
+                };
+                args[0] = String.Join(" ", parts);
+            }
+
+            for (var i = 0; i < _stops.Length; i++)
+            {
+                args[offset++] = _stops[i].ToString();
+            }
+
+            return fn.CssFunction(String.Join(", ", args));
+        }
 
         #endregion
 

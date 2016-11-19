@@ -85,9 +85,6 @@
             var b = ParseRgbComponent(source);
             var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
-            var a = ParseAlpha(source);
-            var f = source.SkipSpacesAndComments();
-            source.SkipCurrentAndSpaces();
 
             if (r != null && g != null && b != null)
             {
@@ -95,9 +92,16 @@
                 {
                     return Color.FromRgb(r.Value, g.Value, b.Value);
                 }
-                else if (a != null && Check(f, c1, c2, c3))
+                else
                 {
-                    return Color.FromRgba(r.Value, g.Value, b.Value, a.Value);
+                    var a = ParseAlpha(source);
+                    var f = source.SkipSpacesAndComments();
+                    source.SkipCurrentAndSpaces();
+
+                    if (a != null && Check(f, c1, c2, c3))
+                    {
+                        return Color.FromRgba(r.Value, g.Value, b.Value, a.Value);
+                    }
                 }
             }
 
@@ -115,9 +119,6 @@
             var l = ParsePercent(source);
             var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
-            var a = ParseAlpha(source);
-            var f = source.SkipSpacesAndComments();
-            source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)
             {
@@ -125,9 +126,16 @@
                 {
                     return Color.FromHsl(h.Value, s.Value, l.Value);
                 }
-                else if (a != null && Check(f, c1, c2, c3))
+                else
                 {
-                    return Color.FromHsla(h.Value, s.Value, l.Value, a.Value);
+                    var a = ParseAlpha(source);
+                    var f = source.SkipSpacesAndComments();
+                    source.SkipCurrentAndSpaces();
+
+                    if (a != null && Check(f, c1, c2, c3))
+                    {
+                        return Color.FromHsla(h.Value, s.Value, l.Value, a.Value);
+                    }
                 }
             }
 
@@ -169,9 +177,6 @@
             var l = ParsePercent(source);
             var c3 = source.SkipSpacesAndComments();
             source.SkipCurrentAndSpaces();
-            var a = ParseAlpha(source);
-            var f = source.SkipSpacesAndComments();
-            source.SkipCurrentAndSpaces();
 
             if (h != null && s != null && l != null)
             {
@@ -179,9 +184,16 @@
                 {
                     return Color.FromHwb(h.Value, s.Value, l.Value);
                 }
-                else if (a != null && Check(f, c1, c2, c3))
+                else
                 {
-                    return Color.FromHwba(h.Value, s.Value, l.Value, a.Value);
+                    var a = ParseAlpha(source);
+                    var f = source.SkipSpacesAndComments();
+                    source.SkipCurrentAndSpaces();
+
+                    if (a != null && Check(f, c1, c2, c3))
+                    {
+                        return Color.FromHwba(h.Value, s.Value, l.Value, a.Value);
+                    }
                 }
             }
 

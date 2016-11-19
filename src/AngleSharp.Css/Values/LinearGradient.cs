@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -59,7 +60,34 @@
         public Boolean IsRepeating
         {
             get { return _repeating; }
-        } 
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the string representation of the linear gradient function.
+        /// </summary>
+        public override String ToString()
+        {
+            var fn = _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
+            var defaultAngle = _angle == Angle.Zero;
+            var offset = defaultAngle ? 0 : 1;
+            var args = new String[_stops.Length + offset];
+
+            if (!defaultAngle)
+            {
+                args[0] = _angle.ToString();
+            }
+
+            for (var i = 0; i < _stops.Length; i++)
+            {
+                args[offset++] = _stops[i].ToString();
+            }
+
+            return fn.CssFunction(String.Join(", ", args));
+        }
 
         #endregion
     }

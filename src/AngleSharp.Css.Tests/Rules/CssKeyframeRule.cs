@@ -57,7 +57,7 @@
     color: red
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0%, 100%, 25%, 50%, 75%", rule.KeyText);
+            Assert.AreEqual("from, to, 25%, 50%, 75%", rule.KeyText);
             Assert.AreEqual(5, rule.Key.Stops.Count());
             Assert.AreEqual(3, rule.Style.Length);
             Assert.AreEqual("padding-top", rule.Style.Skip(0).First().Name);

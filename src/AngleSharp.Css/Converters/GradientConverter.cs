@@ -7,6 +7,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using static ValueConverters;
 
     abstract class GradientConverter<T> : IValueConverter
@@ -41,12 +42,20 @@
             }
             
             var stops = ToGradientStops(source);
-            return stops != null ? new GradientValue(source.Substring(start), _repeating, initial ?? GetDefaultValue(), stops) : null;
+
+            if (stops != null && source.Current == Symbols.RoundBracketClose)
+            {
+                var gradient = CreateGradient(initial, _repeating, stops);
+                source.SkipCurrentAndSpaces();
+                return new GradientValue(gradient);
+            }
+
+            return null;
         }
 
         protected abstract T? ConvertInitial(StringSource source);
 
-        protected abstract T GetDefaultValue();
+        protected abstract IGradient CreateGradient(T? initial, Boolean repeating, GradientStop[] stops);
 
         private static GradientStop[] ToGradientStops(StringSource source)
         {
@@ -92,25 +101,30 @@
             return null;
         }
 
-        private sealed class GradientValue : BaseValue
+        private sealed class GradientValue : ICssValue
         {
-            private readonly Boolean _repeating;
-            private readonly T _initial;
-            private readonly GradientStop[] _stops;
+            private readonly IGradient _gradient;
 
-            public GradientValue(String value, Boolean repeating, T initial, GradientStop[] stops)
-                : base(value)
+            public GradientValue(IGradient gradient)
             {
-                _repeating = repeating;
-                _initial = initial;
-                _stops = stops;
+                _gradient = gradient;
+            }
+
+            public String CssText
+            {
+                get { return _gradient.ToString(); }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                writer.Write(CssText);
             }
         }
     }
 
     sealed class LinearGradientConverter : GradientConverter<LinearGradientConverter.Options>
     {
-        private static readonly Dictionary<String, Angle> Directions = new Dictionary<String, Angle>
+        private static readonly Dictionary<String, Angle> Directions = new Dictionary<String, Angle>(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Left, new Angle(270f, Angle.Unit.Deg) },
             { CssKeywords.Top, new Angle(0, Angle.Unit.Deg) },
@@ -151,7 +165,7 @@
                         a + " " + b : b + " " + a;
                 }
 
-                if (keyword != null && Directions.TryGetValue(ident, out tmp))
+                if (keyword != null && Directions.TryGetValue(keyword, out tmp))
                 {
                     angle = tmp;
                 }
@@ -169,9 +183,10 @@
             return null;
         }
 
-        protected override Options GetDefaultValue()
+        protected override IGradient CreateGradient(Options? initial, Boolean repeating, GradientStop[] stops)
         {
-            return new Options { Direction = Angle.Zero };
+            var angle = initial?.Direction ?? Angle.Zero;
+            return new LinearGradient(angle, stops, repeating);
         }
 
         public struct Options
@@ -197,24 +212,45 @@
 
         protected override Options? ConvertInitial(StringSource source)
         {
+            var circle = false;
+            var center = Point.Center;
+            var width = Length.Full;
+            var height = Length.Full;
+            var size = RadialGradient.SizeMode.None;
             var value = _initialConverter.Convert(source);
 
             if (value != null)
             {
-                return new Options { Bundle = value };
+                return new Options
+                {
+                    Circle = circle,
+                    Center = center,
+                    Width = width,
+                    Height = height,
+                    Size = size
+                };
             }
 
             return null;
         }
 
-        protected override Options GetDefaultValue()
+        protected override IGradient CreateGradient(Options? initial, Boolean repeating, GradientStop[] stops)
         {
-            return new Options { Bundle = new BaseValue(String.Empty) };
+            var circle = initial?.Circle ?? true;
+            var center = initial?.Center ?? Point.Center;
+            var width = initial?.Width ?? Length.Full;
+            var height = initial?.Height ?? Length.Full;
+            var sizeMode = initial?.Size ?? RadialGradient.SizeMode.None;
+            return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
         }
 
         public struct Options
         {
-            public ICssValue Bundle;
+            public Boolean Circle;
+            public Point Center;
+            public Length Width;
+            public Length Height;
+            public RadialGradient.SizeMode Size;
         }
     }
 }

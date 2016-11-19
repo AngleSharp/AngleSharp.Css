@@ -785,7 +785,7 @@ background: #fffef0;
 			Assert.AreEqual(3, sheet.Rules.Length);
 
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"""bar""", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
+            Assert.AreEqual(@"'bar'", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
 
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"bar", ((ICssStyleRule)sheet.Rules[1]).Style["foo"]);
@@ -826,7 +826,7 @@ tobi loki jane {
 			foreach (var rule in sheet.Rules)
 			{
 				Assert.AreEqual(@"tobi loki jane", ((ICssStyleRule)rule).SelectorText);
-				Assert.AreEqual(@"""all""", ((ICssStyleRule)rule).Style["are"]);
+				Assert.AreEqual(@"'all'", ((ICssStyleRule)rule).Style["are"]);
 				Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)rule).Style["the-species"]);
 			}
 		}
@@ -888,9 +888,9 @@ tobi loki jane {
 			Assert.AreEqual(1, sheet.Rules.Length);
 
             Assert.AreEqual(@"tobi loki jane", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"""all""", ((ICssStyleRule)sheet.Rules[0]).Style["are"]);
+            Assert.AreEqual(@"'all'", ((ICssStyleRule)sheet.Rules[0]).Style["are"]);
             Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)sheet.Rules[0]).Style["the-species"]);
-            Assert.AreEqual(@"""ie crap""", ((ICssStyleRule)sheet.Rules[0]).Style["*even"]);
+            Assert.AreEqual(@"'ie crap'", ((ICssStyleRule)sheet.Rules[0]).Style["*even"]);
 		}
 
 		[Test]
@@ -913,7 +913,7 @@ tobi loki jane {
 			Assert.AreEqual(1, sheet.Rules.Length);
 
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"url(""some;stuff;here"") 50% 50% no-repeat", ((ICssStyleRule)sheet.Rules[0]).Style["background"]);
+            Assert.AreEqual(@"url('some;stuff;here') 50% 50% no-repeat", ((ICssStyleRule)sheet.Rules[0]).Style["background"]);
 		}
 
 		[Test]
@@ -925,7 +925,7 @@ tobi loki jane {
 			Assert.AreEqual(1, sheet.Rules.Length);
 
             Assert.AreEqual(@"foo", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"""baz""", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
+            Assert.AreEqual(@"'baz'", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
 		}
 
 		[Test]
@@ -943,11 +943,11 @@ loki {
 			Assert.AreEqual(2, sheet.Rules.Length);
 
             Assert.AreEqual(@"tobi", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"""tobi""", ((ICssStyleRule)sheet.Rules[0]).Style["name"]);
+            Assert.AreEqual(@"'tobi'", ((ICssStyleRule)sheet.Rules[0]).Style["name"]);
             Assert.AreEqual(@"2", ((ICssStyleRule)sheet.Rules[0]).Style["age"]);
 
             Assert.AreEqual(@"loki", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"""loki""", ((ICssStyleRule)sheet.Rules[1]).Style["name"]);
+            Assert.AreEqual(@"'loki'", ((ICssStyleRule)sheet.Rules[1]).Style["name"]);
             Assert.AreEqual(@"1", ((ICssStyleRule)sheet.Rules[1]).Style["age"]);
 		}
 

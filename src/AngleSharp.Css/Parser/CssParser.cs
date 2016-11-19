@@ -69,7 +69,7 @@
         /// Creates a new parser with the context.
         /// </summary>
         /// <param name="context">The context to use.</param>
-        public CssParser(IBrowsingContext context)
+        internal CssParser(IBrowsingContext context)
             : this(default(CssParserOptions), context)
         {
         }
@@ -82,7 +82,7 @@
         public CssParser(CssParserOptions options, IBrowsingContext context)
         {
             _options = options;
-            _context = context ?? BrowsingContext.New(Configuration.Default.With(this).WithCss());
+            _context = context ?? BrowsingContext.New(Configuration.Default.WithOnly<ICssParser>(this).WithCss());
         }
 
         #endregion
@@ -248,8 +248,13 @@
                 {
                     var request = sheet.OwnerNode.CreateRequestFor(url);
                     var download = loader.FetchAsync(request);
-                    var task = ParseChildStyleSheetAsync(download, sheet, cancel).ContinueWith(_ => import.Sheet = _.Result);
-                    tasks.Add(task);
+                    tasks.Add(ParseChildStyleSheetAsync(download, sheet, cancel).ContinueWith(task =>
+                    {
+                        if (task.IsCompleted && !task.IsFaulted)
+                        {
+                            import.Sheet = task.Result;
+                        }
+                    }));
                 }
             }
 

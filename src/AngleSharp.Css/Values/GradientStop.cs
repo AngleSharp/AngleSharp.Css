@@ -78,5 +78,19 @@
         }
 
         #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the string representation of the gradient stop.
+        /// </summary>
+        public override String ToString()
+        {
+            return _determined ? 
+                String.Concat(_color.ToString(), " ", _location.ToString()) : 
+                _color.ToString();
+        }
+
+        #endregion
     }
 }

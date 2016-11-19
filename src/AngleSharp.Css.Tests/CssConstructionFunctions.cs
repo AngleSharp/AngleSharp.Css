@@ -12,14 +12,14 @@
         internal static IHtmlDocument ParseDocument(String source)
         {
             var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             return parser.ParseDocument(source);
         }
 
         internal static IHtmlDocument ParseDocument(String source, CssParserOptions options)
         {
             var context = BrowsingContext.New(Configuration.Default.WithCss(options));
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             return parser.ParseDocument(source);
         }
 
@@ -75,7 +75,7 @@
         internal static CssStyleDeclaration ParseDeclarations(String declarations)
         {
             var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var parser = new CssParser(context);
+            var parser = context.GetService<ICssParser>();
             var style = new CssStyleDeclaration(context);
             style.Update(declarations);
             return style;

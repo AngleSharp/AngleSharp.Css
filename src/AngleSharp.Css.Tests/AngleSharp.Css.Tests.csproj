@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\AnalysisWindow.cs" />
+    <Compile Include="Extensions\ApiExtension.cs" />
     <Compile Include="Extensions\AsyncParsing.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\MemoryStreamExtensions.cs" />

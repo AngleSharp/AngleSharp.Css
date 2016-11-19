@@ -50,7 +50,7 @@
                 configuration = configuration.With<ICssParser>(context => new CssParser(options, context));
             }
 
-            return configuration.Without<IStylingProvider>().With(service);
+            return configuration.WithOnly<IStylingProvider>(service);
         }
     }
 }

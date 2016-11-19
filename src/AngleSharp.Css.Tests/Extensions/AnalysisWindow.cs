@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using System.Text;
     using static CssConstructionFunctions;
@@ -63,7 +63,7 @@
             Assert.AreEqual("bold", element.ClassName);
 
             var computedStyle = window.GetComputedStyle(element);
-            Assert.AreEqual("rgb(255, 0, 0)", computedStyle.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", computedStyle.GetColor());
             Assert.AreEqual("bold", computedStyle.GetFontWeight());
             Assert.AreEqual(3, computedStyle.Length);
         }

@@ -61,9 +61,8 @@
 
         public ICssRule CreateNormalRule(ICssStyleSheet sheet, CssToken token)
         {
-            var style = new CssStyleRule(sheet);
-            CreateStyle(style, token);
-            return style;
+            var rule = new CssStyleRule(sheet);
+            return CreateStyle(rule, token) ? rule : null;
         }
 
         public ICssRule CreateAtRule(ICssStyleSheet sheet, CssToken token)
@@ -71,62 +70,52 @@
             if (token.Data.Is(RuleNames.Media))
             {
                 var rule = new CssMediaRule(sheet);
-                CreateMedia(rule, token);
-                return rule;
+                return CreateMedia(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.FontFace))
             {
                 var rule = new CssFontFaceRule(sheet);
-                CreateFontFace(rule, token);
-                return rule;
+                return CreateFontFace(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Keyframes))
             {
                 var rule = new CssKeyframesRule(sheet);
-                CreateKeyframes(rule, token);
-                return rule;
+                return CreateKeyframes(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Import))
             {
                 var rule = new CssImportRule(sheet);
-                CreateImport(rule, token);
-                return rule;
+                return CreateImport(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Charset))
             {
                 var rule = new CssCharsetRule(sheet);
-                CreateCharset(rule, token);
-                return rule;
+                return CreateCharset(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Namespace))
             {
                 var rule = new CssNamespaceRule(sheet);
-                CreateNamespace(rule, token);
-                return rule;
+                return CreateNamespace(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Page))
             {
                 var rule = new CssPageRule(sheet);
-                CreatePage(rule, token);
-                return rule;
+                return CreatePage(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Supports))
             {
                 var rule = new CssSupportsRule(sheet);
-                CreateSupports(rule, token);
-                return rule;
+                return CreateSupports(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.ViewPort))
             {
                 var rule = new CssViewportRule(sheet);
-                CreateViewport(rule, token);
-                return rule;
+                return CreateViewport(rule, token) ? rule : null;
             }
             else if (token.Data.Is(RuleNames.Document))
             {
                 var rule = new CssDocumentRule(sheet);
-                CreateDocument(rule, token);
-                return rule;
+                return CreateDocument(rule, token) ? rule : null;
             }
             else if (_options.IsIncludingUnknownRules)
             {
@@ -294,13 +283,18 @@
         {
             var token = NextToken();
             CollectTrivia(ref token);
-            rule.Condition = AggregateCondition(ref token);
-            CollectTrivia(ref token);
+            var condition = AggregateCondition(ref token);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
+            if (condition != null)
             {
-                FillRules(rule);
-                return true;
+                rule.Condition = condition;
+                CollectTrivia(ref token);
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                {
+                    FillRules(rule);
+                    return true;
+                }
             }
 
             SkipDeclarations(token);
@@ -559,11 +553,8 @@
                     CollectTrivia(ref token);
                 }
 
-                if (token.Type == CssTokenType.Percentage)
-                {
-                    keys.Add(token.Data + "%");
-                }
-                else if (token.Type == CssTokenType.Ident && token.Data.IsOneOf(CssKeywords.From, CssKeywords.To))
+                if (token.Type == CssTokenType.Percentage || 
+                   (token.Type == CssTokenType.Ident && token.Data.IsOneOf(CssKeywords.From, CssKeywords.To)))
                 {
                     keys.Add(token.Data);
                 }
@@ -644,9 +635,10 @@
                         CollectTrivia(ref token);
                         var value = CreateValue(ref token, Symbols.CurlyBracketClose, out important);
 
-                        if (value == null)
+                        if (String.IsNullOrEmpty(value))
                         {
                             RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);
+                            property = null;
                         }
                         else if (property != null)
                         {
@@ -927,7 +919,9 @@
             {
                 token = NextToken();
                 CollectTrivia(ref token);
-                var condition = AggregateCondition(ref token);
+                var condition = token.Type == CssTokenType.RoundBracketClose ?
+                    new EmptyCondition() :
+                    AggregateCondition(ref token);
 
                 if (condition != null)
                 {
@@ -1061,7 +1055,7 @@
             var keyword = "!important";
             var value = _tokenizer.ContentTo(ref token, ';', closing).Trim();
             important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
-            return important ? value.Substring(0, value.Length - keyword.Length) : value;
+            return important ? value.Substring(0, value.Length - keyword.Length).Trim() : value;
         }
 
         private ISelector CreateSelector(ref CssToken token)

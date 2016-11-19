@@ -305,16 +305,6 @@
             }
         }
 
-        /// <summary>
-        /// Checks if both lengths are actually equal.
-        /// </summary>
-        /// <param name="other">The other length to compare to.</param>
-        /// <returns>True if both lengths are equal, otherwise false.</returns>
-        public Boolean Equals(Length other)
-        {
-            return _value == other._value && _unit == other._unit;
-        }
-
         #endregion
 
         #region Units
@@ -419,6 +409,16 @@
         public static Boolean operator !=(Length a, Length b)
         {
             return !a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks if both lengths are actually equal.
+        /// </summary>
+        /// <param name="other">The other length to compare to.</param>
+        /// <returns>True if both lengths are equal, otherwise false.</returns>
+        public Boolean Equals(Length other)
+        {
+            return _value == other._value && _unit == other._unit;
         }
 
         /// <summary>

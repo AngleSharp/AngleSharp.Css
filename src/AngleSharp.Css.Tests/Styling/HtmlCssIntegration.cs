@@ -47,7 +47,7 @@
             Assert.IsTrue(rule.IsImportant);
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual(rule.Name, decl[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", rule.Value);
+            Assert.AreEqual("rgba(0, 128, 0, 1)", rule.Value);
         }
 
         [Test]

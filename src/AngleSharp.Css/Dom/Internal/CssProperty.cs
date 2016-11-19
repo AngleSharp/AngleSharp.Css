@@ -37,7 +37,7 @@
         public String Value
         {
             get { return _value?.CssText ?? CssKeywords.Initial; }
-            set { _value = Converter.Convert(value); }
+            set { _value = ValueConverters.Inherit.Convert(value) ?? Converter.Convert(value); }
         }
 
         public Boolean HasValue
