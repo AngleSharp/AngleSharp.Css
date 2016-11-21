@@ -15,14 +15,25 @@
         #region Fields
 
         private readonly List<IMediaFeature> _features;
+        private readonly String _type;
+        private readonly Boolean _exclusive;
+        private readonly Boolean _inverse;
 
         #endregion
 
         #region ctor
 
-        public CssMedium()
+        public CssMedium(String type, Boolean inverse, Boolean exclusive)
+            : this(type, inverse, exclusive, Enumerable.Empty<IMediaFeature>())
         {
-            _features = new List<IMediaFeature>();
+        }
+
+        public CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features)
+        {
+            _features = new List<IMediaFeature>(features);
+            _type = type;
+            _inverse = inverse;
+            _exclusive = exclusive;
         }
 
         #endregion
@@ -36,20 +47,17 @@
 
         public String Type
         {
-            get;
-            set;
+            get { return _type; }
         }
 
         public Boolean IsExclusive
         {
-            get;
-            set;
+            get { return _exclusive; }
         }
 
         public Boolean IsInverse
         {
-            get;
-            set;
+            get { return _inverse; }
         }
 
         public String Constraints
@@ -64,16 +72,6 @@
         #endregion
 
         #region Methods
-
-        public void Add(IMediaFeature feature)
-        {
-            _features.Add(feature);
-        }
-
-        public void Remove(IMediaFeature feature)
-        {
-            _features.Remove(feature);
-        }
 
         public override Boolean Equals(Object obj)
         {

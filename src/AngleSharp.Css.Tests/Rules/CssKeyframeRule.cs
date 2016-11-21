@@ -14,7 +14,7 @@
     margin-left: 0px;
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0%", rule.KeyText);
+            Assert.AreEqual("from", rule.KeyText);
             Assert.AreEqual(1, rule.Key.Stops.Count());
             Assert.AreEqual(1, rule.Style.Length);
             Assert.AreEqual("margin-left", rule.Style.First().Name);
@@ -42,7 +42,7 @@
     margin-left: 200px;
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("100%", rule.KeyText);
+            Assert.AreEqual("to", rule.KeyText);
             Assert.AreEqual(1, rule.Key.Stops.Count());
             Assert.AreEqual(1, rule.Style.Length);
             Assert.AreEqual("margin-left", rule.Style.First().Name);
@@ -57,7 +57,7 @@
     color: red
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("from, to, 25%, 50%, 75%", rule.KeyText);
+            Assert.AreEqual("from,to, 25%, 50%,75%", rule.KeyText);
             Assert.AreEqual(5, rule.Key.Stops.Count());
             Assert.AreEqual(3, rule.Style.Length);
             Assert.AreEqual("padding-top", rule.Style.Skip(0).First().Name);

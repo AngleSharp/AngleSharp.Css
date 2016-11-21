@@ -7,7 +7,7 @@
     {
         public static Boolean IsValid(this ICssSupportsRule rule, IRenderDevice device)
         {
-            return rule.Condition.Check();
+            return rule.Condition.Check(device);
         }
 
         public static Boolean IsValid(this ICssMediaRule rule, IRenderDevice device)

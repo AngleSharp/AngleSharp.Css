@@ -1,12 +1,13 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp
 {
+    using AngleSharp.Css;
     using AngleSharp.Css.Parser;
     using System;
 
     /// <summary>
     /// Extensions for the configuration.
     /// </summary>
-    public static class ConfigurationExtensions
+    public static class CssConfigurationExtensions
     {
         /// <summary>
         /// Registers the default styling service with a new CSS style engine
@@ -15,15 +16,13 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="setup">Optional setup for the style engine.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default(CssParserOptions), Action<CssStyleEngine> setup = null)
+        public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default(CssParserOptions), Action<CssStylingService> setup = null)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
             
-            var service = new DefaultStylingProvider();
-            var engine = new CssStyleEngine();
-            setup?.Invoke(engine);
-            service.Register(engine);
+            var service = new CssStylingService();
+            setup?.Invoke(service);
 
             if (!configuration.Has<IFeatureValidatorFactory>())
             {
@@ -50,7 +49,7 @@
                 configuration = configuration.With<ICssParser>(context => new CssParser(options, context));
             }
 
-            return configuration.WithOnly<IStylingProvider>(service);
+            return configuration.WithOnly<ICssStylingService>(service);
         }
     }
 }

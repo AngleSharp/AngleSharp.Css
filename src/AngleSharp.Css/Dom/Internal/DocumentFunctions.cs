@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
 
     sealed class DocumentFunctions : IDocumentFunctions
     {
@@ -56,6 +57,20 @@
         public void AddRange(IEnumerable<IDocumentFunction> functions)
         {
             _functions.AddRange(functions);
+        }
+
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            if (_functions.Count > 0)
+            {
+                _functions[0].ToCss(writer, formatter);
+
+                for (var i = 1; i < _functions.Count; i++)
+                {
+                    writer.Write(", ");
+                    _functions[i].ToCss(writer, formatter);
+                }
+            }
         }
     }
 }

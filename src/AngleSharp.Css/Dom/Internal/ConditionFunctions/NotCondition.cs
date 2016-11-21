@@ -12,9 +12,9 @@
             _content = condition ?? new EmptyCondition();
         }
 
-        public Boolean Check()
+        public Boolean Check(IRenderDevice device)
         {
-            return !_content.Check();
+            return !_content.Check(device);
         }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)

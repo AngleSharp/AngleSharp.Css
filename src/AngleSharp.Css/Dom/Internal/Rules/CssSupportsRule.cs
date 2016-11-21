@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
     using System;
     using System.IO;
 
@@ -9,8 +11,7 @@
     sealed class CssSupportsRule : CssConditionRule, ICssSupportsRule
     {
         #region Fields
-
-        private String _conditionText;
+        
         private IConditionFunction _condition;
 
         #endregion
@@ -20,6 +21,7 @@
         internal CssSupportsRule(ICssStyleSheet owner)
             : base(owner, CssRuleType.Supports)
         {
+            _condition = new EmptyCondition();
         }
 
         #endregion
@@ -28,25 +30,38 @@
 
         public String ConditionText
         {
-            get { return _conditionText; }
-            set { _conditionText = value; _condition = null; }
+            get { return _condition.ToCss(); }
+            set { SetConditionText(value, throwOnError: true); }
         }
 
         public IConditionFunction Condition
         {
-            get { return _condition ?? (_condition = Parser.ParseCondition(_conditionText)); }
-            set { _condition = value; _conditionText = value.ToCss(); }
+            get { return _condition; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetConditionText(String value, Boolean throwOnError)
+        {
+            var condition = ConditionParser.Parse(value);
+            
+            if (condition == null)
+            {
+                if (throwOnError)
+                    throw new DomException(DomError.Syntax);
+
+                condition = new EmptyCondition();
+            }
+
+            _condition = condition;
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
             var newRule = (ICssSupportsRule)rule;
-            _conditionText = newRule.ConditionText;
             _condition = newRule.Condition;
         }
 

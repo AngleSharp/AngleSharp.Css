@@ -8,7 +8,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using static ValueConverters;
 
     abstract class GradientConverter<T> : IValueConverter
         where T : struct
@@ -146,7 +145,7 @@
             var ident = source.ParseIdent();
             var angle = default(Angle?);
 
-            if (ident != null && ident.Is(CssKeywords.To))
+            if (ident != null && ident.Isi(CssKeywords.To))
             {
                 var tmp = Angle.Zero;
                 source.SkipSpacesAndComments();
@@ -197,17 +196,9 @@
 
     sealed class RadialGradientConverter : GradientConverter<RadialGradientConverter.Options>
     {
-        private readonly IValueConverter _initialConverter;
-
         public RadialGradientConverter(Boolean repeating)
             : base(repeating)
         {
-            var position = PointConverter.StartsWithKeyword(CssKeywords.At).Option(Point.Center);
-            var circle = WithOrder(WithAny(Assign(CssKeywords.Circle, true).Option(true), LengthConverter.Option()), position);
-            var ellipse = WithOrder(WithAny(Assign(CssKeywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).Option()), position);
-            var extents = WithOrder(WithAny(Toggle(CssKeywords.Circle, CssKeywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
-
-            _initialConverter = Or(circle, ellipse, extents);
         }
 
         protected override Options? ConvertInitial(StringSource source)
@@ -217,21 +208,93 @@
             var width = Length.Full;
             var height = Length.Full;
             var size = RadialGradient.SizeMode.None;
-            var value = _initialConverter.Convert(source);
 
-            if (value != null)
+            var ident = source.ParseIdent();
+
+            if (ident != null && ident.Isi(CssKeywords.Circle))
             {
-                return new Options
+                circle = true;
+                source.SkipSpacesAndComments();
+                var radius = source.ToLength();
+
+                if (radius.HasValue)
                 {
-                    Circle = circle,
-                    Center = center,
-                    Width = width,
-                    Height = height,
-                    Size = size
-                };
+                    width = height = radius.Value;
+                }
+                else
+                {
+                    var extend = ToSizeMode(source);
+
+                    if (!extend.HasValue)
+                    {
+                        return null;
+                    }
+
+                    size = extend.Value;
+                }
+
+                source.SkipSpacesAndComments();
+                ident = source.ParseIdent();
+            }
+            else if (ident != null && ident.Isi(CssKeywords.Ellipse))
+            {
+                circle = false;
+                source.SkipSpacesAndComments();
+                var el = source.ToDistance();
+                source.SkipSpacesAndComments();
+                var es = source.ToDistance();
+
+                if (el.HasValue && es.HasValue)
+                {
+                    width = el.Value;
+                    height = es.Value;
+                }
+                else if (!el.HasValue && !es.HasValue)
+                {
+                    return null;
+                }
+                else
+                {
+                    var extend = ToSizeMode(source);
+
+                    if (!extend.HasValue)
+                    {
+                        return null;
+                    }
+
+                    size = extend.Value;
+                }
+
+                source.SkipSpacesAndComments();
+                ident = source.ParseIdent();
             }
 
-            return null;
+            if (ident != null)
+            {
+                if (!ident.Isi(CssKeywords.At))
+                {
+                    return null;
+                }
+
+                source.SkipSpacesAndComments();
+                var pt = source.ToPoint();
+
+                if (!pt.HasValue)
+                {
+                    return null;
+                }
+
+                center = pt.Value;
+            }
+
+            return new Options
+            {
+                Circle = circle,
+                Center = center,
+                Width = width,
+                Height = height,
+                Size = size
+            };
         }
 
         protected override IGradient CreateGradient(Options? initial, Boolean repeating, GradientStop[] stops)
@@ -251,6 +314,19 @@
             public Length Width;
             public Length Height;
             public RadialGradient.SizeMode Size;
+        }
+
+        private static RadialGradient.SizeMode? ToSizeMode(StringSource source)
+        {
+            var ident = source.ParseIdent();
+            var result = RadialGradient.SizeMode.None;
+
+            if (ident != null && Map.RadialGradientSizeModes.TryGetValue(ident, out result))
+            {
+                return result;
+            }
+
+            return null;
         }
     }
 }

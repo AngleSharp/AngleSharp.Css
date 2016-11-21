@@ -322,36 +322,19 @@
 
         #region Internal Methods
 
-        internal ICssProperty CreateProperty(String propertyName)
-        {
-            var property = GetProperty(propertyName);
-
-            if (property == null)
-            {
-                var factory = _context.GetFactory<ICssPropertyFactory>();
-                property = factory.Create(propertyName);
-            }
-
-            return property;
-        }
-
         internal ICssProperty GetProperty(String name)
         {
-            return _declarations.Where(m => m.Name.Isi(name)).FirstOrDefault();
-        }
+            for (var i = 0; i < _declarations.Count; i++)
+            {
+                var declaration = _declarations[i];
 
-        internal void SetProperty(ICssProperty property)
-        {
-            SetLonghand(property);
+                if (declaration.Name.Isi(name))
+                {
+                    return declaration;
+                }
+            }
 
-            //if (property is CssShorthandProperty)
-            //{
-            //    SetShorthand((CssShorthandProperty)property);
-            //}
-            //else
-            //{
-            //    SetLonghand(property);
-            //}
+            return null;
         }
 
         internal void SetDeclarations(IEnumerable<ICssProperty> decls)
@@ -367,6 +350,31 @@
         #endregion
 
         #region Helpers
+
+        private ICssProperty CreateProperty(String propertyName)
+        {
+            var property = GetProperty(propertyName);
+
+            if (property == null)
+            {
+                var factory = _context.GetFactory<ICssPropertyFactory>();
+                property = factory.Create(propertyName);
+            }
+
+            return property;
+        }
+
+        private void SetProperty(ICssProperty property)
+        {
+            if (property is CssShorthandProperty)
+            {
+                SetShorthand((CssShorthandProperty)property);
+            }
+            else
+            {
+                SetLonghand(property);
+            }
+        }
 
         private void RemovePropertyByName(String propertyName)
         {

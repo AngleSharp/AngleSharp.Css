@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class MockScriptEngine : IScriptEngine
+    sealed class MockScriptEngine : IScriptingService
     {
         public MockScriptEngine(Action<ScriptOptions> callback, String type = null)
         {
@@ -24,6 +24,11 @@
         {
             get;
             private set;
+        }
+
+        public Boolean SupportsType(String mimeType)
+        {
+            return mimeType.Equals(Type, StringComparison.OrdinalIgnoreCase);
         }
 
         public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)

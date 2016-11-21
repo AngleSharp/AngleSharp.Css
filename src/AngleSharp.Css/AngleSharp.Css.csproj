@@ -92,13 +92,18 @@
     <Compile Include="FeatureValidators\WidthFeatureValidator.cs" />
     <Compile Include="IPseudoElementFactory.cs" />
     <Compile Include="Parser\ColorParser.cs" />
+    <Compile Include="Parser\ConditionParser.cs" />
     <Compile Include="Parser\CssParserOptions.cs" />
     <Compile Include="Parser\CssTokenExtensions.cs" />
     <Compile Include="Parser\CssTokenizer.cs" />
     <Compile Include="Parser\CssTokenType.cs" />
+    <Compile Include="Parser\DocumentFunctionParser.cs" />
     <Compile Include="Parser\ICssParser.cs" />
     <Compile Include="Parser\IdentParser.cs" />
     <Compile Include="Parser\IntegerParser.cs" />
+    <Compile Include="Parser\KeyframeParser.cs" />
+    <Compile Include="Parser\MediaParser.cs" />
+    <Compile Include="Parser\MediumParser.cs" />
     <Compile Include="Parser\NumberParser.cs" />
     <Compile Include="Parser\StringParser.cs" />
     <Compile Include="Parser\StringSourceExtensions.cs" />
@@ -112,7 +117,7 @@
     <Compile Include="TaskEx.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Values\Colors.cs" />
-    <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="CssConfigurationExtensions.cs" />
     <Compile Include="Dom\AnimationDirection.cs" />
     <Compile Include="Dom\AnimationFillStyle.cs" />
     <Compile Include="Dom\BackgroundAttachment.cs" />
@@ -167,7 +172,7 @@
     <Compile Include="Dom\Internal\CssRule.cs" />
     <Compile Include="Dom\Internal\CssRuleList.cs" />
     <Compile Include="Dom\Internal\CssStyleDeclaration.cs" />
-    <Compile Include="CssStyleEngine.cs" />
+    <Compile Include="CssStylingService.cs" />
     <Compile Include="Dom\Internal\CssStyleSheet.cs" />
     <Compile Include="Dom\Internal\DocumentFunction.cs" />
     <Compile Include="Dom\Internal\DocumentFunctions\DomainFunction.cs" />

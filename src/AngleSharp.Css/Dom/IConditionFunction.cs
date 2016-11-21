@@ -11,6 +11,6 @@
         /// Evaluates the condition and returns the result.
         /// </summary>
         /// <returns>True if the condition is supported, else false.</returns>
-        Boolean Check();
+        Boolean Check(IRenderDevice device);
     }
 }

@@ -62,20 +62,6 @@
             SetValue(propertyName, propertyValue);
         }
 
-        public void SetProperty(ICssProperty property)
-        {
-            for (var i = 0; i < _declarations.Count; i++)
-            {
-                if (_declarations[i].Name.Is(property.Name))
-                {
-                    _declarations[i] = property;
-                    return;
-                }
-            }
-            
-            _declarations.Add(property);
-        }
-
         public String RemoveProperty(String propertyName)
         {
             for (var i = 0; i < _declarations.Count; i++)
@@ -90,11 +76,6 @@
             }
 
             return null;
-        }
-
-        public ICssProperty CreateProperty(String name)
-        {
-            return CreateNewProperty(name);
         }
 
         public IEnumerator<ICssProperty> GetEnumerator()

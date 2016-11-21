@@ -9,6 +9,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -144,39 +145,11 @@
             return Parse(ruleText, (b, t) => b.CreateRule(owner, t));
         }
 
-        public IDocumentFunctions ParseDocumentFunctions(String content)
-        {
-            return Parse(content, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
-        }
-
-        public ICssMedium ParseMedium(String mediumText)
-        {
-            var medium = new CssMedium();
-            Parse(mediumText, (b, t) => Tuple.Create(b.CreateMedium(medium, ref t), t));
-            return medium;
-        }
-
-        public IMediaList ParseMedia(String mediaText)
-        {
-            var media = ParseMediaList(mediaText);
-            return new MediaList(_context, media);
-        }
-
         public ICssKeyframeRule ParseKeyframeRule(ICssStyleSheet owner, String ruleText)
         {
             var rule = new CssKeyframeRule(owner);
             Parse(ruleText, (b, t) => b.CreateKeyframeRule(rule, t));
             return rule;
-        }
-
-        public IKeyframeSelector ParseKeyframeSelector(String selectorText)
-        {
-            return Parse(selectorText, (b, t) => b.CreateKeyframeSelector(ref t));
-        }
-
-        public IConditionFunction ParseCondition(String conditionText)
-        {
-            return Parse(conditionText, (b, t) => b.CreateCondition(ref t));
         }
 
         public ICssStyleDeclaration ParseDeclaration(String declarationText)
@@ -197,7 +170,12 @@
 
         internal ICssProperty ParseProperty(String propertyText)
         {
-            return Parse(propertyText, (b, t) => Tuple.Create(b.CreateDeclaration(ref t), t));
+            var style = new CssStyleDeclaration(_context);
+            return Parse(propertyText, (b, t) =>
+            {
+                b.CreateDeclarationWith(style, ref t);
+                return Tuple.Create(style.Declarations.FirstOrDefault(), t);
+            });
         }
 
         internal ICssStyleSheet ParseStylesheet(TextSource source)
@@ -260,11 +238,6 @@
 
             await TaskEx.WhenAll(tasks).ConfigureAwait(false);
             return sheet;
-        }
-
-        internal List<CssMedium> ParseMediaList(String mediaText)
-        {
-            return Parse(mediaText, (b, t) => Tuple.Create(b.CreateMedia(ref t), t));
         }
 
         #endregion

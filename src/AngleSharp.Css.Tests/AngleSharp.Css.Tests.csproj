@@ -52,9 +52,9 @@
     <Compile Include="Extensions\AsyncParsing.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\MemoryStreamExtensions.cs" />
+    <Compile Include="Mocks\MockRenderDevice.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Mocks\MockScriptEngine.cs" />
-    <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\PageRequester.cs" />
     <Compile Include="Mocks\SiteMapping.cs" />
     <Compile Include="Mocks\TestServerRequester.cs" />

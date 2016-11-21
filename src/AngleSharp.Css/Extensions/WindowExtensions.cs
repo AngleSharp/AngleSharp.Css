@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
-    using AngleSharp.Css.Parser;
     using System;
 
     /// <summary>
@@ -22,9 +21,7 @@
         public static IMediaQueryList MatchMedia(this IWindow window, String mediaText)
         {
             var document = window.Document;
-            var context = document.Context;
-            var parser = context.GetService<ICssParser>();
-            var media = parser.ParseMedia(mediaText);
+            var media = new MediaList(document.Context) { MediaText = mediaText };
             return new CssMediaQueryList(window, media);
         }
 

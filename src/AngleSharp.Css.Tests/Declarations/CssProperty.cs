@@ -1217,21 +1217,17 @@
         [Test]
         public void CssPropertyFactoryCalls()
         {
-            var decl = ParseDeclarations(String.Empty);
-            var invalid = decl.CreateProperty("invalid");
-            var border = decl.CreateProperty("border");
-            var color = decl.CreateProperty("color");
-            decl.SetProperty(color);
-            var colorAgain = decl.CreateProperty("color");
+            var factory = new DefaultCssPropertyFactory();
+            var invalid = factory.Create("invalid");
+            var border = factory.Create("border");
+            var color = factory.Create("color");
 
             Assert.IsNull(invalid);
             Assert.IsNotNull(border);
             Assert.IsNotNull(color);
-            Assert.IsNotNull(colorAgain);
 
             Assert.IsInstanceOf<CssBorderProperty>(border);
             Assert.IsInstanceOf<CssColorProperty>(color);
-            Assert.AreEqual(color, colorAgain);
         }
 
         [Test]

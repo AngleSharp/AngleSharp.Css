@@ -3,7 +3,6 @@
     using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Io;
-    using AngleSharp.Scripting;
     using NUnit.Framework;
     using System;
 
@@ -32,13 +31,6 @@
                 setup.IsNavigationEnabled = enableNavigation;
                 setup.IsResourceLoadingEnabled = enableResourceLoading;
             }, PageRequester.All);
-        }
-
-        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
-            where T : IScriptEngine
-        {
-            var service = new MockScriptService<T>(scripting);
-            return config.With(service);
         }
     }
 }

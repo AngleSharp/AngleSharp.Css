@@ -50,8 +50,7 @@
         {
             base.ReplaceWith(rule);
             var newRule = (ICssImportRule)rule;
-            _media.Clear();
-            _media.AddRange(newRule.Media);
+            _media.Replace(newRule.Media);
         }
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)

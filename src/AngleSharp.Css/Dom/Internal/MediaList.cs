@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
-    using Parser;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
 
     /// <summary>
     /// Represents a list of media elements.
@@ -23,14 +22,9 @@
         #region ctor
 
         internal MediaList(IBrowsingContext context)
-            : this(context, Enumerable.Empty<ICssMedium>())
-        {
-        }
-
-        internal MediaList(IBrowsingContext context, IEnumerable<ICssMedium> media)
         {
             _context = context;
-            _media = new List<ICssMedium>(media);
+            _media = new List<ICssMedium>();
         }
 
         #endregion
@@ -59,27 +53,36 @@
         public String MediaText
         {
             get { return this.ToCss(); }
-            set
-            {
-                _media.Clear();
-
-                foreach (var medium in Parser.ParseMedia(value))
-                {
-                    if (medium == null)
-                        throw new DomException(DomError.Syntax);
-
-                    _media.Add(medium);
-                }
-            }
+            set { SetMediaText(value, throwOnError: true); }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetMediaText(String value, Boolean throwOnError)
+        {
+            _media.Clear();
+            var media = MediaParser.Parse(value);
+
+            if (media != null)
+            {
+                _media.AddRange(media);
+            }
+            else if (throwOnError)
+            {
+                throw new DomException(DomError.Syntax);
+            }
+
+            if (_media.Count == 0)
+            {
+                _media.Add(new CssMedium(CssKeywords.All, inverse: true, exclusive: false));
+            }
+        }
+
         public void Add(String newMedium)
         {
-            var medium = Parser.ParseMedium(newMedium);
+            var medium = MediumParser.Parse(newMedium);
 
             if (medium == null)
                 throw new DomException(DomError.Syntax);
@@ -87,24 +90,9 @@
             _media.Add(medium);
         }
 
-        public void Add(ICssMedium medium)
-        {
-            _media.Add(medium);
-        }
-
-        public void Clear()
-        {
-            _media.Clear();
-        }
-
-        public void AddRange(IEnumerable<ICssMedium> media)
-        {
-            _media.AddRange(media);
-        }
-
         public void Remove(String oldMedium)
         {
-            var medium = Parser.ParseMedium(oldMedium);
+            var medium = MediumParser.Parse(oldMedium);
 
             if (medium == null)
                 throw new DomException(DomError.Syntax);
@@ -121,9 +109,10 @@
             throw new DomException(DomError.NotFound);
         }
 
-        public void Remove(ICssMedium medium)
+        public void Replace(IEnumerable<ICssMedium> media)
         {
-            _media.Remove(medium);
+            _media.Clear();
+            _media.AddRange(media);
         }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)

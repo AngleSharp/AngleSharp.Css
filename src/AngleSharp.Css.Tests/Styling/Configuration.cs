@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Io;
     using NUnit.Framework;
     using System.Linq;
 
@@ -13,11 +12,9 @@
         {
             var config = new Configuration().WithCss();
             var context = BrowsingContext.New(config);
-            var provider = context.GetProvider<IStylingProvider>();
-            Assert.IsNotNull(provider);
-            var engine = provider.GetEngine(MimeTypeNames.Css);
-            Assert.IsNotNull(engine);
-            Assert.IsInstanceOf<CssStyleEngine>(engine);
+            var service = context.GetService<IStylingService>();
+            Assert.IsNotNull(service);
+            Assert.IsInstanceOf<CssStylingService>(service);
         }
 
         [Test]
@@ -32,10 +29,10 @@
         [Test]
         public void ObtainDefaultSheet()
         {
-            var engine = new CssStyleEngine();
-            Assert.IsNotNull(engine.Default);
-            Assert.AreEqual("text/css", engine.Type);
-            var sheet = engine.Default as ICssStyleSheet;
+            var service = new CssStylingService() as ICssStylingService;
+            Assert.IsNotNull(service.Default);
+            Assert.IsTrue(service.SupportsType("text/css"));
+            var sheet = service.Default as ICssStyleSheet;
             Assert.IsNotNull(sheet);
             Assert.AreEqual(49, sheet.Rules.Length);
         }

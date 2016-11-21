@@ -125,6 +125,84 @@
             return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
         }
 
+        public static Point? ToPoint(this StringSource str)
+        {
+            var x = new Length(50f, Length.Unit.Percent);
+            var y = new Length(50f, Length.Unit.Percent);
+            var l = str.ParseIdent();
+            str.SkipSpacesAndComments();
+            var r = str.ParseIdent();
+
+            if (l != null && r != null)
+            {
+                if (r.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center) &&
+                    l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                {
+                    var t = l;
+                    l = r;
+                    r = t;
+                }
+
+                if (l.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center) &&
+                    r.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                {
+                    x = KeywordToLength(l).Value;
+                    y = KeywordToLength(l).Value;
+                    return new Point(x, y);
+                }
+            }
+            else if (l != null)
+            {
+                var s = str.ToDistance();
+
+                if (l.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center))
+                {
+                    x = KeywordToLength(l).Value;
+                    return new Point(x, s.HasValue ? s.Value : y);
+                }
+                else if (l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom))
+                {
+                    y = KeywordToLength(l).Value;
+                    return new Point(s.HasValue ? s.Value : x, y);
+                }
+            }
+            else
+            {
+                var f = str.ToDistance();
+                str.SkipSpacesAndComments();
+                var s = str.ToDistance();
+
+                if (f.HasValue && s.HasValue)
+                {
+                    x = f.Value;
+                    y = s.Value;
+                    return new Point(x, y);
+                }
+                else if (f.HasValue)
+                {
+                    r = str.ParseIdent();
+
+                    if (r == null)
+                    {
+                        x = f.Value;
+                        return new Point(x, y);
+                    }
+                    else if (r.IsOneOf(CssKeywords.Left, CssKeywords.Right))
+                    {
+                        x = KeywordToLength(r).Value;
+                        return new Point(x, f.HasValue ? f.Value : y);
+                    }
+                    else if (l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                    {
+                        y = KeywordToLength(l).Value;
+                        return new Point(f.HasValue ? f.Value : x, y);
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public static Angle? ToAngle(this StringSource str)
         {
             var test = str.ParseUnit();
@@ -276,6 +354,24 @@
             return value == 100 || value == 200 || value == 300 || value == 400 ||
                    value == 500 || value == 600 || value == 700 || value == 800 ||
                    value == 900;
+        }
+
+        private static Length? KeywordToLength(String keyword)
+        {
+            if (keyword.IsOneOf(CssKeywords.Left, CssKeywords.Top))
+            {
+                return new Length(0f, Length.Unit.Percent);
+            }
+            else if (keyword.IsOneOf(CssKeywords.Right, CssKeywords.Bottom))
+            {
+                return new Length(100f, Length.Unit.Percent);
+            }
+            else if (keyword.Is(CssKeywords.Center))
+            {
+                return new Length(50f, Length.Unit.Percent);
+            }
+
+            return null;
         }
     }
 }

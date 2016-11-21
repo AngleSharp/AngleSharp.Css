@@ -58,8 +58,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssImportRule)rule;
-            _media.Clear();
-            _media.AddRange(newRule.Media);
+            _media.Replace(newRule.Media);
             _href = newRule.Href;
             _styleSheet = newRule.Sheet;
         }

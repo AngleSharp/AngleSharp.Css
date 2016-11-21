@@ -5,9 +5,9 @@
 
     sealed class EmptyCondition : IConditionFunction
     {
-        public Boolean Check()
+        public Boolean Check(IRenderDevice device)
         {
-            return true;
+            return false;
         }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)

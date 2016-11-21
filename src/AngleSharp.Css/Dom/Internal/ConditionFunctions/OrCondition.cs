@@ -14,11 +14,11 @@
             _conditions = conditions.ToArray();
         }
 
-        public Boolean Check()
+        public Boolean Check(IRenderDevice device)
         {
             foreach (var condition in _conditions)
             {
-                if (condition.Check())
+                if (condition.Check(device))
                 {
                     return true;
                 }

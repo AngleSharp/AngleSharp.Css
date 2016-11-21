@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,22 +12,22 @@
     {
         #region Fields
 
-        private readonly List<String> _stops;
+        private readonly List<Percent> _stops;
 
         #endregion
 
         #region ctor
 
-        public KeyframeSelector(IEnumerable<String> stops)
+        public KeyframeSelector(List<Percent> stops)
         {
-            _stops = new List<String>(stops);
+            _stops = stops;
         }
 
         #endregion
 
         #region Properties
 
-        public IEnumerable<String> Stops
+        public IEnumerable<Percent> Stops
         {
             get { return _stops; }
         }

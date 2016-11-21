@@ -19,6 +19,60 @@
             return String.Empty;
         }
 
+        public static String TakeUntilClosed(this StringSource source)
+        {
+            var start = source.Index;
+            var open = 1;
+            var current = source.Current;
+            var lastNonWhitespace = start;
+
+            while (!source.IsDone)
+            {
+                if (current == Symbols.RoundBracketOpen)
+                {
+                    open++;
+                }
+                else if (current == Symbols.RoundBracketClose && --open == 0)
+                {
+                    break;
+                }
+                else if (current == Symbols.Solidus && source.Peek() == Symbols.Asterisk)
+                {
+                    source.Next(2);
+                    current = source.SkipCssComment();
+                    continue;
+                }
+                else if (current.IsOneOf(Symbols.SingleQuote, Symbols.DoubleQuote))
+                {
+                    source.ParseString();
+                    current = source.Current;
+                    lastNonWhitespace = source.Index;
+                    continue;
+                }
+                else if (current == Symbols.ReverseSolidus && source.IsValidEscape())
+                {
+                    source.ConsumeEscape();
+                    current = source.Current;
+                    lastNonWhitespace = source.Index;
+                    continue;
+                }
+                else if (current.IsSpaceCharacter())
+                {
+                    current = source.SkipSpacesAndComments();
+                    continue;
+                }
+
+                current = source.Next();
+                lastNonWhitespace = source.Index;
+            }
+
+            var end = source.Index;
+            source.BackTo(lastNonWhitespace);
+            var content = source.Substring(start);
+            source.NextTo(end);
+            return content;
+        }
+
         public static Char SkipSpacesAndComments(this StringSource source)
         {
             while (true)
@@ -50,6 +104,20 @@
             while (diff > 0)
             {
                 current = source.Back();
+                diff--;
+            }
+
+            return current;
+        }
+
+        public static Char NextTo(this StringSource source, Int32 index)
+        {
+            var diff = index - source.Index;
+            var current = Symbols.Null;
+
+            while (diff > 0)
+            {
+                current = source.Next();
                 diff--;
             }
 

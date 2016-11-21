@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Text;
 
     /// <summary>
     /// Represents a radial gradient:
@@ -122,15 +122,38 @@
 
             if (!isDefault)
             {
+                var size = String.Empty;
+
+                if (_sizeMode != SizeMode.None)
+                {
+                    foreach (var pair in Map.RadialGradientSizeModes)
+                    {
+                        if (pair.Value == _sizeMode)
+                        {
+                            size = pair.Key;
+                            break;
+                        }
+                    }
+                }
+                else if (_circle)
+                {
+                    size = _width.ToString();
+                }
+                else
+                {
+                    size = String.Concat(_width.ToString(), " ", _height.ToString());
+                }
+
                 var parts = new[] 
                 {
                     _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
+                    size,
                     CssKeywords.At,
                     _center.ToString()
                 };
                 args[0] = String.Join(" ", parts);
             }
-
+            
             for (var i = 0; i < _stops.Length; i++)
             {
                 args[offset++] = _stops[i].ToString();

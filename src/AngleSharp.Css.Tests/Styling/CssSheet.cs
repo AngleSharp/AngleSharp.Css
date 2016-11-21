@@ -173,7 +173,7 @@ h1 {
             Assert.AreEqual(1, media.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(media.Rules[0]);
             var p = media.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p::before", p.SelectorText);
+            Assert.AreEqual("p:before", p.SelectorText);
             Assert.AreEqual("\"Hello\"", p.Style.GetContent());
         }
 
@@ -1027,7 +1027,7 @@ font-weight:bold;}";
                 //IsStoringTrivia = true,
                 IsToleratingInvalidValues = true
             });
-            var source = CssStyleEngine.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
+            var source = CssStylingService.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
             Assert.Inconclusive();
             //var sheet = parser.ParseStylesheet(source);
             //var roundtrip = sheet.SourceCode.Text;

@@ -12,7 +12,7 @@
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
     /// </summary>
-    public class CssStyleEngine : ICssStyleEngine
+    public class CssStylingService : ICssStylingService
     {
         #region Fields
 
@@ -21,14 +21,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the type for the CSS style engine.
-        /// </summary>
-        public String Type
-        {
-            get { return MimeTypeNames.Css; }
-        }
 
         /// <summary>
         /// Gets the default stylesheet as specified by the W3C:
@@ -42,6 +34,11 @@
         #endregion
 
         #region Methods
+
+        Boolean IStylingService.SupportsType(String mimeType)
+        {
+            return mimeType.Isi(MimeTypeNames.Css);
+        }
 
         /// <summary>
         /// Sets a new default stylesheet to use.

@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the aggregation of the document functions.
     /// </summary>
-    public interface IDocumentFunctions : IEnumerable<IDocumentFunction>
+    public interface IDocumentFunctions : IEnumerable<IDocumentFunction>, IStyleFormattable
     {
         /// <summary>
         /// Gets the number of contained functions.

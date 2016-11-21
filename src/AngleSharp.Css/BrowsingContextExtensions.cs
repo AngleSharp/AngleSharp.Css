@@ -15,17 +15,17 @@
         public static async Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element, CancellationToken cancel)
         {
             var loader = context.GetService<IResourceLoader>();
+            var service = context.GetCssStyling();
 
-            if (loader != null)
+            if (loader != null && service != null)
             {
-                var engine = context.GetCssStyleEngine();
                 var request = element.CreateRequestFor(address);
                 var download = loader.FetchAsync(request);
 
                 using (var response = await download.Task.ConfigureAwait(false))
                 {
                     var options = new StyleOptions(context) { Element = element };
-                    return await engine.ParseStylesheetAsync(response, options, cancel).ConfigureAwait(false);
+                    return await service.ParseStylesheetAsync(response, options, cancel).ConfigureAwait(false);
                 }
             }
 

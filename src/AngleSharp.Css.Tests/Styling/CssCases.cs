@@ -901,7 +901,7 @@ tobi loki jane {
 			Assert.AreEqual(1, sheet.Rules.Length);
 
             Assert.AreEqual(@"p[qwe=""a\"",b""]", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"red", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
+            Assert.AreEqual(@"rgba(255, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
 		}
 
 		[Test]

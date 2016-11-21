@@ -105,7 +105,7 @@
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0 3px 0 rgb(178, 169, 143), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", concrete.Value);
+            Assert.AreEqual("0 3px 0 rgba(178, 169, 143, 1), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", concrete.Value);
         }
 
         [Test]
@@ -119,7 +119,7 @@
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("4px 3px 0 rgb(255, 255, 255), 9px 8px 0 rgba(0, 0, 0, 0.15)", concrete.Value);
+            Assert.AreEqual("4px 3px 0 rgba(255, 255, 255, 1), 9px 8px 0 rgba(0, 0, 0, 0.15)", concrete.Value);
         }
 
         [Test]
@@ -256,7 +256,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -270,7 +270,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]

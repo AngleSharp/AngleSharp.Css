@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Parser;
     using System;
     using System.IO;
 
@@ -38,7 +39,7 @@
 
         public IKeyframeSelector Key
         {
-            get { return _selector ?? (_selector = Parser.ParseKeyframeSelector(_selectorText)); }
+            get { return _selector ?? (_selector = KeyframeParser.Parse(_selectorText)); }
             set { _selector = value; _selectorText = value.Text; }
         }
 
