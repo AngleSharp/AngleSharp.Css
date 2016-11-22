@@ -458,7 +458,7 @@
                     var important = false;
                     token = NextToken();
                     CollectTrivia(ref token);
-                    var value = CreateValue(ref token, Symbols.CurlyBracketClose, out important);
+                    var value = CreateValue(ref token, out important);
 
                     if (String.IsNullOrEmpty(value))
                     {
@@ -606,17 +606,17 @@
 
         #region Fill Inner
 
-        private String CreateValue(ref CssToken token, Char closing, out Boolean important)
+        private String CreateValue(ref CssToken token, out Boolean important)
         {
             var keyword = "!important";
-            var value = _tokenizer.ContentTo(ref token, ';', closing);
+            var value = _tokenizer.ContentTo(ref token);
             important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
             return important ? value.Substring(0, value.Length - keyword.Length).Trim() : value;
         }
 
         private String GetArgument(ref CssToken token)
         {
-            return _tokenizer.ContentTo(ref token, '{');
+            return _tokenizer.ContentTo(ref token);
         }
 
         private String GetRuleName(ref CssToken token)

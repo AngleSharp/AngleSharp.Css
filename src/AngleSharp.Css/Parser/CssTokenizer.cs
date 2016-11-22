@@ -55,27 +55,16 @@
         }
 
         /// <summary>
-        /// Gets the trimmed content until one of the chars is hit.
+        /// Gets the trimmed content until either '}' or ';' is hit.
         /// </summary>
         /// <returns>The trimmed string.</returns>
-        public String ContentTo(ref CssToken token, Char a, Char b = Symbols.EndOfFile)
+        public String ContentTo(ref CssToken token)
         {
             var start = token.Position.Position;
-            var open = 0;
 
-            while (Current != Symbols.EndOfFile && (open > 0 || !Current.IsOneOf(a, b)))
+            while (!Current.IsOneOf(Symbols.EndOfFile, Symbols.Semicolon, Symbols.CurlyBracketOpen, Symbols.CurlyBracketClose))
             {
-                if (token.Type == CssTokenType.RoundBracketClose)
-                {
-                    open--;
-                }
-
                 token = Get();
-
-                if (token.Is(CssTokenType.Function, CssTokenType.RoundBracketOpen))
-                {
-                    open++;
-                }
             }
 
             var end = InsertionPoint;

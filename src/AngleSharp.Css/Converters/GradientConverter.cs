@@ -208,63 +208,100 @@
             var width = Length.Full;
             var height = Length.Full;
             var size = RadialGradient.SizeMode.None;
-
+            var redo = false;
             var ident = source.ParseIdent();
 
-            if (ident != null && ident.Isi(CssKeywords.Circle))
+            if (ident != null)
             {
-                circle = true;
-                source.SkipSpacesAndComments();
-                var radius = source.ToLength();
-
-                if (radius.HasValue)
+                if (ident.Isi(CssKeywords.Circle))
                 {
-                    width = height = radius.Value;
+                    circle = true;
+                    source.SkipSpacesAndComments();
+                    var radius = source.ToLength();
+
+                    if (radius.HasValue)
+                    {
+                        width = height = radius.Value;
+                    }
+                    else
+                    {
+                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                    }
+
+                    redo = true;
                 }
-                else
+                else if (ident.Isi(CssKeywords.Ellipse))
                 {
-                    var extend = ToSizeMode(source);
+                    circle = false;
+                    source.SkipSpacesAndComments();
+                    var el = source.ToDistance();
+                    source.SkipSpacesAndComments();
+                    var es = source.ToDistance();
 
-                    if (!extend.HasValue)
+                    if (el.HasValue && es.HasValue)
+                    {
+                        width = el.Value;
+                        height = es.Value;
+                    }
+                    else if (el.HasValue != es.HasValue)
                     {
                         return null;
                     }
+                    else
+                    {
+                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                    }
 
-                    size = extend.Value;
+                    redo = true;
                 }
+                else if (Map.RadialGradientSizeModes.ContainsKey(ident))
+                {
+                    size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                    source.SkipSpacesAndComments();
+                    ident = source.ParseIdent();
 
-                source.SkipSpacesAndComments();
-                ident = source.ParseIdent();
+                    if (ident != null)
+                    {
+                        if (ident.Isi(CssKeywords.Circle))
+                        {
+                            circle = true;
+                            redo = true;
+                        }
+                        else if (ident.Isi(CssKeywords.Ellipse))
+                        {
+                            circle = false;
+                            redo = true;
+                        }
+                    }
+                }
             }
-            else if (ident != null && ident.Isi(CssKeywords.Ellipse))
+            else
             {
-                circle = false;
-                source.SkipSpacesAndComments();
                 var el = source.ToDistance();
                 source.SkipSpacesAndComments();
                 var es = source.ToDistance();
 
                 if (el.HasValue && es.HasValue)
                 {
+                    circle = false;
                     width = el.Value;
                     height = es.Value;
                 }
-                else if (!el.HasValue && !es.HasValue)
+                else if (el.HasValue)
                 {
-                    return null;
+                    circle = true;
+                    width = el.Value;
                 }
                 else
                 {
-                    var extend = ToSizeMode(source);
-
-                    if (!extend.HasValue)
-                    {
-                        return null;
-                    }
-
-                    size = extend.Value;
+                    return null;
                 }
 
+                redo = true;
+            }
+
+            if (redo)
+            {
                 source.SkipSpacesAndComments();
                 ident = source.ParseIdent();
             }
@@ -318,6 +355,7 @@
 
         private static RadialGradient.SizeMode? ToSizeMode(StringSource source)
         {
+            var pos = source.Index;
             var ident = source.ParseIdent();
             var result = RadialGradient.SizeMode.None;
 
@@ -326,6 +364,7 @@
                 return result;
             }
 
+            source.BackTo(pos);
             return null;
         }
     }
