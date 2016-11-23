@@ -366,14 +366,14 @@
 
         private void SetProperty(ICssProperty property)
         {
-            if (property is CssShorthandProperty)
-            {
-                SetShorthand((CssShorthandProperty)property);
-            }
-            else
-            {
+            //if (property is CssShorthandProperty)
+            //{
+            //    SetShorthand((CssShorthandProperty)property);
+            //}
+            //else
+            //{
                 SetLonghand(property);
-            }
+            //}
         }
 
         private void RemovePropertyByName(String propertyName)

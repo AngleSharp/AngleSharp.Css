@@ -24,6 +24,21 @@
         };
 
         /// <summary>
+        /// Contains the string-Angle mapping for linear-gradients.s
+        /// </summary>
+        public static readonly Dictionary<String, Angle> GradientAngles = new Dictionary<String, Angle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Left, new Angle(270f, Angle.Unit.Deg) },
+            { CssKeywords.Top, new Angle(0, Angle.Unit.Deg) },
+            { CssKeywords.Right, new Angle(90f, Angle.Unit.Deg) },
+            { CssKeywords.Bottom, new Angle(180f, Angle.Unit.Deg) },
+            { String.Concat(CssKeywords.Left, " ", CssKeywords.Top), new Angle(315f, Angle.Unit.Deg) },
+            { String.Concat(CssKeywords.Left, " ", CssKeywords.Bottom), new Angle(225f, Angle.Unit.Deg) },
+            { String.Concat(CssKeywords.Right, " ", CssKeywords.Top), new Angle(45f, Angle.Unit.Deg) },
+            { String.Concat(CssKeywords.Right, " " + CssKeywords.Bottom), new Angle(135f, Angle.Unit.Deg) },
+        };
+
+        /// <summary>
         /// Contains the string-TextTransform mapping.
         /// </summary>
         public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase)

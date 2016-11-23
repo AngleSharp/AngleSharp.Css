@@ -46,7 +46,7 @@
             var concrete = (CssBorderImageSourceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("linear-gradient(to top, rgb(255, 0, 0), rgb(255, 255, 0))", concrete.Value);
+            Assert.AreEqual("linear-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1))", concrete.Value);
         }
 
         [Test]

@@ -10,7 +10,8 @@
     public interface ICssKeyframeRule : ICssRule
     {
         /// <summary>
-        /// Gets or sets the keyframe selector as a comma-separated list of percentage values.
+        /// Gets or sets the keyframe selector as a
+        /// comma-separated list of percentage values.
         /// </summary>
         [DomName("keyText")]
         String KeyText { get; set; }
@@ -22,8 +23,8 @@
         ICssStyleDeclaration Style { get; }
 
         /// <summary>
-        /// Gets or sets the selector for setting the keyframe position.
+        /// Gets the selector for matching the keyframe positions.
         /// </summary>
-        IKeyframeSelector Key { get; set; }
+        IKeyframeSelector Key { get; }
     }
 }

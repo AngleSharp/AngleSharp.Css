@@ -12,7 +12,6 @@
         #region Fields
 
         private readonly CssStyleDeclaration _style;
-        private String _selectorText;
         private IKeyframeSelector _selector;
 
         #endregion
@@ -22,9 +21,7 @@
         internal CssKeyframeRule(ICssStyleSheet owner)
             : base(owner, CssRuleType.Keyframe)
         {
-            _style = new CssStyleDeclaration(owner.Context);
-            _selectorText = CssKeywords.To;
-            _style.SetParent(this);
+            _style = new CssStyleDeclaration(this);
         }
 
         #endregion
@@ -33,14 +30,13 @@
 
         public String KeyText
         {
-            get { return _selectorText; }
-            set { _selectorText = value; _selector = null; }
+            get { return _selector?.ToCss(); }
+            set { _selector = KeyframeParser.Parse(value); }
         }
 
         public IKeyframeSelector Key
         {
-            get { return _selector ?? (_selector = KeyframeParser.Parse(_selectorText)); }
-            set { _selector = value; _selectorText = value.Text; }
+            get { return _selector; }
         }
 
         ICssStyleDeclaration ICssKeyframeRule.Style
@@ -61,13 +57,12 @@
         {
             var newRule = (ICssKeyframeRule)rule;
             _style.SetDeclarations(newRule.Style);
-            _selectorText = newRule.KeyText;
             _selector = newRule.Key;
         }
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(formatter.Style(_selectorText, _style));
+            writer.Write(formatter.Style(KeyText, _style));
         }
 
         #endregion

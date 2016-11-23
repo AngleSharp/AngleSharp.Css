@@ -12,41 +12,46 @@
     abstract class GradientConverter<T> : IValueConverter
         where T : struct
     {
+        private readonly String _fn;
         private readonly Boolean _repeating;
 
-        public GradientConverter(Boolean repeating)
+        public GradientConverter(String fn, Boolean repeating)
         {
+            _fn = fn;
             _repeating = repeating;
         }
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
-            var initial = ConvertInitial(source);
-
-            if (initial.HasValue)
+            if (source.IsFunction(_fn))
             {
-                var current = source.SkipSpacesAndComments();
+                var start = source.Index;
+                var initial = ConvertInitial(source);
 
-                if (current != Symbols.Comma)
+                if (initial.HasValue)
                 {
-                    return null;
+                    var current = source.SkipSpacesAndComments();
+
+                    if (current != Symbols.Comma)
+                    {
+                        return null;
+                    }
+
+                    source.SkipCurrentAndSpaces();
+                }
+                else
+                {
+                    source.BackTo(start);
                 }
 
-                source.SkipCurrentAndSpaces();
-            }
-            else
-            {
-                source.BackTo(start);
-            }
-            
-            var stops = ToGradientStops(source);
+                var stops = ToGradientStops(source);
 
-            if (stops != null && source.Current == Symbols.RoundBracketClose)
-            {
-                var gradient = CreateGradient(initial, _repeating, stops);
-                source.SkipCurrentAndSpaces();
-                return new GradientValue(gradient);
+                if (stops != null && source.Current == Symbols.RoundBracketClose)
+                {
+                    var gradient = CreateGradient(initial, _repeating, stops);
+                    source.SkipCurrentAndSpaces();
+                    return new GradientValue(gradient);
+                }
             }
 
             return null;
@@ -123,29 +128,16 @@
 
     sealed class LinearGradientConverter : GradientConverter<LinearGradientConverter.Options>
     {
-        private static readonly Dictionary<String, Angle> Directions = new Dictionary<String, Angle>(StringComparer.OrdinalIgnoreCase)
-        {
-            { CssKeywords.Left, new Angle(270f, Angle.Unit.Deg) },
-            { CssKeywords.Top, new Angle(0, Angle.Unit.Deg) },
-            { CssKeywords.Right, new Angle(90f, Angle.Unit.Deg) },
-            { CssKeywords.Bottom, new Angle(180f, Angle.Unit.Deg) },
-            { CssKeywords.Left + " " + CssKeywords.Top, new Angle(315f, Angle.Unit.Deg) },
-            { CssKeywords.Left + " " + CssKeywords.Bottom, new Angle(225f, Angle.Unit.Deg) },
-            { CssKeywords.Right + " " + CssKeywords.Top, new Angle(45f, Angle.Unit.Deg) },
-            { CssKeywords.Right + " " + CssKeywords.Bottom, new Angle(135f, Angle.Unit.Deg) },
-        };
-
-        public LinearGradientConverter(Boolean repeating)
-            : base(repeating)
+        public LinearGradientConverter(String fn, Boolean repeating)
+            : base(fn, repeating)
         {
         }
 
         protected override Options? ConvertInitial(StringSource source)
         {
-            var ident = source.ParseIdent();
             var angle = default(Angle?);
 
-            if (ident != null && ident.Isi(CssKeywords.To))
+            if (source.IsIdentifier(CssKeywords.To))
             {
                 var tmp = Angle.Zero;
                 source.SkipSpacesAndComments();
@@ -154,17 +146,23 @@
                 var b = source.ParseIdent();
                 var keyword = default(String);
 
-                if (a!= null && b == null)
+                if (a != null && b != null)
+                {
+                    if (a.IsOneOf(CssKeywords.Top, CssKeywords.Bottom))
+                    {
+                        var t = b;
+                        b = a;
+                        a = t;
+                    }
+
+                    keyword = String.Concat(a, " ", b);
+                }
+                else if (a != null)
                 {
                     keyword = a;
                 }
-                else if (a != null && b != null)
-                {
-                    keyword = b.IsOneOf(CssKeywords.Top, CssKeywords.Bottom) ?
-                        a + " " + b : b + " " + a;
-                }
 
-                if (keyword != null && Directions.TryGetValue(keyword, out tmp))
+                if (keyword != null && Map.GradientAngles.TryGetValue(keyword, out tmp))
                 {
                     angle = tmp;
                 }
@@ -196,8 +194,8 @@
 
     sealed class RadialGradientConverter : GradientConverter<RadialGradientConverter.Options>
     {
-        public RadialGradientConverter(Boolean repeating)
-            : base(repeating)
+        public RadialGradientConverter(String fn, Boolean repeating)
+            : base(fn, repeating)
         {
         }
 

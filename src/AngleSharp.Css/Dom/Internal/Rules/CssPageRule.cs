@@ -11,7 +11,6 @@
         #region Fields
 
         private readonly CssStyleDeclaration _style;
-        private String _selectorText;
         private ISelector _selector;
 
         #endregion
@@ -21,9 +20,7 @@
         internal CssPageRule(ICssStyleSheet owner)
             : base(owner, CssRuleType.Page)
         {
-            _style = new CssStyleDeclaration(owner.Context);
-            _selectorText = "*";
-            _style.SetParent(this);
+            _style = new CssStyleDeclaration(this);
         }
 
         #endregion
@@ -32,14 +29,13 @@
 
         public String SelectorText
         {
-            get { return _selectorText; }
-            set { _selectorText = value; _selector = null; }
+            get { return _selector?.Text; }
+            set { _selector = ParseSelector(value); ; }
         }
 
         public ISelector Selector
         {
-            get { return _selector ?? (_selector = ParseSelector(_selectorText)); }
-            set { _selector = value; _selectorText = value.Text; }
+            get { return _selector; }
         }
 
         ICssStyleDeclaration ICssPageRule.Style
@@ -59,7 +55,6 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssPageRule)rule;
-            _selectorText = newRule.SelectorText;
             _selector = newRule.Selector;
             _style.SetDeclarations(newRule.Style);
         }
@@ -67,7 +62,7 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(_style);
-            writer.Write(formatter.Rule(RuleNames.Page, _selectorText, rules));
+            writer.Write(formatter.Rule(RuleNames.Page, SelectorText, rules));
         }
 
         #endregion

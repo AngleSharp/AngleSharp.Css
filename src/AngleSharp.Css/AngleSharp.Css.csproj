@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Converters\MultipleValueExtensions.cs" />
+    <Compile Include="Converters\ShadowConverter.cs" />
     <Compile Include="DefaultDocumentFunctionFactory.cs" />
     <Compile Include="DefaultPseudoElementFactory.cs" />
     <Compile Include="DeviceCategory.cs" />

@@ -267,8 +267,8 @@
         public static readonly IValueConverter LinearGradientConverter = Construct(() =>
         {
             return Or(
-                Func(FunctionNames.LinearGradient, new LinearGradientConverter(false)),
-                Func(FunctionNames.RepeatingLinearGradient, new LinearGradientConverter(true)));
+                new LinearGradientConverter(FunctionNames.LinearGradient, false),
+                new LinearGradientConverter(FunctionNames.RepeatingLinearGradient, true));
         });
 
         /// <summary>
@@ -278,8 +278,8 @@
         public static readonly IValueConverter RadialGradientConverter = Construct(() =>
         {            
             return Or(
-                Func(FunctionNames.RadialGradient, new RadialGradientConverter(false)),
-                Func(FunctionNames.RepeatingRadialGradient, new RadialGradientConverter(true)));
+                new RadialGradientConverter(FunctionNames.RadialGradient, false),
+                new RadialGradientConverter(FunctionNames.RepeatingRadialGradient, true));
         });
 
         /// <summary>
@@ -751,19 +751,11 @@
             IntegerConverter, IntegerConverter.StartsWithDelimiter());
 
         /// <summary>
-        /// Represents a shadow object.
+        /// Represents multiple shadow objects.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
-        public static readonly IValueConverter ShadowConverter = WithAny(
-            Assign(CssKeywords.Inset, true).Option(false), 
-            LengthConverter.Many(2, 4), 
-            CurrentColorConverter.Option(Color.Black));
-
-        /// <summary>
-        /// Represents multiple shadow objects.
-        /// </summary>
         public static readonly IValueConverter MultipleShadowConverter = Or(
-            ShadowConverter.FromList(), 
+            new ShadowConverter().FromList(), 
             None);
 
         /// <summary>

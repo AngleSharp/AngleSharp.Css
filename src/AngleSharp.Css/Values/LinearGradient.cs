@@ -78,7 +78,16 @@
 
             if (!defaultAngle)
             {
-                args[0] = _angle.ToString();
+                foreach (var angle in Map.GradientAngles)
+                {
+                    if (angle.Value == _angle)
+                    {
+                        args[0] = angle.Key;
+                        break;
+                    }
+                }
+
+                args[0] = args[0] ?? _angle.ToString();
             }
 
             for (var i = 0; i < _stops.Length; i++)

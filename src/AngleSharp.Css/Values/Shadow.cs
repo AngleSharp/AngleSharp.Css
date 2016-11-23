@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The shadow class for holding information about
@@ -90,6 +91,44 @@
         public Boolean IsInset
         {
             get { return _inset; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a string representing the point.
+        /// </summary>
+        /// <returns>The string.</returns>
+        public override String ToString()
+        {
+            var parts = new List<String>();
+
+            if (_inset)
+            {
+                parts.Add(CssKeywords.Inset);
+            }
+
+            parts.Add(_offsetX.ToString());
+            parts.Add(_offsetY.ToString());
+
+            if (_blurRadius != Length.Zero)
+            {
+                parts.Add(_blurRadius.ToString());
+            }
+
+            if (_spreadRadius != Length.Zero)
+            {
+                parts.Add(_spreadRadius.ToString());
+            }
+
+            if (_color != Color.Black)
+            {
+                parts.Add(_color.ToString());
+            }
+
+            return String.Join(" ", parts);
         }
 
         #endregion

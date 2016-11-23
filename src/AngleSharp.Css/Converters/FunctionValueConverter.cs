@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
@@ -19,31 +20,13 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var rest = source.Content.Length - source.Index;
-
-            if (rest >= _name.Length + 2)
+            if (source.IsFunction(_name))
             {
-                var length = 0;
-                var current = source.Current;
+                var args = _arguments.Convert(source);
 
-                while (length < _name.Length)
+                if (args != null)
                 {
-                    if (Char.ToLowerInvariant(current) != _name[length])
-                        break;
-
-                    length++;
-                    current = source.Next();
-                }
-
-                if (length == _name.Length && current == Symbols.RoundBracketOpen)
-                {
-                    source.SkipCurrentAndSpaces();
-                    var args = _arguments.Convert(source);
-
-                    if (args != null)
-                    {
-                        return new FunctionValue(_name, args);
-                    }
+                    return new FunctionValue(_name, args);
                 }
             }
 

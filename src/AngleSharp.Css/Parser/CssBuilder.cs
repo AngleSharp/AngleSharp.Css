@@ -444,6 +444,7 @@
         /// </summary>
         public void CreateDeclarationWith(ICssProperties properties, ref CssToken token)
         {
+            CollectTrivia(ref token);
             var start = token.Position;
 
             if (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose, CssTokenType.Colon) &&

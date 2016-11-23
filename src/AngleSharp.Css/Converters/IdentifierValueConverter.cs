@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
@@ -43,8 +44,7 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var ident = source.ParseIdent();
-            return ident != null && ident.Isi(_identifier) ? new IdentifierValue(_identifier, _result) : null;
+            return source.IsIdentifier(_identifier) ? new IdentifierValue(_identifier, _result) : null;
         }
 
         private sealed class IdentifierValue : BaseValue

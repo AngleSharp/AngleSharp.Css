@@ -50,6 +50,48 @@
             return null;
         }
 
+        public static Boolean IsFunction(this StringSource str, String name)
+        {
+            var rest = str.Content.Length - str.Index;
+
+            if (rest >= name.Length + 2)
+            {
+                var length = 0;
+                var current = str.Current;
+
+                while (length < name.Length)
+                {
+                    if (Char.ToLowerInvariant(current) != name[length])
+                        break;
+
+                    length++;
+                    current = str.Next();
+                }
+
+                if (length == name.Length && current == Symbols.RoundBracketOpen)
+                {
+                    str.SkipCurrentAndSpaces();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static Boolean IsIdentifier(this StringSource str, String identifier)
+        {
+            var pos = str.Index;
+            var test = str.ParseIdent();
+            
+            if (test != null && test.Isi(identifier))
+            {
+                return true;
+            }
+
+            str.BackTo(pos);
+            return false;
+        }
+
         public static Boolean IsIdentifier(this StringSource str)
         {
             var test = str.ParseIdent();

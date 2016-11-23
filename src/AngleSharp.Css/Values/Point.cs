@@ -210,7 +210,7 @@
 
         #endregion
 
-        #region String Representation
+        #region Methods
 
         /// <summary>
         /// Returns a string representing the point.

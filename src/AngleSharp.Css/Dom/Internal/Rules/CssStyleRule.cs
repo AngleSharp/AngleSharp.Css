@@ -11,7 +11,6 @@
         #region Fields
 
         private readonly CssStyleDeclaration _style;
-        private String _selectorText;
         private ISelector _selector;
 
         #endregion
@@ -22,7 +21,6 @@
             : base(owner, CssRuleType.Style)
         {
             _style = new CssStyleDeclaration(this);
-            _selectorText = "*";
         }
 
         #endregion
@@ -31,14 +29,13 @@
 
         public ISelector Selector
         {
-            get { return _selector ?? (_selector = ParseSelector(_selectorText)); }
-            set { _selector = value; _selectorText = value?.Text ?? "*"; }
+            get { return _selector; }
         }
 
         public String SelectorText
         {
-            get { return _selectorText; }
-            set { _selectorText = value; _selector = null; }
+            get { return _selector?.Text; }
+            set { _selector = ParseSelector(value); }
         }
 
         ICssStyleDeclaration ICssStyleRule.Style
@@ -58,14 +55,13 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssStyleRule)rule;
-            _selectorText = newRule.SelectorText;
             _selector = newRule.Selector;
             _style.SetDeclarations(newRule.Style);
         }
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(formatter.Style(_selectorText, _style));
+            writer.Write(formatter.Style(SelectorText, _style));
         }
 
         #endregion
