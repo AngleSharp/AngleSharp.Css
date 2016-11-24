@@ -49,6 +49,8 @@
 
                     return Color.FromName(ident);
                 }
+
+                return null;
             }
 
             return Literal(source);
