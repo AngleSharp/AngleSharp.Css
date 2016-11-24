@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Text;
     using System;
     using System.IO;
 
@@ -62,7 +63,16 @@
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(formatter.Constraint(_name, _value));
+            writer.Write(Symbols.RoundBracketOpen);
+            writer.Write(_name);
+
+            if (_value != null)
+            {
+                writer.Write(": ");
+                writer.Write(_value);
+            }
+
+            writer.Write(Symbols.RoundBracketClose);
         }
 
         #endregion

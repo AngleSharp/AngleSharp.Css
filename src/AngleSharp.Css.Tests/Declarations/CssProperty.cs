@@ -394,7 +394,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5px 5px rgba(0, 0, 0, 1)", concrete.Value);
+            Assert.AreEqual("10px 5px 5px", concrete.Value);
         }
 
         [Test]
@@ -478,7 +478,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5px 4px rgba(0, 0, 0, 1)", concrete.Value);
+            Assert.AreEqual("5px 4px", concrete.Value);
         }
 
         [Test]
@@ -492,7 +492,7 @@
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5px 4px 2px rgba(0, 0, 0, 1)", concrete.Value);
+            Assert.AreEqual("5px 4px 2px", concrete.Value);
         }
 
         [Test]

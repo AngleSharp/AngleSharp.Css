@@ -6,7 +6,6 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
 
     /// <summary>
     /// Represents the base class for all style-rule similar rules.
@@ -90,31 +89,12 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = new FormatTransporter(_declarations);
-            var content = formatter.Style(_name, rules);
-            writer.Write(content);
+            writer.Write(formatter.Style(_name, _declarations));
         }
 
         #endregion
 
         #region Helpers
-
-        private struct FormatTransporter : IStyleFormattable
-        {
-            private readonly IEnumerable<ICssProperty> _properties;
-
-            public FormatTransporter(IEnumerable<ICssProperty> properties)
-            {
-                _properties = properties;
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                var properties = _properties.Select(m => m.ToCss(formatter));
-                var content = formatter.Declarations(properties);
-                writer.Write(content);
-            }
-        }
 
         protected abstract ICssProperty CreateNewProperty(String name);
 

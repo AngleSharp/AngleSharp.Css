@@ -106,7 +106,30 @@
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(formatter.Medium(IsExclusive, IsInverse, Type, Features));
+            if (_exclusive)
+            {
+                writer.Write("only");
+            }
+            else if (_inverse)
+            {
+                writer.Write("not");
+            }
+
+            if (!String.IsNullOrEmpty(_type))
+            {
+                if (_exclusive || _inverse)
+                {
+                    writer.Write(" ");
+                }
+
+                writer.Write(_type);
+            }
+
+            for (var i = 0; i < _features.Count; i++)
+            {
+                writer.Write(" and ");
+                _features[i].ToCss(writer, formatter);
+            }
         }
 
         #endregion

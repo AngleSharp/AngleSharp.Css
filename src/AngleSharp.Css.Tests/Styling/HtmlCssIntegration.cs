@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Styling
 {
-    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Tests.Mocks;
@@ -78,7 +77,7 @@
                 { "linked4.css", "" },
             };
             var requester = new TestServerRequester(files);
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new [] { requester }).WithCss();
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
             var link = document.QuerySelector<IHtmlLinkElement>("link");
             var style = document.QuerySelector<IHtmlStyleElement>("style");
@@ -133,7 +132,7 @@
                 { "linked.css", "@import url(origin.css);" },
             };
             var requester = new TestServerRequester(files);
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester }).WithCss();
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
             var link = document.QuerySelector<IHtmlLinkElement>("link");
 

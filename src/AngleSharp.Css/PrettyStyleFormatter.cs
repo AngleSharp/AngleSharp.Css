@@ -15,6 +15,7 @@
 
         private String _intendString;
         private String _newLineString;
+        private Int32 _intends;
 
         #endregion
 
@@ -58,24 +59,22 @@
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
             var sb = StringBuilderPool.Obtain();
-            var first = true;
+            var sep = _newLineString + _newLineString;
 
             using (var writer = new StringWriter(sb))
             {
                 foreach (var rule in rules)
                 {
-                    if (first)
-                    {
-                        first = false;
-                    }
-                    else
-                    {
-                        writer.Write(_newLineString);
-                        writer.Write(_newLineString);
-                    }
-
                     rule.ToCss(writer, this);
+                    writer.Write(sep);
                 }
+            }
+
+            var pos = sb.Length - sep.Length;
+
+            if (pos > 0)
+            {
+                sb.Remove(pos, sep.Length);
             }
 
             return sb.ToPool();
@@ -84,18 +83,23 @@
         String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
         {
             var sb = StringBuilderPool.Obtain();
+            var ind = String.Concat(Enumerable.Repeat(_intendString, _intends));
+            var sep = _newLineString + ind;
             sb.Append('{').Append(' ');
+            ++_intends;
 
             using (var writer = new StringWriter(sb))
             {
                 foreach (var rule in rules)
                 {
-                    writer.Write(_newLineString);
-                    writer.Write(Intend(rule.ToCss(this)));
-                    writer.Write(_newLineString);
+                    writer.Write(sep);
+                    writer.Write(_intendString);
+                    rule.ToCss(writer, this);
+                    writer.Write(sep);
                 }
             }
 
+            --_intends;
             return sb.Append('}').ToPool();
         }
 
@@ -106,17 +110,17 @@
 
         String IStyleFormatter.Declarations(IEnumerable<String> declarations)
         {
-            return String.Join(_newLineString, declarations.Select(m => m + ";"));
-        }
+            var sb = StringBuilderPool.Obtain();
+            var ind = String.Concat(Enumerable.Repeat(_intendString, _intends));
+            var sep = _newLineString + ind;
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
-        {
-            return CssStyleFormatter.Instance.Medium(exclusive, inverse, type, constraints);
-        }
+            foreach (var declaration in declarations)
+            {
+                sb.Append(declaration).Append(Symbols.Semicolon);
+                sb.Append(sep);
+            }
 
-        String IStyleFormatter.Constraint(String name, String value)
-        {
-            return CssStyleFormatter.Instance.Constraint(name, value);
+            return sb.ToPool();
         }
 
         String IStyleFormatter.Rule(String name, String value)
@@ -129,38 +133,9 @@
             return CssStyleFormatter.Instance.Rule(name, prelude, rules);
         }
 
-        String IStyleFormatter.Style(String selector, IStyleFormattable rules)
-        {
-            var sb = StringBuilderPool.Obtain();
-            sb.Append(selector).Append(" {");
-            var content = rules.ToCss(this);
-
-            if (!String.IsNullOrEmpty(content))
-            {
-                sb.Append(_newLineString);
-                sb.Append(Intend(content));
-                sb.Append(_newLineString);
-            }
-            else
-            {
-                sb.Append(' ');
-            }
-
-            return sb.Append('}').ToPool();
-        }
-
         String IStyleFormatter.Comment(String data)
         {
             return CssStyleFormatter.Instance.Comment(data);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        private String Intend(String content)
-        {
-            return _intendString + content.Replace(_newLineString, _newLineString + _intendString);
         }
 
         #endregion

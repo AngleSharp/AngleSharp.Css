@@ -76,7 +76,7 @@
         public static ICssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
             var computedStyle = new CssStyleDeclaration();
-            var rules = styleCollection.SortBySpecifity(element);
+            var rules = styleCollection.SortBySpecificity(element);
 
             foreach (var rule in rules)
             {
@@ -91,9 +91,9 @@
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecifity(this IEnumerable<ICssStyleRule> rules, IElement element)
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
         {
-            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specifity);
+            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
         }
 
         #endregion

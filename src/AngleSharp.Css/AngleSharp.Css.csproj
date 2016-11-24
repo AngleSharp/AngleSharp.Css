@@ -115,6 +115,7 @@
     <Compile Include="Parser\UnitParser.cs" />
     <Compile Include="Parser\UriParser.cs" />
     <Compile Include="PortableExtensions.cs" />
+    <Compile Include="StyleFormatterExtensions.cs" />
     <Compile Include="TaskEx.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Values\Colors.cs" />
@@ -438,7 +439,6 @@
     <Compile Include="Values\Length.cs" />
     <Compile Include="Values\LinearGradient.cs" />
     <Compile Include="Values\MatrixTransform.cs" />
-    <Compile Include="Values\Number.cs" />
     <Compile Include="Values\Percent.cs" />
     <Compile Include="Values\PerspectiveTransform.cs" />
     <Compile Include="Values\Point.cs" />
