@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.Extensions;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents a time value.
@@ -255,7 +256,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), UnitString);
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         /// <summary>

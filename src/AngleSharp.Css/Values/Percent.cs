@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents a percentage value.
@@ -179,7 +180,7 @@
         /// <returns>The string.</returns>
         public override String ToString()
         {
-            return _value.ToString() + "%";
+            return _value.ToString(CultureInfo.InvariantCulture) + "%";
         }
 
         /// <summary>

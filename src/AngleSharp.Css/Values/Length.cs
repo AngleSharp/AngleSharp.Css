@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.Extensions;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -458,7 +459,7 @@
         public override String ToString()
         {
             var unit = _value == 0f ? String.Empty : UnitString;
-            return String.Concat(_value.ToString(), unit);
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), unit);
         }
 
         /// <summary>
