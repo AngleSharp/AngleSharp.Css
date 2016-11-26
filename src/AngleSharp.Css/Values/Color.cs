@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Text;
     using System;
+    using System.Globalization;
     using System.Runtime.InteropServices;
 
     /// <summary>
@@ -497,6 +498,40 @@
         #region Methods
 
         /// <summary>
+        /// Returns a string representing the color in ARGB hex.
+        /// </summary>
+        /// <returns>The ARGB string.</returns>
+        public override String ToString()
+        {
+            var arguments = String.Join(", ", new[]
+            {
+                R.ToString(CultureInfo.InvariantCulture),
+                G.ToString(CultureInfo.InvariantCulture),
+                B.ToString(CultureInfo.InvariantCulture),
+                Alpha.ToString(CultureInfo.InvariantCulture)
+            });
+            return FunctionNames.Rgba.CssFunction(arguments);
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the length.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            var arguments = String.Join(", ", new[]
+            {
+                R.ToString(format, formatProvider),
+                G.ToString(format, formatProvider),
+                B.ToString(format, formatProvider),
+                Alpha.ToString(format, formatProvider)
+            });
+            return FunctionNames.Rgba.CssFunction(arguments);
+        }
+
+        /// <summary>
         /// Mixes two colors using alpha compositing as described here:
         /// http://en.wikipedia.org/wiki/Alpha_compositing
         /// </summary>
@@ -567,44 +602,6 @@
             }
 
             return m1;
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns a string representing the color in ARGB hex.
-        /// </summary>
-        /// <returns>The ARGB string.</returns>
-        public override String ToString()
-        {
-            var arguments = String.Join(", ", new[]
-            {
-                R.ToString(),
-                G.ToString(),
-                B.ToString(),
-                Alpha.ToString()
-            });
-            return FunctionNames.Rgba.CssFunction(arguments);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representing the length.
-        /// </summary>
-        /// <param name="format">The format of the number.</param>
-        /// <param name="formatProvider">The provider to use.</param>
-        /// <returns>The unit string.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
-            var arguments = String.Join(", ", new[]
-            {
-                R.ToString(format, formatProvider),
-                G.ToString(format, formatProvider),
-                B.ToString(format, formatProvider),
-                Alpha.ToString(format, formatProvider)
-            });
-            return FunctionNames.Rgba.CssFunction(arguments);
         }
 
         #endregion

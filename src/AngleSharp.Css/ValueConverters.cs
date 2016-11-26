@@ -250,15 +250,7 @@
         /// Represents a shape object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
         /// </summary>
-        public static readonly IValueConverter ShapeConverter = Construct(() =>
-        {
-            var length = LengthConverter;
-            return Or(
-                Func(FunctionNames.Rect, Or(
-                    WithArgs(length, length, length, length),
-                    WithArgs(LengthConverter.Many(4, 4)))),
-                Auto);
-        });
+        public static readonly IValueConverter ShapeConverter = Or(new RectConverter(), Auto);
 
         /// <summary>
         /// Represents a linear-gradient object.

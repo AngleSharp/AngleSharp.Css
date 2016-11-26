@@ -22,12 +22,12 @@
 
         private static IConditionFunction Condition(StringSource source)
         {
-            return Negation(source) ??
-                   ConjunctionOrDisjunction(source);
+            return Negation(source) ?? ConjunctionOrDisjunction(source);
         }
 
         private static IConditionFunction Negation(StringSource source)
         {
+            var pos = source.Index;
             var ident = source.ParseIdent();
 
             if (ident != null && ident.Isi(CssKeywords.Not))
@@ -41,6 +41,7 @@
                 }
             }
 
+            source.BackTo(pos);
             return null;
         }
 
@@ -48,6 +49,7 @@
         {
             var condition = Group(source);
             source.SkipSpacesAndComments();
+            var pos = source.Index;
             var ident = source.ParseIdent();
 
             if (ident != null)
@@ -70,6 +72,7 @@
                 }
             }
 
+            source.BackTo(pos);
             return condition;
         }
 
@@ -78,22 +81,24 @@
             if (source.Current == Symbols.RoundBracketOpen)
             {
                 var current = source.SkipCurrentAndSpaces();
+                var condition = default(IConditionFunction);
 
                 if (current != Symbols.RoundBracketClose)
                 {
-                    var condition = Declaration(source) ?? Condition(source);
+                    condition = Condition(source) ?? Declaration(source);
                     current = source.SkipSpacesAndComments();
 
-                    if (current == Symbols.RoundBracketClose)
+                    if (condition == null)
                     {
-                        source.SkipCurrentAndSpaces();
-                        return condition;
+                        return null;
                     }
-
-                    return null;
                 }
 
-                return new EmptyCondition();
+                if (current == Symbols.RoundBracketClose)
+                {
+                    source.SkipCurrentAndSpaces();
+                    return new GroupCondition(condition);
+                }
             }
 
             return null;
@@ -101,20 +106,15 @@
 
         private static IConditionFunction Declaration(StringSource source)
         {
-            if (source.Current == Symbols.RoundBracketOpen)
-            {
-                source.SkipCurrentAndSpaces();
-                var name = source.ParseIdent();
-                var colon = source.SkipSpacesAndComments();
-                source.SkipCurrentAndSpaces();
-                var value = source.TakeUntilClosed();
-                var end = source.SkipSpacesAndComments();
+            var name = source.ParseIdent();
+            var colon = source.SkipSpacesAndComments();
+            source.SkipCurrentAndSpaces();
+            var value = source.TakeUntilClosed();
+            source.SkipSpacesAndComments();
 
-                if (name != null && value != null && colon == Symbols.Colon && end == Symbols.RoundBracketClose)
-                {
-                    source.SkipCurrentAndSpaces();
-                    return new DeclarationCondition(name, value);
-                }
+            if (name != null && value != null && colon == Symbols.Colon)
+            {
+                return new DeclarationCondition(name, value);
             }
 
             return null;

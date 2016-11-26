@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
+    using System;
+
     /// <summary>
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
@@ -66,6 +69,28 @@
         public Length Left
         {
             get { return _left; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a string representing the shapce.
+        /// </summary>
+        /// <returns>The string.</returns>
+        public override String ToString()
+        {
+            var parts = new[]
+            {
+                _top.ToString(),
+                _right.ToString(),
+                _bottom.ToString(),
+                _left.ToString(),
+            };
+            var fn = FunctionNames.Rect;
+            var args = String.Join(", ", parts);
+            return fn.CssFunction(args);
         }
 
         #endregion

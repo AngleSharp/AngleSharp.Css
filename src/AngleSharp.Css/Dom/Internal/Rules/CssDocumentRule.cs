@@ -51,7 +51,7 @@
             _conditions.AddRange(newRule.Conditions);
         }
 
-        public void SetConditionText(String value, Boolean throwOnError)
+        public Boolean SetConditionText(String value, Boolean throwOnError)
         {
             var factory = Owner.Context.GetService<IDocumentFunctionFactory>();
             var conditions = DocumentFunctionParser.Parse(value, factory);
@@ -60,11 +60,14 @@
             if (conditions != null)
             {
                 _conditions.AddRange(conditions);
+                return true;
             }
             else if (throwOnError)
             {
                 throw new DomException(DomError.Syntax);
             }
+
+            return false;
         }
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)

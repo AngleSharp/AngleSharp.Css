@@ -547,7 +547,7 @@
             var concrete = (CssClipProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rect(2px 3em 1in 0)", concrete.Value);
+            Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value);
         }
 
         [Test]

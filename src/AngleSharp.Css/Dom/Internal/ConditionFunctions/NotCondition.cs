@@ -9,7 +9,7 @@
 
         public NotCondition(IConditionFunction condition)
         {
-            _content = condition ?? new EmptyCondition();
+            _content = condition;
         }
 
         public Boolean Check(IRenderDevice device)

@@ -95,7 +95,7 @@
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
-            Assert.AreEqual("((padding-TOP :  0) or (padding-left : 0))", supports.ConditionText);
+            Assert.AreEqual("((padding-TOP: 0) or (padding-left: 0))", supports.ConditionText);
             Assert.IsTrue(supports.Condition.Check(device));
         }
 

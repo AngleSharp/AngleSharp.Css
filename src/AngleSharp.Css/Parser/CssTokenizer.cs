@@ -58,20 +58,48 @@
         /// Gets the trimmed content until either '}' or ';' is hit.
         /// </summary>
         /// <returns>The trimmed string.</returns>
-        public String ContentTo(ref CssToken token)
+        public String ContentFrom(Int32 position)
         {
-            var start = token.Position.Position;
+            var sb = StringBuilderPool.Obtain();
+            Back(Position - position);
+            var current = Current;
+            var spaced = false;
 
-            while (!Current.IsOneOf(Symbols.EndOfFile, Symbols.Semicolon, Symbols.CurlyBracketOpen, Symbols.CurlyBracketClose))
+            while (!current.IsOneOf(Symbols.EndOfFile, Symbols.Semicolon, Symbols.CurlyBracketOpen, Symbols.CurlyBracketClose))
             {
-                token = Get();
+                var token = Data(current);
+
+                if (token.Type == CssTokenType.Whitespace)
+                {
+                    spaced = true;
+                    current = GetNext();
+                }
+                else
+                {
+                    var length = Position - position;
+
+                    if (spaced)
+                    {
+                        sb.Append(Symbols.Space);
+                    }
+
+                    Back(length++);
+                    current = Current;
+                    spaced = false;
+
+                    while (length > 0)
+                    {
+                        sb.Append(current);
+                        --length;
+                        current = GetNext();
+                    }
+                }
+                
+                position = Position;
             }
 
-            var end = InsertionPoint;
-            InsertionPoint = start;
-            var content = PeekString(end - start);
-            InsertionPoint = end;
-            return content;
+            Back();
+            return sb.ToPool();
         }
 
         internal void RaiseErrorOccurred(CssParseError error, TextPosition position)

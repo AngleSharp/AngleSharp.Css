@@ -21,7 +21,6 @@
         internal CssSupportsRule(ICssStyleSheet owner)
             : base(owner, CssRuleType.Supports)
         {
-            _condition = new EmptyCondition();
         }
 
         #endregion
@@ -43,7 +42,7 @@
 
         #region Methods
 
-        public void SetConditionText(String value, Boolean throwOnError)
+        public Boolean SetConditionText(String value, Boolean throwOnError)
         {
             var condition = ConditionParser.Parse(value);
             
@@ -52,10 +51,11 @@
                 if (throwOnError)
                     throw new DomException(DomError.Syntax);
 
-                condition = new EmptyCondition();
+                return false;
             }
 
             _condition = condition;
+            return true;
         }
 
         protected override void ReplaceWith(ICssRule rule)

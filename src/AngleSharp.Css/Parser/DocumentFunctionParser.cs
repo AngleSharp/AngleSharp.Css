@@ -50,6 +50,8 @@
 
                     if (end != Symbols.RoundBracketClose)
                         return null;
+
+                    source.SkipCurrentAndSpaces();
                 }
 
                 var function = factory.Create(name, data);
