@@ -18,17 +18,7 @@
     {
         #region Fields
 
-        private static IValueConverter StyleConverter = Or(
-            WithOrder(
-                Or(
-                    LengthOrPercentConverter, 
-                    Assign(CssKeywords.Center, Point.Center),
-                    WithAny(Or(LengthOrPercentConverter, Assign(CssKeywords.Left, Length.Zero), Assign(CssKeywords.Right, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)), 
-                    Or(LengthOrPercentConverter, Assign(CssKeywords.Top, Length.Zero), Assign(CssKeywords.Bottom, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half))),
-                    WithAny(Or(LengthOrPercentConverter, Assign(CssKeywords.Top, Length.Zero), Assign(CssKeywords.Bottom, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)),
-                    Or(LengthOrPercentConverter, Assign(CssKeywords.Left, Length.Zero), Assign(CssKeywords.Right, Length.Full), Assign(CssKeywords.Center, Length.Half).Option(Length.Half)))).Required(),
-                LengthConverter.Option(Length.Zero)),
-            AssignInitial(Point.Center));
+        private static IValueConverter StyleConverter = Or(new OriginConverter(), AssignInitial(Point.Center));
 
         #endregion
 

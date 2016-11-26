@@ -41,6 +41,7 @@
                 }
             }
 
+            source.SkipCurrentAndSpaces();
             return new ArgumentsValue(args);
         }
 

@@ -185,7 +185,7 @@
             var concrete = (CssPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("center top", concrete.Value);
+            Assert.AreEqual("top center", concrete.Value);
         }
 
         [Test]
@@ -227,7 +227,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px", concrete.Value);
+            Assert.AreEqual("2px 50% 0", concrete.Value);
         }
 
         [Test]
@@ -241,7 +241,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bottom", concrete.Value);
+            Assert.AreEqual("50% 100% 0", concrete.Value);
         }
 
         [Test]
@@ -255,7 +255,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3cm 2px", concrete.Value);
+            Assert.AreEqual("3cm 2px 0", concrete.Value);
         }
 
         [Test]
@@ -269,7 +269,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px left", concrete.Value);
+            Assert.AreEqual("0 2px 0", concrete.Value);
         }
 
         [Test]
@@ -283,7 +283,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("left 2px", concrete.Value);
+            Assert.AreEqual("0 2px 0", concrete.Value);
         }
 
         [Test]
@@ -297,7 +297,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("right top", concrete.Value);
+            Assert.AreEqual("100% 100% 0", concrete.Value);
         }
 
         [Test]
@@ -311,7 +311,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("right top", concrete.Value);
+            Assert.AreEqual("100% 0 0", concrete.Value);
         }
 
         [Test]
@@ -339,7 +339,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px left 10px", concrete.Value);
+            Assert.AreEqual("0 2px 10px", concrete.Value);
         }
 
         [Test]
@@ -353,7 +353,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("left 5px -3px", concrete.Value);
+            Assert.AreEqual("0 5px -3px", concrete.Value);
         }
 
         [Test]
@@ -367,7 +367,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("right bottom 2cm", concrete.Value);
+            Assert.AreEqual("100% 100% 2cm", concrete.Value);
         }
 
         [Test]
@@ -381,7 +381,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("right bottom 2cm", concrete.Value);
+            Assert.AreEqual("100% 100% 2cm", concrete.Value);
         }
 
         [Test]

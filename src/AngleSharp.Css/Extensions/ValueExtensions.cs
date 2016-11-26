@@ -58,10 +58,11 @@
             {
                 var length = 0;
                 var current = str.Current;
+                var pos = str.Index;
 
                 while (length < name.Length)
                 {
-                    if (Char.ToLowerInvariant(current) != name[length])
+                    if (Char.ToLowerInvariant(current) != Char.ToLowerInvariant(name[length]))
                         break;
 
                     length++;
@@ -73,6 +74,8 @@
                     str.SkipCurrentAndSpaces();
                     return true;
                 }
+
+                str.BackTo(pos);
             }
 
             return false;
@@ -175,7 +178,7 @@
             str.SkipSpacesAndComments();
             var r = str.ParseIdent();
 
-            if (l != null && r != null)
+            if (r != null)
             {
                 if (r.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center) &&
                     l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
@@ -189,7 +192,7 @@
                     r.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
                 {
                     x = KeywordToLength(l).Value;
-                    y = KeywordToLength(l).Value;
+                    y = KeywordToLength(r).Value;
                     return new Point(x, y);
                 }
             }
@@ -400,15 +403,15 @@
 
         private static Length? KeywordToLength(String keyword)
         {
-            if (keyword.IsOneOf(CssKeywords.Left, CssKeywords.Top))
+            if (keyword.Isi(CssKeywords.Left) || keyword.Isi(CssKeywords.Top))
             {
                 return new Length(0f, Length.Unit.Percent);
             }
-            else if (keyword.IsOneOf(CssKeywords.Right, CssKeywords.Bottom))
+            else if (keyword.Isi(CssKeywords.Right) || keyword.Isi(CssKeywords.Bottom))
             {
                 return new Length(100f, Length.Unit.Percent);
             }
-            else if (keyword.Is(CssKeywords.Center))
+            else if (keyword.Isi(CssKeywords.Center))
             {
                 return new Length(50f, Length.Unit.Percent);
             }
