@@ -516,7 +516,7 @@
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 0, 255) solid", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 255, 1) solid", concrete.Value);
         }
 
         [Test]
@@ -544,7 +544,7 @@
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(0, 0, 255) 5px inset", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 255, 1) 5px inset", concrete.Value);
         }
     }
 }

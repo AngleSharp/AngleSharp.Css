@@ -180,13 +180,16 @@
         /// <returns>The result of the comparison.</returns>
         public Int32 CompareTo(Length other)
         {
-            if (_unit == other._unit)
+            if (_value != 0f || other._value != 0f)
             {
-                return _value.CompareTo(other._value);
-            }
-            else if (IsAbsolute && other.IsAbsolute)
-            {
-                return ToPixel().CompareTo(other.ToPixel());
+                if (_unit == other._unit)
+                {
+                    return _value.CompareTo(other._value);
+                }
+                else if (IsAbsolute && other.IsAbsolute)
+                {
+                    return ToPixel().CompareTo(other.ToPixel());
+                }
             }
 
             return 0;
@@ -419,7 +422,7 @@
         /// <returns>True if both lengths are equal, otherwise false.</returns>
         public Boolean Equals(Length other)
         {
-            return _value == other._value && _unit == other._unit;
+            return _value == other._value && (_value == 0f || _unit == other._unit);
         }
 
         /// <summary>

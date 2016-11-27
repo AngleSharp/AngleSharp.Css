@@ -714,7 +714,7 @@
             var concrete = (CssBackgroundProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
         }
 
         [Test]
@@ -728,7 +728,7 @@
             var concrete = (CssBackgroundProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"pendant.png\") rgb(255, 255, 255)", concrete.Value);
+            Assert.AreEqual("url(\"pendant.png\") rgba(255, 255, 255, 1)", concrete.Value);
         }
 
         [Test]
@@ -742,7 +742,7 @@
             var concrete = (CssBackgroundProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"topbanner.png\") repeat-y fixed rgb(0, 0, 221)", concrete.Value);
+            Assert.AreEqual("url(\"topbanner.png\") repeat-y fixed rgba(0, 0, 221, 1)", concrete.Value);
         }
 
         [Test]

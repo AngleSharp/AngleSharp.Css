@@ -35,6 +35,26 @@
         /// </summary>
         public static readonly Point LeftBottom = new Point(Length.Zero, Length.Full);
 
+        /// <summary>
+        /// Gets the (0, 50%) point.
+        /// </summary>
+        public static readonly Point Left = new Point(Length.Zero, Length.Half);
+
+        /// <summary>
+        /// Gets the (100%, 50%) point.
+        /// </summary>
+        public static readonly Point Right = new Point(Length.Full, Length.Half);
+
+        /// <summary>
+        /// Gets the (50%, 100%) point.
+        /// </summary>
+        public static readonly Point Bottom = new Point(Length.Half, Length.Full);
+
+        /// <summary>
+        /// Gets the (50%, 0) point.
+        /// </summary>
+        public static readonly Point Top = new Point(Length.Half, Length.Zero);
+
         #endregion
 
         #region Fields
@@ -233,21 +253,37 @@
             {
                 return CssKeywords.Center;
             }
+            else if (Equals(Bottom))
+            {
+                return CssKeywords.Bottom;
+            }
+            else if (Equals(Top))
+            {
+                return CssKeywords.Top;
+            }
+            else if (Equals(Left))
+            {
+                return CssKeywords.Left;
+            }
+            else if (Equals(Right))
+            {
+                return CssKeywords.Right;
+            }
             else if (Equals(LeftTop))
             {
-                return "left top";
+                return CssKeywords.LeftTop;
             }
             else if (Equals(RightTop))
             {
-                return "right top";
+                return CssKeywords.RightTop;
             }
             else if (Equals(RightBottom))
             {
-                return "right bottom";
+                return CssKeywords.RightBottom;
             }
             else if (Equals(LeftBottom))
             {
-                return "left bottom";
+                return CssKeywords.LeftBottom;
             }
 
             return String.Concat(_x.ToString(), " ", _y.ToString());

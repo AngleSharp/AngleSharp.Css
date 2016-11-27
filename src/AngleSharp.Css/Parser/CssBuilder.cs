@@ -196,7 +196,11 @@
                 token = NextToken();
                 CollectTrivia(ref token);
                 var media = GetArgument(ref token);
-                rule.Media.SetMediaText(media, throwOnError: false);
+
+                if (!String.IsNullOrEmpty(media))
+                {
+                    rule.Media.SetMediaText(media, throwOnError: false);
+                }
             }
 
             CollectTrivia(ref token);

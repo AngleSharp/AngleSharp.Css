@@ -1355,5 +1355,25 @@
         /// The currentColor keyword.
         /// </summary>
         public static readonly String CurrentColor = "currentColor";
+
+        /// <summary>
+        /// The left top keyword.
+        /// </summary>
+        public static readonly String LeftTop = "left top";
+
+        /// <summary>
+        /// The right top keyword.
+        /// </summary>
+        public static readonly String RightTop = "right top";
+
+        /// <summary>
+        /// The left bottom keyword.
+        /// </summary>
+        public static readonly String LeftBottom = "left bottom";
+
+        /// <summary>
+        /// The right bottom keyword.
+        /// </summary>
+        public static readonly String RightBottom = "right bottom";
     }
 }

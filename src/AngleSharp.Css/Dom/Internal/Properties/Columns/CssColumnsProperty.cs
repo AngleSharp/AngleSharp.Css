@@ -13,8 +13,8 @@
         #region Fields
 
         private static readonly IValueConverter StyleConverter = Or(WithAny(
-            AutoLengthConverter.Option().For(PropertyNames.ColumnWidth),
-            OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)), Initial);
+            AutoLengthConverter.For(PropertyNames.ColumnWidth),
+            OptionalIntegerConverter.For(PropertyNames.ColumnCount)), Initial);
 
         #endregion
 

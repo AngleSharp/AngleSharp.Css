@@ -39,11 +39,6 @@
         public static IValueConverter Auto = new IdentifierValueConverter<Object>(CssKeywords.Auto, null);
 
         /// <summary>
-        /// Represents a converter for the currentColor keyword with the transparent value.
-        /// </summary>
-        public static IValueConverter CurrentColor = new IdentifierValueConverter<Color>(CssKeywords.CurrentColor, Color.Transparent);
-
-        /// <summary>
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
@@ -251,28 +246,6 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
         /// </summary>
         public static readonly IValueConverter ShapeConverter = Or(new RectConverter(), Auto);
-
-        /// <summary>
-        /// Represents a linear-gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
-        /// </summary>
-        public static readonly IValueConverter LinearGradientConverter = Construct(() =>
-        {
-            return Or(
-                new LinearGradientConverter(FunctionNames.LinearGradient, false),
-                new LinearGradientConverter(FunctionNames.RepeatingLinearGradient, true));
-        });
-
-        /// <summary>
-        /// Represents a radial-gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
-        /// </summary>
-        public static readonly IValueConverter RadialGradientConverter = Construct(() =>
-        {            
-            return Or(
-                new RadialGradientConverter(FunctionNames.RadialGradient, false),
-                new RadialGradientConverter(FunctionNames.RepeatingRadialGradient, true));
-        });
 
         /// <summary>
         /// A perspective for 3D transformations.
@@ -684,9 +657,7 @@
         /// Represents a gradient object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
         /// </summary>
-        public static readonly IValueConverter GradientConverter = Or(
-            LinearGradientConverter, 
-            RadialGradientConverter);
+        public static readonly IValueConverter GradientConverter = new GradientFunctionConverter();
 
         /// <summary>
         /// Represents a transform function.
@@ -703,9 +674,7 @@
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = Or(
-            ColorConverter, 
-            CurrentColor);
+        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ValueExtensions.ToColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.

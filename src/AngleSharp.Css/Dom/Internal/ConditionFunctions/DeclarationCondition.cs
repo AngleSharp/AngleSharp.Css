@@ -19,7 +19,7 @@
             var factory = device.Context?.GetService<ICssPropertyFactory>();
             var property = factory?.Create(_name);
             
-            if (property != null)
+            if (property != null && property is CssUnknownProperty == false)
             {
                 property.Value = Normalize(_value);
                 return !property.Value.Equals(CssKeywords.Initial);

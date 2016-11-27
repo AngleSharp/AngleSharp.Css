@@ -12,10 +12,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = Or(WithAny(
-            ColorConverter.Option().For(PropertyNames.ColumnRuleColor),
-            LineWidthConverter.Option().For(PropertyNames.ColumnRuleWidth),
-            LineStyleConverter.Option().For(PropertyNames.ColumnRuleStyle)), Initial);
+        private static readonly IValueConverter StyleConverter = Or(new ColumnRuleConverter(), Initial);
 
         #endregion
 

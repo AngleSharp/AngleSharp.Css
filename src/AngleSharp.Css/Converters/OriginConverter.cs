@@ -39,7 +39,11 @@
 
             public String CssText
             {
-                get { return String.Concat(_x.ToString(), " ", _y.ToString(), " ", _z.ToString()); }
+                get
+                {
+                    var pt = new Point(_x, _y).ToString();
+                    return _z != Length.Zero ? String.Concat(pt, " ", _z.ToString()) : pt;
+                }
             }
 
             public void ToCss(TextWriter writer, IStyleFormatter formatter)

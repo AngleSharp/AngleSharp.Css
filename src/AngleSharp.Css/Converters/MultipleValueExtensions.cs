@@ -22,7 +22,31 @@
                         buffer.Append(separator);
                     }
 
-                    buffer.Append(values[i].CssText);
+                    buffer.Append(str);
+                    previous = true;
+                }
+            }
+
+            return buffer.ToPool();
+        }
+
+        public static String Join<T>(this T[] values, String separator)
+        {
+            var buffer = StringBuilderPool.Obtain();
+            var previous = false;
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                var str = values[i].ToString();
+
+                if (!String.IsNullOrEmpty(str))
+                {
+                    if (previous)
+                    {
+                        buffer.Append(separator);
+                    }
+
+                    buffer.Append(str);
                     previous = true;
                 }
             }

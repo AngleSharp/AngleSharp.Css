@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     static class CssValueExtensions
     {
@@ -29,6 +30,19 @@
         public static Boolean Is(this ICssValue value, String keyword)
         {
             return false;
+        }
+
+        public static String ToString<T>(this T value, IDictionary<String, T> map)
+        {
+            foreach (var entry in map)
+            {
+                if (entry.Value.Equals(value))
+                {
+                    return entry.Key;
+                }
+            }
+
+            return value.ToString();
         }
     }
 }

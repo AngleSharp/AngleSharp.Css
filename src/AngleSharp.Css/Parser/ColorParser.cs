@@ -28,6 +28,19 @@
 
         public static Color? ParseColor(this StringSource source)
         {
+            var pos = source.Index;
+            var result = Start(source);
+
+            if (result == null)
+            {
+                source.BackTo(pos);
+            }
+
+            return result;
+        }
+
+        private static Color? Start(StringSource source)
+        {
             if (source.Current != Symbols.Num)
             {
                 var ident = source.ParseIdent();

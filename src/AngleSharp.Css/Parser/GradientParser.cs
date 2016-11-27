@@ -1,90 +1,176 @@
-﻿namespace AngleSharp.Css.Converters
+﻿namespace AngleSharp.Css.Parser
 {
-    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
-    using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
-
-    abstract class GradientConverter<T> : IValueConverter
-        where T : struct
+    
+    static class GradientParser
     {
-        private readonly String _fn;
-        private readonly Boolean _repeating;
-
-        public GradientConverter(String fn, Boolean repeating)
+        private static readonly Dictionary<String, Func<StringSource, IGradient>> GradientFunctions = new Dictionary<string, Func<StringSource, IGradient>>
         {
-            _fn = fn;
-            _repeating = repeating;
+            { FunctionNames.LinearGradient, ParseLinearGradient },
+            { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
+            { FunctionNames.RadialGradient, ParseRadialGradient },
+            { FunctionNames.RepeatingRadialGradient, ParseRepeatingRadialGradient },
+        };
+
+        public static IGradient Parse(String str)
+        {
+            var source = new StringSource(str);
+            var result = source.ParseGradient();
+            return source.IsDone ? result : null;
         }
 
-        public ICssValue Convert(StringSource source)
+        public static IGradient ParseGradient(this StringSource source)
         {
-            if (source.IsFunction(_fn))
+            var pos = source.Index;
+            var ident = source.ParseIdent();
+
+            if (ident != null)
             {
-                var start = source.Index;
-                var initial = ConvertInitial(source);
-
-                if (initial.HasValue)
+                if (source.Current == Symbols.RoundBracketOpen)
                 {
-                    var current = source.SkipSpacesAndComments();
+                    var function = default(Func<StringSource, IGradient>);
 
-                    if (current != Symbols.Comma)
+                    if (GradientFunctions.TryGetValue(ident, out function))
                     {
-                        return null;
+                        source.SkipCurrentAndSpaces();
+                        return function.Invoke(source);
                     }
-
-                    source.SkipCurrentAndSpaces();
                 }
-                else
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static IGradient ParseLinearGradient(StringSource source)
+        {
+            return ParseLinearGradient(source, false);
+        }
+
+        private static IGradient ParseRepeatingLinearGradient(StringSource source)
+        {
+            return ParseLinearGradient(source, true);
+        }
+
+        /// <summary>
+        /// Parses a linear gradient.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
+        /// </summary>
+        private static IGradient ParseLinearGradient(StringSource source, Boolean repeating)
+        {
+            var start = source.Index;
+            var angle = ParseLinearAngle(source);
+
+            if (angle.HasValue)
+            {
+                var current = source.SkipSpacesAndComments();
+
+                if (current != Symbols.Comma)
                 {
-                    source.BackTo(start);
+                    return null;
                 }
 
-                var stops = ToGradientStops(source);
+                source.SkipCurrentAndSpaces();
+            }
+            else
+            {
+                source.BackTo(start);
+            }
 
-                if (stops != null && source.Current == Symbols.RoundBracketClose)
-                {
-                    var gradient = CreateGradient(initial, _repeating, stops);
-                    source.SkipCurrentAndSpaces();
-                    return new GradientValue(gradient);
-                }
+            var stops = ParseGradientStops(source);
+
+            if (stops != null && source.Current == Symbols.RoundBracketClose)
+            {
+                source.SkipCurrentAndSpaces();
+                return new LinearGradient(angle ?? Angle.Zero, stops, repeating);
             }
 
             return null;
         }
 
-        protected abstract T? ConvertInitial(StringSource source);
+        private static IGradient ParseRadialGradient(StringSource source)
+        {
+            return ParseRadialGradient(source, false);
+        }
 
-        protected abstract IGradient CreateGradient(T? initial, Boolean repeating, GradientStop[] stops);
+        private static IGradient ParseRepeatingRadialGradient(StringSource source)
+        {
+            return ParseRadialGradient(source, true);
+        }
 
-        private static GradientStop[] ToGradientStops(StringSource source)
+        /// <summary>
+        /// Parses a radial gradient
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
+        /// </summary>
+        private static IGradient ParseRadialGradient(StringSource source, Boolean repeating)
+        {
+            var start = source.Index;
+            var options = ParseRadialOptions(source);
+
+            if (options.HasValue)
+            {
+                var current = source.SkipSpacesAndComments();
+
+                if (current != Symbols.Comma)
+                {
+                    return null;
+                }
+
+                source.SkipCurrentAndSpaces();
+            }
+            else
+            {
+                source.BackTo(start);
+            }
+
+            var stops = ParseGradientStops(source);
+
+            if (stops != null && source.Current == Symbols.RoundBracketClose)
+            {
+                var circle = options?.Circle ?? true;
+                var center = options?.Center ?? Point.Center;
+                var width = options?.Width ?? Length.Full;
+                var height = options?.Height ?? Length.Full;
+                var sizeMode = options?.Size ?? RadialGradient.SizeMode.None;
+                source.SkipCurrentAndSpaces();
+                return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
+            }
+
+            return null;
+        }
+
+        private static GradientStop[] ParseGradientStops(StringSource source)
         {
             var stops = new List<GradientStop>();
-            
+            var current = source.Current;
+
             while (!source.IsDone)
             {
-                var stop = ToGradientStop(source);
+                if (stops.Count > 0)
+                {
+                    if (current != Symbols.Comma)
+                        break;
+
+                    source.SkipCurrentAndSpaces();
+                }
+
+                var stop = ParseGradientStop(source);
 
                 if (stop == null)
                     break;
 
-                var current = source.SkipSpacesAndComments();
                 stops.Add(stop.Value);
-
-                if (current != Symbols.Comma)
-                    break;
-
-                source.SkipCurrentAndSpaces();
+                current = source.SkipSpacesAndComments();
             }
 
             return stops.ToArray();
         }
 
-        private static GradientStop? ToGradientStop(StringSource source)
+        private static GradientStop? ParseGradientStop(StringSource source)
         {
             var color = source.ToColor();
             source.SkipSpacesAndComments();
@@ -104,36 +190,8 @@
 
             return null;
         }
-
-        private sealed class GradientValue : ICssValue
-        {
-            private readonly IGradient _gradient;
-
-            public GradientValue(IGradient gradient)
-            {
-                _gradient = gradient;
-            }
-
-            public String CssText
-            {
-                get { return _gradient.ToString(); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
-            }
-        }
-    }
-
-    sealed class LinearGradientConverter : GradientConverter<LinearGradientConverter.Options>
-    {
-        public LinearGradientConverter(String fn, Boolean repeating)
-            : base(fn, repeating)
-        {
-        }
-
-        protected override Options? ConvertInitial(StringSource source)
+        
+        private static Angle? ParseLinearAngle(StringSource source)
         {
             var angle = default(Angle?);
 
@@ -172,34 +230,10 @@
                 angle = source.ToAngle();
             }
 
-            if (angle.HasValue)
-            {
-                return new Options { Direction = angle.Value };
-            }
-
-            return null;
+            return angle;
         }
-
-        protected override IGradient CreateGradient(Options? initial, Boolean repeating, GradientStop[] stops)
-        {
-            var angle = initial?.Direction ?? Angle.Zero;
-            return new LinearGradient(angle, stops, repeating);
-        }
-
-        public struct Options
-        {
-            public Angle Direction;
-        }
-    }
-
-    sealed class RadialGradientConverter : GradientConverter<RadialGradientConverter.Options>
-    {
-        public RadialGradientConverter(String fn, Boolean repeating)
-            : base(fn, repeating)
-        {
-        }
-
-        protected override Options? ConvertInitial(StringSource source)
+        
+        private static RadialOptions? ParseRadialOptions(StringSource source)
         {
             var circle = false;
             var center = Point.Center;
@@ -322,7 +356,7 @@
                 center = pt.Value;
             }
 
-            return new Options
+            return new RadialOptions
             {
                 Circle = circle,
                 Center = center,
@@ -332,17 +366,7 @@
             };
         }
 
-        protected override IGradient CreateGradient(Options? initial, Boolean repeating, GradientStop[] stops)
-        {
-            var circle = initial?.Circle ?? true;
-            var center = initial?.Center ?? Point.Center;
-            var width = initial?.Width ?? Length.Full;
-            var height = initial?.Height ?? Length.Full;
-            var sizeMode = initial?.Size ?? RadialGradient.SizeMode.None;
-            return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
-        }
-
-        public struct Options
+        public struct RadialOptions
         {
             public Boolean Circle;
             public Point Center;

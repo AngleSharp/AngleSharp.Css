@@ -16,7 +16,8 @@
         public static Url ParseUri(this StringSource source)
         {
             var url = FunctionNames.Url;
-            var rest = source.Content.Length - source.Index;
+            var pos = source.Index;
+            var rest = source.Content.Length - pos;
 
             if (rest >= url.Length + 2)
             {
@@ -37,6 +38,8 @@
                     source.Next();
                     return Start(source);
                 }
+
+                source.BackTo(pos);
             }
 
             return null;

@@ -32,6 +32,6 @@
         /// necessarily been entirely covered). The position of the non-repeated background
         /// image is defined by the background-position CSS property.
         /// </summary>
-        NoRepeat
+        NoRepeat,
     }
 }

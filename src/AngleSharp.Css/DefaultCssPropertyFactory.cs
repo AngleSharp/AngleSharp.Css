@@ -352,7 +352,7 @@
         /// <returns>The created property.</returns>
         public ICssProperty Create(String name)
         {
-            return CreateLonghand(name) ?? CreateShorthand(name);
+            return CreateLonghand(name) ?? CreateShorthand(name) ?? new CssUnknownProperty(name);
         }
 
         /// <summary>

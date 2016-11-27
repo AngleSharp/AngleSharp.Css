@@ -36,6 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BrowsingContextExtensions.cs" />
+    <Compile Include="Converters\BackgroundConverter.cs" />
+    <Compile Include="Converters\ColumnRuleConverter.cs" />
     <Compile Include="Converters\MultipleValueExtensions.cs" />
     <Compile Include="Converters\OriginConverter.cs" />
     <Compile Include="Converters\RectConverter.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Parser\CssTokenizer.cs" />
     <Compile Include="Parser\CssTokenType.cs" />
     <Compile Include="Parser\DocumentFunctionParser.cs" />
+    <Compile Include="Parser\GradientParser.cs" />
     <Compile Include="Parser\ICssParser.cs" />
     <Compile Include="Parser\IdentParser.cs" />
     <Compile Include="Parser\IntegerParser.cs" />
@@ -403,17 +406,17 @@
     <Compile Include="RuleNames.cs" />
     <Compile Include="DefaultCssPropertyFactory.cs" />
     <Compile Include="DefaultFeatureValidatorFactory.cs" />
+    <Compile Include="Values\ExternalImage.cs" />
     <Compile Include="Values\TransformMatrix.cs" />
     <Compile Include="UnitNames.cs" />
     <Compile Include="Converters\AnyValueConverter.cs" />
     <Compile Include="Converters\ArgumentsValueConverter.cs" />
     <Compile Include="Converters\BorderRadiusConverter.cs" />
-    <Compile Include="Converters\ConstraintValueConverter.cs" />
     <Compile Include="Converters\ContinuousValueConverter.cs" />
     <Compile Include="Converters\DictionaryValueConverter.cs" />
     <Compile Include="Converters\EndListValueConverter.cs" />
     <Compile Include="Converters\FunctionValueConverter.cs" />
-    <Compile Include="Converters\GradientConverter.cs" />
+    <Compile Include="Converters\GradientFunctionConverter.cs" />
     <Compile Include="Converters\IdentifierValueConverter.cs" />
     <Compile Include="Converters\ListValueConverter.cs" />
     <Compile Include="Converters\OneOrMoreValueConverter.cs" />

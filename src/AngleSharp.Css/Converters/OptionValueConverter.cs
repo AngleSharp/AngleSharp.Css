@@ -4,38 +4,7 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
-
-    sealed class OptionValueConverter : IValueConverter
-    {
-        private readonly IValueConverter _converter;
-
-        public OptionValueConverter(IValueConverter converter)
-        {
-            _converter = converter;
-        }
-
-        public ICssValue Convert(StringSource source)
-        {
-            var start = source.Index;
-            var result = _converter.Convert(source);
-
-            if (result == null)
-            {
-                result = new OptionValue();
-                source.BackTo(start);
-            }
-
-            return result;
-        }
-
-        private sealed class OptionValue : BaseValue
-        {
-            public OptionValue()
-                : base(String.Empty)
-            {
-            }
-        }
-    }
+    using System.IO;
 
     sealed class OptionValueConverter<T> : IValueConverter
     {
@@ -62,14 +31,27 @@
             return result;
         }
 
-        private sealed class OptionValue : BaseValue
+        public sealed class OptionValue : ICssValue
         {
             private readonly T _option;
 
             public OptionValue(T option)
-                : base(String.Empty)
             {
                 _option = option;
+            }
+
+            public String CssText
+            {
+                get { return String.Empty; }
+            }
+
+            public T Option
+            {
+                get { return _option; }
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
             }
         }
     }

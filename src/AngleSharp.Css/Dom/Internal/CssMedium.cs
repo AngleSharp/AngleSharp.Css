@@ -106,6 +106,8 @@
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
+            var offset = 0;
+
             if (_exclusive)
             {
                 writer.Write("only");
@@ -124,8 +126,13 @@
 
                 writer.Write(_type);
             }
+            else if (_features.Count > 0)
+            {
+                offset = 1;
+                _features[0].ToCss(writer, formatter);
+            }
 
-            for (var i = 0; i < _features.Count; i++)
+            for (var i = offset; i < _features.Count; i++)
             {
                 writer.Write(" and ");
                 _features[i].ToCss(writer, formatter);

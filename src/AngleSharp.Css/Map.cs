@@ -32,10 +32,10 @@
             { CssKeywords.Top, new Angle(0, Angle.Unit.Deg) },
             { CssKeywords.Right, new Angle(90f, Angle.Unit.Deg) },
             { CssKeywords.Bottom, new Angle(180f, Angle.Unit.Deg) },
-            { String.Concat(CssKeywords.Left, " ", CssKeywords.Top), new Angle(315f, Angle.Unit.Deg) },
-            { String.Concat(CssKeywords.Left, " ", CssKeywords.Bottom), new Angle(225f, Angle.Unit.Deg) },
-            { String.Concat(CssKeywords.Right, " ", CssKeywords.Top), new Angle(45f, Angle.Unit.Deg) },
-            { String.Concat(CssKeywords.Right, " " + CssKeywords.Bottom), new Angle(135f, Angle.Unit.Deg) },
+            { CssKeywords.LeftTop, new Angle(315f, Angle.Unit.Deg) },
+            { CssKeywords.LeftBottom, new Angle(225f, Angle.Unit.Deg) },
+            { CssKeywords.RightTop, new Angle(45f, Angle.Unit.Deg) },
+            { CssKeywords.RightBottom, new Angle(135f, Angle.Unit.Deg) },
         };
 
         /// <summary>
@@ -294,6 +294,16 @@
             { CssKeywords.Stretch, BorderRepeat.Stretch },
             { CssKeywords.Repeat, BorderRepeat.Repeat },
             { CssKeywords.Round, BorderRepeat.Round },
+        };
+
+        /// <summary>
+        /// Contains the string-border width mapping.
+        /// </summary>
+        public static readonly Dictionary<String, Length> BorderWidths = new Dictionary<String, Length>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Thin, Length.Thin },
+            { CssKeywords.Medium, Length.Medium },
+            { CssKeywords.Thick, Length.Thick },
         };
 
         /// <summary>

@@ -1,13 +1,13 @@
-﻿using AngleSharp.Css.Dom;
-using AngleSharp.Css.Extensions;
-using AngleSharp.Css.Parser;
-using AngleSharp.Css.Values;
-using AngleSharp.Text;
-using System;
-using System.IO;
-
-namespace AngleSharp.Css.Converters
+﻿namespace AngleSharp.Css.Converters
 {
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Extensions;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Text;
+    using System;
+    using System.IO;
+
     sealed class ShadowConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)

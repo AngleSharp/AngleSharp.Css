@@ -19,7 +19,7 @@
         {
             var index = source.Index;
             var result = _check.Invoke(source);
-            return result ? new IdentifierValue(source.Substring(index)) : null;
+            return result ? new IdentifierValue(source.Substring(index).ToLowerInvariant()) : null;
         }
 
         private sealed class IdentifierValue : BaseValue

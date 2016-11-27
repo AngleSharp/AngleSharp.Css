@@ -20,11 +20,6 @@
             return source.IsDone ? result : null;
         }
 
-        public static ICssValue ConvertDefault(this IValueConverter converter)
-        {
-            return converter.Convert(String.Empty);
-        }
-
         public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
         {
             return new OneOrMoreValueConverter(converter, min, max);
@@ -57,12 +52,7 @@
 
         public static IValueConverter Option(this IValueConverter converter)
         {
-            return new OptionValueConverter(converter);
-        }
-
-        public static IValueConverter For(this IValueConverter converter, params String[] labels)
-        {
-            return new ConstraintValueConverter(converter, labels);
+            return new OptionValueConverter<Object>(converter, null);
         }
 
         public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
@@ -70,9 +60,9 @@
             return new OptionValueConverter<T>(converter, defaultValue);
         }
 
-        public static IValueConverter StartsWithKeyword(this IValueConverter converter, String keyword)
+        public static IValueConverter For(this IValueConverter converter, params String[] labels)
         {
-            return new StartsWithValueConverter(keyword, converter);
+            return converter;
         }
 
         public static IValueConverter StartsWithDelimiter(this IValueConverter converter)

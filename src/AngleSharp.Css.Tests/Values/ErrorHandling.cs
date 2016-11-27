@@ -23,7 +23,7 @@
             var div = document.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual(1, div.Style.Length);
             Assert.AreEqual("background-image", div.Style[0]);
-            Assert.AreEqual("url(javascript:alert(1))", div.Style.GetBackgroundImage());
+            Assert.AreEqual("url(\"javascript:alert(1)\")", div.Style.GetBackgroundImage());
         }
 
         [Test]

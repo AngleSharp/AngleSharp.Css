@@ -5,6 +5,7 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
 
     /// <summary>
@@ -170,8 +171,73 @@
             return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
         }
 
+        public static Point? ToSize(this StringSource str)
+        {
+            if (str.IsIdentifier(CssKeywords.Cover))
+            {
+                return Point.Center;
+            }
+            else if (str.IsIdentifier(CssKeywords.Contain))
+            {
+                return Point.Center;
+            }
+            else
+            {
+                var w = str.ToDistance();
+
+                if (!w.HasValue && !str.IsIdentifier(CssKeywords.Auto))
+                    return null;
+
+                str.SkipSpacesAndComments();
+                var h = str.ToDistance();
+                var width = w ?? Length.Full;
+                var height = h ?? (str.IsIdentifier(CssKeywords.Auto) ? Length.Full : width);
+                return new Point(width, height);
+            }
+        }
+
+        public static Tuple<BackgroundRepeat, BackgroundRepeat> ToBackgroundRepeat(this StringSource str)
+        {
+            if (str.IsIdentifier(CssKeywords.RepeatX))
+            {
+                return Tuple.Create(BackgroundRepeat.Repeat, BackgroundRepeat.NoRepeat);
+            }
+            else if (str.IsIdentifier(CssKeywords.RepeatY))
+            {
+                return Tuple.Create(BackgroundRepeat.NoRepeat, BackgroundRepeat.Repeat);
+            }
+
+            var repeatX = str.ToConstant(Map.BackgroundRepeats);
+            str.SkipSpacesAndComments();
+            var repeatY = str.ToConstant(Map.BackgroundRepeats);
+
+            if (repeatY.HasValue)
+            {
+                return Tuple.Create(repeatX.Value, repeatY.Value);
+            }
+            else if (repeatX.HasValue)
+            {
+                return Tuple.Create(repeatX.Value, repeatX.Value);
+            }
+
+            return null;
+        }
+
+        public static IImageSource ToImageSource(this StringSource str)
+        {
+            var url = str.ParseUri();
+
+            if (url != null)
+            {
+                return new ExternalImage(url);
+            }
+
+            return str.ParseGradient();
+        }
+
         public static Point? ToPoint(this StringSource str)
         {
+            var pos = str.Index;
             var x = new Length(50f, Length.Unit.Percent);
             var y = new Length(50f, Length.Unit.Percent);
             var l = str.ParseIdent();
@@ -180,16 +246,14 @@
 
             if (r != null)
             {
-                if (r.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center) &&
-                    l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                if (IsHorizontal(r) && IsVertical(l))
                 {
                     var t = l;
                     l = r;
                     r = t;
                 }
 
-                if (l.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center) &&
-                    r.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                if (IsHorizontal(l) && IsVertical(r))
                 {
                     x = KeywordToLength(l).Value;
                     y = KeywordToLength(r).Value;
@@ -200,15 +264,15 @@
             {
                 var s = str.ToDistance();
 
-                if (l.IsOneOf(CssKeywords.Left, CssKeywords.Right, CssKeywords.Center))
+                if (IsHorizontal(l))
                 {
                     x = KeywordToLength(l).Value;
-                    return new Point(x, s.HasValue ? s.Value : y);
+                    return new Point(x, s ?? y);
                 }
-                else if (l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom))
+                else if (IsVertical(l))
                 {
                     y = KeywordToLength(l).Value;
-                    return new Point(s.HasValue ? s.Value : x, y);
+                    return new Point(s ?? x, y);
                 }
             }
             else
@@ -217,14 +281,13 @@
                 str.SkipSpacesAndComments();
                 var s = str.ToDistance();
 
-                if (f.HasValue && s.HasValue)
+                if (s.HasValue)
                 {
-                    x = f.Value;
-                    y = s.Value;
-                    return new Point(x, y);
+                    return new Point(f ?? x, s ?? y);
                 }
                 else if (f.HasValue)
                 {
+                    pos = str.Index;
                     r = str.ParseIdent();
 
                     if (r == null)
@@ -232,19 +295,25 @@
                         x = f.Value;
                         return new Point(x, y);
                     }
-                    else if (r.IsOneOf(CssKeywords.Left, CssKeywords.Right))
+                    else if (IsVertical(r))
+                    {
+                        y = KeywordToLength(r).Value;
+                        return new Point(f ?? x, y);
+                    }
+                    else if (IsHorizontal(r))
                     {
                         x = KeywordToLength(r).Value;
-                        return new Point(x, f.HasValue ? f.Value : y);
+                        return new Point(x, f ?? y);
                     }
-                    else if (l.IsOneOf(CssKeywords.Top, CssKeywords.Bottom, CssKeywords.Center))
+                    else
                     {
-                        y = KeywordToLength(l).Value;
-                        return new Point(f.HasValue ? f.Value : x, y);
+                        str.BackTo(pos);
+                        return new Point(f ?? x, y);
                     }
                 }
             }
 
+            str.BackTo(pos);
             return null;
         }
 
@@ -363,30 +432,36 @@
 
         public static Length? ToBorderWidth(this StringSource value)
         {
-            var length = value.ToLength();
+            return value.ToLength() ?? value.ToConstant(Map.BorderWidths);
+        }
 
-            if (length == null)
+        public static T? ToConstant<T>(this StringSource str, IDictionary<String, T> values)
+            where T : struct
+        {
+            var pos = str.Index;
+            var ident = str.ParseIdent();
+            var mode = default(T);
+
+            if (ident != null && values.TryGetValue(ident, out mode))
             {
-                var ident = value.ParseIdent();
-
-                if (ident != null)
-                {
-                    if (ident.Is(CssKeywords.Thin))
-                    {
-                        return Length.Thin;
-                    }
-                    else if (ident.Is(CssKeywords.Medium))
-                    {
-                        return Length.Medium;
-                    }
-                    else if (ident.Is(CssKeywords.Thick))
-                    {
-                        return Length.Thick;
-                    }
-                }
+                return mode;
             }
 
-            return length;
+            str.BackTo(pos);
+            return null;
+        }
+
+        public static T ToStatic<T>(this StringSource str, IDictionary<String, T> values)
+            where T : class
+        {
+            var ident = str.ParseIdent();
+            var mode = default(T);
+            return ident != null && values.TryGetValue(ident, out mode) ? mode : null;
+        }
+
+        public static Color? ToCurrentColor(this StringSource str)
+        {
+            return str.IsIdentifier(CssKeywords.CurrentColor) ? Color.Transparent : str.ParseColor();
         }
 
         public static Color? ToColor(this StringSource str)
@@ -399,6 +474,16 @@
             return value == 100 || value == 200 || value == 300 || value == 400 ||
                    value == 500 || value == 600 || value == 700 || value == 800 ||
                    value == 900;
+        }
+
+        private static Boolean IsHorizontal(String str)
+        {
+            return str.Isi(CssKeywords.Left) || str.Isi(CssKeywords.Right) || str.Isi(CssKeywords.Center);
+        }
+
+        private static Boolean IsVertical(String str)
+        {
+            return str.Isi(CssKeywords.Top) || str.Isi(CssKeywords.Bottom) || str.Isi(CssKeywords.Center);
         }
 
         private static Length? KeywordToLength(String keyword)
