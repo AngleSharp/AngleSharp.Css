@@ -21,9 +21,7 @@
 
             return pairs[0];
         */
-        private static readonly IValueConverter StyleConverter = Or(
-            Continuous(WithOrder(IdentifierConverter.Required(), IntegerConverter.Option(0))), 
-            Initial);
+        private static readonly IValueConverter StyleConverter = Or(new CounterValueConverter(0), Initial);
 
         #endregion
 

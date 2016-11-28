@@ -322,7 +322,7 @@
             var concrete = (CssCounterIncrementProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("chapter section 2 page", concrete.Value);
+            Assert.AreEqual("chapter 1 section 2 page 1", concrete.Value);
         }
     }
 }

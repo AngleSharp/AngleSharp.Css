@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
-    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -18,7 +17,7 @@
 
         public static IKeyframeSelector ParseKeyframeSelector(this StringSource source)
         {
-            var stops = new List<Percent>();
+            var stops = new List<Single>();
             var current = source.SkipSpacesAndComments();
 
             while (current != Symbols.EndOfFile)
@@ -29,22 +28,22 @@
                 if (id == null)
                 {
                     source.BackTo(start);
-                    var pc = source.ToPercent();
+                    var test = source.ToPercent();
 
-                    if (!pc.HasValue)
+                    if (!test.HasValue)
                     {
                         return null;
                     }
 
-                    stops.Add(pc.Value);
+                    stops.Add(test.Value);
                 }
                 else if (id.Is(CssKeywords.From))
                 {
-                    stops.Add(Percent.Zero);
+                    stops.Add(0f);
                 }
                 else if (id.Is(CssKeywords.To))
                 {
-                    stops.Add(Percent.Hundred);
+                    stops.Add(1f);
                 }
                 else
                 {

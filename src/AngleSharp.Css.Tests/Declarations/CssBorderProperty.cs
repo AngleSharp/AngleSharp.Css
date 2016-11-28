@@ -625,7 +625,7 @@
             var concrete = (CssBorderProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3em inset rgb(0, 128, 0)", concrete.Value);
+            Assert.AreEqual("3em inset rgba(0, 128, 0, 1)", concrete.Value);
             //Assert.AreEqual(new Length(3f, Length.Unit.Em), concrete.Width);
             //Assert.AreEqual(Color.Green, concrete.Color);
             //Assert.AreEqual(LineStyle.Inset, concrete.Style);
@@ -659,7 +659,7 @@
             var concrete = (CssBorderProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.5px double rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("0.5px double rgba(0, 0, 0, 1)", concrete.Value);
             //Assert.AreEqual(new Length(0.5f, Length.Unit.Px), concrete.Width);
             //Assert.AreEqual(Color.Black, concrete.Color);
             //Assert.AreEqual(LineStyle.Double, concrete.Style);

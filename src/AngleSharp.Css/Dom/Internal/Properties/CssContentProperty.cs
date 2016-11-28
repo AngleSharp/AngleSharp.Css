@@ -39,7 +39,7 @@
                 UrlConverter,
                 StringConverter,
                 AttrConverter,
-                CounterConverter).Many(),
+                CounterFunctionConverter).Many(),
             Initial);
 
         #endregion

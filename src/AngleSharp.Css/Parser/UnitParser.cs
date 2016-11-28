@@ -15,6 +15,19 @@
 
         public static Unit ParseUnit(this StringSource source)
         {
+            var pos = source.Index;
+            var result = Start(source);
+
+            if (result == null)
+            {
+                source.BackTo(pos);
+            }
+
+            return result;
+        }
+
+        private static Unit Start(StringSource source)
+        {
             var current = source.Current;
 
             if (current.IsOneOf(Symbols.Plus, Symbols.Minus))

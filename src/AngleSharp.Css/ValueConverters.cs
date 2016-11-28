@@ -145,12 +145,6 @@
         /// </summary>
         public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(ValueExtensions.ToNaturalSingle);
 
-		/// <summary>
-		/// Represents a percentage object.
-		/// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
-		/// </summary>
-		public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
-
         /// <summary>
         /// Represents an color object (usually hex or name).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
@@ -231,7 +225,7 @@
         /// Represents a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
         /// </summary>
-        public static readonly IValueConverter CounterConverter = Construct(() =>
+        public static readonly IValueConverter CounterFunctionConverter = Construct(() =>
         {
             var name = IdentifierConverter;
             var def = StringConverter;
@@ -622,16 +616,7 @@
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter BorderSliceConverter = Or(
-            PercentConverter, 
-            NumberConverter);
-
-        public static readonly IValueConverter BorderImageSliceConverter = WithAny(
-            BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
-            BorderSliceConverter.Option(),
-            BorderSliceConverter.Option(),
-            BorderSliceConverter.Option(),
-            Assign(CssKeywords.Fill, true).Option(false));
+        public static readonly IValueConverter BorderImageSliceConverter = new StructValueConverter<BorderImageSlice>(ValueExtensions.ToBorderImageSlice);
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
@@ -674,7 +659,7 @@
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ValueExtensions.ToColor);
+        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ValueExtensions.ToCurrentColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.
@@ -872,13 +857,6 @@
         /// <param name="converters">The converters that are used.</param>
         /// <returns>The new converter.</returns>
         public static IValueConverter WithAny(params IValueConverter[] converters) => new UnorderedOptionsConverter(converters);
-
-        /// <summary>
-        /// Uses the provided converter for the whole value.
-        /// </summary>
-        /// <param name="converter">The converter that is used.</param>
-        /// <returns>The new converter.</returns>
-        public static IValueConverter Continuous(IValueConverter converter) => new ContinuousValueConverter(converter);
 
         #endregion
 

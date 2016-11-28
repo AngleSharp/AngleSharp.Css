@@ -12,34 +12,47 @@
     {
         public ICssValue Convert(StringSource source)
         {
-            if (source.IsFunction(FunctionNames.Rect))
+            do
             {
-                var top = source.ToLength();
-                SkipIfComma(source);
-                var right = source.ToLength();
-                SkipIfComma(source);
-                var bottom = source.ToLength();
-                SkipIfComma(source);
-                var left = source.ToLength();
-                var f = source.SkipSpacesAndComments();
-
-                if (top.HasValue && right.HasValue && bottom.HasValue && left.HasValue && f == Symbols.RoundBracketClose)
+                if (source.IsFunction(FunctionNames.Rect))
                 {
-                    var shape = new Shape(top.Value, right.Value, bottom.Value, left.Value);
-                    source.SkipCurrentAndSpaces();
-                    return new RectValue(shape);
+                    var top = source.ToLength();
+                    var isc = SkipIfComma(source);
+                    var right = source.ToLength();
+
+                    if (SkipIfComma(source) != isc)
+                        break;
+
+                    var bottom = source.ToLength();
+
+                    if (SkipIfComma(source) != isc)
+                        break;
+
+                    var left = source.ToLength();
+                    var f = source.SkipSpacesAndComments();
+
+                    if (top.HasValue && right.HasValue && bottom.HasValue && left.HasValue && f == Symbols.RoundBracketClose)
+                    {
+                        var shape = new Shape(top.Value, right.Value, bottom.Value, left.Value);
+                        source.SkipCurrentAndSpaces();
+                        return new RectValue(shape);
+                    }
                 }
             }
+            while (false);
 
             return null;
         }
 
-        private void SkipIfComma(StringSource source)
+        private Boolean SkipIfComma(StringSource source)
         {
             if (source.SkipSpacesAndComments() == Symbols.Comma)
             {
                 source.SkipCurrentAndSpaces();
+                return true;
             }
+
+            return false;
         }
 
         sealed class RectValue : ICssValue

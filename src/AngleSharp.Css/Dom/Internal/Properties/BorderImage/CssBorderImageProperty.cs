@@ -12,15 +12,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ImageConverter = Or(
-            WithAny(
-                OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
-                WithOrder(
-                    BorderImageSliceConverter.Option().For(PropertyNames.BorderImageSlice),
-                    BorderImageWidthConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageWidth),
-                    BorderImageOutsetConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageOutset)),
-                BorderImageRepeatConverter.Option().For(PropertyNames.BorderImageRepeat)),
-            Initial);
+        private static readonly IValueConverter ImageConverter = Or(new BorderImageConverter(), Initial);
         
         #endregion
 

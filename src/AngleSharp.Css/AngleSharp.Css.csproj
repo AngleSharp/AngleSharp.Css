@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Converters\BackgroundConverter.cs" />
+    <Compile Include="Converters\BorderImageConverter.cs" />
     <Compile Include="Converters\ColumnRuleConverter.cs" />
     <Compile Include="Converters\MultipleValueExtensions.cs" />
     <Compile Include="Converters\OriginConverter.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="StyleFormatterExtensions.cs" />
     <Compile Include="TaskEx.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="Values\BorderImageSlice.cs" />
     <Compile Include="Values\Colors.cs" />
     <Compile Include="CssConfigurationExtensions.cs" />
     <Compile Include="Dom\AnimationDirection.cs" />
@@ -412,7 +414,7 @@
     <Compile Include="Converters\AnyValueConverter.cs" />
     <Compile Include="Converters\ArgumentsValueConverter.cs" />
     <Compile Include="Converters\BorderRadiusConverter.cs" />
-    <Compile Include="Converters\ContinuousValueConverter.cs" />
+    <Compile Include="Converters\CounterValueConverter.cs" />
     <Compile Include="Converters\DictionaryValueConverter.cs" />
     <Compile Include="Converters\EndListValueConverter.cs" />
     <Compile Include="Converters\FunctionValueConverter.cs" />
@@ -443,7 +445,6 @@
     <Compile Include="Values\Length.cs" />
     <Compile Include="Values\LinearGradient.cs" />
     <Compile Include="Values\MatrixTransform.cs" />
-    <Compile Include="Values\Percent.cs" />
     <Compile Include="Values\PerspectiveTransform.cs" />
     <Compile Include="Values\Point.cs" />
     <Compile Include="Values\RadialGradient.cs" />

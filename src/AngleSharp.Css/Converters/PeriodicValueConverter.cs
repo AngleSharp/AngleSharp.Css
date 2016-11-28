@@ -48,6 +48,11 @@
                     {
                         parts[i] = _values[i].CssText;
                     }
+
+                    if (l == 2 && parts[1] == parts[0])
+                    {
+                        parts = new[] { parts[0] };
+                    }
                     
                     return String.Join(" ", parts);
                 }

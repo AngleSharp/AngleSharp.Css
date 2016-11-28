@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
 
@@ -12,7 +11,7 @@
         /// <summary>
         /// Gets an enumeration over all stops.
         /// </summary>
-        IEnumerable<Percent> Stops { get; }
+        IEnumerable<Single> Stops { get; }
 
         /// <summary>
         /// Gets the text representation of the keyframe selector.

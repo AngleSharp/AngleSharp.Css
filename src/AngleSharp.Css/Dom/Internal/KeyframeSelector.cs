@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
 
     /// <summary>
@@ -12,13 +13,13 @@
     {
         #region Fields
 
-        private readonly List<Percent> _stops;
+        private readonly List<Single> _stops;
 
         #endregion
 
         #region ctor
 
-        public KeyframeSelector(List<Percent> stops)
+        public KeyframeSelector(List<Single> stops)
         {
             _stops = stops;
         }
@@ -27,7 +28,7 @@
 
         #region Properties
 
-        public IEnumerable<Percent> Stops
+        public IEnumerable<Single> Stops
         {
             get { return _stops; }
         }
@@ -45,14 +46,26 @@
         {
             if (_stops.Count > 0)
             {
-                writer.Write(_stops[0]);
+                Write(writer, _stops[0]);
 
                 for (var i = 1; i < _stops.Count; i++)
                 {
                     writer.Write(", ");
-                    writer.Write(_stops[i]);
+                    Write(writer, _stops[i]);
                 }
             }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static void Write(TextWriter writer, Single value)
+        {
+            var pc = Math.Truncate(100f * value);
+            var str = pc.ToString(CultureInfo.InvariantCulture);
+            writer.Write(str);
+            writer.Write(Symbols.Percent);
         }
 
         #endregion

@@ -24,9 +24,7 @@
                 var option = _converters[i].Convert(source);
 
                 if (option == null)
-                {
-                    return null;
-                }
+                    break;
 
                 source.SkipSpacesAndComments();
                 options[i] = option;
@@ -44,7 +42,7 @@
                 _options = options;
             }
 
-            public string CssText
+            public String CssText
             {
                 get { return _options.Join(" "); }
             }

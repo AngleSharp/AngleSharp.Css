@@ -5,7 +5,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    
+
     static class GradientParser
     {
         private static readonly Dictionary<String, Func<StringSource, IGradient>> GradientFunctions = new Dictionary<string, Func<StringSource, IGradient>>
@@ -172,7 +172,7 @@
 
         private static GradientStop? ParseGradientStop(StringSource source)
         {
-            var color = source.ToColor();
+            var color = source.ParseColor();
             source.SkipSpacesAndComments();
             var position = source.ToDistance();
 

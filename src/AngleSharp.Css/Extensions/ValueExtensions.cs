@@ -38,17 +38,80 @@
             }
         }
 
-        public static Percent? ToPercent(this StringSource str)
+        public static Single? ToPercent(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null && test.Dimension == "%")
             {
                 var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
-                return new Percent(value);
+                return value * 0.01f;
             }
 
+            str.BackTo(pos);
             return null;
+        }
+
+        public static Length? ToPercentOrNumber(this StringSource str)
+        {
+            var pos = str.Index;
+            var test = str.ParseUnit();
+
+            if (test != null)
+            {
+                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+
+                if (test.Dimension == "%")
+                {
+                    return new Length(value, Length.Unit.Percent);
+                }
+                else if (test.Dimension.Length == 0)
+                {
+                    return new Length(value, Length.Unit.None);
+                }
+            }
+
+            str.BackTo(pos);
+            return null;
+        }
+
+        public static BorderImageSlice? ToBorderImageSlice(this StringSource str)
+        {
+            var lengths = new Length[4];
+            var filled = false;
+            var completed = 0;
+            var pos = 0;
+
+            do
+            {
+                pos = str.Index;
+
+                if (completed < 4)
+                {
+                    var length = str.ToPercentOrNumber();
+
+                    if (length.HasValue)
+                    {
+                        lengths[completed++] = length.Value;
+                        str.SkipCurrentAndSpaces();
+                    }
+                }
+
+                if (!filled)
+                {
+                    filled = str.IsIdentifier(CssKeywords.Fill);
+                    str.SkipCurrentAndSpaces();
+                }
+            }
+            while (str.Index != pos);
+
+            while (completed < 4)
+            {
+                lengths[completed++] = Length.Full;
+            }
+
+            return new BorderImageSlice(lengths[0], lengths[1], lengths[2], lengths[3], filled);
         }
 
         public static Boolean IsFunction(this StringSource str, String name)
@@ -121,8 +184,16 @@
 
         public static Boolean IsAnimatableIdentifier(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseIdent();
-            return test != null && (test.Isi(CssKeywords.All) || true);//TODO: Factory.Properties.IsAnimatable(value));
+
+            if (test != null && (test.Isi(CssKeywords.All) || true))//TODO: Factory.Properties.IsAnimatable(value))
+            {
+                return true;
+            }
+
+            str.BackTo(pos);
+            return false;
         }
 
         public static Single? ToSingle(this StringSource str)
@@ -132,14 +203,30 @@
 
         public static Single? ToNaturalSingle(this StringSource str)
         {
+            var pos = str.Index;
             var element = str.ParseNumber();
-            return element.HasValue && element.Value >= 0f ? element : null;
+
+            if (element.HasValue && element.Value >= 0f)
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
         }
 
 		public static Single? ToGreaterOrEqualOneSingle(this StringSource str)
-		{
-			var element = str.ParseNumber();
-			return element.HasValue && element.Value >= 1f ? element : null;
+        {
+            var pos = str.Index;
+            var element = str.ParseNumber();
+
+            if (element.HasValue && element.Value >= 1f)
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
 		}
 
         public static Int32? ToInteger(this StringSource str)
@@ -149,26 +236,58 @@
 
         public static Int32? ToNaturalInteger(this StringSource str)
         {
+            var pos = str.Index;
             var element = str.ParseInteger();
-            return element.HasValue && element.Value >= 0 ? element : null;
+
+            if (element.HasValue && element.Value >= 0)
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
         }
 
         public static Int32? ToPositiveInteger(this StringSource str)
         {
+            var pos = str.Index;
             var element = str.ParseInteger();
-            return element.HasValue && element.Value > 0 ? element : null;
+
+            if (element.HasValue && element.Value > 0)
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
         }
 
         public static Int32? ToWeightInteger(this StringSource str)
         {
+            var pos = str.Index;
             var element = str.ToPositiveInteger();
-            return element.HasValue && IsWeight(element.Value) ? element : null;
+
+            if (element.HasValue && IsWeight(element.Value))
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
         }
 
         public static Int32? ToBinary(this StringSource str)
         {
+            var pos = str.Index;
             var element = str.ParseInteger();
-            return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
+
+            if (element.HasValue && (element.Value == 0 || element.Value == 1))
+            {
+                return element;
+            }
+
+            str.BackTo(pos);
+            return null;
         }
 
         public static Point? ToSize(this StringSource str)
@@ -319,6 +438,7 @@
 
         public static Angle? ToAngle(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -330,6 +450,8 @@
                     var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Angle(value, unit);
                 }
+
+                str.BackTo(pos);
             }
 
             return null;
@@ -337,6 +459,7 @@
 
         public static Frequency? ToFrequency(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -348,12 +471,15 @@
                     var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Frequency(value, unit);
                 }
+
+                str.BackTo(pos);
             }
 
             return null;
         }
         public static Length? ToDistance(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -366,14 +492,16 @@
                 {
                     return new Length(value, unit);
                 }
+
+                str.BackTo(pos);
             }
 
             return null;
         }
-
-
+        
         public static Length? ToLength(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -389,6 +517,8 @@
                         return new Length(value, unit);
                     }
                 }
+
+                str.BackTo(pos);
             }
 
             return null;
@@ -396,6 +526,7 @@
 
         public static Resolution? ToResolution(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -407,6 +538,8 @@
                     var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Resolution(value, unit);
                 }
+
+                str.BackTo(pos);
             }
 
             return null;
@@ -414,6 +547,7 @@
 
         public static Time? ToTime(this StringSource str)
         {
+            var pos = str.Index;
             var test = str.ParseUnit();
 
             if (test != null)
@@ -425,6 +559,8 @@
                     var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Time(value, unit);
                 }
+
+                str.BackTo(pos);
             }
 
             return null;

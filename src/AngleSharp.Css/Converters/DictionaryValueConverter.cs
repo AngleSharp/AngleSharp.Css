@@ -18,10 +18,17 @@
 
         public ICssValue Convert(StringSource source)
         {
+            var pos = source.Index;
             var ident = source.ParseIdent();
             var mode = default(T);
-            return ident != null && _values.TryGetValue(ident, out mode) ?
-                new EnumeratedValue(ident.ToLowerInvariant(), mode) : null;
+
+            if (ident != null && _values.TryGetValue(ident, out mode))
+            {
+                return new EnumeratedValue(ident.ToLowerInvariant(), mode);
+            }
+
+            source.BackTo(pos);
+            return null;
         }
 
         private sealed class EnumeratedValue : ICssValue

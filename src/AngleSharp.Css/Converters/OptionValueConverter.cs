@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -19,16 +18,12 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var start = source.Index;
-            var result = _converter.Convert(source);
-
-            if (result == null)
+            if (source.IsDone || source.Current == Symbols.Comma)
             {
-                result = new OptionValue(_defaultValue);
-                source.BackTo(start);
+                return new OptionValue(_defaultValue);
             }
 
-            return result;
+            return _converter.Convert(source);
         }
 
         public sealed class OptionValue : ICssValue
