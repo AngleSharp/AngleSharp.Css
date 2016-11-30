@@ -422,7 +422,7 @@
             var concrete = (CssBackgroundPositionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0 0, 0 0", concrete.Value);
+            Assert.AreEqual("left top, left top", concrete.Value);
         }
 
         [Test]

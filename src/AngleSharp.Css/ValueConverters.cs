@@ -152,6 +152,12 @@
         public static readonly IValueConverter ColorConverter = new StructValueConverter<Color>(ValueExtensions.ToColor);
 
         /// <summary>
+        /// Represents a position object.
+        /// http://www.w3.org/TR/css3-background/#ltpositiongt
+        /// </summary>
+        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(ValueExtensions.ToPoint);
+
+        /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
@@ -166,35 +172,6 @@
         #endregion
 
         #region Functions
-
-        /// <summary>
-        /// Represents a position object.
-        /// http://www.w3.org/TR/css3-background/#ltpositiongt
-        /// </summary>
-        public static readonly IValueConverter PointConverter = Construct(() =>
-        {
-            var hi = Or(
-                Assign(CssKeywords.Left, Length.Zero),
-                Assign(CssKeywords.Right, new Length(100f, Length.Unit.Percent)),
-                Assign(CssKeywords.Center, new Length(50f, Length.Unit.Percent)));
-            var vi = Or(
-                Assign(CssKeywords.Top, Length.Zero),
-                Assign(CssKeywords.Bottom, new Length(100f, Length.Unit.Percent)),
-                Assign(CssKeywords.Center, new Length(50f, Length.Unit.Percent)));
-            var h = Or(hi, LengthOrPercentConverter);
-            var v = Or(vi, LengthOrPercentConverter);
-
-            return Or(
-                WithOrder(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter),
-                WithOrder(hi, LengthOrPercentConverter, vi),
-                WithOrder(hi, vi, LengthOrPercentConverter),
-                WithOrder(h, v),
-                WithOrder(v, h),
-                LengthOrPercentConverter,
-                Toggle(CssKeywords.Left, CssKeywords.Right),
-                Toggle(CssKeywords.Top, CssKeywords.Bottom),
-                Assign(CssKeywords.Center, Point.Center));
-        });
 
         /// <summary>
         /// Represents an attribute retriever object.
@@ -747,11 +724,7 @@
         /// <summary>
         /// Represents a converter for background size.
         /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = Or(
-            WithOrder(AutoLengthOrPercentConverter, AutoLengthOrPercentConverter),
-            AutoLengthOrPercentConverter,
-            Assign(CssKeywords.Cover), 
-            Assign(CssKeywords.Contain));
+        public static readonly IValueConverter BackgroundSizeConverter = new StructValueConverter<Point>(ValueExtensions.ToSize);
 
         /// <summary>
         /// Represents a converter for background repeat.

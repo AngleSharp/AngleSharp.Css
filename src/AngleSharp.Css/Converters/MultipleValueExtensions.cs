@@ -13,7 +13,7 @@
 
             for (var i = 0; i < values.Length; i++)
             {
-                var str = values[i].CssText;
+                var str = values[i]?.CssText;
 
                 if (!String.IsNullOrEmpty(str))
                 {
