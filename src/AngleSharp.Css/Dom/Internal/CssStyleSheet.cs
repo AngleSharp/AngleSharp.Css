@@ -18,6 +18,9 @@
         private readonly TextSource _source;
         private readonly MediaList _media;
         private readonly CssRuleList _rules;
+        private ICssStyleSheet _parent;
+        private ICssRule _owner;
+        private IElement _element;
 
         #endregion
 
@@ -73,20 +76,17 @@
 
         public IElement OwnerNode
         {
-            get;
-            set;
+            get { return _element; }
         }
 
         public ICssStyleSheet Parent
         {
-            get;
-            set;
+            get { return _parent; }
         }
 
         public ICssRule OwnerRule
         {
-            get;
-            set;
+            get { return _owner; }
         }
 
         public String Href
@@ -136,18 +136,23 @@
 
         public void SetOwner(ICssRule rule)
         {
-            OwnerRule = rule;
-            Parent = rule?.Owner;
+            _owner = rule;
+            _parent = rule?.Owner;
+            _element = _parent?.OwnerNode;
         }
 
         public void SetParent(ICssStyleSheet parent)
         {
-            Parent = parent;
+            _owner = null;
+            _parent = parent;
+            _element = parent?.OwnerNode;
         }
 
         public void SetOwner(IElement element)
         {
-            OwnerNode = element;
+            _owner = null;
+            _parent = null;
+            _element = element;
         }
 
         #endregion

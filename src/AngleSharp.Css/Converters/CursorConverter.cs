@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
-using AngleSharp.Css.Dom;
-using AngleSharp.Css.Parser;
-using AngleSharp.Text;
-using AngleSharp.Css.Values;
-using System.Collections.Generic;
-
-namespace AngleSharp.Css.Converters
+﻿namespace AngleSharp.Css.Converters
 {
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Text;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     sealed class CursorConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)

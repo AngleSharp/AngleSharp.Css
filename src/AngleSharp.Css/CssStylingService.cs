@@ -70,9 +70,9 @@
             var sheet = new CssStyleSheet(context, source)
             {
                 IsDisabled = options.IsDisabled,
-                OwnerNode = options.Element,
                 Href = url
             };
+            sheet.SetOwner(options.Element);
             return await parser.ParseStyleSheetAsync(sheet, cancel).ConfigureAwait(false);
         }
 

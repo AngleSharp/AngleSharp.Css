@@ -476,9 +476,16 @@
             var start = token.Position;
 
             if (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose, CssTokenType.Colon) &&
-                token.IsNot(CssTokenType.Delim, CssTokenType.Semicolon, CssTokenType.CurlyBracketOpen))
+                token.IsNot(CssTokenType.Semicolon, CssTokenType.CurlyBracketOpen))
             {
                 var name = token.Data;
+
+                while (token.Type == CssTokenType.Delim)
+                {
+                    token = NextToken();
+                    name += token.Data;
+                }
+
                 token = NextToken();
                 CollectTrivia(ref token);
 

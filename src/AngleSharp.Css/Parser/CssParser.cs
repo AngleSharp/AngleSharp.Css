@@ -251,10 +251,9 @@
                 var sheet = new CssStyleSheet(_context, source)
                 {
                     IsDisabled = false,
-                    Parent = parent,
                     Href = url
                 };
-
+                sheet.SetParent(parent);
                 return await ParseStylesheetAsync(sheet, cancel).ConfigureAwait(false);
             }
         }

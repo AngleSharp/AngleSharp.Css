@@ -142,10 +142,12 @@ h1 {
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual(1, p.Style.Length);
+            Assert.AreEqual(2, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgb(0, 128, 0)", p.Style.GetColor());
+            Assert.AreEqual("font-family", p.Style[1]);
+            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.AreEqual("initial", p.Style.GetFontFamily());
         }
 
         [Test]
@@ -306,7 +308,7 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual(1, img.Style.Length);
         }
 
         [Test]
@@ -814,9 +816,8 @@ p.info span::after {
             Assert.AreEqual(1, sheet.Rules.Length);
             var media = sheet.Rules[0] as ICssMediaRule;
             Assert.IsNotNull(media);
-            Assert.AreEqual(1, media.Media.Length);
+            Assert.AreEqual(4, media.Media.Length);
             Assert.AreEqual(1, media.Rules.Length);
-            Assert.AreEqual("only screen and (min-device-pixel-ratio: 1.5)", media.ConditionText);
         }
 
         [Test]

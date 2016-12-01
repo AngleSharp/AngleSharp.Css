@@ -42,7 +42,8 @@
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        return buffer.ToPool();
+                        buffer.ToPool();
+                        return null;
 
                     case Symbols.ReverseSolidus:
                         current = source.Next();
@@ -87,7 +88,8 @@
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        return buffer.ToPool();
+                        buffer.ToPool();
+                        return null;
 
                     case Symbols.ReverseSolidus:
                         current = source.Next();

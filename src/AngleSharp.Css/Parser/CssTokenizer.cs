@@ -63,7 +63,7 @@
             var sb = StringBuilderPool.Obtain();
             Back(Position - position);
             var current = Current;
-            var spaced = false;
+            var spaced = 0;
 
             while (!current.IsOneOf(Symbols.EndOfFile, Symbols.Semicolon, Symbols.CurlyBracketOpen, Symbols.CurlyBracketClose))
             {
@@ -71,21 +71,16 @@
 
                 if (token.Type == CssTokenType.Whitespace)
                 {
-                    spaced = true;
+                    spaced++;
+                    sb.Append(current);
                     current = GetNext();
                 }
                 else
                 {
                     var length = Position - position;
-
-                    if (spaced)
-                    {
-                        sb.Append(Symbols.Space);
-                    }
-
                     Back(length++);
                     current = Current;
-                    spaced = false;
+                    spaced = 0;
 
                     while (length > 0)
                     {
@@ -96,6 +91,11 @@
                 }
                 
                 position = Position;
+            }
+
+            if (spaced > 0)
+            {
+                sb.Remove(sb.Length - spaced, spaced);
             }
 
             Back();
@@ -366,6 +366,15 @@
                     }
 
                     return NewDelimiter(GetPrevious());
+
+                case Symbols.Null:
+                    do
+                    {
+                        current = GetNext();
+                    }
+                    while (current == Symbols.Null);
+
+                    return Data(current);
 
                 default:
                     if (current.IsNameStart())
