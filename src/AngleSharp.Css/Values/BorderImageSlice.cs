@@ -29,17 +29,38 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             var sb = StringBuilderPool.Obtain();
-            sb.Append(_top.ToString(format, formatProvider));
-            sb.Append(' ');
-            sb.Append(_right.ToString(format, formatProvider));
-            sb.Append(' ');
-            sb.Append(_bottom.ToString(format, formatProvider));
-            sb.Append(' ');
-            sb.Append(_left.ToString(format, formatProvider));
+
+            if (!_top.Equals(Length.Auto))
+            {
+                sb.Append(_top.ToString(format, formatProvider));
+
+                if (!_right.Equals(Length.Auto))
+                {
+                    sb.Append(Symbols.Space);
+                    sb.Append(_right.ToString(format, formatProvider));
+                }
+
+                if (!_bottom.Equals(Length.Auto))
+                {
+                    sb.Append(Symbols.Space);
+                    sb.Append(_bottom.ToString(format, formatProvider));
+                }
+
+                if (!_left.Equals(Length.Auto))
+                {
+                    sb.Append(Symbols.Space);
+                    sb.Append(_left.ToString(format, formatProvider));
+                }
+
+                if (_filled)
+                {
+                    sb.Append(Symbols.Space);
+                }
+            }
 
             if (_filled)
             {
-                sb.Append(' ').Append(CssKeywords.Fill);
+                sb.Append(CssKeywords.Fill);
             }
 
             return sb.ToPool();

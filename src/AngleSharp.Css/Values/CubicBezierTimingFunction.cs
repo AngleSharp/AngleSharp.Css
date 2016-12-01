@@ -1,11 +1,14 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
+    using System.Globalization;
 
     /// <summary>
-    /// Specifies a cubic-bezier curve. 
+    /// Represents a cubic-bezier timing-function object.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    public sealed class CubicBezierTimingFunction : ITimingFunction
+    public sealed class CubicBezierTimingFunction : ITimingFunction, IEquatable<CubicBezierTimingFunction>
     {
         #region Fields
 
@@ -13,6 +16,16 @@
         private readonly Single _y1;
         private readonly Single _x2;
         private readonly Single _y2;
+
+        public static readonly CubicBezierTimingFunction Ease = new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f);
+
+        public static readonly CubicBezierTimingFunction EaseIn = new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f);
+
+        public static readonly CubicBezierTimingFunction EaseOut = new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f);
+
+        public static readonly CubicBezierTimingFunction EaseInOut = new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f);
+
+        public static readonly CubicBezierTimingFunction Linear = new CubicBezierTimingFunction(0f, 0f, 1f, 1f);
 
         #endregion
 
@@ -69,6 +82,54 @@
         public Single Y2
         {
             get { return _y2; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Boolean Equals(CubicBezierTimingFunction other)
+        {
+            return _x1 == other._x1 && _x2 == other._x2 && _y1 == other._y1 && _y2 == other._y2;
+        }
+
+        /// <summary>
+        /// Serializes to a string.
+        /// </summary>
+        public override String ToString()
+        {
+            if (Equals(Ease))
+            {
+                return CssKeywords.Ease;
+            }
+            else if (Equals(EaseIn))
+            {
+                return CssKeywords.EaseIn;
+            }
+            else if (Equals(EaseOut))
+            {
+                return CssKeywords.EaseOut;
+            }
+            else if (Equals(EaseInOut))
+            {
+                return CssKeywords.EaseInOut;
+            }
+            else if (Equals(Linear))
+            {
+                return CssKeywords.Linear;
+            }
+            else
+            {
+                var fn = FunctionNames.CubicBezier;
+                var args = new[]
+                {
+                    _x1.ToString(CultureInfo.InvariantCulture),
+                    _y1.ToString(CultureInfo.InvariantCulture),
+                    _x2.ToString(CultureInfo.InvariantCulture),
+                    _y2.ToString(CultureInfo.InvariantCulture)
+                };
+                return fn.CssFunction(String.Join(", ", args));
+            }
         }
 
         #endregion

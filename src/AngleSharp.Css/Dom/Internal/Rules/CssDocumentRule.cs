@@ -72,7 +72,7 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = formatter.Block(Rules);
+            var rules = formatter.BlockRules(Rules);
             writer.Write(formatter.Rule(RuleNames.Document, ConditionText, rules));
         }
 

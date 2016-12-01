@@ -12,12 +12,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = Or(Or(ImageSourceConverter,
-            WithOrder(
-                ImageSourceConverter.Required(),
-                NumberConverter.Required(),
-                NumberConverter.Required())).RequiresEnd(
-            Map.SystemCursors.ToConverter()), AssignInitial(SystemCursor.Auto));
+        private static readonly IValueConverter StyleConverter = Or(new CursorConverter(), AssignInitial(SystemCursor.Auto));
 
         #endregion
 

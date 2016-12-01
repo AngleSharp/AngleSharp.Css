@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -38,50 +37,50 @@
 
                     if (layer.Source == null)
                     {
-                        layer.Source = source.ToImageSource();
+                        layer.Source = source.ParseImageSource();
                         c = source.SkipSpacesAndComments();
                     }
 
                     if (!layer.Position.HasValue)
                     {
-                        layer.Position = source.ToPoint();
+                        layer.Position = source.ParsePoint();
                         c = source.SkipSpacesAndComments();
 
                         if (c == Symbols.Solidus && !layer.Size.HasValue)
                         {
                             c = source.SkipSpacesAndComments();
-                            layer.Size = source.ToSize();
+                            layer.Size = source.ParseSize();
                             c = source.SkipSpacesAndComments();
                         }
                     }
 
                     if (layer.Repeat == null)
                     {
-                        layer.Repeat = source.ToBackgroundRepeat();
+                        layer.Repeat = source.ParseBackgroundRepeat();
                         c = source.SkipSpacesAndComments();
                     }
 
                     if (!layer.Attachment.HasValue)
                     {
-                        layer.Attachment = source.ToConstant(Map.BackgroundAttachments);
+                        layer.Attachment = source.ParseConstant(Map.BackgroundAttachments);
                         c = source.SkipSpacesAndComments();
                     }
 
                     if (!layer.Origin.HasValue)
                     {
-                        layer.Origin = source.ToConstant(Map.BoxModels);
+                        layer.Origin = source.ParseConstant(Map.BoxModels);
                         c = source.SkipSpacesAndComments();
                     }
 
                     if (!layer.Clip.HasValue)
                     {
-                        layer.Clip = source.ToConstant(Map.BoxModels);
+                        layer.Clip = source.ParseConstant(Map.BoxModels);
                         c = source.SkipSpacesAndComments();
                     }
 
                     if (!color.HasValue)
                     {
-                        color = source.ParseColor();
+                        color = ColorParser.ParseColor(source);
                         c = source.SkipSpacesAndComments();
                     }
                 }
@@ -97,29 +96,11 @@
         {
             public IImageSource Source;
             public Point? Position;
-            public Point? Size;
-            public Tuple<BackgroundRepeat, BackgroundRepeat> Repeat;
+            public BackgroundSize? Size;
+            public ImageRepeats? Repeat;
             public BackgroundAttachment? Attachment;
             public BoxModel? Origin;
             public BoxModel? Clip;
-
-            private static String Stringify(Tuple<BackgroundRepeat, BackgroundRepeat> r)
-            {
-                if (r.Item1 == BackgroundRepeat.Repeat && r.Item2 == BackgroundRepeat.NoRepeat)
-                {
-                    return CssKeywords.RepeatX;
-                }
-                else if (r.Item2 == BackgroundRepeat.Repeat && r.Item1 == BackgroundRepeat.NoRepeat)
-                {
-                    return CssKeywords.RepeatY;
-                }
-                else if (r.Item1 == r.Item2)
-                {
-                    return r.Item1.ToString(Map.BackgroundRepeats);
-                }
-
-                return String.Concat(r.Item1.ToString(Map.BackgroundRepeats), " ", r.Item2.ToString(Map.BackgroundRepeats));
-            }
 
             public override String ToString()
             {
@@ -143,10 +124,10 @@
                     }
                 }
 
-                if (Repeat != null)
+                if (Repeat.HasValue)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Stringify(Repeat));
+                    sb.Append(Repeat.Value.ToString());
                 }
 
                 if (Attachment.HasValue)

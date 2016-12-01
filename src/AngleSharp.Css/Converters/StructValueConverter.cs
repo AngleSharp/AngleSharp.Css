@@ -33,7 +33,7 @@
 
             public String CssText
             {
-                get { return _data.ToString(null,  CultureInfo.InvariantCulture); }
+                get { return _data.ToString(null, CultureInfo.InvariantCulture); }
             }
 
             public void ToCss(TextWriter writer, IStyleFormatter formatter)

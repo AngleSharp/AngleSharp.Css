@@ -7,8 +7,8 @@
     {
         public static String Style(this IStyleFormatter formatter, String selectorText, IEnumerable<IStyleFormattable> style)
         {
-            var value = formatter.Block(style);
-            return formatter.Rule(selectorText, null, value);
+            var block = formatter.BlockDeclarations(style);
+            return formatter.Rule(selectorText, null, block);
         }
     }
 }

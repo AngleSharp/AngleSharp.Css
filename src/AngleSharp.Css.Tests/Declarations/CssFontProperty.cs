@@ -482,7 +482,7 @@
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("80% sans-serif", concrete.Value);
+            Assert.AreEqual("smaller sans-serif", concrete.Value);
         }
 
         [Test]
@@ -663,7 +663,7 @@
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("80% sans-serif", concrete.Value);
+            Assert.AreEqual("smaller sans-serif", concrete.Value);
         }
 
         [Test]
@@ -705,7 +705,7 @@
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal small-caps 120% / 120% fantasy", concrete.Value);
+            Assert.AreEqual("normal small-caps larger / 120% Fantasy", concrete.Value);
         }
 
         [Test]

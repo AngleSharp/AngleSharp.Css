@@ -225,7 +225,7 @@
             var concrete = (CssCounterResetProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("chapter section 1 page", concrete.Value);
+            Assert.AreEqual("chapter 0 section 1 page 0", concrete.Value);
         }
 
         [Test]
@@ -239,7 +239,7 @@
             var concrete = (CssCounterResetProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("counter-name", concrete.Value);
+            Assert.AreEqual("counter-name 0", concrete.Value);
         }
 
         [Test]

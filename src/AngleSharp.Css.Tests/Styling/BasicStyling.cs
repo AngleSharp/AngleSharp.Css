@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Styling
 {
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;

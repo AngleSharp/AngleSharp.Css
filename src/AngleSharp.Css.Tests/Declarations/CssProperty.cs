@@ -3,7 +3,6 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using NUnit.Framework;
-    using System;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -1222,10 +1221,11 @@
             var border = factory.Create("border");
             var color = factory.Create("color");
 
-            Assert.IsNull(invalid);
+            Assert.IsNotNull(invalid);
             Assert.IsNotNull(border);
             Assert.IsNotNull(color);
 
+            Assert.IsInstanceOf<CssUnknownProperty>(invalid);
             Assert.IsInstanceOf<CssBorderProperty>(border);
             Assert.IsInstanceOf<CssColorProperty>(color);
         }

@@ -4,8 +4,8 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
-    using static ValueConverters;
     using System.IO;
+    using static ValueConverters;
 
     sealed class BorderRadiusConverter : IValueConverter
     {

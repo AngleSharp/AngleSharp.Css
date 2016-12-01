@@ -285,8 +285,12 @@
             {
                 return CssKeywords.LeftBottom;
             }
+            else if (_y.Equals(Length.Half))
+            {
+                return _x.ToString(format, formatProvider);
+            }
 
-            return String.Concat(_x.ToString(), " ", _y.ToString());
+            return String.Concat(_x.ToString(format, formatProvider), " ", _y.ToString(format, formatProvider));
         }
 
         #endregion

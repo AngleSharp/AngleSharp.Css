@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;

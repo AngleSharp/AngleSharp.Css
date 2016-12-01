@@ -127,7 +127,7 @@
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("top left", concrete.Value);
+            Assert.AreEqual("left top", concrete.Value);
         }
 
         [Test]
@@ -142,7 +142,7 @@
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("50% 50%", concrete.Value);
+            Assert.AreEqual("center", concrete.Value);
         }
 
         [Test]
@@ -157,7 +157,7 @@
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("left 30px", concrete.Value);
+            Assert.AreEqual("0 30px", concrete.Value);
         }
     }
 }

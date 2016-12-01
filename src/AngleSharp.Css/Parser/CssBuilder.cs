@@ -61,7 +61,7 @@
         private ICssRule CreateStyleRule(ICssStyleSheet sheet, CssToken token)
         {
             var rule = new CssStyleRule(sheet);
-            return CreateStyle(rule, token) ? rule : null;
+            return CreateStyle(rule, token);
         }
 
         private ICssRule CreateAtRule(ICssStyleSheet sheet, CssToken token)
@@ -69,52 +69,52 @@
             if (token.Data.Is(RuleNames.Media))
             {
                 var rule = new CssMediaRule(sheet);
-                return CreateMedia(rule, token) ? rule : null;
+                return CreateMedia(rule, token);
             }
             else if (token.Data.Is(RuleNames.FontFace))
             {
                 var rule = new CssFontFaceRule(sheet);
-                return CreateFontFace(rule, token) ? rule : null;
+                return CreateFontFace(rule, token);
             }
             else if (token.Data.Is(RuleNames.Keyframes))
             {
                 var rule = new CssKeyframesRule(sheet);
-                return CreateKeyframes(rule, token) ? rule : null;
+                return CreateKeyframes(rule, token);
             }
             else if (token.Data.Is(RuleNames.Import))
             {
                 var rule = new CssImportRule(sheet);
-                return CreateImport(rule, token) ? rule : null;
+                return CreateImport(rule, token);
             }
             else if (token.Data.Is(RuleNames.Charset))
             {
                 var rule = new CssCharsetRule(sheet);
-                return CreateCharset(rule, token) ? rule : null;
+                return CreateCharset(rule, token);
             }
             else if (token.Data.Is(RuleNames.Namespace))
             {
                 var rule = new CssNamespaceRule(sheet);
-                return CreateNamespace(rule, token) ? rule : null;
+                return CreateNamespace(rule, token);
             }
             else if (token.Data.Is(RuleNames.Page))
             {
                 var rule = new CssPageRule(sheet);
-                return CreatePage(rule, token) ? rule : null;
+                return CreatePage(rule, token);
             }
             else if (token.Data.Is(RuleNames.Supports))
             {
                 var rule = new CssSupportsRule(sheet);
-                return CreateSupports(rule, token) ? rule : null;
+                return CreateSupports(rule, token);
             }
             else if (token.Data.Is(RuleNames.ViewPort))
             {
                 var rule = new CssViewportRule(sheet);
-                return CreateViewport(rule, token) ? rule : null;
+                return CreateViewport(rule, token);
             }
             else if (token.Data.Is(RuleNames.Document))
             {
                 var rule = new CssDocumentRule(sheet);
-                return CreateDocument(rule, token) ? rule : null;
+                return CreateDocument(rule, token);
             }
             else if (_options.IsIncludingUnknownRules)
             {
@@ -126,7 +126,7 @@
             return null;
         }
 
-        private Boolean CreateCharset(CssCharsetRule rule, CssToken current)
+        private CssCharsetRule CreateCharset(CssCharsetRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -137,10 +137,10 @@
             }
 
             JumpToEnd(ref token);
-            return true;
+            return rule;
         }
 
-        private Boolean CreateDocument(CssDocumentRule rule, CssToken current)
+        private CssDocumentRule CreateDocument(CssDocumentRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -151,13 +151,16 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-                return false;
+            }
+            else if (FillRules(rule) && result)
+            {
+                return rule;
             }
 
-            return FillRules(rule) && result;
+            return null;
         }
 
-        private Boolean CreateViewport(CssViewportRule rule, CssToken current)
+        private CssViewportRule CreateViewport(CssViewportRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -165,13 +168,16 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-                return false;
+            }
+            else if (FillDeclarations(rule))
+            {
+                return rule;
             }
 
-            return FillDeclarations(rule);
+            return null;
         }
 
-        private Boolean CreateFontFace(CssFontFaceRule rule, CssToken current)
+        private CssFontFaceRule CreateFontFace(CssFontFaceRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -179,13 +185,16 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-                return false;
+            }
+            else if (FillDeclarations(rule))
+            {
+                return rule;
             }
 
-            return FillDeclarations(rule);
+            return null;
         }
 
-        private Boolean CreateImport(CssImportRule rule, CssToken current)
+        private CssImportRule CreateImport(CssImportRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -205,10 +214,10 @@
 
             CollectTrivia(ref token);
             JumpToEnd(ref token);
-            return true;
+            return rule;
         }
 
-        private Boolean CreateKeyframes(CssKeyframesRule rule, CssToken current)
+        private CssKeyframesRule CreateKeyframes(CssKeyframesRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -218,13 +227,16 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-                return false;
+            }
+            else
+            {
+                FillKeyframeRules(rule);
             }
 
-            return FillKeyframeRules(rule) && !String.IsNullOrEmpty(rule.Name);
+            return rule;
         }
 
-        private Boolean CreateMedia(CssMediaRule rule, CssToken current)
+        private CssMediaRule CreateMedia(CssMediaRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -238,17 +250,22 @@
                 {
                     if (token.Type == CssTokenType.Semicolon)
                     {
-                        return false;
+                        return null;
                     }
 
                     token = NextToken();
                 }
             }
 
-            return FillRules(rule);
+            if (FillRules(rule))
+            {
+                return rule;
+            }
+
+            return null;
         }
 
-        private Boolean CreateNamespace(CssNamespaceRule rule, CssToken current)
+        private CssNamespaceRule CreateNamespace(CssNamespaceRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -261,10 +278,10 @@
             }
 
             JumpToEnd(ref token);
-            return !String.IsNullOrEmpty(rule.Prefix);
+            return rule;
         }
 
-        private Boolean CreatePage(CssPageRule rule, CssToken current)
+        private CssPageRule CreatePage(CssPageRule rule, CssToken current)
         {
             current = NextToken();
             rule.SelectorText = GetArgument(ref current);
@@ -273,13 +290,16 @@
             if (current.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(current);
-                return false;
+            }
+            else
+            {
+                FillDeclarations(rule.Style, NextToken());
             }
 
-            return FillDeclarations(rule.Style, NextToken());
+            return rule;
         }
 
-        private Boolean CreateSupports(CssSupportsRule rule, CssToken current)
+        private CssSupportsRule CreateSupports(CssSupportsRule rule, CssToken current)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -290,24 +310,29 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-                return false;
+            }
+            else if (FillRules(rule) && result)
+            {
+                return rule;
             }
 
-            return FillRules(rule) && result;
+            return null;
         }
 
-        public Boolean CreateStyle(CssStyleRule rule, CssToken current)
+        public CssStyleRule CreateStyle(CssStyleRule rule, CssToken current)
         {
             CollectTrivia(ref current);
             rule.SelectorText = GetArgument(ref current);
-            return FillDeclarations(rule.Style, NextToken());
+            FillDeclarations(rule.Style, NextToken());
+            return rule;
         }
 
-        public Boolean CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
+        public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
             CollectTrivia(ref current);
             rule.KeyText = GetArgument(ref current);
-            return FillDeclarations(rule.Style, NextToken());
+            FillDeclarations(rule.Style, NextToken());
+            return rule;
         }
 
         private Boolean FillKeyframeRules(CssKeyframesRule parentRule)
@@ -429,7 +454,7 @@
         /// <summary>
         /// Fills the given parent style with declarations given by the tokens.
         /// </summary>
-        public Boolean FillDeclarations(CssStyleDeclaration style, CssToken token)
+        public CssStyleDeclaration FillDeclarations(CssStyleDeclaration style, CssToken token)
         {
             CollectTrivia(ref token);
 
@@ -439,7 +464,7 @@
                 CollectTrivia(ref token);
             }
 
-            return token.Type == CssTokenType.CurlyBracketClose;
+            return style;
         }
 
         /// <summary>

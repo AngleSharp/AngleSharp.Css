@@ -38,7 +38,7 @@
                 }
                 else if (current == Symbols.Solidus && source.Peek() == Symbols.Asterisk)
                 {
-                    source.Next(2);
+                    source.Next();
                     current = source.SkipCssComment();
                     continue;
                 }
@@ -73,6 +73,13 @@
             return content;
         }
 
+        public static Char SkipGetSkip(this StringSource source)
+        {
+            var c = source.SkipSpacesAndComments();
+            source.SkipCurrentAndSpaces();
+            return c;
+        }
+
         public static Char SkipSpacesAndComments(this StringSource source)
         {
             while (true)
@@ -81,7 +88,7 @@
 
                 if (c == Symbols.Solidus && source.Peek() == Symbols.Asterisk)
                 {
-                    source.Next(2);
+                    source.Next();
                     c = source.SkipCssComment();
                     continue;
                 }

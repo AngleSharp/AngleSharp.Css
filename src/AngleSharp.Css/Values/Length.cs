@@ -42,9 +42,9 @@
         public static readonly Length Thick = new Length(5f, Unit.Px);
 
         /// <summary>
-        /// Gets the missing value.
+        /// Gets the auto value.
         /// </summary>
-        public static readonly Length Missing = new Length(-1f, Unit.Ch);
+        public static readonly Length Auto = new Length(Single.NaN, Unit.Vmax);
 
         #endregion
 
@@ -422,7 +422,8 @@
         /// <returns>True if both lengths are equal, otherwise false.</returns>
         public Boolean Equals(Length other)
         {
-            return _value == other._value && (_value == 0f || _unit == other._unit);
+            return (_value == other._value || (Single.IsNaN(_value) && Single.IsNaN(other._value))) && 
+                (_value == 0f || _unit == other._unit);
         }
 
         /// <summary>
@@ -461,8 +462,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            var unit = _value == 0f ? String.Empty : UnitString;
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), unit);
+            return ToString(null, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -473,8 +473,13 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            var unit = _value == 0f ? String.Empty : UnitString;
-            return String.Concat(_value.ToString(format, formatProvider), unit);
+            if (!Equals(Auto))
+            {
+                var unit = _value == 0f ? String.Empty : UnitString;
+                return String.Concat(_value.ToString(format, formatProvider), unit);
+            }
+
+            return CssKeywords.Auto;
         }
 
         #endregion

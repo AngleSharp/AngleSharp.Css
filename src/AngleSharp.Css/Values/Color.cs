@@ -54,6 +54,11 @@
         /// </summary>
         public static readonly Color Transparent = new Color(0, 0, 0, 0);
 
+        /// <summary>
+        /// The color #00010203.
+        /// </summary>
+        public static readonly Color CurrentColor = new Color(0, 1, 2, 3);
+
         #endregion
 
         #region Fields
@@ -503,14 +508,7 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            var arguments = String.Join(", ", new[]
-            {
-                R.ToString(CultureInfo.InvariantCulture),
-                G.ToString(CultureInfo.InvariantCulture),
-                B.ToString(CultureInfo.InvariantCulture),
-                Alpha.ToString(CultureInfo.InvariantCulture)
-            });
-            return FunctionNames.Rgba.CssFunction(arguments);
+            return ToString(null, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -521,14 +519,20 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            var arguments = String.Join(", ", new[]
+            if (!Equals(Color.CurrentColor))
             {
+                var fn = FunctionNames.Rgba;
+                var args = String.Join(", ", new[]
+                {
                 R.ToString(format, formatProvider),
                 G.ToString(format, formatProvider),
                 B.ToString(format, formatProvider),
                 Alpha.ToString(format, formatProvider)
             });
-            return FunctionNames.Rgba.CssFunction(arguments);
+                return fn.CssFunction(args);
+            }
+
+            return CssKeywords.CurrentColor;
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -28,7 +27,7 @@
                 if (id == null)
                 {
                     source.BackTo(start);
-                    var test = source.ToPercent();
+                    var test = source.ParsePercent();
 
                     if (!test.HasValue)
                     {

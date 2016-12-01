@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -12,9 +11,9 @@
     {
         public ICssValue Convert(StringSource source)
         {
-            var pt = source.ToPoint();
+            var pt = source.ParsePoint();
             source.SkipSpacesAndComments();
-            var z = source.ToLength();
+            var z = source.ParseLength();
 
             if (pt.HasValue)
             {

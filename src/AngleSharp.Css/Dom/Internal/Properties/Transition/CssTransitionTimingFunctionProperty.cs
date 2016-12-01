@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Values;
     using static ValueConverters;
 
     /// <summary>
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ListConverter = Or(TransitionConverter.FromList(), AssignInitial(Map.TimingFunctions[CssKeywords.Ease]));
+        private static readonly IValueConverter ListConverter = Or(TransitionConverter.FromList(), AssignInitial(CubicBezierTimingFunction.Ease));
 
         #endregion
 

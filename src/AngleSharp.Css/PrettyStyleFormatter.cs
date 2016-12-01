@@ -80,7 +80,7 @@
             return sb.ToPool();
         }
 
-        String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
+        String IStyleFormatter.BlockRules(IEnumerable<IStyleFormattable> rules)
         {
             var sb = StringBuilderPool.Obtain();
             var ind = String.Concat(Enumerable.Repeat(_intendString, _intends));
@@ -108,19 +108,19 @@
             return CssStyleFormatter.Instance.Declaration(name, value, important);
         }
 
-        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
+        String IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
         {
-            var sb = StringBuilderPool.Obtain();
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
             var ind = String.Concat(Enumerable.Repeat(_intendString, _intends));
             var sep = _newLineString + ind;
 
             foreach (var declaration in declarations)
             {
+                sb.Append(sep).Append(_intendString);
                 sb.Append(declaration).Append(Symbols.Semicolon);
-                sb.Append(sep);
             }
 
-            return sb.ToPool();
+            return sb.Append(sep).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
         String IStyleFormatter.Rule(String name, String value)

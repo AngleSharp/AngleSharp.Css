@@ -44,9 +44,11 @@
             if (values.Length != 16)
                 throw new ArgumentException("You need to provide 16 (4x4) values.", nameof(values));
 
-            for (int i = 0, k = 0; i < 4; i++)
+            var k = 0;
+
+            for (var i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++, k++)
+                for (var j = 0; j < 4; j++, k++)
                 {
                     _matrix[j, i] = values[k];
                 }
@@ -211,9 +213,9 @@
             var A = this._matrix;
             var B = other._matrix;
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (var j = 0; j < 4; j++)
                 {
                     if (A[i, j] != B[i, j])
                     {

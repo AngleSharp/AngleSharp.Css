@@ -1,19 +1,20 @@
 ﻿namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Text;
 
     static class UriParser
     {
-        public static Url Parse(String str)
+        public static UrlReference Parse(String str)
         {
             var source = new StringSource(str);
             var result = source.ParseUri();
             return source.IsDone ? result : null;
         }
 
-        public static Url ParseUri(this StringSource source)
+        public static UrlReference ParseUri(this StringSource source)
         {
             var url = FunctionNames.Url;
             var pos = source.Index;
@@ -45,7 +46,7 @@
             return null;
         }
 
-        private static Url Start(StringSource source)
+        private static UrlReference Start(StringSource source)
         {
             var current = source.SkipSpacesAndComments();
 
@@ -58,17 +59,17 @@
                     return SingleQuoted(source);
 
                 case Symbols.RoundBracketClose:
-                    return new Url(String.Empty);
+                    return new UrlReference(String.Empty);
 
                 case Symbols.EndOfFile:
-                    return new Url(String.Empty);
+                    return new UrlReference(String.Empty);
 
                 default:
                     return Unquoted(source);
             }
         }
 
-        private static Url DoubleQuoted(StringSource source)
+        private static UrlReference DoubleQuoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -82,7 +83,7 @@
                 }
                 else if (Symbols.EndOfFile == current)
                 {
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (current == Symbols.DoubleQuote)
                 {
@@ -99,7 +100,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         source.Back();
-                        return new Url(buffer.ToPool());
+                        return new UrlReference(buffer.ToPool());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -114,7 +115,7 @@
             }
         }
 
-        private static Url SingleQuoted(StringSource source)
+        private static UrlReference SingleQuoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -128,7 +129,7 @@
                 }
                 else if (current == Symbols.EndOfFile)
                 {
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (current == Symbols.SingleQuote)
                 {
@@ -145,7 +146,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         source.Back();
-                        return new Url(buffer.ToPool());
+                        return new UrlReference(buffer.ToPool());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -159,7 +160,7 @@
             }
         }
 
-        private static Url Unquoted(StringSource source)
+        private static UrlReference Unquoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
             var current = source.Current;
@@ -173,7 +174,7 @@
                 else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
                 {
                     source.Next();
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
@@ -196,20 +197,20 @@
             }
         }
 
-        private static Url End(StringSource source, StringBuilder buffer)
+        private static UrlReference End(StringSource source, StringBuilder buffer)
         {
             var current = source.SkipCurrentAndSpaces();
 
             if (current == Symbols.RoundBracketClose)
             {
                 source.Next();
-                return new Url(buffer.ToPool());
+                return new UrlReference(buffer.ToPool());
             }
 
             return Bad(source, buffer);
         }
 
-        private static Url Bad(StringSource source, StringBuilder buffer)
+        private static UrlReference Bad(StringSource source, StringBuilder buffer)
         {
             var current = source.Current;
             var curly = 0;
@@ -219,16 +220,16 @@
             {
                 if (current == Symbols.Semicolon)
                 {
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (current == Symbols.CurlyBracketClose && --curly == -1)
                 {
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
                     source.Next();
-                    return new Url(buffer.ToPool());
+                    return new UrlReference(buffer.ToPool());
                 }
                 else if (source.IsValidEscape())
                 {
@@ -251,7 +252,7 @@
                 current = source.Next();
             }
             
-            return new Url(buffer.ToPool());
+            return new UrlReference(buffer.ToPool());
         }
     }
 }

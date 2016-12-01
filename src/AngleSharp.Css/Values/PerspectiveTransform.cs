@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
+    using System;
+
     /// <summary>
     /// Represents the distance transformation.
     /// </summary>
@@ -33,6 +36,15 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Serializes to the perspective function.
+        /// </summary>
+        public override String ToString()
+        {
+            var fn = FunctionNames.Perspective;
+            return fn.CssFunction(_distance.ToString());
+        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

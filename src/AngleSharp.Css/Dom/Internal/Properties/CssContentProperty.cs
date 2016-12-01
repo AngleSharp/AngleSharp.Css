@@ -79,7 +79,7 @@
             return new AttributeContentMode(attr);
         }
 
-        private static IContentMode TransformCounter(Counter counter)
+        private static IContentMode TransformCounter(CounterDefinition counter)
         {
             return new CounterContentMode(counter);
         }
@@ -177,9 +177,9 @@
         /// </summary>
         private sealed class CounterContentMode : IContentMode
         {
-            private readonly Counter _counter;
+            private readonly CounterDefinition _counter;
 
-            public CounterContentMode(Counter counter)
+            public CounterContentMode(CounterDefinition counter)
             {
                 _counter = counter;
             }

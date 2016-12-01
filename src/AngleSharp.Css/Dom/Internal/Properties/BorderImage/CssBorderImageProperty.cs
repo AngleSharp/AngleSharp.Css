@@ -2,6 +2,8 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using static ValueConverters;
 
     /// <summary>
@@ -12,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter ImageConverter = Or(new BorderImageConverter(), Initial);
+        private static readonly IValueConverter ImageConverter = Or(None, new StructValueConverter<BorderImage>(CompoundParser.ParseBorderImage), Initial);
         
         #endregion
 

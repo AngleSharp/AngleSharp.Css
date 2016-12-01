@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.Css
+﻿namespace AngleSharp.Css
 {
     static class Factory
     {

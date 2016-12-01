@@ -40,16 +40,6 @@
             return new PeriodicValueConverter(converter);
         }
 
-        public static IValueConverter RequiresEnd(this IValueConverter listConverter, IValueConverter endConverter)
-        {
-            return new EndListValueConverter(listConverter, endConverter);
-        }
-
-        public static IValueConverter Required(this IValueConverter converter)
-        {
-            return converter;
-        }
-
         public static IValueConverter Option(this IValueConverter converter)
         {
             return new OptionValueConverter<Object>(converter, null);
@@ -63,11 +53,6 @@
         public static IValueConverter For(this IValueConverter converter, params String[] labels)
         {
             return converter;
-        }
-
-        public static IValueConverter StartsWithDelimiter(this IValueConverter converter)
-        {
-            return new StartsWithValueConverter("/", converter);
         }
     }
 }

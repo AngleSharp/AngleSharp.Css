@@ -148,15 +148,13 @@
         public ICssKeyframeRule ParseKeyframeRule(ICssStyleSheet owner, String ruleText)
         {
             var rule = new CssKeyframeRule(owner);
-            Parse(ruleText, (b, t) => b.CreateKeyframeRule(rule, t));
-            return rule;
+            return Parse(ruleText, (b, t) => b.CreateKeyframeRule(rule, t));
         }
 
         public ICssStyleDeclaration ParseDeclaration(String declarationText)
         {
             var style = new CssStyleDeclaration(_context);
-            Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
-            return style;
+            return Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
         }
 
         public Task<ICssStyleSheet> ParseStyleSheetAsync(ICssStyleSheet sheet, CancellationToken cancelToken)

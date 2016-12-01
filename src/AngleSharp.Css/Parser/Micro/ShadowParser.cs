@@ -1,24 +1,28 @@
-﻿namespace AngleSharp.Css.Converters
+﻿namespace AngleSharp.Css.Parser
 {
-    using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
-    using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
-    sealed class ShadowConverter : IValueConverter
+    static class ShadowParser
     {
-        public ICssValue Convert(StringSource source)
+        public static Shadow Parse(String str)
         {
+            var source = new StringSource(str);
+            var result = source.ParseShadow();
+            return source.IsDone ? result : null;
+        }
+
+        public static Shadow ParseShadow(this StringSource source)
+        {
+            var start = source.Index;
             var inset = false;
             var offsetX = default(Length?);
             var offsetY = default(Length?);
             var blurRadius = default(Length?);
             var spreadRadius = default(Length?);
             var color = default(Color?);
-            var pos = 0;
+            var pos = start;
 
             do
             {
@@ -32,25 +36,25 @@
 
                 if (!offsetX.HasValue)
                 {
-                    offsetX = source.ToLength();
+                    offsetX = source.ParseLength();
                     source.SkipSpacesAndComments();
                 }
 
                 if (!offsetY.HasValue)
                 {
-                    offsetY = source.ToLength();
+                    offsetY = source.ParseLength();
                     source.SkipSpacesAndComments();
                 }
 
                 if (!blurRadius.HasValue)
                 {
-                    blurRadius = source.ToLength();
+                    blurRadius = source.ParseLength();
                     source.SkipSpacesAndComments();
                 }
 
                 if (!spreadRadius.HasValue)
                 {
-                    spreadRadius = source.ToLength();
+                    spreadRadius = source.ParseLength();
                     source.SkipSpacesAndComments();
                 }
 
@@ -64,37 +68,17 @@
 
             if (offsetX.HasValue && offsetY.HasValue)
             {
-                var shadow = new Shadow(
+                return new Shadow(
                     inset,
                     offsetX ?? Length.Zero,
                     offsetY ?? Length.Zero,
                     blurRadius ?? Length.Zero,
                     spreadRadius ?? Length.Zero,
                     color ?? Color.Black);
-                return new ShadowValue(shadow);
             }
 
+            source.BackTo(start);
             return null;
-        }
-
-        sealed class ShadowValue : ICssValue
-        {
-            private readonly Shadow _shadow;
-
-            public ShadowValue(Shadow shadow)
-            {
-                _shadow = shadow;
-            }
-
-            public String CssText
-            {
-                get { return _shadow.ToString(); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
-            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Parser
 {
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -174,7 +173,7 @@
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
-            var position = source.ToDistance();
+            var position = source.ParseDistance();
 
             if (color.HasValue)
             {
@@ -227,7 +226,7 @@
             }
             else
             {
-                angle = source.ToAngle();
+                angle = source.ParseAngle();
             }
 
             return angle;
@@ -249,7 +248,7 @@
                 {
                     circle = true;
                     source.SkipSpacesAndComments();
-                    var radius = source.ToLength();
+                    var radius = source.ParseLength();
 
                     if (radius.HasValue)
                     {
@@ -266,9 +265,9 @@
                 {
                     circle = false;
                     source.SkipSpacesAndComments();
-                    var el = source.ToDistance();
+                    var el = source.ParseDistance();
                     source.SkipSpacesAndComments();
-                    var es = source.ToDistance();
+                    var es = source.ParseDistance();
 
                     if (el.HasValue && es.HasValue)
                     {
@@ -309,9 +308,9 @@
             }
             else
             {
-                var el = source.ToDistance();
+                var el = source.ParseDistance();
                 source.SkipSpacesAndComments();
-                var es = source.ToDistance();
+                var es = source.ParseDistance();
 
                 if (el.HasValue && es.HasValue)
                 {
@@ -346,7 +345,7 @@
                 }
 
                 source.SkipSpacesAndComments();
-                var pt = source.ToPoint();
+                var pt = source.ParsePoint();
 
                 if (!pt.HasValue)
                 {

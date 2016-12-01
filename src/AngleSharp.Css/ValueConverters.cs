@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Extensions;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using System;
     using System.Linq;
@@ -36,43 +36,37 @@
         /// <summary>
         /// Represents a converter for the auto keyword with no value.
         /// </summary>
-        public static IValueConverter Auto = new IdentifierValueConverter<Object>(CssKeywords.Auto, null);
+        public static IValueConverter Auto = new IdentifierValueConverter<Length>(CssKeywords.Auto, Length.Auto);
 
         /// <summary>
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
-        public static readonly IValueConverter LineWidthConverter = new StructValueConverter<Length>(ValueExtensions.ToBorderWidth);
+        public static readonly IValueConverter LineWidthConverter = new StructValueConverter<Length>(UnitParser.ParseLineWidth);
 
         /// <summary>
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
         /// </summary>
-        public static readonly IValueConverter LengthConverter = new StructValueConverter<Length>(ValueExtensions.ToLength);
+        public static readonly IValueConverter LengthConverter = new StructValueConverter<Length>(UnitParser.ParseLength);
 
         /// <summary>
         /// Represents a resolution object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
         /// </summary>
-        public static readonly IValueConverter ResolutionConverter = new StructValueConverter<Resolution>(ValueExtensions.ToResolution);
-
-        /// <summary>
-        /// Represents a frequency object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/frequency
-        /// </summary>
-        public static readonly IValueConverter FrequencyConverter = new StructValueConverter<Frequency>(ValueExtensions.ToFrequency);
+        public static readonly IValueConverter ResolutionConverter = new StructValueConverter<Resolution>(UnitParser.ParseResolution);
 
         /// <summary>
         /// Represents a time object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
         /// </summary>
-        public static readonly IValueConverter TimeConverter = new StructValueConverter<Time>(ValueExtensions.ToTime);
+        public static readonly IValueConverter TimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
 
         /// <summary>
         /// Represents an URL object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
-        public static readonly IValueConverter UrlConverter = new UrlValueConverter();
+        public static readonly IValueConverter UrlConverter = new ClassValueConverter<UrlReference>(UriParser.ParseUri);
 
         /// <summary>
         /// Represents a string object.
@@ -83,91 +77,73 @@
         /// <summary>
         /// Represents many string objects, but always divisible by 2 (open-close quotes).
         /// </summary>
-        public static readonly IValueConverter QuotesConverter = new QuotesValueConverter();
-
-        /// <summary>
-        /// Represents a string object from many identifiers.
-        /// </summary>
-        public static readonly IValueConverter LiteralsConverter = new IdentifierValueConverter(ValueExtensions.IsLiteral);
+        public static readonly IValueConverter QuotesConverter = new ClassValueConverter<Quotes>(CompoundParser.ParseQuotes);
 
         /// <summary>
         /// Represents an identifier object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
         /// </summary>
-        public static readonly IValueConverter IdentifierConverter = new IdentifierValueConverter(ValueExtensions.IsIdentifier);
+        public static readonly IValueConverter IdentifierConverter = new IdentifierValueConverter(IdentParser.ParseNormalizedIdent);
 
         /// <summary>
         /// Represents an identifier object that matches the production rules of a single transition property.
         /// http://dev.w3.org/csswg/css-transitions/#single-transition-property
         /// </summary>
-        public static readonly IValueConverter AnimatableConverter = new IdentifierValueConverter(ValueExtensions.IsAnimatableIdentifier);
+        public static readonly IValueConverter AnimatableConverter = new IdentifierValueConverter(IdentParser.ParseAnimatableIdent);
 
         /// <summary>
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter IntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToInteger);
+        public static readonly IValueConverter IntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseInteger);
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToNaturalInteger);
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseNaturalInteger);
 
         /// <summary>
         /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
         /// </summary>
-        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToWeightInteger);
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseWeightInteger);
 
         /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToPositiveInteger);
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParsePositiveInteger);
 
         /// <summary>
         /// Represents an integer object with 0 or 1.
         /// </summary>
-        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Int32>(ValueExtensions.ToBinary);
-
-        /// <summary>
-        /// Represents an angle object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
-        /// </summary>
-        public static readonly IValueConverter AngleConverter = new StructValueConverter<Angle>(ValueExtensions.ToAngle);
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Int32>(NumberParser.ParseBinary);
 
         /// <summary>
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter NumberConverter = new StructValueConverter<Single>(ValueExtensions.ToSingle);
+        public static readonly IValueConverter NumberConverter = new StructValueConverter<Single>(NumberParser.ParseNumber);
 
         /// <summary>
         /// Represents an number object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(ValueExtensions.ToNaturalSingle);
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(NumberParser.ParseNaturalNumber);
 
         /// <summary>
         /// Represents an color object (usually hex or name).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
         /// </summary>
-        public static readonly IValueConverter ColorConverter = new StructValueConverter<Color>(ValueExtensions.ToColor);
+        public static readonly IValueConverter ColorConverter = new StructValueConverter<Color>(ColorParser.ParseColor);
 
         /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(ValueExtensions.ToPoint);
+        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
 
         /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
-        public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
-
-        /// <summary>
-        /// Represents a converter for the BorderImageOutset property.
-        /// </summary>
-        public static readonly IValueConverter BorderImageOutsetConverter = Or(
-            LengthOrPercentConverter, 
-            AssignInitial(Length.Zero));
+        public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
 
         #endregion
 
@@ -179,24 +155,6 @@
         /// </summary>
         public static readonly IValueConverter AttrConverter = Func(FunctionNames.Attr, WithArgs(
             Or(StringConverter, IdentifierConverter)));
-
-        /// <summary>
-        /// Represents a steps timing-function object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
-        /// </summary>
-        public static readonly IValueConverter StepsConverter = Func(FunctionNames.Steps, WithArgs(
-            IntegerConverter, 
-            Or(Assign(CssKeywords.Start, true), Assign(CssKeywords.End, false)).Option(false)));
-
-        /// <summary>
-        /// Represents a cubic-bezier timing-function object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
-        /// </summary>
-        public static readonly IValueConverter CubicBezierConverter = Construct(() =>
-        {
-            var number = NumberConverter;
-            return Func(FunctionNames.CubicBezier, WithArgs(number, number, number, number));
-        });
 
         /// <summary>
         /// Represents a counter object.
@@ -216,97 +174,47 @@
         /// Represents a shape object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
         /// </summary>
-        public static readonly IValueConverter ShapeConverter = Or(new RectConverter(), Auto);
+        public static readonly IValueConverter ShapeConverter = Or(new ClassValueConverter<Shape>(ShapeParser.ParseShape), Auto);
 
         /// <summary>
         /// A perspective for 3D transformations.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-perspective
         /// </summary>
-        public static readonly IValueConverter PerspectiveConverter = Construct(() =>
-        {
-            return Func(FunctionNames.Perspective, WithArgs(LengthConverter));
-        });
+        public static readonly IValueConverter PerspectiveConverter = Func(FunctionNames.Perspective, WithArgs(LengthConverter));
 
         /// <summary>
         /// Sets the transformation matrix explicitly.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
         /// </summary>
-        public static readonly IValueConverter MatrixTransformConverter = Construct(() =>
-        {
-            return Or(
-                Func(FunctionNames.Matrix, WithArgs(NumberConverter, 6)),
-                Func(FunctionNames.Matrix3d, WithArgs(NumberConverter, 16)));
-        });
+        public static readonly IValueConverter MatrixTransformConverter = new ClassValueConverter<MatrixTransform>(MatrixParser.ParseMatrix);
 
         /// <summary>
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        public static readonly IValueConverter TranslateTransformConverter = Construct(() =>
-        {
-            var distance = LengthOrPercentConverter;
-            var option = distance.Option(Length.Zero);
-            return Or(
-                Func(FunctionNames.Translate, WithArgs(distance, option)),
-                Func(FunctionNames.Translate3d, WithArgs(distance, option, option)),
-                Func(FunctionNames.TranslateX, WithArgs(distance)),
-                Func(FunctionNames.TranslateY, WithArgs(distance)),
-                Func(FunctionNames.TranslateZ, WithArgs(distance)));
-        });
+        public static readonly IValueConverter TranslateTransformConverter = new ClassValueConverter<TranslateTransform>(TranslateParser.ParseTranslate);
 
         /// <summary>
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        public static readonly IValueConverter ScaleTransformConverter = Construct(() =>
-        {
-            var number = NumberConverter;
-            var option = number.Option(Single.NaN);
-            return Or(
-                Func(FunctionNames.Scale, WithArgs(number, option)),
-                Func(FunctionNames.Scale3d, WithArgs(number, option, option)),
-                Func(FunctionNames.ScaleX, WithArgs(number)),
-                Func(FunctionNames.ScaleY, WithArgs(number)),
-                Func(FunctionNames.ScaleZ, WithArgs(number)));
-        });
+        public static readonly IValueConverter ScaleTransformConverter = new ClassValueConverter<ScaleTransform>(ScaleParser.ParseScale);
 
         /// <summary>
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        public static readonly IValueConverter RotateTransformConverter = Construct(() =>
-        {
-            var angle = AngleConverter;
-            var number = NumberConverter;
-            return Or(
-                Func(FunctionNames.Rotate, WithArgs(angle)),
-                Func(FunctionNames.Rotate3d, WithArgs(number, number, number, angle)),
-                Func(FunctionNames.RotateX, WithArgs(angle)),
-                Func(FunctionNames.RotateY, WithArgs(angle)),
-                Func(FunctionNames.RotateZ, WithArgs(angle)));
-        });
+        public static readonly IValueConverter RotateTransformConverter = new ClassValueConverter<RotateTransform>(RotateParser.ParseRotate);
 
         /// <summary>
         /// A broad variety of skew transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-skew
         /// </summary>
-        public static readonly IValueConverter SkewTransformConverter = Construct(() =>
-        {
-            var angle = AngleConverter;
-            return Or(
-                Func(FunctionNames.Skew, WithArgs(angle, angle)),
-                Func(FunctionNames.SkewX, WithArgs(angle)),
-                Func(FunctionNames.SkewY, WithArgs(angle)));
-        });
+        public static readonly IValueConverter SkewTransformConverter = new ClassValueConverter<SkewTransform>(SkewParser.ParseSkew);
 
         #endregion
 
         #region Maps
-
-        /// <summary>
-        /// Represents a converter for the default font families.
-        /// </summary>
-        public static readonly IValueConverter DefaultFontFamiliesConverter = Map.FontFamilies.ToConverter();
 
         /// <summary>
         /// Represents a converter for the LineStyle enumeration.
@@ -317,11 +225,6 @@
         /// Represents a converter for the BackgroundAttachment enumeration.
         /// </summary>
         public static readonly IValueConverter BackgroundAttachmentConverter = Map.BackgroundAttachments.ToConverter();
-
-        /// <summary>
-        /// Represents a converter for the BackgroundRepeat enumeration.
-        /// </summary>
-        public static readonly IValueConverter BackgroundRepeatConverter = Map.BackgroundRepeats.ToConverter();
 
         /// <summary>
         /// Represents a converter for the BoxModel enumeration.
@@ -593,16 +496,13 @@
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter BorderImageSliceConverter = new StructValueConverter<BorderImageSlice>(ValueExtensions.ToBorderImageSlice);
+        public static readonly IValueConverter BorderImageSliceConverter = new StructValueConverter<BorderImageSlice>(CompoundParser.ParseBorderImageSlice);
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
         /// </summary>
-        public static readonly IValueConverter ImageBorderWidthConverter = Or(
-            LengthOrPercentConverter, 
-            NumberConverter, 
-            Assign(CssKeywords.Auto));
+        public static readonly IValueConverter ImageBorderWidthConverter = new StructValueConverter<Length>(UnitParser.ParseBorderWidth);
 
         public static readonly IValueConverter BorderImageWidthConverter = ImageBorderWidthConverter.Periodic();
 
@@ -610,16 +510,13 @@
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter TransitionConverter = Or(
-            Map.TimingFunctions.ToConverter(), 
-            StepsConverter, 
-            CubicBezierConverter);
+        public static readonly IValueConverter TransitionConverter = new ClassValueConverter<ITimingFunction>(TimingFunctionParser.ParseTimingFunction);
 
         /// <summary>
         /// Represents a gradient object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
         /// </summary>
-        public static readonly IValueConverter GradientConverter = new GradientFunctionConverter();
+        public static readonly IValueConverter GradientConverter = new ClassValueConverter<IGradient>(GradientParser.ParseGradient);
 
         /// <summary>
         /// Represents a transform function.
@@ -636,7 +533,7 @@
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ValueExtensions.ToCurrentColor);
+        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ColorParser.ParseCurrentColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.
@@ -664,21 +561,20 @@
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
 		/// </summary>
-		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Single>(ValueExtensions.ToGreaterOrEqualOneSingle);
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Single>(NumberParser.ParseGreaterOrEqualOneNumber);
 
 		/// <summary>
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
-		public static readonly IValueConverter RatioConverter = WithOrder(
-            IntegerConverter, IntegerConverter.StartsWithDelimiter());
+		public static readonly IValueConverter RatioConverter = new StructValueConverter<Single>(NumberParser.ParseRatio);
 
         /// <summary>
         /// Represents multiple shadow objects.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
         public static readonly IValueConverter MultipleShadowConverter = Or(
-            new ShadowConverter().FromList(), 
+            new ClassValueConverter<Shadow>(ShadowParser.ParseShadow).FromList(), 
             None);
 
         /// <summary>
@@ -716,24 +612,17 @@
         /// <summary>
         /// Represents a converter for font families.
         /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = Or(
-            DefaultFontFamiliesConverter, 
-            StringConverter, 
-            LiteralsConverter).FromList();
+        public static readonly IValueConverter FontFamiliesConverter = new ClassValueConverter<String>(IdentParser.ParseFontFamily).FromList();
 
         /// <summary>
         /// Represents a converter for background size.
         /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = new StructValueConverter<Point>(ValueExtensions.ToSize);
+        public static readonly IValueConverter BackgroundSizeConverter = new StructValueConverter<BackgroundSize>(PointParser.ParseSize);
 
         /// <summary>
         /// Represents a converter for background repeat.
         /// </summary>
-        public static readonly IValueConverter BackgroundRepeatsConverter = Or(
-            WithOrder(BackgroundRepeatConverter, BackgroundRepeatConverter),
-            BackgroundRepeatConverter,
-            Assign(CssKeywords.RepeatX), 
-            Assign(CssKeywords.RepeatY));
+        public static readonly IValueConverter BackgroundRepeatsConverter = new StructValueConverter<ImageRepeats>(CompoundParser.ParseBackgroundRepeat);
 
         #endregion
 

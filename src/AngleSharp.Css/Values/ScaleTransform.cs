@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents the scale3d transformation.
@@ -55,6 +57,48 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Serializes to the scale function.
+        /// </summary>
+        public override String ToString()
+        {
+            var fn = FunctionNames.Scale3d;
+            var args = _sx.ToString(CultureInfo.InvariantCulture);
+
+            if (_sz == 1f)
+            {
+                fn = FunctionNames.Scale;
+
+                if (_sx != _sy)
+                {
+                    if (_sx == 1f)
+                    {
+                        fn = FunctionNames.ScaleY;
+                        args = _sy.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else if (_sy == 1f)
+                    {
+                        fn = FunctionNames.ScaleX;
+                    }
+                    else
+                    {
+                        args = args + ", " + _sy.ToString(CultureInfo.InvariantCulture);
+                    }
+                }
+            }
+            else if (_sx != _sy || _sx != _sz)
+            {
+                args = String.Join(", ", new[]
+                {
+                    args,
+                    _sy.ToString(CultureInfo.InvariantCulture),
+                    _sz.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+
+            return fn.CssFunction(args);
+        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

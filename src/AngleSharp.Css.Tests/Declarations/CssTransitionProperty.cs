@@ -197,7 +197,7 @@
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25, end)", concrete.Value);
+            Assert.AreEqual("steps(25)", concrete.Value);
         }
 
         [Test]

@@ -380,11 +380,11 @@
             var concrete = (CssBackgroundPositionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("center 75%", concrete.Value);
+            Assert.AreEqual("50% 75%", concrete.Value);
         }
 
         [Test]
-        public void CssBackgroundPositionRightLengthBottomLengthLegal()
+        public void CssBackgroundPositionRightLengthBottomLengthIllegal()
         {
             var snippet = "background-position: right 20px bottom 20px";
             var property = ParseDeclaration(snippet);
@@ -393,8 +393,7 @@
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
             var concrete = (CssBackgroundPositionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("right 20px bottom 20px", concrete.Value);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [Test]
@@ -560,7 +559,7 @@
             var concrete = (CssBackgroundRepeatProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("repeat repeat, no-repeat repeat", concrete.Value);
+            Assert.AreEqual("repeat, repeat-y", concrete.Value);
         }
 
         [Test]
@@ -602,7 +601,7 @@
             var concrete = (CssBackgroundSizeProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto auto", concrete.Value);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -23,19 +22,19 @@
 
                 if (!color.HasValue)
                 {
-                    color = source.ParseColor();
+                    color = ColorParser.ParseColor(source);
                     source.SkipSpacesAndComments();
                 }
 
                 if (!width.HasValue)
                 {
-                    width = source.ToBorderWidth();
+                    width = source.ParseLineWidth();
                     source.SkipSpacesAndComments();
                 }
 
                 if (!style.HasValue)
                 {
-                    style = source.ToConstant(Map.LineStyles);
+                    style = source.ParseConstant(Map.LineStyles);
                     source.SkipSpacesAndComments();
                 }
             }

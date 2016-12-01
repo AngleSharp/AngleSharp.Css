@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Values;
     using static ValueConverters;
 
     /// <summary>
@@ -12,7 +13,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = Or(AutoLengthOrPercentConverter, AssignInitial(CssKeywords.Auto));
+        private static readonly IValueConverter StyleConverter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Auto));
 
         #endregion
 

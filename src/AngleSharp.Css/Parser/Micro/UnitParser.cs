@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Globalization;
     using System.Text;
 
     static class UnitParser
@@ -24,6 +26,202 @@
             }
 
             return result;
+        }
+
+        public static Length? ParseAutoLength(this StringSource source)
+        {
+            if (source.IsIdentifier(CssKeywords.Auto))
+            {
+                return Length.Auto;
+            }
+
+            return null;
+        }
+
+        public static Length? ParseBorderWidth(this StringSource source)
+        {
+            return source.ParseLength() ?? 
+                source.ParsePercentOrNumber() ?? 
+                source.ParseAutoLength();
+        }
+
+        public static Length? ParseLineWidth(this StringSource source)
+        {
+            return source.ParseLength() ?? source.ParseConstant(Map.BorderWidths);
+        }
+
+        public static Single? ParsePercent(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null && test.Dimension == "%")
+            {
+                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                return value * 0.01f;
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        public static Length? ParsePercentOrNumber(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+
+                if (test.Dimension == "%")
+                {
+                    return new Length(value, Length.Unit.Percent);
+                }
+                else if (test.Dimension.Length == 0)
+                {
+                    return new Length(value, Length.Unit.None);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        public static Angle? ParseAngle(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Angle.GetUnit(test.Dimension);
+
+                if (unit != Angle.Unit.None)
+                {
+                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    return new Angle(value, unit);
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
+        }
+
+        public static Frequency? ParseFrequency(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Frequency.GetUnit(test.Dimension);
+
+                if (unit != Frequency.Unit.None)
+                {
+                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    return new Frequency(value, unit);
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
+        }
+
+        public static Length? ParseFontSize(this StringSource source)
+        {
+            return source.ParseDistance() ?? source.ParseConstant(Map.FontSizes);
+        }
+
+        public static Length? ParseDistance(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Length.Unit.Px;
+                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+
+                if ((test.Dimension == String.Empty && test.Value == "0") ||
+                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
+                {
+                    return new Length(value, unit);
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
+        }
+
+        public static Length? ParseLength(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Length.Unit.Px;
+
+                if ((test.Dimension == String.Empty && test.Value == "0") ||
+                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
+                {
+                    if (unit != Length.Unit.Percent)
+                    {
+                        var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                        return new Length(value, unit);
+                    }
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
+        }
+
+        public static Resolution? ParseResolution(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Resolution.GetUnit(test.Dimension);
+
+                if (unit != Resolution.Unit.None)
+                {
+                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    return new Resolution(value, unit);
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
+        }
+
+        public static Time? ParseTime(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test != null)
+            {
+                var unit = Time.GetUnit(test.Dimension);
+
+                if (unit != Time.Unit.None)
+                {
+                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    return new Time(value, unit);
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
         }
 
         private static Unit Start(StringSource source)

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -19,53 +19,48 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var counters = new List<Counter>();
+            var counters = new List<CounterValue>();
 
-            while (!source.IsDone)
+            if (!source.IsIdentifier(CssKeywords.None))
             {
-                var name = source.ParseIdent();
-                source.SkipSpacesAndComments();
-                var value = source.ToInteger() ?? _defaultValue;
-                source.SkipSpacesAndComments();
-
-                if (name == null)
+                while (!source.IsDone)
                 {
-                    return null;
+                    var name = source.ParseIdent();
+                    source.SkipSpacesAndComments();
+                    var value = source.ParseInteger() ?? _defaultValue;
+                    source.SkipSpacesAndComments();
+
+                    if (name == null)
+                    {
+                        return null;
+                    }
+
+                    counters.Add(new CounterValue(name, value));
                 }
 
-                counters.Add(new Counter
-                {
-                    Name = name,
-                    Value = value
-                });
+                return new CountersValue(counters.ToArray());
             }
-            
-            return new CounterValue(counters.ToArray());
+
+            return new CountersValue();
         }
 
-        struct Counter
+        private sealed class CountersValue : ICssValue
         {
-            public String Name;
-            public Int32 Value;
+            private readonly CounterValue[] _counters;
 
-            public override String ToString()
+            public CountersValue()
             {
-                return String.Concat(Name, " ", Value.ToString());
+                _counters = null;
             }
-        }
 
-        private sealed class CounterValue : ICssValue
-        {
-            private readonly Counter[] _counters;
-
-            public CounterValue(Counter[] counters)
+            public CountersValue(CounterValue[] counters)
             {
                 _counters = counters;
             }
 
             public String CssText
             {
-                get { return _counters.Join(" "); }
+                get { return _counters != null ? _counters.Join(" ") : CssKeywords.None; }
             }
 
             public void ToCss(TextWriter writer, IStyleFormatter formatter)

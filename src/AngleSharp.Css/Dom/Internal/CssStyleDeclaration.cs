@@ -122,7 +122,7 @@
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var list = new List<String>();
+            var list = new List<IStyleFormattable>();
             var serialized = new List<String>();
             var factory = _context.GetFactory<ICssPropertyFactory>();
 
@@ -178,10 +178,10 @@
                     continue;
 
                 serialized.Add(property);
-                list.Add(declaration.ToCss(formatter));
+                list.Add(declaration);
             }
-
-            writer.Write(formatter.Declarations(list));
+            
+            writer.Write(formatter.BlockDeclarations(list).Trim(' ', '\t', '\r', '\n', '{', '}'));
         }
 
         public String RemoveProperty(String propertyName)

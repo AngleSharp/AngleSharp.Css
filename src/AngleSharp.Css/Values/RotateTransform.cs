@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents the rotate3d transformation.
@@ -12,13 +14,13 @@
         private readonly Single _x;
         private readonly Single _y;
         private readonly Single _z;
-        private readonly Single _angle;
+        private readonly Angle _angle;
 
         #endregion
 
         #region ctor
 
-        internal RotateTransform(Single x, Single y, Single z, Single angle)
+        internal RotateTransform(Single x, Single y, Single z, Angle angle)
         {
             _x = x;
             _y = y;
@@ -55,9 +57,9 @@
         }
 
         /// <summary>
-        /// Gets the angle in radiants [0, 2pi].
+        /// Gets the angle.
         /// </summary>
-        public Single Angle
+        public Angle Angle
         {
             get { return _angle; }
         }
@@ -67,33 +69,41 @@
         #region Methods
 
         /// <summary>
-        /// Constructs a rotate 3D transformation around the x-axis.
+        /// Serializes to the rotate function.
         /// </summary>
-        /// <param name="angle">The angle to rotate.</param>
-        /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateX(Single angle)
+        public override String ToString()
         {
-            return new RotateTransform(1f, 0f, 0f, angle);
-        }
+            var fn = FunctionNames.Rotate3d;
+            var args = _angle.ToString();
 
-        /// <summary>
-        /// Constructs a rotate 3D transformation around the y-axis.
-        /// </summary>
-        /// <param name="angle">The angle to rotate.</param>
-        /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateY(Single angle)
-        {
-            return new RotateTransform(0f, 1f, 0f, angle);
-        }
+            if (Single.IsNaN(_x) && Single.IsNaN(_y) && Single.IsNaN(_z))
+            {
+                fn = FunctionNames.Rotate;
+            }
+            else if (_x == 1f && _y == 0f && _z == 0f)
+            {
+                fn = FunctionNames.RotateX;
+            }
+            else if (_x == 0f && _y == 1f && _z == 0f)
+            {
+                fn = FunctionNames.RotateY;
+            }
+            else if (_x == 0f && _y == 0f && _z == 1f)
+            {
+                fn = FunctionNames.RotateY;
+            }
+            else
+            {
+                args = String.Join(", ", new[]
+                {
+                    _x.ToString(CultureInfo.InvariantCulture),
+                    _y.ToString(CultureInfo.InvariantCulture),
+                    _z.ToString(CultureInfo.InvariantCulture),
+                    args
+                });
+            }
 
-        /// <summary>
-        /// Constructs a rotate 3D transformation around the z-axis.
-        /// </summary>
-        /// <param name="angle">The angle to rotate.</param>
-        /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateZ(Single angle)
-        {
-            return new RotateTransform(0f, 0f, 1f, angle);
+            return fn.CssFunction(args);
         }
 
         /// <summary>
@@ -103,8 +113,8 @@
         public TransformMatrix ComputeMatrix()
         {
             var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);
-            var sina = (Single)Math.Sin(_angle);
-            var cosa = (Single)Math.Cos(_angle);
+            var sina = (Single)Math.Sin(_angle.ToRadian());
+            var cosa = (Single)Math.Cos(_angle.ToRadian());
             var l = _x * norm;
             var m = _y * norm;
             var n = _z * norm;

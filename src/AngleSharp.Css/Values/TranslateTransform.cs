@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
+    using System;
+
     /// <summary>
     /// Represents the translate3d transformation.
     /// </summary>
@@ -53,6 +56,51 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Serializes to the translate function.
+        /// </summary>
+        public override String ToString()
+        {
+            var fn = FunctionNames.Translate3d;
+            var args = String.Empty;
+
+            if (_x != Length.Zero && _y == Length.Zero && _z == Length.Zero)
+            {
+                fn = FunctionNames.TranslateX;
+                args = _x.ToString();
+            }
+            else if (_x == Length.Zero && _y != Length.Zero && _z == Length.Zero)
+            {
+                fn = FunctionNames.TranslateY;
+                args = _y.ToString();
+            }
+            else if (_x == Length.Zero && _y == Length.Zero && _z != Length.Zero)
+            {
+                fn = FunctionNames.TranslateZ;
+                args = _z.ToString();
+            }
+            else if (_z == Length.Zero)
+            {
+                fn = FunctionNames.Translate;
+                args = String.Join(", ", new[]
+                {
+                    _x.ToString(),
+                    _y.ToString()
+                });
+            }
+            else
+            {
+                args = String.Join(", ", new[]
+                {
+                    _x.ToString(),
+                    _y.ToString(),
+                    _z.ToString()
+                });
+            }
+
+            return fn.CssFunction(args);
+        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

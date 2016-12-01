@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
-    /// Specifies a stepping function, described above, taking two parameters.
+    /// Represents a steps timing-function object.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
     public sealed class StepsTimingFunction : ITimingFunction
     {
@@ -47,6 +49,37 @@
         public Boolean IsStart
         {
             get { return _start; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Serializes to a string.
+        /// </summary>
+        public override String ToString()
+        {
+            if (_intervals != 1)
+            {
+                var fn = FunctionNames.Steps;
+                var args = _intervals.ToString();
+
+                if (_start)
+                {
+                    args = String.Concat(args, ", ", CssKeywords.Start);
+                }
+
+                return fn.CssFunction(args);
+            }
+            else if (_start)
+            {
+                return CssKeywords.StepStart;
+            }
+            else
+            {
+                return CssKeywords.StepEnd;
+            }
         }
 
         #endregion

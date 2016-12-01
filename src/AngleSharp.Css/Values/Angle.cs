@@ -5,7 +5,8 @@
     using System.Globalization;
 
     /// <summary>
-    /// Represents an angle value.
+    /// Represents an angle object.
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
     /// </summary>
     public struct Angle : IEquatable<Angle>, IComparable<Angle>, IFormattable
     {

@@ -33,7 +33,7 @@
                 var position = source.Index;
                 var uri = source.ParseUri();
                 var name = FunctionNames.Url;
-                var data = uri?.Href;
+                var data = uri?.Path;
 
                 if (uri == null)
                 {

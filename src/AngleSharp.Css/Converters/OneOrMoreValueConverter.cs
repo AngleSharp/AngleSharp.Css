@@ -24,7 +24,7 @@
         {
             var values = new List<ICssValue>();
 
-            for (var i = 0; i < _maximum; i++)
+            for (var i = 0; i < _maximum && !source.IsDone; i++)
             {
                 var value = _converter.Convert(source);
                 source.SkipSpacesAndComments();

@@ -107,26 +107,24 @@
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var offset = 0;
+            var hasType = !String.IsNullOrEmpty(_type);
+            var hasFeature = _features.Count > 0;
 
-            if (_exclusive)
+            if (_exclusive || _inverse)
             {
-                writer.Write("only");
-            }
-            else if (_inverse)
-            {
-                writer.Write("not");
-            }
+                writer.Write(_exclusive ? CssKeywords.Only : CssKeywords.Not);
 
-            if (!String.IsNullOrEmpty(_type))
-            {
-                if (_exclusive || _inverse)
+                if (hasType || hasFeature)
                 {
-                    writer.Write(" ");
+                    writer.Write(Symbols.Space);
                 }
+            }
 
+            if (hasType)
+            {
                 writer.Write(_type);
             }
-            else if (_features.Count > 0)
+            else if (hasFeature)
             {
                 offset = 1;
                 _features[0].ToCss(writer, formatter);

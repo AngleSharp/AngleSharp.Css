@@ -2,7 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Extensions;
+    using AngleSharp.Css.Values;
     using static ValueConverters;
 
     /// <summary>
@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly IValueConverter StyleConverter = Or(FontSizeConverter, AssignInitial(FontSize.Medium.ToLength()));
+        private static readonly IValueConverter StyleConverter = Or(FontSizeConverter, AssignInitial(new Length(1f, Length.Unit.Em)));
 
         #endregion
 

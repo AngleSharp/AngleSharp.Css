@@ -48,7 +48,7 @@
             var h1 = (ICssStyleRule)sheet.Rules[0];
             Assert.AreEqual("h1", h1.SelectorText);
             var style = h1.Style;
-            Assert.AreEqual("rgb(0, 128, 0)", style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
         }
 
         [Test]
@@ -187,7 +187,7 @@
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
             var media = sheet.Rules[0] as ICssMediaRule;
-            Assert.AreEqual("", media.ConditionText);
+            Assert.AreEqual("not all", media.ConditionText);
             Assert.AreEqual(1, media.Rules.Length);
         }
 
@@ -246,7 +246,7 @@ h1 { color: green }";
             Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
             Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[1]);
             var style = (ICssStyleRule)sheet.Rules[1];
-            Assert.AreEqual("rgb(0, 128, 0)", style.Style.GetColor());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.Style.GetColor());
             Assert.AreEqual("h1", style.SelectorText);
         }
 
