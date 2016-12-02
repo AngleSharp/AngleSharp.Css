@@ -16,57 +16,30 @@
 
         public static UrlReference ParseUri(this StringSource source)
         {
-            var url = FunctionNames.Url;
-            var pos = source.Index;
-            var rest = source.Content.Length - pos;
-
-            if (rest >= url.Length + 2)
+            if (source.IsFunction(FunctionNames.Url))
             {
-                var length = 0;
-                var current = source.Current;
+                var current = source.SkipSpacesAndComments();
 
-                while (length < url.Length)
+                switch (current)
                 {
-                    if (Char.ToLowerInvariant(current) != url[length])
-                        break;
+                    case Symbols.DoubleQuote:
+                        return DoubleQuoted(source);
 
-                    length++;
-                    current = source.Next();
+                    case Symbols.SingleQuote:
+                        return SingleQuoted(source);
+
+                    case Symbols.RoundBracketClose:
+                        return new UrlReference(String.Empty);
+
+                    case Symbols.EndOfFile:
+                        return new UrlReference(String.Empty);
+
+                    default:
+                        return Unquoted(source);
                 }
-
-                if (length == url.Length && current == Symbols.RoundBracketOpen)
-                {
-                    source.Next();
-                    return Start(source);
-                }
-
-                source.BackTo(pos);
             }
 
             return null;
-        }
-
-        private static UrlReference Start(StringSource source)
-        {
-            var current = source.SkipSpacesAndComments();
-
-            switch (current)
-            {
-                case Symbols.DoubleQuote:
-                    return DoubleQuoted(source);
-
-                case Symbols.SingleQuote:
-                    return SingleQuoted(source);
-
-                case Symbols.RoundBracketClose:
-                    return new UrlReference(String.Empty);
-
-                case Symbols.EndOfFile:
-                    return new UrlReference(String.Empty);
-
-                default:
-                    return Unquoted(source);
-            }
         }
 
         private static UrlReference DoubleQuoted(StringSource source)

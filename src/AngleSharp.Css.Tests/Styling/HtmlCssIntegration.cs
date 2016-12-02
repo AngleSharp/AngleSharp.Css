@@ -60,8 +60,8 @@
                 IsToleratingInvalidValues = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual("http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style["background-color"]);
-            Assert.AreEqual("background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style.CssText);
+            Assert.AreEqual("initial", div.Style["background-color"]);
+            Assert.AreEqual("background-color: initial", div.Style.CssText);
         }
 
         [Test]
@@ -318,7 +318,7 @@
             // hang occurs only if this line is executed prior to setting the attribute
             // hang occurs when executing next line
             div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual(div.Style.GetBackgroundColor(), "");
+            Assert.AreEqual("initial", div.Style.GetBackgroundColor());
         }
 
         [Test]

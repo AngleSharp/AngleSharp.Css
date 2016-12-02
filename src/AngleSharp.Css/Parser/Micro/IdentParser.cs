@@ -90,6 +90,16 @@
 
                 while (length < name.Length)
                 {
+                    if (current == Symbols.ReverseSolidus && source.IsValidEscape())
+                    {
+                        var next = source.ConsumeEscape();
+
+                        if (next.Length != 1)
+                            break;
+
+                        current = next[0];
+                    }
+
                     if (Char.ToLowerInvariant(current) != Char.ToLowerInvariant(name[length]))
                         break;
 

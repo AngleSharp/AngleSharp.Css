@@ -46,6 +46,11 @@
         /// </summary>
         public static readonly Length Auto = new Length(Single.NaN, Unit.Vmax);
 
+        /// <summary>
+        /// Gets the auto value.
+        /// </summary>
+        public static readonly Length Normal = new Length(Single.NaN, Unit.Em);
+
         #endregion
 
         #region Fields
@@ -473,13 +478,19 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            if (!Equals(Auto))
+            if (Equals(Auto))
+            {
+                return CssKeywords.Auto;
+            }
+            else if (Equals(Normal))
+            {
+                return CssKeywords.Normal;
+            }
+            else
             {
                 var unit = _value == 0f ? String.Empty : UnitString;
                 return String.Concat(_value.ToString(format, formatProvider), unit);
             }
-
-            return CssKeywords.Auto;
         }
 
         #endregion

@@ -60,7 +60,7 @@
                 if (c == Symbols.Solidus)
                 {
                     source.SkipCurrentAndSpaces();
-                    lineHeight = source.ParseDistance();
+                    lineHeight = source.ParseLineHeight();
                     source.SkipSpacesAndComments();
 
                     if (!lineHeight.HasValue)

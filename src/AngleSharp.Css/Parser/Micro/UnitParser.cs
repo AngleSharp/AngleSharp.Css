@@ -38,6 +38,16 @@
             return null;
         }
 
+        public static Length? ParseNormalLength(this StringSource source)
+        {
+            if (source.IsIdentifier(CssKeywords.Normal))
+            {
+                return Length.Normal;
+            }
+
+            return null;
+        }
+
         public static Length? ParseBorderWidth(this StringSource source)
         {
             return source.ParseLength() ?? 
@@ -47,7 +57,15 @@
 
         public static Length? ParseLineWidth(this StringSource source)
         {
-            return source.ParseLength() ?? source.ParseConstant(Map.BorderWidths);
+            return source.ParseLength() ?? 
+                source.ParseConstant(Map.BorderWidths);
+        }
+
+        public static Length? ParseLineHeight(this StringSource source)
+        {
+            return source.ParseLength() ??
+                source.ParsePercentOrNumber() ??
+                source.ParseNormalLength();
         }
 
         public static Single? ParsePercent(this StringSource source)

@@ -94,5 +94,12 @@
             var sheet = parser.ParseStyleSheet(String.Empty);
             return parser.ParseRule(sheet, source) as CssImportRule;
         }
+
+        internal static Predicate<IRenderDevice> CreateValidator(String name, String value)
+        {
+            var validator = CreateMediaFeatureValidator(name);
+            var feature = new MediaFeature(name, value);
+            return device => validator.Validate(feature, device);
+        }
     }
 }

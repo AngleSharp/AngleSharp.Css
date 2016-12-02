@@ -168,13 +168,11 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-            }
-            else if (FillDeclarations(rule))
-            {
-                return rule;
+                return null;
             }
 
-            return null;
+            FillDeclarations(rule);
+            return rule;
         }
 
         private CssFontFaceRule CreateFontFace(CssFontFaceRule rule, CssToken current)
@@ -185,13 +183,11 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-            }
-            else if (FillDeclarations(rule))
-            {
-                return rule;
+                return null;
             }
 
-            return null;
+            FillDeclarations(rule);
+            return rule;
         }
 
         private CssImportRule CreateImport(CssImportRule rule, CssToken current)
@@ -227,12 +223,10 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(token);
-            }
-            else
-            {
-                FillKeyframeRules(rule);
+                return null;
             }
 
+            FillKeyframeRules(rule);
             return rule;
         }
 
@@ -244,25 +238,18 @@
             rule.Media.SetMediaText(media, throwOnError: false);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen))
             {
-                while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen))
+                if (token.Type == CssTokenType.Semicolon)
                 {
-                    if (token.Type == CssTokenType.Semicolon)
-                    {
-                        return null;
-                    }
-
-                    token = NextToken();
+                    return null;
                 }
+
+                token = NextToken();
             }
 
-            if (FillRules(rule))
-            {
-                return rule;
-            }
-
-            return null;
+            FillRules(rule);
+            return rule;
         }
 
         private CssNamespaceRule CreateNamespace(CssNamespaceRule rule, CssToken current)
@@ -290,12 +277,10 @@
             if (current.Type != CssTokenType.CurlyBracketOpen)
             {
                 SkipDeclarations(current);
-            }
-            else
-            {
-                FillDeclarations(rule.Style, NextToken());
+                return null;
             }
 
+            FillDeclarations(rule.Style, NextToken());
             return rule;
         }
 
@@ -323,6 +308,13 @@
         {
             CollectTrivia(ref current);
             rule.SelectorText = GetArgument(ref current);
+
+            if (current.Type != CssTokenType.CurlyBracketOpen)
+            {
+                SkipDeclarations(current);
+                return null;
+            }
+
             FillDeclarations(rule.Style, NextToken());
             return rule;
         }
@@ -335,7 +327,7 @@
             return rule;
         }
 
-        private Boolean FillKeyframeRules(CssKeyframesRule parentRule)
+        private CssKeyframesRule FillKeyframeRules(CssKeyframesRule parentRule)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -349,10 +341,10 @@
                 parentRule.Add(rule);
             }
 
-            return token.Type == CssTokenType.CurlyBracketClose;
+            return parentRule;
         }
 
-        private Boolean FillDeclarations(CssDeclarationRule rule)
+        private CssDeclarationRule FillDeclarations(CssDeclarationRule rule)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -363,7 +355,7 @@
                 CollectTrivia(ref token);
             }
 
-            return token.Type == CssTokenType.CurlyBracketClose;
+            return rule;
         }
 
         private CssUnknownRule CreateUnknownAtRule(ICssStyleSheet sheet, CssToken current)

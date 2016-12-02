@@ -38,11 +38,15 @@
         public static ICssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
             var computedStyle = new CssStyleDeclaration();
-            var pseudoElement = element?.Pseudo(pseudoSelector);
 
-            if (pseudoElement != null)
+            if (!String.IsNullOrEmpty(pseudoSelector))
             {
-                element = pseudoElement;
+                var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
+
+                if (pseudoElement != null)
+                {
+                    element = pseudoElement;
+                }
             }
 
             computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element));

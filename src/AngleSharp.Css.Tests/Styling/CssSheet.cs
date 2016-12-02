@@ -187,16 +187,18 @@ h1 {
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual(1, h1.Style.Length);
+            Assert.AreEqual(2, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
             Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
+            Assert.AreEqual("rotation", h1.Style[1]);
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
         {
             var sheet = ParseStyleSheet(@"p @here {color: red}");
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(null, (sheet.Rules[0] as ICssStyleRule).SelectorText);
         }
 
         [Test]
@@ -286,7 +288,8 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual(1, img.Style.Length);
+            Assert.AreEqual("initial", img.Style.GetFloat());
         }
 
         [Test]
@@ -297,7 +300,8 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual(1, img.Style.Length);
+            Assert.AreEqual("initial", img.Style.GetBackground());
         }
 
         [Test]
@@ -437,21 +441,6 @@ h1 { color: blue }");
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
             var value = FontFamiliesConverter.Convert(valueString);
             Assert.IsNotNull(value);
-        }
-
-        [Test]
-        public void CssCreateMultipleValueLists()
-        {
-            var valueString = "Arial 10pt bold, Verdana 12pt italic";
-            Assert.Inconclusive(valueString);
-            //var list = ParseValue(valueString);
-            //Assert.AreEqual(12, list.Count);
-            //Assert.AreEqual("Arial", list[0].ToValue());
-            //Assert.AreEqual("Verdana", list[7].ToValue());
-            //Assert.AreEqual("10pt", list[2].ToValue());
-            //Assert.AreEqual("12pt", list[9].ToValue());
-            //Assert.AreEqual("bold", list[4].ToValue());
-            //Assert.AreEqual("italic", list[11].ToValue());
         }
 
         [Test]
@@ -932,128 +921,6 @@ font-weight:bold;}";
             var s = ParseStyleSheet(String.Empty);
             s.Insert("a {color: blue}", 0);
             Assert.AreEqual(s, s.Rules[0].Owner);
-        }
-
-        [Test]
-        public void CssStyleSheetWithoutCommentsButStoringTrivia()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true
-            });
-            var source = ".foo { color: red; } @media print { #myid { color: green; } }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var comments = sheet.GetComments();
-            //Assert.AreEqual(0, comments.Count());
-        }
-
-        [Test]
-        public void CssStyleSheetWithCommentInDeclaration()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true
-            });
-            var source = ".foo { /*test*/ color: red;/*test*/ } @media print { #myid { color: green; } }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var comments = sheet.GetComments();
-            //Assert.AreEqual(2, comments.Count());
-
-            //foreach (var comment in comments)
-            //{
-            //    Assert.AreEqual("test", comment.Data);
-            //}
-        }
-
-        [Test]
-        public void CssStyleSheetWithCommentInRule()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true
-            });
-            var source = ".foo { color: red; } @media print { /*test*/ #myid { color: green; } /*test*/ }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var comments = sheet.GetComments();
-            //Assert.AreEqual(2, comments.Count());
-
-            //foreach (var comment in comments)
-            //{
-            //    Assert.AreEqual("test", comment.Data);
-            //}
-        }
-
-        [Test]
-        public void CssStyleSheetWithCommentInMedia()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true
-            });
-            var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var comments = sheet.GetComments();
-            //Assert.AreEqual(3, comments.Count());
-
-            //foreach (var comment in comments)
-            //{
-            //    Assert.AreEqual("test", comment.Data);
-            //}
-        }
-
-        [Test]
-        public void CssStyleSheetSimpleRoundtrip()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true,
-                IsToleratingInvalidValues = true
-            });
-            var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var roundtrip = sheet.SourceCode.Text;
-            //Assert.AreEqual(source, roundtrip);
-        }
-
-        [Test]
-        public void CssStyleSheetComplexRoundtrip()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true,
-                IsToleratingInvalidValues = true
-            });
-            var source = CssStylingService.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
-            Assert.Inconclusive();
-            //var sheet = parser.ParseStylesheet(source);
-            //var roundtrip = sheet.SourceCode.Text;
-            //Assert.AreEqual(source, roundtrip);
-        }
-
-        [Test]
-        public void CssStyleSheetSelectorsGetAll()
-        {
-            var parser = new CssParser(new CssParserOptions
-            {
-                //IsStoringTrivia = true
-            });
-            var source = ".foo { } #bar { } @media all { div { } a > b { } @media print { script[type] { } } }";
-            var sheet = parser.ParseStyleSheet(source);
-            Assert.Inconclusive();
-            //var roundtrip = sheet.SourceCode.Text;
-            //Assert.AreEqual(source, roundtrip);
-            //var selectors = sheet.GetAll<ISelector>();
-            //Assert.AreEqual(5, selectors.Count());
-            //var mediaRules = sheet.GetAll<ICssMediaRule>();
-            //Assert.AreEqual(2, mediaRules.Count());
-            //var descendentSelector = selectors.Skip(3).First();
-            //Assert.AreEqual("a>b", descendentSelector.Text);
-            //Assert.AreEqual("a > b ", descendentSelector.SourceCode.Text);
         }
 
         [Test]
