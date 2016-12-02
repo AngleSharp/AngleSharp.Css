@@ -1,5 +1,5 @@
 ﻿#if !NET40 && !SL50
-namespace AngleSharp
+namespace AngleSharp.Css
 {
     using System;
     using System.Linq;

@@ -56,8 +56,7 @@
             var doc = ParseDocument(source, new CssParserOptions
             {
                 IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true
+                IsIncludingUnknownRules = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual("initial", div.Style["background-color"]);

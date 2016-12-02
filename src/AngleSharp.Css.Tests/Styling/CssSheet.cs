@@ -842,8 +842,7 @@ font-weight:bold;}";
             var options = new CssParserOptions()
             {
                 IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true
+                IsIncludingUnknownRules = true
             };
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
@@ -866,8 +865,7 @@ font-weight:bold;}";
             var options = new CssParserOptions()
             {
                 IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true
+                IsIncludingUnknownRules = true
             };
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);

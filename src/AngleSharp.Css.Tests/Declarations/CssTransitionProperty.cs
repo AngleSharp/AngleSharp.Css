@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("all", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("width, height", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("width, height", property.Value);
         }
 
         [Test]
@@ -56,10 +49,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -69,10 +60,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -82,10 +71,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
-            var concrete = (CssTransitionPropertyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -95,11 +82,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("ease", property.Value);
         }
 
         [Test]
@@ -109,11 +94,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease-in", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("ease-in", property.Value);
         }
 
         [Test]
@@ -123,11 +106,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-start", property.Value);
         }
 
         [Test]
@@ -137,11 +118,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, step-end", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-start, step-end", property.Value);
         }
 
         [Test]
@@ -151,11 +130,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, step-end, linear, ease-in-out", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-start, step-end, linear, ease-in-out", property.Value);
         }
 
         [Test]
@@ -165,11 +142,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", property.Value);
         }
 
         [Test]
@@ -179,11 +154,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(10, start)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("steps(10, start)", property.Value);
         }
 
         [Test]
@@ -193,11 +166,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("steps(25)", property.Value);
         }
 
         [Test]
@@ -207,11 +178,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
-            var concrete = (CssTransitionTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", property.Value);
         }
 
         [Test]
@@ -221,11 +190,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
-            var concrete = (CssTransitionDurationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("6s", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("6s", property.Value);
         }
 
         [Test]
@@ -235,11 +202,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
-            var concrete = (CssTransitionDurationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms", property.Value);
         }
 
         [Test]
@@ -249,11 +214,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
-            var concrete = (CssTransitionDurationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", property.Value);
         }
 
         [Test]
@@ -263,11 +226,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionDelayProperty>(property);
-            var concrete = (CssTransitionDelayProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms", property.Value);
         }
 
         [Test]
@@ -277,11 +238,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionDelayProperty>(property);
-            var concrete = (CssTransitionDelayProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", property.Value);
         }
 
         [Test]
@@ -291,11 +250,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms, 1s, 2s", property.Value);
         }
 
         [Test]
@@ -305,11 +262,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", property.Value);
         }
 
         [Test]
@@ -319,11 +274,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("width, height", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("width, height", property.Value);
         }
 
         [Test]
@@ -333,11 +286,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("ease", property.Value);
         }
 
         [Test]
@@ -347,11 +298,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("all 1s ease", property.Value);
         }
 
         [Test]
@@ -361,11 +310,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease, height 50ms steps(5)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("all 1s ease, height 50ms steps(5)", property.Value);
         }
 
         [Test]
@@ -375,11 +322,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTransitionProperty>(property);
-            var concrete = (CssTransitionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease, height 50ms step-start, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("all 1s ease, height 50ms step-start, width, cubic-bezier(0.2, 0.5, 1, 1)", property.Value);
         }
     }
 }

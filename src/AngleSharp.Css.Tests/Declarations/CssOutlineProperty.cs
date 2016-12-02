@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
-            var concrete = (CssOutlineStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotted", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("dotted", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
-            var concrete = (CssOutlineStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("solid", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("solid", property.Value);
         }
 
         [Test]
@@ -42,10 +37,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
-            var concrete = (CssOutlineStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -55,11 +48,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineColorProperty>(property);
-            var concrete = (CssOutlineColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("invert", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("invert", property.Value);
         }
 
         [Test]
@@ -69,11 +60,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineColorProperty>(property);
-            var concrete = (CssOutlineColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(229, 26, 161, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(229, 26, 161, 1)", property.Value);
         }
 
         [Test]
@@ -83,11 +72,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineColorProperty>(property);
-            var concrete = (CssOutlineColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(0, 0, 255, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(0, 0, 255, 1)", property.Value);
         }
 
         [Test]
@@ -97,11 +84,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineColorProperty>(property);
-            var concrete = (CssOutlineColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -111,10 +96,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineColorProperty>(property);
-            var concrete = (CssOutlineColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -124,11 +107,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
-            var concrete = (CssOutlineWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px", property.Value);
         }
 
         [Test]
@@ -138,10 +119,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
-            var concrete = (CssOutlineWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -151,12 +130,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
-            var concrete = (CssOutlineWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.1em", concrete.Value);
-            //Assert.IsInstanceOf<Length>(concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.1em", property.Value);
         }
 
         [Test]
@@ -166,11 +142,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px", property.Value);
         }
 
         [Test]
@@ -180,11 +154,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px invert", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px invert", property.Value);
         }
 
         [Test]
@@ -194,11 +166,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3em dotted rgba(255, 255, 255, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3em dotted rgba(255, 255, 255, 1)", property.Value);
         }
 
         [Test]
@@ -208,10 +178,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -221,11 +189,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -235,11 +201,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssOutlineProperty>(property);
-            var concrete = (CssOutlineProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", property.Value);
         }
     }
 }

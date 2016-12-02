@@ -14,11 +14,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Gill Sans Extrabold, sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("Gill Sans Extrabold, sans-serif", property.Value);
         }
 
         [Test]
@@ -28,11 +26,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("initial", concrete.Value);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("initial", property.Value);
         }
 
         [Test]
@@ -42,11 +38,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Courier, \"Lucida Console\", monospace", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("Courier, \"Lucida Console\", monospace", property.Value);
         }
 
         [Test]
@@ -56,11 +50,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", property.Value);
         }
 
         [Test]
@@ -70,10 +62,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -83,10 +73,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -96,10 +84,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -109,10 +95,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -122,10 +106,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -135,10 +117,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -148,10 +128,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontFamilyProperty>(property);
-            var concrete = (CssFontFamilyProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -161,11 +139,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontVariantProperty>(property);
-            var concrete = (CssFontVariantProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -175,11 +151,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontVariantProperty>(property);
-            var concrete = (CssFontVariantProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("small-caps", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("small-caps", property.Value);
         }
 
         [Test]
@@ -189,10 +163,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontVariantProperty>(property);
-            var concrete = (CssFontVariantProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -202,11 +174,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStyleProperty>(property);
-            var concrete = (CssFontStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("italic", property.Value);
         }
 
         [Test]
@@ -216,11 +186,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStyleProperty>(property);
-            var concrete = (CssFontStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("oblique", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("oblique", property.Value);
         }
 
         [Test]
@@ -230,11 +198,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStyleProperty>(property);
-            var concrete = (CssFontStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -244,11 +210,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("xx-small", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("xx-small", property.Value);
         }
 
         [Test]
@@ -258,11 +222,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("medium", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("medium", property.Value);
         }
 
         [Test]
@@ -272,11 +234,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("large", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("large", property.Value);
         }
 
         [Test]
@@ -286,11 +246,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("larger", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("larger", property.Value);
         }
 
         [Test]
@@ -300,10 +258,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -313,11 +269,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("120%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("120%", property.Value);
         }
 
         [Test]
@@ -327,11 +281,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -341,11 +293,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3.5em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3.5em", property.Value);
         }
 
         [Test]
@@ -355,10 +305,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeProperty>(property);
-            var concrete = (CssFontSizeProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -368,10 +316,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontWeightProperty>(property);
-            var concrete = (CssFontWeightProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -381,11 +327,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssFontWeightProperty>(property);
-            var concrete = (CssFontWeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bolder", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("bolder", property.Value);
         }
 
         [Test]
@@ -395,11 +339,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontWeightProperty>(property);
-            var concrete = (CssFontWeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bold", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("bold", property.Value);
         }
 
         [Test]
@@ -409,11 +351,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontWeightProperty>(property);
-            var concrete = (CssFontWeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("400", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("400", property.Value);
         }
 
         [Test]
@@ -423,11 +363,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStretchProperty>(property);
-            var concrete = (CssFontStretchProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -437,11 +375,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStretchProperty>(property);
-            var concrete = (CssFontStretchProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("extra-condensed", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("extra-condensed", property.Value);
         }
 
         [Test]
@@ -451,10 +387,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontStretchProperty>(property);
-            var concrete = (CssFontStretchProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -464,11 +398,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("12px / 14px sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("12px / 14px sans-serif", property.Value);
         }
 
         [Test]
@@ -478,11 +410,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("smaller sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("smaller sans-serif", property.Value);
         }
 
         [Test]
@@ -492,11 +422,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold large serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("italic bold large serif", property.Value);
         }
 
         [Test]
@@ -506,11 +434,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("status-bar", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("status-bar", property.Value);
         }
 
         [Test]
@@ -520,11 +446,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px arial, sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("15px arial, sans-serif", property.Value);
         }
 
         [Test]
@@ -534,11 +458,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", property.Value);
         }
 
         [Test]
@@ -548,11 +470,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
-            var concrete = (CssLetterSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3px", property.Value);
         }
 
         [Test]
@@ -562,11 +482,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
-            var concrete = (CssLetterSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3px", property.Value);
         }
 
         [Test]
@@ -576,11 +494,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
-            var concrete = (CssLetterSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3em", property.Value);
         }
 
         [Test]
@@ -590,11 +506,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
-            var concrete = (CssLetterSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -604,11 +518,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
-            var concrete = (CssFontSizeAdjustProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -618,11 +530,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
-            var concrete = (CssFontSizeAdjustProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.5", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.5", property.Value);
         }
 
         [Test]
@@ -632,10 +542,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
-            var concrete = (CssFontSizeAdjustProperty)property;
-            Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -645,11 +553,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("12pt / 14pt sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("12pt / 14pt sans-serif", property.Value);
         }
 
         [Test]
@@ -659,11 +565,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("smaller sans-serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("smaller sans-serif", property.Value);
         }
 
         [Test]
@@ -673,11 +577,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("x-large / 110% \"New Century Schoolbook\", serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("x-large / 110% \"New Century Schoolbook\", serif", property.Value);
         }
 
         [Test]
@@ -687,11 +589,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold large Palatino, serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("italic bold large Palatino, serif", property.Value);
         }
 
         [Test]
@@ -701,11 +601,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal small-caps larger / 120% Fantasy", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal small-caps larger / 120% Fantasy", property.Value);
         }
 
         [Test]
@@ -715,11 +613,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("oblique condensed 12pt \"Helvetica Neue\", serif", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("oblique condensed 12pt \"Helvetica Neue\", serif", property.Value);
         }
 
         [Test]
@@ -729,11 +625,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("status-bar", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("status-bar", property.Value);
         }
 
         [Test]
@@ -779,17 +673,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssFontProperty>(property);
-            var concrete = (CssFontProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), concrete.Height);
-            //Assert.AreEqual(new Length(12f, Length.Unit.Px), concrete.Size);
-            //Assert.AreEqual(FontStyle.Italic, concrete.Style);
-            //Assert.AreEqual(2, concrete.Families.Count());
-            //Assert.AreEqual("georgia", concrete.Families.First());
-            //Assert.AreEqual("Times New Roman", concrete.Families.Skip(1).First());
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", property.Value);
         }
     }
 }

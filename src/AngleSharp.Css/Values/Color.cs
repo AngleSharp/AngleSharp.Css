@@ -59,6 +59,11 @@
         /// </summary>
         public static readonly Color CurrentColor = new Color(0, 1, 2, 3);
 
+        /// <summary>
+        /// The color #30201000.
+        /// </summary>
+        public static readonly Color InvertedColor = new Color(48, 32, 16, 0);
+
         #endregion
 
         #region Fields
@@ -519,20 +524,26 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            if (!Equals(Color.CurrentColor))
+            if (Equals(Color.CurrentColor))
             {
+                return CssKeywords.CurrentColor;
+            }
+            else if (Equals(Color.InvertedColor))
+            {
+                return CssKeywords.Invert;
+            }
+            else
+            { 
                 var fn = FunctionNames.Rgba;
                 var args = String.Join(", ", new[]
                 {
-                R.ToString(format, formatProvider),
-                G.ToString(format, formatProvider),
-                B.ToString(format, formatProvider),
-                Alpha.ToString(format, formatProvider)
-            });
+                    R.ToString(format, formatProvider),
+                    G.ToString(format, formatProvider),
+                    B.ToString(format, formatProvider),
+                    Alpha.ToString(format, formatProvider)
+                });
                 return fn.CssFunction(args);
             }
-
-            return CssKeywords.CurrentColor;
         }
 
         /// <summary>

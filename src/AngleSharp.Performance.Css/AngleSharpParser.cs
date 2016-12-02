@@ -10,7 +10,6 @@
         {
             IsIncludingUnknownDeclarations = true,
             IsIncludingUnknownRules = true,
-            IsToleratingInvalidValues = true,
             IsToleratingInvalidSelectors = true
         };
         private static readonly CssParser parser = new CssParser(options);

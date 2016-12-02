@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDurationProperty>(property);
-            var concrete = (CssAnimationDurationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("60ms", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDurationProperty>(property);
-            var concrete = (CssAnimationDurationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1s, 2s, 3s, 4s", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1s, 2s, 3s, 4s", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDelayProperty>(property);
-            var concrete = (CssAnimationDelayProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0ms", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0ms", property.Value);
         }
 
         [Test]
@@ -56,10 +49,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDelayProperty>(property);
-            var concrete = (CssAnimationDelayProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -69,11 +60,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDelayProperty>(property);
-            var concrete = (CssAnimationDelayProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0s, 0s, 1s, 20ms", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0s, 0s, 1s, 20ms", property.Value);
         }
 
         [Test]
@@ -83,11 +72,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-name", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationNameProperty>(property);
-            var concrete = (CssAnimationNameProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("-specific", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("-specific", property.Value);
         }
 
         [Test]
@@ -97,11 +84,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-name", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationNameProperty>(property);
-            var concrete = (CssAnimationNameProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("sliding-vertically", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("sliding-vertically", property.Value);
         }
 
         [Test]
@@ -111,11 +96,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-name", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationNameProperty>(property);
-            var concrete = (CssAnimationNameProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("test_05", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("test_05", property.Value);
         }
 
         [Test]
@@ -125,10 +108,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-name", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationNameProperty>(property);
-            var concrete = (CssAnimationNameProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -138,11 +119,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-name", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationNameProperty>(property);
-            var concrete = (CssAnimationNameProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation, other-animation", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("my-animation, other-animation", property.Value);
         }
 
         [Test]
@@ -152,11 +131,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -166,11 +143,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("infinite", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("infinite", property.Value);
         }
 
         [Test]
@@ -180,11 +155,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("infinite", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("infinite", property.Value);
         }
 
         [Test]
@@ -194,11 +167,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2.3", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2.3", property.Value);
         }
 
         [Test]
@@ -208,11 +179,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2, 0, infinite", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2, 0, infinite", property.Value);
         }
 
         [Test]
@@ -222,10 +191,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-iteration-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationIterationCountProperty>(property);
-            var concrete = (CssAnimationIterationCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -235,11 +202,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("ease", property.Value);
         }
 
         [Test]
@@ -249,10 +214,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -262,11 +225,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease-in-out", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("ease-in-out", property.Value);
         }
 
         [Test]
@@ -276,11 +237,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-end", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-end", property.Value);
         }
 
         [Test]
@@ -290,11 +249,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, linear", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-start, linear", property.Value);
         }
 
         [Test]
@@ -304,11 +261,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationTimingFunctionProperty>(property);
-            var concrete = (CssAnimationTimingFunctionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", property.Value);
         }
 
         [Test]
@@ -318,11 +273,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-play-state", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationPlayStateProperty>(property);
-            var concrete = (CssAnimationPlayStateProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("running", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("running", property.Value);
         }
 
         [Test]
@@ -332,11 +285,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-play-state", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationPlayStateProperty>(property);
-            var concrete = (CssAnimationPlayStateProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("paused", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("paused", property.Value);
         }
 
         [Test]
@@ -346,11 +297,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-play-state", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationPlayStateProperty>(property);
-            var concrete = (CssAnimationPlayStateProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("paused, running, paused", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("paused, running, paused", property.Value);
         }
 
         [Test]
@@ -360,11 +309,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationFillModeProperty>(property);
-            var concrete = (CssAnimationFillModeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -374,10 +321,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationFillModeProperty>(property);
-            var concrete = (CssAnimationFillModeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -387,11 +332,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationFillModeProperty>(property);
-            var concrete = (CssAnimationFillModeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("backwards", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("backwards", property.Value);
         }
 
         [Test]
@@ -401,11 +344,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationFillModeProperty>(property);
-            var concrete = (CssAnimationFillModeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("forwards", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("forwards", property.Value);
         }
 
         [Test]
@@ -415,11 +356,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-fill-mode", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationFillModeProperty>(property);
-            var concrete = (CssAnimationFillModeProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("both, backwards, forwards, none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("both, backwards, forwards, none", property.Value);
         }
 
         [Test]
@@ -429,11 +368,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-direction", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDirectionProperty>(property);
-            var concrete = (CssAnimationDirectionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -443,11 +380,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-direction", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDirectionProperty>(property);
-            var concrete = (CssAnimationDirectionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("reverse", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("reverse", property.Value);
         }
 
         [Test]
@@ -457,10 +392,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-direction", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDirectionProperty>(property);
-            var concrete = (CssAnimationDirectionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -470,11 +403,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-direction", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDirectionProperty>(property);
-            var concrete = (CssAnimationDirectionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("alternate-reverse", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("alternate-reverse", property.Value);
         }
 
         [Test]
@@ -484,11 +415,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation-direction", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationDirectionProperty>(property);
-            var concrete = (CssAnimationDirectionProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal, alternate, reverse, alternate-reverse", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal, alternate, reverse, alternate-reverse", property.Value);
         }
 
         [Test]
@@ -498,11 +427,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("5", property.Value);
         }
 
         [Test]
@@ -512,11 +439,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("my-animation", property.Value);
         }
 
         [Test]
@@ -526,11 +451,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2s 0.5s my-animation", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2s 0.5s my-animation", property.Value);
         }
 
         [Test]
@@ -540,11 +463,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("200ms ease 0.5s my-animation", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("200ms ease 0.5s my-animation", property.Value);
         }
 
         [Test]
@@ -554,10 +475,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -567,11 +486,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("200ms ease-in-out 2.5 my-animation", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("200ms ease-in-out 2.5 my-animation", property.Value);
         }
 
         [Test]
@@ -581,11 +498,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("animation", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssAnimationProperty>(property);
-            var concrete = (CssAnimationProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation, 0s step-start 1s 10 yet-another", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation, 0s step-start 1s 10 yet-another", property.Value);
         }
     }
 }

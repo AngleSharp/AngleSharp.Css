@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-left", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingLeftProperty>(property);
-            var concrete = (CssPaddingLeftProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("15px", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-right", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingRightProperty>(property);
-            var concrete = (CssPaddingRightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3em", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-top", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingTopProperty>(property);
-            var concrete = (CssPaddingTopProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("4%", property.Value);
         }
 
         [Test]
@@ -56,11 +49,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingBottomProperty>(property);
-            var concrete = (CssPaddingBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -70,11 +61,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -84,11 +73,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("25%", property.Value);
         }
 
         [Test]
@@ -98,11 +85,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 3em", property.Value);
         }
 
         [Test]
@@ -112,10 +97,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -125,11 +108,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em 5px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 3em 5px", property.Value);
         }
 
         [Test]
@@ -139,11 +120,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5% 8px 2%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 5% 8px 2%", property.Value);
         }
 
         [Test]
@@ -153,10 +132,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssPaddingProperty>(property);
-            var concrete = (CssPaddingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

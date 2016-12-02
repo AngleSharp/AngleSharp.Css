@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,13 +13,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectFitProperty>(property);
-            var concrete = (CssObjectFitProperty)property;
             Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
-            //Assert.AreEqual(ObjectFitting.None, concrete.Fitting);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -30,12 +26,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectFitProperty>(property);
-            var concrete = (CssObjectFitProperty)property;
             Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
-            //Assert.AreEqual(ObjectFitting.Fill, concrete.Fitting);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -45,13 +38,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectFitProperty>(property);
-            var concrete = (CssObjectFitProperty)property;
             Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("scale-down", concrete.Value);
-            //Assert.AreEqual(ObjectFitting.ScaleDown, concrete.Fitting);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("scale-down", property.Value);
         }
 
         [Test]
@@ -61,13 +51,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectFitProperty>(property);
-            var concrete = (CssObjectFitProperty)property;
             Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("cover", concrete.Value);
-            //Assert.AreEqual(ObjectFitting.Cover, concrete.Fitting);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("cover", property.Value);
         }
 
         [Test]
@@ -77,13 +64,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectFitProperty>(property);
-            var concrete = (CssObjectFitProperty)property;
             Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("contain", concrete.Value);
-            //Assert.AreEqual(ObjectFitting.Contain, concrete.Fitting);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("contain", property.Value);
         }
 
         [Test]
@@ -93,12 +77,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectPositionProperty>(property);
-            var concrete = (CssObjectPositionProperty)property;
             Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("center", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("center", property.Value);
         }
 
         [Test]
@@ -108,11 +90,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectPositionProperty>(property);
-            var concrete = (CssObjectPositionProperty)property;
             Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -122,12 +102,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectPositionProperty>(property);
-            var concrete = (CssObjectPositionProperty)property;
             Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("left top", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("left top", property.Value);
         }
 
         [Test]
@@ -137,12 +115,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectPositionProperty>(property);
-            var concrete = (CssObjectPositionProperty)property;
             Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("center", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("center", property.Value);
         }
 
         [Test]
@@ -152,12 +128,10 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssObjectPositionProperty>(property);
-            var concrete = (CssObjectPositionProperty)property;
             Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0 30px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0 30px", property.Value);
         }
     }
 }

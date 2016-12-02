@@ -124,7 +124,7 @@
         {
             var list = new List<IStyleFormattable>();
             var serialized = new List<String>();
-            var factory = _context.GetFactory<ICssPropertyFactory>();
+            //var factory = _context.GetFactory<ICssPropertyFactory>();
 
             foreach (var declaration in Declarations)
             {
@@ -133,46 +133,43 @@
                 if (serialized.Contains(property))
                     continue;
 
-                var shorthands = factory.GetShorthands(property);
+                //var shorthands = factory.GetShorthands(property);
 
-                if (shorthands.Any())
-                {
-                    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                //if (shorthands.Any())
+                //{
+                //    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                    foreach (var shorthandName in shorthands.OrderByDescending(m => factory.GetLonghands(m).Count()))
-                    {
-                        var shorthand = factory.CreateShorthand(shorthandName);
-                        var properties = factory.GetLonghands(shorthandName).ToArray();
-                        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+                //    foreach (var shorthandName in shorthands.OrderByDescending(m => factory.GetLonghands(m).Count()))
+                //    {
+                //        var shorthand = factory.CreateShorthand(shorthandName);
+                //        var properties = factory.GetLonghands(shorthandName).ToArray();
+                //        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
-                        if (currentLonghands.Length == 0)
-                            continue;
+                //        if (currentLonghands.Length == 0)
+                //            continue;
 
-                        var important = currentLonghands.Count(m => m.IsImportant);
+                //        var important = currentLonghands.Count(m => m.IsImportant);
 
-                        if (important > 0 && important != currentLonghands.Length)
-                            continue;
+                //        if (important > 0 && important != currentLonghands.Length)
+                //            continue;
 
-                        if (properties.Length != currentLonghands.Length)
-                            continue;
+                //        if (properties.Length != currentLonghands.Length)
+                //            continue;
+                        
+                //        var value = shorthand.Stringify(currentLonghands);
 
-                        //TODO
-                        /*
-                        var value = shorthand.Stringify(currentLonghands);
+                //        if (String.IsNullOrEmpty(value))
+                //            continue;
 
-                        if (String.IsNullOrEmpty(value))
-                            continue;
+                //        list.Add(CssStyleFormatter.Instance.Declaration(shorthandName, value, important != 0));
 
-                        list.Add(CssStyleFormatter.Instance.Declaration(shorthandName, value, important != 0));
-
-                        foreach (var longhand in currentLonghands)
-                        {
-                            serialized.Add(longhand.Name);
-                            longhands.Remove(longhand);
-                        }
-                        */
-                    }
-                }
+                //        foreach (var longhand in currentLonghands)
+                //        {
+                //            serialized.Add(longhand.Name);
+                //            longhands.Remove(longhand);
+                //        }
+                //    }
+                //}
 
                 if (serialized.Contains(property))
                     continue;
@@ -203,22 +200,22 @@
 
             if (property == null || !property.IsImportant)
             {
-                var factory = _context.GetFactory<ICssPropertyFactory>();
+                //var factory = _context.GetFactory<ICssPropertyFactory>();
 
-                if (factory.IsShorthand(propertyName))
-                {
-                    var longhands = factory.GetLonghands(propertyName);
+                //if (factory.IsShorthand(propertyName))
+                //{
+                //    var longhands = factory.GetLonghands(propertyName);
 
-                    foreach (var longhand in longhands)
-                    {
-                        if (!GetPropertyPriority(longhand).Isi(CssKeywords.Important))
-                        {
-                            return String.Empty;
-                        }
-                    }
+                //    foreach (var longhand in longhands)
+                //    {
+                //        if (!GetPropertyPriority(longhand).Isi(CssKeywords.Important))
+                //        {
+                //            return String.Empty;
+                //        }
+                //    }
 
-                    return CssKeywords.Important;
-                }
+                //    return CssKeywords.Important;
+                //}
 
                 return String.Empty;
             }
@@ -232,29 +229,28 @@
 
             if (property == null)
             {
-                var factory = _context.GetFactory<ICssPropertyFactory>();
+                //var factory = _context.GetFactory<ICssPropertyFactory>();
 
-                if (factory.IsShorthand(propertyName))
-                {
-                    var shortHand = factory.CreateShorthand(propertyName);
-                    var declarations = factory.GetLonghands(propertyName);
-                    var properties = new List<ICssProperty>();
+                //if (factory.IsShorthand(propertyName))
+                //{
+                //    var shortHand = factory.CreateShorthand(propertyName);
+                //    var declarations = factory.GetLonghands(propertyName);
+                //    var properties = new List<ICssProperty>();
 
-                    foreach (var declaration in declarations)
-                    {
-                        property = GetProperty(declaration);
+                //    foreach (var declaration in declarations)
+                //    {
+                //        property = GetProperty(declaration);
 
-                        if (property == null)
-                        {
-                            return String.Empty;
-                        }
+                //        if (property == null)
+                //        {
+                //            return String.Empty;
+                //        }
 
-                        properties.Add(property);
-                    }
+                //        properties.Add(property);
+                //    }
 
-                    //TODO
-                    //return shortHand.Stringify(properties.ToArray());
-                }
+                //    return shortHand.Stringify(properties.ToArray());
+                //}
 
                 return String.Empty;
             }
@@ -274,21 +270,21 @@
 
             if (String.IsNullOrEmpty(priority) || priority.Isi(CssKeywords.Important))
             {
-                var factory = _context.GetFactory<ICssPropertyFactory>();
+                //var factory = _context.GetFactory<ICssPropertyFactory>();
                 var important = !String.IsNullOrEmpty(priority);
-                var mappings = factory.IsShorthand(propertyName) ? 
-                    factory.GetLonghands(propertyName) : 
-                    Enumerable.Repeat(propertyName, 1);
+                //var mappings = factory.IsShorthand(propertyName) ? 
+                //    factory.GetLonghands(propertyName) : 
+                //    Enumerable.Repeat(propertyName, 1);
 
-                foreach (var mapping in mappings)
-                {
-                    var property = GetProperty(mapping);
+                //foreach (var mapping in mappings)
+                //{
+                    var property = GetProperty(propertyName);//mapping);
 
                     if (property != null)
                     {
                         property.IsImportant = important;
                     }
-                }
+                //}
             }
         }
 
@@ -353,15 +349,7 @@
 
         private ICssProperty CreateProperty(String propertyName)
         {
-            var property = GetProperty(propertyName);
-
-            if (property == null)
-            {
-                var factory = _context.GetFactory<ICssPropertyFactory>();
-                property = factory.Create(propertyName);
-            }
-
-            return property;
+            return GetProperty(propertyName) ?? _context.CreateProperty(propertyName);
         }
 
         private void SetProperty(ICssProperty property)
@@ -389,17 +377,17 @@
                 }
             }
 
-            var factory = _context.GetFactory<ICssPropertyFactory>();
+            //var factory = _context.GetFactory<ICssPropertyFactory>();
 
-            if (factory.IsShorthand(propertyName))
-            {
-                var longhands = factory.GetLonghands(propertyName);
+            //if (factory.IsShorthand(propertyName))
+            //{
+            //    var longhands = factory.GetLonghands(propertyName);
 
-                foreach (var longhand in longhands)
-                {
-                    RemovePropertyByName(longhand);
-                }
-            }
+            //    foreach (var longhand in longhands)
+            //    {
+            //        RemovePropertyByName(longhand);
+            //    }
+            //}
         }
 
         private void ChangeDeclarations(IEnumerable<ICssProperty> decls, Predicate<ICssProperty> defaultSkip, Func<ICssProperty, ICssProperty, Boolean> removeExisting)
@@ -456,15 +444,14 @@
 
         private void SetShorthand(ICssProperty shorthand)
         {
-            var factory = _context.GetFactory<ICssPropertyFactory>();
-            var properties = factory.CreateLonghandsFor(shorthand.Name);
-            //TODO
+            //var factory = _context.GetFactory<ICssPropertyFactory>();
+            //var properties = factory.CreateLonghandsFor(shorthand.Name);
             //shorthand.Export(properties);
 
-            foreach (var property in properties)
-            {
-                SetLonghand(property);
-            }
+            //foreach (var property in properties)
+            //{
+            //    SetLonghand(property);
+            //}
         }
 
         private void RaiseChanged()

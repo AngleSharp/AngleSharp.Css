@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-source", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
-            var concrete = (CssBorderImageSourceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-source", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
-            var concrete = (CssBorderImageSourceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.jpg\")", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.jpg\")", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-source", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
-            var concrete = (CssBorderImageSourceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("linear-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1))", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("linear-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1))", property.Value);
         }
 
         [Test]
@@ -56,11 +49,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-outset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
-            var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -70,11 +61,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-outset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
-            var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25%", property.Value);
         }
 
         [Test]
@@ -84,11 +73,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-outset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
-            var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25% 0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25% 0", property.Value);
         }
 
         [Test]
@@ -98,11 +85,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-outset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
-            var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25% 0 10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25% 0 10%", property.Value);
         }
 
         [Test]
@@ -112,10 +97,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-outset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
-            var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -125,11 +108,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -139,11 +120,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -153,11 +132,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("5", property.Value);
         }
 
         [Test]
@@ -167,11 +144,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25%", property.Value);
         }
 
         [Test]
@@ -181,11 +156,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25% 0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25% 0", property.Value);
         }
 
         [Test]
@@ -195,11 +168,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 25% auto 10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 25% auto 10%", property.Value);
         }
 
         [Test]
@@ -209,10 +180,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
-            var concrete = (CssBorderImageWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -222,11 +191,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
-            var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("stretch", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("stretch", property.Value);
         }
 
         [Test]
@@ -236,11 +203,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
-            var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("repeat", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("repeat", property.Value);
         }
 
         [Test]
@@ -250,11 +215,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
-            var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("round", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("round", property.Value);
         }
 
         [Test]
@@ -264,11 +227,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
-            var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("stretch round", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("stretch round", property.Value);
         }
 
         [Test]
@@ -278,10 +239,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
-            var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -291,11 +250,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3", property.Value);
         }
 
         [Test]
@@ -305,11 +262,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10%", property.Value);
         }
 
         [Test]
@@ -319,15 +274,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual(true, concrete.IsFilled);
-            //Assert.AreEqual(Length.Full, concrete.SliceLeft);
-            //Assert.AreEqual(Length.Full, concrete.SliceRight);
-            //Assert.AreEqual(Length.Full, concrete.SliceTop);
-            //Assert.AreEqual(Length.Full, concrete.SliceBottom);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -337,11 +285,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10% fill", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10% fill", property.Value);
         }
 
         [Test]
@@ -351,11 +297,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10% 30 fill", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10% 30 fill", property.Value);
         }
 
         [Test]
@@ -365,11 +309,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10% 30 0 0 fill", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10% 30 0 0 fill", property.Value);
         }
 
         [Test]
@@ -379,10 +321,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -392,10 +332,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image-slice", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
-            var concrete = (CssBorderImageSliceProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -405,11 +343,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -419,11 +355,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 50 50", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") 50 50", property.Value);
         }
 
         [Test]
@@ -433,11 +367,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 repeat", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") 30 30 repeat", property.Value);
         }
 
         [Test]
@@ -447,11 +379,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") stretch", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") stretch", property.Value);
         }
 
         [Test]
@@ -461,11 +391,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px", property.Value);
         }
 
         [Test]
@@ -475,11 +403,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 0 10 / 15px 0 15px 2em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") 30 30 0 10 / 15px 0 15px 2em", property.Value);
         }
 
         [Test]
@@ -489,11 +415,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBorderImageProperty>(property);
-            var concrete = (CssBorderImageProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px / 5% 2% 0 10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px / 5% 2% 0 10%", property.Value);
         }
     }
 }

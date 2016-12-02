@@ -16,11 +16,8 @@
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("28%", concrete.Value);
-            //Assert.IsInstanceOf<Percent>(value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("28%", property.Value);
         }
 
         [Test]
@@ -31,11 +28,8 @@
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0.3em", concrete.Value);
-            //Assert.IsInstanceOf<Length>(value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("0.3em", property.Value);
         }
 
         [Test]
@@ -46,11 +40,8 @@
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("144px", concrete.Value);
-            //Assert.IsInstanceOf<Length>(value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("144px", property.Value);
         }
 
         [Test]
@@ -61,10 +52,8 @@
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -75,11 +64,8 @@
             Assert.AreEqual("width", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0.5cm", concrete.Value);
-            //Assert.IsInstanceOf<Length>(value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("0.5cm", property.Value);
         }
 
         [Test]
@@ -90,11 +76,8 @@
             Assert.AreEqual("width", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("1.5mm", concrete.Value);
-            //Assert.IsInstanceOf<Length>(value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("1.5mm", property.Value);
         }
 
         [Test]
@@ -105,10 +88,8 @@
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsNotNull(concrete);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsNotNull(property);
         }
 
         [Test]
@@ -118,10 +99,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("left", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssLeftProperty>(property);
-            var concrete = (CssLeftProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -131,10 +110,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("top", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTopProperty>(property);
-            var concrete = (CssTopProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -144,10 +121,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("right", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssRightProperty>(property);
-            var concrete = (CssRightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -168,10 +143,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBottomProperty>(property);
-            var concrete = (CssBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -181,10 +154,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -194,10 +165,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -207,10 +176,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -220,9 +187,7 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWidthProperty>(property);
-            var concrete = (CssWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(property.IsInherited);
         }
 
         [Test]
@@ -232,10 +197,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.HasValue);
-            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
         }
 
         [Test]
@@ -245,10 +208,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssHeightProperty>(property);
-            var concrete = (CssHeightProperty)property;
-            Assert.IsFalse(concrete.HasValue);
-            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
         }
 
         [Test]
@@ -258,10 +219,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("top", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTopProperty>(property);
-            var concrete = (CssTopProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -271,10 +230,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("right", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssRightProperty>(property);
-            var concrete = (CssRightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -284,10 +241,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBottomProperty>(property);
-            var concrete = (CssBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -297,10 +252,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBottomProperty>(property);
-            var concrete = (CssBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -310,10 +263,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssBottomProperty>(property);
-            var concrete = (CssBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -323,10 +274,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("min-height", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMinHeightProperty>(property);
-            var concrete = (CssMinHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]
@@ -336,10 +285,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-height", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMaxHeightProperty>(property);
-            var concrete = (CssMaxHeightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -349,11 +296,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMaxWidthProperty>(property);
-            var concrete = (CssMaxWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -363,11 +308,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMaxWidthProperty>(property);
-            var concrete = (CssMaxWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("15px", property.Value);
         }
 
         [Test]
@@ -377,11 +320,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("min-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMinWidthProperty>(property);
-            var concrete = (CssMinWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("15%", property.Value);
         }
     }
 }

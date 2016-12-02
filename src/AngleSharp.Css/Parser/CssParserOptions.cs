@@ -21,11 +21,5 @@
             get;
             set;
         }
-
-        public Boolean IsToleratingInvalidValues
-        {
-            get;
-            set;
-        }
     }
 }

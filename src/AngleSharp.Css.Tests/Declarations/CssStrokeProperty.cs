@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
 		}
 
 		[Test]
@@ -28,11 +25,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgba(0, 255, 0, 1)", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("rgba(0, 255, 0, 1)", property.Value);
 		}
 
 		[Test]
@@ -42,11 +37,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgba(1, 1, 1, 0)", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("rgba(1, 1, 1, 0)", property.Value);
 		}
 
 		[Test]
@@ -56,11 +49,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("rgba(1, 255, 100, 1)", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("rgba(1, 255, 100, 1)", property.Value);
 		}
 
 		[Test]
@@ -70,11 +61,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("none", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("none", property.Value);
 		}
 
 		[Test]
@@ -84,10 +73,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -97,11 +84,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeProperty>(property);
-			var concrete = (CssStrokeProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("url(\"#linear\")", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("url(\"#linear\")", property.Value);
 		}
 
 
@@ -112,11 +97,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dasharray", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDasharrayProperty>(property);
-			var concrete = (CssStrokeDasharrayProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("5 5", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("5 5", property.Value);
 		}
 
 		[Test]
@@ -126,11 +109,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dasharray", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDasharrayProperty>(property);
-			var concrete = (CssStrokeDasharrayProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("5px 5em", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("5px 5em", property.Value);
 		}
 
 		[Test]
@@ -140,11 +121,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dasharray", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDasharrayProperty>(property);
-			var concrete = (CssStrokeDasharrayProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("1px 2em 3vh 4vw 5 6", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("1px 2em 3vh 4vw 5 6", property.Value);
 		}
 
 		[Test]
@@ -154,11 +133,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dasharray", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDasharrayProperty>(property);
-			var concrete = (CssStrokeDasharrayProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("none", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("none", property.Value);
 		}
 
 		[Test]
@@ -168,11 +145,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dashoffset", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
-			var concrete = (CssStrokeDashoffsetProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("5px", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("5px", property.Value);
 		}
 
 		[Test]
@@ -182,10 +157,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dashoffset", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
-			var concrete = (CssStrokeDashoffsetProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -195,11 +168,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dashoffset", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
-			var concrete = (CssStrokeDashoffsetProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("50%", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("50%", property.Value);
 		}
 
 		[Test]
@@ -209,10 +180,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-dashoffset", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
-			var concrete = (CssStrokeDashoffsetProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -222,11 +191,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linecap", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
-			var concrete = (CssStrokeLinecapProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("butt", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("butt", property.Value);
 		}
 
 		[Test]
@@ -236,11 +203,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linecap", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
-			var concrete = (CssStrokeLinecapProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("round", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("round", property.Value);
 		}
 
 		[Test]
@@ -250,11 +215,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linecap", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
-			var concrete = (CssStrokeLinecapProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("square", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("square", property.Value);
 		}
 
 		[Test]
@@ -264,10 +227,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linecap", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
-			var concrete = (CssStrokeLinecapProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -277,11 +238,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linejoin", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
-			var concrete = (CssStrokeLinejoinProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("miter", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("miter", property.Value);
 		}
 
 		[Test]
@@ -291,11 +250,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linejoin", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
-			var concrete = (CssStrokeLinejoinProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("round", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("round", property.Value);
 		}
 
 		[Test]
@@ -305,23 +262,20 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linejoin", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
-			var concrete = (CssStrokeLinejoinProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("bevel", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("bevel", property.Value);
 		}
 
 		[Test]
-		public void CssStrokeLinejoinNoneIllegal() {
+		public void CssStrokeLinejoinNoneIllegal()
+        {
 			var snippet = "stroke-linejoin: none";
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-linejoin", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
-			var concrete = (CssStrokeLinejoinProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -331,11 +285,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-miterlimit", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
-			var concrete = (CssStrokeMiterlimitProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("2", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("2", property.Value);
 		}
 
 		[Test]
@@ -345,10 +297,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-miterlimit", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
-			var concrete = (CssStrokeMiterlimitProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -358,10 +308,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-miterlimit", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
-			var concrete = (CssStrokeMiterlimitProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 
 		[Test]
@@ -371,11 +319,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-opacity", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeOpacityProperty>(property);
-			var concrete = (CssStrokeOpacityProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("0.5", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("0.5", property.Value);
 		}
 
 		[Test]
@@ -385,10 +331,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-opacity", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeOpacityProperty>(property);
-			var concrete = (CssStrokeOpacityProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 		
 		[Test]
@@ -398,11 +342,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-width", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
-			var concrete = (CssStrokeWidthProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("5px", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("5px", property.Value);
 		}
 
 
@@ -413,11 +355,9 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-width", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
-			var concrete = (CssStrokeWidthProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsTrue(concrete.HasValue);
-			Assert.AreEqual("5%", concrete.Value);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("5%", property.Value);
 		}
 
 		[Test]
@@ -427,10 +367,8 @@
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("stroke-width", property.Name);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
-			var concrete = (CssStrokeWidthProperty)property;
-			Assert.IsFalse(concrete.IsInherited);
-			Assert.IsFalse(concrete.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.HasValue);
 		}
 	}
 }

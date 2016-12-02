@@ -47,7 +47,7 @@
         public static readonly Length Auto = new Length(Single.NaN, Unit.Vmax);
 
         /// <summary>
-        /// Gets the auto value.
+        /// Gets the normal value.
         /// </summary>
         public static readonly Length Normal = new Length(Single.NaN, Unit.Em);
 

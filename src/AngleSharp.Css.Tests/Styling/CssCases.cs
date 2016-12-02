@@ -15,7 +15,6 @@ namespace AngleSharp.Css.Tests.Styling
             {
                 IsIncludingUnknownDeclarations = true,
                 IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true,
                 IsToleratingInvalidSelectors = true
             });
         }

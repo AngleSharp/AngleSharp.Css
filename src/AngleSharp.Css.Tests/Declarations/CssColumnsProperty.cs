@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnWidthProperty>(property);
-            var concrete = (CssColumnWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("300px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("300px", property.Value);
         }
 
         [Test]
@@ -28,10 +25,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnWidthProperty>(property);
-            var concrete = (CssColumnWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -41,11 +36,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnWidthProperty>(property);
-            var concrete = (CssColumnWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3vw", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3vw", property.Value);
         }
 
         [Test]
@@ -55,11 +48,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnWidthProperty>(property);
-            var concrete = (CssColumnWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -69,11 +60,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnCountProperty>(property);
-            var concrete = (CssColumnCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -83,11 +72,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnCountProperty>(property);
-            var concrete = (CssColumnCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3", property.Value);
         }
 
         [Test]
@@ -97,11 +84,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-count", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnCountProperty>(property);
-            var concrete = (CssColumnCountProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -111,11 +96,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -125,11 +108,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px", property.Value);
         }
 
         [Test]
@@ -139,11 +120,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("4", property.Value);
         }
 
         [Test]
@@ -153,11 +132,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25em 5", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("25em 5", property.Value);
         }
 
         [Test]
@@ -167,11 +144,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25em 5", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("25em 5", property.Value);
         }
 
         [Test]
@@ -181,11 +156,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto auto", property.Value);
         }
 
         [Test]
@@ -195,11 +168,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -209,10 +180,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("columns", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnsProperty>(property);
-            var concrete = (CssColumnsProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -222,11 +191,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-span", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnSpanProperty>(property);
-            var concrete = (CssColumnSpanProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("all", property.Value);
         }
 
         [Test]
@@ -236,11 +203,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-span", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnSpanProperty>(property);
-            var concrete = (CssColumnSpanProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -250,10 +215,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-span", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnSpanProperty>(property);
-            var concrete = (CssColumnSpanProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -263,11 +226,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-gap", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnGapProperty>(property);
-            var concrete = (CssColumnGapProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("20px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("20px", property.Value);
         }
 
         [Test]
@@ -277,11 +238,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-gap", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnGapProperty>(property);
-            var concrete = (CssColumnGapProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -291,11 +250,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-gap", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnGapProperty>(property);
-            var concrete = (CssColumnGapProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -305,10 +262,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-gap", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnGapProperty>(property);
-            var concrete = (CssColumnGapProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -318,11 +273,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-fill", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnFillProperty>(property);
-            var concrete = (CssColumnFillProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("balance", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("balance", property.Value);
         }
 
         [Test]
@@ -332,11 +285,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-fill", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnFillProperty>(property);
-            var concrete = (CssColumnFillProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -346,11 +297,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleColorProperty>(property);
-            var concrete = (CssColumnRuleColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(0, 0, 0, 0)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(0, 0, 0, 0)", property.Value);
         }
 
         [Test]
@@ -360,11 +309,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleColorProperty>(property);
-            var concrete = (CssColumnRuleColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(192, 56, 78, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(192, 56, 78, 1)", property.Value);
         }
 
         [Test]
@@ -374,11 +321,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleColorProperty>(property);
-            var concrete = (CssColumnRuleColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -388,10 +333,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-color", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleColorProperty>(property);
-            var concrete = (CssColumnRuleColorProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -401,11 +344,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleStyleProperty>(property);
-            var concrete = (CssColumnRuleStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("inset", property.Value);
         }
 
         [Test]
@@ -415,11 +356,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleStyleProperty>(property);
-            var concrete = (CssColumnRuleStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -429,10 +368,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleStyleProperty>(property);
-            var concrete = (CssColumnRuleStyleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -442,11 +379,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleWidthProperty>(property);
-            var concrete = (CssColumnRuleWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2px", property.Value);
         }
 
         [Test]
@@ -456,11 +391,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleWidthProperty>(property);
-            var concrete = (CssColumnRuleWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("5px", property.Value);
         }
 
         [Test]
@@ -470,11 +403,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-width", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleWidthProperty>(property);
-            var concrete = (CssColumnRuleWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3px", property.Value);
         }
 
         [Test]
@@ -484,11 +415,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule-width", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleWidthProperty>(property);
-            var concrete = (CssColumnRuleWidthProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1px", property.Value);
         }
 
         [Test]
@@ -498,11 +427,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleProperty>(property);
-            var concrete = (CssColumnRuleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotted", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("dotted", property.Value);
         }
 
         [Test]
@@ -512,11 +439,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleProperty>(property);
-            var concrete = (CssColumnRuleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(0, 0, 255, 1) solid", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(0, 0, 255, 1) solid", property.Value);
         }
 
         [Test]
@@ -526,11 +451,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleProperty>(property);
-            var concrete = (CssColumnRuleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("8px solid", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("8px solid", property.Value);
         }
 
         [Test]
@@ -540,11 +463,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-rule", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssColumnRuleProperty>(property);
-            var concrete = (CssColumnRuleProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(0, 0, 255, 1) 5px inset", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("rgba(0, 0, 255, 1) 5px inset", property.Value);
         }
     }
 }

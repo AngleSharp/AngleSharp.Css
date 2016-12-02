@@ -1171,5 +1171,25 @@
         /// The object-position declaration.
         /// </summary>
         public static readonly String ObjectPosition = "object-position";
+
+        /// <summary>
+        /// The min-zoom declaration.
+        /// </summary>
+        public static readonly String MinZoom = "min-zoom";
+
+        /// <summary>
+        /// The max-zoom declaration.
+        /// </summary>
+        public static readonly String MaxZoom = "max-zoom";
+
+        /// <summary>
+        /// The user-zoom declaration.
+        /// </summary>
+        public static readonly String UserZoom = "user-zoom";
+
+        /// <summary>
+        /// The orientation declaration.
+        /// </summary>
+        public static readonly String Orientation = "orientation";
     }
 }

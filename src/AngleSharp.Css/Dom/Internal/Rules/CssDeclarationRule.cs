@@ -15,16 +15,18 @@
         #region Fields
 
         private readonly List<ICssProperty> _declarations;
+        private readonly HashSet<String> _contained;
         private readonly String _name;
 
         #endregion
 
         #region ctor
 
-        internal CssDeclarationRule(ICssStyleSheet owner, CssRuleType type, String name)
+        internal CssDeclarationRule(ICssStyleSheet owner, CssRuleType type, String name, HashSet<String> contained)
             : base(owner, type)
         {
             _declarations = new List<ICssProperty>();
+            _contained = contained;
             _name = name;
         }
 
@@ -96,7 +98,15 @@
 
         #region Helpers
 
-        protected abstract ICssProperty CreateNewProperty(String name);
+        private ICssProperty CreateNewProperty(String propertyName)
+        {
+            if (_contained.Contains(propertyName))
+            {
+                return Owner.Context.CreateProperty(propertyName);
+            }
+
+            return null;
+        }
 
         protected String GetValue(String propertyName)
         {

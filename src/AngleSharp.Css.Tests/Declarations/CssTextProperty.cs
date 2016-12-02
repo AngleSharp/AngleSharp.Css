@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWordSpacingProperty>(property);
-            var concrete = (CssWordSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWordSpacingProperty>(property);
-            var concrete = (CssWordSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3rem", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3rem", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWordSpacingProperty>(property);
-            var concrete = (CssWordSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.3em", property.Value);
         }
 
         [Test]
@@ -56,11 +49,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssWordSpacingProperty>(property);
-            var concrete = (CssWordSpacingProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("normal", property.Value);
         }
 
         [Test]
@@ -71,10 +62,8 @@
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextShadowProperty>(property);
-            var concrete = (CssTextShadowProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("inset 0 0 2px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("inset 0 0 2px", property.Value);
         }
 
         [Test]
@@ -85,10 +74,8 @@
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextShadowProperty>(property);
-            var concrete = (CssTextShadowProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0 3px 3px rgba(255, 255, 255, 0.5)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("0 3px 3px rgba(255, 255, 255, 0.5)", property.Value);
         }
 
         [Test]
@@ -102,10 +89,8 @@
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextShadowProperty>(property);
-            var concrete = (CssTextShadowProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0 3px rgba(178, 169, 143, 1), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("0 3px rgba(178, 169, 143, 1), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", property.Value);
         }
 
         [Test]
@@ -116,10 +101,8 @@
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextShadowProperty>(property);
-            var concrete = (CssTextShadowProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("4px 3px rgba(255, 255, 255, 1), 9px 8px rgba(0, 0, 0, 0.15)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("4px 3px rgba(255, 255, 255, 1), 9px 8px rgba(0, 0, 0, 0.15)", property.Value);
         }
 
         [Test]
@@ -130,10 +113,8 @@
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextShadowProperty>(property);
-            var concrete = (CssTextShadowProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", property.Value);
         }
 
         [Test]
@@ -144,10 +125,8 @@
             Assert.AreEqual("text-align", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextAlignProperty>(property);
-            var concrete = (CssTextAlignProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("justify", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("justify", property.Value);
         }
 
         [Test]
@@ -158,10 +137,8 @@
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextIndentProperty>(property);
-            var concrete = (CssTextIndentProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("3em", property.Value);
         }
 
         [Test]
@@ -172,10 +149,8 @@
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextIndentProperty>(property);
-            var concrete = (CssTextIndentProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -186,10 +161,8 @@
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextIndentProperty>(property);
-            var concrete = (CssTextIndentProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual("10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("10%", property.Value);
         }
 
         [Test]
@@ -200,8 +173,6 @@
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextIndentProperty>(property);
-            var concrete = (CssTextIndentProperty)property;
         }
 
         [Test]
@@ -213,8 +184,6 @@
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationProperty>(property);
-            var concrete = (CssTextDecorationProperty)property;
         }
 
         [Test]
@@ -226,9 +195,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationProperty>(property);
-            var concrete = (CssTextDecorationProperty)property;
-            Assert.AreEqual("line-through", concrete.Value);
+            Assert.AreEqual("line-through", property.Value);
         }
 
         [Test]
@@ -237,12 +204,10 @@
             var snippet = "text-decoration:  underline  overline";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration", property.Name);
-            Assert.IsInstanceOf<CssTextDecorationProperty>(property);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            var concrete = (CssTextDecorationProperty)property;
-            Assert.AreEqual("underline overline", concrete.Value);
+            Assert.AreEqual("underline overline", property.Value);
         }
 
         [Test]
@@ -254,9 +219,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
-            var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -268,9 +231,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
-            var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -282,8 +243,6 @@
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationLineProperty>(property);
-            var concrete = (CssTextDecorationLineProperty)property;
         }
 
         [Test]
@@ -295,9 +254,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationLineProperty>(property);
-            var concrete = (CssTextDecorationLineProperty)property;
-            Assert.AreEqual("none", concrete.Value);
+            Assert.AreEqual("none", property.Value);
         }
 
         [Test]
@@ -309,9 +266,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationLineProperty>(property);
-            var concrete = (CssTextDecorationLineProperty)property;
-            Assert.AreEqual("overline underline line-through", concrete.Value);
+            Assert.AreEqual("overline underline line-through", property.Value);
         }
 
         [Test]
@@ -323,9 +278,7 @@
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationStyleProperty>(property);
-            var concrete = (CssTextDecorationStyleProperty)property;
-            Assert.AreEqual("wavy", concrete.Value);
+            Assert.AreEqual("wavy", property.Value);
         }
 
         [Test]
@@ -337,8 +290,6 @@
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextDecorationStyleProperty>(property);
-            var concrete = (CssTextDecorationStyleProperty)property;
         }
 
         [Test]
@@ -360,9 +311,7 @@
 			Assert.IsTrue(property.HasValue);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssWordBreakProperty>(property);
-			var concrete = (CssWordBreakProperty)property;
-			Assert.AreEqual("normal", concrete.Value);
+			Assert.AreEqual("normal", property.Value);
 		}
 
 		[Test]
@@ -374,9 +323,7 @@
 			Assert.IsTrue(property.HasValue);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssWordBreakProperty>(property);
-			var concrete = (CssWordBreakProperty)property;
-			Assert.AreEqual("break-all", concrete.Value);
+			Assert.AreEqual("break-all", property.Value);
 		}
 
 		[Test]
@@ -388,9 +335,7 @@
 			Assert.IsTrue(property.HasValue);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssWordBreakProperty>(property);
-			var concrete = (CssWordBreakProperty)property;
-			Assert.AreEqual("keep-all", concrete.Value);
+			Assert.AreEqual("keep-all", property.Value);
 		}
 
 		[Test]
@@ -402,7 +347,6 @@
 			Assert.IsFalse(property.HasValue);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssWordBreakProperty>(property);
 		}
 
 		public void CssTextAlignLastAutoLegal()
@@ -412,10 +356,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("auto", concrete.Value);
+			Assert.AreEqual("auto", property.Value);
 		}
 
 		[Test]
@@ -426,10 +368,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("start", concrete.Value);
+			Assert.AreEqual("start", property.Value);
 		}
 
 		[Test]
@@ -440,10 +380,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("end", concrete.Value);
+			Assert.AreEqual("end", property.Value);
 		}
 
 		[Test]
@@ -454,10 +392,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("right", concrete.Value);
+			Assert.AreEqual("right", property.Value);
 		}
 
 		[Test]
@@ -468,10 +404,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("left", concrete.Value);
+			Assert.AreEqual("left", property.Value);
 		}
 
 		[Test]
@@ -482,10 +416,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("center", concrete.Value);
+			Assert.AreEqual("center", property.Value);
 		}
 
 		[Test]
@@ -496,10 +428,8 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("justify", concrete.Value);
+			Assert.AreEqual("justify", property.Value);
 		}
 
 		[Test]
@@ -510,8 +440,6 @@
 			Assert.AreEqual("text-align-last", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
-			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
 
@@ -523,10 +451,8 @@
 			Assert.AreEqual("text-anchor", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
-			var concrete = (CssTextAnchorProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("start", concrete.Value);
+			Assert.AreEqual("start", property.Value);
 		}
 
 		[Test]
@@ -537,10 +463,8 @@
 			Assert.AreEqual("text-anchor", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
-			var concrete = (CssTextAnchorProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("middle", concrete.Value);
+			Assert.AreEqual("middle", property.Value);
 		}
 
 		[Test]
@@ -551,10 +475,8 @@
 			Assert.AreEqual("text-anchor", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
-			var concrete = (CssTextAnchorProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("end", concrete.Value);
+			Assert.AreEqual("end", property.Value);
 		}
 
 		[Test]
@@ -565,8 +487,6 @@
 			Assert.AreEqual("text-anchor", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
-			var concrete = (CssTextAnchorProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
 
@@ -578,10 +498,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("auto", concrete.Value);
+			Assert.AreEqual("auto", property.Value);
 		}
 
 		[Test]
@@ -592,10 +510,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("distribute", concrete.Value);
+			Assert.AreEqual("distribute", property.Value);
 		}
 
 		[Test]
@@ -606,10 +522,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("distribute-all-lines", concrete.Value);
+			Assert.AreEqual("distribute-all-lines", property.Value);
 		}
 
 		[Test]
@@ -620,10 +534,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("distribute-center-last", concrete.Value);
+			Assert.AreEqual("distribute-center-last", property.Value);
 		}
 
 		[Test]
@@ -634,10 +546,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("inter-cluster", concrete.Value);
+			Assert.AreEqual("inter-cluster", property.Value);
 		}
 
 		[Test]
@@ -648,10 +558,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("inter-ideograph", concrete.Value);
+			Assert.AreEqual("inter-ideograph", property.Value);
 		}
 
 		[Test]
@@ -662,10 +570,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("inter-word", concrete.Value);
+			Assert.AreEqual("inter-word", property.Value);
 		}
 
 		[Test]
@@ -676,10 +582,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("kashida", concrete.Value);
+			Assert.AreEqual("kashida", property.Value);
 		}
 
 		[Test]
@@ -690,10 +594,8 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("newspaper", concrete.Value);
+			Assert.AreEqual("newspaper", property.Value);
 		}
 
 		[Test]
@@ -704,8 +606,6 @@
 			Assert.AreEqual("text-justify", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
-			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
 
@@ -717,10 +617,8 @@
 			Assert.AreEqual("overflow-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("normal", concrete.Value);
+			Assert.AreEqual("normal", property.Value);
 		}
 
 		[Test]
@@ -728,13 +626,11 @@
 		{
 			var snippet = "word-wrap: normal";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.AreEqual("word-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("normal", concrete.Value);
+			Assert.AreEqual("normal", property.Value);
 		}
 
 		[Test]
@@ -745,10 +641,8 @@
 			Assert.AreEqual("overflow-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("break-word", concrete.Value);
+			Assert.AreEqual("break-word", property.Value);
 		}
 
 		[Test]
@@ -756,13 +650,11 @@
 		{
 			var snippet = "word-wrap: break-word";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.AreEqual("word-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("break-word", concrete.Value);
+			Assert.AreEqual("break-word", property.Value);
 		}
 
 		[Test]
@@ -773,8 +665,6 @@
 			Assert.AreEqual("overflow-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
 
@@ -783,11 +673,9 @@
 		{
 			var snippet = "word-wrap: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.AreEqual("word-wrap", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
-			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
-			var concrete = (CssOverflowWrapProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
 	}

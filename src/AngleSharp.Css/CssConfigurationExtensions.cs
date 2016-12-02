@@ -39,9 +39,9 @@
                 configuration = configuration.With(Factory.PseudoElement);
             }
 
-            if (!configuration.Has<ICssPropertyFactory>())
+            if (!configuration.Has<IConverterFactory>())
             {
-                configuration = configuration.With(Factory.Property);
+                configuration = configuration.With(Factory.Converter);
             }
 
             if (!configuration.Has<ICssParser>())

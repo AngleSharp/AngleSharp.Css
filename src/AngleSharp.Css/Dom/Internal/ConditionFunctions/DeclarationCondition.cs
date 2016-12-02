@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Converters;
     using System;
     using System.IO;
 
@@ -16,13 +17,14 @@
 
         public Boolean Check(IRenderDevice device)
         {
-            var factory = device.Context?.GetService<ICssPropertyFactory>();
-            var property = factory?.Create(_name);
+            var factory = device.Context?.GetService<IConverterFactory>();
+            var converter = factory?.Create(_name);
             
-            if (property != null && property is CssUnknownProperty == false)
+            if (converter != null && !Object.Equals(converter, ValueConverters.Any))
             {
-                property.Value = Normalize(_value);
-                return !property.Value.Equals(CssKeywords.Initial);
+                var normedValue = Normalize(_value);
+                var result = converter.Convert(normedValue);
+                return result != null;
             }
 
             return false;

@@ -54,8 +54,7 @@
 
             if (htmlElement != null)
             {
-                var declarations = htmlElement.Style.OfType<CssProperty>();
-                computedStyle.SetDeclarations(declarations);
+                computedStyle.SetDeclarations(htmlElement.Style);
             }
 
             var nodes = element.GetAncestors().OfType<IElement>();

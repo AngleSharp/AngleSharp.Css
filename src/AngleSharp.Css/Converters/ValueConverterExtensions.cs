@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -20,6 +21,25 @@
             return source.IsDone ? result : null;
         }
 
+        public static ICssValue ConvertFromProperty(this IValueConverter converter, String value)
+        {
+            var source = new StringSource(value);
+            source.SkipSpacesAndComments();
+            var result = converter.ConvertValueOrInherit(source);
+            source.SkipSpacesAndComments();
+            return source.IsDone ? result : null;
+        }
+
+        private static ICssValue ConvertValueOrInherit(this IValueConverter converter, StringSource source)
+        {
+            if (!source.IsIdentifier(CssKeywords.Inherit))
+            {
+                 return converter.Convert(source);
+            }
+
+            return Inherit.Instance;
+        }
+
         public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
         {
             return new OneOrMoreValueConverter(converter, min, max);
@@ -35,7 +55,7 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter Periodic(this IValueConverter converter, params String[] labels)
+        public static IValueConverter Periodic(this IValueConverter converter)
         {
             return new PeriodicValueConverter(converter);
         }
@@ -53,6 +73,53 @@
         public static IValueConverter For(this IValueConverter converter, params String[] labels)
         {
             return converter;
+        }
+        public static String Join(this ICssValue[] values, String separator)
+        {
+            var buffer = StringBuilderPool.Obtain();
+            var previous = false;
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                var str = values[i]?.CssText;
+
+                if (!String.IsNullOrEmpty(str))
+                {
+                    if (previous)
+                    {
+                        buffer.Append(separator);
+                    }
+
+                    buffer.Append(str);
+                    previous = true;
+                }
+            }
+
+            return buffer.ToPool();
+        }
+
+        public static String Join<T>(this T[] values, String separator)
+        {
+            var buffer = StringBuilderPool.Obtain();
+            var previous = false;
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                var str = values[i].ToString();
+
+                if (!String.IsNullOrEmpty(str))
+                {
+                    if (previous)
+                    {
+                        buffer.Append(separator);
+                    }
+
+                    buffer.Append(str);
+                    previous = true;
+                }
+            }
+
+            return buffer.ToPool();
         }
     }
 }

@@ -2,16 +2,32 @@
 {
     using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
     sealed class CssFontFaceRule : CssDeclarationRule, ICssFontFaceRule
     {
+        #region Fields
+
+        private static readonly HashSet<String> ContainedProperties = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+        {
+            PropertyNames.FontFamily,
+            PropertyNames.Src,
+            PropertyNames.FontStyle,
+            PropertyNames.FontWeight,
+            PropertyNames.FontStretch,
+            PropertyNames.UnicodeRange,
+            PropertyNames.FontVariant,
+        };
+
+        #endregion
+
         #region ctor
 
         internal CssFontFaceRule(ICssStyleSheet owner)
-            : base(owner, CssRuleType.FontFace, RuleNames.FontFace)
+            : base(owner, CssRuleType.FontFace, RuleNames.FontFace, ContainedProperties)
         {
         }
 
@@ -81,12 +97,6 @@
             SetValue(PropertyNames.FontStretch, newRule.Stretch);
             SetValue(PropertyNames.UnicodeRange, newRule.Range);
             SetValue(PropertyNames.FontVariant, newRule.Variant);
-        }
-
-        protected override ICssProperty CreateNewProperty(String name)
-        {
-            var factory = Owner.Context.GetFactory<ICssPropertyFactory>();
-            return factory.CreateFont(name);
         }
 
         #endregion

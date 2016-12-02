@@ -4,7 +4,6 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// A set of already constructed CSS value converters.
@@ -27,11 +26,6 @@
         /// Represents a converter for the initial keyword with no value.
         /// </summary>
         public static IValueConverter Initial = new IdentifierValueConverter<Object>(CssKeywords.Initial, null);
-
-        /// <summary>
-        /// Represents a converter for the inherit keyword with no value.
-        /// </summary>
-        public static IValueConverter Inherit = new IdentifierValueConverter<Object>(CssKeywords.Inherit, null);
 
         /// <summary>
         /// Represents a converter for the auto keyword with no value.
@@ -67,12 +61,6 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
         public static readonly IValueConverter UrlConverter = new ClassValueConverter<UrlReference>(UriParser.ParseUri);
-
-        /// <summary>
-        /// Represents a string object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
-        /// </summary>
-        public static readonly IValueConverter StringConverter = new StringValueConverter();
 
         /// <summary>
         /// Represents many string objects, but always divisible by 2 (open-close quotes).
@@ -150,67 +138,10 @@
         #region Functions
 
         /// <summary>
-        /// Represents an attribute retriever object.
-        /// http://dev.w3.org/csswg/css-values/#funcdef-attr
-        /// </summary>
-        public static readonly IValueConverter AttrConverter = Func(FunctionNames.Attr, WithArgs(
-            Or(StringConverter, IdentifierConverter)));
-
-        /// <summary>
-        /// Represents a counter object.
-        /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
-        /// </summary>
-        public static readonly IValueConverter CounterFunctionConverter = Construct(() =>
-        {
-            var name = IdentifierConverter;
-            var def = StringConverter;
-            var kind = name.Option(CssKeywords.Decimal);
-            return Or(
-                Func(FunctionNames.Counter, WithArgs(name, kind)),
-                Func(FunctionNames.Counters, WithArgs(name, def, kind)));
-        });
-
-        /// <summary>
         /// Represents a shape object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
         /// </summary>
-        public static readonly IValueConverter ShapeConverter = Or(new ClassValueConverter<Shape>(ShapeParser.ParseShape), Auto);
-
-        /// <summary>
-        /// A perspective for 3D transformations.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-perspective
-        /// </summary>
-        public static readonly IValueConverter PerspectiveConverter = Func(FunctionNames.Perspective, WithArgs(LengthConverter));
-
-        /// <summary>
-        /// Sets the transformation matrix explicitly.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
-        /// </summary>
-        public static readonly IValueConverter MatrixTransformConverter = new ClassValueConverter<MatrixTransform>(MatrixParser.ParseMatrix);
-
-        /// <summary>
-        /// A broad variety of translate transforms.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
-        /// </summary>
-        public static readonly IValueConverter TranslateTransformConverter = new ClassValueConverter<TranslateTransform>(TranslateParser.ParseTranslate);
-
-        /// <summary>
-        /// A broad variety of scale transforms.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
-        /// </summary>
-        public static readonly IValueConverter ScaleTransformConverter = new ClassValueConverter<ScaleTransform>(ScaleParser.ParseScale);
-
-        /// <summary>
-        /// A broad variety of rotate transforms.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
-        /// </summary>
-        public static readonly IValueConverter RotateTransformConverter = new ClassValueConverter<RotateTransform>(RotateParser.ParseRotate);
-
-        /// <summary>
-        /// A broad variety of skew transforms.
-        /// http://www.w3.org/TR/css3-transforms/#funcdef-skew
-        /// </summary>
-        public static readonly IValueConverter SkewTransformConverter = new ClassValueConverter<SkewTransform>(SkewParser.ParseSkew);
+        public static readonly IValueConverter ShapeConverter = new ClassValueConverter<Shape>(ShapeParser.ParseShape);
 
         #endregion
 
@@ -276,6 +207,11 @@
         /// Represents a converter for the BreakMode enumeration (constraint to the page values).
         /// </summary>
         public static readonly IValueConverter PageBreakModeConverter = Map.PageBreakModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BreakMode enumeration (constraint to the page/inside values).
+        /// </summary>
+        public static readonly IValueConverter PageBreakInsideModeConverter = Map.PageBreakInsideModes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the UnicodeMode enumeration.
@@ -449,7 +385,7 @@
         /// </summary>
         public static readonly IValueConverter OptionalLengthConverter = Or(
             LengthConverter, 
-            Assign(CssKeywords.Normal));
+            Assign(CssKeywords.Normal, Length.Normal));
 
         /// <summary>
         /// Represents a length (or default).
@@ -490,7 +426,7 @@
         public static readonly IValueConverter LineHeightConverter = Or(
             LengthOrPercentConverter, 
             NumberConverter, 
-            Assign(CssKeywords.Normal));
+            Assign(CssKeywords.Normal, Length.Normal));
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.
@@ -522,13 +458,7 @@
         /// Represents a transform function.
         /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
         /// </summary>
-        public static readonly IValueConverter TransformConverter = Or(
-            MatrixTransformConverter,
-            ScaleTransformConverter,
-            RotateTransformConverter,
-            TranslateTransformConverter,
-            SkewTransformConverter,
-            PerspectiveConverter);
+        public static readonly IValueConverter TransformConverter = new ClassValueConverter<ITransform>(TransformParser.ParseTransform);
 
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
@@ -540,7 +470,7 @@
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = Or(
             CurrentColorConverter, 
-            Assign(CssKeywords.Invert));
+            Assign(CssKeywords.Invert, Color.InvertedColor));
 
 		/// <summary>
 		/// Represents a paint object.
@@ -578,29 +508,18 @@
             None);
 
         /// <summary>
-        /// Represents an image source object.
+        /// Represents an optional image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        public static readonly IValueConverter ImageSourceConverter = Or(
-            UrlConverter, 
-            GradientConverter);
-
-        /// <summary>
-        /// Represents an optional image source object.
-        /// </summary>
         public static readonly IValueConverter OptionalImageSourceConverter = Or(
-            ImageSourceConverter, 
+            UrlConverter,
+            GradientConverter,
             None);
 
         /// <summary>
         /// Represents multiple image source object.
         /// </summary>
         public static readonly IValueConverter MultipleImageSourceConverter = OptionalImageSourceConverter.FromList();
-
-        /// <summary>
-        /// Represents the border-radius (h h h h / v v v v) converter.
-        /// </summary>
-        public static readonly IValueConverter BorderRadiusShorthandConverter = new BorderRadiusConverter();
 
         /// <summary>
         /// Represents the border-radius (horizontal / vertical; radius) converter.
@@ -683,19 +602,9 @@
         public static IValueConverter AssignInitial<T>(T value) => new IdentifierValueConverter<T>(CssKeywords.Initial, value);
 
         /// <summary>
-        /// Creates a new function converter for the function name.
-        /// </summary>
-        public static IValueConverter Func(String name, IValueConverter args) => new FunctionValueConverter(name, args);
-
-        /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.
         /// </summary>
         public static IValueConverter Assign<T>(String identifier, T result) => new IdentifierValueConverter<T>(identifier, result);
-
-        /// <summary>
-        /// Creates a new converter by assigning the given identifier to a fixed result.
-        /// </summary>
-        public static IValueConverter Assign(String identifier) => new IdentifierValueConverter<Object>(identifier, null);
 
         /// <summary>
         /// Creates a new boolean converter that toggles between the two given keywords.
@@ -719,31 +628,6 @@
         /// <param name="converters">The converters that are used.</param>
         /// <returns>The new converter.</returns>
         public static IValueConverter WithAny(params IValueConverter[] converters) => new UnorderedOptionsConverter(converters);
-
-        #endregion
-
-        #region Helper
-
-        private static IValueConverter Construct(Func<IValueConverter> f)
-        {
-            return f();
-        }
-
-        private static IValueConverter WithArgs(IValueConverter converter, Int32 arguments)
-        {
-            var converters = Enumerable.Repeat(converter, arguments).ToArray();
-            return WithArgs(converters);
-        }
-
-        private static IValueConverter WithArgs(IValueConverter converter)
-        {
-            return new ArgumentsValueConverter(converter);
-        }
-
-        private static IValueConverter WithArgs(params IValueConverter[] converters)
-        {
-            return new ArgumentsValueConverter(converters);
-        }
 
         #endregion
     }

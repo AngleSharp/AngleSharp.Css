@@ -10,12 +10,13 @@
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CssProperty : ICssProperty
+    internal class CssProperty : ICssProperty
     {
         #region Fields
 
         private readonly PropertyFlags _flags;
         private readonly String _name;
+        private readonly IValueConverter _converter;
 
         private Boolean _important;
         private ICssValue _value;
@@ -24,10 +25,11 @@
 
         #region ctor
 
-        internal CssProperty(String name, PropertyFlags flags = PropertyFlags.None)
+        internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None)
         {
-            _name = name;
+            _name = name.ToLowerInvariant();
             _flags = flags;
+            _converter = converter;
         }
 
         #endregion
@@ -37,7 +39,7 @@
         public String Value
         {
             get { return _value?.CssText ?? CssKeywords.Initial; }
-            set { _value = ValueConverters.Inherit.Convert(value) ?? Converter.Convert(value); }
+            set { _value = _converter.ConvertFromProperty(value); }
         }
 
         public Boolean HasValue
@@ -99,9 +101,9 @@
             get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
         }
 
-        internal abstract IValueConverter Converter
+        internal IValueConverter Converter
         {
-            get;
+            get { return _converter; }
         }
 
         #endregion

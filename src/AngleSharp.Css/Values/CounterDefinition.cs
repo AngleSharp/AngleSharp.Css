@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public struct CounterDefinition
+    public struct CounterDefinition : IFormattable
     {
         #region Fields
 
@@ -66,6 +67,14 @@
         /// Serializes the counter value.
         /// </summary>
         public override String ToString()
+        {
+            return ToString(null, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Serializes the counter value.
+        /// </summary>
+        public String ToString(String format, IFormatProvider formatProvider)
         {
             return String.Concat(_identifier, " ", _listStyle, " ", _separator);
         }

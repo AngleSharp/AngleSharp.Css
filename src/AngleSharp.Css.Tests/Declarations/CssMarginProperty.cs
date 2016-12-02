@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Tests.Declarations
 {
-    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -14,11 +13,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-left", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginLeftProperty>(property);
-            var concrete = (CssMarginLeftProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("15px", property.Value);
         }
 
         [Test]
@@ -28,11 +25,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-left", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginLeftProperty>(property);
-            var concrete = (CssMarginLeftProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("initial", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("initial", property.Value);
         }
 
         [Test]
@@ -42,11 +37,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-right", property.Name);
             Assert.IsTrue(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginRightProperty>(property);
-            var concrete = (CssMarginRightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3em", property.Value);
         }
 
         [Test]
@@ -56,11 +49,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-right", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginRightProperty>(property);
-            var concrete = (CssMarginRightProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10%", property.Value);
         }
 
         [Test]
@@ -70,11 +61,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-top", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginTopProperty>(property);
-            var concrete = (CssMarginTopProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("4%", property.Value);
         }
 
         [Test]
@@ -84,11 +73,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginBottomProperty>(property);
-            var concrete = (CssMarginBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -98,11 +85,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginBottomProperty>(property);
-            var concrete = (CssMarginBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("-3px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("-3px", property.Value);
         }
 
         [Test]
@@ -112,11 +97,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginBottomProperty>(property);
-            var concrete = (CssMarginBottomProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -126,11 +109,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
         }
 
         [Test]
@@ -140,11 +121,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("25%", property.Value);
         }
 
         [Test]
@@ -154,11 +133,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 3em", property.Value);
         }
 
         [Test]
@@ -168,11 +145,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px auto", property.Value);
         }
 
         [Test]
@@ -182,11 +157,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         [Test]
@@ -196,11 +169,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em 5px", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 3em 5px", property.Value);
         }
 
         [Test]
@@ -210,11 +181,9 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5% auto 2%", concrete.Value);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10px 5% auto 2%", property.Value);
         }
 
         [Test]
@@ -224,10 +193,8 @@
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("margin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssMarginProperty>(property);
-            var concrete = (CssMarginProperty)property;
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

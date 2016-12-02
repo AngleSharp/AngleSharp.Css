@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using AngleSharp.Io;
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,6 +32,15 @@
             }
 
             return null;
+        }
+
+        internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
+        {
+            var factory = context.GetFactory<IConverterFactory>();
+            var converter = factory.Create(propertyName);
+            var flags = PropertyFlags.None;
+            Map.KnownPropertyFlags.TryGetValue(propertyName, out flags);
+            return new CssProperty(propertyName, converter, flags);
         }
     }
 }

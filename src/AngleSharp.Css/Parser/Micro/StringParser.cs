@@ -12,6 +12,10 @@
             return source.IsDone ? result : null;
         }
 
+        /// <summary>
+        /// Represents a string object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
+        /// </summary>
         public static String ParseString(this StringSource source)
         {
             var current = source.Current;

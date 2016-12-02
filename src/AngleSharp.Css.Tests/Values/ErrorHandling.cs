@@ -17,8 +17,7 @@
             var document = ParseDocument(source, new CssParserOptions
             {
                 IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true
+                IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual(1, div.Style.Length);
@@ -33,8 +32,7 @@
             var document = ParseDocument(source, new CssParserOptions
             {
                 IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidValues = true
+                IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual(1, div.Style.Length);
