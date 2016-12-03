@@ -5,13 +5,9 @@
 
     sealed class UnknownFeatureValidator : IFeatureValidator
     {
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
             return true;
         }
-
-        #endregion
     }
 }

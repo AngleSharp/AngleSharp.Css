@@ -3,20 +3,13 @@
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using static ValueConverters;
 
     sealed class ScriptingFeatureValidator : IFeatureValidator
     {
-        #region Fields
-
-        private static readonly IValueConverter TheConverter = Map.ScriptingStates.ToConverter();
-
-        #endregion
-        
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var state = TheConverter.Convert(feature.Value);
+            var state = ScriptingStateConverter.Convert(feature.Value);
 
             if (state != null)
             {
@@ -33,7 +26,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

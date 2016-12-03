@@ -3,20 +3,13 @@
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using static ValueConverters;
 
     sealed class PointerFeatureValidator : IFeatureValidator
     {
-        #region Fields
-
-        private static readonly IValueConverter TheConverter = Map.PointerAccuracies.ToConverter();
-
-        #endregion
-        
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var accuracy = TheConverter.Convert(feature.Value);
+            var accuracy = PointerAccuracyConverter.Convert(feature.Value);
 
             if (accuracy != null)
             {
@@ -27,7 +20,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

@@ -7,8 +7,6 @@
 
     sealed class ColorIndexFeatureValidator : IFeatureValidator
     {
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
             var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(1);
@@ -33,7 +31,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

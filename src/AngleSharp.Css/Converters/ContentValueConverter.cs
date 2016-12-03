@@ -55,7 +55,7 @@
                         continue;
                     }
 
-                    var c = source.ParseFunctionCounter();
+                    var c = source.ParseCounter();
 
                     if (c.HasValue)
                     {
@@ -64,7 +64,7 @@
                         continue;
                     }
 
-                    var a = source.ParseFunctionAttr();
+                    var a = source.ParseAttr();
 
                     if (a != null)
                     {

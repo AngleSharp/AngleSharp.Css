@@ -7,8 +7,6 @@
 
     sealed class ResolutionFeatureValidator : IFeatureValidator
     {
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
             var res = ResolutionConverter.Convert(feature.Value);
@@ -32,7 +30,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

@@ -148,6 +148,11 @@
         #region Maps
 
         /// <summary>
+        /// Represents a converter for the UpdateFrequency enumeration.
+        /// </summary>
+        public static readonly IValueConverter UpdateFrequencyConverter = Map.UpdateFrequencies.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the LineStyle enumeration.
         /// </summary>
         public static readonly IValueConverter LineStyleConverter = Map.LineStyles.ToConverter();
@@ -347,6 +352,21 @@
         /// Represents a converter for the BorderImageRepeat property.
         /// </summary>
         public static readonly IValueConverter BorderImageRepeatConverter = Map.BorderRepeats.ToConverter().Many(1, 2);
+
+        /// <summary>
+        /// Represents a converter for the ScriptingState enumeration.
+        /// </summary>
+        public static readonly IValueConverter ScriptingStateConverter = Map.ScriptingStates.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the PointerAccuracy enumeration.
+        /// </summary>
+        public static readonly IValueConverter PointerAccuracyConverter = Map.PointerAccuracies.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the HoverAbility enumeration.
+        /// </summary>
+        public static readonly IValueConverter HoverAbilityConverter = Map.HoverAbilities.ToConverter();
 
         #endregion
 
@@ -548,9 +568,19 @@
         #region Toggles
 
         /// <summary>
+        /// Represents a converter for the orientation mode.
+        /// </summary>
+        public static readonly IValueConverter OrientationModeConverter = Toggle(CssKeywords.Portrait, CssKeywords.Landscape);
+
+        /// <summary>
         /// Represents a converter for the table layout mode.
         /// </summary>
         public static readonly IValueConverter TableLayoutConverter = Toggle(CssKeywords.Fixed, CssKeywords.Auto);
+
+        /// <summary>
+        /// Represents a converter for the scan mode.
+        /// </summary>
+        public static readonly IValueConverter ScanModeConverter = Toggle(CssKeywords.Interlace, CssKeywords.Progressive);
 
         /// <summary>
         /// Represents a converter for the empty cells mode.

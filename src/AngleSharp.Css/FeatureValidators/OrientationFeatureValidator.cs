@@ -7,17 +7,9 @@
 
     sealed class OrientationFeatureValidator : IFeatureValidator
     {
-        #region Fields
-
-        private static readonly IValueConverter TheConverter = Toggle(CssKeywords.Portrait, CssKeywords.Landscape);
-
-        #endregion
-        
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var portrait = TheConverter.Convert(feature.Value);
+            var portrait = OrientationModeConverter.Convert(feature.Value);
 
             if (portrait != null)
             {
@@ -28,7 +20,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

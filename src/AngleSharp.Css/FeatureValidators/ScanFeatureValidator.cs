@@ -7,17 +7,9 @@
 
     sealed class ScanFeatureValidator : IFeatureValidator
     {
-        #region Fields
-
-        private static readonly IValueConverter TheConverter = Toggle(CssKeywords.Interlace, CssKeywords.Progressive);
-
-        #endregion
-
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var interlace = TheConverter.Convert(feature.Value);
+            var interlace = ScanModeConverter.Convert(feature.Value);
 
             if (interlace != null)
             {
@@ -28,7 +20,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

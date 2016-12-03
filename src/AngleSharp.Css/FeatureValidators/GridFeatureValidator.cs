@@ -7,8 +7,6 @@
 
     sealed class GridFeatureValidator : IFeatureValidator
     {
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
             var grid = BinaryConverter.Convert(feature.Value);
@@ -22,7 +20,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

@@ -3,20 +3,13 @@
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using static ValueConverters;
 
     sealed class HoverFeatureValidator : IFeatureValidator
     {
-        #region Fields
-
-        private static readonly IValueConverter TheConverter = Map.HoverAbilities.ToConverter();
-
-        #endregion
-        
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var hover = TheConverter.Convert(feature.Value);
+            var hover = HoverAbilityConverter.Convert(feature.Value);
 
             if (hover != null)
             {
@@ -27,7 +20,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

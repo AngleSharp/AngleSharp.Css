@@ -7,8 +7,6 @@
 
     sealed class DevicePixelRatioFeatureValidator : IFeatureValidator
     {
-        #region Methods
-
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
             var value = NaturalNumberConverter.Convert(feature.Value);
@@ -32,7 +30,5 @@
 
             return false;
         }
-
-        #endregion
     }
 }

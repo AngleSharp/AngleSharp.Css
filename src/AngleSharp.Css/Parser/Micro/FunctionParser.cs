@@ -10,7 +10,7 @@
         /// Represents an attribute retriever object.
         /// http://dev.w3.org/csswg/css-values/#funcdef-attr
         /// </summary>
-        public static String ParseFunctionAttr(this StringSource source)
+        public static String ParseAttr(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Attr))
             {
@@ -30,7 +30,7 @@
         /// Represents a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
         /// </summary>
-        public static CounterDefinition? ParseFunctionCounter(this StringSource source)
+        public static CounterDefinition? ParseCounter(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Counter))
             {
