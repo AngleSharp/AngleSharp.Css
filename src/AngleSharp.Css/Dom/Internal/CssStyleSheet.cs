@@ -6,6 +6,7 @@
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -153,6 +154,22 @@
             _owner = null;
             _parent = null;
             _element = element;
+        }
+
+        public String LocateNamespace(String prefix)
+        {
+            if (!IsDisabled)
+            {
+                foreach (var rule in _rules.OfType<ICssNamespaceRule>())
+                {
+                    if (rule.Prefix.Is(prefix))
+                    {
+                        return rule.NamespaceUri;
+                    }
+                }
+            }
+
+            return null;
         }
 
         #endregion

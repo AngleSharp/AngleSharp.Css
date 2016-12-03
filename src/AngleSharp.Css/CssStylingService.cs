@@ -63,7 +63,7 @@
         /// <returns>The task resulting in the style sheet.</returns>
         public async Task<IStyleSheet> ParseStylesheetAsync(IResponse response, StyleOptions options, CancellationToken cancel)
         {
-            var context = options.Context;
+            var context = options.Document.Context;
             var parser = context.GetService<ICssParser>();
             var url = response.Address?.Href;
             var source = new TextSource(response.Content);
@@ -88,7 +88,7 @@
         /// <returns>The created style declaration.</returns>
         public ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options)
         {
-            var context = options.Context;
+            var context = options.Document.Context;
             var style = new CssStyleDeclaration(context);
             style.Update(source);
             return style;

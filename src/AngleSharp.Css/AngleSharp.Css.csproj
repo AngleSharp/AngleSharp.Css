@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Converters\AnimationValueConverter.cs" />
@@ -55,7 +61,10 @@
     <Compile Include="DefaultDocumentFunctionFactory.cs" />
     <Compile Include="DefaultPseudoElementFactory.cs" />
     <Compile Include="DeviceCategory.cs" />
+    <Compile Include="Dom\Events\CssErrorEvent.cs" />
+    <Compile Include="Dom\Events\CssParseEvent.cs" />
     <Compile Include="Dom\Events\MediaQueryListEvent.cs" />
+    <Compile Include="Dom\ICssNamespaceRule.cs" />
     <Compile Include="Dom\IDocumentFunctions.cs" />
     <Compile Include="Dom\Internal\BaseValue.cs" />
     <Compile Include="Dom\CssDocumentRuleExtensions.cs" />
@@ -93,6 +102,8 @@
     <Compile Include="FeatureValidators\UpdateFrequencyFeatureValidator.cs" />
     <Compile Include="FeatureValidators\WidthFeatureValidator.cs" />
     <Compile Include="IPseudoElementFactory.cs" />
+    <Compile Include="Parser\CssParseError.cs" />
+    <Compile Include="Parser\CssParseErrorExtensions.cs" />
     <Compile Include="Parser\Micro\ColorParser.cs" />
     <Compile Include="Parser\Micro\CompoundParser.cs" />
     <Compile Include="Parser\Micro\ConditionParser.cs" />
@@ -300,13 +311,14 @@
     <Compile Include="Values\TranslateTransform.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Key.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="AngleSharp, Version=0.10.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.0.10.0\lib\portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch\AngleSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
