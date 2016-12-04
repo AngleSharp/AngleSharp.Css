@@ -31,7 +31,7 @@ var nugetRoot = buildResultDir + Directory("nuget");
 // Initialization
 // ----------------------------------------
 
-Setup(() =>
+Setup(_ =>
 {
     Information("Building version {0} of AngleSharp.Css.", version);
     Information("For the publish target the following environment variables need to be set:");
@@ -44,7 +44,7 @@ Setup(() =>
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectories(new DirectoryPath[] { buildDir, buildResultDir, nugetRoot });
+        CleanDirectories(new DirectoryPath[] { Directory("./src/AngleSharp/bin"), buildResultDir, nugetRoot });
     });
 
 Task("Restore-Packages")
@@ -52,6 +52,7 @@ Task("Restore-Packages")
     .Does(() =>
     {
         NuGetRestore("./src/AngleSharp.Css.sln");
+        DotNetCoreRestore("./src/AngleSharp.Css/project.json");
     });
 
 Task("Build")
@@ -62,6 +63,9 @@ Task("Build")
         {
             MSBuild("./src/AngleSharp.Css.sln", new MSBuildSettings()
                 .SetConfiguration(configuration)
+                .UseToolVersion(MSBuildToolVersion.VS2015)
+                .SetPlatformTarget(PlatformTarget.MSIL)
+                .SetMSBuildPlatform(MSBuildPlatform.x86)
                 .SetVerbosity(Verbosity.Minimal)
             );
         }
@@ -72,6 +76,11 @@ Task("Build")
                 .SetVerbosity(Verbosity.Minimal)
             );
         }
+
+        DotNetCoreBuild("./src/AngleSharp.Css/project.json", new DotNetCoreBuildSettings
+        {
+            Configuration = configuration
+        });
     });
 
 Task("Run-Unit-Tests")
@@ -95,13 +104,26 @@ Task("Copy-Files")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var target = nugetRoot + Directory("lib") + Directory("portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch");
-        CreateDirectory(target);
-        CopyFiles(new FilePath[]
-        { 
-            buildDir + File("AngleSharp.Css.dll"),
-            buildDir + File("AngleSharp.Css.xml")
-        }, target);
+        var mapping = new Dictionary<String, String>
+        {
+            { "net45", "net45" },
+            { "portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch", "portable45-net45+win8+wp8+wpa81" },
+            { "netstandard1.0", "netstandard1.0" },
+            { "net40", "net40" },
+            { "sl50", "sl5" },
+        };
+
+        foreach (var item in mapping)
+        {
+            var target = nugetRoot + Directory("lib") + Directory(item.Key);
+            CreateDirectory(target);
+            CopyFiles(new FilePath[]
+            {
+                buildDir + Directory(item.Value) + File("AngleSharp.Css.dll"),
+                buildDir + Directory(item.Value) + File("AngleSharp.Css.xml")
+            }, target);
+        }
+
         CopyFiles(new FilePath[] { "src/AngleSharp.Css.nuspec" }, nugetRoot);
     });
 

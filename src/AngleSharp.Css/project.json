@@ -1,12 +1,38 @@
-{
+﻿{
   "version": "0.1.0",
   "title": "AngleSharp.Css",
   "description": "Extension for AngleSharp to extend the CSSOM.",
   "language": "en-US",
-  "authors": [ "AngleSharp Contributors" ],
+  "authors": [
+    "AngleSharp Contributors"
+  ],
   "packOptions": {
     "projectUrl": "https://github.com/AngleSharp/AngleSharp.Css",
-    "tags": [ "html", "html5", "css", "css3", "xml", "dom", "dom4", "parser", "engine", "hypertext", "markup", "language", "query", "selector", "attributes", "linq", "angle", "bracket", "web", "internet", "text", "headless", "browser" ],
+    "tags": [
+      "html",
+      "html5",
+      "css",
+      "css3",
+      "xml",
+      "dom",
+      "dom4",
+      "parser",
+      "engine",
+      "hypertext",
+      "markup",
+      "language",
+      "query",
+      "selector",
+      "attributes",
+      "linq",
+      "angle",
+      "bracket",
+      "web",
+      "internet",
+      "text",
+      "headless",
+      "browser"
+    ],
     "licenseUrl": "https://raw.githubusercontent.com/AngleSharp/AngleSharp.Css/master/LICENSE",
     "iconUrl": "https://raw.githubusercontent.com/AngleSharp/AngleSharp.Css/master/logo.png",
     "repository": {
@@ -14,7 +40,6 @@
       "url": "https://github.com/AngleSharp/AngleSharp.Css.git"
     }
   },
-
   "frameworks": {
     "netstandard1.0": {
       "dependencies": {
@@ -33,11 +58,9 @@
         "System.Text.Encoding": "4.0.11",
         "System.Text.Encoding.Extensions": "4.0.11",
         "System.Text.RegularExpressions": "4.1.0",
-        "System.Threading": "4.0.11",
-        "AngleSharp": "0.10.0"
+        "System.Threading": "4.0.11"
       }
     },
-
     ".NETPortable,Version=v4.5,Profile=Profile259": {
       "frameworkAssemblies": {
         "mscorlib": "",
@@ -61,28 +84,19 @@
         "System.Text.Encoding.Extensions": "",
         "System.Text.RegularExpressions": "",
         "System.Threading": "",
-        "System.Threading.Tasks": "",
-        "AngleSharp": "0.10.0"
+        "System.Threading.Tasks": ""
       }
     },
-
     "net40": {
       "dependencies": {
-        "Microsoft.Bcl.Async": "1.0.168",
-        "AngleSharp": "0.10.0"
+        "Microsoft.Bcl.Async": "1.0.168"
       }
     },
-
     "net45": {
-      "dependencies": {
-        "AngleSharp": "0.10.0"
-      }
     },
-
     "sl50": {
       "dependencies": {
-        "Microsoft.Bcl.Async": "1.0.168",
-        "AngleSharp": "0.10.0"
+        "Microsoft.Bcl.Async": "1.0.168"
       },
       "frameworkAssemblies": {
         "mscorlib": "",
@@ -95,9 +109,11 @@
       }
     }
   },
-
   "buildOptions": {
     "keyFile": "key.snk",
     "xmlDoc": true
+  },
+  "dependencies": {
+    "AngleSharp": "0.10.0"
   }
 }
