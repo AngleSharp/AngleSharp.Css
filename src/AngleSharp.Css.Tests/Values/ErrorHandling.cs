@@ -20,9 +20,9 @@
                 IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.Style.Length);
-            Assert.AreEqual("background-image", div.Style[0]);
-            Assert.AreEqual("url(\"javascript:alert(1)\")", div.Style.GetBackgroundImage());
+            Assert.AreEqual(1, div.GetStyle().Length);
+            Assert.AreEqual("background-image", div.GetStyle()[0]);
+            Assert.AreEqual("url(\"javascript:alert(1)\")", div.GetStyle().GetBackgroundImage());
         }
 
         [Test]
@@ -35,10 +35,10 @@
                 IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.Style.Length);
-            Assert.AreEqual("background", div.Style[0]);
-            div.Style.RemoveProperty("background");
-            Assert.AreEqual(0, div.Style.Length);
+            Assert.AreEqual(1, div.GetStyle().Length);
+            Assert.AreEqual("background", div.GetStyle()[0]);
+            div.GetStyle().RemoveProperty("background");
+            Assert.AreEqual(0, div.GetStyle().Length);
         }
     }
 }

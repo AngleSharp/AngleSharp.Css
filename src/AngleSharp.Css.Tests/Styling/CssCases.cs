@@ -113,16 +113,16 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(@".foo[bar=""baz,quz""]", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"123", ((ICssStyleRule)sheet.Rules[0]).Style["foobar"]);
 
-            Assert.AreEqual(@".bar,#bar[baz=""qux,foo""],#qux", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
+            Assert.AreEqual(@".bar, #bar[baz=""qux,foo""], #qux", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"456", ((ICssStyleRule)sheet.Rules[1]).Style["foobar"]);
 
-            Assert.AreEqual(@".baz[qux="",foo""],.baz[qux=""foo,""],.baz[qux=""foo,bar,baz""],.baz[qux="",foo,bar,baz,""],.baz[qux="" , foo , bar , baz , ""]", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
+            Assert.AreEqual(@".baz[qux="",foo""], .baz[qux=""foo,""], .baz[qux=""foo,bar,baz""], .baz[qux="",foo,bar,baz,""], .baz[qux="" , foo , bar , baz , ""]", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
             Assert.AreEqual(@"789", ((ICssStyleRule)sheet.Rules[2]).Style["foobar"]);
 
-            Assert.AreEqual(@".qux[foo=""bar,baz""],.qux[bar=""baz,foo""],#qux[foo=""foobar""],#qux[foo="",bar,baz, ""]", ((ICssStyleRule)sheet.Rules[3]).SelectorText);
+            Assert.AreEqual(@".qux[foo=""bar,baz""], .qux[bar=""baz,foo""], #qux[foo=""foobar""], #qux[foo="",bar,baz, ""]", ((ICssStyleRule)sheet.Rules[3]).SelectorText);
             Assert.AreEqual(@"012", ((ICssStyleRule)sheet.Rules[3]).Style["foobar"]);
 
-            Assert.AreEqual(@"#foo[foo=""""],#foo[bar="" ""],#foo[bar="",""],#foo[bar="", ""],#foo[bar="" ,""],#foo[bar="" , ""],#foo[baz=""""],#foo[qux="" ""],#foo[qux="",""],#foo[qux="", ""],#foo[qux="" ,""],#foo[qux="" , ""]", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
+            Assert.AreEqual(@"#foo[foo=""""], #foo[bar="" ""], #foo[bar="",""], #foo[bar="", ""], #foo[bar="" ,""], #foo[bar="" , ""], #foo[baz=""""], #foo[qux="" ""], #foo[qux="",""], #foo[qux="", ""], #foo[qux="" ,""], #foo[qux="" , ""]", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
             Assert.AreEqual(@"345", ((ICssStyleRule)sheet.Rules[4]).Style["foobar"]);
 		}
 
@@ -143,7 +143,7 @@ namespace AngleSharp.Css.Tests.Styling
 }");
             Assert.AreEqual(2, sheet.Rules.Length);
 
-            Assert.AreEqual(@".foo:matches(.bar,.baz),.foo:matches(.bar,.baz),.foo:matches(.bar,.baz),.foo:matches(.bar,.baz)", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
+            Assert.AreEqual(@".foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz)", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"value", ((ICssStyleRule)sheet.Rules[0]).Style["prop"]);
 
             Assert.AreEqual(null, ((ICssStyleRule)sheet.Rules[1]).SelectorText);
@@ -198,7 +198,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
 /* 6 */");
 			Assert.AreEqual(1, sheet.Rules.Length);
 
-            Assert.AreEqual(@"head,body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
+            Assert.AreEqual(@"head, body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"'bar'", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
 		}
 
@@ -958,7 +958,7 @@ baz {
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 
-            Assert.AreEqual(@"foo,bar,baz", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
+            Assert.AreEqual(@"foo, bar, baz", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
 		}
 

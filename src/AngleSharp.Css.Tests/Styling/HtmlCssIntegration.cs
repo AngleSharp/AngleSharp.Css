@@ -59,8 +59,8 @@
                 IsIncludingUnknownRules = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual("initial", div.Style["background-color"]);
-            Assert.AreEqual("background-color: initial", div.Style.CssText);
+            Assert.AreEqual("initial", div.GetStyle()["background-color"]);
+            Assert.AreEqual("background-color: initial", div.GetStyle().CssText);
         }
 
         [Test]
@@ -160,7 +160,7 @@
             var config = Configuration.Default.WithCss();
             var document = await BrowsingContext.New(config).OpenNewAsync();
             var div = document.CreateElement<IHtmlDivElement>();
-            Assert.IsNotNull(div.Style);
+            Assert.IsNotNull(div.GetStyle());
         }
 
         [Test]
@@ -171,7 +171,7 @@
             var div = document.CreateElement<IHtmlDivElement>();
             var clone = div.Clone(true) as IHtmlDivElement;
             Assert.IsNotNull(clone);
-            Assert.IsNotNull(clone.Style);
+            Assert.IsNotNull(clone.GetStyle());
         }
 
         [Test]
@@ -219,7 +219,7 @@
             Assert.AreEqual("style", styleAttribute.Name);
             Assert.AreEqual("display: none;", styleAttribute.Value);
 
-            var style = ((IHtmlElement)dochtml0body1table0tbody0tr0).Style;
+            var style = ((IHtmlElement)dochtml0body1table0tbody0tr0).GetStyle();
             Assert.AreEqual("none", style.GetDisplay());
         }
 
@@ -259,11 +259,11 @@
             Assert.AreEqual(NodeType.Element, tableRow.NodeType);
 
             var tr = (IHtmlElement)tableRow;
-            var style = tr.Style;
+            var style = tr.GetStyle();
             Assert.AreEqual("none", style.GetDisplay());
 
-            tr.Style.SetDisplay("block");
-            Assert.AreEqual("block", tr.Style.GetDisplay());
+            style.SetDisplay("block");
+            Assert.AreEqual("block", style.GetDisplay());
         }
 
         [Test]
@@ -302,9 +302,10 @@
             Assert.AreEqual(NodeType.Element, tableRow.NodeType);
 
             var tr = (IHtmlElement)tableRow;
+            var style = tr.GetStyle();
 
-            tr.Style.SetDisplay("none");
-            Assert.AreEqual("none", tr.Style.GetDisplay());
+            style.SetDisplay("none");
+            Assert.AreEqual("none", style.GetDisplay());
         }
 
         [Test]
@@ -313,11 +314,11 @@
             var source = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">";
             var document = ParseDocument(source);
             var div = (IHtmlElement)document.QuerySelector("div");
-            var n = div.Style.Length;
+            var n = div.GetStyle().Length;
             // hang occurs only if this line is executed prior to setting the attribute
             // hang occurs when executing next line
             div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual("initial", div.Style.GetBackgroundColor());
+            Assert.AreEqual("initial", div.GetStyle().GetBackgroundColor());
         }
 
         [Test]
@@ -327,7 +328,7 @@
             var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(1, elements.Length);
 
-            var style = (elements[0] as IHtmlElement).Style;
+            var style = (elements[0] as IHtmlElement).GetStyle();
             Assert.AreEqual(1, style.Length);
 
             Assert.AreEqual("color", style[0]);
@@ -347,7 +348,7 @@
             });
             Assert.AreEqual(1, elements.Length);
 
-            var style = (elements[0] as IHtmlElement).Style;
+            var style = (elements[0] as IHtmlElement).GetStyle();
 
             Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
             Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetBackgroundColor());
@@ -363,28 +364,28 @@
             var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(4, elements.Length);
 
-            var style1 = (elements[0] as IHtmlElement).Style;
+            var style1 = (elements[0] as IHtmlElement).GetStyle();
             Assert.AreEqual(1, style1.Length);
 
             var test1 = style1[0];
             Assert.AreEqual("color", test1);
             Assert.AreEqual("rgba(255, 0, 0, 1)", style1.GetPropertyValue(test1));
 
-            var style2 = (elements[1] as IHtmlElement).Style;
+            var style2 = (elements[1] as IHtmlElement).GetStyle();
             Assert.AreEqual(1, style2.Length);
 
             var test2 = style2[0];
             Assert.AreEqual("color", test2);
             Assert.AreEqual("rgba(255, 0, 0, 1)", style2.GetPropertyValue(test2));
 
-            var style3 = (elements[2] as IHtmlElement).Style;
+            var style3 = (elements[2] as IHtmlElement).GetStyle();
             Assert.AreEqual(1, style3.Length);
 
             var test3 = style3[0];
             Assert.AreEqual("color", test3);
             Assert.AreEqual("rgba(255, 0, 0, 1)", style3.GetPropertyValue(test3));
 
-            var style4 = (elements[3] as IHtmlElement).Style;
+            var style4 = (elements[3] as IHtmlElement).GetStyle();
             Assert.AreEqual(2, style4.Length);
 
             var background = style4[0];

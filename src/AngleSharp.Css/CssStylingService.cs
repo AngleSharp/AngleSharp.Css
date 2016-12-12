@@ -12,7 +12,7 @@
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
     /// </summary>
-    public class CssStylingService : ICssStylingService
+    public class CssStylingService : IStylingService
     {
         #region Fields
 
@@ -74,24 +74,6 @@
             };
             sheet.SetOwner(options.Element);
             return await parser.ParseStyleSheetAsync(sheet, cancel).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Creates a style declaration for the given source.
-        /// </summary>
-        /// <param name="source">
-        /// The source code for the inline style declaration.
-        /// </param>
-        /// <param name="options">
-        /// The options with the parameters for evaluating the style.
-        /// </param>
-        /// <returns>The created style declaration.</returns>
-        public ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options)
-        {
-            var context = options.Document.Context;
-            var style = new CssStyleDeclaration(context);
-            style.Update(source);
-            return style;
         }
 
         #endregion

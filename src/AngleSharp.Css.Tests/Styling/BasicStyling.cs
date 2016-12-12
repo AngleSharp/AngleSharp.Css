@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Tests.Styling
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -128,8 +129,8 @@
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
             element.SetAttribute("style", "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
-            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.Style.CssText);
-            Assert.AreEqual(2, element.Style.Length);
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.GetStyle().CssText);
+            Assert.AreEqual(2, element.GetStyle().Length);
         }
 
         [Test]
@@ -138,10 +139,10 @@
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
             element.SetAttribute("style", String.Empty);
-            Assert.AreEqual(String.Empty, element.Style.CssText);
+            Assert.AreEqual(String.Empty, element.GetStyle().CssText);
             element.SetAttribute("style", "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
-            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.Style.CssText);
-            Assert.AreEqual(2, element.Style.Length);
+            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.GetStyle().CssText);
+            Assert.AreEqual(2, element.GetStyle().Length);
         }
 
         [Test]
@@ -149,9 +150,9 @@
         {
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
-            element.Style.CssText = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
+            element.SetStyle("background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
             Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.GetAttribute("style"));
-            Assert.AreEqual(2, element.Style.Length);
+            Assert.AreEqual(2, element.GetStyle().Length);
         }
     }
 }

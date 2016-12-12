@@ -22,6 +22,7 @@
                 throw new ArgumentNullException(nameof(configuration));
             
             var service = new CssStylingService();
+            var observer = new StyleAttributeObserver();
             setup?.Invoke(service);
 
             if (!configuration.Has<IFeatureValidatorFactory>())
@@ -49,7 +50,7 @@
                 configuration = configuration.With<ICssParser>(context => new CssParser(options, context));
             }
 
-            return configuration.WithOnly<ICssStylingService>(service);
+            return configuration.WithOnly(observer).With(service);
         }
     }
 }

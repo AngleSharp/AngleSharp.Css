@@ -46,7 +46,7 @@
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
-                element.Style?.SetProperty(propertyName, propertyValue);
+                element.GetStyle()?.SetProperty(propertyName, propertyValue);
             }
 
             return elements;
@@ -75,7 +75,7 @@
             {
                 foreach (var property in properties)
                 {
-                    element.Style?.SetProperty(property.Key, property.Value);
+                    element.GetStyle()?.SetProperty(property.Key, property.Value);
                 }
             }
 

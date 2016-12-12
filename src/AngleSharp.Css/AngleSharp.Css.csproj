@@ -61,11 +61,19 @@
     <Compile Include="DefaultDocumentFunctionFactory.cs" />
     <Compile Include="DefaultPseudoElementFactory.cs" />
     <Compile Include="DeviceCategory.cs" />
+    <Compile Include="Dom\CssRuleType.cs" />
     <Compile Include="Dom\Events\CssErrorEvent.cs" />
     <Compile Include="Dom\Events\CssParseEvent.cs" />
     <Compile Include="Dom\Events\MediaQueryListEvent.cs" />
     <Compile Include="Dom\ICssNamespaceRule.cs" />
+    <Compile Include="Dom\ICssProperties .cs" />
+    <Compile Include="Dom\ICssProperty.cs" />
+    <Compile Include="Dom\ICssRule.cs" />
+    <Compile Include="Dom\ICssRuleList.cs" />
+    <Compile Include="Dom\ICssStyleDeclaration.cs" />
+    <Compile Include="Dom\ICssStyleSheet.cs" />
     <Compile Include="Dom\IDocumentFunctions.cs" />
+    <Compile Include="Dom\ElementCssInlineStyleExtensions.cs" />
     <Compile Include="Dom\Internal\BaseValue.cs" />
     <Compile Include="Dom\CssDocumentRuleExtensions.cs" />
     <Compile Include="Dom\ICssValue.cs" />
@@ -134,6 +142,7 @@
     <Compile Include="Parser\Micro\UnitParser.cs" />
     <Compile Include="Parser\Micro\UriParser.cs" />
     <Compile Include="PortableExtensions.cs" />
+    <Compile Include="StyleAttributeObserver.cs" />
     <Compile Include="StyleFormatterExtensions.cs" />
     <Compile Include="TaskEx.cs" />
     <Compile Include="Unit.cs" />
@@ -313,6 +322,12 @@
   <ItemGroup>
     <None Include="Key.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.10.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.10.0\lib\portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

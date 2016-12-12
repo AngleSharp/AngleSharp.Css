@@ -20,6 +20,7 @@
         private readonly List<ICssProperty> _declarations;
         private readonly IBrowsingContext _context;
         private ICssRule _parent;
+        private Boolean _updating;
 
         #endregion
 
@@ -106,16 +107,19 @@
             if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
 
-            _declarations.Clear();
-
-            if (!String.IsNullOrEmpty(value))
+            if (!_updating)
             {
-                var parser = _context.GetService<ICssParser>();
-                var decl = parser.ParseDeclaration(value);
-                
-                if (decl != null)
+                _declarations.Clear();
+
+                if (!String.IsNullOrEmpty(value))
                 {
-                    _declarations.AddRange(decl);
+                    var parser = _context.GetService<ICssParser>();
+                    var decl = parser.ParseDeclaration(value);
+
+                    if (decl != null)
+                    {
+                        _declarations.AddRange(decl);
+                    }
                 }
             }
         }
@@ -456,7 +460,12 @@
 
         private void RaiseChanged()
         {
-            Changed?.Invoke(CssText);
+            if (!_updating)
+            {
+                _updating = true;
+                Changed?.Invoke(CssText);
+                _updating = false;
+            }
         }
 
         #endregion
