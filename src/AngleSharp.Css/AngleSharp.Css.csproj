@@ -65,6 +65,7 @@
     <Compile Include="Dom\Events\CssErrorEvent.cs" />
     <Compile Include="Dom\Events\CssParseEvent.cs" />
     <Compile Include="Dom\Events\MediaQueryListEvent.cs" />
+    <Compile Include="Dom\ICaretPosition.cs" />
     <Compile Include="Dom\ICssNamespaceRule.cs" />
     <Compile Include="Dom\ICssProperties .cs" />
     <Compile Include="Dom\ICssProperty.cs" />
@@ -82,6 +83,10 @@
     <Compile Include="Dom\Internal\KeyframeSelector.cs" />
     <Compile Include="Dom\Internal\PseudoElement.cs" />
     <Compile Include="CssValueExtensions.cs" />
+    <Compile Include="Dom\ScrollBehavior.cs" />
+    <Compile Include="Dom\ScrollLogicalPosition.cs" />
+    <Compile Include="Dom\ScrollOptions.cs" />
+    <Compile Include="Dom\ScrollToOptions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="Extensions\MediaListExtensions.cs" />
     <Compile Include="Extensions\ValidationExtensions.cs" />
