@@ -25,6 +25,12 @@
             return new CssMediaQueryList(window, media);
         }
 
+        [DomName("getPseudoElements")]
+        public static ICssPseudoElementList GetPseudoElements(this IWindow window, IElement element, String type)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Gives the values of all the CSS properties of an element after
         /// applying the active stylesheets and resolving any basic computation

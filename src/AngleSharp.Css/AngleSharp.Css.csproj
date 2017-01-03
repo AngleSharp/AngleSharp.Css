@@ -69,6 +69,8 @@
     <Compile Include="Dom\ICssNamespaceRule.cs" />
     <Compile Include="Dom\ICssProperties .cs" />
     <Compile Include="Dom\ICssProperty.cs" />
+    <Compile Include="Dom\ICssPseudoElement.cs" />
+    <Compile Include="Dom\ICssPseudoElementList.cs" />
     <Compile Include="Dom\ICssRule.cs" />
     <Compile Include="Dom\ICssRuleList.cs" />
     <Compile Include="Dom\ICssStyleDeclaration.cs" />
