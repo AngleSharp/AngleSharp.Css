@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
-    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -19,25 +18,6 @@
             var result = converter.Convert(source);
             source.SkipSpacesAndComments();
             return source.IsDone ? result : null;
-        }
-
-        public static ICssValue ConvertFromProperty(this IValueConverter converter, String value)
-        {
-            var source = new StringSource(value);
-            source.SkipSpacesAndComments();
-            var result = converter.ConvertValueOrInherit(source);
-            source.SkipSpacesAndComments();
-            return source.IsDone ? result : null;
-        }
-
-        private static ICssValue ConvertValueOrInherit(this IValueConverter converter, StringSource source)
-        {
-            if (!source.IsIdentifier(CssKeywords.Inherit))
-            {
-                 return converter.Convert(source);
-            }
-
-            return Inherit.Instance;
         }
 
         public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)

@@ -39,7 +39,7 @@
         public String Value
         {
             get { return _value?.CssText ?? CssKeywords.Initial; }
-            set { _value = _converter.ConvertFromProperty(value); }
+            set { _value = _converter.Convert(value); }
         }
 
         public Boolean HasValue

@@ -23,11 +23,6 @@
         public static IValueConverter None = new IdentifierValueConverter<Object>(CssKeywords.None, null);
 
         /// <summary>
-        /// Represents a converter for the initial keyword with no value.
-        /// </summary>
-        public static IValueConverter Initial = new IdentifierValueConverter<Object>(CssKeywords.Initial, null);
-
-        /// <summary>
         /// Represents a converter for the auto keyword with no value.
         /// </summary>
         public static IValueConverter Auto = new IdentifierValueConverter<Length>(CssKeywords.Auto, Length.Auto);
@@ -629,7 +624,12 @@
         /// <summary>
         /// Creates a converter for the initial keyword with the given value.
         /// </summary>
-        public static IValueConverter AssignInitial<T>(T value) => new IdentifierValueConverter<T>(CssKeywords.Initial, value);
+        public static IValueConverter AssignInitial<T>(T value) => new StandardValueConverter<T>(value);
+
+        /// <summary>
+        /// Creates a converter for the initial keyword with no value.
+        /// </summary>
+        public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
 
         /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.

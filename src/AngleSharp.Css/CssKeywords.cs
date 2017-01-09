@@ -117,6 +117,11 @@
         public static readonly String Initial = "initial";
 
         /// <summary>
+        /// The unset keyword.
+        /// </summary>
+        public static readonly String Unset = "unset";
+
+        /// <summary>
         /// The none keyword.
         /// </summary>
         public static readonly String None = "none";
