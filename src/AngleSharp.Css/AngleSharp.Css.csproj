@@ -62,6 +62,7 @@
     <Compile Include="DefaultDocumentFunctionFactory.cs" />
     <Compile Include="DefaultPseudoElementFactory.cs" />
     <Compile Include="DeviceCategory.cs" />
+    <Compile Include="Dom\CssHelpers.cs" />
     <Compile Include="Dom\CssRuleType.cs" />
     <Compile Include="Dom\Events\CssErrorEvent.cs" />
     <Compile Include="Dom\Events\CssParseEvent.cs" />
