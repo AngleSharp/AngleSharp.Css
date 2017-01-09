@@ -17,9 +17,9 @@
 
         public Boolean Check(IRenderDevice device)
         {
-            var factory = device.Context?.GetService<IConverterFactory>();
+            var factory = device?.Context?.GetService<IConverterFactory>() ?? Factory.Converter;
             var converter = factory?.Create(_name);
-            
+
             if (converter != null && !Object.Equals(converter, ValueConverters.Any))
             {
                 var normedValue = Normalize(_value);

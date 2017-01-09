@@ -1,12 +1,19 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
 
     [DomName("CSS")]
     public static class CssHelpers
     {
+        /// <summary>
+        /// Returns a string containing the escaped string passed as parameter,
+        /// mostly for use as part of a CSS selector.
+        /// </summary>
+        /// <param name="str">The string to be escaped.</param>
+        /// <returns>The escaped string.</returns>
         [DomName("escape")]
         public static String Escape(String str)
         {
@@ -45,6 +52,33 @@
             }
 
             return @"\-";
+        }
+
+        /// <summary>
+        /// Returns a boolean value indicating if the browser supports a given CSS feature,
+        /// or not.
+        /// </summary>
+        /// <param name="propertyName">The name of the CSS property to check.</param>
+        /// <param name="value">The value of the CSS property to check.</param>
+        /// <returns>True if the CSS feature is supported, otherwise false.</returns>
+        [DomName("supports")]
+        public static Boolean Supports(String propertyName, String value)
+        {
+            var condition = new DeclarationCondition(propertyName, value);
+            return condition.Check(null);
+        }
+
+        /// <summary>
+        /// Returns a boolean value indicating if the browser supports a given CSS feature,
+        /// or not.
+        /// </summary>
+        /// <param name="conditionText">The condition to check.</param>
+        /// <returns>True if the CSS feature is supported, otherwise false.</returns>
+        [DomName("supports")]
+        public static Boolean Supports(String conditionText)
+        {
+            var condition = ConditionParser.Parse(conditionText);
+            return condition.Check(null);
         }
     }
 }
