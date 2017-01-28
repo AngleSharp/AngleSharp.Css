@@ -28,6 +28,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        /// <summary>
         /// Gets the value of the first angle.
         /// </summary>
         public Angle Alpha

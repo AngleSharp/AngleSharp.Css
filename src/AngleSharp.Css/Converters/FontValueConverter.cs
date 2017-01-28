@@ -5,7 +5,6 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class FontValueConverter : IValueConverter
     {
@@ -17,7 +16,7 @@
             var stretch = default(FontStretch?);
             var size = default(Length?);
             var lineHeight = default(Length?);
-            var fontFamilies = default(String[]);
+            var fontFamilies = default(ICssValue[]);
             var pos = 0;
             var c = source.SkipSpacesAndComments();
 
@@ -82,7 +81,7 @@
 
         sealed class FontValue : ICssValue
         {
-            private readonly String[] _fontFamilies;
+            private readonly ICssValue[] _fontFamilies;
             private readonly Length? _lineHeight;
             private readonly Length _size;
             private readonly FontStretch? _stretch;
@@ -90,7 +89,7 @@
             private readonly FontVariant? _variant;
             private readonly FontWeight? _weight;
 
-            public FontValue(FontStyle? style, FontVariant? variant, FontWeight? weight, FontStretch? stretch, Length size, Length? lineHeight, String[] fontFamilies)
+            public FontValue(FontStyle? style, FontVariant? variant, FontWeight? weight, FontStretch? stretch, Length size, Length? lineHeight, ICssValue[] fontFamilies)
             {
                 _style = style;
                 _variant = variant;
@@ -141,20 +140,15 @@
                     }
 
                     sb.Append(Symbols.Space);
-                    sb.Append(_fontFamilies[0]);
+                    sb.Append(_fontFamilies[0].CssText);
 
                     for (var i = 1; i < _fontFamilies.Length; i++)
                     {
-                        sb.Append(", ").Append(_fontFamilies[i]);
+                        sb.Append(", ").Append(_fontFamilies[i].CssText);
                     }
 
                     return sb.ToPool();
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

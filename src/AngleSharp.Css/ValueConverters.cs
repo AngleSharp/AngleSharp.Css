@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using System;
@@ -78,38 +79,38 @@
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter IntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseInteger);
+        public static readonly IValueConverter IntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseInteger));
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseNaturalInteger);
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseNaturalInteger));
 
         /// <summary>
         /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
         /// </summary>
-        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParseWeightInteger);
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseWeightInteger));
 
         /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Int32>(NumberParser.ParsePositiveInteger);
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParsePositiveInteger));
 
         /// <summary>
         /// Represents an integer object with 0 or 1.
         /// </summary>
-        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Int32>(NumberParser.ParseBinary);
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseBinary));
 
         /// <summary>
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter NumberConverter = new StructValueConverter<Single>(NumberParser.ParseNumber);
+        public static readonly IValueConverter NumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNumber));
 
         /// <summary>
         /// Represents an number object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(NumberParser.ParseNaturalNumber);
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNaturalNumber));
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -506,13 +507,13 @@
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
 		/// </summary>
-		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Single>(NumberParser.ParseGreaterOrEqualOneNumber);
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseGreaterOrEqualOneNumber));
 
 		/// <summary>
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
-		public static readonly IValueConverter RatioConverter = new StructValueConverter<Single>(NumberParser.ParseRatio);
+		public static readonly IValueConverter RatioConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseRatio));
 
         /// <summary>
         /// Represents multiple shadow objects.
@@ -546,7 +547,7 @@
         /// <summary>
         /// Represents a converter for font families.
         /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = new ClassValueConverter<String>(IdentParser.ParseFontFamily).FromList();
+        public static readonly IValueConverter FontFamiliesConverter = new ClassValueConverter<ICssValue>(IdentParser.ParseFontFamily).FromList();
 
         /// <summary>
         /// Represents a converter for background size.
@@ -658,6 +659,40 @@
         /// <param name="converters">The converters that are used.</param>
         /// <returns>The new converter.</returns>
         public static IValueConverter WithAny(params IValueConverter[] converters) => new UnorderedOptionsConverter(converters);
+
+        #endregion
+
+        #region Helpers
+
+        private static Func<Text.StringSource, Length?> FromInteger(Func<Text.StringSource, Int32?> converter)
+        {
+            return source =>
+            {
+                var result = converter.Invoke(source);
+
+                if (result.HasValue)
+                {
+                    return new Length(result.Value, Length.Unit.None);
+                }
+
+                return null;
+            };
+        }
+
+        private static Func<Text.StringSource, Length?> FromNumber(Func<Text.StringSource, Single?> converter)
+        {
+            return source =>
+            {
+                var result = converter.Invoke(source);
+
+                if (result.HasValue)
+                {
+                    return new Length(result.Value, Length.Unit.None);
+                }
+
+                return null;
+            };
+        }
 
         #endregion
     }

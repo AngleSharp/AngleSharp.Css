@@ -39,6 +39,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        /// <summary>
         /// Gets the angle of the linear gradient.
         /// </summary>
         public Angle Angle

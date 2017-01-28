@@ -79,7 +79,6 @@
     <Compile Include="Dom\ICssStyleSheet.cs" />
     <Compile Include="Dom\IDocumentFunctions.cs" />
     <Compile Include="Dom\ElementCssInlineStyleExtensions.cs" />
-    <Compile Include="Dom\Internal\BaseValue.cs" />
     <Compile Include="Dom\CssDocumentRuleExtensions.cs" />
     <Compile Include="Dom\ICssValue.cs" />
     <Compile Include="Dom\IKeyframeSelector.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="FeatureValidators\UpdateFrequencyFeatureValidator.cs" />
     <Compile Include="FeatureValidators\WidthFeatureValidator.cs" />
     <Compile Include="IPseudoElementFactory.cs" />
+    <Compile Include="IValueDistributor.cs" />
     <Compile Include="Parser\CssParseError.cs" />
     <Compile Include="Parser\CssParseErrorExtensions.cs" />
     <Compile Include="Parser\Micro\ColorParser.cs" />
@@ -281,8 +281,10 @@
     <Compile Include="RuleNames.cs" />
     <Compile Include="DefaultFeatureValidatorFactory.cs" />
     <Compile Include="Values\CounterValue.cs" />
+    <Compile Include="Values\Identifier.cs" />
     <Compile Include="Values\Inherit.cs" />
     <Compile Include="Values\Initial.cs" />
+    <Compile Include="Values\StringValue.cs" />
     <Compile Include="Values\Unset.cs" />
     <Compile Include="Values\UrlReference.cs" />
     <Compile Include="Values\ImageRepeats.cs" />

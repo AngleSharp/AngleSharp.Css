@@ -4,7 +4,6 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
-    using System.IO;
     using static ValueConverters;
 
     sealed class BorderRadiusValueConverter : IValueConverter
@@ -48,11 +47,6 @@
 
                     return _horizontal.CssText;
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

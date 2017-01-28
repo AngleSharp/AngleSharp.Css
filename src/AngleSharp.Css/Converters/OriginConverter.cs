@@ -5,7 +5,6 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class OriginConverter : IValueConverter
     {
@@ -43,11 +42,6 @@
                     var pt = new Point(_x, _y).ToString();
                     return _z != Length.Zero ? String.Concat(pt, " ", _z.ToString()) : pt;
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

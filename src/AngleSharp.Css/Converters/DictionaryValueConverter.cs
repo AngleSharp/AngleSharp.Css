@@ -5,7 +5,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class DictionaryValueConverter<T> : IValueConverter
     {
@@ -45,11 +44,6 @@
             public String CssText
             {
                 get { return _key; }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

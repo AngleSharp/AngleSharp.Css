@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
+
     /// <summary>
     /// Functionality for computing transformation.
     /// </summary>
-    public interface ITransform
+    public interface ITransform : ICssValue
     {
         /// <summary>
         /// Computes the matrix for the given transformation.

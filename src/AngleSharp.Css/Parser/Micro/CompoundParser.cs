@@ -115,7 +115,7 @@
         }
 
         public static PeriodicValue<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T?> converter)
-            where T : struct
+            where T : struct, ICssValue
         {
             var values = new List<T>(4);
 

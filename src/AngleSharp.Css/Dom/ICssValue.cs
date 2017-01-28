@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface ICssValue : IStyleFormattable
+    public interface ICssValue
     {
         String CssText { get; }
     }

@@ -3,16 +3,21 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
-    public struct BorderImage : IFormattable
+    public struct BorderImage : ICssValue
     {
+        #region Fields
+
         private readonly IImageSource _image;
         private readonly BorderImageSlice? _slice;
         private readonly PeriodicValue<Length> _widths;
         private readonly PeriodicValue<Length> _outsets;
         private readonly BorderRepeat? _repeatX;
         private readonly BorderRepeat? _repeatY;
+
+        #endregion
+
+        #region ctor
 
         public BorderImage(IImageSource image, BorderImageSlice? slice, PeriodicValue<Length> widths, PeriodicValue<Length> outsets, BorderRepeat? repeatX, BorderRepeat? repeatY)
         {
@@ -22,6 +27,18 @@
             _outsets = outsets;
             _repeatX = repeatX;
             _repeatY = repeatY;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
         }
 
         public IImageSource Image
@@ -54,12 +71,11 @@
             get { return _repeatY; }
         }
 
-        public override String ToString()
-        {
-            return ToString(null, CultureInfo.InvariantCulture);
-        }
+        #endregion
 
-        public String ToString(String format, IFormatProvider formatProvider)
+        #region Methods
+
+        public override String ToString()
         {
             var sb = StringBuilderPool.Obtain();
 
@@ -72,7 +88,7 @@
             if (_slice.HasValue)
             {
                 if (sb.Length > 0) sb.Append(Symbols.Space);
-                sb.Append(_slice.Value.ToString(format, formatProvider));
+                sb.Append(_slice.Value.ToString());
             }
 
             if (_widths != null)
@@ -100,5 +116,7 @@
 
             return sb.ToPool();
         }
+
+        #endregion
     }
 }

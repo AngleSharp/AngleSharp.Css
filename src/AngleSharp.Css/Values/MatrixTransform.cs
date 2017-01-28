@@ -27,6 +27,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        /// <summary>
         /// Gets the value of the given index.
         /// </summary>
         /// <param name="index">The index to look for.</param>

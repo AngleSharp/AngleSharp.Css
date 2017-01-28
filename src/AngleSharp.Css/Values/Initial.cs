@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css.Dom;
     using System;
-    using System.IO;
 
     struct Initial<T> : ICssValue
     {
@@ -21,11 +20,6 @@
         public String CssText
         {
             get { return CssKeywords.Initial; }
-        }
-
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            writer.Write(CssText);
         }
     }
 }

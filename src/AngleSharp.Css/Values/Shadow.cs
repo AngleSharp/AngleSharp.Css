@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
     using System.Collections.Generic;
 
@@ -7,7 +8,7 @@
     /// The shadow class for holding information about
     /// a box or text-shadow.
     /// </summary>
-    public sealed class Shadow
+    public sealed class Shadow : ICssValue
     {
         #region Fields
 
@@ -44,6 +45,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets the color of the shadow.

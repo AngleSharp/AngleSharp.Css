@@ -33,6 +33,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        /// <summary>
         /// Gets the value of the x-component of the rotation vector.
         /// </summary>
         public Single X

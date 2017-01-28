@@ -5,7 +5,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class OneOrMoreValueConverter : IValueConverter
     {
@@ -50,11 +49,6 @@
             public String CssText
             {
                 get { return _items.Join(" "); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

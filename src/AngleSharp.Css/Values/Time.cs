@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
     using System;
     using System.Globalization;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public struct Time : IEquatable<Time>, IComparable<Time>, IFormattable
+    public struct Time : IEquatable<Time>, IComparable<Time>, ICssValue
     {
         #region Basic times
 
@@ -41,6 +42,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets the value of time.
@@ -130,6 +139,15 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Returns a string representing the time.
+        /// </summary>
+        /// <returns>The unit string.</returns>
+        public override String ToString()
+        {
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
+        }
 
         /// <summary>
         /// Tries to convert the given string to a Time.
@@ -253,30 +271,6 @@
         public override Int32 GetHashCode()
         {
             return _value.GetHashCode();
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns a string representing the time.
-        /// </summary>
-        /// <returns>The unit string.</returns>
-        public override String ToString()
-        {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representing the time.
-        /// </summary>
-        /// <param name="format">The format of the number.</param>
-        /// <param name="formatProvider">The provider to use.</param>
-        /// <returns>The unit string.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
-            return String.Concat(_value.ToString(format, formatProvider), UnitString);
         }
 
         #endregion

@@ -3,7 +3,7 @@
     using AngleSharp.Css.Dom;
     using System;
 
-    public struct ImageRepeats : IFormattable
+    public struct ImageRepeats : ICssValue
     {
         private readonly BackgroundRepeat _horizontal;
         private readonly BackgroundRepeat _vertical;
@@ -12,6 +12,14 @@
         {
             _horizontal = horizontal;
             _vertical = vertical;
+        }
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
         }
 
         public override String ToString()
@@ -30,11 +38,6 @@
             }
 
             return String.Concat(_horizontal.ToString(Map.BackgroundRepeats), " ", _vertical.ToString(Map.BackgroundRepeats));
-        }
-
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
-            return ToString();
         }
     }
 }

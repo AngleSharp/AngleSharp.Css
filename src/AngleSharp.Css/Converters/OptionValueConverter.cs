@@ -3,7 +3,6 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class OptionValueConverter<T> : IValueConverter
     {
@@ -43,10 +42,6 @@
             public T Option
             {
                 get { return _option; }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
             }
         }
     }

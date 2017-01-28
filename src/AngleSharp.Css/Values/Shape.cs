@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -7,7 +8,7 @@
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class Shape
+    public sealed class Shape : ICssValue
     {
         #region Fields
 
@@ -38,6 +39,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets the top side.

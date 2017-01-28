@@ -393,7 +393,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px", property.Value);
+            Assert.AreEqual("url(\"image.png\") 30 30 / 15px", property.Value);
         }
 
         [Test]
@@ -417,7 +417,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"image.png\") 30 30 / 15px 15px / 5% 2% 0 10%", property.Value);
+            Assert.AreEqual("url(\"image.png\") 30 30 / 15px / 5% 2% 0 10%", property.Value);
         }
     }
 }

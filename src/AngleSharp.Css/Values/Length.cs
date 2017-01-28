@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
     using System;
     using System.Globalization;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public struct Length : IEquatable<Length>, IComparable<Length>, IFormattable
+    public struct Length : IEquatable<Length>, IComparable<Length>, ICssValue
     {
         #region Basic lengths
 
@@ -76,6 +77,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets if the length is given in absolute units.
@@ -203,6 +212,28 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Returns a string representing the length.
+        /// </summary>
+        /// <returns>The unit string.</returns>
+        public override String ToString()
+        {
+            if (Equals(Auto))
+            {
+                return CssKeywords.Auto;
+            }
+            else if (Equals(Normal))
+            {
+                return CssKeywords.Normal;
+            }
+            else
+            {
+                var unit = _value == 0f ? String.Empty : UnitString;
+                var val = _value.ToString(CultureInfo.InvariantCulture);
+                return String.Concat(val, unit);
+            }
+        }
 
         /// <summary>
         /// Tries to convert the given string to a Length.
@@ -455,42 +486,6 @@
         public override Int32 GetHashCode()
         {
             return _value.GetHashCode();
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns a string representing the length.
-        /// </summary>
-        /// <returns>The unit string.</returns>
-        public override String ToString()
-        {
-            return ToString(null, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representing the length.
-        /// </summary>
-        /// <param name="format">The format of the number.</param>
-        /// <param name="formatProvider">The provider to use.</param>
-        /// <returns>The unit string.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
-            if (Equals(Auto))
-            {
-                return CssKeywords.Auto;
-            }
-            else if (Equals(Normal))
-            {
-                return CssKeywords.Normal;
-            }
-            else
-            {
-                var unit = _value == 0f ? String.Empty : UnitString;
-                return String.Concat(_value.ToString(format, formatProvider), unit);
-            }
         }
 
         #endregion

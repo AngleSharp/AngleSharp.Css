@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
 
@@ -17,15 +18,13 @@
         public ICssValue Convert(StringSource source)
         {
             var result = _check.Invoke(source);
-            return result != null ? new IdentifierValue(result) : null;
-        }
 
-        private sealed class IdentifierValue : BaseValue
-        {
-            public IdentifierValue(String value)
-                : base(value)
+            if (result != null)
             {
+                return new Identifier(result);
             }
+
+            return null;
         }
     }
 
@@ -45,14 +44,25 @@
             return source.IsIdentifier(_identifier) ? new IdentifierValue(_identifier, _result) : null;
         }
 
-        private sealed class IdentifierValue : BaseValue
+        private sealed class IdentifierValue : ICssValue
         {
             private readonly T _data;
+            private readonly String _value;
 
             public IdentifierValue(String value, T data)
-                : base(value)
             {
                 _data = data;
+                _value = value;
+            }
+
+            public T Data
+            {
+                get { return _data; }
+            }
+
+            public String CssText
+            {
+                get { return _value; }
             }
         }
     }

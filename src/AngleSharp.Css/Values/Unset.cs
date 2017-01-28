@@ -22,10 +22,5 @@
         {
             get { return CssKeywords.Unset; }
         }
-
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            writer.Write(CssText);
-        }
     }
 }

@@ -5,7 +5,6 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class BorderImageValueConverter : IValueConverter
     {
@@ -33,11 +32,6 @@
             public String CssText
             {
                 get { return _image.ToString(); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

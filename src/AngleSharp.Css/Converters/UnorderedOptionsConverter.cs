@@ -4,7 +4,6 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class UnorderedOptionsConverter : IValueConverter
     {
@@ -53,11 +52,6 @@
             public String CssText
             {
                 get { return _options.Join(" "); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

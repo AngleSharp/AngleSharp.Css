@@ -6,7 +6,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class CounterValueConverter : IValueConverter
     {
@@ -61,11 +60,6 @@
             public String CssText
             {
                 get { return _counters != null ? _counters.Join(" ") : CssKeywords.None; }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

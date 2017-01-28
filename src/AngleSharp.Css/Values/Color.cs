@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -10,7 +11,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
+    public struct Color : IEquatable<Color>, IComparable<Color>, ICssValue
     {
         #region Basic colors
 
@@ -389,6 +390,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        /// <summary>
         /// Gets the Int32 value of the color.
         /// </summary>
         public Int32 Value
@@ -513,17 +522,6 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            return ToString(null, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representing the length.
-        /// </summary>
-        /// <param name="format">The format of the number.</param>
-        /// <param name="formatProvider">The provider to use.</param>
-        /// <returns>The unit string.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
             if (Equals(Color.CurrentColor))
             {
                 return CssKeywords.CurrentColor;
@@ -537,10 +535,10 @@
                 var fn = FunctionNames.Rgba;
                 var args = String.Join(", ", new[]
                 {
-                    R.ToString(format, formatProvider),
-                    G.ToString(format, formatProvider),
-                    B.ToString(format, formatProvider),
-                    Alpha.ToString(format, formatProvider)
+                    R.ToString(CultureInfo.InvariantCulture),
+                    G.ToString(CultureInfo.InvariantCulture),
+                    B.ToString(CultureInfo.InvariantCulture),
+                    Alpha.ToString(CultureInfo.InvariantCulture)
                 });
                 return fn.CssFunction(args);
             }

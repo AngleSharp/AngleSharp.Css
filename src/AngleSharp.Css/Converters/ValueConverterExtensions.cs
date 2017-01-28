@@ -54,6 +54,7 @@
         {
             return converter;
         }
+
         public static String Join(this ICssValue[] values, String separator)
         {
             var buffer = StringBuilderPool.Obtain();

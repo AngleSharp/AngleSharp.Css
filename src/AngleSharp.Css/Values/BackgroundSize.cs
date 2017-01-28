@@ -1,10 +1,12 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
-    using System.Globalization;
 
-    public struct BackgroundSize : IEquatable<BackgroundSize>, IFormattable
+    public struct BackgroundSize : IEquatable<BackgroundSize>, ICssValue
     {
+        #region Fields
+
         private readonly Length _width;
         private readonly Length _height;
         private readonly ValueMode _mode;
@@ -12,6 +14,10 @@
         public static readonly BackgroundSize Cover = new BackgroundSize(ValueMode.Cover);
 
         public static readonly BackgroundSize Contain = new BackgroundSize(ValueMode.Contain);
+
+        #endregion
+
+        #region ctor
 
         private BackgroundSize(ValueMode mode)
         {
@@ -27,17 +33,28 @@
             _mode = ValueMode.Explicit;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
+
+        #endregion
+
+        #region Methods
+
         public Boolean Equals(BackgroundSize other)
         {
             return _mode == other._mode && _height == other._height && _width == other._width;
         }
 
         public override String ToString()
-        {
-            return ToString(null, CultureInfo.InvariantCulture);
-        }
-
-        public String ToString(String format, IFormatProvider formatProvider)
         {
             if (Equals(Cover))
             {
@@ -49,11 +66,15 @@
             }
             else if (_height.Equals(Length.Auto))
             {
-                return _width.ToString(format, formatProvider);
+                return _width.ToString();
             }
 
-            return String.Concat(_width.ToString(format, formatProvider), " ", _height.ToString(format, formatProvider));
+            return String.Concat(_width.ToString(), " ", _height.ToString());
         }
+
+        #endregion
+
+        #region Value Mode
 
         private enum ValueMode
         {
@@ -61,5 +82,7 @@
             Cover,
             Contain
         }
+
+        #endregion
     }
 }

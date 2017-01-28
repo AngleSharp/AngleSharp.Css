@@ -3,11 +3,9 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
-    using System.IO;
 
     sealed class StructValueConverter<T> : IValueConverter
-        where T : struct, IFormattable
+        where T : struct, ICssValue
     {
         private readonly Func<StringSource, T?> _converter;
 
@@ -33,12 +31,7 @@
 
             public String CssText
             {
-                get { return _data.ToString(null, CultureInfo.InvariantCulture); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
+                get { return _data.CssText; }
             }
         }
     }

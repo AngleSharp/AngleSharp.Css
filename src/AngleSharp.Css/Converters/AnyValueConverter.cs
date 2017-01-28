@@ -3,7 +3,6 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class AnyValueConverter : IValueConverter
     {
@@ -26,11 +25,6 @@
             public String CssText
             {
                 get { return _text; }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(_text);
             }
         }
     }

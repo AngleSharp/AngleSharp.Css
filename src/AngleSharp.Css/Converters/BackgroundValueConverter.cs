@@ -6,7 +6,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class BackgroundValueConverter : IValueConverter
     {
@@ -178,11 +177,6 @@
 
                     return layer;
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

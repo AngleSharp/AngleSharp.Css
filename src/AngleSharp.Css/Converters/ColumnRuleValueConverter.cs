@@ -5,7 +5,6 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     sealed class ColumnRuleValueConverter : IValueConverter
     {
@@ -97,11 +96,6 @@
 
                     return sb.ToPool();
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

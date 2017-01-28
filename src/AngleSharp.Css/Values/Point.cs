@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public struct Point : IEquatable<Point>, IComparable<Point>, IFormattable
+    public struct Point : IEquatable<Point>, IComparable<Point>, ICssValue
     {
         #region Basic values
 
@@ -80,6 +80,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets the value for the x-coordinate.
@@ -238,17 +246,6 @@
         /// <returns>The string.</returns>
         public override String ToString()
         {
-            return ToString(null, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Returns a formatted string representing the point.
-        /// </summary>
-        /// <param name="format">The format of the number.</param>
-        /// <param name="formatProvider">The provider to use.</param>
-        /// <returns>The string.</returns>
-        public String ToString(String format, IFormatProvider formatProvider)
-        {
             if (Equals(Center))
             {
                 return CssKeywords.Center;
@@ -287,10 +284,10 @@
             }
             else if (_y.Equals(Length.Half))
             {
-                return _x.ToString(format, formatProvider);
+                return _x.ToString();
             }
 
-            return String.Concat(_x.ToString(format, formatProvider), " ", _y.ToString(format, formatProvider));
+            return String.Concat(_x.ToString(), " ", _y.ToString());
         }
 
         #endregion

@@ -6,7 +6,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class CursorValueConverter : IValueConverter
     {
@@ -104,11 +103,6 @@
                     sb.Append(_cursor.ToString(Map.SystemCursors));
                     return sb.ToPool();
                 }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
     }

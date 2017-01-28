@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Values;
 
     static class IdentParser
     {
@@ -133,25 +135,32 @@
             return false;
         }
 
-        public static String ParseFontFamily(this StringSource source)
+        public static ICssValue ParseFontFamily(this StringSource source)
         {
             var str = source.ParseString();
 
-            if (str != null)
+            if (str == null)
             {
-                return str.CssString();
+                var literal = source.ParseLiteral();
+
+                if (literal != null)
+                {
+                    return new Identifier(literal);
+                }
+
+                return null;
             }
 
-            return source.ParseLiteral();
+            return new StringValue(str);
         }
 
-        public static String[] ParseFontFamilies(this StringSource source)
+        public static ICssValue[] ParseFontFamilies(this StringSource source)
         {
             var family = source.ParseFontFamily();
 
             if (family != null)
             {
-                var families = new List<String>();
+                var families = new List<ICssValue>();
                 var c = source.SkipSpacesAndComments();
                 families.Add(family);
 

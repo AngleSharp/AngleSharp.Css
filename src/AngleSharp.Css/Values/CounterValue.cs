@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Sets a CSS counter.
     /// </summary>
-    public struct CounterValue
+    public struct CounterValue : ICssValue
     {
         #region Fields
 
@@ -30,6 +31,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get { return ToString(); }
+        }
 
         /// <summary>
         /// Gets the identifier of the counter.

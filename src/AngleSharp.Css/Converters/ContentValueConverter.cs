@@ -7,7 +7,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     sealed class ContentValueConverter : IValueConverter
     {
@@ -109,11 +108,6 @@
             public String CssText
             {
                 get { return _modes.Length == 0 ? CssKeywords.None : _modes.Join(" "); }
-            }
-
-            public void ToCss(TextWriter writer, IStyleFormatter formatter)
-            {
-                writer.Write(CssText);
             }
         }
 

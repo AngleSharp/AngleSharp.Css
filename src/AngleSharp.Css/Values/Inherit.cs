@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css.Dom;
     using System;
-    using System.IO;
 
     sealed class Inherit : ICssValue
     {
@@ -15,11 +14,6 @@
         public String CssText
         {
             get { return CssKeywords.Inherit; }
-        }
-
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            writer.Write(CssText);
         }
     }
 }

@@ -21,7 +21,7 @@
 
             if (Color.TryFromHex(value, out color))
             {
-                return color.ToString(null, CultureInfo.InvariantCulture);
+                return color.CssText;
             }
 
             return value;
