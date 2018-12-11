@@ -27,9 +27,17 @@ local.properties
 # PDT-specific
 .buildpath
 
-# DNX
-*.lock.json
-artifacts/
+################
+## Rider
+################
+
+.idea/
+
+################
+## VS Code
+################
+
+.vscode/
 
 #################
 ## Visual Studio
@@ -41,7 +49,11 @@ artifacts/
 # User-specific files
 *.suo
 *.user
+*.userosscache
 *.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -49,12 +61,22 @@ artifacts/
 [Bb]in/
 [Bb]uild/
 [Oo]bj/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# DNX
+*.lock.json
+artifacts/
+
 [Dd]ebug/
 [Rr]elease/
 [Pp]ackages/
 [Tt]ools/
 ![Tt]ools/packages.config
 TestResults/
+*.nuget.targets
+*.nuget.props
 *.nupkg
 *_i.c
 *_p.c

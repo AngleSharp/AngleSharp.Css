@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Styling
+namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Dom;
@@ -60,7 +60,10 @@
         public async Task GetDownloadsOfExampleDocumentWithCssAndJsShouldYieldAllResources()
         {
             var scripting = new MockScriptEngine(_ => { }, MimeTypeNames.DefaultJavaScript);
-            var config = Configuration.Default.WithCss().With(scripting).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var config = Configuration.Default
+                .WithCss()
+                .With(scripting)
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
 <link rel=stylesheet type=text/css href=fontawesome.css>
 <link rel=stylesheet type=text/css href=style.css>

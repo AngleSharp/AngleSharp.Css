@@ -43,15 +43,24 @@
             {
                 style.Update(value);
             }
+            else
+            {
+                style = CreateStyle(element);
+                _styles.Add(element, style);
+            }
         }
 
         private static ICssStyleDeclaration CreateStyle(IElement element)
         {
+            return CreateStyle(element, null);
+        }
+
+        private static ICssStyleDeclaration CreateStyle(IElement element, String source)
+        {
             var document = element.Owner;
             var context = document.Context;
             var style = new CssStyleDeclaration(context);
-            var source = element.GetAttribute(AttributeNames.Style);
-            style.Update(source);
+            style.Update(source ?? element.GetAttribute(AttributeNames.Style));
             style.Changed += value => element.SetAttribute(AttributeNames.Style, value);
             return style;
         }

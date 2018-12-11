@@ -4,7 +4,9 @@
     using AngleSharp.Css.Converters;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -51,6 +53,7 @@
         {
             get { return (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (HasValue && _value.CssText.Is(CssKeywords.Inherit)); }
         }
+
         public Boolean CanBeInherited
         {
             get { return (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited; }
@@ -64,6 +67,11 @@
         public Boolean IsInitial
         {
             get { return !HasValue || _value.CssText.Is(CssKeywords.Initial); }
+        }
+
+        public Boolean IsShorthand
+        {
+            get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
         }
 
         public String Name
@@ -94,11 +102,6 @@
         internal Boolean CanBeUnitless
         {
             get { return (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless; }
-        }
-
-        internal Boolean IsShorthand
-        {
-            get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
         }
 
         internal IValueConverter Converter

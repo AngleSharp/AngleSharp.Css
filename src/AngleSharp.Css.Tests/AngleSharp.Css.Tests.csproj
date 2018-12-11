@@ -1,148 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9136D59F-9F50-4E02-96B2-3EAC114B95FA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AngleSharp.Css.Tests</RootNamespace>
-    <AssemblyName>AngleSharp.Css.Tests</AssemblyName>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AngleSharp, Version=0.10.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
-      <HintPath>..\packages\AngleSharp.0.10.0\lib\net45\AngleSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Extensions\AnalysisWindow.cs" />
-    <Compile Include="Extensions\ApiExtension.cs" />
-    <Compile Include="Extensions\AsyncParsing.cs" />
-    <Compile Include="Functions\CssHelpers.cs" />
-    <Compile Include="Mocks\DelayedStream.cs" />
-    <Compile Include="Mocks\MemoryStreamExtensions.cs" />
-    <Compile Include="Mocks\MockRenderDevice.cs" />
-    <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Mocks\MockScriptEngine.cs" />
-    <Compile Include="Mocks\PageRequester.cs" />
-    <Compile Include="Mocks\SiteMapping.cs" />
-    <Compile Include="Mocks\TestServerRequester.cs" />
-    <Compile Include="Styling\BasicStyling.cs" />
-    <Compile Include="Styling\Configuration.cs" />
-    <Compile Include="Styling\ContextLoading.cs" />
-    <Compile Include="Values\Color.cs" />
-    <Compile Include="Declarations\CssAnimationProperty.cs" />
-    <Compile Include="Declarations\CssBackgroundProperty.cs" />
-    <Compile Include="Declarations\CssBorderImageProperty.cs" />
-    <Compile Include="Declarations\CssBorderProperty.cs" />
-    <Compile Include="Declarations\CssBorderRadiusProperty.cs" />
-    <Compile Include="Styling\CssCases.cs" />
-    <Compile Include="Declarations\CssColumnsProperty.cs" />
-    <Compile Include="CssConstructionFunctions.cs" />
-    <Compile Include="Declarations\CssContentProperty.cs" />
-    <Compile Include="Declarations\CssCoordinateProperty.cs" />
-    <Compile Include="Functions\CssDocumentFunction.cs" />
-    <Compile Include="Declarations\CssFontProperty.cs" />
-    <Compile Include="Rules\CssImportRule.cs" />
-    <Compile Include="Rules\CssKeyframeRule.cs" />
-    <Compile Include="Declarations\CssListProperty.cs" />
-    <Compile Include="Declarations\CssMarginProperty.cs" />
-    <Compile Include="Rules\CssMediaFeatures.cs" />
-    <Compile Include="Rules\CssMediaList.cs" />
-    <Compile Include="Declarations\CssObjectSizing.cs" />
-    <Compile Include="Declarations\CssOutlineProperty.cs" />
-    <Compile Include="Declarations\CssPaddingProperty.cs" />
-    <Compile Include="Declarations\CssProperty.cs" />
-    <Compile Include="Styling\CssSheet.cs" />
-    <Compile Include="Declarations\CssStrokeProperty.cs" />
-    <Compile Include="Rules\CssSupports.cs" />
-    <Compile Include="Declarations\CssTextProperty.cs" />
-    <Compile Include="Declarations\CssTransformProperty.cs" />
-    <Compile Include="Declarations\CssTransitionProperty.cs" />
-    <Compile Include="Rules\FontFace.cs" />
-    <Compile Include="Values\ErrorHandling.cs" />
-    <Compile Include="Values\Gradient.cs" />
-    <Compile Include="Styling\HtmlCssIntegration.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestExtensions.cs" />
-    <Compile Include="Values\UnitConversion.cs" />
-    <Compile Include="Values\W3CSelector.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Key.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp.Css\AngleSharp.Css.csproj">
-      <Project>{73856b9e-967d-44aa-a644-91cbbe75bf9d}</Project>
-      <Name>AngleSharp.Css</Name>
+      <TargetFramework>netstandard2.0</TargetFramework>
     </ProjectReference>
   </ItemGroup>
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+  </ItemGroup>
 </Project>

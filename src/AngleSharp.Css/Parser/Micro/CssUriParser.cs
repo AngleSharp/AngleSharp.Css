@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Text;
 
-    static class UriParser
+    static class CssUriParser
     {
         public static UrlReference Parse(String str)
         {

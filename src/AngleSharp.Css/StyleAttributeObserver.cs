@@ -9,7 +9,7 @@
 
     sealed class StyleAttributeObserver : IAttributeObserver
     {
-        public void NotifyChange(IElement host, String name, String value)
+        void IAttributeObserver.NotifyChange(IElement host, String name, String value)
         {
             if (name.Is(AttributeNames.Style) && (host is IHtmlElement || host is ISvgElement))
             {

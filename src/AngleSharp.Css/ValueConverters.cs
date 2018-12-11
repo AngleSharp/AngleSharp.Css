@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -56,7 +56,7 @@
         /// Represents an URL object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
-        public static readonly IValueConverter UrlConverter = new ClassValueConverter<UrlReference>(UriParser.ParseUri);
+        public static readonly IValueConverter UrlConverter = new ClassValueConverter<UrlReference>(CssUriParser.ParseUri);
 
         /// <summary>
         /// Represents many string objects, but always divisible by 2 (open-close quotes).

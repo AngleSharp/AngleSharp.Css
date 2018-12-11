@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -8,6 +8,9 @@
     using System.Collections.Generic;
     using static ValueConverters;
 
+    /// <summary>
+    /// The default implementation for CSS converter factory.
+    /// </summary>
     public class DefaultConverterFactory : IConverterFactory
     {
         private readonly Dictionary<String, IValueConverter> _converters = new Dictionary<String, IValueConverter>(StringComparer.OrdinalIgnoreCase)

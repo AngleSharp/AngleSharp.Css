@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Common interface of all CSS properties.
@@ -39,8 +40,18 @@
         Boolean IsInitial { get; }
 
         /// <summary>
+        /// Gets if the property can be animated.
+        /// </summary>
+        Boolean IsAnimatable { get; }
+
+        /// <summary>
         /// Gets if the property can be inherited.
         /// </summary>
         Boolean CanBeInherited { get; }
+
+        /// <summary>
+        /// Gets if the property is a shorthand.
+        /// </summary>
+        Boolean IsShorthand { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
@@ -417,6 +417,11 @@
         public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             _host.ToHtml(writer, formatter);
+        }
+
+        public IElement Closest(String selectors)
+        {
+            return _host.Closest(selectors);
         }
 
         #endregion

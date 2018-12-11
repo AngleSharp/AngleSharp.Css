@@ -44,42 +44,24 @@ Setup(_ =>
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectories(new DirectoryPath[] { Directory("./src/AngleSharp/bin"), buildResultDir, nugetRoot });
+        CleanDirectories(new DirectoryPath[] { buildDir, buildResultDir, nugetRoot });
     });
 
 Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Css.sln");
-        DotNetCoreRestore("./src/AngleSharp.Css/project.json");
+        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
+            ToolPath = "tools/nuget.exe"
+        });
     });
 
 Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        if (isRunningOnWindows)
-        {
-            MSBuild("./src/AngleSharp.Css.sln", new MSBuildSettings()
-                .SetConfiguration(configuration)
-                .UseToolVersion(MSBuildToolVersion.VS2015)
-                .SetPlatformTarget(PlatformTarget.MSIL)
-                .SetMSBuildPlatform(MSBuildPlatform.x86)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-        else
-        {
-            XBuild("./src/AngleSharp.Css.sln", new XBuildSettings()
-                .SetConfiguration(configuration)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-
-        DotNetCoreBuild("./src/AngleSharp.Css/project.json", new DotNetCoreBuildSettings
-        {
-            Configuration = configuration
+        DotNetCoreBuild("./src/AngleSharp.Css.sln", new DotNetCoreBuildSettings() {
+           Configuration = configuration
         });
     });
 
@@ -87,17 +69,21 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new NUnit3Settings
+        var settings = new DotNetCoreTestSettings
         {
-            Work = buildResultDir.Path.FullPath
+            Configuration = configuration
         };
 
         if (isRunningOnAppVeyor)
         {
-            settings.Where = "cat != ExcludeFromAppVeyor";
+            settings.TestAdapterPath = Directory(".");
+            settings.Logger = "Appveyor";
+            // TODO Finds a way to exclude tests not allowed to run on appveyor
+            // Not used in current code
+            //settings.Where = "cat != ExcludeFromAppVeyor";
         }
 
-        NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", settings);
+        DotNetCoreTest("./src/AngleSharp.Css.Tests/", settings);
     });
 
 Task("Copy-Files")
@@ -106,22 +92,24 @@ Task("Copy-Files")
     {
         var mapping = new Dictionary<String, String>
         {
-            { "net45", "net45" },
-            { "portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch", "portable45-net45+win8+wp8+wpa81" },
-            { "netstandard1.0", "netstandard1.0" },
-            { "net40", "net40" },
-            { "sl50", "sl5" },
+            { "net46", "net46" },
+            { "netstandard2.0", "netstandard2.0" }
         };
+
+        if (!isRunningOnWindows)
+        {
+            mapping.Remove("net46");
+        }
 
         foreach (var item in mapping)
         {
-            var target = nugetRoot + Directory("lib") + Directory(item.Key);
-            CreateDirectory(target);
+            var targetDir = nugetRoot + Directory("lib") + Directory(item.Key);
+            CreateDirectory(targetDir);
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.Css.dll"),
                 buildDir + Directory(item.Value) + File("AngleSharp.Css.xml")
-            }, target);
+            }, targetDir);
         }
 
         CopyFiles(new FilePath[] { "src/AngleSharp.Css.nuspec" }, nugetRoot);
@@ -135,12 +123,12 @@ Task("Create-Package")
             ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null);
 
         if (nugetExe == null)
-        {            
+        {
             throw new InvalidOperationException("Could not find nuget.exe.");
         }
-        
+
         var nuspec = nugetRoot + File("AngleSharp.Css.nuspec");
-        
+
         NuGetPack(nuspec, new NuGetPackSettings
         {
             Version = version,
@@ -149,7 +137,7 @@ Task("Create-Package")
             Properties = new Dictionary<String, String> { { "Configuration", configuration } }
         });
     });
-    
+
 Task("Publish-Package")
     .IsDependentOn("Create-Package")
     .WithCriteria(() => isLocal)
@@ -164,14 +152,14 @@ Task("Publish-Package")
 
         foreach (var nupkg in GetFiles(nugetRoot.Path.FullPath + "/*.nupkg"))
         {
-            NuGetPush(nupkg, new NuGetPushSettings 
-            { 
+            NuGetPush(nupkg, new NuGetPushSettings
+            {
                 Source = "https://nuget.org/api/v2/package",
-                ApiKey = apiKey 
+                ApiKey = apiKey
             });
         }
     });
-    
+
 Task("Publish-Release")
     .IsDependentOn("Publish-Package")
     .WithCriteria(() => isLocal)
@@ -198,28 +186,29 @@ Task("Publish-Release")
             TargetCommitish = "master"
         }).Wait();
     });
-    
+
 Task("Update-AppVeyor-Build-Number")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
     {
-        AppVeyor.UpdateBuildVersion(version);
+        var num = AppVeyor.Environment.Build.Number;
+        AppVeyor.UpdateBuildVersion($"{version}-{num}");
     });
-    
+
 // Targets
 // ----------------------------------------
-    
+
 Task("Package")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Create-Package");
 
 Task("Default")
-    .IsDependentOn("Package");    
+    .IsDependentOn("Package");
 
 Task("Publish")
     .IsDependentOn("Publish-Package")
     .IsDependentOn("Publish-Release");
-    
+
 Task("AppVeyor")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Update-AppVeyor-Build-Number");

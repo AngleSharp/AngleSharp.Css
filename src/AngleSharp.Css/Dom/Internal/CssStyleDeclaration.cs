@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Parser;
@@ -128,7 +128,6 @@
         {
             var list = new List<IStyleFormattable>();
             var serialized = new List<String>();
-            //var factory = _context.GetFactory<ICssPropertyFactory>();
 
             foreach (var declaration in Declarations)
             {
@@ -137,52 +136,51 @@
                 if (serialized.Contains(property))
                     continue;
 
-                //var shorthands = factory.GetShorthands(property);
+                //var shorthands = declaration.GetShorthands();
 
                 //if (shorthands.Any())
                 //{
                 //    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                //    foreach (var shorthandName in shorthands.OrderByDescending(m => factory.GetLonghands(m).Count()))
+                //    foreach (var shorthandName in shorthands.OrderByDescending(m => Map.GetLonghands(m).Count()))
                 //    {
-                //        var shorthand = factory.CreateShorthand(shorthandName);
-                //        var properties = factory.GetLonghands(shorthandName).ToArray();
+                //        var properties = Map.GetLonghands(shorthandName).ToArray();
                 //        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
                 //        if (currentLonghands.Length == 0)
                 //            continue;
 
                 //        var important = currentLonghands.Count(m => m.IsImportant);
+                //        var shorthand = _context.CreateProperty(shorthandName);
 
                 //        if (important > 0 && important != currentLonghands.Length)
                 //            continue;
 
                 //        if (properties.Length != currentLonghands.Length)
                 //            continue;
-                        
-                //        var value = shorthand.Stringify(currentLonghands);
 
-                //        if (String.IsNullOrEmpty(value))
-                //            continue;
-
-                //        list.Add(CssStyleFormatter.Instance.Declaration(shorthandName, value, important != 0));
-
-                //        foreach (var longhand in currentLonghands)
+                //        if (shorthand.TryRecombine(currentLonghands))
                 //        {
-                //            serialized.Add(longhand.Name);
-                //            longhands.Remove(longhand);
+                //            shorthand.IsImportant = important != 0;
+                //            list.Add(shorthand);
+
+                //            foreach (var longhand in currentLonghands)
+                //            {
+                //                serialized.Add(longhand.Name);
+                //                longhands.Remove(longhand);
+                //            }
                 //        }
                 //    }
                 //}
 
-                if (serialized.Contains(property))
-                    continue;
+                //if (serialized.Contains(property))
+                //    continue;
 
                 serialized.Add(property);
                 list.Add(declaration);
             }
             
-            writer.Write(formatter.BlockDeclarations(list).Trim(' ', '\t', '\r', '\n', '{', '}'));
+            writer.Write(formatter.BlockDeclarations(list));// .Trim(' ', '\t', '\r', '\n', '{', '}')
         }
 
         public String RemoveProperty(String propertyName)
