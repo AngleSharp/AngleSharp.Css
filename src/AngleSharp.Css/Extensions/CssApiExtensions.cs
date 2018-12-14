@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
@@ -7,6 +7,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// General CSS API extension methods.
+    /// </summary>
     public static class CssApiExtensions
     {
         /// <summary>

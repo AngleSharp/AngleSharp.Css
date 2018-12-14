@@ -3,6 +3,8 @@ namespace AngleSharp.Css.Extensions
     using AngleSharp.Attributes;
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,23 +31,16 @@ namespace AngleSharp.Css.Extensions
             return factory?.Create(element, pseudoElement);
         }
 
-        public static String GetInnerText(this IElement element)
-        {
-            return element.TextContent;
-        }
-
-        public static void SetInnerText(this IElement element, String value)
-        {
-            element.TextContent = value;
-        }
-
-        /*
+        /// <summary>
+        /// Gets the innerText of an element.
+        /// </summary>
+        /// <param name="element">The element to extend.</param>
+        /// <returns>The computed inner text.</returns>
         [DomName("innerText")]
         [DomAccessor(Accessors.Getter)]
-
         public static String GetInnerText(this IElement element)
         {
-            bool? hidden = null;
+            var hidden = new Nullable<Boolean>();
 
             if (element.Owner == null)
             {
@@ -56,42 +51,47 @@ namespace AngleSharp.Css.Extensions
             {
                 var css = element.ComputeCurrentStyle();
 
-                if (!String.IsNullOrEmpty(css?.Display))
+                if (!String.IsNullOrEmpty(css?.GetDisplay()))
                 {
-                    hidden = css.Display == "none";
+                    hidden = css.GetDisplay() == "none";
                 }
             }
 
             if (!hidden.HasValue)
             {
-                hidden = element.IsHidden;
+                hidden = (element as IHtmlElement)?.IsHidden;
             }
 
-            if (hidden.Value)
+            if (!hidden.Value)
             {
-                return element.TextContent;
+                var sb = StringBuilderPool.Obtain();
+                var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
+                InnerTextCollection(element, sb, requiredLineBreakCounts, element.ParentElement?.ComputeCurrentStyle());
+
+                // Remove any runs of consecutive required line break count items at the start or end of results.
+                requiredLineBreakCounts.Remove(0);
+                requiredLineBreakCounts.Remove(sb.Length);
+                var offset = 0;
+
+                // SortedDictionary would be nicer
+                foreach (var keyval in requiredLineBreakCounts.OrderBy(kv => kv.Key))
+                {
+                    var index = keyval.Key + offset;
+                    sb.Insert(index, new String(Symbols.LineFeed, keyval.Value));
+                    offset += keyval.Value;
+                }
+
+                return sb.ToPool();
             }
 
-            var sb = Pool.NewStringBuilder();
-            var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
-
-            InnerTextCollection(element, sb, requiredLineBreakCounts, element.ParentElement?.ComputeCurrentStyle());
-
-            // Remove any runs of consecutive required line break count items at the start or end of results.
-            requiredLineBreakCounts.Remove(0);
-            requiredLineBreakCounts.Remove(sb.Length);
-            var offset = 0;
-
-            foreach (var keyval in requiredLineBreakCounts.OrderBy(kv => kv.Key)) // SortedDictionary would be nicer
-            {
-                var index = keyval.Key + offset;
-                sb.Insert(index, new String(Symbols.LineFeed, keyval.Value));
-                offset += keyval.Value;
-            }
-
-            return sb.ToPool();
+            return element.TextContent;
         }
 
+        /// <summary>
+        /// Sets the innerText of an element.
+        /// </summary>
+        /// <param name="element">The element to extend.</param>
+        /// <param name="value">The inner text to set.</param>
         [DomName("innerText")]
         [DomAccessor(Accessors.Setter)]
 
@@ -99,12 +99,13 @@ namespace AngleSharp.Css.Extensions
         {
             if (String.IsNullOrEmpty(value))
             {
-                element.ReplaceAll(null, false);
+                element.TextContent = String.Empty;
             }
             else
             {
-                var fragment = new DocumentFragment(element.Owner);
-                var sb = Pool.NewStringBuilder();
+                var document = element.Owner;
+                var fragment = document.CreateDocumentFragment();
+                var sb = StringBuilderPool.Obtain();
 
                 for (var i = 0; i < value.Length; i++)
                 {
@@ -114,16 +115,17 @@ namespace AngleSharp.Css.Extensions
                     {
                         if (c == Symbols.CarriageReturn && i + 1 < value.Length && value[i + 1] == Symbols.LineFeed)
                         {
-                            continue; // ignore carriage return if the next char is a line feed
+                            // ignore carriage return if the next char is a line feed
+                            continue;
                         }
 
                         if (sb.Length > 0)
                         {
-                            fragment.AppendChild(new TextNode(element.Owner, sb.ToPool()));
-                            sb = Pool.NewStringBuilder();
+                            fragment.AppendChild(document.CreateTextNode(sb.ToString()));
+                            sb.Clear();
                         }
 
-                        fragment.AppendChild(new HtmlBreakRowElement(element.Owner));
+                        fragment.AppendChild(document.CreateElement(TagNames.Br));
                     }
                     else
                     {
@@ -135,33 +137,41 @@ namespace AngleSharp.Css.Extensions
 
                 if (remaining.Length > 0)
                 {
-                    fragment.Append(new TextNode(element.Owner, remaining));
+                    fragment.AppendChild(document.CreateTextNode(remaining));
                 }
 
-                element.ReplaceAll(fragment, false);
+                while (element.HasChildNodes)
+                {
+                    element.RemoveChild(element.FirstChild);
+                }
+
+                element.AppendChild(fragment);
             }
         }
 
         private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
         {
-            if (!HasCssBox(node))
+            if (HasCssBox(node))
             {
-                return;
+                var element = node as IElement;
+                var elementCss = element?.ComputeCurrentStyle();
+                ItcInCssBox(elementCss, parentStyle, node, sb, requiredLineBreakCounts);
             }
+        }
 
-            var elementCss = (node as IElement)?.ComputeCurrentStyle();
+        private static void ItcInCssBox(ICssStyleDeclaration elementStyle, ICssStyleDeclaration parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts)
+        {
+            var elementHidden = new Nullable<Boolean>();
 
-            bool? elementHidden = null;
-
-            if (elementCss != null)
+            if (elementStyle != null)
             {
-                if (!String.IsNullOrEmpty(elementCss.Display))
+                if (!String.IsNullOrEmpty(elementStyle.GetDisplay()))
                 {
-                    elementHidden = elementCss.Display == "none";
+                    elementHidden = elementStyle.GetDisplay() == "none";
                 }
-                if (!String.IsNullOrEmpty(elementCss.Visibility) && elementHidden != true)
+                if (!String.IsNullOrEmpty(elementStyle.GetVisibility()) && elementHidden != true)
                 {
-                    elementHidden = elementCss.Visibility != "visible";
+                    elementHidden = elementStyle.GetVisibility() != "visible";
                 }
             }
 
@@ -170,104 +180,102 @@ namespace AngleSharp.Css.Extensions
                 elementHidden = (node as IHtmlElement)?.IsHidden ?? false;
             }
 
-            if (elementHidden.Value)
+            if (!elementHidden.Value)
             {
-                return;
-            }
+                var isBlockLevel = new Nullable<Boolean>();
+                var startIndex = sb.Length;
 
-            var startIndex = sb.Length;
-
-            foreach (var child in node.ChildNodes)
-            {
-                InnerTextCollection(child, sb, requiredLineBreakCounts, elementCss);
-            }
-
-            if (node is IText)
-            {
-                var textElement = (IText)node;
-
-                ProcessText(textElement.Data, sb, parentStyle);
-            }
-            else if (node is IHtmlBreakRowElement)
-            {
-                sb.Append(Symbols.LineFeed);
-            }
-            else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-cell")
-            {
-                var nextSibling = node.NextSibling as IElement;
-                if (nextSibling != null)
+                foreach (var child in node.ChildNodes)
                 {
-                    var nextSiblingCss = nextSibling.ComputeCurrentStyle();
-                    if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.Display) || nextSiblingCss.Display == "table-cell")
+                    InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle);
+                }
+
+                if (node is IText)
+                {
+                    var textElement = (IText)node;
+                    ProcessText(textElement.Data, sb, parentStyle);
+                }
+                else if (node is IHtmlBreakRowElement)
+                {
+                    sb.Append(Symbols.LineFeed);
+                }
+                else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-cell")
+                {
+                    var nextSibling = node.NextSibling as IElement;
+
+                    if (nextSibling != null)
                     {
-                        sb.Append(Symbols.Tab);
+                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+
+                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == "table-cell")
+                        {
+                            sb.Append(Symbols.Tab);
+                        }
                     }
                 }
-            }
-            else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-row")
-            {
-                var nextSibling = node.NextSibling as IElement;
-
-                if (nextSibling != null)
+                else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-row")
                 {
-                    var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                    var nextSibling = node.NextSibling as IElement;
 
-                    if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.Display) || nextSiblingCss.Display == "table-row")
+                    if (nextSibling != null)
                     {
-                        sb.Append(Symbols.LineFeed);
+                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+
+                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == "table-row")
+                        {
+                            sb.Append(Symbols.LineFeed);
+                        }
                     }
                 }
-            }
-            else if (node is IHtmlParagraphElement)
-            {
-                var startIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
-
-                if (startIndexCount < 2)
+                else if (node is IHtmlParagraphElement)
                 {
-                    requiredLineBreakCounts[startIndex] = 2;
+                    var startIndexCount = 0;
+                    requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
+
+                    if (startIndexCount < 2)
+                    {
+                        requiredLineBreakCounts[startIndex] = 2;
+                    }
+
+                    var endIndexCount = 0;
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
+
+                    if (endIndexCount < 2)
+                    {
+                        requiredLineBreakCounts[sb.Length] = 2;
+                    }
                 }
 
-                var endIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
-
-                if (endIndexCount < 2)
+                if (elementStyle != null)
                 {
-                    requiredLineBreakCounts[sb.Length] = 2;
-                }
-            }
-
-            bool? isBlockLevel = null;
-
-            if (elementCss != null)
-            {
-                if (IsBlockLevelDisplay(elementCss.Display))
-                {
-                    isBlockLevel = true;
-                }
-            }
-
-            if (!isBlockLevel.HasValue)
-            {
-                isBlockLevel = IsBlockLevel(node);
-            }
-
-            if (isBlockLevel.Value)
-            {
-                var startIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
-
-                if (startIndexCount < 1)
-                {
-                    requiredLineBreakCounts[startIndex] = 1;
+                    if (IsBlockLevelDisplay(elementStyle.GetDisplay()))
+                    {
+                        isBlockLevel = true;
+                    }
                 }
 
-                var endIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
-
-                if (endIndexCount < 1)
+                if (!isBlockLevel.HasValue)
                 {
-                    requiredLineBreakCounts[sb.Length] = 1;
+                    isBlockLevel = IsBlockLevel(node);
+                }
+
+                if (isBlockLevel.Value)
+                {
+                    var startIndexCount = 0;
+                    requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
+
+                    if (startIndexCount < 1)
+                    {
+                        requiredLineBreakCounts[startIndex] = 1;
+                    }
+
+                    var endIndexCount = 0;
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
+
+                    if (endIndexCount < 1)
+                    {
+                        requiredLineBreakCounts[sb.Length] = 1;
+                    }
                 }
             }
         }
@@ -370,8 +378,8 @@ namespace AngleSharp.Css.Extensions
         private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
         {
             var startIndex = sb.Length;
-            var whiteSpace = style?.WhiteSpace;
-            var textTransform = style?.TextTransform;
+            var whiteSpace = style?.GetWhiteSpace();
+            var textTransform = style?.GetTextTransform();
 
             var isWhiteSpace = startIndex > 0 ? Char.IsWhiteSpace(sb[startIndex - 1]) && sb[startIndex - 1] != Symbols.NoBreakSpace : true;
             for (var i = 0; i < text.Length; i++)
@@ -389,27 +397,23 @@ namespace AngleSharp.Css.Extensions
                         case "pre-line":
                             if (c == Symbols.Space || c == Symbols.Tab)
                             {
-                                if (!isWhiteSpace)
-                                {
-                                    c = Symbols.Space;
-                                }
-                                else
+                                if (isWhiteSpace)
                                 {
                                     continue;
                                 }
+
+                                c = Symbols.Space;
                             }
                             break;
                         case "nowrap":
                         case "normal":
                         default:
-                            if (!isWhiteSpace)
-                            {
-                                c = Symbols.Space;
-                            }
-                            else
+                            if (isWhiteSpace)
                             {
                                 continue;
                             }
+
+                            c = Symbols.Space;
                             break;
                     }
 
@@ -455,6 +459,6 @@ namespace AngleSharp.Css.Extensions
                     }
                 }
             }
-        }*/
+        }
     }
 }
