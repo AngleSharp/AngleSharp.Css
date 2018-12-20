@@ -124,7 +124,7 @@ namespace AngleSharp.Css.Dom
             }
         }
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public String ToCssBlock(IStyleFormatter formatter)
         {
             var list = new List<IStyleFormattable>();
             var serialized = new List<String>();
@@ -133,54 +133,60 @@ namespace AngleSharp.Css.Dom
             {
                 var property = declaration.Name;
 
-                if (serialized.Contains(property))
-                    continue;
+                if (!serialized.Contains(property))
+                {
+                    //var shorthands = declaration.GetShorthands();
 
-                //var shorthands = declaration.GetShorthands();
+                    //if (shorthands.Any())
+                    //{
+                    //    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                //if (shorthands.Any())
-                //{
-                //    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                    //    foreach (var shorthandName in shorthands.OrderByDescending(m => Map.GetLonghands(m).Count()))
+                    //    {
+                    //        var properties = Map.GetLonghands(shorthandName).ToArray();
+                    //        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
-                //    foreach (var shorthandName in shorthands.OrderByDescending(m => Map.GetLonghands(m).Count()))
-                //    {
-                //        var properties = Map.GetLonghands(shorthandName).ToArray();
-                //        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+                    //        if (currentLonghands.Length == 0)
+                    //            continue;
 
-                //        if (currentLonghands.Length == 0)
-                //            continue;
+                    //        var important = currentLonghands.Count(m => m.IsImportant);
+                    //        var shorthand = _context.CreateProperty(shorthandName);
 
-                //        var important = currentLonghands.Count(m => m.IsImportant);
-                //        var shorthand = _context.CreateProperty(shorthandName);
+                    //        if (important > 0 && important != currentLonghands.Length)
+                    //            continue;
 
-                //        if (important > 0 && important != currentLonghands.Length)
-                //            continue;
+                    //        if (properties.Length != currentLonghands.Length)
+                    //            continue;
 
-                //        if (properties.Length != currentLonghands.Length)
-                //            continue;
+                    //        if (shorthand.TryRecombine(currentLonghands))
+                    //        {
+                    //            shorthand.IsImportant = important != 0;
+                    //            list.Add(shorthand);
 
-                //        if (shorthand.TryRecombine(currentLonghands))
-                //        {
-                //            shorthand.IsImportant = important != 0;
-                //            list.Add(shorthand);
+                    //            foreach (var longhand in currentLonghands)
+                    //            {
+                    //                serialized.Add(longhand.Name);
+                    //                longhands.Remove(longhand);
+                    //            }
+                    //        }
+                    //    }
+                    //}
 
-                //            foreach (var longhand in currentLonghands)
-                //            {
-                //                serialized.Add(longhand.Name);
-                //                longhands.Remove(longhand);
-                //            }
-                //        }
-                //    }
-                //}
-
-                //if (serialized.Contains(property))
-                //    continue;
-
-                serialized.Add(property);
-                list.Add(declaration);
+                    if (!serialized.Contains(property))
+                    {
+                        serialized.Add(property);
+                        list.Add(declaration);
+                    }
+                }
             }
-            
-            writer.Write(formatter.BlockDeclarations(list));// .Trim(' ', '\t', '\r', '\n', '{', '}')
+
+            return formatter.BlockDeclarations(list);
+        }
+
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            var block = ToCssBlock(formatter);
+            writer.Write(block.Trim(' ', '\t', '\r', '\n', '{', '}'));
         }
 
         public String RemoveProperty(String propertyName)

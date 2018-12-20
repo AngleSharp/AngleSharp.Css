@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -8,7 +8,7 @@
     /// Inclusive maximum is 0x0FF.
     /// </summary>
     [Flags]
-    enum PropertyFlags : byte
+    public enum PropertyFlags : byte
     {
         /// <summary>
         /// No special properties.

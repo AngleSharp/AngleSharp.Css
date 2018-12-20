@@ -1,8 +1,7 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Common interface of all CSS properties.

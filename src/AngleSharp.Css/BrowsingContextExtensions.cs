@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -7,13 +7,31 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// CSS extensions for the browsing context.
+    /// </summary>
     public static class BrowsingContextExtensions
     {
+        /// <summary>
+        /// Loads a stylesheet resource via its URL.
+        /// </summary>
+        /// <param name="context">The context to use.</param>
+        /// <param name="address">The address of the resource.</param>
+        /// <param name="element">The hosting element.</param>
+        /// <returns>The async task.</returns>
         public static Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element)
         {
             return context.OpenStyleSheetAsync(address, element, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Loads a stylesheet resource via its URL.
+        /// </summary>
+        /// <param name="context">The context to use.</param>
+        /// <param name="address">The address of the resource.</param>
+        /// <param name="element">The hosting element.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The async task.</returns>
         public static async Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element, CancellationToken cancel)
         {
             var loader = context.GetService<IResourceLoader>();
@@ -36,11 +54,9 @@
 
         internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
         {
-            var factory = context.GetFactory<IConverterFactory>();
-            var converter = factory.Create(propertyName);
-            var flags = PropertyFlags.None;
-            Map.KnownPropertyFlags.TryGetValue(propertyName, out flags);
-            return new CssProperty(propertyName, converter, flags);
+            var factory = context.GetFactory<IDeclarationFactory>();
+            var info = factory.Create(propertyName);
+            return new CssProperty(propertyName, info.Converter, info.Flags);
         }
     }
 }

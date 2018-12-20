@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css.Dom;
@@ -15,7 +15,8 @@
         /// Creates a new MediaQueryList object representing the parsed results
         /// of the specified media query string.
         /// </summary>
-        /// <param name="media">The query string.</param>
+        /// <param name="window">The window to extend with the functionality.</param>
+        /// <param name="mediaText">The query string.</param>
         /// <returns>The MediaQueryList instance.</returns>
         [DomName("matchMedia")]
         public static IMediaQueryList MatchMedia(this IWindow window, String mediaText)
@@ -36,6 +37,7 @@
         /// applying the active stylesheets and resolving any basic computation
         /// those values may contain.
         /// </summary>
+        /// <param name="window">The window to extend with the functionality.</param>
         /// <param name="element">The element to compute the style for.</param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
@@ -46,6 +48,10 @@
             return styleCollection.ComputeDeclarations(element, pseudo);
         }
 
+        /// <summary>
+        /// Computes the element's default style. This ignores any transitions or animations.
+        /// Presentational hints such as bgColor are also ignored, as well as inline styles.
+        /// </summary>
         [DomName("computeDefaultStyle")]
         public static ICssStyleDeclaration ComputeDefaultStyle(this IWindow window, IElement element)
         {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Styling
+namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Tests.Mocks;
@@ -151,7 +151,7 @@
             var document = ParseDocument(String.Empty);
             var element = document.CreateElement<IHtmlSpanElement>();
             element.SetStyle("background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)");
-            Assert.AreEqual("background-color: rgba(255, 0, 0, 1); color: rgba(0, 0, 0, 1)", element.GetAttribute("style"));
+            Assert.AreEqual("background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)", element.GetAttribute("style"));
             Assert.AreEqual(2, element.GetStyle().Length);
         }
     }

@@ -8,7 +8,7 @@
 
         public static DefaultDocumentFunctionFactory DocumentFunction = new DefaultDocumentFunctionFactory();
 
-        public static DefaultConverterFactory Converter = new DefaultConverterFactory();
+        public static DefaultDeclarationFactory Converter = new DefaultDeclarationFactory();
 
         public static StyleAttributeObserver Observer = new StyleAttributeObserver();
     }

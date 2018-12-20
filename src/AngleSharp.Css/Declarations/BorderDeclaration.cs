@@ -1,0 +1,25 @@
+namespace AngleSharp.Css.Declarations
+{
+    using AngleSharp.Css.Aggregators;
+    using AngleSharp.Css.Converters;
+    using System;
+    using static ValueConverters;
+
+    static class BorderDeclaration
+    {
+        public static String Name = PropertyNames.Border;
+
+        public static IValueConverter Converter = Or(new BorderValueConverter(), AssignInitial());
+
+        public static IValueAggregator Aggregator = new BorderAggregator();
+
+        public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
+
+        public static String[] Children = new[]
+        {
+            PropertyNames.BorderWidth,
+            PropertyNames.BorderStyle,
+            PropertyNames.BorderColor,
+        };
+    }
+}

@@ -1032,7 +1032,7 @@
         [Test]
         public void CssPropertyFactoryCalls()
         {
-            var factory = new DefaultConverterFactory();
+            var factory = new DefaultDeclarationFactory();
             var invalid = factory.Create("invalid");
             var border = factory.Create("border");
             var color = factory.Create("color");

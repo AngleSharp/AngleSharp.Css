@@ -39,7 +39,7 @@
                 configuration = configuration.With(Factory.PseudoElement);
             }
 
-            if (!configuration.Has<IConverterFactory>())
+            if (!configuration.Has<IDeclarationFactory>())
             {
                 configuration = configuration.With(Factory.Converter);
             }

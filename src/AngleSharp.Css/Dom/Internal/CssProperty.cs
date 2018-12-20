@@ -1,12 +1,10 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
 
     /// <summary>
     /// Fore more information about CSS properties see:

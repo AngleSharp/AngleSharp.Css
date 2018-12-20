@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Dom.Events;
@@ -140,23 +140,35 @@
             return ParseStylesheet(source);
         }
 
+        /// <summary>
+        /// Takes a stylesheet and adds the style rule after parsing its raw text.
+        /// </summary>
         public ICssRule ParseRule(ICssStyleSheet owner, String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateRule(owner, t));
         }
 
+        /// <summary>
+        /// Takes a stylesheet and adds the keyframe rule after parsing its raw text.
+        /// </summary>
         public ICssKeyframeRule ParseKeyframeRule(ICssStyleSheet owner, String ruleText)
         {
             var rule = new CssKeyframeRule(owner);
             return Parse(ruleText, (b, t) => b.CreateKeyframeRule(rule, t));
         }
 
+        /// <summary>
+        /// Parses the declaration text.
+        /// </summary>
         public ICssStyleDeclaration ParseDeclaration(String declarationText)
         {
             var style = new CssStyleDeclaration(_context);
             return Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
         }
 
+        /// <summary>
+        /// Takes a blank sheet and transforms the raw content to rules.
+        /// </summary>
         public Task<ICssStyleSheet> ParseStyleSheetAsync(ICssStyleSheet sheet, CancellationToken cancelToken)
         {
             return ParseStylesheetAsync((CssStyleSheet)sheet, CancellationToken.None);
