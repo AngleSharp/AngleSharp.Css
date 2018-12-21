@@ -8,7 +8,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderBottomColor;
 
-        public static String Parent = PropertyNames.BorderColor;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.BorderColor,
+            PropertyNames.BorderBottom,
+        };
 
         public static IValueConverter Converter = Or(CurrentColorConverter, AssignInitial(Color.Transparent));
 

@@ -266,7 +266,7 @@ namespace AngleSharp.Css
                 LineHeightDeclaration.Name, new DeclarationInfo(
                     converter: LineHeightDeclaration.Converter,
                     flags: LineHeightDeclaration.Flags,
-                    parent: LineHeightDeclaration.Parent)
+                    shorthands: LineHeightDeclaration.Shorthands)
             },
             {
                 LetterSpacingDeclaration.Name, new DeclarationInfo(
@@ -342,13 +342,13 @@ namespace AngleSharp.Css
                 ColumnSpanDeclaration.Name, new DeclarationInfo(
                     converter: ColumnSpanDeclaration.Converter,
                     flags: ColumnSpanDeclaration.Flags,
-                    parent: ColumnSpanDeclaration.Parent)
+                    shorthands: ColumnSpanDeclaration.Shorthands)
             },
             {
                 ColumnWidthDeclaration.Name, new DeclarationInfo(
                     converter: ColumnWidthDeclaration.Converter,
                     flags: ColumnWidthDeclaration.Flags,
-                    parent: ColumnWidthDeclaration.Parent)
+                    shorthands: ColumnWidthDeclaration.Shorthands)
             },
             {
                 BorderCollapseDeclaration.Name, new DeclarationInfo(
@@ -414,37 +414,37 @@ namespace AngleSharp.Css
                 ListStyleImageDeclaration.Name, new DeclarationInfo(
                     converter: ListStyleImageDeclaration.Converter,
                     flags: ListStyleImageDeclaration.Flags,
-                    parent: ListStyleImageDeclaration.Parent)
+                    shorthands: ListStyleImageDeclaration.Shorthands)
             },
             {
                 ListStylePositionDeclaration.Name, new DeclarationInfo(
                     converter: ListStylePositionDeclaration.Converter,
                     flags: ListStylePositionDeclaration.Flags,
-                    parent: ListStylePositionDeclaration.Parent)
+                    shorthands: ListStylePositionDeclaration.Shorthands)
             },
             {
                 ListStyleTypeDeclaration.Name, new DeclarationInfo(
                     converter: ListStyleTypeDeclaration.Converter,
                     flags: ListStyleTypeDeclaration.Flags,
-                    parent: ListStyleTypeDeclaration.Parent)
+                    shorthands: ListStyleTypeDeclaration.Shorthands)
             },
             {
                 FontFamilyDeclaration.Name, new DeclarationInfo(
                     converter: FontFamilyDeclaration.Converter,
                     flags: FontFamilyDeclaration.Flags,
-                    parent: FontFamilyDeclaration.Parent)
+                    shorthands: FontFamilyDeclaration.Shorthands)
             },
             {
                 FontSizeDeclaration.Name, new DeclarationInfo(
                     converter: FontSizeDeclaration.Converter,
                     flags: FontSizeDeclaration.Flags,
-                    parent: FontSizeDeclaration.Parent)
+                    shorthands: FontSizeDeclaration.Shorthands)
             },
             {
                 FontStyleDeclaration.Name, new DeclarationInfo(
                     converter: FontStyleDeclaration.Converter,
                     flags: FontStyleDeclaration.Flags,
-                    parent: FontStyleDeclaration.Parent)
+                    shorthands: FontStyleDeclaration.Shorthands)
             },
             {
                 FontStretchDeclaration.Name, new DeclarationInfo(
@@ -455,515 +455,515 @@ namespace AngleSharp.Css
                 FontVariantDeclaration.Name, new DeclarationInfo(
                     converter: FontVariantDeclaration.Converter,
                     flags: FontVariantDeclaration.Flags,
-                    parent: FontVariantDeclaration.Parent)
+                    shorthands: FontVariantDeclaration.Shorthands)
             },
             {
                 FontWeightDeclaration.Name, new DeclarationInfo(
                     converter: FontWeightDeclaration.Converter,
                     flags: FontWeightDeclaration.Flags,
-                    parent: FontWeightDeclaration.Parent)
+                    shorthands: FontWeightDeclaration.Shorthands)
             },
             {
                 ColumnRuleWidthDeclaration.Name, new DeclarationInfo(
                     converter: ColumnRuleWidthDeclaration.Converter,
                     flags: ColumnRuleWidthDeclaration.Flags,
-                    parent: ColumnRuleWidthDeclaration.Parent)
+                    shorthands: ColumnRuleWidthDeclaration.Shorthands)
             },
             {
                 ColumnRuleStyleDeclaration.Name, new DeclarationInfo(
                     converter: ColumnRuleStyleDeclaration.Converter,
                     flags: ColumnRuleStyleDeclaration.Flags,
-                    parent: ColumnRuleStyleDeclaration.Parent)
+                    shorthands: ColumnRuleStyleDeclaration.Shorthands)
             },
             {
                 ColumnRuleColorDeclaration.Name, new DeclarationInfo(
                     converter: ColumnRuleColorDeclaration.Converter,
                     flags: ColumnRuleColorDeclaration.Flags,
-                    parent: ColumnRuleColorDeclaration.Parent)
+                    shorthands: ColumnRuleColorDeclaration.Shorthands)
             },
             {
                 PaddingTopDeclaration.Name, new DeclarationInfo(
                     converter: PaddingTopDeclaration.Converter,
                     flags: PaddingTopDeclaration.Flags,
-                    parent: PaddingTopDeclaration.Parent)
+                    shorthands: PaddingTopDeclaration.Shorthands)
             },
             {
                 PaddingRightDeclaration.Name, new DeclarationInfo(
                     converter: PaddingRightDeclaration.Converter,
                     flags: PaddingRightDeclaration.Flags,
-                    parent: PaddingRightDeclaration.Parent)
+                    shorthands: PaddingRightDeclaration.Shorthands)
             },
             {
                 PaddingLeftDeclaration.Name, new DeclarationInfo(
                     converter: PaddingLeftDeclaration.Converter,
                     flags: PaddingLeftDeclaration.Flags,
-                    parent: PaddingLeftDeclaration.Parent)
+                    shorthands: PaddingLeftDeclaration.Shorthands)
             },
             {
                 PaddingBottomDeclaration.Name, new DeclarationInfo(
                     converter: PaddingBottomDeclaration.Converter,
                     flags: PaddingBottomDeclaration.Flags,
-                    parent: PaddingBottomDeclaration.Parent)
+                    shorthands: PaddingBottomDeclaration.Shorthands)
             },
             {
                 MarginTopDeclaration.Name, new DeclarationInfo(
                     converter: MarginTopDeclaration.Converter,
                     flags: MarginTopDeclaration.Flags,
-                    parent: MarginTopDeclaration.Parent)
+                    shorthands: MarginTopDeclaration.Shorthands)
             },
             {
                 MarginRightDeclaration.Name, new DeclarationInfo(
                     converter: MarginRightDeclaration.Converter,
                     flags: MarginRightDeclaration.Flags,
-                    parent: MarginRightDeclaration.Parent)
+                    shorthands: MarginRightDeclaration.Shorthands)
             },
             {
                 MarginLeftDeclaration.Name, new DeclarationInfo(
                     converter: MarginLeftDeclaration.Converter,
                     flags: MarginLeftDeclaration.Flags,
-                    parent: MarginLeftDeclaration.Parent)
+                    shorthands: MarginLeftDeclaration.Shorthands)
             },
             {
                 MarginBottomDeclaration.Name, new DeclarationInfo(
                     converter: MarginBottomDeclaration.Converter,
                     flags: MarginBottomDeclaration.Flags,
-                    parent: MarginBottomDeclaration.Parent)
+                    shorthands: MarginBottomDeclaration.Shorthands)
             },
             {
                 BorderTopRightRadiusDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopRightRadiusDeclaration.Converter,
                     flags: BorderTopRightRadiusDeclaration.Flags,
-                    parent: BorderTopRightRadiusDeclaration.Parent)
+                    shorthands: BorderTopRightRadiusDeclaration.Shorthands)
             },
             {
                 BorderTopLeftRadiusDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopLeftRadiusDeclaration.Converter,
                     flags: BorderTopLeftRadiusDeclaration.Flags,
-                    parent: BorderTopLeftRadiusDeclaration.Parent)
+                    shorthands: BorderTopLeftRadiusDeclaration.Shorthands)
             },
             {
                 BorderBottomRightRadiusDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomRightRadiusDeclaration.Converter,
                     flags: BorderBottomRightRadiusDeclaration.Flags,
-                    parent: BorderBottomRightRadiusDeclaration.Parent)
+                    shorthands: BorderBottomRightRadiusDeclaration.Shorthands)
             },
             {
                 BorderBottomLeftRadiusDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomLeftRadiusDeclaration.Converter,
                     flags: BorderBottomLeftRadiusDeclaration.Flags,
-                    parent: BorderBottomLeftRadiusDeclaration.Parent)
+                    shorthands: BorderBottomLeftRadiusDeclaration.Shorthands)
             },
             {
                 OutlineWidthDeclaration.Name, new DeclarationInfo(
                     converter: OutlineWidthDeclaration.Converter,
                     flags: OutlineWidthDeclaration.Flags,
-                    parent: OutlineWidthDeclaration.Parent)
+                    shorthands: OutlineWidthDeclaration.Shorthands)
             },
             {
                 OutlineStyleDeclaration.Name, new DeclarationInfo(
                     converter: OutlineStyleDeclaration.Converter,
                     flags: OutlineStyleDeclaration.Flags,
-                    parent: OutlineStyleDeclaration.Parent)
+                    shorthands: OutlineStyleDeclaration.Shorthands)
             },
             {
                 OutlineColorDeclaration.Name, new DeclarationInfo(
                     converter: OutlineColorDeclaration.Converter,
                     flags: OutlineColorDeclaration.Flags,
-                    parent: OutlineColorDeclaration.Parent)
+                    shorthands: OutlineColorDeclaration.Shorthands)
             },
             {
                 TextDecorationStyleDeclaration.Name, new DeclarationInfo(
                     converter: TextDecorationStyleDeclaration.Converter,
                     flags: TextDecorationStyleDeclaration.Flags,
-                    parent: TextDecorationStyleDeclaration.Parent)
+                    shorthands: TextDecorationStyleDeclaration.Shorthands)
             },
             {
                 TextDecorationLineDeclaration.Name, new DeclarationInfo(
                     converter: TextDecorationLineDeclaration.Converter,
                     flags: TextDecorationLineDeclaration.Flags,
-                    parent: TextDecorationLineDeclaration.Parent)
+                    shorthands: TextDecorationLineDeclaration.Shorthands)
             },
             {
                 TextDecorationColorDeclaration.Name, new DeclarationInfo(
                     converter: TextDecorationColorDeclaration.Converter,
                     flags: TextDecorationColorDeclaration.Flags,
-                    parent: TextDecorationColorDeclaration.Parent)
+                    shorthands: TextDecorationColorDeclaration.Shorthands)
             },
             {
                 TransitionTimingFunctionDeclaration.Name, new DeclarationInfo(
                     converter: TransitionTimingFunctionDeclaration.Converter,
                     flags: TransitionTimingFunctionDeclaration.Flags,
-                    parent: TransitionTimingFunctionDeclaration.Parent)
+                    shorthands: TransitionTimingFunctionDeclaration.Shorthands)
             },
             {
                 TransitionPropertyDeclaration.Name, new DeclarationInfo(
                     converter: TransitionPropertyDeclaration.Converter,
                     flags: TransitionPropertyDeclaration.Flags,
-                    parent: TransitionPropertyDeclaration.Parent)
+                    shorthands: TransitionPropertyDeclaration.Shorthands)
             },
             {
                 TransitionDurationDeclaration.Name, new DeclarationInfo(
                     converter: TransitionDurationDeclaration.Converter,
                     flags: TransitionDurationDeclaration.Flags,
-                    parent: TransitionDurationDeclaration.Parent)
+                    shorthands: TransitionDurationDeclaration.Shorthands)
             },
             {
                 TransitionDelayDeclaration.Name, new DeclarationInfo(
                     converter: TransitionDelayDeclaration.Converter,
                     flags: TransitionDelayDeclaration.Flags,
-                    parent: TransitionDelayDeclaration.Parent)
+                    shorthands: TransitionDelayDeclaration.Shorthands)
             },
             {
                 BorderImageWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageWidthDeclaration.Converter,
                     flags: BorderImageWidthDeclaration.Flags,
-                    parent: BorderImageWidthDeclaration.Parent)
+                    shorthands: BorderImageWidthDeclaration.Shorthands)
             },
             {
                 BorderImageSourceDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageSourceDeclaration.Converter,
                     flags: BorderImageSourceDeclaration.Flags,
-                    parent: BorderImageSourceDeclaration.Parent)
+                    shorthands: BorderImageSourceDeclaration.Shorthands)
             },
             {
                 BorderImageSliceDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageSliceDeclaration.Converter,
                     flags: BorderImageSliceDeclaration.Flags,
-                    parent: BorderImageSliceDeclaration.Parent)
+                    shorthands: BorderImageSliceDeclaration.Shorthands)
             },
             {
                 BorderImageRepeatDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageRepeatDeclaration.Converter,
                     flags: BorderImageRepeatDeclaration.Flags,
-                    parent: BorderImageRepeatDeclaration.Parent)
+                    shorthands: BorderImageRepeatDeclaration.Shorthands)
             },
             {
                 BorderImageOutsetDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageOutsetDeclaration.Converter,
                     flags: BorderImageOutsetDeclaration.Flags,
-                    parent: BorderImageOutsetDeclaration.Parent)
+                    shorthands: BorderImageOutsetDeclaration.Shorthands)
             },
             {
                 AnimationTimingFunctionDeclaration.Name, new DeclarationInfo(
                     converter: AnimationTimingFunctionDeclaration.Converter,
                     flags: AnimationTimingFunctionDeclaration.Flags,
-                    parent: AnimationTimingFunctionDeclaration.Parent)
+                    shorthands: AnimationTimingFunctionDeclaration.Shorthands)
             },
             {
                 AnimationPlayStateDeclaration.Name, new DeclarationInfo(
                     converter: AnimationPlayStateDeclaration.Converter,
                     flags: AnimationPlayStateDeclaration.Flags,
-                    parent: AnimationPlayStateDeclaration.Parent)
+                    shorthands: AnimationPlayStateDeclaration.Shorthands)
             },
             {
                 AnimationNameDeclaration.Name, new DeclarationInfo(
                     converter: AnimationNameDeclaration.Converter,
                     flags: AnimationNameDeclaration.Flags,
-                    parent: AnimationNameDeclaration.Parent)
+                    shorthands: AnimationNameDeclaration.Shorthands)
             },
             {
                 AnimationIterationCountDeclaration.Name, new DeclarationInfo(
                     converter: AnimationIterationCountDeclaration.Converter,
                     flags: AnimationIterationCountDeclaration.Flags,
-                    parent: AnimationIterationCountDeclaration.Parent)
+                    shorthands: AnimationIterationCountDeclaration.Shorthands)
             },
             {
                 AnimationFillModeDeclaration.Name, new DeclarationInfo(
                     converter: AnimationFillModeDeclaration.Converter,
                     flags: AnimationFillModeDeclaration.Flags,
-                    parent: AnimationFillModeDeclaration.Parent)
+                    shorthands: AnimationFillModeDeclaration.Shorthands)
             },
             {
                 AnimationDurationDeclaration.Name, new DeclarationInfo(
                     converter: AnimationDurationDeclaration.Converter,
                     flags: AnimationDurationDeclaration.Flags,
-                    parent: AnimationDurationDeclaration.Parent)
+                    shorthands: AnimationDurationDeclaration.Shorthands)
             },
             {
                 AnimationDirectionDeclaration.Name, new DeclarationInfo(
                     converter: AnimationDirectionDeclaration.Converter,
                     flags: AnimationDirectionDeclaration.Flags,
-                    parent: AnimationDirectionDeclaration.Parent)
+                    shorthands: AnimationDirectionDeclaration.Shorthands)
             },
             {
                 AnimationDelayDeclaration.Name, new DeclarationInfo(
                     converter: AnimationDelayDeclaration.Converter,
                     flags: AnimationDelayDeclaration.Flags,
-                    parent: AnimationDelayDeclaration.Parent)
+                    shorthands: AnimationDelayDeclaration.Shorthands)
             },
             {
                 BackgroundSizeDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundSizeDeclaration.Converter,
                     flags: BackgroundSizeDeclaration.Flags,
-                    parent: BackgroundSizeDeclaration.Parent)
+                    shorthands: BackgroundSizeDeclaration.Shorthands)
             },
             {
                 BackgroundRepeatDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundRepeatDeclaration.Converter,
                     flags: BackgroundRepeatDeclaration.Flags,
-                    parent: BackgroundRepeatDeclaration.Parent)
+                    shorthands: BackgroundRepeatDeclaration.Shorthands)
             },
             {
                 BackgroundPositionDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundPositionDeclaration.Converter,
                     flags: BackgroundPositionDeclaration.Flags,
-                    parent: BackgroundPositionDeclaration.Parent)
+                    shorthands: BackgroundPositionDeclaration.Shorthands)
             },
             {
                 BackgroundOriginDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundOriginDeclaration.Converter,
                     flags: BackgroundOriginDeclaration.Flags,
-                    parent: BackgroundOriginDeclaration.Parent)
+                    shorthands: BackgroundOriginDeclaration.Shorthands)
             },
             {
                 BackgroundImageDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundImageDeclaration.Converter,
                     flags: BackgroundImageDeclaration.Flags,
-                    parent: BackgroundImageDeclaration.Parent)
+                    shorthands: BackgroundImageDeclaration.Shorthands)
             },
             {
                 BackgroundColorDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundColorDeclaration.Converter,
                     flags: BackgroundColorDeclaration.Flags,
-                    parent: BackgroundColorDeclaration.Parent)
+                    shorthands: BackgroundColorDeclaration.Shorthands)
             },
             {
                 BackgroundClipDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundClipDeclaration.Converter,
                     flags: BackgroundClipDeclaration.Flags,
-                    parent: BackgroundClipDeclaration.Parent)
+                    shorthands: BackgroundClipDeclaration.Shorthands)
             },
             {
                 BackgroundAttachmentDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundAttachmentDeclaration.Converter,
                     flags: BackgroundAttachmentDeclaration.Flags,
-                    parent: BackgroundAttachmentDeclaration.Parent)
+                    shorthands: BackgroundAttachmentDeclaration.Shorthands)
             },
             {
                 BorderTopWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopWidthDeclaration.Converter,
                     flags: BorderTopWidthDeclaration.Flags,
-                    parent: BorderTopWidthDeclaration.Parent)
+                    shorthands: BorderTopWidthDeclaration.Shorthands)
             },
             {
                 BorderTopStyleDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopStyleDeclaration.Converter,
                     flags: BorderTopStyleDeclaration.Flags,
-                    parent: BorderTopStyleDeclaration.Parent)
+                    shorthands: BorderTopStyleDeclaration.Shorthands)
             },
             {
                 BorderTopColorDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopColorDeclaration.Converter,
                     flags: BorderTopColorDeclaration.Flags,
-                    parent: BorderTopColorDeclaration.Parent)
+                    shorthands: BorderTopColorDeclaration.Shorthands)
             },
             {
                 BorderRightWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderRightWidthDeclaration.Converter,
                     flags: BorderRightWidthDeclaration.Flags,
-                    parent: BorderRightWidthDeclaration.Parent)
+                    shorthands: BorderRightWidthDeclaration.Shorthands)
             },
             {
                 BorderRightStyleDeclaration.Name, new DeclarationInfo(
                     converter: BorderRightStyleDeclaration.Converter,
                     flags: BorderRightStyleDeclaration.Flags,
-                    parent: BorderRightStyleDeclaration.Parent)
+                    shorthands: BorderRightStyleDeclaration.Shorthands)
             },
             {
                 BorderRightColorDeclaration.Name, new DeclarationInfo(
                     converter: BorderRightColorDeclaration.Converter,
                     flags: BorderRightColorDeclaration.Flags,
-                    parent: BorderRightColorDeclaration.Parent)
+                    shorthands: BorderRightColorDeclaration.Shorthands)
             },
             {
                 BorderLeftWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderLeftWidthDeclaration.Converter,
                     flags: BorderLeftWidthDeclaration.Flags,
-                    parent: BorderLeftWidthDeclaration.Parent)
+                    shorthands: BorderLeftWidthDeclaration.Shorthands)
             },
             {
                 BorderLeftStyleDeclaration.Name, new DeclarationInfo(
                     converter: BorderLeftStyleDeclaration.Converter,
                     flags: BorderLeftStyleDeclaration.Flags,
-                    parent: BorderLeftStyleDeclaration.Parent)
+                    shorthands: BorderLeftStyleDeclaration.Shorthands)
             },
             {
                 BorderLeftColorDeclaration.Name, new DeclarationInfo(
                     converter: BorderLeftColorDeclaration.Converter,
                     flags: BorderLeftColorDeclaration.Flags,
-                    parent: BorderLeftColorDeclaration.Parent)
+                    shorthands: BorderLeftColorDeclaration.Shorthands)
             },
             {
                 BorderBottomWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomWidthDeclaration.Converter,
                     flags: BorderBottomWidthDeclaration.Flags,
-                    parent: BorderBottomWidthDeclaration.Parent)
+                    shorthands: BorderBottomWidthDeclaration.Shorthands)
             },
             {
                 BorderBottomStyleDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomStyleDeclaration.Converter,
                     flags: BorderBottomStyleDeclaration.Flags,
-                    parent: BorderBottomStyleDeclaration.Parent)
+                    shorthands: BorderBottomStyleDeclaration.Shorthands)
             },
             {
                 BorderBottomColorDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomColorDeclaration.Converter,
                     flags: BorderBottomColorDeclaration.Flags,
-                    parent: BorderBottomColorDeclaration.Parent)
+                    shorthands: BorderBottomColorDeclaration.Shorthands)
             },
             {
                 AnimationDeclaration.Name, new DeclarationInfo(
                     converter: AnimationDeclaration.Converter,
                     aggregator: AnimationDeclaration.Aggregator,
                     flags: AnimationDeclaration.Flags,
-                    children: AnimationDeclaration.Children)
+                    longhands: AnimationDeclaration.Longhands)
             },
             {
                 BackgroundDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundDeclaration.Converter,
                     aggregator: BackgroundDeclaration.Aggregator,
                     flags: BackgroundDeclaration.Flags,
-                    children: BackgroundDeclaration.Children)
+                    longhands: BackgroundDeclaration.Longhands)
             },
             {
                 TransitionDeclaration.Name, new DeclarationInfo(
                     converter: TransitionDeclaration.Converter,
                     aggregator: TransitionDeclaration.Aggregator,
                     flags: TransitionDeclaration.Flags,
-                    children: TransitionDeclaration.Children)
+                    longhands: TransitionDeclaration.Longhands)
             },
             {
                 TextDecorationDeclaration.Name, new DeclarationInfo(
                     converter: TextDecorationDeclaration.Converter,
                     aggregator: TextDecorationDeclaration.Aggregator,
                     flags: TextDecorationDeclaration.Flags,
-                    children: TextDecorationDeclaration.Children)
+                    longhands: TextDecorationDeclaration.Longhands)
             },
             {
                 OutlineDeclaration.Name, new DeclarationInfo(
                     converter: OutlineDeclaration.Converter,
                     aggregator: OutlineDeclaration.Aggregator,
                     flags: OutlineDeclaration.Flags,
-                    children: OutlineDeclaration.Children)
+                    longhands: OutlineDeclaration.Longhands)
             },
             {
                 ListStyleDeclaration.Name, new DeclarationInfo(
                     converter: ListStyleDeclaration.Converter,
                     aggregator: ListStyleDeclaration.Aggregator,
                     flags: ListStyleDeclaration.Flags,
-                    children: ListStyleDeclaration.Children)
+                    longhands: ListStyleDeclaration.Longhands)
             },
             {
                 FontDeclaration.Name, new DeclarationInfo(
                     converter: FontDeclaration.Converter,
                     aggregator: FontDeclaration.Aggregator,
                     flags: FontDeclaration.Flags,
-                    children: FontDeclaration.Children)
+                    longhands: FontDeclaration.Longhands)
             },
             {
                 ColumnsDeclaration.Name, new DeclarationInfo(
                     converter: ColumnsDeclaration.Converter,
                     aggregator: ColumnsDeclaration.Aggregator,
                     flags: ColumnsDeclaration.Flags,
-                    children: ColumnsDeclaration.Children)
+                    longhands: ColumnsDeclaration.Longhands)
             },
             {
                 ColumnRuleDeclaration.Name, new DeclarationInfo(
                     converter: ColumnRuleDeclaration.Converter,
                     aggregator: ColumnRuleDeclaration.Aggregator,
                     flags: ColumnRuleDeclaration.Flags,
-                    children: ColumnRuleDeclaration.Children)
+                    longhands: ColumnRuleDeclaration.Longhands)
             },
             {
                 PaddingDeclaration.Name, new DeclarationInfo(
                     converter: PaddingDeclaration.Converter,
                     aggregator: PaddingDeclaration.Aggregator,
                     flags: PaddingDeclaration.Flags,
-                    children: PaddingDeclaration.Children)
+                    longhands: PaddingDeclaration.Longhands)
             },
             {
                 MarginDeclaration.Name, new DeclarationInfo(
                     converter: MarginDeclaration.Converter,
                     aggregator: MarginDeclaration.Aggregator,
                     flags: MarginDeclaration.Flags,
-                    children: MarginDeclaration.Children)
+                    longhands: MarginDeclaration.Longhands)
             },
             {
                 BorderRadiusDeclaration.Name, new DeclarationInfo(
                     converter: BorderRadiusDeclaration.Converter,
                     aggregator: BorderRadiusDeclaration.Aggregator,
                     flags: BorderRadiusDeclaration.Flags,
-                    children: BorderRadiusDeclaration.Children)
+                    longhands: BorderRadiusDeclaration.Longhands)
             },
             {
                 BorderImageDeclaration.Name, new DeclarationInfo(
                     converter: BorderImageDeclaration.Converter,
                     aggregator: BorderImageDeclaration.Aggregator,
                     flags: BorderImageDeclaration.Flags,
-                    children: BorderImageDeclaration.Children)
+                    longhands: BorderImageDeclaration.Longhands)
             },
             {
                 BorderWidthDeclaration.Name, new DeclarationInfo(
                     converter: BorderWidthDeclaration.Converter,
                     aggregator: BorderWidthDeclaration.Aggregator,
                     flags: BorderWidthDeclaration.Flags,
-                    parent: BorderWidthDeclaration.Parent,
-                    children: BorderWidthDeclaration.Children)
+                    shorthands: BorderWidthDeclaration.Shorthands,
+                    longhands: BorderWidthDeclaration.Longhands)
             },
             {
                 BorderTopDeclaration.Name, new DeclarationInfo(
                     converter: BorderTopDeclaration.Converter,
                     aggregator: BorderTopDeclaration.Aggregator,
                     flags: BorderTopDeclaration.Flags,
-                    parent: BorderTopDeclaration.Parent,
-                    children: BorderTopDeclaration.Children)
+                    shorthands: BorderTopDeclaration.Shorthands,
+                    longhands: BorderTopDeclaration.Longhands)
             },
             {
                 BorderStyleDeclaration.Name, new DeclarationInfo(
                     converter: BorderStyleDeclaration.Converter,
                     aggregator: BorderStyleDeclaration.Aggregator,
                     flags: BorderStyleDeclaration.Flags,
-                    parent: BorderStyleDeclaration.Parent,
-                    children: BorderStyleDeclaration.Children)
+                    shorthands: BorderStyleDeclaration.Shorthands,
+                    longhands: BorderStyleDeclaration.Longhands)
             },
             {
                 BorderRightDeclaration.Name, new DeclarationInfo(
                     converter: BorderRightDeclaration.Converter,
                     aggregator: BorderRightDeclaration.Aggregator,
                     flags: BorderRightDeclaration.Flags,
-                    parent: BorderRightDeclaration.Parent,
-                    children: BorderRightDeclaration.Children)
+                    shorthands: BorderRightDeclaration.Shorthands,
+                    longhands: BorderRightDeclaration.Longhands)
             },
             {
                 BorderLeftDeclaration.Name, new DeclarationInfo(
                     converter: BorderLeftDeclaration.Converter,
                     aggregator: BorderLeftDeclaration.Aggregator,
                     flags: BorderLeftDeclaration.Flags,
-                    parent: BorderLeftDeclaration.Parent,
-                    children: BorderLeftDeclaration.Children)
+                    shorthands: BorderLeftDeclaration.Shorthands,
+                    longhands: BorderLeftDeclaration.Longhands)
             },
             {
                 BorderColorDeclaration.Name, new DeclarationInfo(
                     converter: BorderColorDeclaration.Converter,
                     aggregator: BorderColorDeclaration.Aggregator,
                     flags: BorderColorDeclaration.Flags,
-                    parent: BorderColorDeclaration.Parent,
-                    children: BorderColorDeclaration.Children)
+                    shorthands: BorderColorDeclaration.Shorthands,
+                    longhands: BorderColorDeclaration.Longhands)
             },
             {
                 BorderBottomDeclaration.Name, new DeclarationInfo(
                     converter: BorderBottomDeclaration.Converter,
                     aggregator: BorderBottomDeclaration.Aggregator,
                     flags: BorderBottomDeclaration.Flags,
-                    parent: BorderBottomDeclaration.Parent,
-                    children: BorderBottomDeclaration.Children)
+                    shorthands: BorderBottomDeclaration.Shorthands,
+                    longhands: BorderBottomDeclaration.Longhands)
             },
             {
                 BorderDeclaration.Name, new DeclarationInfo(
                     converter: BorderDeclaration.Converter,
                     aggregator: BorderDeclaration.Aggregator,
                     flags: BorderDeclaration.Flags,
-                    children: BorderDeclaration.Children)
+                    longhands: BorderDeclaration.Longhands)
             },
         };
 

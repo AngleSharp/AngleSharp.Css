@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FontSize;
 
-        public static String Parent = PropertyNames.Font;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Font,
+        };
 
         public static IValueConverter Converter = Or(FontSizeConverter, AssignInitial(new Length(1f, Length.Unit.Em)));
 

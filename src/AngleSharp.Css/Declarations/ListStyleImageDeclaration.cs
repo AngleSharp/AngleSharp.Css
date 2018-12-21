@@ -7,7 +7,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ListStyleImage;
 
-        public static String Parent = PropertyNames.ListStyle;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.ListStyle,
+        };
 
         public static IValueConverter Converter = Or(OptionalImageSourceConverter, AssignInitial());
 

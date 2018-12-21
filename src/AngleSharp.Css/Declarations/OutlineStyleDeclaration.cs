@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.OutlineStyle;
 
-        public static String Parent = PropertyNames.Outline;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Outline,
+        };
 
         public static IValueConverter Converter = Or(LineStyleConverter, AssignInitial(LineStyle.None));
 

@@ -9,7 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderLeft;
 
-        public static String Parent = PropertyNames.Border;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Border,
+        };
 
         public static IValueConverter Converter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
 
@@ -17,7 +20,7 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Children = new[]
+        public static String[] Longhands = new[]
         {
             PropertyNames.BorderLeftWidth,
             PropertyNames.BorderLeftStyle,

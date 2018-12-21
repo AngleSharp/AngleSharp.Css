@@ -8,7 +8,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderLeftWidth;
 
-        public static String Parent = PropertyNames.BorderWidth;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.BorderWidth,
+            PropertyNames.BorderLeft,
+        };
 
         public static IValueConverter Converter = Or(LineWidthConverter, AssignInitial(Length.Medium));
 

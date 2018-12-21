@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.AnimationName;
 
-        public static String Parent = PropertyNames.Animation;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Animation,
+        };
 
         public static IValueConverter Converter = Or(IdentifierConverter.FromList(), None, AssignInitial());
 

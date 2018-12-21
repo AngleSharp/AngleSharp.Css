@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderBottomRightRadius;
 
-        public static String Parent = PropertyNames.BorderRadius;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.BorderRadius,
+        };
 
         public static IValueConverter Converter = Or(BorderRadiusLonghandConverter, AssignInitial(Length.Zero));
 

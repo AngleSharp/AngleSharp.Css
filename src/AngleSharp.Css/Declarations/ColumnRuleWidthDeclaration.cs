@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ColumnRuleWidth;
 
-        public static String Parent = PropertyNames.ColumnRule;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.ColumnRule,
+        };
 
         public static IValueConverter Converter = Or(LineWidthConverter, AssignInitial(Length.Medium));
 

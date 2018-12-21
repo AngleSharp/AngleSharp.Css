@@ -9,7 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderImageOutset;
 
-        public static String Parent = PropertyNames.BorderImage;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.BorderImage,
+        };
 
         public static IValueConverter Converter = Or(LengthOrPercentConverter.Periodic(), AssignInitial(Length.Zero));
 

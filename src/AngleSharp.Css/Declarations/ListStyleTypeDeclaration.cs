@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ListStyleType;
 
-        public static String Parent = PropertyNames.ListStyle;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.ListStyle,
+        };
 
         public static IValueConverter Converter = Or(ListStyleConverter, AssignInitial(ListStyle.Disc));
 

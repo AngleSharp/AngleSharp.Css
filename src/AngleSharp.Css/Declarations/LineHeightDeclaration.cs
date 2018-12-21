@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.LineHeight;
 
-        public static String Parent = PropertyNames.Font;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Font,
+        };
 
         public static IValueConverter Converter = Or(LineHeightConverter, AssignInitial(new Length(120f, Length.Unit.Percent)));
 

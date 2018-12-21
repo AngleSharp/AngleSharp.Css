@@ -9,7 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.AnimationFillMode;
 
-        public static String Parent = PropertyNames.Animation;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Animation,
+        };
 
         public static IValueConverter Converter = Or(AnimationFillStyleConverter.FromList(), AssignInitial(AnimationFillStyle.None));
 

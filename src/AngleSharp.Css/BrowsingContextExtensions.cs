@@ -52,10 +52,15 @@ namespace AngleSharp.Css
             return null;
         }
 
-        internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
+        internal static DeclarationInfo GetDeclarationInfo(this IBrowsingContext context, String propertyName)
         {
             var factory = context.GetFactory<IDeclarationFactory>();
-            var info = factory.Create(propertyName);
+            return factory.Create(propertyName);
+        }
+
+        internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
+        {
+            var info = context.GetDeclarationInfo(propertyName);
             return new CssProperty(propertyName, info.Converter, info.Flags);
         }
     }

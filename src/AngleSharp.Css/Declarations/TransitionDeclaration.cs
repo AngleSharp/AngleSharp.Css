@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Children = new[]
+        public static String[] Longhands = new[]
         {
             PropertyNames.TransitionDelay,
             PropertyNames.TransitionDuration,

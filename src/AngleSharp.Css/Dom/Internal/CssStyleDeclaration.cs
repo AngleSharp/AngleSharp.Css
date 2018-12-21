@@ -135,42 +135,44 @@ namespace AngleSharp.Css.Dom
 
                 if (!serialized.Contains(property))
                 {
-                    //var shorthands = declaration.GetShorthands();
+                    var info = _context.GetDeclarationInfo(property);
+                    var shorthands = info.Shorthands;
 
-                    //if (shorthands.Any())
-                    //{
-                    //    var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                    if (shorthands.Any())
+                    {
+                        var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                    //    foreach (var shorthandName in shorthands.OrderByDescending(m => Map.GetLonghands(m).Count()))
-                    //    {
-                    //        var properties = Map.GetLonghands(shorthandName).ToArray();
-                    //        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+                        foreach (var shorthandName in shorthands.OrderByDescending(shorthand => _context.GetDeclarationInfo(property).Longhands.Length))
+                        {
+                            var shorthand = _context.GetDeclarationInfo(shorthandName);
+                            var properties = shorthand.Longhands;
+                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
-                    //        if (currentLonghands.Length == 0)
-                    //            continue;
+                            if (currentLonghands.Length == 0 || shorthand.Aggregator == null)
+                                continue;
 
-                    //        var important = currentLonghands.Count(m => m.IsImportant);
-                    //        var shorthand = _context.CreateProperty(shorthandName);
+                            var important = currentLonghands.Count(m => m.IsImportant);
 
-                    //        if (important > 0 && important != currentLonghands.Length)
-                    //            continue;
+                            if (important > 0 && important != currentLonghands.Length)
+                                continue;
 
-                    //        if (properties.Length != currentLonghands.Length)
-                    //            continue;
+                            if (properties.Length != currentLonghands.Length)
+                                continue;
 
-                    //        if (shorthand.TryRecombine(currentLonghands))
-                    //        {
-                    //            shorthand.IsImportant = important != 0;
-                    //            list.Add(shorthand);
+                            var value = shorthand.Aggregator.Collect(currentLonghands);
 
-                    //            foreach (var longhand in currentLonghands)
-                    //            {
-                    //                serialized.Add(longhand.Name);
-                    //                longhands.Remove(longhand);
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                            if (value != null)
+                            {
+                                list.Add(new CssProperty(shorthandName, shorthand.Converter, shorthand.Flags, value, important != 0));
+
+                                foreach (var longhand in currentLonghands)
+                                {
+                                    serialized.Add(longhand.Name);
+                                    longhands.Remove(longhand);
+                                }
+                            }
+                        }
+                    }
 
                     if (!serialized.Contains(property))
                     {

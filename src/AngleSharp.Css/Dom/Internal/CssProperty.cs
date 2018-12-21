@@ -25,16 +25,24 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
-        internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None)
+        internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue value = null, Boolean important = false)
         {
             _name = name.ToLowerInvariant();
-            _flags = flags;
             _converter = converter;
+            _flags = flags;
+            _value = value;
+            _important = important;
         }
 
         #endregion
 
         #region Properties
+
+        public ICssValue RawValue
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
         
         public String Value
         {

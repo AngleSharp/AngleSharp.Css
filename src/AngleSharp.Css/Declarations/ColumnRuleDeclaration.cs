@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Children = new[]
+        public static String[] Longhands = new[]
         {
             PropertyNames.ColumnRuleColor,
             PropertyNames.ColumnRuleStyle,

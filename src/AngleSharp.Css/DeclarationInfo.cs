@@ -13,15 +13,15 @@ namespace AngleSharp.Css
         /// <param name="converter">The value converter.</param>
         /// <param name="aggregator">The value aggregator, if any.</param>
         /// <param name="flags">The property flags.</param>
-        /// <param name="parent">The name of the associated shorthand declaration, if any.</param>
-        /// <param name="children">The names of the associated longhand declarations, if any.</param>
-        public DeclarationInfo(IValueConverter converter, IValueAggregator aggregator = null, PropertyFlags flags = PropertyFlags.None, String parent = null, String[] children = null)
+        /// <param name="shorthands">The names of the associated shorthand declarations, if any.</param>
+        /// <param name="longhands">The names of the associated longhand declarations, if any.</param>
+        public DeclarationInfo(IValueConverter converter, IValueAggregator aggregator = null, PropertyFlags flags = PropertyFlags.None, String[] shorthands = null, String[] longhands = null)
         {
             Converter = converter;
             Aggregator = aggregator;
             Flags = flags;
-            Parent = parent;
-            Children = children ?? new String[0];
+            Shorthands = shorthands ?? new String[0];
+            Longhands = longhands ?? new String[0];
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace AngleSharp.Css
         public PropertyFlags Flags { get; }
 
         /// <summary>
-        /// Gets the name of the related shorthand declaration, if any.
+        /// Gets the names of related shorthand declarations.
         /// </summary>
-        public String Parent { get; }
+        public String[] Shorthands { get; }
 
         /// <summary>
         /// Gets the names of related longhand declarations.
         /// </summary>
-        public String[] Children { get; }
+        public String[] Longhands { get; }
     }
 }

@@ -9,7 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackgroundRepeat;
 
-        public static String Parent = PropertyNames.Background;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Background,
+        };
 
         public static IValueConverter Converter = Or(BackgroundRepeatsConverter.FromList(), AssignInitial(BackgroundRepeat.Repeat));
 

@@ -8,7 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MarginLeft;
 
-        public static String Parent = PropertyNames.Margin;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Margin,
+        };
 
         public static IValueConverter Converter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Zero));
 

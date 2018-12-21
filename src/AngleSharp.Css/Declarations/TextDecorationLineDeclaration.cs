@@ -7,7 +7,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TextDecorationLine;
 
-        public static String Parent = PropertyNames.TextDecoration;
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.TextDecoration,
+        };
 
         public static IValueConverter Converter = Or(TextDecorationLinesConverter, AssignInitial());
 
