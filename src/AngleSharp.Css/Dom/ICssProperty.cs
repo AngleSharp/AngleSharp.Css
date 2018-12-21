@@ -17,6 +17,11 @@ namespace AngleSharp.Css.Dom
         String Name { get; }
 
         /// <summary>
+        /// Gets the value model of the property.
+        /// </summary>
+        ICssValue RawValue { get; }
+
+        /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
         [DomName("value")]
