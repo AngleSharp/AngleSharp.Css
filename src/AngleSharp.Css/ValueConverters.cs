@@ -662,6 +662,14 @@ namespace AngleSharp.Css
 
         #endregion
 
+        #region Premade
+
+        public static readonly IValueConverter MarginConverter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Zero));
+
+        public static readonly IValueConverter PaddingConverter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
+
+        #endregion
+
         #region Helpers
 
         private static Func<Text.StringSource, Length?> FromInteger(Func<Text.StringSource, Int32?> converter)

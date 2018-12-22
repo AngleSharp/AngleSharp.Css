@@ -114,7 +114,7 @@
             return url;
         }
 
-        public static PeriodicValue<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T?> converter)
+        public static Periodic<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T?> converter)
             where T : struct, ICssValue
         {
             var values = new List<T>(4);
@@ -130,15 +130,15 @@
                 source.SkipSpacesAndComments();
             }
 
-            return values.Count > 0 ? new PeriodicValue<T>(values.ToArray()) : null;
+            return values.Count > 0 ? new Periodic<T>(values.ToArray()) : null;
         }
 
         public static BorderImage? ParseBorderImage(this StringSource source)
         {
             var image = default(IImageSource);
             var slice = default(BorderImageSlice?);
-            var widths = default(PeriodicValue<Length>);
-            var outsets = default(PeriodicValue<Length>);
+            var widths = default(Periodic<Length>);
+            var outsets = default(Periodic<Length>);
             var repeatX = default(BorderRepeat?);
             var repeatY = default(BorderRepeat?);
             var pos = 0;

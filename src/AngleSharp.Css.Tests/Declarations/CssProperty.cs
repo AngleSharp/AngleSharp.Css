@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Parser;
     using NUnit.Framework;
@@ -1037,9 +1037,9 @@
             var border = factory.Create("border");
             var color = factory.Create("color");
 
-            Assert.AreEqual(ValueConverters.Any, invalid);
-            Assert.AreNotEqual(ValueConverters.Any, border);
-            Assert.AreNotEqual(ValueConverters.Any, color);
+            Assert.AreEqual(ValueConverters.Any, invalid.Converter);
+            Assert.AreNotEqual(ValueConverters.Any, border.Converter);
+            Assert.AreNotEqual(ValueConverters.Any, color.Converter);
         }
 
         [Test]

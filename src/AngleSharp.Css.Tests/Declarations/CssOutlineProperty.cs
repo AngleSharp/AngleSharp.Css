@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -62,7 +62,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(229, 26, 161, 1)", property.Value);
+            Assert.AreEqual("rgba(230, 26, 161, 1)", property.Value);
         }
 
         [Test]

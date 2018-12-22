@@ -32,19 +32,14 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
-        public CssStyleDeclaration()
+        public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();
-        }
-
-        public CssStyleDeclaration(IBrowsingContext context)
-            : this()
-        {
             _context = context;
         }
 
         public CssStyleDeclaration(ICssRule parent)
-            : this(parent.Owner.Context)
+            : this(parent.Owner?.Context)
         {
             _parent = parent;
         }
@@ -210,24 +205,21 @@ namespace AngleSharp.Css.Dom
 
             if (property == null || !property.IsImportant)
             {
-                //var factory = _context.GetFactory<ICssPropertyFactory>();
+                var info = _context.GetDeclarationInfo(propertyName);
+                var longhands = info.Longhands;
 
-                //if (factory.IsShorthand(propertyName))
-                //{
-                //    var longhands = factory.GetLonghands(propertyName);
+                if (longhands.Length == 0)
+                {
+                    return String.Empty;
+                }
 
-                //    foreach (var longhand in longhands)
-                //    {
-                //        if (!GetPropertyPriority(longhand).Isi(CssKeywords.Important))
-                //        {
-                //            return String.Empty;
-                //        }
-                //    }
-
-                //    return CssKeywords.Important;
-                //}
-
-                return String.Empty;
+                foreach (var longhand in longhands)
+                {
+                    if (!GetPropertyPriority(longhand).Isi(CssKeywords.Important))
+                    {
+                        return String.Empty;
+                    }
+                }
             }
 
             return CssKeywords.Important;
@@ -239,28 +231,32 @@ namespace AngleSharp.Css.Dom
 
             if (property == null)
             {
-                //var factory = _context.GetFactory<ICssPropertyFactory>();
+                var info = _context.GetDeclarationInfo(propertyName);
 
-                //if (factory.IsShorthand(propertyName))
-                //{
-                //    var shortHand = factory.CreateShorthand(propertyName);
-                //    var declarations = factory.GetLonghands(propertyName);
-                //    var properties = new List<ICssProperty>();
+                if (info.Aggregator != null)
+                {
+                    var declarations = info.Longhands;
+                    var properties = new List<ICssProperty>();
 
-                //    foreach (var declaration in declarations)
-                //    {
-                //        property = GetProperty(declaration);
+                    foreach (var declaration in declarations)
+                    {
+                        property = GetProperty(declaration);
 
-                //        if (property == null)
-                //        {
-                //            return String.Empty;
-                //        }
+                        if (property == null)
+                        {
+                            return String.Empty;
+                        }
 
-                //        properties.Add(property);
-                //    }
+                        properties.Add(property);
+                    }
 
-                //    return shortHand.Stringify(properties.ToArray());
-                //}
+                    var value = info.Aggregator.Collect(properties);
+
+                    if (value != null)
+                    {
+                        return value.CssText;
+                    }
+                }
 
                 return String.Empty;
             }
@@ -280,21 +276,19 @@ namespace AngleSharp.Css.Dom
 
             if (String.IsNullOrEmpty(priority) || priority.Isi(CssKeywords.Important))
             {
-                //var factory = _context.GetFactory<ICssPropertyFactory>();
+                var info = _context.GetDeclarationInfo(propertyName);
                 var important = !String.IsNullOrEmpty(priority);
-                //var mappings = factory.IsShorthand(propertyName) ? 
-                //    factory.GetLonghands(propertyName) : 
-                //    Enumerable.Repeat(propertyName, 1);
+                var mappings = info.Longhands.Length > 0 ? info.Longhands : Enumerable.Repeat(propertyName, 1);
 
-                //foreach (var mapping in mappings)
-                //{
-                    var property = GetProperty(propertyName);//mapping);
+                foreach (var mapping in mappings)
+                {
+                    var property = GetProperty(mapping);
 
                     if (property != null)
                     {
                         property.IsImportant = important;
                     }
-                //}
+                }
             }
         }
 
@@ -364,18 +358,21 @@ namespace AngleSharp.Css.Dom
 
         private void SetProperty(ICssProperty property)
         {
-            //if (property is CssShorthandProperty)
-            //{
-            //    SetShorthand((CssShorthandProperty)property);
-            //}
-            //else
-            //{
+            if (property.IsShorthand)
+            {
+                SetShorthand(property);
+            }
+            else
+            {
                 SetLonghand(property);
-            //}
+            }
         }
 
         private void RemovePropertyByName(String propertyName)
         {
+            var info = _context.GetDeclarationInfo(propertyName);
+            var longhands = info.Longhands;
+
             for (var i = 0; i < _declarations.Count; i++)
             {
                 var declaration = _declarations[i];
@@ -387,17 +384,10 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            //var factory = _context.GetFactory<ICssPropertyFactory>();
-
-            //if (factory.IsShorthand(propertyName))
-            //{
-            //    var longhands = factory.GetLonghands(propertyName);
-
-            //    foreach (var longhand in longhands)
-            //    {
-            //        RemovePropertyByName(longhand);
-            //    }
-            //}
+            foreach (var longhand in longhands)
+            {
+                RemovePropertyByName(longhand);
+            }
         }
 
         private void ChangeDeclarations(IEnumerable<ICssProperty> decls, Predicate<ICssProperty> defaultSkip, Func<ICssProperty, ICssProperty, Boolean> removeExisting)
@@ -454,14 +444,20 @@ namespace AngleSharp.Css.Dom
 
         private void SetShorthand(ICssProperty shorthand)
         {
-            //var factory = _context.GetFactory<ICssPropertyFactory>();
-            //var properties = factory.CreateLonghandsFor(shorthand.Name);
-            //shorthand.Export(properties);
+            var info = _context.GetDeclarationInfo(shorthand.Name);
+            var properties = info.Aggregator?.Distribute(shorthand.RawValue);
 
-            //foreach (var property in properties)
-            //{
-            //    SetLonghand(property);
-            //}
+            if (properties != null)
+            {
+                foreach (var property in properties)
+                {
+                    SetLonghand(property);
+                }
+            }
+            else
+            {
+                SetLonghand(shorthand);
+            }
         }
 
         private void RaiseChanged()

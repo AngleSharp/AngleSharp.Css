@@ -1,9 +1,9 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
     using static ValueConverters;
 
     sealed class BorderRadiusValueConverter : IValueConverter
@@ -13,41 +13,16 @@
         public ICssValue Convert(StringSource source)
         {
             var start = source.Index;
-            var horizontal = _converter.Convert(source);
+            var horizontal = _converter.Convert(source) as Periodic<ICssValue>;
             var vertical = horizontal;
 
             if (source.Current == Symbols.Solidus)
             {
                 source.SkipCurrentAndSpaces();
-                vertical = _converter.Convert(source);
+                vertical = _converter.Convert(source) as Periodic<ICssValue>;
             }
 
-            return vertical != null ? new BorderRadiusValue(horizontal, vertical) : null;
-        }
-
-        private sealed class BorderRadiusValue : ICssValue
-        {
-            private readonly ICssValue _horizontal;
-            private readonly ICssValue _vertical;
-
-            public BorderRadiusValue(ICssValue horizontal, ICssValue vertical)
-            {
-                _horizontal = horizontal;
-                _vertical = vertical;
-            }
-
-            public String CssText
-            {
-                get
-                {
-                    if (!Object.ReferenceEquals(_horizontal, _vertical))
-                    {
-                        return String.Concat(_horizontal.CssText, " / ", _vertical.CssText);
-                    }
-
-                    return _horizontal.CssText;
-                }
-            }
+            return vertical != null ? new BorderRadius(horizontal, vertical) : null;
         }
     }
 }

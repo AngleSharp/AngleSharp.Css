@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css.Extensions;
@@ -41,17 +41,6 @@
         public static ICssStyleDeclaration GetRawComputedStyle(this IPseudoElement element)
         {
             return element.Owner.DefaultView.ComputeRawStyle(element);
-        }
-
-        /// <summary>
-        /// Gets a live CSS declaration block with properties,
-        /// whcih are the used values computed for the context object.
-        /// </summary>
-        [DomName("usedStyle")]
-        [DomAccessor(Accessors.Getter)]
-        public static ICssStyleDeclaration GetUsedStyle(this IPseudoElement element)
-        {
-            return element.Owner.DefaultView.ComputeUsedStyle(element);
         }
     }
 }

@@ -15,7 +15,8 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("te st1\nte  st2\nte   st3", "te st1\nte st2\nte st3", "te st1<br>te  st2<br>te   st3")]
         public void SetInnerText(String fixture, String expectedInnerText, String expectedHtml)
         {
-            var doc = ("<div>sample content</div>").ToHtmlDocument();
+            var config = Configuration.Default.WithCss();
+            var doc = ("<div>sample content</div>").ToHtmlDocument(config);
 
             doc.Body.SetInnerText(fixture);
 

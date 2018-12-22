@@ -380,8 +380,8 @@ namespace AngleSharp.Css.Extensions
             var startIndex = sb.Length;
             var whiteSpace = style?.GetWhiteSpace();
             var textTransform = style?.GetTextTransform();
-
             var isWhiteSpace = startIndex > 0 ? Char.IsWhiteSpace(sb[startIndex - 1]) && sb[startIndex - 1] != Symbols.NoBreakSpace : true;
+
             for (var i = 0; i < text.Length; i++)
             {
                 var c = text[i];

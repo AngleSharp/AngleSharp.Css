@@ -1,7 +1,9 @@
 namespace AngleSharp.Css.Aggregators
 {
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Declarations;
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,14 +12,30 @@ namespace AngleSharp.Css.Aggregators
     {
         private static String Left(String parts)
         {
-            var idx = parts.IndexOf('/');
+            var idx = parts.IndexOf(' ');
             return idx != -1 ? parts.Substring(0, idx) : parts;
         }
 
         private static String Right(String parts)
         {
-            var idx = parts.IndexOf('/');
+            var idx = parts.IndexOf(' ');
             return idx != -1 ? parts.Substring(idx + 1) : String.Empty;
+        }
+
+        private static ICssValue Both(ICssValue horizontal, ICssValue vertical)
+        {
+            return new OrderedOptions(new[] { horizontal, vertical });
+        }
+
+        private static IEnumerable<ICssProperty> CreateLonghands(ICssValue topLeft, ICssValue topRight, ICssValue bottomRight, ICssValue bottomLeft)
+        {
+            return new[]
+            {
+                new CssProperty(PropertyNames.BorderTopLeftRadius, BorderTopLeftRadiusDeclaration.Converter, BorderTopLeftRadiusDeclaration.Flags, topLeft),
+                new CssProperty(PropertyNames.BorderTopRightRadius, BorderTopRightRadiusDeclaration.Converter, BorderTopRightRadiusDeclaration.Flags, topRight),
+                new CssProperty(PropertyNames.BorderBottomRightRadius, BorderBottomRightRadiusDeclaration.Converter, BorderBottomRightRadiusDeclaration.Flags, bottomRight),
+                new CssProperty(PropertyNames.BorderBottomLeftRadius, BorderBottomLeftRadiusDeclaration.Converter, BorderBottomLeftRadiusDeclaration.Flags, bottomLeft),
+            };
         }
 
         public ICssValue Collect(IEnumerable<ICssProperty> properties)
@@ -34,7 +52,14 @@ namespace AngleSharp.Css.Aggregators
 
         public IEnumerable<ICssProperty> Distribute(ICssValue value)
         {
-            return null;
+            var radius = value as BorderRadius;
+
+            if (radius != null)
+            {
+                return CreateLonghands(Both(radius.Horizontal.Top, radius.Vertical.Top), Both(radius.Horizontal.Right, radius.Vertical.Right), Both(radius.Horizontal.Bottom, radius.Vertical.Bottom), Both(radius.Horizontal.Left, radius.Vertical.Left));
+            }
+
+            return CreateLonghands(null, null, null, null);
         }
     }
 }

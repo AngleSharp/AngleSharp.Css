@@ -1,18 +1,12 @@
 namespace AngleSharp.Css.Aggregators
 {
-    using AngleSharp.Css.Dom;
-    using System.Collections.Generic;
+    using static ValueConverters;
 
-    sealed class MarginAggregator : IValueAggregator
+    sealed class MarginAggregator : BoxBaseAggregator
     {
-        public ICssValue Collect(IEnumerable<ICssProperty> properties)
+        public MarginAggregator()
+            : base(PropertyNames.MarginTop, PropertyNames.MarginRight, PropertyNames.MarginBottom, PropertyNames.MarginLeft, MarginConverter, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            return null;
-        }
-
-        public IEnumerable<ICssProperty> Distribute(ICssValue value)
-        {
-            return null;
         }
     }
 }

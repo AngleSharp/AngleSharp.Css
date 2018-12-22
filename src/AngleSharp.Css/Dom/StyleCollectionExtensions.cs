@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Extensions
+namespace AngleSharp.Css.Extensions
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -37,7 +37,7 @@
         /// <returns>The style declaration containing all the declarations.</returns>
         public static ICssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
-            var computedStyle = new CssStyleDeclaration();
+            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
@@ -78,7 +78,7 @@
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static ICssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
-            var computedStyle = new CssStyleDeclaration();
+            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var rules = styleCollection.SortBySpecificity(element);
 
             foreach (var rule in rules)

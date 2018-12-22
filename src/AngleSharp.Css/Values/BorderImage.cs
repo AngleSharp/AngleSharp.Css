@@ -10,8 +10,8 @@
 
         private readonly IImageSource _image;
         private readonly BorderImageSlice? _slice;
-        private readonly PeriodicValue<Length> _widths;
-        private readonly PeriodicValue<Length> _outsets;
+        private readonly Periodic<Length> _widths;
+        private readonly Periodic<Length> _outsets;
         private readonly BorderRepeat? _repeatX;
         private readonly BorderRepeat? _repeatY;
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public BorderImage(IImageSource image, BorderImageSlice? slice, PeriodicValue<Length> widths, PeriodicValue<Length> outsets, BorderRepeat? repeatX, BorderRepeat? repeatY)
+        public BorderImage(IImageSource image, BorderImageSlice? slice, Periodic<Length> widths, Periodic<Length> outsets, BorderRepeat? repeatX, BorderRepeat? repeatY)
         {
             _image = image;
             _slice = slice;
@@ -51,12 +51,12 @@
             get { return _slice; }
         }
 
-        public PeriodicValue<Length> Widths
+        public Periodic<Length> Widths
         {
             get { return _widths; }
         }
 
-        public PeriodicValue<Length> Outsets
+        public Periodic<Length> Outsets
         {
             get { return _outsets; }
         }

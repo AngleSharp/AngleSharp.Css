@@ -1,18 +1,12 @@
 namespace AngleSharp.Css.Aggregators
 {
-    using AngleSharp.Css.Dom;
-    using System.Collections.Generic;
+    using static ValueConverters;
 
-    sealed class PaddingAggregator : IValueAggregator
+    sealed class PaddingAggregator : BoxBaseAggregator
     {
-        public ICssValue Collect(IEnumerable<ICssProperty> properties)
+        public PaddingAggregator()
+            : base(PropertyNames.PaddingTop, PropertyNames.PaddingRight, PropertyNames.PaddingBottom, PropertyNames.PaddingLeft, PaddingConverter, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            return null;
-        }
-
-        public IEnumerable<ICssProperty> Distribute(ICssValue value)
-        {
-            return null;
         }
     }
 }

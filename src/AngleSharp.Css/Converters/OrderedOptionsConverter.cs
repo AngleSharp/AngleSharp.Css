@@ -1,9 +1,9 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
 
     sealed class OrderedOptionsConverter: IValueConverter
     {
@@ -29,22 +29,7 @@
                 options[i] = option;
             }
 
-            return new OptionsValue(options);
-        }
-
-        private sealed class OptionsValue : ICssValue
-        {
-            private readonly ICssValue[] _options;
-
-            public OptionsValue(ICssValue[] options)
-            {
-                _options = options;
-            }
-
-            public String CssText
-            {
-                get { return _options.Join(" "); }
-            }
+            return new OrderedOptions(options);
         }
     }
 }
