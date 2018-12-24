@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
@@ -42,7 +42,7 @@
 
         #region Fields
 
-        private readonly Single _value;
+        private readonly Double _value;
         private readonly Unit _unit;
 
         #endregion
@@ -54,7 +54,7 @@
         /// </summary>
         /// <param name="value">The value of the angle.</param>
         /// <param name="unit">The unit of the angle.</param>
-        public Angle(Single value, Unit unit)
+        public Angle(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets the value of the angle.
         /// </summary>
-        public Single Value
+        public Double Value
         {
             get { return _value; }
         }
@@ -184,7 +184,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Angle result)
         {
-            var value = default(Single);
+            var value = default(Double);
             var unit = GetUnit(s.CssUnit(out value));
 
             if (unit != Unit.None)
@@ -218,18 +218,18 @@
         /// Converts the contained value to rad.
         /// </summary>
         /// <returns>The value in rad.</returns>
-        public Single ToRadian()
+        public Double ToRadian()
         {
             switch (_unit)
             {
                 case Unit.Deg:
-                    return (Single)(Math.PI / 180.0 * _value);
+                    return Math.PI / 180.0 * _value;
 
                 case Unit.Grad:
-                    return (Single)(Math.PI / 200.0 * _value);
+                    return Math.PI / 200.0 * _value;
 
                 case Unit.Turn:
-                    return (Single)(2.0 * Math.PI * _value);
+                    return 2.0 * Math.PI * _value;
 
                 default:
                     return _value;
@@ -240,18 +240,18 @@
         /// Converts the contained value to turns.
         /// </summary>
         /// <returns>The value in turns.</returns>
-        public Single ToTurns()
+        public Double ToTurns()
         {
             switch (_unit)
             {
                 case Unit.Deg:
-                    return (Single)(_value / 360.0);
+                    return _value / 360.0;
 
                 case Unit.Grad:
-                    return (Single)(_value / 400.0);
+                    return _value / 400.0;
 
                 case Unit.Rad:
-                    return (Single)(_value / (2.0 * Math.PI));
+                    return _value / (2.0 * Math.PI);
 
                 default:
                     return _value;

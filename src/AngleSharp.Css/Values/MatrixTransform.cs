@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -11,13 +11,13 @@
     {
         #region Fields
 
-        private readonly Single[] _values;
+        private readonly Double[] _values;
 
         #endregion
 
         #region ctor
 
-        internal MatrixTransform(Single[] values)
+        internal MatrixTransform(Double[] values)
         {
             _values = values;
         }
@@ -39,7 +39,7 @@
         /// </summary>
         /// <param name="index">The index to look for.</param>
         /// <returns>The value.</returns>
-        public Single this[Int32 index]
+        public Double this[Int32 index]
         {
             get { return _values[index]; }
         }
@@ -74,12 +74,12 @@
 
             if (values.Length == 6)
             {
-                values = new Single[]
+                values = new Double[]
                 {
-                    _values[0], _values[2], 0f, _values[4],
-                    _values[1], _values[3], 0f, _values[5],
-                    1f, 0f, 0f, 0f,
-                    0f, 0f, 0f, 1f
+                    _values[0], _values[2], 0.0, _values[4],
+                    _values[1], _values[3], 0.0, _values[5],
+                    1.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 1.0
                 };
             }
 

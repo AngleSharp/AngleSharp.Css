@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -12,20 +12,35 @@
     {
         #region Fields
 
-        private readonly Single _x1;
-        private readonly Single _y1;
-        private readonly Single _x2;
-        private readonly Single _y2;
+        private readonly Double _x1;
+        private readonly Double _y1;
+        private readonly Double _x2;
+        private readonly Double _y2;
 
-        public static readonly CubicBezierTimingFunction Ease = new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f);
+        /// <summary>
+        /// The pre-configured ease function.
+        /// </summary>
+        public static readonly CubicBezierTimingFunction Ease = new CubicBezierTimingFunction(0.25, 0.1, 0.25, 1.0);
 
-        public static readonly CubicBezierTimingFunction EaseIn = new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f);
+        /// <summary>
+        /// The pre-configured ease-in function.
+        /// </summary>
+        public static readonly CubicBezierTimingFunction EaseIn = new CubicBezierTimingFunction(0.42, 0.0, 1.0, 1.0);
 
-        public static readonly CubicBezierTimingFunction EaseOut = new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f);
+        /// <summary>
+        /// The pre-configured ease-out function.
+        /// </summary>
+        public static readonly CubicBezierTimingFunction EaseOut = new CubicBezierTimingFunction(0.0, 0.0, 0.58, 1.0);
 
-        public static readonly CubicBezierTimingFunction EaseInOut = new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f);
+        /// <summary>
+        /// The pre-configured ease-in-out function.
+        /// </summary>
+        public static readonly CubicBezierTimingFunction EaseInOut = new CubicBezierTimingFunction(0.42, 0.0, 0.58, 1.0);
 
-        public static readonly CubicBezierTimingFunction Linear = new CubicBezierTimingFunction(0f, 0f, 1f, 1f);
+        /// <summary>
+        /// The pre-configured linear function.
+        /// </summary>
+        public static readonly CubicBezierTimingFunction Linear = new CubicBezierTimingFunction(0.0, 0.0, 1.0, 1.0);
 
         #endregion
 
@@ -40,7 +55,7 @@
         /// <param name="y1">The y-coordinate of P1.</param>
         /// <param name="x2">The x-coordinate of P2.</param>
         /// <param name="y2">The y-coordinate of P2.</param>
-        public CubicBezierTimingFunction(Single x1, Single y1, Single x2, Single y2)
+        public CubicBezierTimingFunction(Double x1, Double y1, Double x2, Double y2)
         {
             _x1 = x1;
             _y1 = y1;
@@ -63,7 +78,7 @@
         /// <summary>
         /// Gets the x-coordinate of the p1.
         /// </summary>
-        public Single X1
+        public Double X1
         {
             get { return _x1; }
         }
@@ -71,7 +86,7 @@
         /// <summary>
         /// Gets the y-coordinate of the p1.
         /// </summary>
-        public Single Y1
+        public Double Y1
         {
             get { return _y1; }
         }
@@ -79,7 +94,7 @@
         /// <summary>
         /// Gets the x-coordinate of the p2.
         /// </summary>
-        public Single X2
+        public Double X2
         {
             get { return _x2; }
         }
@@ -87,7 +102,7 @@
         /// <summary>
         /// Gets the y-coordinate of the p2.
         /// </summary>
-        public Single Y2
+        public Double Y2
         {
             get { return _y2; }
         }
@@ -96,6 +111,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks with equality to another cubic bezier timing function.
+        /// </summary>
+        /// <param name="other">The cubic bezier to compare to.</param>
+        /// <returns>True if both have the same parameters, otherwise false.</returns>
         public Boolean Equals(CubicBezierTimingFunction other)
         {
             return _x1 == other._x1 && _x2 == other._x2 && _y1 == other._y1 && _y2 == other._y2;

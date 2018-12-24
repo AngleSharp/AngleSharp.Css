@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -11,15 +11,15 @@
     {
         #region Fields
 
-        private readonly Single _sx;
-        private readonly Single _sy;
-        private readonly Single _sz;
+        private readonly Double _sx;
+        private readonly Double _sy;
+        private readonly Double _sz;
 
         #endregion
 
         #region ctor
 
-        internal ScaleTransform(Single sx, Single sy, Single sz)
+        internal ScaleTransform(Double sx, Double sy, Double sz)
         {
             _sx = sx;
             _sy = sy;
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the scaling in x-direction.
         /// </summary>
-        public Single ScaleX
+        public Double ScaleX
         {
             get { return _sx; }
         }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets the scaling in y-direction.
         /// </summary>
-        public Single ScaleY
+        public Double ScaleY
         {
             get { return _sy; }
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the scaling in z-direction.
         /// </summary>
-        public Single ScaleZ
+        public Double ScaleZ
         {
             get { return _sz; }
         }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
@@ -140,7 +140,7 @@
         /// <param name="b">The value for blue [0,1].</param>
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgba(Single r, Single g, Single b, Single a)
+        public static Color FromRgba(Double r, Double g, Double b, Double a)
         {
             return new Color(Normalize(r), Normalize(g), Normalize(b), Normalize(a));
         }
@@ -151,7 +151,7 @@
         /// <param name="number">The value for each component [0,255].</param>
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromGray(Byte number, Single alpha = 1f)
+        public static Color FromGray(Byte number, Double alpha = 1.0)
         {
             return new Color(number, number, number, Normalize(alpha));
         }
@@ -162,7 +162,7 @@
         /// <param name="value">The value for each component [0,1].</param>
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromGray(Single value, Single alpha = 1f)
+        public static Color FromGray(Double value, Double alpha = 1f)
         {
             return FromGray(Normalize(value), alpha);
         }
@@ -303,7 +303,7 @@
         /// <param name="s">The saturation [0,1].</param>
         /// <param name="l">The light value [0,1].</param>
         /// <returns>The CSS color.</returns>
-        public static Color FromHsl(Single h, Single s, Single l)
+        public static Color FromHsl(Double h, Double s, Double l)
         {
             return FromHsla(h, s, l, 1f);
         }
@@ -316,7 +316,7 @@
         /// <param name="l">The light value [0,1].</param>
         /// <param name="alpha">The alpha value [0,1].</param>
         /// <returns>The CSS color.</returns>
-        public static Color FromHsla(Single h, Single s, Single l, Single alpha)
+        public static Color FromHsla(Double h, Double s, Double l, Double alpha)
         {
             const Single third = 1f / 3f;
 
@@ -335,7 +335,7 @@
         /// <param name="w">The whiteness [0,1].</param>
         /// <param name="b">The blackness [0,1].</param>
         /// <returns>The CSS color.</returns>
-        public static Color FromHwb(Single h, Single w, Single b)
+        public static Color FromHwb(Double h, Double w, Double b)
         {
             return FromHwba(h, w, b, 1f);
         }
@@ -348,26 +348,28 @@
         /// <param name="b">The blackness [0,1].</param>
         /// <param name="alpha">The alpha value [0,1].</param>
         /// <returns>The CSS color.</returns>
-        public static Color FromHwba(Single h, Single w, Single b, Single alpha)
+        public static Color FromHwba(Double h, Double w, Double b, Double alpha)
         {
-            var ratio = 1f / (w + b);
-            var red = 0f;
-            var green = 0f;
-            var blue = 0f;
+            var ratio = 1.0 / (w + b);
+            var red = 0.0;
+            var green = 0.0;
+            var blue = 0.0;
 
-            if (ratio < 1f) 
+            if (ratio < 1.0) 
             {
                 w *= ratio;
                 b *= ratio;
             }
 
-            var p = (Int32)(6 * h);
-            var f = 6 * h - p;
+            var p = (Int32)(6.0 * h);
+            var f = 6.0 * h - p;
 
             if ((p & 0x01) != 0)
-                f = 1 - f;
+            {
+                f = 1.0 - f;
+            }
 
-            var v = 1 - b;
+            var v = 1.0 - b;
             var n = w + f * (v - w);
 
             switch (p) 
@@ -577,33 +579,33 @@
 
         #region Helpers
 
-        private static Byte Normalize(Single value)
+        private static Byte Normalize(Double value)
         {
-            return (Byte)Math.Max(Math.Min(Math.Round(255 * value), 255), 0);
+            return (Byte)Math.Max(Math.Min(Math.Round(255.0 * value), 255.0), 0.0);
         }
 
-        private static Byte Convert(Single value)
+        private static Byte Convert(Double value)
         {
-            return (Byte)Math.Round(255f * value);
+            return (Byte)Math.Round(255.0 * value);
         }
 
-        private static Single HueToRgb(Single m1, Single m2, Single h)
+        private static Double HueToRgb(Double m1, Double m2, Double h)
         {
-            const Single oneSixth = 1f / 6f;
-            const Single twoThird = 2f / 3f;
+            const Double oneSixth = 1.0 / 6.0;
+            const Double twoThird = 2.0 / 3.0;
 
             if (h < 0f)
             {
                 h += 1f;
             }
-            else if (h > 1f)
+            else if (h > 1.0)
             {
                 h -= 1f;
             }
 
             if (h < oneSixth)
             {
-                return m1 + (m2 - m1) * h * 6f;
+                return m1 + (m2 - m1) * h * 6.0;
             }
             else if (h < 0.5)
             {
@@ -611,7 +613,7 @@
             }
             else if (h < twoThird)
             {
-                return m1 + (m2 - m1) * (twoThird - h) * 6f;
+                return m1 + (m2 - m1) * (twoThird - h) * 6.0;
             }
 
             return m1;

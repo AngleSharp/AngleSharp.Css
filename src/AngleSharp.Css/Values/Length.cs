@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using System;
     using System.Globalization;
 
@@ -56,7 +55,7 @@
 
         #region Fields
 
-        private readonly Single _value;
+        private readonly Double _value;
         private readonly Unit _unit;
 
         #endregion
@@ -68,7 +67,7 @@
         /// </summary>
         /// <param name="value">The value of the length.</param>
         /// <param name="unit">The unit of the length.</param>
-        public Length(Single value, Unit unit)
+        public Length(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -115,7 +114,7 @@
         /// <summary>
         /// Gets the value of the length.
         /// </summary>
-        public Single Value
+        public Double Value
         {
             get { return _value; }
         }
@@ -243,7 +242,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Length result)
         {
-            var value = default(Single);
+            var value = default(Double);
             var unitString = s.CssUnit(out value);
             var unit = GetUnit(unitString);
 
@@ -295,20 +294,20 @@
         /// current unit is relative, then an exception will be thrown.
         /// </summary>
         /// <returns>The number of pixels represented by the current length.</returns>
-        public Single ToPixel()
+        public Double ToPixel()
         {
             switch (_unit)
             {
                 case Unit.In: // 1 in = 2.54 cm
-                    return _value * 96f;
+                    return _value * 96.0;
                 case Unit.Mm: // 1 mm = 0.1 cm
-                    return _value * 5f * 96f / 127f;
+                    return _value * 5.0 * 96.0 / 127.0;
                 case Unit.Pc: // 1 pc = 12 pt
-                    return _value * 12f * 96f / 72f;
+                    return _value * 12.0 * 96.0 / 72.0;
                 case Unit.Pt: // 1 pt = 1/72 in
-                    return _value * 96f / 72f;
+                    return _value * 96.0 / 72.0;
                 case Unit.Cm: // 1 cm = 50/127 in
-                    return _value * 50f * 96f / 127f;
+                    return _value * 50.0 * 96.0 / 127.0;
                 case Unit.Px: // 1 px = 1/96 in
                     return _value;
                 default:
@@ -322,22 +321,22 @@
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
         /// <returns>The value in the given unit of the current length.</returns>
-        public Single To(Unit unit)
+        public Double To(Unit unit)
         {
             var value = ToPixel();
 
             switch (unit)
             {
                 case Unit.In: // 1 in = 2.54 cm
-                    return value / 96f;
+                    return value / 96.0;
                 case Unit.Mm: // 1 mm = 0.1 cm
-                    return value * 127f / (5f * 96f);
+                    return value * 127.0 / (5.0 * 96.0);
                 case Unit.Pc: // 1 pc = 12 pt
-                    return value * 72f / (12f * 96f);
+                    return value * 72.0 / (12.0 * 96.0);
                 case Unit.Pt: // 1 pt = 1/72 in
-                    return value * 72f / 96f;
+                    return value * 72.0 / 96.0;
                 case Unit.Cm: // 1 cm = 50/127 in
-                    return value * 127f / (50f * 96f);
+                    return value * 127.0 / (50.0 * 96.0);
                 case Unit.Px: // 1 px = 1/96 in
                     return value;
                 default:
@@ -458,7 +457,7 @@
         /// <returns>True if both lengths are equal, otherwise false.</returns>
         public Boolean Equals(Length other)
         {
-            return (_value == other._value || (Single.IsNaN(_value) && Single.IsNaN(other._value))) && 
+            return (_value == other._value || (Double.IsNaN(_value) && Double.IsNaN(other._value))) && 
                 (_value == 0f || _unit == other._unit);
         }
 

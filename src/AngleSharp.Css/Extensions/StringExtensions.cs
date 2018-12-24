@@ -1,5 +1,6 @@
 namespace AngleSharp.Css
 {
+    using AngleSharp.Common;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -34,7 +35,7 @@ namespace AngleSharp.Css
         /// <param name="value">The value to split.</param>
         /// <param name="result">The returned numeric value.</param>
         /// <returns>The provided CSS unit or null.</returns>
-        public static String CssUnit(this String value, out Single result)
+        public static String CssUnit(this String value, out Double result)
         {
             if (!String.IsNullOrEmpty(value))
             {
@@ -45,13 +46,13 @@ namespace AngleSharp.Css
                     // Intentional empty.
                 }
 
-                if (firstLetter > 0 && Single.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+                if (firstLetter > 0 && Double.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
                 {
                     return value.Substring(firstLetter);
                 }
             }
 
-            result = default(Single);
+            result = default(Double);
             return null;
         }
 
@@ -63,7 +64,7 @@ namespace AngleSharp.Css
         public static String CssUrl(this String value)
         {
             var argument = value.CssString();
-            return AngleSharp.Common.Keywords.Url.CssFunction(argument);
+            return Keywords.Url.CssFunction(argument);
         }
     }
 }

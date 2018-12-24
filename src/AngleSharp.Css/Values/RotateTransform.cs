@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -11,16 +11,16 @@
     {
         #region Fields
 
-        private readonly Single _x;
-        private readonly Single _y;
-        private readonly Single _z;
+        private readonly Double _x;
+        private readonly Double _y;
+        private readonly Double _z;
         private readonly Angle _angle;
 
         #endregion
 
         #region ctor
 
-        internal RotateTransform(Single x, Single y, Single z, Angle angle)
+        internal RotateTransform(Double x, Double y, Double z, Angle angle)
         {
             _x = x;
             _y = y;
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the value of the x-component of the rotation vector.
         /// </summary>
-        public Single X
+        public Double X
         {
             get { return _x; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the value of the y-component of the rotation vector.
         /// </summary>
-        public Single Y
+        public Double Y
         {
             get { return _y; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the value of the z-component of the rotation vector.
         /// </summary>
-        public Single Z
+        public Double Z
         {
             get { return _z; }
         }
@@ -84,7 +84,7 @@
             var fn = FunctionNames.Rotate3d;
             var args = _angle.ToString();
 
-            if (Single.IsNaN(_x) && Single.IsNaN(_y) && Single.IsNaN(_z))
+            if (Double.IsNaN(_x) && Double.IsNaN(_y) && Double.IsNaN(_z))
             {
                 fn = FunctionNames.Rotate;
             }
@@ -120,18 +120,18 @@
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);
-            var sina = (Single)Math.Sin(_angle.ToRadian());
-            var cosa = (Single)Math.Cos(_angle.ToRadian());
+            var norm = 1.0 / Math.Sqrt(_x * _x + _y * _y + _z * _z);
+            var sina = Math.Sin(_angle.ToRadian());
+            var cosa = Math.Cos(_angle.ToRadian());
             var l = _x * norm;
             var m = _y * norm;
             var n = _z * norm;
-            var omc = (1f - cosa);
+            var omc = (1.0 - cosa);
             return new TransformMatrix(
                 l * l * omc + cosa, m * l * omc - n * sina, n * l * omc + m * sina,
                 l * m * omc + n * sina, m * m * omc + cosa, n * m * omc - l * sina,
                 l * n * omc - m * sina, m * n * omc + l * sina, n * n * omc + cosa,
-                0f, 0f, 0f, 0f, 0f, 0f);
+                0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
         #endregion

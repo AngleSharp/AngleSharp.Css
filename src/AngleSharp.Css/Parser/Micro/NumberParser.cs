@@ -1,25 +1,26 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
     using System;
     using System.Globalization;
+    using System.Linq;
 
     static class NumberParser
     {
-        public static Single? Parse(String str)
+        public static Double? Parse(String str)
         {
             var source = new StringSource(str);
             var result = source.ParseNumber();
             return source.IsDone ? result : null;
         }
 
-        public static Single? ParseNumber(this StringSource source)
+        public static Double? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
-            var result = default(Single);
+            var result = default(Double);
 
-            if (unit != null && unit.Dimension == String.Empty && 
-                Single.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
+            if (unit != null && unit.Dimension == String.Empty &&
+                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
             {
                 return result;
             }
@@ -27,7 +28,7 @@
             return null;
         }
 
-        public static Single? ParseRatio(this StringSource source)
+        public static Double? ParseRatio(this StringSource source)
         {
             var pos = source.Index;
             var top = source.ParseNumber();
@@ -43,7 +44,7 @@
             return null;
         }
 
-        public static Single? ParseNaturalNumber(this StringSource source)
+        public static Double? ParseNaturalNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
@@ -57,7 +58,7 @@
             return null;
         }
 
-        public static Single? ParseGreaterOrEqualOneNumber(this StringSource source)
+        public static Double? ParseGreaterOrEqualOneNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
@@ -132,10 +133,22 @@
             var unit = source.ParseUnit();
             var result = default(Int32);
 
-            if (unit != null && unit.Dimension == String.Empty &&
-                Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
+            if (unit != null && unit.Dimension == String.Empty)
             {
-                return result;
+                var value = unit.Value;
+
+                if (Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
+                {
+                    return result;
+                }
+
+                var negative = value.StartsWith("-");
+                var allNumbers = (negative ? value.Substring(1) : value).All(m => m.IsDigit());
+
+                if (allNumbers)
+                {
+                    return negative ? Int32.MinValue : Int32.MaxValue;
+                }
             }
 
             return null;

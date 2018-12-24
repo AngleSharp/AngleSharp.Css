@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -262,13 +262,13 @@
             return null;
         }
 
-        private static Single? ParseAngle(StringSource source)
+        private static Double? ParseAngle(StringSource source)
         {
             var unit = source.ParseUnit();
 
             if (unit != null)
             {
-                var value = Single.Parse(unit.Value, CultureInfo.InvariantCulture);
+                var value = Double.Parse(unit.Value, CultureInfo.InvariantCulture);
                 var dim = Angle.Unit.Deg;
 
                 if (unit.Dimension == String.Empty ||

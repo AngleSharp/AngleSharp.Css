@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -139,7 +139,7 @@
         /// </summary>
         private static MatrixTransform ParseMatrix(StringSource source, Int32 count)
         {
-            var numbers = new Single[count];
+            var numbers = new Double[count];
             var num = source.ParseNumber();
 
             if (num.HasValue)
@@ -230,7 +230,7 @@
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotate(StringSource source, Single x, Single y, Single z)
+        private static RotateTransform ParseRotate(StringSource source, Double x, Double y, Double z)
         {
             var angle = source.ParseAngle();
             var f = source.SkipGetSkip();
@@ -254,7 +254,7 @@
 
             if (x.HasValue)
             {
-                var y = default(Single?);
+                var y = default(Double?);
 
                 if (f == Symbols.Comma)
                 {
@@ -264,7 +264,7 @@
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new ScaleTransform(x.Value, y ?? x.Value, 1f);
+                    return new ScaleTransform(x.Value, y ?? x.Value, 1.0);
                 }
             }
 
@@ -282,8 +282,8 @@
 
             if (x.HasValue)
             {
-                var y = default(Single?);
-                var z = default(Single?);
+                var y = default(Double?);
+                var z = default(Double?);
 
                 if (f == Symbols.Comma)
                 {
@@ -322,7 +322,7 @@
 
             if (x.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(x.Value, 1f, 1f);
+                return new ScaleTransform(x.Value, 1.0, 1.0);
             }
 
             return null;
@@ -339,7 +339,7 @@
 
             if (y.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(1f, y.Value, 1f);
+                return new ScaleTransform(1.0, y.Value, 1.0);
             }
 
             return null;
@@ -356,7 +356,7 @@
 
             if (z.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(1f, 1f, z.Value);
+                return new ScaleTransform(1.0, 1.0, z.Value);
             }
 
             return null;

@@ -704,7 +704,7 @@ namespace AngleSharp.Css
             };
         }
 
-        private static Func<Text.StringSource, Length?> FromNumber(Func<Text.StringSource, Single?> converter)
+        private static Func<Text.StringSource, Length?> FromNumber(Func<Text.StringSource, Double?> converter)
         {
             return source =>
             {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Extensions;
@@ -21,7 +21,7 @@
 
         #region Fields
 
-        private readonly Single _value;
+        private readonly Double _value;
         private readonly Unit _unit;
 
         #endregion
@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="value">The value of the time.</param>
         /// <param name="unit">The unit of the time.</param>
-        public Time(Single value, Unit unit)
+        public Time(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the value of time.
         /// </summary>
-        public Single Value
+        public Double Value
         {
             get { return _value; }
         }
@@ -157,7 +157,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Time result)
         {
-            var value = default(Single);
+            var value = default(Double);
             var unit = GetUnit(s.CssUnit(out value));
 
             if (unit != Unit.None)
@@ -189,9 +189,9 @@
         /// Converts the value to milliseconds.
         /// </summary>
         /// <returns>The number of milliseconds.</returns>
-        public Single ToMilliseconds()
+        public Double ToMilliseconds()
         {
-            return _unit == Unit.S ? _value * 1000f : _value;
+            return _unit == Unit.S ? _value * 1000.0 : _value;
         }
 
         /// <summary>

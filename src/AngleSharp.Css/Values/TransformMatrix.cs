@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -20,7 +20,7 @@
         /// </summary>
         public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
-        private readonly Single[,] _matrix;
+        private readonly Double[,] _matrix;
 
         #endregion
 
@@ -28,14 +28,14 @@
 
         private TransformMatrix()
         {
-            _matrix = new Single[4, 4];
+            _matrix = new Double[4, 4];
         }
 
         /// <summary>
         /// Creates a new transformation matrix from a 1D-array.
         /// </summary>
         /// <param name="values">The array with values.</param>
-        public TransformMatrix(Single[] values)
+        public TransformMatrix(Double[] values)
             : this()
         {
             if (values == null)
@@ -74,11 +74,11 @@
         /// <param name="py">The y-perspective entry.</param>
         /// <param name="pz">The z-perspective entry.</param>
         public TransformMatrix(
-            Single m11, Single m12, Single m13, 
-            Single m21, Single m22, Single m23, 
-            Single m31, Single m32, Single m33, 
-            Single tx, Single ty, Single tz, 
-            Single px, Single py, Single pz)
+            Double m11, Double m12, Double m13,
+            Double m21, Double m22, Double m23,
+            Double m31, Double m32, Double m33,
+            Double tx, Double ty, Double tz,
+            Double px, Double py, Double pz)
             : this()
         {
             _matrix[0, 0] = m11;
@@ -114,7 +114,7 @@
         /// <summary>
         /// Gets the element of the 1st row, 1st column.
         /// </summary>
-        public Single M11
+        public Double M11
         {
             get { return _matrix[0, 0]; }
         }
@@ -122,7 +122,7 @@
         /// <summary>
         /// Gets the element of the 1st row, 2nd column.
         /// </summary>
-        public Single M12
+        public Double M12
         {
             get { return _matrix[0, 1]; }
         }
@@ -130,7 +130,7 @@
         /// <summary>
         /// Gets the element of the 1st row, 3rd column.
         /// </summary>
-        public Single M13
+        public Double M13
         {
             get { return _matrix[0, 2]; }
         }
@@ -138,7 +138,7 @@
         /// <summary>
         /// Gets the element of the 2nd row, 1st column.
         /// </summary>
-        public Single M21
+        public Double M21
         {
             get { return _matrix[1, 0]; }
         }
@@ -146,7 +146,7 @@
         /// <summary>
         /// Gets the element of the 2nd row, 2nd column.
         /// </summary>
-        public Single M22
+        public Double M22
         {
             get { return _matrix[1, 1]; }
         }
@@ -154,7 +154,7 @@
         /// <summary>
         /// Gets the element of the 2nd row, 3rd column.
         /// </summary>
-        public Single M23
+        public Double M23
         {
             get { return _matrix[1, 2]; }
         }
@@ -162,7 +162,7 @@
         /// <summary>
         /// Gets the element of the 3rd row, 1st column.
         /// </summary>
-        public Single M31
+        public Double M31
         {
             get { return _matrix[2, 0]; }
         }
@@ -170,7 +170,7 @@
         /// <summary>
         /// Gets the element of the 3rd row, 2nd column.
         /// </summary>
-        public Single M32
+        public Double M32
         {
             get { return _matrix[2, 1]; }
         }
@@ -178,7 +178,7 @@
         /// <summary>
         /// Gets the element of the 3rd row, 3rd column.
         /// </summary>
-        public Single M33
+        public Double M33
         {
             get { return _matrix[2, 2]; }
         }
@@ -186,7 +186,7 @@
         /// <summary>
         /// Gets the x-element of the translation vector.
         /// </summary>
-        public Single Tx
+        public Double Tx
         {
             get { return _matrix[0, 3]; }
         }
@@ -194,7 +194,7 @@
         /// <summary>
         /// Gets the y-element of the translation vector.
         /// </summary>
-        public Single Ty
+        public Double Ty
         {
             get { return _matrix[1, 3]; }
         }
@@ -202,7 +202,7 @@
         /// <summary>
         /// Gets the z-element of the translation vector.
         /// </summary>
-        public Single Tz
+        public Double Tz
         {
             get { return _matrix[2, 3]; }
         }
@@ -256,7 +256,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            var sum = 0f;
+            var sum = 0.0;
 
             for (var i = 0; i < 4; i++)
             {
