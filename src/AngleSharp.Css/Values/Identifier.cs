@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -14,7 +14,7 @@
 
         public String CssText
         {
-            get { return _text; }
+            get { return ToString(); }
         }
 
         public override String ToString()

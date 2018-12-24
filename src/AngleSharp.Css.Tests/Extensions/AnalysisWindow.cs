@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Extensions
+namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -242,6 +242,40 @@ em { font-style: italic !important; }
             var stylePseudo = window.GetComputedStyle(element, ":before");
             Assert.IsNotNull(stylePseudo);
             Assert.AreEqual(3, stylePseudo.Length);
+        }
+
+        [Test]
+        public void GetCascadedValueOfTextTransformFromGlobalStyle()
+        {
+            var sourceCode = "<!doctype html><style>body { text-transform: uppercase }</style><div><p><span>Bold text";
+
+            var document = ParseDocument(sourceCode);
+            Assert.IsNotNull(document);
+            var window = document.DefaultView;
+
+            var element = document.QuerySelector("span");
+            Assert.IsNotNull(element);
+
+            var styleNormal = window.GetComputedStyle(element);
+            Assert.IsNotNull(styleNormal);
+            Assert.AreEqual("uppercase", styleNormal.GetTextTransform());
+        }
+
+        [Test]
+        public void GetCascadedValueOfTextTransformFromElementStyle()
+        {
+            var sourceCode = "<!doctype html><div style=\"text-transform: uppercase\"><p><span>Bold text";
+
+            var document = ParseDocument(sourceCode);
+            Assert.IsNotNull(document);
+            var window = document.DefaultView;
+
+            var element = document.QuerySelector("span");
+            Assert.IsNotNull(element);
+
+            var styleNormal = window.GetComputedStyle(element);
+            Assert.IsNotNull(styleNormal);
+            Assert.AreEqual("uppercase", styleNormal.GetTextTransform());
         }
     }
 }

@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Aggregators
     using AngleSharp.Css.Declarations;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -38,6 +39,22 @@ namespace AngleSharp.Css.Aggregators
                     new CssProperty(BorderImageSourceDeclaration.Name, BorderImageSourceDeclaration.Converter, BorderImageSourceDeclaration.Flags, img.Value.Image),
                     new CssProperty(BorderImageWidthDeclaration.Name, BorderImageWidthDeclaration.Converter, BorderImageWidthDeclaration.Flags, img.Value.Widths),
                 };
+            }
+            else
+            {
+                var constant = value as Constant<Object>;
+
+                if (constant != null)
+                {
+                    return new[]
+                    {
+                        new CssProperty(BorderImageOutsetDeclaration.Name, BorderImageOutsetDeclaration.Converter, BorderImageOutsetDeclaration.Flags, null),
+                        new CssProperty(BorderImageRepeatDeclaration.Name, BorderImageRepeatDeclaration.Converter, BorderImageRepeatDeclaration.Flags, null),
+                        new CssProperty(BorderImageSliceDeclaration.Name, BorderImageSliceDeclaration.Converter, BorderImageSliceDeclaration.Flags, null),
+                        new CssProperty(BorderImageSourceDeclaration.Name, BorderImageSourceDeclaration.Converter, BorderImageSourceDeclaration.Flags, constant),
+                        new CssProperty(BorderImageWidthDeclaration.Name, BorderImageWidthDeclaration.Converter, BorderImageWidthDeclaration.Flags, null)
+                    };
+                }
             }
 
             return null;

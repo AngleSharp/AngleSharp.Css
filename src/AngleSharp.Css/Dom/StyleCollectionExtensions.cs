@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Extensions
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Svg.Dom;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,6 +39,7 @@ namespace AngleSharp.Css.Extensions
         public static ICssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
+            var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
@@ -50,19 +52,10 @@ namespace AngleSharp.Css.Extensions
             }
 
             computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element));
-            var htmlElement = element as IHtmlElement;
-
-            if (htmlElement != null)
-            {
-                computedStyle.SetDeclarations(htmlElement.GetStyle());
-            }
-
-            var nodes = element.GetAncestors().OfType<IElement>();
 
             foreach (var node in nodes)
             {
-                var style = rules.ComputeCascadedStyle(node);
-                computedStyle.UpdateDeclarations(style);
+                computedStyle.UpdateDeclarations(rules.ComputeCascadedStyle(node));
             }
 
             return computedStyle;
@@ -85,6 +78,11 @@ namespace AngleSharp.Css.Extensions
             {
                 var inlineStyle = rule.Style;
                 computedStyle.SetDeclarations(inlineStyle);
+            }
+
+            if (element is IHtmlElement || element is ISvgElement)
+            {
+                computedStyle.SetDeclarations(element.GetStyle());
             }
 
             return computedStyle;
