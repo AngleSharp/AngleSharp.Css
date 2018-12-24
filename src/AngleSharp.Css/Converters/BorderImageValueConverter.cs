@@ -1,37 +1,88 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
 
     sealed class BorderImageValueConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)
         {
-            var image = source.ParseBorderImage();
+            var image = default(ICssValue);
+            var slice = default(ICssValue);
+            var widths = default(ICssValue);
+            var outsets = default(ICssValue);
+            var repeatX = default(ICssValue);
+            var repeatY = default(ICssValue);
+            var pos = 0;
 
-            if (image.HasValue)
+            do
             {
-                return new BorderImageValue(image.Value);
-            }
+                pos = source.Index;
 
-            return null;
+                if (image == null)
+                {
+                    image = source.ParseImageSource();
+                    source.SkipSpacesAndComments();
+                }
+
+                if (slice == null)
+                {
+                    slice = source.ParseBorderImageSlice();
+                    var c = source.SkipSpacesAndComments();
+
+                    if (slice != null && c == Symbols.Solidus)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        widths = source.ParsePeriodic<Length>(UnitParser.ParseBorderWidth);
+                        c = source.SkipSpacesAndComments();
+
+                        if (widths != null && c == Symbols.Solidus)
+                        {
+                            source.SkipCurrentAndSpaces();
+                            outsets = source.ParsePeriodic<Length>(UnitParser.ParseDistance);
+
+                            if (outsets == null)
+                            {
+                                return null;
+                            }
+
+                            source.SkipSpacesAndComments();
+                        }
+                    }
+                }
+
+                if (repeatX == null)
+                {
+                    repeatX = source.ParseConstant(Map.BorderRepeats);
+                    source.SkipSpacesAndComments();
+                }
+
+                if (repeatY == null)
+                {
+                    repeatY = source.ParseConstant(Map.BorderRepeats);
+                    source.SkipSpacesAndComments();
+                }
+            }
+            while (pos != source.Index);
+
+            return new BorderImage(image, slice, widths, outsets, CreateRepeat(repeatX, repeatY));
         }
 
-        sealed class BorderImageValue : ICssValue
+        private static ICssValue CreateRepeat(ICssValue repeatX, ICssValue repeatY)
         {
-            private readonly BorderImage _image;
-
-            public BorderImageValue(BorderImage image)
+            if (repeatX == null)
             {
-                _image = image;
+                return null;
             }
-
-            public String CssText
+            else if (repeatY == null)
             {
-                get { return _image.ToString(); }
+                return repeatX;
+            }
+            else
+            {
+                return new OrderedOptions(new[] { repeatX, repeatY });
             }
         }
     }

@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -23,28 +24,11 @@
 
             if (ident != null && _values.TryGetValue(ident, out mode))
             {
-                return new EnumeratedValue(ident.ToLowerInvariant(), mode);
+                return new Constant<T>(ident.ToLowerInvariant(), mode);
             }
 
             source.BackTo(pos);
             return null;
-        }
-
-        private sealed class EnumeratedValue : ICssValue
-        {
-            private readonly String _key;
-            private readonly T _data;
-
-            public EnumeratedValue(String key, T data)
-            {
-                _key = key;
-                _data = data;
-            }
-
-            public String CssText
-            {
-                get { return _key; }
-            }
         }
     }
 }

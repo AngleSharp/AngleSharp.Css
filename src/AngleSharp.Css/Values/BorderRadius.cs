@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Values
             {
                 var v = _vertical.CssText;
 
-                if (h != v)
+                if (!String.IsNullOrEmpty(v) && h != v)
                 {
                     return String.Concat(h, " / ", v);
                 }

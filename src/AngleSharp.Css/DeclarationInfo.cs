@@ -45,7 +45,7 @@ namespace AngleSharp.Css
         public String[] Shorthands { get; }
 
         /// <summary>
-        /// Gets the names of related longhand declarations.
+        /// Gets the names of related required longhand declarations.
         /// </summary>
         public String[] Longhands { get; }
     }

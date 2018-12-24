@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -55,10 +56,9 @@
                 source.ParseAutoLength();
         }
 
-        public static Length? ParseLineWidth(this StringSource source)
+        public static ICssValue ParseLineWidth(this StringSource source)
         {
-            return source.ParseLength() ?? 
-                source.ParseConstant(Map.BorderWidths);
+            return source.ParseLength() ?? source.ParseConstant(Map.BorderWidths);
         }
 
         public static Length? ParseLineHeight(this StringSource source)
@@ -148,7 +148,7 @@
             return null;
         }
 
-        public static Length? ParseFontSize(this StringSource source)
+        public static ICssValue ParseFontSize(this StringSource source)
         {
             return source.ParseDistance() ?? source.ParseConstant(Map.FontSizes);
         }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,8 +7,8 @@
     sealed class ColumnsValueConverter : IValueConverter
     {
         private static readonly IValueConverter TheConverter = WithAny(
-            AutoLengthConverter.For(PropertyNames.ColumnWidth),
-            OptionalIntegerConverter.For(PropertyNames.ColumnCount));
+            AutoLengthConverter,
+            OptionalIntegerConverter);
 
         public ICssValue Convert(StringSource source)
         {

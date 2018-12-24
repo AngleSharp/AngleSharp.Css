@@ -22,9 +22,11 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundColor,
             PropertyNames.BackgroundImage,
             PropertyNames.BackgroundOrigin,
-            PropertyNames.BackgroundPosition,
+            PropertyNames.BackgroundPositionX,
+            PropertyNames.BackgroundPositionY,
             PropertyNames.BackgroundSize,
-            PropertyNames.BackgroundRepeat,
+            PropertyNames.BackgroundRepeatX,
+            PropertyNames.BackgroundRepeatY,
         };
     }
 }

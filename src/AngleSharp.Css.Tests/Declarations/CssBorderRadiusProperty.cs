@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -155,10 +155,7 @@
         {
             var snippet = "border-radius: 2px 4px 3px 0 1px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]
@@ -202,10 +199,7 @@
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20% 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]
@@ -213,10 +207,7 @@
         {
             var snippet = "border-radius: 4px 3px 6px 1em 0 / 2px 4px 0 20%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]

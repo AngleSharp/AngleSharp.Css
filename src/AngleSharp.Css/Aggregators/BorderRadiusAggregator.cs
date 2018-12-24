@@ -1,27 +1,13 @@
 namespace AngleSharp.Css.Aggregators
 {
-    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Declarations;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     sealed class BorderRadiusAggregator : IValueAggregator
     {
-        private static String Left(String parts)
-        {
-            var idx = parts.IndexOf(' ');
-            return idx != -1 ? parts.Substring(0, idx) : parts;
-        }
-
-        private static String Right(String parts)
-        {
-            var idx = parts.IndexOf(' ');
-            return idx != -1 ? parts.Substring(idx + 1) : String.Empty;
-        }
-
         private static ICssValue Both(ICssValue horizontal, ICssValue vertical)
         {
             return new OrderedOptions(new[] { horizontal, vertical });
@@ -31,23 +17,28 @@ namespace AngleSharp.Css.Aggregators
         {
             return new[]
             {
-                new CssProperty(PropertyNames.BorderTopLeftRadius, BorderTopLeftRadiusDeclaration.Converter, BorderTopLeftRadiusDeclaration.Flags, topLeft),
-                new CssProperty(PropertyNames.BorderTopRightRadius, BorderTopRightRadiusDeclaration.Converter, BorderTopRightRadiusDeclaration.Flags, topRight),
-                new CssProperty(PropertyNames.BorderBottomRightRadius, BorderBottomRightRadiusDeclaration.Converter, BorderBottomRightRadiusDeclaration.Flags, bottomRight),
-                new CssProperty(PropertyNames.BorderBottomLeftRadius, BorderBottomLeftRadiusDeclaration.Converter, BorderBottomLeftRadiusDeclaration.Flags, bottomLeft),
+                new CssProperty(BorderTopLeftRadiusDeclaration.Name, BorderTopLeftRadiusDeclaration.Converter, BorderTopLeftRadiusDeclaration.Flags, topLeft),
+                new CssProperty(BorderTopRightRadiusDeclaration.Name, BorderTopRightRadiusDeclaration.Converter, BorderTopRightRadiusDeclaration.Flags, topRight),
+                new CssProperty(BorderBottomRightRadiusDeclaration.Name, BorderBottomRightRadiusDeclaration.Converter, BorderBottomRightRadiusDeclaration.Flags, bottomRight),
+                new CssProperty(BorderBottomLeftRadiusDeclaration.Name, BorderBottomLeftRadiusDeclaration.Converter, BorderBottomLeftRadiusDeclaration.Flags, bottomLeft),
             };
         }
 
         public ICssValue Collect(IEnumerable<ICssProperty> properties)
         {
-            var topLeft = properties.Where(m => m.Name == PropertyNames.BorderTopLeftRadius).Select(m => m.Value).FirstOrDefault();
-            var topRight = properties.Where(m => m.Name == PropertyNames.BorderTopRightRadius).Select(m => m.Value).FirstOrDefault();
-            var bottomRight = properties.Where(m => m.Name == PropertyNames.BorderBottomRightRadius).Select(m => m.Value).FirstOrDefault();
-            var bottomLeft = properties.Where(m => m.Name == PropertyNames.BorderBottomLeftRadius).Select(m => m.Value).FirstOrDefault();
-            var valueLeft = $"{Left(topLeft)} {Left(topRight)} {Left(bottomRight)} {Left(bottomLeft)}".Trim();
-            var valueRight = $"{Right(topLeft)} {Right(topRight)} {Right(bottomRight)} {Right(bottomLeft)}".Trim();
-            var converter = new BorderRadiusValueConverter();
-            return converter.Convert(valueRight.Length > 0 ? $"{valueLeft} / {valueRight}" : valueLeft);
+            var topLeft = properties.Where(m => m.Name == BorderTopLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
+            var topRight = properties.Where(m => m.Name == BorderTopRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
+            var bottomRight = properties.Where(m => m.Name == BorderBottomRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
+            var bottomLeft = properties.Where(m => m.Name == BorderBottomLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
+
+            if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
+            {
+                var horizontal = new Periodic<ICssValue>(new[] { topLeft.Options[0], topRight.Options[0], bottomRight.Options[0], bottomLeft.Options[0] });
+                var vertical = new Periodic<ICssValue>(new[] { topLeft.Options[1], topRight.Options[1], bottomRight.Options[1], bottomLeft.Options[1] });
+                return new BorderRadius(horizontal, vertical);
+            }
+
+            return null;
         }
 
         public IEnumerable<ICssProperty> Distribute(ICssValue value)
@@ -59,7 +50,7 @@ namespace AngleSharp.Css.Aggregators
                 return CreateLonghands(Both(radius.Horizontal.Top, radius.Vertical.Top), Both(radius.Horizontal.Right, radius.Vertical.Right), Both(radius.Horizontal.Bottom, radius.Vertical.Bottom), Both(radius.Horizontal.Left, radius.Vertical.Left));
             }
 
-            return CreateLonghands(null, null, null, null);
+            return null;
         }
     }
 }

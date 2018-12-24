@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Dom;
     using NUnit.Framework;
@@ -412,7 +412,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("smaller sans-serif", property.Value);
+            Assert.AreEqual("80% sans-serif", property.Value);
         }
 
         [Test]
@@ -424,7 +424,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold large serif", property.Value);
+            Assert.AreEqual("italic bold 1.2em serif", property.Value);
         }
 
         [Test]
@@ -567,7 +567,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("smaller sans-serif", property.Value);
+            Assert.AreEqual("80% sans-serif", property.Value);
         }
 
         [Test]
@@ -579,7 +579,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("x-large / 110% \"New Century Schoolbook\", serif", property.Value);
+            Assert.AreEqual("1.5em / 110% \"New Century Schoolbook\", serif", property.Value);
         }
 
         [Test]
@@ -591,7 +591,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold large Palatino, serif", property.Value);
+            Assert.AreEqual("italic bold 1.2em Palatino, serif", property.Value);
         }
 
         [Test]
@@ -603,7 +603,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal small-caps larger / 120% Fantasy", property.Value);
+            Assert.AreEqual("normal small-caps 120% / 120% Fantasy", property.Value);
         }
 
         [Test]

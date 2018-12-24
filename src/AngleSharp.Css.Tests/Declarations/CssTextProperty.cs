@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -180,10 +180,7 @@
         {
             var snippet = "text-decoration: line-pass";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("text-decoration", property.Name);
-            Assert.IsFalse(property.HasValue);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.IsImportant);
+            Assert.IsNull(property);
         }
 
         [Test]

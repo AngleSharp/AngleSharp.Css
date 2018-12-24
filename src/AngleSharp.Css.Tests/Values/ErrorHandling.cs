@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Values
+namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -35,8 +35,7 @@
                 IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.GetStyle().Length);
-            Assert.AreEqual("background", div.GetStyle()[0]);
+            Assert.AreEqual(10, div.GetStyle().Length);
             div.GetStyle().RemoveProperty("background");
             Assert.AreEqual(0, div.GetStyle().Length);
         }

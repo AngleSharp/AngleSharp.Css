@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -191,10 +191,7 @@
         {
             var snippet = "margin: 10px 5% 8px 2% 3px auto";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("margin", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]

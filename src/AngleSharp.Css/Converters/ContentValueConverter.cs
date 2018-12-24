@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -20,19 +20,19 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var modes = default(IContentMode[]);
+            var modes = default(ICssValue[]);
 
             if (source.IsIdentifier(CssKeywords.Normal))
             {
-                modes = new IContentMode[] { new NormalContentMode() };
+                modes = new ICssValue[] { new NormalContentMode() };
             }
             else if (source.IsIdentifier(CssKeywords.None))
             {
-                modes = new IContentMode[] { };
+                modes = new ICssValue[] { };
             }
             else
             {
-                var ms = new List<IContentMode>();
+                var ms = new List<ICssValue>();
 
                 while (!source.IsDone)
                 {
@@ -98,9 +98,9 @@
 
         private sealed class ContentValue : ICssValue
         {
-            private IContentMode[] _modes;
+            private ICssValue[] _modes;
 
-            public ContentValue(IContentMode[] modes)
+            public ContentValue(ICssValue[] modes)
             {
                 _modes = modes;
             }
@@ -111,7 +111,7 @@
             }
         }
 
-        private interface IContentMode
+        private interface IContentMode : ICssValue
         {
             String Stringify(IElement element);
         }
@@ -121,6 +121,11 @@
         /// </summary>
         private sealed class NormalContentMode : IContentMode
         {
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -138,6 +143,11 @@
         /// </summary>
         private sealed class OpenQuoteContentMode : IContentMode
         {
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -155,6 +165,11 @@
         /// </summary>
         private sealed class CloseQuoteContentMode : IContentMode
         {
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -172,6 +187,11 @@
         /// </summary>
         private sealed class NoOpenQuoteContentMode : IContentMode
         {
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -189,6 +209,11 @@
         /// </summary>
         private sealed class NoCloseQuoteContentMode : IContentMode
         {
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -210,6 +235,11 @@
             public TextContentMode(String text)
             {
                 _text = text;
+            }
+
+            public String CssText
+            {
+                get { return ToString(); }
             }
 
             public String Stringify(IElement element)
@@ -237,6 +267,11 @@
                 _counter = counter;
             }
 
+            public String CssText
+            {
+                get { return ToString(); }
+            }
+
             public String Stringify(IElement element)
             {
                 return String.Empty;
@@ -259,6 +294,11 @@
             public AttributeContentMode(String attribute)
             {
                 _attribute = attribute;
+            }
+
+            public String CssText
+            {
+                get { return ToString(); }
             }
 
             public String Stringify(IElement element)
@@ -284,6 +324,11 @@
             public UrlContentMode(UrlReference url)
             {
                 _url = url;
+            }
+
+            public String CssText
+            {
+                get { return ToString(); }
             }
 
             public String Stringify(IElement element)

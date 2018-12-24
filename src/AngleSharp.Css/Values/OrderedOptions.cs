@@ -20,6 +20,14 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
+        /// Gets the contained options.
+        /// </summary>
+        public ICssValue[] Options
+        {
+            get { return _options; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText

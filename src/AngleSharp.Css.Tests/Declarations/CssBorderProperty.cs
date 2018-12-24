@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -178,10 +178,7 @@
         {
             var snippet = "border-color: red blue green black transparent";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]
@@ -249,10 +246,7 @@
         {
             var snippet = "border-style: wavy";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]
@@ -440,10 +434,7 @@
         {
             var snippet = "border-width: 0 0 0 0 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsNull(property);
         }
 
         [Test]

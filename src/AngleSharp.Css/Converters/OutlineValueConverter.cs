@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,9 +7,9 @@
     sealed class OutlineValueConverter : IValueConverter
     {
         private static readonly IValueConverter TheConverter = WithAny(
-            LineWidthConverter.Option().For(PropertyNames.OutlineWidth),
-            LineStyleConverter.Option().For(PropertyNames.OutlineStyle),
-            InvertedColorConverter.Option().For(PropertyNames.OutlineColor));
+            LineWidthConverter.Option(),
+            LineStyleConverter.Option(),
+            InvertedColorConverter.Option());
 
         public ICssValue Convert(StringSource source)
         {

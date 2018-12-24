@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -12,6 +12,41 @@
             var result = source.ParsePoint();
             return source.IsDone ? result : null;
         }
+
+        public static Length? ParsePointX(this StringSource source)
+        {
+            return source.ParsePointDir(IsHorizontal);
+        }
+
+        public static Length? ParsePointY(this StringSource source)
+        {
+            return source.ParsePointDir(IsVertical);
+        }
+
+        private static Length? ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
+        {
+            var pos = source.Index;
+            var x = new Length(50f, Length.Unit.Percent);
+            var l = source.ParseIdent();
+
+            if (l == null)
+            {
+                var f = source.ParseDistance();
+
+                if (f.HasValue)
+                {
+                    return f.Value;
+                }
+            }
+            else if (checkKeyword(l))
+            {
+                return KeywordToLength(l);
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
         public static Point? ParsePoint(this StringSource source)
         {
             var pos = source.Index;

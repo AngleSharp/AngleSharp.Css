@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Styling
+namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -82,7 +82,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1); border-top: none }";
+            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1); border-top: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
@@ -116,7 +116,7 @@ h1 {
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var style = stylesheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual(13, style.Style.Length);
+            Assert.AreEqual(15, style.Style.Length);
         }
 
         [Test]
@@ -180,9 +180,25 @@ h1 {
         }
 
         [Test]
-        public void CssSheetIgnoreUnknownProperty()
+        public void CssSheetDoIgnoreUnknownPropertyByDefault()
         {
             var sheet = ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
+            var h1 = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("h1", h1.SelectorText);
+            Assert.AreEqual(1, h1.Style.Length);
+            Assert.AreEqual("color", h1.Style[0]);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
+        }
+
+        [Test]
+        public void CssSheetNotIgnoreUnknownPropertyViaOptions()
+        {
+            var sheet = ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }", new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+            });
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
@@ -300,8 +316,8 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(1, img.Style.Length);
-            Assert.AreEqual("initial", img.Style.GetBackground());
+            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual("", img.Style.GetBackground());
         }
 
         [Test]
@@ -312,7 +328,7 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(1, img.Style.Length);
+            Assert.AreEqual(0, img.Style.Length);
         }
 
         [Test]
@@ -554,13 +570,10 @@ h1 { color: blue }");
         }
 
         [Test]
-        public void CssBackgroundWebkitGradient()
+        public void CssBackgroundWebkitGradientIsInvalid()
         {
             var background = ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
-            Assert.IsNotNull(background);
-            Assert.AreEqual("background", background.Name);
-            Assert.IsFalse(background.IsImportant);
-            Assert.IsFalse(background.HasValue);
+            Assert.IsNull(background);
         }
 
         [Test]

@@ -242,19 +242,20 @@ namespace AngleSharp.Css.Dom
                     {
                         property = GetProperty(declaration);
 
-                        if (property == null)
+                        if (property != null)
                         {
-                            return String.Empty;
+                            properties.Add(property);
                         }
-
-                        properties.Add(property);
                     }
 
-                    var value = info.Aggregator.Collect(properties);
-
-                    if (value != null)
+                    if (properties.Any())
                     {
-                        return value.CssText;
+                        var value = info.Aggregator.Collect(properties);
+
+                        if (value != null)
+                        {
+                            return value.CssText;
+                        }
                     }
                 }
 
@@ -331,6 +332,41 @@ namespace AngleSharp.Css.Dom
                 if (declaration.Name.Isi(name))
                 {
                     return declaration;
+                }
+            }
+
+            return GetPropertyShorthand(name);
+        }
+
+        private ICssProperty GetPropertyShorthand(String name)
+        {
+            var info = _context.GetDeclarationInfo(name);
+
+            if (info.Aggregator != null)
+            {
+                var declarations = info.Longhands;
+                var properties = new List<ICssProperty>();
+                var important = false;
+
+                foreach (var declaration in declarations)
+                {
+                    var property = GetProperty(declaration);
+
+                    if (property != null)
+                    {
+                        important = important || property.IsImportant;
+                        properties.Add(property);
+                    }
+                }
+
+                if (properties.Any())
+                {
+                    var value = info.Aggregator.Collect(properties);
+
+                    if (value != null)
+                    {
+                        return new CssProperty(name, info.Converter, info.Flags, value, important);
+                    }
                 }
             }
 
@@ -451,12 +487,9 @@ namespace AngleSharp.Css.Dom
             {
                 foreach (var property in properties)
                 {
+                    property.IsImportant = shorthand.IsImportant;
                     SetLonghand(property);
                 }
-            }
-            else
-            {
-                SetLonghand(shorthand);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,9 +7,9 @@
     sealed class ListStyleValueConverter : IValueConverter
     {
         private static readonly IValueConverter TheConverter = WithAny(
-            ListStyleConverter.Option().For(PropertyNames.ListStyleType),
-            ListPositionConverter.Option().For(PropertyNames.ListStylePosition),
-            OptionalImageSourceConverter.Option().For(PropertyNames.ListStyleImage));
+            ListStyleConverter.Option(),
+            ListPositionConverter.Option(),
+            OptionalImageSourceConverter.Option());
 
         public ICssValue Convert(StringSource source)
         {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,9 +7,9 @@
     sealed class TextDecorationValueConverter : IValueConverter
     {
         private static readonly IValueConverter TheConverter = WithAny(
-            ColorConverter.Option().For(PropertyNames.TextDecorationColor),
-            TextDecorationStyleConverter.Option().For(PropertyNames.TextDecorationStyle),
-            TextDecorationLinesConverter.Option().For(PropertyNames.TextDecorationLine));
+            ColorConverter.Option(),
+            TextDecorationStyleConverter.Option(),
+            TextDecorationLinesConverter.Option());
 
         public ICssValue Convert(StringSource source)
         {

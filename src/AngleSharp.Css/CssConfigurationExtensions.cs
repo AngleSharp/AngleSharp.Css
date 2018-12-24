@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Parser;
@@ -14,6 +14,7 @@
         /// to retrieve, if no other styling service has been registered yet.
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="options">Optional options for the parser.</param>
         /// <param name="setup">Optional setup for the style engine.</param>
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default(CssParserOptions), Action<CssStylingService> setup = null)

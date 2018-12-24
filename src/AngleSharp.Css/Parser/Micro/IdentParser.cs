@@ -1,11 +1,11 @@
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using Values;
 
     static class IdentParser
     {
@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static T? ParseConstant<T>(this StringSource source, IDictionary<String, T> values)
+        public static ICssValue ParseConstant<T>(this StringSource source, IDictionary<String, T> values)
             where T : struct
         {
             var pos = source.Index;
@@ -65,19 +65,18 @@ namespace AngleSharp.Css.Parser
 
             if (ident != null && values.TryGetValue(ident, out mode))
             {
-                return mode;
+                return mode as ICssValue ?? new Constant<T>(ident.ToLowerInvariant(), mode);
             }
 
             source.BackTo(pos);
             return null;
         }
 
-        public static T ParseStatic<T>(this StringSource source, IDictionary<String, T> values)
-            where T : class
+        public static Constant<T> ParseStatic<T>(this StringSource source, IDictionary<String, T> values)
         {
             var ident = source.ParseIdent();
             var mode = default(T);
-            return ident != null && values.TryGetValue(ident, out mode) ? mode : null;
+            return ident != null && values.TryGetValue(ident, out mode) ? new Constant<T>(ident.ToLowerInvariant(), mode) : null;
         }
 
         public static Boolean IsFunction(this StringSource source, String name)

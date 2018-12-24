@@ -326,7 +326,7 @@ li{background:orange;}
             Assert.AreEqual(@"#-a-b-c-", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
             Assert.AreEqual(@"#©", ((ICssStyleRule)sheet.Rules[5]).SelectorText);
             Assert.AreEqual(@"html", ((ICssStyleRule)sheet.Rules[6]).SelectorText);
-            Assert.AreEqual(@"large / 1.6 Arial", ((ICssStyleRule)sheet.Rules[6]).Style["font"]);
+            Assert.AreEqual(@"1.2em / 1.6 Arial", ((ICssStyleRule)sheet.Rules[6]).Style["font"]);
             Assert.AreEqual(@"code", ((ICssStyleRule)sheet.Rules[7]).SelectorText);
             Assert.AreEqual(@"Consolas", ((ICssStyleRule)sheet.Rules[7]).Style["font-family"]);
             Assert.AreEqual(@"li code", ((ICssStyleRule)sheet.Rules[8]).SelectorText);

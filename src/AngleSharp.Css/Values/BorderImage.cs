@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -8,25 +8,23 @@
     {
         #region Fields
 
-        private readonly IImageSource _image;
-        private readonly BorderImageSlice? _slice;
-        private readonly Periodic<Length> _widths;
-        private readonly Periodic<Length> _outsets;
-        private readonly BorderRepeat? _repeatX;
-        private readonly BorderRepeat? _repeatY;
+        private readonly ICssValue _image;
+        private readonly ICssValue _slice;
+        private readonly ICssValue _widths;
+        private readonly ICssValue _outsets;
+        private readonly ICssValue _repeat;
 
         #endregion
 
         #region ctor
 
-        public BorderImage(IImageSource image, BorderImageSlice? slice, Periodic<Length> widths, Periodic<Length> outsets, BorderRepeat? repeatX, BorderRepeat? repeatY)
+        public BorderImage(ICssValue image, ICssValue slice, ICssValue widths, ICssValue outsets, ICssValue repeat)
         {
             _image = image;
             _slice = slice;
             _widths = widths;
             _outsets = outsets;
-            _repeatX = repeatX;
-            _repeatY = repeatY;
+            _repeat = repeat;
         }
 
         #endregion
@@ -41,34 +39,29 @@
             get { return ToString(); }
         }
 
-        public IImageSource Image
+        public ICssValue Image
         {
             get { return _image; }
         }
 
-        public BorderImageSlice? Slice
+        public ICssValue Slice
         {
             get { return _slice; }
         }
 
-        public Periodic<Length> Widths
+        public ICssValue Widths
         {
             get { return _widths; }
         }
 
-        public Periodic<Length> Outsets
+        public ICssValue Outsets
         {
             get { return _outsets; }
         }
 
-        public BorderRepeat? RepeatX
+        public ICssValue Repeat
         {
-            get { return _repeatX; }
-        }
-
-        public BorderRepeat? RepeatY
-        {
-            get { return _repeatY; }
+            get { return _repeat; }
         }
 
         #endregion
@@ -82,13 +75,13 @@
             if (_image != null)
             {
                 if (sb.Length > 0) sb.Append(Symbols.Space);
-                sb.Append(_image.ToString());
+                sb.Append(_image.CssText);
             }
 
-            if (_slice.HasValue)
+            if (_slice != null)
             {
                 if (sb.Length > 0) sb.Append(Symbols.Space);
-                sb.Append(_slice.Value.ToString());
+                sb.Append(_slice.CssText);
             }
 
             if (_widths != null)
@@ -102,16 +95,10 @@
                 sb.Append(" / ").Append(_outsets.ToString());
             }
 
-            if (_repeatX.HasValue)
+            if (_repeat != null)
             {
                 if (sb.Length > 0) sb.Append(Symbols.Space);
-                sb.Append(_repeatX.Value.ToString(Map.BorderRepeats));
-            }
-
-            if (_repeatY.HasValue)
-            {
-                if (sb.Length > 0) sb.Append(Symbols.Space);
-                sb.Append(_repeatY.Value.ToString(Map.BorderRepeats));
+                sb.Append(_repeat.CssText);
             }
 
             return sb.ToPool();

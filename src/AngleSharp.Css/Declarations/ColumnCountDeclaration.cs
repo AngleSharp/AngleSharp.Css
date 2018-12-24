@@ -7,6 +7,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ColumnCount;
 
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Columns,
+        };
+
         public static IValueConverter Converter = Or(OptionalIntegerConverter, AssignInitial());
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;

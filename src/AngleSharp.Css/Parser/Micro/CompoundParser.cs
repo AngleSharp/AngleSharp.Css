@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
@@ -77,11 +77,15 @@
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
             {
-                return new ImageRepeats(BackgroundRepeat.Repeat, BackgroundRepeat.NoRepeat);
+                var h = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
+                var v = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
+                return new ImageRepeats(h, v);
             }
             else if (source.IsIdentifier(CssKeywords.RepeatY))
             {
-                return new ImageRepeats(BackgroundRepeat.NoRepeat, BackgroundRepeat.Repeat);
+                var h = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
+                var v = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
+                return new ImageRepeats(h, v);
             }
             else
             {
@@ -89,13 +93,13 @@
                 source.SkipSpacesAndComments();
                 var repeatY = source.ParseConstant(Map.BackgroundRepeats);
 
-                if (repeatY.HasValue)
+                if (repeatY != null)
                 {
-                    return new ImageRepeats(repeatX.Value, repeatY.Value);
+                    return new ImageRepeats(repeatX, repeatY);
                 }
-                else if (repeatX.HasValue)
+                else if (repeatX != null)
                 {
-                    return new ImageRepeats(repeatX.Value, repeatX.Value);
+                    return new ImageRepeats(repeatX, repeatX);
                 }
             }
 
@@ -131,67 +135,6 @@
             }
 
             return values.Count > 0 ? new Periodic<T>(values.ToArray()) : null;
-        }
-
-        public static BorderImage? ParseBorderImage(this StringSource source)
-        {
-            var image = default(IImageSource);
-            var slice = default(BorderImageSlice?);
-            var widths = default(Periodic<Length>);
-            var outsets = default(Periodic<Length>);
-            var repeatX = default(BorderRepeat?);
-            var repeatY = default(BorderRepeat?);
-            var pos = 0;
-
-            do
-            {
-                pos = source.Index;
-
-                if (image == null)
-                {
-                    image = source.ParseImageSource();
-                    source.SkipSpacesAndComments();
-                }
-
-                if (!slice.HasValue)
-                {
-                    slice = source.ParseBorderImageSlice();
-                    var c = source.SkipSpacesAndComments();
-
-                    if (slice.HasValue && c == Symbols.Solidus)
-                    {
-                        source.SkipCurrentAndSpaces();
-                        widths = source.ParsePeriodic<Length>(UnitParser.ParseBorderWidth);
-                        c = source.SkipSpacesAndComments();
-
-                        if (widths != null && c == Symbols.Solidus)
-                        {
-                            source.SkipCurrentAndSpaces();
-                            outsets = source.ParsePeriodic<Length>(UnitParser.ParseDistance);
-
-                            if (outsets == null)
-                                return null;
-
-                            source.SkipSpacesAndComments();
-                        }
-                    }
-                }
-
-                if (!repeatX.HasValue)
-                {
-                    repeatX = source.ParseConstant(Map.BorderRepeats);
-                    source.SkipSpacesAndComments();
-                }
-
-                if (!repeatY.HasValue)
-                {
-                    repeatY = source.ParseConstant(Map.BorderRepeats);
-                    source.SkipSpacesAndComments();
-                }
-            }
-            while (pos != source.Index);
-
-            return new BorderImage(image, slice, widths, outsets, repeatX, repeatY);
         }
     }
 }

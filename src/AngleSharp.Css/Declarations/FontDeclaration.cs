@@ -21,6 +21,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.FontSize,
             PropertyNames.FontVariant,
             PropertyNames.FontWeight,
+            PropertyNames.FontStretch,
             PropertyNames.FontStyle,
             PropertyNames.LineHeight,
         };

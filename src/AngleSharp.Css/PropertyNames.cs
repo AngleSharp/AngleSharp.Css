@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -126,6 +126,16 @@
         /// The background-repeat declaration.
         /// </summary>
         public static readonly String BackgroundRepeat = "background-repeat";
+
+        /// <summary>
+        /// The background-repeat-x declaration.
+        /// </summary>
+        public static readonly String BackgroundRepeatX = "background-repeat-x";
+
+        /// <summary>
+        /// The background-repeat-y declaration.
+        /// </summary>
+        public static readonly String BackgroundRepeatY = "background-repeat-y";
 
         /// <summary>
         /// The background declaration.

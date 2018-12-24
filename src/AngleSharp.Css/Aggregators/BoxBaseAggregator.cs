@@ -31,7 +31,13 @@ namespace AngleSharp.Css.Aggregators
             var right = properties.Where(m => m.Name == _rightName).Select(m => m.RawValue).FirstOrDefault();
             var bottom = properties.Where(m => m.Name == _bottomName).Select(m => m.RawValue).FirstOrDefault();
             var left = properties.Where(m => m.Name == _leftName).Select(m => m.RawValue).FirstOrDefault();
-            return new Periodic<ICssValue>(new[] { top, right, bottom, left });
+
+            if (top != null && right != null && bottom != null && left != null)
+            {
+                return new Periodic<ICssValue>(new[] { top, right, bottom, left });
+            }
+
+            return null;
         }
 
         public IEnumerable<ICssProperty> Distribute(ICssValue value)

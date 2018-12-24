@@ -33,6 +33,10 @@ namespace AngleSharp.Css
         /// <summary>
         /// The property is actually a shorthand.
         /// </summary>
-        Shorthand = 0x10
+        Shorthand = 0x10,
+        /// <summary>
+        /// The property is not known.
+        /// </summary>
+        Unknown = 0x20
     }
 }

@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultDeclarationFactory : IDeclarationFactory
     {
-        private readonly DeclarationInfo defaultDeclaration = new DeclarationInfo(ValueConverters.Any);
+        private readonly DeclarationInfo defaultDeclaration = new DeclarationInfo(ValueConverters.Any, flags: PropertyFlags.Unknown);
         private readonly Dictionary<String, DeclarationInfo> _declarations = new Dictionary<String, DeclarationInfo>(StringComparer.OrdinalIgnoreCase)
         {
             {
@@ -326,7 +326,8 @@ namespace AngleSharp.Css
             {
                 ColumnCountDeclaration.Name, new DeclarationInfo(
                     converter: ColumnCountDeclaration.Converter,
-                    flags: ColumnCountDeclaration.Flags)
+                    flags: ColumnCountDeclaration.Flags,
+                    shorthands: ColumnCountDeclaration.Shorthands)
             },
             {
                 ColumnFillDeclaration.Name, new DeclarationInfo(
@@ -341,8 +342,7 @@ namespace AngleSharp.Css
             {
                 ColumnSpanDeclaration.Name, new DeclarationInfo(
                     converter: ColumnSpanDeclaration.Converter,
-                    flags: ColumnSpanDeclaration.Flags,
-                    shorthands: ColumnSpanDeclaration.Shorthands)
+                    flags: ColumnSpanDeclaration.Flags)
             },
             {
                 ColumnWidthDeclaration.Name, new DeclarationInfo(
@@ -462,6 +462,16 @@ namespace AngleSharp.Css
                     converter: FontWeightDeclaration.Converter,
                     flags: FontWeightDeclaration.Flags,
                     shorthands: FontWeightDeclaration.Shorthands)
+            },
+            {
+                UnicodeRangeDeclaration.Name, new DeclarationInfo(
+                    converter: UnicodeRangeDeclaration.Converter,
+                    flags: UnicodeRangeDeclaration.Flags)
+            },
+            {
+                SrcDeclaration.Name, new DeclarationInfo(
+                    converter: SrcDeclaration.Converter,
+                    flags: SrcDeclaration.Flags)
             },
             {
                 ColumnRuleWidthDeclaration.Name, new DeclarationInfo(
@@ -701,13 +711,39 @@ namespace AngleSharp.Css
                 BackgroundRepeatDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundRepeatDeclaration.Converter,
                     flags: BackgroundRepeatDeclaration.Flags,
+                    longhands: BackgroundRepeatDeclaration.Longhands,
                     shorthands: BackgroundRepeatDeclaration.Shorthands)
+            },
+            {
+                BackgroundRepeatXDeclaration.Name, new DeclarationInfo(
+                    converter: BackgroundRepeatXDeclaration.Converter,
+                    flags: BackgroundRepeatXDeclaration.Flags,
+                    shorthands: BackgroundRepeatXDeclaration.Shorthands)
+            },
+            {
+                BackgroundRepeatYDeclaration.Name, new DeclarationInfo(
+                    converter: BackgroundRepeatYDeclaration.Converter,
+                    flags: BackgroundRepeatYDeclaration.Flags,
+                    shorthands: BackgroundRepeatYDeclaration.Shorthands)
             },
             {
                 BackgroundPositionDeclaration.Name, new DeclarationInfo(
                     converter: BackgroundPositionDeclaration.Converter,
                     flags: BackgroundPositionDeclaration.Flags,
-                    shorthands: BackgroundPositionDeclaration.Shorthands)
+                    shorthands: BackgroundPositionDeclaration.Shorthands,
+                    longhands: BackgroundPositionDeclaration.Longhands)
+            },
+            {
+                BackgroundPositionXDeclaration.Name, new DeclarationInfo(
+                    converter: BackgroundPositionXDeclaration.Converter,
+                    flags: BackgroundPositionXDeclaration.Flags,
+                    shorthands: BackgroundPositionXDeclaration.Shorthands)
+            },
+            {
+                BackgroundPositionYDeclaration.Name, new DeclarationInfo(
+                    converter: BackgroundPositionYDeclaration.Converter,
+                    flags: BackgroundPositionYDeclaration.Flags,
+                    shorthands: BackgroundPositionYDeclaration.Shorthands)
             },
             {
                 BackgroundOriginDeclaration.Name, new DeclarationInfo(

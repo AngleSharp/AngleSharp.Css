@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Aggregators
 {
+    using AngleSharp.Css.Declarations;
     using static ValueConverters;
 
     sealed class PaddingAggregator : BoxBaseAggregator
     {
         public PaddingAggregator()
-            : base(PropertyNames.PaddingTop, PropertyNames.PaddingRight, PropertyNames.PaddingBottom, PropertyNames.PaddingLeft, PaddingConverter, PropertyFlags.Unitless | PropertyFlags.Animatable)
+            : base(PaddingTopDeclaration.Name, PaddingRightDeclaration.Name, PaddingBottomDeclaration.Name, PaddingLeftDeclaration.Name, PaddingConverter, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
     }

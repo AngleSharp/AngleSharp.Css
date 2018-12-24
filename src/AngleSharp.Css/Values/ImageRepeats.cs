@@ -1,17 +1,28 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Text;
     using System;
 
     public struct ImageRepeats : ICssValue
     {
-        private readonly BackgroundRepeat _horizontal;
-        private readonly BackgroundRepeat _vertical;
+        private readonly ICssValue _horizontal;
+        private readonly ICssValue _vertical;
 
-        public ImageRepeats(BackgroundRepeat horizontal, BackgroundRepeat vertical)
+        public ImageRepeats(ICssValue horizontal, ICssValue vertical)
         {
             _horizontal = horizontal;
             _vertical = vertical;
+        }
+
+        public ICssValue Horizontal
+        {
+            get { return _horizontal; }
+        }
+
+        public ICssValue Vertical
+        {
+            get { return _vertical; }
         }
 
         /// <summary>
@@ -24,20 +35,23 @@
 
         public override String ToString()
         {
-            if (_horizontal == BackgroundRepeat.Repeat && _vertical == BackgroundRepeat.NoRepeat)
+            var h = _horizontal.CssText;
+            var v = _vertical.CssText;
+
+            if (h.Isi(CssKeywords.Repeat) && v.Isi(CssKeywords.NoRepeat))
             {
                 return CssKeywords.RepeatX;
             }
-            else if (_vertical == BackgroundRepeat.Repeat && _horizontal == BackgroundRepeat.NoRepeat)
+            else if (v.Isi(CssKeywords.Repeat) && h.Isi(CssKeywords.NoRepeat))
             {
                 return CssKeywords.RepeatY;
             }
-            else if (_horizontal == _vertical)
+            else if (h == v)
             {
-                return _horizontal.ToString(Map.BackgroundRepeats);
+                return h;
             }
 
-            return String.Concat(_horizontal.ToString(Map.BackgroundRepeats), " ", _vertical.ToString(Map.BackgroundRepeats));
+            return String.Concat(h, " ", v);
         }
     }
 }

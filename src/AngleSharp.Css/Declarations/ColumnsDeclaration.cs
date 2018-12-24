@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Declarations
         public static String[] Longhands = new[]
         {
             PropertyNames.ColumnWidth,
-            PropertyNames.ColumnSpan,
+            PropertyNames.ColumnCount,
         };
     }
 }

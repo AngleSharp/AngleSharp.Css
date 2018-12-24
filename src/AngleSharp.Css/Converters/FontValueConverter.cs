@@ -1,21 +1,20 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
 
     sealed class FontValueConverter : IValueConverter
     {
         public ICssValue Convert(StringSource source)
         {
-            var style = default(FontStyle?);
-            var variant = default(FontVariant?);
-            var weight = default(FontWeight?);
-            var stretch = default(FontStretch?);
-            var size = default(Length?);
-            var lineHeight = default(Length?);
+            var style = default(ICssValue);
+            var variant = default(ICssValue);
+            var weight = default(ICssValue);
+            var stretch = default(ICssValue);
+            var size = default(ICssValue);
+            var lineHeight = default(ICssValue);
             var fontFamilies = default(ICssValue[]);
             var pos = 0;
             var c = source.SkipSpacesAndComments();
@@ -24,25 +23,25 @@
             {
                 pos = source.Index;
 
-                if (!style.HasValue)
+                if (style == null)
                 {
                     style = source.ParseConstant(Map.FontStyles);
                     source.SkipSpacesAndComments();
                 }
 
-                if (!variant.HasValue)
+                if (variant == null)
                 {
                     variant = source.ParseConstant(Map.FontVariants);
                     source.SkipSpacesAndComments();
                 }
 
-                if (!weight.HasValue)
+                if (weight == null)
                 {
                     weight = source.ParseConstant(Map.FontWeights);
                     source.SkipSpacesAndComments();
                 }
 
-                if (!stretch.HasValue)
+                if (stretch == null)
                 {
                     stretch = source.ParseConstant(Map.FontStretches);
                     source.SkipSpacesAndComments();
@@ -52,7 +51,7 @@
             
             size = source.ParseFontSize();
 
-            if (size.HasValue)
+            if (size != null)
             {
                 c = source.SkipSpacesAndComments();
 
@@ -62,7 +61,7 @@
                     lineHeight = source.ParseLineHeight();
                     source.SkipSpacesAndComments();
 
-                    if (!lineHeight.HasValue)
+                    if (lineHeight == null)
                     {
                         return null;
                     }
@@ -72,84 +71,11 @@
 
                 if (fontFamilies != null)
                 {
-                    return new FontValue(style, variant, weight, stretch, size.Value, lineHeight, fontFamilies);
+                    return new FontInfo(style, variant, weight, stretch, size, lineHeight, new Multiple(fontFamilies));
                 }
             }
 
             return null;
-        }
-
-        sealed class FontValue : ICssValue
-        {
-            private readonly ICssValue[] _fontFamilies;
-            private readonly Length? _lineHeight;
-            private readonly Length _size;
-            private readonly FontStretch? _stretch;
-            private readonly FontStyle? _style;
-            private readonly FontVariant? _variant;
-            private readonly FontWeight? _weight;
-
-            public FontValue(FontStyle? style, FontVariant? variant, FontWeight? weight, FontStretch? stretch, Length size, Length? lineHeight, ICssValue[] fontFamilies)
-            {
-                _style = style;
-                _variant = variant;
-                _weight = weight;
-                _stretch = stretch;
-                _size = size;
-                _lineHeight = lineHeight;
-                _fontFamilies = fontFamilies;
-            }
-
-            public String CssText
-            {
-                get
-                {
-                    var sb = StringBuilderPool.Obtain();
-
-                    if (_style.HasValue)
-                    {
-                        if (sb.Length > 0) sb.Append(Symbols.Space);
-                        sb.Append(_style.Value.ToString(Map.FontStyles));
-                    }
-
-                    if (_variant.HasValue)
-                    {
-                        if (sb.Length > 0) sb.Append(Symbols.Space);
-                        sb.Append(_variant.Value.ToString(Map.FontVariants));
-                    }
-
-                    if (_weight.HasValue)
-                    {
-                        if (sb.Length > 0) sb.Append(Symbols.Space);
-                        sb.Append(_weight.Value.ToString(Map.FontWeights));
-                    }
-
-                    if (_stretch.HasValue)
-                    {
-                        if (sb.Length > 0) sb.Append(Symbols.Space);
-                        sb.Append(_stretch.Value.ToString(Map.FontStretches));
-                    }
-
-                    if (sb.Length > 0) sb.Append(Symbols.Space);
-                    sb.Append(_size.ToString(Map.FontSizes));
-
-                    if (_lineHeight.HasValue)
-                    {
-                        sb.Append(" / ");
-                        sb.Append(_lineHeight.Value.ToString());
-                    }
-
-                    sb.Append(Symbols.Space);
-                    sb.Append(_fontFamilies[0].CssText);
-
-                    for (var i = 1; i < _fontFamilies.Length; i++)
-                    {
-                        sb.Append(", ").Append(_fontFamilies[i].CssText);
-                    }
-
-                    return sb.ToPool();
-                }
-            }
         }
     }
 }

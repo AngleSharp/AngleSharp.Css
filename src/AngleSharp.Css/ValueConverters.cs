@@ -32,7 +32,7 @@ namespace AngleSharp.Css
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
-        public static readonly IValueConverter LineWidthConverter = new StructValueConverter<Length>(UnitParser.ParseLineWidth);
+        public static readonly IValueConverter LineWidthConverter = new ClassValueConverter<ICssValue>(UnitParser.ParseLineWidth);
 
         /// <summary>
         /// Represents a length object.
@@ -125,6 +125,18 @@ namespace AngleSharp.Css
         public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
 
         /// <summary>
+        /// Represents a position object.
+        /// http://www.w3.org/TR/css3-background/#ltpositiongt
+        /// </summary>
+        public static readonly IValueConverter PointXConverter = new StructValueConverter<Length>(PointParser.ParsePointX);
+
+        /// <summary>
+        /// Represents a position object.
+        /// http://www.w3.org/TR/css3-background/#ltpositiongt
+        /// </summary>
+        public static readonly IValueConverter PointYConverter = new StructValueConverter<Length>(PointParser.ParsePointY);
+
+        /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
@@ -157,6 +169,11 @@ namespace AngleSharp.Css
         /// Represents a converter for the BackgroundAttachment enumeration.
         /// </summary>
         public static readonly IValueConverter BackgroundAttachmentConverter = Map.BackgroundAttachments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BackgroundRepeat enumeration.
+        /// </summary>
+        public static readonly IValueConverter BackgroundRepeatConverter = Map.BackgroundRepeats.ToConverter();
 
         /// <summary>
         /// Represents a converter for the BoxModel enumeration.

@@ -14,6 +14,12 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
+        public static String[] Longhands = new[]
+        {
+            PropertyNames.BackgroundPositionX,
+            PropertyNames.BackgroundPositionY,
+        };
+
         public static IValueConverter Converter = Or(PointConverter.FromList(), AssignInitial(Point.Center));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;

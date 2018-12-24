@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests
+namespace AngleSharp.Css.Tests
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -62,8 +62,16 @@
 
         internal static CssProperty ParseDeclaration(String source)
         {
-            var parser = new CssParser();
-            return parser.ParseProperty(source) as CssProperty;
+            var colon = source.IndexOf(':');
+
+            if (colon != -1)
+            {
+                var name = source.Substring(0, colon).Trim();
+                var style = ParseDeclarations(source);
+                return style.GetProperty(name) as CssProperty;
+            }
+
+            return null;
         }
 
         internal static CssProperty ParseDeclaration(String source, CssParserOptions options)

@@ -1,6 +1,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
     using AngleSharp.Io;
     using System;
@@ -61,7 +62,21 @@ namespace AngleSharp.Css
         internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
         {
             var info = context.GetDeclarationInfo(propertyName);
-            return new CssProperty(propertyName, info.Converter, info.Flags);
+            var provider = context.GetProvider<CssParser>();
+
+            if (info.Flags != PropertyFlags.Unknown || context.IsAllowingUnknownDeclarations())
+            {
+                var property = new CssProperty(propertyName, info.Converter, info.Flags);
+                return property;
+            }
+
+            return null;
+        }
+
+        private static Boolean IsAllowingUnknownDeclarations(this IBrowsingContext context)
+        {
+            var parser = context.GetProvider<CssParser>();
+            return parser != null ? parser.Options.IsIncludingUnknownDeclarations : true;
         }
     }
 }

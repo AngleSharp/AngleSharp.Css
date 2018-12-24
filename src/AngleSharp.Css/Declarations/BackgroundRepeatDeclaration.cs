@@ -14,6 +14,12 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
+        public static String[] Longhands = new[]
+        {
+            PropertyNames.BackgroundRepeatX,
+            PropertyNames.BackgroundRepeatY,
+        };
+
         public static IValueConverter Converter = Or(BackgroundRepeatsConverter.FromList(), AssignInitial(BackgroundRepeat.Repeat));
 
         public static PropertyFlags Flags = PropertyFlags.None;

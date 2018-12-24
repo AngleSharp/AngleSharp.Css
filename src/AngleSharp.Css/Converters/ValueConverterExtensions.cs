@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -48,11 +48,6 @@
         public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
         {
             return new OptionValueConverter<T>(converter, defaultValue);
-        }
-
-        public static IValueConverter For(this IValueConverter converter, params String[] labels)
-        {
-            return converter;
         }
 
         public static String Join(this ICssValue[] values, String separator)

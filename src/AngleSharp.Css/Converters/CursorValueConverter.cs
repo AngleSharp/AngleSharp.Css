@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -11,7 +11,7 @@
     {
         public ICssValue Convert(StringSource source)
         {
-            var cursor = default(SystemCursor?);
+            var cursor = default(ICssValue);
             var definitions = new List<CursorDefinition>();
 
             while (!source.IsDone)
@@ -45,9 +45,9 @@
                 {
                     cursor = source.ParseConstant(Map.SystemCursors);
 
-                    if (cursor.HasValue)
+                    if (cursor != null)
                     {
-                        return new CursorValue(definitions.ToArray(), cursor.Value);
+                        return new CursorValue(definitions.ToArray(), cursor);
                     }
 
                     break;
@@ -81,9 +81,9 @@
         sealed class CursorValue : ICssValue
         {
             private readonly CursorDefinition[] _definitions;
-            private readonly SystemCursor _cursor;
+            private readonly ICssValue _cursor;
 
-            public CursorValue(CursorDefinition[] definitions, SystemCursor cursor)
+            public CursorValue(CursorDefinition[] definitions, ICssValue cursor)
             {
                 _definitions = definitions;
                 _cursor = cursor;
@@ -100,7 +100,7 @@
                         sb.Append(definition).Append(", ");
                     }
 
-                    sb.Append(_cursor.ToString(Map.SystemCursors));
+                    sb.Append(_cursor.CssText);
                     return sb.ToPool();
                 }
             }
