@@ -9,13 +9,6 @@ namespace AngleSharp.Css.Parser
 
     static class IdentParser
     {
-        public static String Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseIdent();
-            return source.IsDone ? result : null;
-        }
-
         public static String ParseNormalizedIdent(this StringSource source)
         {
             var result = source.ParseIdent();

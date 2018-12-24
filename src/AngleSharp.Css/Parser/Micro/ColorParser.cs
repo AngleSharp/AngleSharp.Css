@@ -19,13 +19,6 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Hwba, ParseHwba },
         };
 
-        public static Color? Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseColor();
-            return source.IsDone ? result : null;
-        }
-
         public static Color? ParseColor(this StringSource source)
         {
             var pos = source.Index;

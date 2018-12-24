@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -12,13 +12,6 @@
             { FunctionNames.Steps, ParseSteps },
             { FunctionNames.CubicBezier, ParseCubicBezier },
         };
-
-        public static ITimingFunction Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseTimingFunction();
-            return source.IsDone ? result : null;
-        }
 
         public static ITimingFunction ParseTimingFunction(this StringSource source)
         {

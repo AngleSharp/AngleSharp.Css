@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -6,13 +6,6 @@
 
     static class ShapeParser
     {
-        public static Shape Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseShape();
-            return source.IsDone ? result : null;
-        }
-
         public static Shape ParseShape(this StringSource source)
         {
             var pos = source.Index;

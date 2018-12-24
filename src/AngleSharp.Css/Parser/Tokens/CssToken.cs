@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.Css.Parser.Tokens
+namespace AngleSharp.Css.Parser.Tokens
 {
     using System;
-    using Text;
+    using AngleSharp.Text;
 
     /// <summary>
     /// The base class token for the CSS parser.

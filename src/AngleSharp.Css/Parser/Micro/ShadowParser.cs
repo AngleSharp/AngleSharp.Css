@@ -6,13 +6,6 @@ namespace AngleSharp.Css.Parser
 
     static class ShadowParser
     {
-        public static Shadow Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseShadow();
-            return source.IsDone ? result : null;
-        }
-
         public static Shadow ParseShadow(this StringSource source)
         {
             var start = source.Index;

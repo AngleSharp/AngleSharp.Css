@@ -32,13 +32,6 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Perspective, ParsePerspective },
         };
 
-        public static ITransform Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseTransform();
-            return source.IsDone ? result : null;
-        }
-
         public static ITransform ParseTransform(this StringSource source)
         {
             var pos = source.Index;

@@ -1,17 +1,10 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
     using System;
 
     static class StringParser
     {
-        public static String Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseString();
-            return source.IsDone ? result : null;
-        }
-
         /// <summary>
         /// Represents a string object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/string

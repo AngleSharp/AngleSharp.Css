@@ -7,13 +7,6 @@ namespace AngleSharp.Css.Parser
 
     static class CssUriParser
     {
-        public static UrlReference Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseUri();
-            return source.IsDone ? result : null;
-        }
-
         public static UrlReference ParseUri(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Url))

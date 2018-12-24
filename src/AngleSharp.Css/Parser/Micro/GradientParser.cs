@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -14,13 +14,6 @@
             { FunctionNames.RadialGradient, ParseRadialGradient },
             { FunctionNames.RepeatingRadialGradient, ParseRepeatingRadialGradient },
         };
-
-        public static IGradient Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseGradient();
-            return source.IsDone ? result : null;
-        }
 
         public static IGradient ParseGradient(this StringSource source)
         {

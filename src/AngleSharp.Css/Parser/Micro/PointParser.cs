@@ -6,13 +6,6 @@ namespace AngleSharp.Css.Parser
 
     static class PointParser
     {
-        public static Point? Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParsePoint();
-            return source.IsDone ? result : null;
-        }
-
         public static Length? ParsePointX(this StringSource source)
         {
             return source.ParsePointDir(IsHorizontal);

@@ -7,13 +7,6 @@ namespace AngleSharp.Css.Parser
 
     static class NumberParser
     {
-        public static Double? Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseNumber();
-            return source.IsDone ? result : null;
-        }
-
         public static Double? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
