@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     static class Factory
     {
@@ -8,7 +8,7 @@
 
         public static DefaultDocumentFunctionFactory DocumentFunction = new DefaultDocumentFunctionFactory();
 
-        public static DefaultDeclarationFactory Converter = new DefaultDeclarationFactory();
+        public static DefaultDeclarationFactory Declaration = new DefaultDeclarationFactory();
 
         public static StyleAttributeObserver Observer = new StyleAttributeObserver();
     }

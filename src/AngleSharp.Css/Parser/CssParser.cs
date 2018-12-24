@@ -27,18 +27,27 @@ namespace AngleSharp.Css.Parser
 
         #region Events
 
+        /// <summary>
+        /// Adds or removes the event emitted when parsing starts.
+        /// </summary>
         public event DomEventHandler Parsing
         {
             add { AddEventListener(EventNames.Parsing, value); }
             remove { RemoveEventListener(EventNames.Parsing, value); }
         }
 
+        /// <summary>
+        /// Adds or removes the event emitted when parsing finished.
+        /// </summary>
         public event DomEventHandler Parsed
         {
             add { AddEventListener(EventNames.Parsed, value); }
             remove { RemoveEventListener(EventNames.Parsed, value); }
         }
 
+        /// <summary>
+        /// Adds or removes the event emitted when a parsing error occurs.
+        /// </summary>
         public event DomEventHandler Error
         {
             add { AddEventListener(EventNames.Error, value); }
@@ -246,7 +255,7 @@ namespace AngleSharp.Css.Parser
                 }
             }
 
-            await TaskEx.WhenAll(tasks).ConfigureAwait(false);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
             return sheet;
         }
 

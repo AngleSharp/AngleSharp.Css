@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Dom
 
         public Boolean Check(IRenderDevice device)
         {
-            var factory = device?.Context?.GetService<IDeclarationFactory>() ?? Factory.Converter;
+            var factory = device?.Context?.GetService<IDeclarationFactory>() ?? Factory.Declaration;
             var info = factory?.Create(_name);
 
             if (info != null && !Object.Equals(info.Converter, ValueConverters.Any))

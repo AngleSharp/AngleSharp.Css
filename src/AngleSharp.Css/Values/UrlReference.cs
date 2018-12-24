@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -17,6 +17,10 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new URL reference for the given path.
+        /// </summary>
+        /// <param name="path">The path to reference.</param>
         public UrlReference(String path)
         {
             _path = path;
@@ -34,6 +38,9 @@
             get { return ToString(); }
         }
 
+        /// <summary>
+        /// Gets the referenced path.
+        /// </summary>
         public String Path
         {
             get { return _path; }
@@ -43,6 +50,9 @@
 
         #region Methods
 
+        /// <summary>
+        /// Serializes to a string.
+        /// </summary>
         public override String ToString()
         {
             var fn = FunctionNames.Url;

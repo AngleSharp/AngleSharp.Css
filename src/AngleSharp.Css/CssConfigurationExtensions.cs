@@ -42,7 +42,7 @@ namespace AngleSharp
 
             if (!configuration.Has<IDeclarationFactory>())
             {
-                configuration = configuration.With(Factory.Converter);
+                configuration = configuration.With(Factory.Declaration);
             }
 
             if (!configuration.Has<ICssParser>())

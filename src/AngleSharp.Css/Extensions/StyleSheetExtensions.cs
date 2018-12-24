@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.Css.Extensions
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
     using System.Linq;

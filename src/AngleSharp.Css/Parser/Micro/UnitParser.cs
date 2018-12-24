@@ -9,13 +9,6 @@ namespace AngleSharp.Css.Parser
 
     static class UnitParser
     {
-        public static Unit Parse(String str)
-        {
-            var source = new StringSource(str);
-            var result = source.ParseUnit();
-            return source.IsDone ? result : null;
-        }
-
         public static Unit ParseUnit(this StringSource source)
         {
             var pos = source.Index;

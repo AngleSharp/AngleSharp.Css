@@ -1,10 +1,13 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
     using System;
 
+    /// <summary>
+    /// A set of globally exposed CSS utilities.
+    /// </summary>
     [DomName("CSS")]
     public static class CssHelpers
     {

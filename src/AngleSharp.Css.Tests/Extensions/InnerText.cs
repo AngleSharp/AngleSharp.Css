@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Tests.Extensions
 {
-    using AngleSharp.Css.Extensions;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using System;
 

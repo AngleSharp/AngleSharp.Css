@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Extensions
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
