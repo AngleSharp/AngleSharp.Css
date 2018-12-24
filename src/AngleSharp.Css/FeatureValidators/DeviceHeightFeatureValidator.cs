@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.FeatureValidators
+namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -14,7 +14,7 @@
             if (length != null)
             {
                 var desired = length.AsNumber();
-                var available = (Single)device.DeviceHeight;
+                var available = (Double)device.DeviceHeight;
 
                 if (feature.IsMaximum)
                 {

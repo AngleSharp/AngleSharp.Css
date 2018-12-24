@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Values
+namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Values;
     using NUnit.Framework;
@@ -223,7 +223,7 @@
         public void ColorHslYellowGreenMixed()
         {
             var color = Color.FromHsl(1f / 4f, 0.75f, 0.63f);
-            Assert.AreEqual(Color.FromRgb(161, 231, 90), color);
+            Assert.AreEqual(Color.FromRgb(161, 232, 90), color);
         }
 
         [Test]

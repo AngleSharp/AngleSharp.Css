@@ -397,7 +397,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter PositiveOrInfiniteNumberConverter = Or(
             NaturalNumberConverter, 
-            Assign(CssKeywords.Infinite, Single.PositiveInfinity));
+            Assign(CssKeywords.Infinite, Double.PositiveInfinity));
 
         /// <summary>
         /// Represents a positive or infinite number object.
@@ -411,7 +411,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter LengthOrNormalConverter = Or(
             LengthConverter, 
-            Assign(CssKeywords.Normal, new Length(1f, Length.Unit.Em)));
+            Assign(CssKeywords.Normal, new Length(1.0, Length.Unit.Em)));
 
         /// <summary>
         /// Represents a length object or null, when "normal" is given.

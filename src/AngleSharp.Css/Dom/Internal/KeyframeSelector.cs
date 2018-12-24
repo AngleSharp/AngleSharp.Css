@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Text;
     using System;
@@ -13,13 +13,13 @@
     {
         #region Fields
 
-        private readonly List<Single> _stops;
+        private readonly List<Double> _stops;
 
         #endregion
 
         #region ctor
 
-        public KeyframeSelector(List<Single> stops)
+        public KeyframeSelector(List<Double> stops)
         {
             _stops = stops;
         }
@@ -28,7 +28,7 @@
 
         #region Properties
 
-        public IEnumerable<Single> Stops
+        public IEnumerable<Double> Stops
         {
             get { return _stops; }
         }
@@ -60,9 +60,9 @@
 
         #region Helpers
 
-        private static void Write(TextWriter writer, Single value)
+        private static void Write(TextWriter writer, Double value)
         {
-            var pc = Math.Truncate(100f * value);
+            var pc = Math.Truncate(100.0 * value);
             var str = pc.ToString(CultureInfo.InvariantCulture);
             writer.Write(str);
             writer.Write(Symbols.Percent);

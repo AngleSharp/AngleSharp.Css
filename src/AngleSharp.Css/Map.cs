@@ -28,14 +28,14 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly Dictionary<String, Angle> GradientAngles = new Dictionary<String, Angle>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Left, new Angle(270f, Angle.Unit.Deg) },
-            { CssKeywords.Top, new Angle(0, Angle.Unit.Deg) },
-            { CssKeywords.Right, new Angle(90f, Angle.Unit.Deg) },
-            { CssKeywords.Bottom, new Angle(180f, Angle.Unit.Deg) },
-            { CssKeywords.LeftTop, new Angle(315f, Angle.Unit.Deg) },
-            { CssKeywords.LeftBottom, new Angle(225f, Angle.Unit.Deg) },
-            { CssKeywords.RightTop, new Angle(45f, Angle.Unit.Deg) },
-            { CssKeywords.RightBottom, new Angle(135f, Angle.Unit.Deg) },
+            { CssKeywords.Left, new Angle(270.0, Angle.Unit.Deg) },
+            { CssKeywords.Top, new Angle(0.0, Angle.Unit.Deg) },
+            { CssKeywords.Right, new Angle(90.0, Angle.Unit.Deg) },
+            { CssKeywords.Bottom, new Angle(180.0, Angle.Unit.Deg) },
+            { CssKeywords.LeftTop, new Angle(315.0, Angle.Unit.Deg) },
+            { CssKeywords.LeftBottom, new Angle(225.0, Angle.Unit.Deg) },
+            { CssKeywords.RightTop, new Angle(45.0, Angle.Unit.Deg) },
+            { CssKeywords.RightBottom, new Angle(135.0, Angle.Unit.Deg) },
         };
 
         /// <summary>
@@ -148,11 +148,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly Dictionary<String, ITimingFunction> TimingFunctions = new Dictionary<String, ITimingFunction>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Ease, new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f) },
-            { CssKeywords.EaseIn, new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f) },
-            { CssKeywords.EaseOut, new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f) },
-            { CssKeywords.EaseInOut, new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f) },
-            { CssKeywords.Linear, new CubicBezierTimingFunction(0f, 0f, 1f, 1f) },
+            { CssKeywords.Ease, new CubicBezierTimingFunction(0.25, 0.1, 0.25, 1.0) },
+            { CssKeywords.EaseIn, new CubicBezierTimingFunction(0.42, 0.0, 1.0, 1.0) },
+            { CssKeywords.EaseOut, new CubicBezierTimingFunction(0.0, 0.0, 0.58, 1.0) },
+            { CssKeywords.EaseInOut, new CubicBezierTimingFunction(0.42, 0.0, 0.58, 1.0) },
+            { CssKeywords.Linear, new CubicBezierTimingFunction(0.0, 0.0, 1.0, 1.0) },
             { CssKeywords.StepStart, new StepsTimingFunction(1, true) },
             { CssKeywords.StepEnd, new StepsTimingFunction(1, false) },
         };
@@ -252,15 +252,15 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly Dictionary<String, Length> FontSizes = new Dictionary<String, Length>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.XxSmall, new Length(0.6f, Length.Unit.Em) },
-            { CssKeywords.XSmall, new Length(0.75f, Length.Unit.Em) },
-            { CssKeywords.Small, new Length(8f / 9f, Length.Unit.Em) },
-            { CssKeywords.Medium, new Length(1.0f, Length.Unit.Em) },
-            { CssKeywords.Large, new Length(1.2f, Length.Unit.Em) },
-            { CssKeywords.XLarge, new Length(1.5f, Length.Unit.Em) },
-            { CssKeywords.XxLarge, new Length(2f, Length.Unit.Em) },
-            { CssKeywords.Larger, new Length(120f, Length.Unit.Percent) },
-            { CssKeywords.Smaller, new Length(80f, Length.Unit.Percent) },
+            { CssKeywords.XxSmall, new Length(0.6, Length.Unit.Em) },
+            { CssKeywords.XSmall, new Length(0.75, Length.Unit.Em) },
+            { CssKeywords.Small, new Length(8.0 / 9.0, Length.Unit.Em) },
+            { CssKeywords.Medium, new Length(1.0, Length.Unit.Em) },
+            { CssKeywords.Large, new Length(1.2, Length.Unit.Em) },
+            { CssKeywords.XLarge, new Length(1.5, Length.Unit.Em) },
+            { CssKeywords.XxLarge, new Length(2.0, Length.Unit.Em) },
+            { CssKeywords.Larger, new Length(120.0, Length.Unit.Percent) },
+            { CssKeywords.Smaller, new Length(80.0, Length.Unit.Percent) },
         };
 
         /// <summary>
@@ -406,21 +406,21 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-horizontal modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Single> HorizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Double> HorizontalModes = new Dictionary<String, Double>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Left, 0f },
-            { CssKeywords.Center, 0.5f },
-            { CssKeywords.Right, 1f },
+            { CssKeywords.Left, 0.0 },
+            { CssKeywords.Center, 0.5 },
+            { CssKeywords.Right, 1.0 },
         };
 
         /// <summary>
         /// Contains the string-vertical modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Double> VerticalModes = new Dictionary<String, Double>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Top, 0f },
-            { CssKeywords.Center, 0.5f },
-            { CssKeywords.Bottom, 1f },
+            { CssKeywords.Top, 0.0 },
+            { CssKeywords.Center, 0.5 },
+            { CssKeywords.Bottom, 1.0 },
         };
 
         /// <summary>

@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using System;
     using System.Globalization;
 
@@ -15,7 +14,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the zero time.
         /// </summary>
-        public static readonly Time Zero = new Time(0f, Unit.Ms);
+        public static readonly Time Zero = new Time(0.0, Unit.Ms);
 
         #endregion
 

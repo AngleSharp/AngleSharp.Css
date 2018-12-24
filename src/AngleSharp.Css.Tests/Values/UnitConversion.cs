@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Values
+namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Values;
     using NUnit.Framework;
@@ -33,7 +33,7 @@
             var v = default(Length);
             var r = Length.TryParse(s, out v);
             Assert.IsTrue(r);
-            Assert.AreEqual(12.2f, v.Value);
+            Assert.AreEqual(12.2, v.Value);
             Assert.AreEqual(Length.Unit.Vw, v.Type);
         }
 
@@ -66,7 +66,7 @@
             var v = default(Frequency);
             var r = Frequency.TryParse(s, out v);
             Assert.IsTrue(r);
-            Assert.AreEqual(17.123f, v.Value);
+            Assert.AreEqual(17.123, v.Value);
             Assert.AreEqual(Frequency.Unit.Khz, v.Type);
         }
 

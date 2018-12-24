@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -93,9 +93,9 @@
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var a = (Single)Math.Tan(_alpha.ToRadian());
-            var b = (Single)Math.Tan(_beta.ToRadian());
-            return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
+            var a = Math.Tan(_alpha.ToRadian());
+            var b = Math.Tan(_beta.ToRadian());
+            return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
         #endregion

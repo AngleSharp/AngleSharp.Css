@@ -61,15 +61,15 @@ namespace AngleSharp.Css.Parser
                 source.ParseNormalLength();
         }
 
-        public static Single? ParsePercent(this StringSource source)
+        public static Double? ParsePercent(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
             if (test != null && test.Dimension == "%")
             {
-                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
-                return value * 0.01f;
+                var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
+                return value * 0.01;
             }
 
             source.BackTo(pos);
@@ -83,7 +83,7 @@ namespace AngleSharp.Css.Parser
 
             if (test != null)
             {
-                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
 
                 if (test.Dimension == "%")
                 {
@@ -110,7 +110,7 @@ namespace AngleSharp.Css.Parser
 
                 if (unit != Angle.Unit.None)
                 {
-                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Angle(value, unit);
                 }
 
@@ -131,7 +131,7 @@ namespace AngleSharp.Css.Parser
 
                 if (unit != Frequency.Unit.None)
                 {
-                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Frequency(value, unit);
                 }
 
@@ -154,7 +154,7 @@ namespace AngleSharp.Css.Parser
             if (test != null)
             {
                 var unit = Length.Unit.Px;
-                var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
 
                 if ((test.Dimension == String.Empty && test.Value == "0") ||
                     (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
@@ -182,7 +182,7 @@ namespace AngleSharp.Css.Parser
                 {
                     if (unit != Length.Unit.Percent)
                     {
-                        var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                        var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
                         return new Length(value, unit);
                     }
                 }
@@ -204,7 +204,7 @@ namespace AngleSharp.Css.Parser
 
                 if (unit != Resolution.Unit.None)
                 {
-                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Resolution(value, unit);
                 }
 
@@ -225,7 +225,7 @@ namespace AngleSharp.Css.Parser
 
                 if (unit != Time.Unit.None)
                 {
-                    var value = Single.Parse(test.Value, CultureInfo.InvariantCulture);
+                    var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
                     return new Time(value, unit);
                 }
 

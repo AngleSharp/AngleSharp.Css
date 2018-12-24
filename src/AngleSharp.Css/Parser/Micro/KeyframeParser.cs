@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -16,7 +16,7 @@
 
         public static IKeyframeSelector ParseKeyframeSelector(this StringSource source)
         {
-            var stops = new List<Single>();
+            var stops = new List<Double>();
             var current = source.SkipSpacesAndComments();
 
             while (current != Symbols.EndOfFile)

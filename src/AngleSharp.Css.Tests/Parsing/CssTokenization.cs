@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Css
+namespace AngleSharp.Css.Tests.Parsing
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;

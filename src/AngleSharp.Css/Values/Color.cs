@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Values
         /// <param name="b">The value for blue [0,255].</param>
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgba(Byte r, Byte g, Byte b, Single a)
+        public static Color FromRgba(Byte r, Byte g, Byte b, Double a)
         {
             return new Color(r, g, b, Normalize(a));
         }
@@ -162,7 +162,7 @@ namespace AngleSharp.Css.Values
         /// <param name="value">The value for each component [0,1].</param>
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromGray(Double value, Double alpha = 1f)
+        public static Color FromGray(Double value, Double alpha = 1.0)
         {
             return FromGray(Normalize(value), alpha);
         }
@@ -305,7 +305,7 @@ namespace AngleSharp.Css.Values
         /// <returns>The CSS color.</returns>
         public static Color FromHsl(Double h, Double s, Double l)
         {
-            return FromHsla(h, s, l, 1f);
+            return FromHsla(h, s, l, 1.0);
         }
 
         /// <summary>
@@ -318,13 +318,13 @@ namespace AngleSharp.Css.Values
         /// <returns>The CSS color.</returns>
         public static Color FromHsla(Double h, Double s, Double l, Double alpha)
         {
-            const Single third = 1f / 3f;
+            const Double third = 1.0 / 3.0;
 
-            var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
-            var m1 = 2f * l - m2;
-            var r = Convert(HueToRgb(m1, m2, h + third));
-            var g = Convert(HueToRgb(m1, m2, h));
-            var b = Convert(HueToRgb(m1, m2, h - third));
+            var m2 = l < 0.5 ? (l * (s + 1.0)) : (l + s - l * s);
+            var m1 = 2.0 * l - m2;
+            var r = Normalize(HueToRgb(m1, m2, h + third));
+            var g = Normalize(HueToRgb(m1, m2, h));
+            var b = Normalize(HueToRgb(m1, m2, h - third));
             return new Color(r, g, b, Normalize(alpha));
         }
 
@@ -581,39 +581,31 @@ namespace AngleSharp.Css.Values
 
         private static Byte Normalize(Double value)
         {
-            return (Byte)Math.Max(Math.Min(Math.Round(255.0 * value), 255.0), 0.0);
-        }
-
-        private static Byte Convert(Double value)
-        {
-            return (Byte)Math.Round(255.0 * value);
+            return (Byte)Math.Max(Math.Min(Math.Truncate(256.0 * value), 255.0), 0.0);
         }
 
         private static Double HueToRgb(Double m1, Double m2, Double h)
         {
-            const Double oneSixth = 1.0 / 6.0;
-            const Double twoThird = 2.0 / 3.0;
-
-            if (h < 0f)
+            if (h < 0.0)
             {
-                h += 1f;
+                h += 1.0;
             }
             else if (h > 1.0)
             {
-                h -= 1f;
+                h -= 1.0;
             }
 
-            if (h < oneSixth)
+            if (6.0 * h < 1.0)
             {
                 return m1 + (m2 - m1) * h * 6.0;
             }
-            else if (h < 0.5)
+            else if (2.0 * h < 1.0)
             {
                 return m2;
             }
-            else if (h < twoThird)
+            else if (3.0 * h < 2.0)
             {
-                return m1 + (m2 - m1) * (twoThird - h) * 6.0;
+                return m1 + (m2 - m1) * (4.0 - 6.0 * h);
             }
 
             return m1;

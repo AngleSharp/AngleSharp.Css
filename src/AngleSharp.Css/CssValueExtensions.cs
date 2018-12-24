@@ -5,9 +5,9 @@ namespace AngleSharp.Css
 
     static class CssValueExtensions
     {
-        public static Single AsNumber(this ICssValue value)
+        public static Double AsNumber(this ICssValue value)
         {
-            return 0f;
+            return 0.0;
         }
 
         public static Int32 AsInteger(this ICssValue value)

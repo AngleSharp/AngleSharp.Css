@@ -14,42 +14,42 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets a zero pixel length value.
         /// </summary>
-        public static readonly Length Zero = new Length(0f, Unit.Px);
+        public static readonly Length Zero = new Length(0.0, Unit.Px);
 
         /// <summary>
         /// Gets the half relative length, i.e. 50%.
         /// </summary>
-        public static readonly Length Half = new Length(50f, Unit.Percent);
+        public static readonly Length Half = new Length(50.0, Unit.Percent);
 
         /// <summary>
         /// Gets the full relative length, i.e. 100%.
         /// </summary>
-        public static readonly Length Full = new Length(100f, Unit.Percent);
+        public static readonly Length Full = new Length(100.0, Unit.Percent);
 
         /// <summary>
         /// Gets a thin length value.
         /// </summary>
-        public static readonly Length Thin = new Length(1f, Unit.Px);
+        public static readonly Length Thin = new Length(1.0, Unit.Px);
 
         /// <summary>
         /// Gets a medium length value.
         /// </summary>
-        public static readonly Length Medium = new Length(3f, Unit.Px);
+        public static readonly Length Medium = new Length(3.0, Unit.Px);
 
         /// <summary>
         /// Gets a thick length value.
         /// </summary>
-        public static readonly Length Thick = new Length(5f, Unit.Px);
+        public static readonly Length Thick = new Length(5.0, Unit.Px);
 
         /// <summary>
         /// Gets the auto value.
         /// </summary>
-        public static readonly Length Auto = new Length(Single.NaN, Unit.Vmax);
+        public static readonly Length Auto = new Length(Double.NaN, Unit.Vmax);
 
         /// <summary>
         /// Gets the normal value.
         /// </summary>
-        public static readonly Length Normal = new Length(Single.NaN, Unit.Em);
+        public static readonly Length Normal = new Length(Double.NaN, Unit.Em);
 
         #endregion
 
@@ -228,7 +228,7 @@ namespace AngleSharp.Css.Values
             }
             else
             {
-                var unit = _value == 0f ? String.Empty : UnitString;
+                var unit = _value == 0.0 ? String.Empty : UnitString;
                 var val = _value.ToString(CultureInfo.InvariantCulture);
                 return String.Concat(val, unit);
             }
@@ -251,7 +251,7 @@ namespace AngleSharp.Css.Values
                 result = new Length(value, unit);
                 return true;
             }
-            else if (value == 0f)
+            else if (value == 0.0)
             {
                 result = Length.Zero;
                 return true;
@@ -458,7 +458,7 @@ namespace AngleSharp.Css.Values
         public Boolean Equals(Length other)
         {
             return (_value == other._value || (Double.IsNaN(_value) && Double.IsNaN(other._value))) && 
-                (_value == 0f || _unit == other._unit);
+                (_value == 0.0 || _unit == other._unit);
         }
 
         /// <summary>

@@ -208,13 +208,13 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Single? ParsePercent(StringSource source)
+        private static Double? ParsePercent(StringSource source)
         {
             var unit = source.ParseUnit();
 
             if (unit != null && unit.Dimension == "%")
             {
-                return Single.Parse(unit.Value, CultureInfo.InvariantCulture) * 0.01f;
+                return Double.Parse(unit.Value, CultureInfo.InvariantCulture) * 0.01f;
             }
 
             return null;
@@ -241,13 +241,13 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Single? ParseAlpha(StringSource source)
+        private static Double? ParseAlpha(StringSource source)
         {
             var unit = source.ParseUnit();
 
             if (unit != null)
             {
-                var value = Single.Parse(unit.Value, CultureInfo.InvariantCulture);
+                var value = Double.Parse(unit.Value, CultureInfo.InvariantCulture);
 
                 if (unit.Dimension == "%")
                 {

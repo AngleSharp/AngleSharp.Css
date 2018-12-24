@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;

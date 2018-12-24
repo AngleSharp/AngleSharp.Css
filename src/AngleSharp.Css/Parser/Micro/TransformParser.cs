@@ -175,7 +175,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static RotateTransform ParseRotate2d(StringSource source)
         {
-            return ParseRotate(source, Single.NaN, Single.NaN, Single.NaN);
+            return ParseRotate(source, Double.NaN, Double.NaN, Double.NaN);
         }
 
         /// <summary>

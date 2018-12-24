@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.FeatureValidators
+namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -14,7 +14,7 @@
             if (ratio != null)
             {
                 var desired = ratio.AsNumber();
-                var available = device.DeviceWidth / (Single)device.DeviceHeight;
+                var available = device.DeviceWidth / (Double)device.DeviceHeight;
 
                 if (feature.IsMaximum)
                 {

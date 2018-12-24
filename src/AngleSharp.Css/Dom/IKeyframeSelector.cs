@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
         /// <summary>
         /// Gets an enumeration over all stops.
         /// </summary>
-        IEnumerable<Single> Stops { get; }
+        IEnumerable<Double> Stops { get; }
 
         /// <summary>
         /// Gets the text representation of the keyframe selector.

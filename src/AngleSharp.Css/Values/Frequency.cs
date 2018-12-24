@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using System;
     using System.Globalization;
 
