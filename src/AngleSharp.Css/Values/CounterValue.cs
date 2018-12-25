@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -37,7 +37,7 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get { return String.Concat(_name, " ", _value.ToString()); }
         }
 
         /// <summary>
@@ -54,18 +54,6 @@
         public Int32 Value
         {
             get { return _value; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes the counter value.
-        /// </summary>
-        public override String ToString()
-        {
-            return String.Concat(_name, " ", _value.ToString());
         }
 
         #endregion

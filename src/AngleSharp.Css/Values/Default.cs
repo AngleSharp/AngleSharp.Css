@@ -3,28 +3,36 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using System;
 
+    /// <summary>
+    /// Represents a default value.
+    /// </summary>
     public sealed class Default<T> : ICssValue
     {
-        private readonly T _option;
+        private readonly T _value;
 
-        public Default(T option)
+        /// <summary>
+        /// Creates a new default value.
+        /// </summary>
+        /// <param name="value">The used value.</param>
+        public Default(T value)
         {
-            _option = option;
+            _value = value;
         }
 
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get { return String.Empty; }
         }
 
-        public T Option
+        /// <summary>
+        /// Gets the default value.
+        /// </summary>
+        public T Value
         {
-            get { return _option; }
-        }
-
-        public override String ToString()
-        {
-            return String.Empty;
+            get { return _value; }
         }
     }
 }

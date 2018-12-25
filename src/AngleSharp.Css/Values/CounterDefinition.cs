@@ -1,8 +1,7 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a CSS counter.
@@ -41,7 +40,7 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get { return String.Concat(_identifier, " ", _listStyle, " ", _separator); }
         }
 
         /// <summary>
@@ -66,18 +65,6 @@
         public String DefinedSeparator
         {
             get { return _separator; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes the counter value.
-        /// </summary>
-        public override String ToString()
-        {
-            return String.Concat(_identifier, " ", _listStyle, " ", _separator);
         }
 
         #endregion

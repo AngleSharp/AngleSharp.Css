@@ -31,7 +31,18 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d;
+                var args = new String[_values.Length];
+
+                for (var i = 0; i < args.Length; i++)
+                {
+                    args[i] = _values[i].ToString(CultureInfo.InvariantCulture);
+                }
+
+                return fn.CssFunction(String.Join(", ", args));
+            }
         }
 
         /// <summary>
@@ -47,22 +58,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d;
-            var args = new String[_values.Length];
-
-            for (var i = 0; i < args.Length; i++)
-            {
-                args[i] = _values[i].ToString(CultureInfo.InvariantCulture);
-            }
-
-            return fn.CssFunction(String.Join(", ", args));
-        }
 
         /// <summary>
         /// Returns the stored matrix.

@@ -72,7 +72,41 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                if (Equals(Ease))
+                {
+                    return CssKeywords.Ease;
+                }
+                else if (Equals(EaseIn))
+                {
+                    return CssKeywords.EaseIn;
+                }
+                else if (Equals(EaseOut))
+                {
+                    return CssKeywords.EaseOut;
+                }
+                else if (Equals(EaseInOut))
+                {
+                    return CssKeywords.EaseInOut;
+                }
+                else if (Equals(Linear))
+                {
+                    return CssKeywords.Linear;
+                }
+                else
+                {
+                    var fn = FunctionNames.CubicBezier;
+                    var args = new[]
+                    {
+                        _x1.ToString(CultureInfo.InvariantCulture),
+                        _y1.ToString(CultureInfo.InvariantCulture),
+                        _x2.ToString(CultureInfo.InvariantCulture),
+                        _y2.ToString(CultureInfo.InvariantCulture)
+                    };
+                    return fn.CssFunction(String.Join(", ", args));
+                }
+            }
         }
 
         /// <summary>
@@ -119,45 +153,6 @@ namespace AngleSharp.Css.Values
         public Boolean Equals(CubicBezierTimingFunction other)
         {
             return _x1 == other._x1 && _x2 == other._x2 && _y1 == other._y1 && _y2 == other._y2;
-        }
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            if (Equals(Ease))
-            {
-                return CssKeywords.Ease;
-            }
-            else if (Equals(EaseIn))
-            {
-                return CssKeywords.EaseIn;
-            }
-            else if (Equals(EaseOut))
-            {
-                return CssKeywords.EaseOut;
-            }
-            else if (Equals(EaseInOut))
-            {
-                return CssKeywords.EaseInOut;
-            }
-            else if (Equals(Linear))
-            {
-                return CssKeywords.Linear;
-            }
-            else
-            {
-                var fn = FunctionNames.CubicBezier;
-                var args = new[]
-                {
-                    _x1.ToString(CultureInfo.InvariantCulture),
-                    _y1.ToString(CultureInfo.InvariantCulture),
-                    _x2.ToString(CultureInfo.InvariantCulture),
-                    _y2.ToString(CultureInfo.InvariantCulture)
-                };
-                return fn.CssFunction(String.Join(", ", args));
-            }
         }
 
         #endregion

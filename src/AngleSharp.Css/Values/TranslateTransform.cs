@@ -18,7 +18,13 @@ namespace AngleSharp.Css.Values
 
         #region ctor
 
-        internal TranslateTransform(Length x, Length y, Length z)
+        /// <summary>
+        /// Creates a new translate transform.
+        /// </summary>
+        /// <param name="x">The x shift.</param>
+        /// <param name="y">The y shift.</param>
+        /// <param name="z">The z shift.</param>
+        public TranslateTransform(Length x, Length y, Length z)
         {
             _x = x;
             _y = y;
@@ -34,7 +40,47 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = FunctionNames.Translate3d;
+                var args = String.Empty;
+
+                if (_x != Length.Zero && _y == Length.Zero && _z == Length.Zero)
+                {
+                    fn = FunctionNames.TranslateX;
+                    args = _x.CssText;
+                }
+                else if (_x == Length.Zero && _y != Length.Zero && _z == Length.Zero)
+                {
+                    fn = FunctionNames.TranslateY;
+                    args = _y.CssText;
+                }
+                else if (_x == Length.Zero && _y == Length.Zero && _z != Length.Zero)
+                {
+                    fn = FunctionNames.TranslateZ;
+                    args = _z.CssText;
+                }
+                else if (_z == Length.Zero)
+                {
+                    fn = FunctionNames.Translate;
+                    args = String.Join(", ", new[]
+                    {
+                        _x.CssText,
+                        _y.CssText
+                    });
+                }
+                else
+                {
+                    args = String.Join(", ", new[]
+                    {
+                        _x.CssText,
+                        _y.CssText,
+                        _z.CssText
+                    });
+                }
+
+                return fn.CssFunction(args);
+            }
         }
 
         /// <summary>
@@ -64,51 +110,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Serializes to the translate function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = FunctionNames.Translate3d;
-            var args = String.Empty;
-
-            if (_x != Length.Zero && _y == Length.Zero && _z == Length.Zero)
-            {
-                fn = FunctionNames.TranslateX;
-                args = _x.ToString();
-            }
-            else if (_x == Length.Zero && _y != Length.Zero && _z == Length.Zero)
-            {
-                fn = FunctionNames.TranslateY;
-                args = _y.ToString();
-            }
-            else if (_x == Length.Zero && _y == Length.Zero && _z != Length.Zero)
-            {
-                fn = FunctionNames.TranslateZ;
-                args = _z.ToString();
-            }
-            else if (_z == Length.Zero)
-            {
-                fn = FunctionNames.Translate;
-                args = String.Join(", ", new[]
-                {
-                    _x.ToString(),
-                    _y.ToString()
-                });
-            }
-            else
-            {
-                args = String.Join(", ", new[]
-                {
-                    _x.ToString(),
-                    _y.ToString(),
-                    _z.ToString()
-                });
-            }
-
-            return fn.CssFunction(args);
-        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

@@ -1,12 +1,13 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    public struct GradientStop
+    public struct GradientStop : ICssValue
     {
         #region Fields
 
@@ -77,18 +78,12 @@
             get { return _location; }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
-        /// Returns the string representation of the gradient stop.
+        /// Gets the CSS text representation.
         /// </summary>
-        public override String ToString()
+        public String CssText
         {
-            return _determined ? 
-                String.Concat(_color.ToString(), " ", _location.ToString()) : 
-                _color.ToString();
+            get { return _determined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText; }
         }
 
         #endregion

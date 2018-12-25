@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Converters
 
         public ICssValue Convert(StringSource source)
         {
-            var counters = new List<CounterValue>();
+            var counters = new List<ICssValue>();
 
             if (!source.IsIdentifier(CssKeywords.None))
             {

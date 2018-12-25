@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -45,7 +45,19 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var parts = new[]
+                {
+                    _top.CssText,
+                    _right.CssText,
+                    _bottom.CssText,
+                    _left.CssText,
+                };
+                var fn = FunctionNames.Rect;
+                var args = String.Join(", ", parts);
+                return fn.CssFunction(args);
+            }
         }
 
         /// <summary>
@@ -78,28 +90,6 @@
         public Length Left
         {
             get { return _left; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns a string representing the shapce.
-        /// </summary>
-        /// <returns>The string.</returns>
-        public override String ToString()
-        {
-            var parts = new[]
-            {
-                _top.ToString(),
-                _right.ToString(),
-                _bottom.ToString(),
-                _left.ToString(),
-            };
-            var fn = FunctionNames.Rect;
-            var args = String.Join(", ", parts);
-            return fn.CssFunction(args);
         }
 
         #endregion

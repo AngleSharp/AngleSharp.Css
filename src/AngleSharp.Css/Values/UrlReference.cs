@@ -35,7 +35,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = FunctionNames.Url;
+                return fn.CssFunction(_path.CssString());
+            }
         }
 
         /// <summary>
@@ -44,19 +48,6 @@ namespace AngleSharp.Css.Values
         public String Path
         {
             get { return _path; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = FunctionNames.Url;
-            return fn.CssFunction(_path.CssString());
         }
 
         #endregion

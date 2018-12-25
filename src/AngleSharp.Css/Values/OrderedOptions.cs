@@ -32,15 +32,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
-        }
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            return _options.Join(" ");
+            get { return _options.Join(" "); }
         }
     }
 }

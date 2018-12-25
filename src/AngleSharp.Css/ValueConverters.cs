@@ -61,7 +61,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents many string objects, but always divisible by 2 (open-close quotes).
         /// </summary>
-        public static readonly IValueConverter QuotesConverter = new ClassValueConverter<Quotes>(CompoundParser.ParseQuotes);
+        public static readonly IValueConverter QuotesConverter = new ClassValueConverter<OrderedOptions>(CompoundParser.ParseQuotes);
 
         /// <summary>
         /// Represents an identifier object.

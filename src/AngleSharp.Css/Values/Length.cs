@@ -82,7 +82,23 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                if (Equals(Auto))
+                {
+                    return CssKeywords.Auto;
+                }
+                else if (Equals(Normal))
+                {
+                    return CssKeywords.Normal;
+                }
+                else
+                {
+                    var unit = _value == 0.0 ? String.Empty : UnitString;
+                    var val = _value.ToString(CultureInfo.InvariantCulture);
+                    return String.Concat(val, unit);
+                }
+            }
         }
 
         /// <summary>
@@ -211,28 +227,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Returns a string representing the length.
-        /// </summary>
-        /// <returns>The unit string.</returns>
-        public override String ToString()
-        {
-            if (Equals(Auto))
-            {
-                return CssKeywords.Auto;
-            }
-            else if (Equals(Normal))
-            {
-                return CssKeywords.Normal;
-            }
-            else
-            {
-                var unit = _value == 0.0 ? String.Empty : UnitString;
-                var val = _value.ToString(CultureInfo.InvariantCulture);
-                return String.Concat(val, unit);
-            }
-        }
 
         /// <summary>
         /// Tries to convert the given string to a Length.

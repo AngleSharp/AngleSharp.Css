@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -43,7 +43,34 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
+                var defaultAngle = _angle == Angle.Zero;
+                var offset = defaultAngle ? 0 : 1;
+                var args = new String[_stops.Length + offset];
+
+                if (!defaultAngle)
+                {
+                    foreach (var angle in Map.GradientAngles)
+                    {
+                        if (angle.Value == _angle)
+                        {
+                            args[0] = angle.Key;
+                            break;
+                        }
+                    }
+
+                    args[0] = args[0] ?? _angle.CssText;
+                }
+
+                for (var i = 0; i < _stops.Length; i++)
+                {
+                    args[offset++] = _stops[i].CssText;
+                }
+
+                return fn.CssFunction(String.Join(", ", args));
+            }
         }
 
         /// <summary>
@@ -68,42 +95,6 @@
         public Boolean IsRepeating
         {
             get { return _repeating; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns the string representation of the linear gradient function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
-            var defaultAngle = _angle == Angle.Zero;
-            var offset = defaultAngle ? 0 : 1;
-            var args = new String[_stops.Length + offset];
-
-            if (!defaultAngle)
-            {
-                foreach (var angle in Map.GradientAngles)
-                {
-                    if (angle.Value == _angle)
-                    {
-                        args[0] = angle.Key;
-                        break;
-                    }
-                }
-
-                args[0] = args[0] ?? _angle.ToString();
-            }
-
-            for (var i = 0; i < _stops.Length; i++)
-            {
-                args[offset++] = _stops[i].ToString();
-            }
-
-            return fn.CssFunction(String.Join(", ", args));
         }
 
         #endregion

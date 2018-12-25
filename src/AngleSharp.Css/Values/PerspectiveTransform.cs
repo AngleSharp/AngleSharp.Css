@@ -30,7 +30,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = FunctionNames.Perspective;
+                return fn.CssFunction(_distance.CssText);
+            }
         }
 
         /// <summary>
@@ -44,15 +48,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Serializes to the perspective function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = FunctionNames.Perspective;
-            return fn.CssFunction(_distance.ToString());
-        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

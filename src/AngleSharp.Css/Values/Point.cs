@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -86,7 +86,51 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                if (Equals(Center))
+                {
+                    return CssKeywords.Center;
+                }
+                else if (Equals(Bottom))
+                {
+                    return CssKeywords.Bottom;
+                }
+                else if (Equals(Top))
+                {
+                    return CssKeywords.Top;
+                }
+                else if (Equals(Left))
+                {
+                    return CssKeywords.Left;
+                }
+                else if (Equals(Right))
+                {
+                    return CssKeywords.Right;
+                }
+                else if (Equals(LeftTop))
+                {
+                    return CssKeywords.LeftTop;
+                }
+                else if (Equals(RightTop))
+                {
+                    return CssKeywords.RightTop;
+                }
+                else if (Equals(RightBottom))
+                {
+                    return CssKeywords.RightBottom;
+                }
+                else if (Equals(LeftBottom))
+                {
+                    return CssKeywords.LeftBottom;
+                }
+                else if (_y.Equals(Length.Half))
+                {
+                    return _x.CssText;
+                }
+
+                return String.Concat(_x.CssText, " ", _y.CssText);
+            }
         }
 
         /// <summary>
@@ -234,60 +278,6 @@
         {
             var hash = 17 * 37 + _x.GetHashCode();
             return hash * 37 + _y.GetHashCode();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns a string representing the point.
-        /// </summary>
-        /// <returns>The string.</returns>
-        public override String ToString()
-        {
-            if (Equals(Center))
-            {
-                return CssKeywords.Center;
-            }
-            else if (Equals(Bottom))
-            {
-                return CssKeywords.Bottom;
-            }
-            else if (Equals(Top))
-            {
-                return CssKeywords.Top;
-            }
-            else if (Equals(Left))
-            {
-                return CssKeywords.Left;
-            }
-            else if (Equals(Right))
-            {
-                return CssKeywords.Right;
-            }
-            else if (Equals(LeftTop))
-            {
-                return CssKeywords.LeftTop;
-            }
-            else if (Equals(RightTop))
-            {
-                return CssKeywords.RightTop;
-            }
-            else if (Equals(RightBottom))
-            {
-                return CssKeywords.RightBottom;
-            }
-            else if (Equals(LeftBottom))
-            {
-                return CssKeywords.LeftBottom;
-            }
-            else if (_y.Equals(Length.Half))
-            {
-                return _x.ToString();
-            }
-
-            return String.Concat(_x.ToString(), " ", _y.ToString());
         }
 
         #endregion

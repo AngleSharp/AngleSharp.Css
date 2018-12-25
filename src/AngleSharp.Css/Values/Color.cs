@@ -396,7 +396,29 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                if (Equals(Color.CurrentColor))
+                {
+                    return CssKeywords.CurrentColor;
+                }
+                else if (Equals(Color.InvertedColor))
+                {
+                    return CssKeywords.Invert;
+                }
+                else
+                {
+                    var fn = FunctionNames.Rgba;
+                    var args = String.Join(", ", new[]
+                    {
+                        R.ToString(CultureInfo.InvariantCulture),
+                        G.ToString(CultureInfo.InvariantCulture),
+                        B.ToString(CultureInfo.InvariantCulture),
+                        Alpha.ToString(CultureInfo.InvariantCulture)
+                    });
+                    return fn.CssFunction(args);
+                }
+            }
         }
 
         /// <summary>
@@ -517,34 +539,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Returns a string representing the color in ARGB hex.
-        /// </summary>
-        /// <returns>The ARGB string.</returns>
-        public override String ToString()
-        {
-            if (Equals(Color.CurrentColor))
-            {
-                return CssKeywords.CurrentColor;
-            }
-            else if (Equals(Color.InvertedColor))
-            {
-                return CssKeywords.Invert;
-            }
-            else
-            { 
-                var fn = FunctionNames.Rgba;
-                var args = String.Join(", ", new[]
-                {
-                    R.ToString(CultureInfo.InvariantCulture),
-                    G.ToString(CultureInfo.InvariantCulture),
-                    B.ToString(CultureInfo.InvariantCulture),
-                    Alpha.ToString(CultureInfo.InvariantCulture)
-                });
-                return fn.CssFunction(args);
-            }
-        }
 
         /// <summary>
         /// Mixes two colors using alpha compositing as described here:

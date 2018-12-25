@@ -20,7 +20,14 @@ namespace AngleSharp.Css.Values
 
         #region ctor
 
-        internal RotateTransform(Double x, Double y, Double z, Angle angle)
+        /// <summary>
+        /// Creates a new rotate transform.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="z">The z coordinate.</param>
+        /// <param name="angle">The angle of rotation.</param>
+        public RotateTransform(Double x, Double y, Double z, Angle angle)
         {
             _x = x;
             _y = y;
@@ -37,7 +44,40 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = FunctionNames.Rotate3d;
+                var args = _angle.CssText;
+
+                if (Double.IsNaN(_x) && Double.IsNaN(_y) && Double.IsNaN(_z))
+                {
+                    fn = FunctionNames.Rotate;
+                }
+                else if (_x == 1f && _y == 0f && _z == 0f)
+                {
+                    fn = FunctionNames.RotateX;
+                }
+                else if (_x == 0f && _y == 1f && _z == 0f)
+                {
+                    fn = FunctionNames.RotateY;
+                }
+                else if (_x == 0f && _y == 0f && _z == 1f)
+                {
+                    fn = FunctionNames.RotateY;
+                }
+                else
+                {
+                    args = String.Join(", ", new[]
+                    {
+                        _x.ToString(CultureInfo.InvariantCulture),
+                        _y.ToString(CultureInfo.InvariantCulture),
+                        _z.ToString(CultureInfo.InvariantCulture),
+                        args
+                    });
+                }
+
+                return fn.CssFunction(args);
+            }
         }
 
         /// <summary>
@@ -75,44 +115,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Serializes to the rotate function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = FunctionNames.Rotate3d;
-            var args = _angle.ToString();
-
-            if (Double.IsNaN(_x) && Double.IsNaN(_y) && Double.IsNaN(_z))
-            {
-                fn = FunctionNames.Rotate;
-            }
-            else if (_x == 1f && _y == 0f && _z == 0f)
-            {
-                fn = FunctionNames.RotateX;
-            }
-            else if (_x == 0f && _y == 1f && _z == 0f)
-            {
-                fn = FunctionNames.RotateY;
-            }
-            else if (_x == 0f && _y == 0f && _z == 1f)
-            {
-                fn = FunctionNames.RotateY;
-            }
-            else
-            {
-                args = String.Join(", ", new[]
-                {
-                    _x.ToString(CultureInfo.InvariantCulture),
-                    _y.ToString(CultureInfo.InvariantCulture),
-                    _z.ToString(CultureInfo.InvariantCulture),
-                    args
-                });
-            }
-
-            return fn.CssFunction(args);
-        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

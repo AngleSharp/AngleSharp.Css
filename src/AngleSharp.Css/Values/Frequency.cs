@@ -38,7 +38,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString); }
         }
 
         /// <summary>
@@ -129,15 +129,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Returns a string representing the frequency.
-        /// </summary>
-        /// <returns>The unit string.</returns>
-        public override String ToString()
-        {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
-        }
 
         /// <summary>
         /// Tries to convert the given string to a Frequency.

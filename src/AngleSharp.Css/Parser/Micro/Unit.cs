@@ -1,4 +1,4 @@
-namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Parser
 {
     using System;
 

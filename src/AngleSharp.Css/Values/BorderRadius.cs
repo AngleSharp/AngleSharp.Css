@@ -51,31 +51,22 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            var h = _horizontal.CssText;
-
-            if (!Object.ReferenceEquals(_horizontal, _vertical))
+            get
             {
-                var v = _vertical.CssText;
+                var h = _horizontal.CssText;
 
-                if (!String.IsNullOrEmpty(v) && h != v)
+                if (!Object.ReferenceEquals(_horizontal, _vertical))
                 {
-                    return String.Concat(h, " / ", v);
-                }
-            }
+                    var v = _vertical.CssText;
 
-            return h;
+                    if (!String.IsNullOrEmpty(v) && h != v)
+                    {
+                        return String.Concat(h, " / ", v);
+                    }
+                }
+
+                return h;
+            }
         }
 
         #endregion

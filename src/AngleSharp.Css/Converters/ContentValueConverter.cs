@@ -123,17 +123,12 @@ namespace AngleSharp.Css.Converters
         {
             public String CssText
             {
-                get { return ToString(); }
+                get { return CssKeywords.Normal; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return CssKeywords.Normal;
             }
         }
 
@@ -145,17 +140,12 @@ namespace AngleSharp.Css.Converters
         {
             public String CssText
             {
-                get { return ToString(); }
+                get { return CssKeywords.OpenQuote; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return CssKeywords.OpenQuote;
             }
         }
 
@@ -167,17 +157,12 @@ namespace AngleSharp.Css.Converters
         {
             public String CssText
             {
-                get { return ToString(); }
+                get { return CssKeywords.CloseQuote; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return CssKeywords.CloseQuote;
             }
         }
 
@@ -189,17 +174,12 @@ namespace AngleSharp.Css.Converters
         {
             public String CssText
             {
-                get { return ToString(); }
+                get { return CssKeywords.NoOpenQuote; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return CssKeywords.NoOpenQuote;
             }
         }
 
@@ -211,17 +191,12 @@ namespace AngleSharp.Css.Converters
         {
             public String CssText
             {
-                get { return ToString(); }
+                get { return CssKeywords.NoCloseQuote; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return CssKeywords.NoCloseQuote;
             }
         }
 
@@ -239,17 +214,12 @@ namespace AngleSharp.Css.Converters
 
             public String CssText
             {
-                get { return ToString(); }
+                get { return _text.CssString(); }
             }
 
             public String Stringify(IElement element)
             {
                 return _text;
-            }
-
-            public override String ToString()
-            {
-                return _text.CssString();
             }
         }
 
@@ -269,17 +239,12 @@ namespace AngleSharp.Css.Converters
 
             public String CssText
             {
-                get { return ToString(); }
+                get { return _counter.CssText; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return _counter.ToString();
             }
         }
 
@@ -298,17 +263,12 @@ namespace AngleSharp.Css.Converters
 
             public String CssText
             {
-                get { return ToString(); }
+                get { return FunctionNames.Attr.CssFunction(_attribute); }
             }
 
             public String Stringify(IElement element)
             {
                 return element.GetAttribute(_attribute) ?? String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return FunctionNames.Attr.CssFunction(_attribute);
             }
         }
 
@@ -328,17 +288,12 @@ namespace AngleSharp.Css.Converters
 
             public String CssText
             {
-                get { return ToString(); }
+                get { return _url.CssText; }
             }
 
             public String Stringify(IElement element)
             {
                 return String.Empty;
-            }
-
-            public override String ToString()
-            {
-                return _url.ToString();
             }
         }
     }

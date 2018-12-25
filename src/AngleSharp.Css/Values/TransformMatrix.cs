@@ -104,14 +104,6 @@ namespace AngleSharp.Css
         #region Properties
 
         /// <summary>
-        /// Gets the CSS text representation.
-        /// </summary>
-        public String CssText
-        {
-            get { return ToString(); }
-        }
-
-        /// <summary>
         /// Gets the element of the 1st row, 1st column.
         /// </summary>
         public Double M11

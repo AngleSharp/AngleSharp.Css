@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -40,7 +40,29 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                if (_intervals != 1)
+                {
+                    var fn = FunctionNames.Steps;
+                    var args = _intervals.ToString();
+
+                    if (_start)
+                    {
+                        args = String.Concat(args, ", ", CssKeywords.Start);
+                    }
+
+                    return fn.CssFunction(args);
+                }
+                else if (_start)
+                {
+                    return CssKeywords.StepStart;
+                }
+                else
+                {
+                    return CssKeywords.StepEnd;
+                }
+            }
         }
 
         /// <summary>
@@ -57,37 +79,6 @@
         public Boolean IsStart
         {
             get { return _start; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            if (_intervals != 1)
-            {
-                var fn = FunctionNames.Steps;
-                var args = _intervals.ToString();
-
-                if (_start)
-                {
-                    args = String.Concat(args, ", ", CssKeywords.Start);
-                }
-
-                return fn.CssFunction(args);
-            }
-            else if (_start)
-            {
-                return CssKeywords.StepStart;
-            }
-            else
-            {
-                return CssKeywords.StepEnd;
-            }
         }
 
         #endregion

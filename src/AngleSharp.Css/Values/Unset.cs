@@ -1,23 +1,35 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
-    using System.IO;
 
-    struct Unset<T> : ICssValue
+    /// <summary>
+    /// Represents a CSS unset value.
+    /// </summary>
+    public struct Unset<T> : ICssValue
     {
-        private readonly T _data;
+        private readonly T _value;
 
-        public Unset(T data)
+        /// <summary>
+        /// Creates a new unset value using the given value.
+        /// </summary>
+        /// <param name="value">The value to unset to.</param>
+        public Unset(T value)
         {
-            _data = data;
+            _value = value;
         }
 
-        public T Data
+        /// <summary>
+        /// Gets the unset value.
+        /// </summary>
+        public T Value
         {
-            get { return _data; }
+            get { return _value; }
         }
 
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
         public String CssText
         {
             get { return CssKeywords.Unset; }

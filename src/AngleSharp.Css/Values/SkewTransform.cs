@@ -17,7 +17,12 @@ namespace AngleSharp.Css.Values
 
         #region ctor
 
-        internal SkewTransform(Angle alpha, Angle beta)
+        /// <summary>
+        /// Creates a new skew transform.
+        /// </summary>
+        /// <param name="alpha">The alpha skewing angle.</param>
+        /// <param name="beta">The beta skewing angle.</param>
+        public SkewTransform(Angle alpha, Angle beta)
         {
             _alpha = alpha;
             _beta = beta;
@@ -32,7 +37,34 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = FunctionNames.Skew;
+                var args = _alpha.CssText;
+
+                if (_alpha != _beta)
+                {
+                    if (_alpha == Angle.Zero)
+                    {
+                        fn = FunctionNames.SkewY;
+                        args = _beta.CssText;
+                    }
+                    else if (_beta == Angle.Zero)
+                    {
+                        fn = FunctionNames.SkewX;
+                    }
+                    else
+                    {
+                        args = String.Join(", ", new[]
+                        {
+                            args,
+                            _beta.CssText
+                        });
+                    }
+                }
+
+                return fn.CssFunction(args);
+            }
         }
 
         /// <summary>
@@ -54,38 +86,6 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Serializes to the skew function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = FunctionNames.Skew;
-            var args = _alpha.ToString();
-
-            if (_alpha != _beta)
-            {
-                if (_alpha == Angle.Zero)
-                {
-                    fn = FunctionNames.SkewY;
-                    args = _beta.ToString();
-                }
-                else if (_beta == Angle.Zero)
-                {
-                    fn = FunctionNames.SkewX;
-                }
-                else
-                {
-                    args = String.Join(", ", new[]
-                    {
-                        args,
-                        _beta.ToString()
-                    });
-                }
-            }
-
-            return fn.CssFunction(args);
-        }
 
         /// <summary>
         /// Computes the matrix for the given transformation.

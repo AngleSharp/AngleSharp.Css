@@ -34,7 +34,36 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var l = _values.Length;
+                var parts = new String[l];
+
+                for (var i = 0; i < l; i++)
+                {
+                    parts[i] = _values[i].CssText;
+                }
+
+                if (l == 4 && parts[3] == parts[1])
+                {
+                    l = 3;
+                    parts = new[] { parts[0], parts[1], parts[2] };
+                }
+
+                if (l == 3 && parts[2] == parts[0])
+                {
+                    l = 2;
+                    parts = new[] { parts[0], parts[1] };
+                }
+
+                if (l == 2 && parts[1] == parts[0])
+                {
+                    l = 1;
+                    parts = new[] { parts[0] };
+                }
+
+                return String.Join(" ", parts);
+            }
         }
 
         /// <summary>
@@ -67,44 +96,6 @@ namespace AngleSharp.Css.Values
         public T Left
         {
             get { return _values.Length > 3 ? _values[3] : Right; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Serializes to a string.
-        /// </summary>
-        public override String ToString()
-        {
-            var l = _values.Length;
-            var parts = new String[l];
-
-            for (var i = 0; i < l; i++)
-            {
-                parts[i] = _values[i].CssText;
-            }
-
-            if (l == 4 && parts[3] == parts[1])
-            {
-                l = 3;
-                parts = new[] { parts[0], parts[1], parts[2] };
-            }
-
-            if (l == 3 && parts[2] == parts[0])
-            {
-                l = 2;
-                parts = new[] { parts[0], parts[1] };
-            }
-
-            if (l == 2 && parts[1] == parts[0])
-            {
-                l = 1;
-                parts = new[] { parts[0] };
-            }
-
-            return String.Join(" ", parts);
         }
 
         #endregion

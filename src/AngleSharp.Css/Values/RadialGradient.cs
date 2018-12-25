@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
@@ -55,7 +55,54 @@
         /// </summary>
         public String CssText
         {
-            get { return ToString(); }
+            get
+            {
+                var fn = _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
+                var isDefault = _center == Point.Center && !_circle && _height == Length.Full && _width == Length.Full && _sizeMode == SizeMode.None;
+                var offset = isDefault ? 0 : 1;
+                var args = new String[_stops.Length + offset];
+
+                if (!isDefault)
+                {
+                    var size = String.Empty;
+
+                    if (_sizeMode != SizeMode.None)
+                    {
+                        foreach (var pair in Map.RadialGradientSizeModes)
+                        {
+                            if (pair.Value == _sizeMode)
+                            {
+                                size = pair.Key;
+                                break;
+                            }
+                        }
+                    }
+                    else if (_circle)
+                    {
+                        size = _width.CssText;
+                    }
+                    else
+                    {
+                        size = String.Concat(_width.CssText, " ", _height.CssText);
+                    }
+
+                    var parts = new[]
+                    {
+                    _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
+                    size,
+                    CssKeywords.At,
+                    _center.CssText
+                };
+                    args[0] = String.Join(" ", parts);
+                }
+
+                for (var i = 0; i < _stops.Length; i++)
+                {
+                    args[offset++] = _stops[i].CssText;
+                }
+
+                return fn.CssFunction(String.Join(", ", args));
+            }
         }
 
         /// <summary>
@@ -112,62 +159,6 @@
         public Boolean IsRepeating
         {
             get { return _repeating; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns the string representation of the radial gradient function.
-        /// </summary>
-        public override String ToString()
-        {
-            var fn = _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
-            var isDefault = _center == Point.Center && !_circle && _height == Length.Full && _width == Length.Full && _sizeMode == SizeMode.None;
-            var offset = isDefault ? 0 : 1;
-            var args = new String[_stops.Length + offset];
-
-            if (!isDefault)
-            {
-                var size = String.Empty;
-
-                if (_sizeMode != SizeMode.None)
-                {
-                    foreach (var pair in Map.RadialGradientSizeModes)
-                    {
-                        if (pair.Value == _sizeMode)
-                        {
-                            size = pair.Key;
-                            break;
-                        }
-                    }
-                }
-                else if (_circle)
-                {
-                    size = _width.ToString();
-                }
-                else
-                {
-                    size = String.Concat(_width.ToString(), " ", _height.ToString());
-                }
-
-                var parts = new[] 
-                {
-                    _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
-                    size,
-                    CssKeywords.At,
-                    _center.ToString()
-                };
-                args[0] = String.Join(" ", parts);
-            }
-            
-            for (var i = 0; i < _stops.Length; i++)
-            {
-                args[offset++] = _stops[i].ToString();
-            }
-
-            return fn.CssFunction(String.Join(", ", args));
         }
 
         #endregion
