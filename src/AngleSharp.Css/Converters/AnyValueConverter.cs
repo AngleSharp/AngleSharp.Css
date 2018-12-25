@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
 
     sealed class AnyValueConverter : IValueConverter
     {
@@ -10,22 +10,7 @@
         {
             var value = source.Content;
             source.Next(value.Length);
-            return new AnyValue(value);
-        }
-
-        private sealed class AnyValue : ICssValue
-        {
-            private readonly String _text;
-
-            public AnyValue(String text)
-            {
-                _text = text;
-            }
-
-            public String CssText
-            {
-                get { return _text; }
-            }
+            return new Any(value);
         }
     }
 }

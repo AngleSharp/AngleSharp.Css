@@ -4,7 +4,6 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
     using System.Collections.Generic;
 
     sealed class CursorValueConverter : IValueConverter
@@ -12,7 +11,7 @@ namespace AngleSharp.Css.Converters
         public ICssValue Convert(StringSource source)
         {
             var cursor = default(ICssValue);
-            var definitions = new List<CursorDefinition>();
+            var definitions = new List<ICssValue>();
 
             while (!source.IsDone)
             {
@@ -47,7 +46,7 @@ namespace AngleSharp.Css.Converters
 
                     if (cursor != null)
                     {
-                        return new CursorValue(definitions.ToArray(), cursor);
+                        return new Cursor(definitions.ToArray(), cursor);
                     }
 
                     break;
@@ -55,55 +54,6 @@ namespace AngleSharp.Css.Converters
             }
 
             return null;
-        }
-
-        struct CursorDefinition
-        {
-            public IImageSource Source;
-            public Point? Position;
-
-            public override String ToString()
-            {
-                var sb = StringBuilderPool.Obtain();
-
-                sb.Append(Source.ToString());
-
-                if (Position.HasValue)
-                {
-                    sb.Append(Symbols.Space);
-                    sb.Append(Position.Value.ToString());
-                }
-
-                return sb.ToPool();
-            }
-        }
-
-        sealed class CursorValue : ICssValue
-        {
-            private readonly CursorDefinition[] _definitions;
-            private readonly ICssValue _cursor;
-
-            public CursorValue(CursorDefinition[] definitions, ICssValue cursor)
-            {
-                _definitions = definitions;
-                _cursor = cursor;
-            }
-
-            public String CssText
-            {
-                get
-                {
-                    var sb = StringBuilderPool.Obtain();
-
-                    foreach (var definition in _definitions)
-                    {
-                        sb.Append(definition).Append(", ");
-                    }
-
-                    sb.Append(_cursor.CssText);
-                    return sb.ToPool();
-                }
-            }
         }
     }
 }

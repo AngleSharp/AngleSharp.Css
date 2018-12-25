@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -37,30 +37,10 @@
                     counters.Add(new CounterValue(name, value));
                 }
 
-                return new CountersValue(counters.ToArray());
+                return new Counters(counters.ToArray());
             }
 
-            return new CountersValue();
-        }
-
-        private sealed class CountersValue : ICssValue
-        {
-            private readonly CounterValue[] _counters;
-
-            public CountersValue()
-            {
-                _counters = null;
-            }
-
-            public CountersValue(CounterValue[] counters)
-            {
-                _counters = counters;
-            }
-
-            public String CssText
-            {
-                get { return _counters != null ? _counters.Join(" ") : CssKeywords.None; }
-            }
+            return new Counters();
         }
     }
 }

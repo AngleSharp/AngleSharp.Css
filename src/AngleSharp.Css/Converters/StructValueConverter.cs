@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -16,23 +16,7 @@
 
         public ICssValue Convert(StringSource source)
         {
-            var result = _converter.Invoke(source);
-            return result.HasValue ? new StructValue(result.Value) : null;
-        }
-
-        private sealed class StructValue : ICssValue
-        {
-            private readonly T _data;
-
-            public StructValue(T data)
-            {
-                _data = data;
-            }
-
-            public String CssText
-            {
-                get { return _data.CssText; }
-            }
+            return _converter.Invoke(source);
         }
     }
 }
