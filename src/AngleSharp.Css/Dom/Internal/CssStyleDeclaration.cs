@@ -141,9 +141,10 @@ namespace AngleSharp.Css.Dom
                         {
                             var shorthand = _context.GetDeclarationInfo(shorthandName);
                             var properties = shorthand.Longhands;
+                            var aggregator = shorthand.Converter as IValueAggregator;
                             var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
-                            if (currentLonghands.Length == 0 || shorthand.Aggregator == null)
+                            if (currentLonghands.Length == 0 || aggregator == null)
                                 continue;
 
                             var important = currentLonghands.Count(m => m.IsImportant);
@@ -154,7 +155,7 @@ namespace AngleSharp.Css.Dom
                             if (properties.Length != currentLonghands.Length)
                                 continue;
 
-                            var value = shorthand.Aggregator.Collect(currentLonghands);
+                            var value = aggregator.Collect(currentLonghands);
 
                             if (value != null)
                             {
@@ -232,8 +233,9 @@ namespace AngleSharp.Css.Dom
             if (property == null)
             {
                 var info = _context.GetDeclarationInfo(propertyName);
+                var aggregator = info.Converter as IValueAggregator;
 
-                if (info.Aggregator != null)
+                if (aggregator != null)
                 {
                     var declarations = info.Longhands;
                     var properties = new List<ICssProperty>();
@@ -250,7 +252,7 @@ namespace AngleSharp.Css.Dom
 
                     if (properties.Any())
                     {
-                        var value = info.Aggregator.Collect(properties);
+                        var value = aggregator.Collect(properties);
 
                         if (value != null)
                         {
@@ -341,8 +343,9 @@ namespace AngleSharp.Css.Dom
         private ICssProperty GetPropertyShorthand(String name)
         {
             var info = _context.GetDeclarationInfo(name);
+            var aggregator = info.Converter as IValueAggregator;
 
-            if (info.Aggregator != null)
+            if (aggregator != null)
             {
                 var declarations = info.Longhands;
                 var properties = new List<ICssProperty>();
@@ -361,7 +364,7 @@ namespace AngleSharp.Css.Dom
 
                 if (properties.Any())
                 {
-                    var value = info.Aggregator.Collect(properties);
+                    var value = aggregator.Collect(properties);
 
                     if (value != null)
                     {
@@ -481,7 +484,8 @@ namespace AngleSharp.Css.Dom
         private void SetShorthand(ICssProperty shorthand)
         {
             var info = _context.GetDeclarationInfo(shorthand.Name);
-            var properties = info.Aggregator?.Distribute(shorthand.RawValue);
+            var aggregator = info.Converter as IValueAggregator;
+            var properties = aggregator?.Distribute(shorthand.RawValue);
 
             if (properties != null)
             {

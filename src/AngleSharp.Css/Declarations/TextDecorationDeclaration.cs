@@ -1,17 +1,19 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Aggregators;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using static ValueConverters;
 
     static class TextDecorationDeclaration
     {
         public static String Name = PropertyNames.TextDecoration;
 
-        public static IValueConverter Converter = Or(new TextDecorationValueConverter(), AssignInitial());
-
-        public static IValueAggregator Aggregator = new TextDecorationAggregator();
+        public static IValueConverter Converter = new TextDecorationAggregator();
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
@@ -21,5 +23,59 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TextDecorationLine,
             PropertyNames.TextDecorationStyle,
         };
+
+        sealed class TextDecorationValueConverter : IValueConverter
+        {
+            private static readonly IValueConverter converter = WithAny(
+                ColorConverter.Option(),
+                TextDecorationStyleConverter.Option(),
+                TextDecorationLinesConverter.Option());
+
+            public ICssValue Convert(StringSource source)
+            {
+                return converter.Convert(source);
+            }
+        }
+
+        sealed class TextDecorationAggregator : IValueAggregator, IValueConverter
+        {
+            private static readonly IValueConverter converter = Or(new TextDecorationValueConverter(), AssignInitial());
+
+            public ICssValue Convert(StringSource source)
+            {
+                return converter.Convert(source);
+            }
+
+            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            {
+                var color = properties.Where(m => m.Name == TextDecorationColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var style = properties.Where(m => m.Name == TextDecorationStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var line = properties.Where(m => m.Name == TextDecorationLineDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+
+                if (color != null || style != null || line != null)
+                {
+                    return new OrderedOptions(new[] { color, style, line });
+                }
+
+                return null;
+            }
+
+            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            {
+                var options = value as OrderedOptions;
+
+                if (options != null)
+                {
+                    return new[]
+                    {
+                        new CssProperty(TextDecorationColorDeclaration.Name, TextDecorationColorDeclaration.Converter, TextDecorationColorDeclaration.Flags, options.Options[0]),
+                        new CssProperty(TextDecorationStyleDeclaration.Name, TextDecorationStyleDeclaration.Converter, TextDecorationStyleDeclaration.Flags, options.Options[1]),
+                        new CssProperty(TextDecorationLineDeclaration.Name, TextDecorationLineDeclaration.Converter, TextDecorationLineDeclaration.Flags, options.Options[2]),
+                    };
+                }
+
+                return null;
+            }
+        }
     }
 }

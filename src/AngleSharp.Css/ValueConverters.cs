@@ -685,6 +685,8 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter PaddingConverter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
 
+        public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
+
         #endregion
 
         #region Helpers
