@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     static class FunctionParser
     {
@@ -20,6 +21,69 @@
                 if (content != null && f == Symbols.RoundBracketClose)
                 {
                     return content;
+                }
+            }
+
+            return null;
+        }
+
+        public static VarReferences ParseVars(StringSource source)
+        {
+            var index = 0;
+            var length = FunctionNames.Var.Length;
+            var refs = new List<VarReference>();
+
+            while (true)
+            {
+                index = source.Content.IndexOf(FunctionNames.Var, index, StringComparison.OrdinalIgnoreCase) + length;
+
+                if (index >= length)
+                {
+                    source.NextTo(index);
+                    var c = source.SkipSpacesAndComments();
+
+                    if (c == Symbols.RoundBracketOpen)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        var reference = ParseVar(source);
+
+                        if (reference == null)
+                        {
+                            refs.Clear();
+                            break;
+                        }
+
+                        refs.Add(reference);
+                        continue;
+                    }
+                }
+                
+                break;
+            }
+
+            if (refs.Count > 0)
+            {
+                return new VarReferences(source.Content, refs);
+            }
+
+            return null;
+        }
+
+        public static VarReference ParseVar(this StringSource source)
+        {
+            var name = source.ParseCustomIdent();
+            var f = source.SkipGetSkip();
+
+            if (name != null)
+            {
+                switch (f)
+                {
+                    case Symbols.RoundBracketClose:
+                        return new VarReference(name);
+                    case Symbols.Comma:
+                        var defaultValue = source.TakeUntilClosed();
+                        source.SkipCurrentAndSpaces();
+                        return new VarReference(name, defaultValue);
                 }
             }
 

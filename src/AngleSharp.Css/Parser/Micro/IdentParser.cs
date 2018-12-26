@@ -15,38 +15,25 @@ namespace AngleSharp.Css.Parser
             return result != null ? result.ToLowerInvariant() : result;
         }
 
-        public static String ParseIdent(this StringSource source)
+        public static String ParseCustomIdent(this StringSource source)
         {
             var current = source.Current;
+            var buffer = StringBuilderPool.Obtain();
 
             if (current == Symbols.Minus)
             {
+                buffer.Append(Symbols.Minus);
                 current = source.Next();
-
-                if (current.IsNameStart() || source.IsValidEscape())
-                {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(Symbols.Minus);
-                    return Rest(source, current, buffer);
-                }
-
-                source.Back();
-                return null;
-            }
-            else if (current.IsNameStart())
-            {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(current);
-                return Rest(source, source.Next(), buffer);
-            }
-            else if (current == Symbols.ReverseSolidus && source.IsValidEscape())
-            {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(source.ConsumeEscape());
-                return Rest(source, source.Next(), buffer);
             }
 
-            return null;
+            return Start(source, current, buffer);
+        }
+
+        public static String ParseIdent(this StringSource source)
+        {
+            var current = source.Current;
+            var buffer = StringBuilderPool.Obtain();
+            return Start(source, current, buffer);
         }
 
         public static ICssValue ParseConstant<T>(this StringSource source, IDictionary<String, T> values)
@@ -211,6 +198,35 @@ namespace AngleSharp.Css.Parser
             }
 
             source.BackTo(pos);
+            return null;
+        }
+
+        private static String Start(StringSource source, Char current, StringBuilder buffer)
+        {
+            if (current == Symbols.Minus)
+            {
+                current = source.Next();
+
+                if (current.IsNameStart() || source.IsValidEscape())
+                {
+                    buffer.Append(Symbols.Minus);
+                    return Rest(source, current, buffer);
+                }
+
+                source.Back();
+            }
+            else if (current.IsNameStart())
+            {
+                buffer.Append(current);
+                return Rest(source, source.Next(), buffer);
+            }
+            else if (current == Symbols.ReverseSolidus && source.IsValidEscape())
+            {
+                buffer.Append(source.ConsumeEscape());
+                return Rest(source, source.Next(), buffer);
+            }
+
+            buffer.ToPool();
             return null;
         }
 

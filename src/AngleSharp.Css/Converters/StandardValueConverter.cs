@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -29,6 +29,11 @@
             else if (ident.Isi(CssKeywords.Unset))
             {
                 return new Unset<T>(_defaultValue);
+            }
+            else if (ident.Isi(FunctionNames.Var) && source.Current == Symbols.RoundBracketOpen)
+            {
+                source.SkipCurrentAndSpaces();
+                return source.ParseVar();
             }
             
             return null;

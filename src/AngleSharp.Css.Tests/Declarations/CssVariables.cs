@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -33,6 +34,42 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(style);
             Assert.AreEqual(":root", style.SelectorText);
             Assert.AreEqual(0, style.Style.Length);
+        }
+
+        [Test]
+        public void LegitVariableReferenceWithoutFallback()
+        {
+            var source = @"padding-bottom: var(--foo)";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReference;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual("--foo", variable.Name);
+            Assert.IsNull(variable.DefaultValue);
+        }
+
+        [Test]
+        public void LegitVariableReferenceWithFallback()
+        {
+            var source = @"padding-bottom: var(--my-bar, 24px)";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReference;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual("--my-bar", variable.Name);
+            Assert.AreEqual("24px", variable.DefaultValue);
+        }
+
+        [Test]
+        public void LegitVariableReferenceInBackgroundShorthand()
+        {
+            var source = @"background: var(--foo)";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReference;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual("--foo", variable.Name);
+            Assert.IsNull(variable.DefaultValue);
         }
     }
 }
