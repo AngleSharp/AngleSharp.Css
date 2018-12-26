@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -56,6 +56,11 @@
         /// The attr function.
         /// </summary>
         public static readonly String Attr = "attr";
+
+        /// <summary>
+        /// The var function.
+        /// </summary>
+        public static readonly String Var = "var";
 
         /// <summary>
         /// The linear-gradient function.

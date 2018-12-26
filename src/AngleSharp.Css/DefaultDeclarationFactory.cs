@@ -991,6 +991,21 @@ namespace AngleSharp.Css
                     flags: BorderDeclaration.Flags,
                     longhands: BorderDeclaration.Longhands)
             },
+            {
+                RubyAlignDeclaration.Name, new DeclarationInfo(
+                    converter: RubyAlignDeclaration.Converter,
+                    flags: RubyAlignDeclaration.Flags)
+            },
+            {
+                RubyOverhangDeclaration.Name, new DeclarationInfo(
+                    converter: RubyOverhangDeclaration.Converter,
+                    flags: RubyOverhangDeclaration.Flags)
+            },
+            {
+                RubyPositionDeclaration.Name, new DeclarationInfo(
+                    converter: RubyPositionDeclaration.Converter,
+                    flags: RubyPositionDeclaration.Flags)
+            },
         };
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -66,6 +66,11 @@
         /// The inter-word keyword.
         /// </summary>
         public static readonly String InterWord = "inter-word";
+
+        /// <summary>
+        /// The inter-character keyword.
+        /// </summary>
+        public static readonly String InterCharacter = "inter-character";
 
         /// <summary>
         /// The kashida keyword.
@@ -270,6 +275,16 @@
         /// The space keyword.
         /// </summary>
         public static readonly String Space = "space";
+
+        /// <summary>
+        /// The space-around keyword.
+        /// </summary>
+        public static readonly String SpaceAround = "space-around";
+
+        /// <summary>
+        /// The space-between keyword.
+        /// </summary>
+        public static readonly String SpaceBetween = "space-between";
 
         /// <summary>
         /// The stretch keyword.
@@ -1350,6 +1365,16 @@
         /// The on-demand keyword.
         /// </summary>
         public static readonly String OnDemand = "on-demand";
+
+        /// <summary>
+        /// The over keyword.
+        /// </summary>
+        public static readonly String Over = "over";
+
+        /// <summary>
+        /// The under keyword.
+        /// </summary>
+        public static readonly String Under = "under";
 
         /// <summary>
         /// The hover keyword.
