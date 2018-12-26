@@ -52,6 +52,22 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the width of the background.
+        /// </summary>
+        public Length Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Gets the height of the background.
+        /// </summary>
+        public Length Height
+        {
+            get { return _height; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText

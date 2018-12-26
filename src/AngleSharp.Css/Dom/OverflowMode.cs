@@ -20,6 +20,11 @@
         /// <summary>
         /// The content can be scrolled.
         /// </summary>
-        Scroll
+        Scroll,
+        /// <summary>
+        /// The content must be directionally clipped.
+        /// This only applies to overflow-x or overflow-y.
+        /// </summary>
+        Clip
     }
 }

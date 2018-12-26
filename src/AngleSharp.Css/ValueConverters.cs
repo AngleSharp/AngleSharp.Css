@@ -196,7 +196,7 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
 
         /// <summary>
-        /// Represents a converter for the TextDecorationLine enumeration, 
+        /// Represents a converter for the TextDecorationLine enumeration,
         /// taking many values or none.
         /// </summary>
         public static readonly IValueConverter TextDecorationLinesConverter = Or(Map.TextDecorationLines.ToConverter().Many(), None);
@@ -280,7 +280,7 @@ namespace AngleSharp.Css
 		/// Represents a converter for the TextTAligLast enumeration.
 		/// </summary>
 		public static readonly IValueConverter TextAlignLastConverter = Map.TextAlignLasts.ToConverter();
-		
+
 		/// <summary>
 		/// Represents a converter for the TextAnchor enumeration.
 		/// </summary>
@@ -305,6 +305,11 @@ namespace AngleSharp.Css
         /// Represents a converter for the OverflowMode enumeration.
         /// </summary>
         public static readonly IValueConverter OverflowModeConverter = Map.OverflowModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the extended (directional) OverflowMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter OverflowExtendedModeConverter = Map.OverflowExtendedModes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the Floating enumeration.
@@ -345,7 +350,7 @@ namespace AngleSharp.Css
 		/// Represents a converter for the StrokeLinecap enumeration.
 		/// </summary>
 		public static readonly IValueConverter StrokeLinecapConverter = Map.StrokeLinecaps.ToConverter();
-		
+
 		/// <summary>
 		/// Represents a converter for the StrokeLinejoin enumeration.
 		/// </summary>
@@ -389,63 +394,63 @@ namespace AngleSharp.Css
         /// Represents an optional integer object.
         /// </summary>
         public static readonly IValueConverter OptionalIntegerConverter = Or(
-            IntegerConverter, 
+            IntegerConverter,
             Auto);
 
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
         public static readonly IValueConverter PositiveOrInfiniteNumberConverter = Or(
-            NaturalNumberConverter, 
+            NaturalNumberConverter,
             Assign(CssKeywords.Infinite, Double.PositiveInfinity));
 
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
         public static readonly IValueConverter OptionalNumberConverter = Or(
-            NumberConverter, 
+            NumberConverter,
             None);
 
         /// <summary>
         /// Represents a length object or alternatively a fixed length when "normal" is given.
         /// </summary>
         public static readonly IValueConverter LengthOrNormalConverter = Or(
-            LengthConverter, 
+            LengthConverter,
             Assign(CssKeywords.Normal, new Length(1.0, Length.Unit.Em)));
 
         /// <summary>
         /// Represents a length object or null, when "normal" is given.
         /// </summary>
         public static readonly IValueConverter OptionalLengthConverter = Or(
-            LengthConverter, 
+            LengthConverter,
             Assign(CssKeywords.Normal, Length.Normal));
 
         /// <summary>
         /// Represents a length (or default).
         /// </summary>
         public static readonly IValueConverter AutoLengthConverter = Or(
-            LengthConverter, 
+            LengthConverter,
             Auto);
 
         /// <summary>
         /// Represents a distance object (either Length or Percent) or none.
         /// </summary>
         public static readonly IValueConverter OptionalLengthOrPercentConverter = Or(
-            LengthOrPercentConverter, 
+            LengthOrPercentConverter,
             None);
 
         /// <summary>
         /// Represents a distance object (or default).
         /// </summary>
         public static readonly IValueConverter AutoLengthOrPercentConverter = Or(
-            LengthOrPercentConverter, 
+            LengthOrPercentConverter,
             Auto);
 
         /// <summary>
         /// Represents a length for a font size.
         /// </summary>
         public static readonly IValueConverter FontSizeConverter = Or(
-            LengthOrPercentConverter, 
+            LengthOrPercentConverter,
             Map.FontSizes.ToConverter());
 
         #endregion
@@ -457,8 +462,8 @@ namespace AngleSharp.Css
         /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
         /// </summary>
         public static readonly IValueConverter LineHeightConverter = Or(
-            LengthOrPercentConverter, 
-            NumberConverter, 
+            LengthOrPercentConverter,
+            NumberConverter,
             Assign(CssKeywords.Normal, Length.Normal));
 
         /// <summary>
@@ -502,15 +507,15 @@ namespace AngleSharp.Css
         /// Represents a color object, the current color, or the inverted current color.
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = Or(
-            CurrentColorConverter, 
+            CurrentColorConverter,
             Assign(CssKeywords.Invert, Color.InvertedColor));
 
 		/// <summary>
 		/// Represents a paint object.
 		/// </summary>
 		public static readonly IValueConverter PaintConverter = Or(
-            UrlConverter, 
-            CurrentColorConverter, 
+            UrlConverter,
+            CurrentColorConverter,
             None);
 
 		/// <summary>
@@ -518,7 +523,7 @@ namespace AngleSharp.Css
 		/// taking many values or none.
 		/// </summary>
 		public static readonly IValueConverter StrokeDasharrayConverter = Or(
-            Or(LengthOrPercentConverter, NumberConverter).Many(), 
+            Or(LengthOrPercentConverter, NumberConverter).Many(),
             None);
 
 		/// <summary>
@@ -537,7 +542,7 @@ namespace AngleSharp.Css
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
         public static readonly IValueConverter MultipleShadowConverter = Or(
-            new ClassValueConverter<Shadow>(ShadowParser.ParseShadow).FromList(), 
+            new ClassValueConverter<Shadow>(ShadowParser.ParseShadow).FromList(),
             None);
 
         /// <summary>
@@ -558,7 +563,7 @@ namespace AngleSharp.Css
         /// Represents the border-radius (horizontal / vertical; radius) converter.
         /// </summary>
         public static readonly IValueConverter BorderRadiusLonghandConverter = WithOrder(
-            LengthOrPercentConverter, 
+            LengthOrPercentConverter,
             LengthOrPercentConverter.Option());
 
         /// <summary>

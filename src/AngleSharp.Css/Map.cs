@@ -503,6 +503,18 @@ namespace AngleSharp.Css
         };
 
         /// <summary>
+        /// Contains the extended string-OverflowMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, OverflowMode> OverflowExtendedModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Visible, OverflowMode.Visible },
+            { CssKeywords.Hidden, OverflowMode.Hidden },
+            { CssKeywords.Scroll, OverflowMode.Scroll },
+            { CssKeywords.Clip, OverflowMode.Clip },
+            { CssKeywords.Auto, OverflowMode.Auto },
+        };
+
+        /// <summary>
         /// Contains the string-Floating mapping.
         /// </summary>
         public static readonly Dictionary<String, Floating> Floatings = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase)

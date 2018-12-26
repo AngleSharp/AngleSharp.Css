@@ -29,6 +29,14 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
+        /// Gets the values of the contained counters.
+        /// </summary>
+        public ICssValue[] Values
+        {
+            get { return _counters; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText

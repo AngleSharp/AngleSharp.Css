@@ -88,6 +88,16 @@ namespace AngleSharp.Css
                     flags: OverflowDeclaration.Flags)
             },
             {
+                OverflowXDeclaration.Name, new DeclarationInfo(
+                    converter: OverflowXDeclaration.Converter,
+                    flags: OverflowXDeclaration.Flags)
+            },
+            {
+                OverflowYDeclaration.Name, new DeclarationInfo(
+                    converter: OverflowYDeclaration.Converter,
+                    flags: OverflowYDeclaration.Flags)
+            },
+            {
                 PositionDeclaration.Name, new DeclarationInfo(
                     converter: PositionDeclaration.Converter,
                     flags: PositionDeclaration.Flags)

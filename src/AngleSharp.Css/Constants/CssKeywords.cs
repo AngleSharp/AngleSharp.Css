@@ -13,6 +13,11 @@
         public static readonly String Distribute = "distribute";
 
         /// <summary>
+        /// The clip keyword.
+        /// </summary>
+        public static readonly String Clip = "clip";
+
+        /// <summary>
         /// The normal keyword.
         /// </summary>
         public static readonly String Normal = "normal";

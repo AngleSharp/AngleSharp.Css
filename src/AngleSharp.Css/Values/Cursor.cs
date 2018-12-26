@@ -16,11 +16,27 @@ namespace AngleSharp.Css.Values
         /// Creates a new CSS cursor definition.
         /// </summary>
         /// <param name="definitions">The different cursor definitions.</param>
-        /// <param name="cursor">The cursor to use.</param>
+        /// <param name="cursor">The system cursor to use.</param>
         public Cursor(ICssValue[] definitions, ICssValue cursor)
         {
             _definitions = definitions;
             _cursor = cursor;
+        }
+
+        /// <summary>
+        /// Gets the custom cursor definitions.
+        /// </summary>
+        public ICssValue[] Definitions
+        {
+            get { return _definitions; }
+        }
+
+        /// <summary>
+        /// Gets the used system cursor.
+        /// </summary>
+        public ICssValue SystemCursor
+        {
+            get { return _cursor; }
         }
 
         /// <summary>

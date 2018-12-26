@@ -36,5 +36,29 @@ namespace AngleSharp.Css.Values
                 return _z != Length.Zero ? String.Concat(pt, " ", _z.CssText) : pt;
             }
         }
+
+        /// <summary>
+        /// Gets the x coordinate.
+        /// </summary>
+        public Length X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets the y coordinate.
+        /// </summary>
+        public Length Y
+        {
+            get { return _y; }
+        }
+
+        /// <summary>
+        /// Gets the z coordinate.
+        /// </summary>
+        public Length Z
+        {
+            get { return _z; }
+        }
     }
 }

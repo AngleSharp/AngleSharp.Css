@@ -43,6 +43,46 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the bottom coordinate.
+        /// </summary>
+        public Length Bottom
+        {
+            get { return _bottom; }
+        }
+
+        /// <summary>
+        /// Gets the left coordinate.
+        /// </summary>
+        public Length Left
+        {
+            get { return _left; }
+        }
+
+        /// <summary>
+        /// Gets the top coordinate.
+        /// </summary>
+        public Length Top
+        {
+            get { return _top; }
+        }
+
+        /// <summary>
+        /// Gets the right coordinate.
+        /// </summary>
+        public Length Right
+        {
+            get { return _right; }
+        }
+
+        /// <summary>
+        /// Gets if the slice should be filled.
+        /// </summary>
+        public Boolean IsFilled
+        {
+            get { return _filled; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
