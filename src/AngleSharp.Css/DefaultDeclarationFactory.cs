@@ -10,6 +10,7 @@ namespace AngleSharp.Css
     public class DefaultDeclarationFactory : IDeclarationFactory
     {
         private readonly DeclarationInfo defaultDeclaration = new DeclarationInfo(ValueConverters.Any, flags: PropertyFlags.Unknown);
+        private readonly DeclarationInfo customDeclaration = new DeclarationInfo(ValueConverters.Any, flags: PropertyFlags.Inherited);
         private readonly Dictionary<String, DeclarationInfo> _declarations = new Dictionary<String, DeclarationInfo>(StringComparer.OrdinalIgnoreCase)
         {
             {
@@ -1027,6 +1028,11 @@ namespace AngleSharp.Css
         /// <returns>The default (any) declaration.</returns>
         protected virtual DeclarationInfo CreateDefault(String propertyName)
         {
+            if (propertyName.StartsWith("--")) //  && propertyName.Substring(2).IsIdentifier()
+            {
+                return customDeclaration;
+            }
+
             return defaultDeclaration;
         }
 
