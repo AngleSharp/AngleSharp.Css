@@ -661,7 +661,92 @@ namespace AngleSharp.Css
         /// The layout-grid-line declaration.
         /// </summary>
         public static readonly String LayoutGridLine = "layout-grid-line";
+        
+        /// <summary>
+        /// The grid-template-rows declaration.
+        /// </summary>
+        public static readonly String GridTemplateRows = "grid-template-rows";
 
+        /// <summary>
+        /// The grid-template-areas declaration.
+        /// </summary>
+        public static readonly String GridTemplateAreas = "grid-template-areas";
+
+        /// <summary>
+        /// The grid-template declaration.
+        /// </summary>
+        public static readonly String GridTemplate = "grid-template";
+
+        /// <summary>
+        /// The grid-auto-columns declaration.
+        /// </summary>
+        public static readonly String GridAutoColumns = "grid-auto-columns";
+
+        /// <summary>
+        /// The grid-auto-rows declaration.
+        /// </summary>
+        public static readonly String GridAutoRows = "grid-auto-rows";
+
+        /// <summary>
+        /// The grid-auto-flow declaration.
+        /// </summary>
+        public static readonly String GridAutoFlow = "grid-auto-flow";
+
+        /// <summary>
+        /// The grid declaration.
+        /// </summary>
+        public static readonly String Grid = "grid";
+
+        /// <summary>
+        /// The grid-row-start declaration.
+        /// </summary>
+        public static readonly String GridRowStart = "grid-row-start";
+
+        /// <summary>
+        /// The grid-column-start declaration.
+        /// </summary>
+        public static readonly String GridColumnStart = "grid-column-start";
+
+        /// <summary>
+        /// The grid-row-end declaration.
+        /// </summary>
+        public static readonly String GridRowEnd = "grid-row-end";
+
+        /// <summary>
+        /// The grid-column-end declaration.
+        /// </summary>
+        public static readonly String GridColumnEnd = "grid-column-end";
+
+        /// <summary>
+        /// The grid-row declaration.
+        /// </summary>
+        public static readonly String GridRow = "grid-row";
+
+        /// <summary>
+        /// The grid-column declaration.
+        /// </summary>
+        public static readonly String GridColumn = "grid-column";
+
+        /// <summary>
+        /// The grid-area declaration.
+        /// </summary>
+        public static readonly String GridArea = "grid-area";
+
+        /// <summary>
+        /// The grid-row-gap declaration.
+        /// </summary>
+        public static readonly String GridRowGap = "grid-row-gap";
+
+        /// <summary>
+        /// The grid-column-gap declaration.
+        /// </summary>
+        public static readonly String GridColumnGap = "grid-column-gap";
+
+        /// <summary>
+        /// The grid-gap declaration.
+        /// </summary>
+        public static readonly String GridGap = "grid-gap";
+        
         /// <summary>
         /// The left declaration.
         /// </summary>
