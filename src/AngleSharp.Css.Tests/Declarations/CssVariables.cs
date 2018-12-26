@@ -61,15 +61,56 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void LegitVariableReferenceInBackgroundShorthand()
+        public void LegitVariableReferenceWithFallbackContainingComma()
         {
-            var source = @"background: var(--foo)";
+            var source = @"border-top-color: var(--color, red, blue)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
             var variable = property.RawValue as VarReference;
             Assert.IsNotNull(variable);
-            Assert.AreEqual("--foo", variable.Name);
-            Assert.IsNull(variable.DefaultValue);
+            Assert.AreEqual("--color", variable.Name);
+            Assert.AreEqual("red, blue", variable.DefaultValue);
+        }
+
+        [Test]
+        public void LegitSingleVariableReferenceInBackgroundShorthand()
+        {
+            var source = @"background: var(--foo)";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReferences;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual(1, variable.References.Length);
+            Assert.AreEqual("--foo", variable.References[0].Name);
+            Assert.IsNull(variable.References[0].DefaultValue);
+        }
+
+        [Test]
+        public void LegitMixedVariableReferenceInBackgroundShorthand()
+        {
+            var source = @"background: url('http://bit.ly/2FiPrRA') 0 100%/340px no-repeat, var(--primary-color);";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReferences;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual(1, variable.References.Length);
+            Assert.AreEqual("--primary-color", variable.References[0].Name);
+            Assert.IsNull(variable.References[0].DefaultValue);
+        }
+
+        [Test]
+        public void LegitMultipleVariableReferenceInBorderShorthand()
+        {
+            var source = @"border: var(--width) solid var(--color, black)";
+            var property = ParseDeclaration(source);
+            Assert.IsNotNull(property);
+            var variable = property.RawValue as VarReferences;
+            Assert.IsNotNull(variable);
+            Assert.AreEqual(2, variable.References.Length);
+            Assert.AreEqual("--width", variable.References[0].Name);
+            Assert.IsNull(variable.References[0].DefaultValue);
+            Assert.AreEqual("--color", variable.References[1].Name);
+            Assert.AreEqual("black", variable.References[1].DefaultValue);
         }
     }
 }

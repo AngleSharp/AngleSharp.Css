@@ -118,7 +118,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignReferences(), AssignInitial());
+            private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignInitial());
 
             public ICssValue Convert(StringSource source)
             {

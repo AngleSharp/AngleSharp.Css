@@ -913,6 +913,11 @@ namespace AngleSharp.Css
         public static readonly String Scrollbar3dLightColor = "scrollbar3d-light-color";
 
         /// <summary>
+        /// The scrollbar-base-color declaration.
+        /// </summary>
+        public static readonly String ScrollbarBaseColor = "scrollbar-base-color";
+
+        /// <summary>
         /// The scrollbar-arrow-color declaration.
         /// </summary>
         public static readonly String ScrollbarArrowColor = "scrollbar-arrow-color";

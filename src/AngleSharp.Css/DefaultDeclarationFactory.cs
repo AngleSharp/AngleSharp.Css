@@ -1006,6 +1006,46 @@ namespace AngleSharp.Css
                     converter: RubyPositionDeclaration.Converter,
                     flags: RubyPositionDeclaration.Flags)
             },
+            {
+                Scrollbar3dLightColorDeclaration.Name, new DeclarationInfo(
+                    converter: Scrollbar3dLightColorDeclaration.Converter,
+                    flags: Scrollbar3dLightColorDeclaration.Flags)
+            },
+            {
+                ScrollbarArrowColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarArrowColorDeclaration.Converter,
+                    flags: ScrollbarArrowColorDeclaration.Flags)
+            },
+            {
+                ScrollbarBaseColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarBaseColorDeclaration.Converter,
+                    flags: ScrollbarBaseColorDeclaration.Flags)
+            },
+            {
+                ScrollbarDarkshadowColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarDarkshadowColorDeclaration.Converter,
+                    flags: ScrollbarDarkshadowColorDeclaration.Flags)
+            },
+            {
+                ScrollbarFaceColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarFaceColorDeclaration.Converter,
+                    flags: ScrollbarFaceColorDeclaration.Flags)
+            },
+            {
+                ScrollbarHighlightColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarHighlightColorDeclaration.Converter,
+                    flags: ScrollbarHighlightColorDeclaration.Flags)
+            },
+            {
+                ScrollbarShadowColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarShadowColorDeclaration.Converter,
+                    flags: ScrollbarShadowColorDeclaration.Flags)
+            },
+            {
+                ScrollbarTrackColorDeclaration.Name, new DeclarationInfo(
+                    converter: ScrollbarTrackColorDeclaration.Converter,
+                    flags: ScrollbarTrackColorDeclaration.Flags)
+            },
         };
 
         /// <summary>
