@@ -720,5 +720,37 @@ namespace AngleSharp.Css
 			{ CssKeywords.Normal, OverflowWrap.Normal },
 			{ CssKeywords.BreakWord, OverflowWrap.BreakWord },
 		};
-	}
+
+        /// <summary>
+        /// Contains the string-RubyAlignment mapping.
+        /// </summary>
+        public static readonly Dictionary<String, RubyAlignment> RubyAlignments = new Dictionary<String, RubyAlignment>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Center, RubyAlignment.Center },
+            { CssKeywords.Start, RubyAlignment.Start },
+            { CssKeywords.SpaceAround, RubyAlignment.SpaceAround },
+            { CssKeywords.SpaceBetween, RubyAlignment.SpaceBetween },
+        };
+
+        /// <summary>
+        /// Contains the string-RubyPosition mapping.
+        /// </summary>
+        public static readonly Dictionary<String, RubyPosition> RubyPositions = new Dictionary<String, RubyPosition>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.InterCharacter, RubyPosition.InterCharacter },
+            { CssKeywords.Over, RubyPosition.Over },
+            { CssKeywords.Under, RubyPosition.Under },
+        };
+
+        /// <summary>
+        /// Contains the string-RubyOverhangMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, RubyOverhangMode> RubyOverhangModes = new Dictionary<String, RubyOverhangMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, RubyOverhangMode.Auto },
+            { CssKeywords.End, RubyOverhangMode.End },
+            { CssKeywords.None, RubyOverhangMode.None },
+            { CssKeywords.Start, RubyOverhangMode.Start },
+        };
+    }
 }

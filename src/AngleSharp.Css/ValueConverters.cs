@@ -342,6 +342,21 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the RubyAlignment enumeration.
+        /// </summary>
+        public static readonly IValueConverter RubyAlignmentConverter = Map.RubyAlignments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the RubyOverhandMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter RubyOverhangModeConverter = Map.RubyOverhangModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the RubyPosition enumeration.
+        /// </summary>
+        public static readonly IValueConverter RubyPositionConverter = Map.RubyPositions.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the SystemFont enumeration.
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
@@ -653,6 +668,11 @@ namespace AngleSharp.Css
         /// Creates a converter for the initial keyword with no value.
         /// </summary>
         public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
+
+        /// <summary>
+        /// Creates a converter for values containing (potentially multiple, at least one) var references.
+        /// </summary>
+        public static IValueConverter AssignReferences() => new ClassValueConverter<VarReferences>(FunctionParser.ParseVars);
 
         /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.

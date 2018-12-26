@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 

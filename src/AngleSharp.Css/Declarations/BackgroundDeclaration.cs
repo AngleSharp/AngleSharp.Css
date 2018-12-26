@@ -118,7 +118,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignReferences(), AssignInitial());
 
             public ICssValue Convert(StringSource source)
             {
@@ -153,22 +153,37 @@ namespace AngleSharp.Css.Declarations
 
                 if (background != null)
                 {
-                    return new[]
-                    {
-                        new CssProperty(BackgroundColorDeclaration.Name, BackgroundColorDeclaration.Converter, BackgroundColorDeclaration.Flags, background.Color),
-                        new CssProperty(BackgroundImageDeclaration.Name, BackgroundImageDeclaration.Converter, BackgroundImageDeclaration.Flags, CreateMultiple(background, m => m.Source)),
-                        new CssProperty(BackgroundAttachmentDeclaration.Name, BackgroundAttachmentDeclaration.Converter, BackgroundAttachmentDeclaration.Flags, CreateMultiple(background, m => m.Attachment)),
-                        new CssProperty(BackgroundClipDeclaration.Name, BackgroundClipDeclaration.Converter, BackgroundClipDeclaration.Flags, CreateMultiple(background, m => m.Clip)),
-                        new CssProperty(BackgroundPositionXDeclaration.Name, BackgroundPositionXDeclaration.Converter, BackgroundPositionXDeclaration.Flags, CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.X : new Nullable<Length>())),
-                        new CssProperty(BackgroundPositionYDeclaration.Name, BackgroundPositionYDeclaration.Converter, BackgroundPositionYDeclaration.Flags, CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.Y : new Nullable<Length>())),
-                        new CssProperty(BackgroundOriginDeclaration.Name, BackgroundOriginDeclaration.Converter, BackgroundOriginDeclaration.Flags, CreateMultiple(background, m => m.Origin)),
-                        new CssProperty(BackgroundRepeatXDeclaration.Name, BackgroundRepeatXDeclaration.Converter, BackgroundRepeatXDeclaration.Flags, CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Horizontal : null)),
-                        new CssProperty(BackgroundRepeatYDeclaration.Name, BackgroundRepeatYDeclaration.Converter, BackgroundRepeatYDeclaration.Flags, CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Vertical : null)),
-                        new CssProperty(BackgroundSizeDeclaration.Name, BackgroundSizeDeclaration.Converter, BackgroundSizeDeclaration.Flags, CreateMultiple(background, m => m.Size)),
-                    };
+                    return CreateProperties(
+                        background.Color,
+                        CreateMultiple(background, m => m.Source),
+                        CreateMultiple(background, m => m.Attachment),
+                        CreateMultiple(background, m => m.Clip),
+                        CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.X : new Nullable<Length>()),
+                        CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.Y : new Nullable<Length>()),
+                        CreateMultiple(background, m => m.Origin),
+                        CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Horizontal : null),
+                        CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Vertical : null),
+                        CreateMultiple(background, m => m.Size));
                 }
 
                 return null;
+            }
+
+            private static IEnumerable<ICssProperty> CreateProperties(ICssValue color, ICssValue image, ICssValue attachment, ICssValue clip, ICssValue positionX, ICssValue positionY, ICssValue origin, ICssValue repeatX, ICssValue repeatY, ICssValue size)
+            {
+                return new[]
+                {
+                    new CssProperty(BackgroundColorDeclaration.Name, BackgroundColorDeclaration.Converter, BackgroundColorDeclaration.Flags, color),
+                    new CssProperty(BackgroundImageDeclaration.Name, BackgroundImageDeclaration.Converter, BackgroundImageDeclaration.Flags, image),
+                    new CssProperty(BackgroundAttachmentDeclaration.Name, BackgroundAttachmentDeclaration.Converter, BackgroundAttachmentDeclaration.Flags, attachment),
+                    new CssProperty(BackgroundClipDeclaration.Name, BackgroundClipDeclaration.Converter, BackgroundClipDeclaration.Flags, clip),
+                    new CssProperty(BackgroundPositionXDeclaration.Name, BackgroundPositionXDeclaration.Converter, BackgroundPositionXDeclaration.Flags, positionX),
+                    new CssProperty(BackgroundPositionYDeclaration.Name, BackgroundPositionYDeclaration.Converter, BackgroundPositionYDeclaration.Flags, positionY),
+                    new CssProperty(BackgroundOriginDeclaration.Name, BackgroundOriginDeclaration.Converter, BackgroundOriginDeclaration.Flags, origin),
+                    new CssProperty(BackgroundRepeatXDeclaration.Name, BackgroundRepeatXDeclaration.Converter, BackgroundRepeatXDeclaration.Flags, repeatX),
+                    new CssProperty(BackgroundRepeatYDeclaration.Name, BackgroundRepeatYDeclaration.Converter, BackgroundRepeatYDeclaration.Flags, repeatY),
+                    new CssProperty(BackgroundSizeDeclaration.Name, BackgroundSizeDeclaration.Converter, BackgroundSizeDeclaration.Flags, size),
+                };
             }
 
             private static ICssValue CreateLayers(Multiple image, Multiple attachment, Multiple clip, Multiple positionX, Multiple positionY, Multiple origin, Multiple repeatX, Multiple repeatY, Multiple size)
