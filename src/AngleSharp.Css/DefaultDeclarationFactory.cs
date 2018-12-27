@@ -1113,6 +1113,96 @@ namespace AngleSharp.Css
                     longhands: FlexFlowDeclaration.Longhands,
                     flags: FlexFlowDeclaration.Flags)
             },
+            {
+                GridTemplateColumnsDeclaration.Name, new DeclarationInfo(
+                    converter: GridTemplateColumnsDeclaration.Converter,
+                    flags: GridTemplateColumnsDeclaration.Flags)
+            },
+            {
+                GridTemplateRowsDeclaration.Name, new DeclarationInfo(
+                    converter: GridTemplateRowsDeclaration.Converter,
+                    flags: GridTemplateRowsDeclaration.Flags)
+            },
+            {
+                GridTemplateAreasDeclaration.Name, new DeclarationInfo(
+                    converter: GridTemplateAreasDeclaration.Converter,
+                    flags: GridTemplateAreasDeclaration.Flags)
+            },
+            {
+                GridTemplateDeclaration.Name, new DeclarationInfo(
+                    converter: GridTemplateDeclaration.Converter,
+                    flags: GridTemplateDeclaration.Flags)
+            },
+            {
+                GridAutoColumnsDeclaration.Name, new DeclarationInfo(
+                    converter: GridAutoColumnsDeclaration.Converter,
+                    flags: GridAutoColumnsDeclaration.Flags)
+            },
+            {
+                GridAutoRowsDeclaration.Name, new DeclarationInfo(
+                    converter: GridAutoRowsDeclaration.Converter,
+                    flags: GridAutoRowsDeclaration.Flags)
+            },
+            {
+                GridAutoFlowDeclaration.Name, new DeclarationInfo(
+                    converter: GridAutoFlowDeclaration.Converter,
+                    flags: GridAutoFlowDeclaration.Flags)
+            },
+            {
+                GridDeclaration.Name, new DeclarationInfo(
+                    converter: GridDeclaration.Converter,
+                    flags: GridDeclaration.Flags)
+            },
+            {
+                GridRowStartDeclaration.Name, new DeclarationInfo(
+                    converter: GridRowStartDeclaration.Converter,
+                    flags: GridRowStartDeclaration.Flags)
+            },
+            {
+                GridColumnStartDeclaration.Name, new DeclarationInfo(
+                    converter: GridColumnStartDeclaration.Converter,
+                    flags: GridColumnStartDeclaration.Flags)
+            },
+            {
+                GridRowEndDeclaration.Name, new DeclarationInfo(
+                    converter: GridRowEndDeclaration.Converter,
+                    flags: GridRowEndDeclaration.Flags)
+            },
+            {
+                GridColumnEndDeclaration.Name, new DeclarationInfo(
+                    converter: GridColumnEndDeclaration.Converter,
+                    flags: GridColumnEndDeclaration.Flags)
+            },
+            {
+                GridRowDeclaration.Name, new DeclarationInfo(
+                    converter: GridRowDeclaration.Converter,
+                    flags: GridRowDeclaration.Flags)
+            },
+            {
+                GridColumnDeclaration.Name, new DeclarationInfo(
+                    converter: GridColumnDeclaration.Converter,
+                    flags: GridColumnDeclaration.Flags)
+            },
+            {
+                GridAreaDeclaration.Name, new DeclarationInfo(
+                    converter: GridAreaDeclaration.Converter,
+                    flags: GridAreaDeclaration.Flags)
+            },
+            {
+                GridRowGapDeclaration.Name, new DeclarationInfo(
+                    converter: GridRowGapDeclaration.Converter,
+                    flags: GridRowGapDeclaration.Flags)
+            },
+            {
+                GridColumnGapDeclaration.Name, new DeclarationInfo(
+                    converter: GridColumnGapDeclaration.Converter,
+                    flags: GridColumnGapDeclaration.Flags)
+            },
+            {
+                GridGapDeclaration.Name, new DeclarationInfo(
+                    converter: GridGapDeclaration.Converter,
+                    flags: GridGapDeclaration.Flags)
+            },
         };
 
         /// <summary>

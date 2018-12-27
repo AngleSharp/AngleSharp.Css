@@ -668,6 +668,11 @@ namespace AngleSharp.Css
         public static readonly String GridTemplateRows = "grid-template-rows";
 
         /// <summary>
+        /// The grid-template-columns declaration.
+        /// </summary>
+        public static readonly String GridTemplateColumns = "grid-template-columns";
+
+        /// <summary>
         /// The grid-template-areas declaration.
         /// </summary>
         public static readonly String GridTemplateAreas = "grid-template-areas";

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -131,6 +131,11 @@
         /// Pieces.
         /// </summary>
         public static readonly String Pc = "pc";
+
+        /// <summary>
+        /// Fractions.
+        /// </summary>
+        public static readonly String Fr = "fr";
 
         /// <summary>
         /// Percent.
