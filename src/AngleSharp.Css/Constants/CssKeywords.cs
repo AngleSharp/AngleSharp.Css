@@ -207,6 +207,11 @@ namespace AngleSharp.Css
         public static readonly String Page = "page";
 
         /// <summary>
+        /// The dense keyword.
+        /// </summary>
+        public static readonly String Dense = "dense";
+
+        /// <summary>
         /// The column keyword.
         /// </summary>
         public static readonly String Column = "column";

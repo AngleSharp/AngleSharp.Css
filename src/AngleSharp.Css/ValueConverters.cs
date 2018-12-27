@@ -515,6 +515,13 @@ namespace AngleSharp.Css
             LengthOrPercentConverter,
             NumberConverter,
             Assign(CssKeywords.Normal, Length.Normal));
+        
+        /// <summary>
+        /// Represents a distance object or normal length.
+        /// </summary>
+        public static readonly IValueConverter GapConverter = Or(
+            LengthOrPercentConverter,
+            Assign(CssKeywords.Normal, Length.Normal));
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.

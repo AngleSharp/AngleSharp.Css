@@ -1191,16 +1191,19 @@ namespace AngleSharp.Css
             {
                 GridRowGapDeclaration.Name, new DeclarationInfo(
                     converter: GridRowGapDeclaration.Converter,
+                    shorthands: GridRowGapDeclaration.Shorthands,
                     flags: GridRowGapDeclaration.Flags)
             },
             {
                 GridColumnGapDeclaration.Name, new DeclarationInfo(
                     converter: GridColumnGapDeclaration.Converter,
+                    shorthands: GridColumnGapDeclaration.Shorthands,
                     flags: GridColumnGapDeclaration.Flags)
             },
             {
                 GridGapDeclaration.Name, new DeclarationInfo(
                     converter: GridGapDeclaration.Converter,
+                    longhands: GridGapDeclaration.Longhands,
                     flags: GridGapDeclaration.Flags)
             },
         };

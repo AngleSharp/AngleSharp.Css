@@ -83,15 +83,15 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                    new CssProperty(AnimationDurationDeclaration.Name, AnimationDurationDeclaration.Converter, AnimationDurationDeclaration.Flags, CreateMultiple(list, 0)),
-                    new CssProperty(AnimationTimingFunctionDeclaration.Name, AnimationTimingFunctionDeclaration.Converter, AnimationTimingFunctionDeclaration.Flags, CreateMultiple(list, 1)),
-                    new CssProperty(AnimationDelayDeclaration.Name, AnimationDelayDeclaration.Converter, AnimationDelayDeclaration.Flags, CreateMultiple(list, 2)),
-                    new CssProperty(AnimationIterationCountDeclaration.Name, AnimationIterationCountDeclaration.Converter, AnimationIterationCountDeclaration.Flags, CreateMultiple(list, 3)),
-                    new CssProperty(AnimationDirectionDeclaration.Name, AnimationDirectionDeclaration.Converter, AnimationDirectionDeclaration.Flags, CreateMultiple(list, 4)),
-                    new CssProperty(AnimationFillModeDeclaration.Name, AnimationFillModeDeclaration.Converter, AnimationFillModeDeclaration.Flags, CreateMultiple(list, 5)),
-                    new CssProperty(AnimationPlayStateDeclaration.Name, AnimationPlayStateDeclaration.Converter, AnimationPlayStateDeclaration.Flags, CreateMultiple(list, 6)),
-                    new CssProperty(AnimationNameDeclaration.Name, AnimationNameDeclaration.Converter, AnimationNameDeclaration.Flags, CreateMultiple(list, 7)),
-                };
+                        new CssProperty(AnimationDurationDeclaration.Name, AnimationDurationDeclaration.Converter, AnimationDurationDeclaration.Flags, CreateMultiple(list, 0)),
+                        new CssProperty(AnimationTimingFunctionDeclaration.Name, AnimationTimingFunctionDeclaration.Converter, AnimationTimingFunctionDeclaration.Flags, CreateMultiple(list, 1)),
+                        new CssProperty(AnimationDelayDeclaration.Name, AnimationDelayDeclaration.Converter, AnimationDelayDeclaration.Flags, CreateMultiple(list, 2)),
+                        new CssProperty(AnimationIterationCountDeclaration.Name, AnimationIterationCountDeclaration.Converter, AnimationIterationCountDeclaration.Flags, CreateMultiple(list, 3)),
+                        new CssProperty(AnimationDirectionDeclaration.Name, AnimationDirectionDeclaration.Converter, AnimationDirectionDeclaration.Flags, CreateMultiple(list, 4)),
+                        new CssProperty(AnimationFillModeDeclaration.Name, AnimationFillModeDeclaration.Converter, AnimationFillModeDeclaration.Flags, CreateMultiple(list, 5)),
+                        new CssProperty(AnimationPlayStateDeclaration.Name, AnimationPlayStateDeclaration.Converter, AnimationPlayStateDeclaration.Flags, CreateMultiple(list, 6)),
+                        new CssProperty(AnimationNameDeclaration.Name, AnimationNameDeclaration.Converter, AnimationNameDeclaration.Flags, CreateMultiple(list, 7)),
+                    };
                 }
 
                 return null;
@@ -118,15 +118,15 @@ namespace AngleSharp.Css.Declarations
                 {
                     layers[i] = new OrderedOptions(new[]
                     {
-                    GetValue(duration, i),
-                    GetValue(timing, i),
-                    GetValue(delay, i),
-                    GetValue(iterationCount, i),
-                    GetValue(direction, i),
-                    GetValue(fillMode, i),
-                    GetValue(playState, i),
-                    GetValue(name, i),
-                });
+                        GetValue(duration, i),
+                        GetValue(timing, i),
+                        GetValue(delay, i),
+                        GetValue(iterationCount, i),
+                        GetValue(direction, i),
+                        GetValue(fillMode, i),
+                        GetValue(playState, i),
+                        GetValue(name, i),
+                    });
                 }
 
                 return new Multiple(layers);
