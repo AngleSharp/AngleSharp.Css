@@ -47,6 +47,11 @@ namespace AngleSharp.Css.Values
         public static readonly Length Auto = new Length(Double.NaN, Unit.Vmax);
 
         /// <summary>
+        /// Gets the content value.
+        /// </summary>
+        public static readonly Length Content = new Length(Double.NaN, Unit.Percent);
+
+        /// <summary>
         /// Gets the normal value.
         /// </summary>
         public static readonly Length Normal = new Length(Double.NaN, Unit.Em);

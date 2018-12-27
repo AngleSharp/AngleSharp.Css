@@ -33,6 +33,16 @@ namespace AngleSharp.Css
         public static readonly String Nowrap = "nowrap";
 
         /// <summary>
+        /// The wrap keyword.
+        /// </summary>
+        public static readonly String Wrap = "wrap";
+
+        /// <summary>
+        /// The wrap-reverse keyword.
+        /// </summary>
+        public static readonly String WrapReverse = "wrap-reverse";
+
+        /// <summary>
         /// The pre-wrap keyword.
         /// </summary>
         public static readonly String PreWrap = "pre-wrap";
@@ -142,6 +152,11 @@ namespace AngleSharp.Css
         public static readonly String Auto = "auto";
 
         /// <summary>
+        /// The content keyword.
+        /// </summary>
+        public static readonly String Content = "content";
+
+        /// <summary>
         /// The from keyword.
         /// </summary>
         public static readonly String From = "from";
@@ -195,6 +210,21 @@ namespace AngleSharp.Css
         /// The column keyword.
         /// </summary>
         public static readonly String Column = "column";
+
+        /// <summary>
+        /// The column-reverse keyword.
+        /// </summary>
+        public static readonly String ColumnReverse = "column-reverse";
+
+        /// <summary>
+        /// The row keyword.
+        /// </summary>
+        public static readonly String Row = "row";
+
+        /// <summary>
+        /// The row-reverse keyword.
+        /// </summary>
+        public static readonly String RowReverse = "row-reverse";
 
         /// <summary>
         /// The avoid-page keyword.
@@ -540,6 +570,16 @@ namespace AngleSharp.Css
         /// The center keyword.
         /// </summary>
         public static readonly String Center = "center";
+
+        /// <summary>
+        /// The flex-start keyword.
+        /// </summary>
+        public static readonly String FlexStart = "flex-start";
+
+        /// <summary>
+        /// The flex-end keyword.
+        /// </summary>
+        public static readonly String FlexEnd = "flex-end";
 
         /// <summary>
         /// The justify keyword.

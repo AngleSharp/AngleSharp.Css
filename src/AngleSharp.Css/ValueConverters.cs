@@ -29,6 +29,11 @@ namespace AngleSharp.Css
         public static IValueConverter Auto = new IdentifierValueConverter<Length>(CssKeywords.Auto, Length.Auto);
 
         /// <summary>
+        /// Represents a converter for the content keyword with no value.
+        /// </summary>
+        public static IValueConverter Content = new IdentifierValueConverter<Length>(CssKeywords.Content, Length.Content);
+
+        /// <summary>
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
@@ -400,6 +405,36 @@ namespace AngleSharp.Css
         /// Represents a converter for the HoverAbility enumeration.
         /// </summary>
         public static readonly IValueConverter HoverAbilityConverter = Map.HoverAbilities.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the JustifyContent enumeration.
+        /// </summary>
+        public static readonly IValueConverter JustifyContentConverter = Map.JustifyContentModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the AlignContent enumeration.
+        /// </summary>
+        public static readonly IValueConverter AlignContentConverter = Map.AlignContentModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the AlignSelf enumeration.
+        /// </summary>
+        public static readonly IValueConverter AlignSelfConverter = Map.AlignSelfModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the AlignItems enumeration.
+        /// </summary>
+        public static readonly IValueConverter AlignItemsConverter = Map.AlignItemsModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FlexDirection enumeration.
+        /// </summary>
+        public static readonly IValueConverter FlexDirectionConverter = Map.FlexDirections.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FlexWrap enumeration.
+        /// </summary>
+        public static readonly IValueConverter FlexWrapConverter = Map.FlexWrapModes.ToConverter();
 
         #endregion
 

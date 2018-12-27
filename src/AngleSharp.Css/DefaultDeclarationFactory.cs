@@ -1046,6 +1046,73 @@ namespace AngleSharp.Css
                     converter: ScrollbarTrackColorDeclaration.Converter,
                     flags: ScrollbarTrackColorDeclaration.Flags)
             },
+            {
+                OrderDeclaration.Name, new DeclarationInfo(
+                    converter: OrderDeclaration.Converter,
+                    flags: OrderDeclaration.Flags)
+            },
+            {
+                FlexShrinkDeclaration.Name, new DeclarationInfo(
+                    converter: FlexShrinkDeclaration.Converter,
+                    shorthands: FlexShrinkDeclaration.Shorthands,
+                    flags: FlexShrinkDeclaration.Flags)
+            },
+            {
+                FlexGrowDeclaration.Name, new DeclarationInfo(
+                    converter: FlexGrowDeclaration.Converter,
+                    shorthands: FlexGrowDeclaration.Shorthands,
+                    flags: FlexGrowDeclaration.Flags)
+            },
+            {
+                FlexBasisDeclaration.Name, new DeclarationInfo(
+                    converter: FlexBasisDeclaration.Converter,
+                    shorthands: FlexBasisDeclaration.Shorthands,
+                    flags: FlexBasisDeclaration.Flags)
+            },
+            {
+                JustifyContentDeclaration.Name, new DeclarationInfo(
+                    converter: JustifyContentDeclaration.Converter,
+                    flags: JustifyContentDeclaration.Flags)
+            },
+            {
+                AlignContentDeclaration.Name, new DeclarationInfo(
+                    converter: AlignContentDeclaration.Converter,
+                    flags: AlignContentDeclaration.Flags)
+            },
+            {
+                AlignSelfDeclaration.Name, new DeclarationInfo(
+                    converter: AlignSelfDeclaration.Converter,
+                    flags: AlignSelfDeclaration.Flags)
+            },
+            {
+                AlignItemsDeclaration.Name, new DeclarationInfo(
+                    converter: AlignItemsDeclaration.Converter,
+                    flags: AlignItemsDeclaration.Flags)
+            },
+            {
+                FlexDirectionDeclaration.Name, new DeclarationInfo(
+                    converter: FlexDirectionDeclaration.Converter,
+                    shorthands: FlexDirectionDeclaration.Shorthands,
+                    flags: FlexDirectionDeclaration.Flags)
+            },
+            {
+                FlexWrapDeclaration.Name, new DeclarationInfo(
+                    converter: FlexWrapDeclaration.Converter,
+                    shorthands: FlexWrapDeclaration.Shorthands,
+                    flags: FlexWrapDeclaration.Flags)
+            },
+            {
+                FlexDeclaration.Name, new DeclarationInfo(
+                    converter: FlexDeclaration.Converter,
+                    longhands: FlexDeclaration.Longhands,
+                    flags: FlexDeclaration.Flags)
+            },
+            {
+                FlexFlowDeclaration.Name, new DeclarationInfo(
+                    converter: FlexFlowDeclaration.Converter,
+                    longhands: FlexFlowDeclaration.Longhands,
+                    flags: FlexFlowDeclaration.Flags)
+            },
         };
 
         /// <summary>
@@ -1083,7 +1150,7 @@ namespace AngleSharp.Css
         /// <returns>The default (any) declaration.</returns>
         protected virtual DeclarationInfo CreateDefault(String propertyName)
         {
-            if (propertyName.StartsWith("--")) //  && propertyName.Substring(2).IsIdentifier()
+            if (propertyName.StartsWith("--"))
             {
                 return customDeclaration;
             }

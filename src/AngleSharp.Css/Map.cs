@@ -752,5 +752,76 @@ namespace AngleSharp.Css
             { CssKeywords.None, RubyOverhangMode.None },
             { CssKeywords.Start, RubyOverhangMode.Start },
         };
+
+        /// <summary>
+        /// Contains the string-FlexDirection mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexDirection> FlexDirections = new Dictionary<String, FlexDirection>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Column, FlexDirection.Column },
+            { CssKeywords.ColumnReverse, FlexDirection.ColumnReverse },
+            { CssKeywords.Row, FlexDirection.Row },
+            { CssKeywords.RowReverse, FlexDirection.RowReverse },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexWrapMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexWrapMode> FlexWrapModes = new Dictionary<String, FlexWrapMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Nowrap, FlexWrapMode.NoWrap },
+            { CssKeywords.Wrap, FlexWrapMode.Wrap },
+            { CssKeywords.WrapReverse, FlexWrapMode.WrapReverse },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> JustifyContentModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.SpaceBetween, FlexContentMode.SpaceBetween },
+            { CssKeywords.SpaceAround, FlexContentMode.SpaceAround },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> AlignContentModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.SpaceBetween, FlexContentMode.SpaceBetween },
+            { CssKeywords.SpaceAround, FlexContentMode.SpaceAround },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> AlignItemsModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.Baseline, FlexContentMode.Baseline },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> AlignSelfModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, FlexContentMode.Auto },
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.Baseline, FlexContentMode.Baseline },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+        };
     }
 }
