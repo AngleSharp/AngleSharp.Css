@@ -462,13 +462,6 @@ namespace AngleSharp.Css
             None);
 
         /// <summary>
-        /// Represents a length object or alternatively a fixed length when "normal" is given.
-        /// </summary>
-        public static readonly IValueConverter LengthOrNormalConverter = Or(
-            LengthConverter,
-            Assign(CssKeywords.Normal, new Length(1.0, Length.Unit.Em)));
-
-        /// <summary>
         /// Represents a length object or null, when "normal" is given.
         /// </summary>
         public static readonly IValueConverter OptionalLengthConverter = Or(

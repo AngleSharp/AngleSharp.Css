@@ -253,14 +253,15 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssColumGapPercentIllegal()
+        public void CssColumGapPercentLegal()
         {
             var snippet = "column-gap: 20%";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("column-gap", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("20%", property.Value);
         }
 
         [Test]

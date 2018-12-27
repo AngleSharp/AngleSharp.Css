@@ -348,7 +348,20 @@ namespace AngleSharp.Css
             {
                 ColumnGapDeclaration.Name, new DeclarationInfo(
                     converter: ColumnGapDeclaration.Converter,
+                    shorthands: ColumnGapDeclaration.Shorthands,
                     flags: ColumnGapDeclaration.Flags)
+            },
+            {
+                RowGapDeclaration.Name, new DeclarationInfo(
+                    converter: RowGapDeclaration.Converter,
+                    shorthands: RowGapDeclaration.Shorthands,
+                    flags: RowGapDeclaration.Flags)
+            },
+            {
+                GapDeclaration.Name, new DeclarationInfo(
+                    converter: GapDeclaration.Converter,
+                    longhands: GapDeclaration.Longhands,
+                    flags: GapDeclaration.Flags)
             },
             {
                 ColumnSpanDeclaration.Name, new DeclarationInfo(

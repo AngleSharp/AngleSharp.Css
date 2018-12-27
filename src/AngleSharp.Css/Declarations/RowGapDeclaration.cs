@@ -4,9 +4,9 @@ namespace AngleSharp.Css.Declarations
     using System;
     using static ValueConverters;
 
-    static class ColumnGapDeclaration
+    static class RowGapDeclaration
     {
-        public static String Name = PropertyNames.ColumnGap;
+        public static String Name = PropertyNames.RowGap;
 
         public static readonly String[] Shorthands = new[]
         {

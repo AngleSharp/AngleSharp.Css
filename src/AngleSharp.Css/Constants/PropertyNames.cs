@@ -373,11 +373,6 @@ namespace AngleSharp.Css
         public static readonly String ColumnFill = "column-fill";
 
         /// <summary>
-        /// The column-gap declaration.
-        /// </summary>
-        public static readonly String ColumnGap = "column-gap";
-
-        /// <summary>
         /// The column-rule declaration.
         /// </summary>
         public static readonly String ColumnRule = "column-rule";
@@ -406,6 +401,21 @@ namespace AngleSharp.Css
         /// The column-width declaration.
         /// </summary>
         public static readonly String ColumnWidth = "column-width";
+
+        /// <summary>
+        /// The column-gap declaration.
+        /// </summary>
+        public static readonly String ColumnGap = "column-gap";
+
+        /// <summary>
+        /// The grid-row-gap declaration.
+        /// </summary>
+        public static readonly String RowGap = "row-gap";
+
+        /// <summary>
+        /// The gap declaration.
+        /// </summary>
+        public static readonly String Gap = "gap";
 
         /// <summary>
         /// The caption-side declaration.
@@ -751,7 +761,7 @@ namespace AngleSharp.Css
         /// The grid-gap declaration.
         /// </summary>
         public static readonly String GridGap = "grid-gap";
-        
+
         /// <summary>
         /// The left declaration.
         /// </summary>
