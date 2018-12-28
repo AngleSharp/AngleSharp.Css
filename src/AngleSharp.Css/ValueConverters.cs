@@ -801,6 +801,8 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter, AutoTrackListConverter, AssignInitial());
 
+        public static readonly IValueConverter GridAutoConverter = Or(TrackSizeConverter.Many(), AssignInitial());
+
         #endregion
 
         #region Helpers

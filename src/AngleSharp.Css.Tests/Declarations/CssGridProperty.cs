@@ -206,5 +206,225 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("\"a b b\" \"a c d\"", property.Value);
         }
+
+        [Test]
+        public void CssGridAutoColumnsMinContentLegal()
+        {
+            var snippet = @"grid-auto-columns: min-content";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("min-content", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsMaxContentLegal()
+        {
+            var snippet = @"grid-auto-columns: max-content";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("max-content", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsAutoUppercaseLegal()
+        {
+            var snippet = @"grid-auto-rows: AUTO";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsLengthInPxLegal()
+        {
+            var snippet = @"grid-auto-columns: 100px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100px", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsLengthInCmLegal()
+        {
+            var snippet = @"  grid-auto-columns  : 20cm";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("20cm", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsLengthInVmaxLegal()
+        {
+            var snippet = @"grid-auto-rows: 50vmax";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("50vmax", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsInPercentLegal()
+        {
+            var snippet = @"grid-auto-columns: 10%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10%", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsInPercentLegal()
+        {
+            var snippet = @"grid-auto-rows: 33.3%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("33.3%", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsFractionLegal()
+        {
+            var snippet = @"grid-auto-rows: 0.5fr";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.5fr", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsFractionLegal()
+        {
+            var snippet = @"grid-auto-columns: 3fr;";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3fr", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsMinmaxLegal()
+        {
+            var snippet = @"grid-auto-columns: minmax(100px, auto)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("minmax(100px, auto)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsMinmaxWithMaxContentLegal()
+        {
+            var snippet = @"grid-auto-columns: minmax(max-content, 2fr)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("minmax(max-content, 2fr)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsMinmaxPercentLegal()
+        {
+            var snippet = @"grid-auto-columns: minmax(20%, 80vmax)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("minmax(20%, 80vmax)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsFitContentLegal()
+        {
+            var snippet = @"grid-auto-rows: fit-content(400px)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("fit-content(400px)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsFitContentLegal()
+        {
+            var snippet = @"grid-auto-columns: fit-content(5cm)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("fit-content(5cm)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsFitContentPercentLegal()
+        {
+            var snippet = @"grid-auto-columns: fit-content(20%)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("fit-content(20%)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsMinContentMaxContentAndAutoLegal()
+        {
+            var snippet = @"grid-auto-columns: min-content max-content auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("min-content max-content auto", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsLengthLengthAndLengthLegal()
+        {
+            var snippet = @"grid-auto-columns: 100px 150px 390px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100px 150px 390px", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsLengthMinmaxPercentFractionAndFitContentLegal()
+        {
+            var snippet = @"grid-auto-columns: 100px minmax(100px, auto) 10% 0.5fr fit-content(400px)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100px minmax(100px, auto) 10% 0.5fr fit-content(400px)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsPercentAndPercentLegal()
+        {
+            var snippet = @"grid-auto-rows: 10% 33.3%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("10% 33.3%", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoColumnsFractionFractionAndFractionLegal()
+        {
+            var snippet = @"grid-auto-columns: 0.5fr 3fr 1fr";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.5fr 3fr 1fr", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoRowsMinmaxMinmaxAndMinmaxLegal()
+        {
+            var snippet = @"grid-auto-rows: minmax(100px, auto) minmax(max-content, 2fr) minmax(20%, 80vmax)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-auto-rows", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("minmax(100px, auto) minmax(max-content, 2fr) minmax(20%, 80vmax)", property.Value);
+        }
     }
 }

@@ -1129,21 +1129,25 @@ namespace AngleSharp.Css
             {
                 GridTemplateColumnsDeclaration.Name, new DeclarationInfo(
                     converter: GridTemplateColumnsDeclaration.Converter,
+                    shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateColumnsDeclaration.Flags)
             },
             {
                 GridTemplateRowsDeclaration.Name, new DeclarationInfo(
                     converter: GridTemplateRowsDeclaration.Converter,
+                    shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateRowsDeclaration.Flags)
             },
             {
                 GridTemplateAreasDeclaration.Name, new DeclarationInfo(
                     converter: GridTemplateAreasDeclaration.Converter,
+                    shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateAreasDeclaration.Flags)
             },
             {
                 GridTemplateDeclaration.Name, new DeclarationInfo(
                     converter: GridTemplateDeclaration.Converter,
+                    longhands: GridTemplateDeclaration.Longhands,
                     flags: GridTemplateDeclaration.Flags)
             },
             {
