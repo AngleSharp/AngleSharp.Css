@@ -152,9 +152,39 @@ namespace AngleSharp.Css
         public static readonly String Auto = "auto";
 
         /// <summary>
+        /// The auto-fill keyword.
+        /// </summary>
+        public static readonly String AutoFill = "auto-fill";
+
+        /// <summary>
+        /// The auto-fit keyword.
+        /// </summary>
+        public static readonly String AutoFit = "auto-fit";
+
+        /// <summary>
         /// The content keyword.
         /// </summary>
         public static readonly String Content = "content";
+
+        /// <summary>
+        /// The min-content keyword.
+        /// </summary>
+        public static readonly String MinContent = "min-content";
+
+        /// <summary>
+        /// The max-content keyword.
+        /// </summary>
+        public static readonly String MaxContent = "max-content";
+
+        /// <summary>
+        /// The fit-content keyword.
+        /// </summary>
+        public static readonly String FitContent = "fit-content";
+
+        /// <summary>
+        /// The minmax keyword.
+        /// </summary>
+        public static readonly String Minmax = "minmax";
 
         /// <summary>
         /// The from keyword.

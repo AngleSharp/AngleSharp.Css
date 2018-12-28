@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Parser
         public static Unit ParseUnit(this StringSource source)
         {
             var pos = source.Index;
-            var result = Start(source);
+            var result = UnitStart(source);
 
             if (result == null)
             {
@@ -146,51 +146,78 @@ namespace AngleSharp.Css.Parser
             return source.ParseDistance() ?? source.ParseConstant(Map.FontSizes);
         }
 
+        public static ICssValue ParseTrackBreadth(this StringSource source, Boolean flexible = true)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+            var length = GetLength(test);
+
+            if (length.HasValue)
+            {
+                return length;
+            }
+            else if (test != null)
+            {
+                var unit = Fraction.GetUnit(test.Dimension);
+
+                if (flexible && unit != Fraction.Unit.None)
+                {
+                    var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
+                    return new Fraction(value, unit);
+                }
+            }
+            else
+            {
+                var ident = source.ParseIdent();
+
+                if (ident != null)
+                {
+                    if (ident.Isi(CssKeywords.MinContent))
+                    {
+                        return new Identifier(CssKeywords.MinContent);
+                    }
+                    else if (ident.Isi(CssKeywords.MaxContent))
+                    {
+                        return new Identifier(CssKeywords.MaxContent);
+                    }
+                    else if (ident.Isi(CssKeywords.Auto))
+                    {
+                        return new Identifier(CssKeywords.Auto);
+                    }
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
         public static Length? ParseDistance(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
+            var length = GetLength(test);
 
-            if (test != null)
+            if (!length.HasValue)
             {
-                var unit = Length.Unit.Px;
-                var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
-
-                if ((test.Dimension == String.Empty && test.Value == "0") ||
-                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
-                {
-                    return new Length(value, unit);
-                }
-
                 source.BackTo(pos);
             }
 
-            return null;
+            return length;
         }
 
         public static Length? ParseLength(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
+            var length = GetLength(test);
 
-            if (test != null)
+            if (!length.HasValue || length.Value.Type == Length.Unit.Percent)
             {
-                var unit = Length.Unit.Px;
-
-                if ((test.Dimension == String.Empty && test.Value == "0") ||
-                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
-                {
-                    if (unit != Length.Unit.Percent)
-                    {
-                        var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
-                        return new Length(value, unit);
-                    }
-                }
-
                 source.BackTo(pos);
+                return null;
             }
 
-            return null;
+            return length;
         }
 
         public static Resolution? ParseResolution(this StringSource source)
@@ -235,7 +262,24 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Unit Start(StringSource source)
+        private static Length? GetLength(Unit test)
+        {
+            if (test != null)
+            {
+                var unit = Length.Unit.Px;
+                var value = Double.Parse(test.Value, CultureInfo.InvariantCulture);
+
+                if ((test.Dimension == String.Empty && test.Value == "0") ||
+                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
+                {
+                    return new Length(value, unit);
+                }
+            }
+
+            return null;
+        }
+
+        private static Unit UnitStart(StringSource source)
         {
             var current = source.Current;
 
@@ -246,27 +290,27 @@ namespace AngleSharp.Css.Parser
                 if (next == Symbols.Dot)
                 {
                     var buffer = StringBuilderPool.Obtain().Append(current).Append(next);
-                    return Fraction(source, buffer);
+                    return UnitFraction(source, buffer);
                 }
                 else if (next.IsDigit())
                 {
                     var buffer = StringBuilderPool.Obtain().Append(current).Append(next);
-                    return Rest(source, buffer);
+                    return UnitRest(source, buffer);
                 }
             }
             else if (current == Symbols.Dot)
             {
-                return Fraction(source, StringBuilderPool.Obtain().Append(current));
+                return UnitFraction(source, StringBuilderPool.Obtain().Append(current));
             }
             else if (current.IsDigit())
             {
-                return Rest(source, StringBuilderPool.Obtain().Append(current));
+                return UnitRest(source, StringBuilderPool.Obtain().Append(current));
             }
 
             return null;
         }
 
-        private static Unit Rest(StringSource source, StringBuilder buffer)
+        private static Unit UnitRest(StringSource source, StringBuilder buffer)
         {
             var current = source.Next();
 
@@ -297,7 +341,7 @@ namespace AngleSharp.Css.Parser
                     if (current.IsDigit())
                     {
                         buffer.Append(Symbols.Dot).Append(current);
-                        return Fraction(source, buffer);
+                        return UnitFraction(source, buffer);
                     }
 
                     return new Unit(buffer.ToPool(), String.Empty);
@@ -318,7 +362,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static Unit Fraction(StringSource source, StringBuilder buffer)
+        private static Unit UnitFraction(StringSource source, StringBuilder buffer)
         {
             var current = source.Next();
 

@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridTemplateRows;
 
-        public static readonly IValueConverter Converter = AssignInitial();
+        public static readonly IValueConverter Converter = GridTemplateConverter;
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;
     }

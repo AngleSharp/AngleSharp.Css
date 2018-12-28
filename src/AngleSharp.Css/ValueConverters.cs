@@ -4,6 +4,7 @@ namespace AngleSharp.Css
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -739,6 +740,69 @@ namespace AngleSharp.Css
 
         #endregion
 
+        #region Grid
+
+        /// <summary>
+        /// Represents a converter for LineName values.
+        /// </summary>
+        public static readonly IValueConverter LineNamesConverter = new ClassValueConverter<ICssValue>(GridParser.ParseLineNames);
+
+        /// <summary>
+        /// Represents a converter for TrackSize values.
+        /// </summary>
+        public static readonly IValueConverter TrackSizeConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackSize);
+
+        /// <summary>
+        /// Represents a converter for FixedSize values.
+        /// </summary>
+        public static readonly IValueConverter FixedSizeConverter = new ClassValueConverter<ICssValue>(GridParser.ParseFixedSize);
+
+        /// <summary>
+        /// Represents a converter for TrackRepeat values.
+        /// </summary>
+        public static readonly IValueConverter TrackRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackRepeat);
+
+        /// <summary>
+        /// Represents a converter for FixedRepeat values.
+        /// </summary>
+        public static readonly IValueConverter FixedRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseFixedRepeat);
+
+        /// <summary>
+        /// Represents a converter for AutoRepeat values.
+        /// </summary>
+        public static readonly IValueConverter AutoRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseAutoRepeat);
+
+        /// <summary>
+        /// Represents a converter for TrackList values.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#track-list
+        /// </summary>
+        public static readonly IValueConverter TrackListConverter = WithOrder(
+            WithOrder(LineNamesConverter.Option(), Or(
+                TrackSizeConverter,
+                TrackRepeatConverter)).Many(),
+            LineNamesConverter.Option());
+
+        /// <summary>
+        /// Represents a converter for the inner part of AutoTrackList:
+        /// [ &lt;line-names&gt;? [ &lt;fixed-size&gt; | &lt;fixed-repeat&gt; ] ]* &lt;line-names&gt;?
+        /// </summary>
+        public static readonly IValueConverter AutoTrackListNamesConverter = WithOrder(
+            WithOrder(LineNamesConverter.Option(), Or(
+                FixedSizeConverter,
+                FixedRepeatConverter)).Many(0),
+            LineNamesConverter.Option());
+
+        /// <summary>
+        /// Represents a converter for AutoTrackList values.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#auto-track-list
+        /// </summary>
+        public static readonly IValueConverter AutoTrackListConverter = WithOrder(
+            AutoTrackListNamesConverter,
+            AutoRepeatConverter,
+            AutoTrackListNamesConverter);
+
+        #endregion
+
         #region Premade
 
         public static readonly IValueConverter MarginConverter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Zero));
@@ -747,11 +811,13 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
 
+        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter, AutoTrackListConverter, AssignInitial());
+
         #endregion
 
         #region Helpers
 
-        private static Func<Text.StringSource, Length?> FromInteger(Func<Text.StringSource, Int32?> converter)
+        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter)
         {
             return source =>
             {
@@ -766,7 +832,7 @@ namespace AngleSharp.Css
             };
         }
 
-        private static Func<Text.StringSource, Length?> FromNumber(Func<Text.StringSource, Double?> converter)
+        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter)
         {
             return source =>
             {
