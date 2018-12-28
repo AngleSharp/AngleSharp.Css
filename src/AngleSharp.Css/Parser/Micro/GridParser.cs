@@ -14,12 +14,11 @@ namespace AngleSharp.Css.Parser
 
             if (source.Current == Symbols.SquareBracketOpen)
             {
+                source.SkipCurrentAndSpaces();
                 var names = new List<String>();
 
                 while (!source.IsDone)
                 {
-                    source.SkipCurrentAndSpaces();
-
                     var name = source.ParseIdent();
 
                     if (name == null)
@@ -61,7 +60,7 @@ namespace AngleSharp.Css.Parser
                     {
                         source.SkipCurrentAndSpaces();
                         var max = source.ParseTrackBreadth();
-                        c = source.SkipSpaces();
+                        c = source.SkipSpacesAndComments();
 
                         if (max != null && c == Symbols.RoundBracketClose && (min is Length? || max is Length?))
                         {
@@ -91,7 +90,7 @@ namespace AngleSharp.Css.Parser
                 {
                     source.SkipCurrentAndSpaces();
                     var dim = source.ParseDistance();
-                    var c = source.SkipSpaces();
+                    var c = source.SkipSpacesAndComments();
 
                     if (dim.HasValue && c == Symbols.RoundBracketClose)
                     {
@@ -109,7 +108,7 @@ namespace AngleSharp.Css.Parser
                     {
                         source.SkipCurrentAndSpaces();
                         var max = source.ParseTrackBreadth();
-                        c = source.SkipSpaces();
+                        c = source.SkipSpacesAndComments();
 
                         if (max != null && c == Symbols.RoundBracketClose)
                         {
@@ -187,12 +186,12 @@ namespace AngleSharp.Css.Parser
                 {
                     source.SkipCurrentAndSpaces();
                     var value = parseValue(source);
-                    c = source.SkipCurrentAndSpaces();
+                    c = source.SkipSpacesAndComments();
 
                     if (value != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
-                        return new FunctionValue(CssKeywords.FitContent, new ICssValue[] { count, value });
+                        return new FunctionValue(CssKeywords.Repeat, new ICssValue[] { count, value });
                     }
                 }
             }

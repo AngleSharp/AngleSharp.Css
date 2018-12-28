@@ -59,6 +59,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
 
         /// <summary>
+        /// Represents a string object.
+        /// </summary>
+        public static readonly IValueConverter StringConverter = new ClassValueConverter<StringValue>(FromString(StringParser.ParseString));
+
+        /// <summary>
         /// Represents an URL object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
@@ -776,8 +781,8 @@ namespace AngleSharp.Css
         /// Represents a converter for TrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#track-list
         /// </summary>
-        public static readonly IValueConverter TrackListConverter = WithOrder(
-            WithOrder(LineNamesConverter.Option(), Or(
+        public static readonly IValueConverter TrackListConverter = WithAny(
+            WithAny(LineNamesConverter.Option(), Or(
                 TrackSizeConverter,
                 TrackRepeatConverter)).Many(),
             LineNamesConverter.Option());
@@ -786,8 +791,8 @@ namespace AngleSharp.Css
         /// Represents a converter for the inner part of AutoTrackList:
         /// [ &lt;line-names&gt;? [ &lt;fixed-size&gt; | &lt;fixed-repeat&gt; ] ]* &lt;line-names&gt;?
         /// </summary>
-        public static readonly IValueConverter AutoTrackListNamesConverter = WithOrder(
-            WithOrder(LineNamesConverter.Option(), Or(
+        public static readonly IValueConverter AutoTrackListNamesConverter = WithAny(
+            WithAny(LineNamesConverter.Option(), Or(
                 FixedSizeConverter,
                 FixedRepeatConverter)).Many(0),
             LineNamesConverter.Option());
@@ -796,10 +801,10 @@ namespace AngleSharp.Css
         /// Represents a converter for AutoTrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#auto-track-list
         /// </summary>
-        public static readonly IValueConverter AutoTrackListConverter = WithOrder(
-            AutoTrackListNamesConverter,
+        public static readonly IValueConverter AutoTrackListConverter = WithAny(
+            AutoTrackListNamesConverter.Option(),
             AutoRepeatConverter,
-            AutoTrackListNamesConverter);
+            AutoTrackListNamesConverter.Option());
 
         #endregion
 
@@ -816,6 +821,21 @@ namespace AngleSharp.Css
         #endregion
 
         #region Helpers
+
+        private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter)
+        {
+            return source =>
+            {
+                var result = converter.Invoke(source);
+
+                if (result != null)
+                {
+                    return new StringValue(result);
+                }
+
+                return null;
+            };
+        }
 
         private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter)
         {
