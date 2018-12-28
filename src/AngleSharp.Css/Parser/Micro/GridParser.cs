@@ -210,10 +210,58 @@ namespace AngleSharp.Css.Parser
             return source.ParseRepeatValue(ParseTrackSize);
         }
 
-        private static ICssValue ParseRepeatValue(this StringSource source, Func<StringSource, ICssValue> parseTrack)
+        public static ICssValue ParseTrackList(this StringSource source)
+        {
+            var value = source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
+            source.SkipSpacesAndComments();
+
+            if (source.IsDone)
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+        public static ICssValue ParseAutoTrackList(this StringSource source)
         {
             var values = new List<ICssValue>();
-            var hasSize = false;
+            var head = source.ParseRepeatValue(s => s.ParseFixedSize() ?? s.ParseFixedRepeat(), true);
+
+            if (head != null)
+            {
+                values.Add(head);
+            }
+
+            source.SkipSpacesAndComments();
+            var repeat = source.ParseAutoRepeat();
+
+            if (repeat == null)
+            {
+                return null;
+            }
+
+            values.Add(repeat);
+            source.SkipSpacesAndComments();
+            var tail = source.ParseRepeatValue(s => s.ParseFixedSize() ?? s.ParseFixedRepeat(), true);
+            source.SkipSpacesAndComments();
+
+            if (tail != null)
+            {
+                values.Add(tail);
+            }
+
+            if (source.IsDone)
+            {
+                return new OrderedOptions(values.ToArray());
+            }
+
+            return null;
+        }
+
+        private static ICssValue ParseRepeatValue(this StringSource source, Func<StringSource, ICssValue> parseTrack, Boolean hasSize = false)
+        {
+            var values = new List<ICssValue>();
 
             while (!source.IsDone)
             {

@@ -781,30 +781,13 @@ namespace AngleSharp.Css
         /// Represents a converter for TrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#track-list
         /// </summary>
-        public static readonly IValueConverter TrackListConverter = WithAny(
-            WithAny(LineNamesConverter.Option(), Or(
-                TrackSizeConverter,
-                TrackRepeatConverter)).Many(),
-            LineNamesConverter.Option());
-
-        /// <summary>
-        /// Represents a converter for the inner part of AutoTrackList:
-        /// [ &lt;line-names&gt;? [ &lt;fixed-size&gt; | &lt;fixed-repeat&gt; ] ]* &lt;line-names&gt;?
-        /// </summary>
-        public static readonly IValueConverter AutoTrackListNamesConverter = WithAny(
-            WithAny(LineNamesConverter.Option(), Or(
-                FixedSizeConverter,
-                FixedRepeatConverter)).Many(0),
-            LineNamesConverter.Option());
+        public static readonly IValueConverter TrackListConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackList);
 
         /// <summary>
         /// Represents a converter for AutoTrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#auto-track-list
         /// </summary>
-        public static readonly IValueConverter AutoTrackListConverter = WithAny(
-            AutoTrackListNamesConverter.Option(),
-            AutoRepeatConverter,
-            AutoTrackListNamesConverter.Option());
+        public static readonly IValueConverter AutoTrackListConverter = new ClassValueConverter<ICssValue>(GridParser.ParseAutoTrackList);
 
         #endregion
 
