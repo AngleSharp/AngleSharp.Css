@@ -7,6 +7,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridRowEnd;
 
+        public static readonly String[] Shorthands = new[]
+        {
+            PropertyNames.GridArea,
+        };
+
         public static readonly IValueConverter Converter = GridLineConverter;
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;

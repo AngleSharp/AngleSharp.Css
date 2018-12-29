@@ -1173,21 +1173,25 @@ namespace AngleSharp.Css
             {
                 GridRowStartDeclaration.Name, new DeclarationInfo(
                     converter: GridRowStartDeclaration.Converter,
+                    shorthands: GridRowStartDeclaration.Shorthands,
                     flags: GridRowStartDeclaration.Flags)
             },
             {
                 GridColumnStartDeclaration.Name, new DeclarationInfo(
                     converter: GridColumnStartDeclaration.Converter,
+                    shorthands: GridColumnStartDeclaration.Shorthands,
                     flags: GridColumnStartDeclaration.Flags)
             },
             {
                 GridRowEndDeclaration.Name, new DeclarationInfo(
                     converter: GridRowEndDeclaration.Converter,
+                    shorthands: GridRowEndDeclaration.Shorthands,
                     flags: GridRowEndDeclaration.Flags)
             },
             {
                 GridColumnEndDeclaration.Name, new DeclarationInfo(
                     converter: GridColumnEndDeclaration.Converter,
+                    shorthands: GridColumnEndDeclaration.Shorthands,
                     flags: GridColumnEndDeclaration.Flags)
             },
             {
@@ -1203,6 +1207,7 @@ namespace AngleSharp.Css
             {
                 GridAreaDeclaration.Name, new DeclarationInfo(
                     converter: GridAreaDeclaration.Converter,
+                    longhands: GridAreaDeclaration.Longhands,
                     flags: GridAreaDeclaration.Flags)
             },
             {
