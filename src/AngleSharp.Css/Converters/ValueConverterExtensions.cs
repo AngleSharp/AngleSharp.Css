@@ -40,6 +40,24 @@ namespace AngleSharp.Css.Converters
             return new PeriodicValueConverter(converter);
         }
 
+        public static IValueConverter Exclusive(this IValueConverter converter)
+        {
+            return new ClassValueConverter<ICssValue>(source =>
+            {
+                var pos = source.Index;
+                var result = converter.Convert(source);
+                source.SkipSpacesAndComments();
+
+                if (result != null && !source.IsDone)
+                {
+                    source.BackTo(pos);
+                    return null;
+                }
+
+                return result;
+            });
+        }
+
         public static IValueConverter Option(this IValueConverter converter)
         {
             return new OptionValueConverter<Object>(converter, null);

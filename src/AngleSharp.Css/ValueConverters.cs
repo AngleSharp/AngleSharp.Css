@@ -799,14 +799,14 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
 
-        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter, AutoTrackListConverter, AssignInitial());
+        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive(), AssignInitial());
 
         public static readonly IValueConverter GridAutoConverter = Or(TrackSizeConverter.Many(), AssignInitial());
 
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, "auto"),
-            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
-            WithAny(IntegerConverter, IdentifierConverter),
+            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter).Exclusive(),
+            WithAny(IntegerConverter, IdentifierConverter).Exclusive(),
             IdentifierConverter,
             AssignInitial());
 

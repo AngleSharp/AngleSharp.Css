@@ -212,15 +212,7 @@ namespace AngleSharp.Css.Parser
 
         public static ICssValue ParseTrackList(this StringSource source)
         {
-            var value = source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
-            source.SkipSpacesAndComments();
-
-            if (source.IsDone)
-            {
-                return value;
-            }
-
-            return null;
+            return source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
         }
 
         public static ICssValue ParseAutoTrackList(this StringSource source)
@@ -251,12 +243,7 @@ namespace AngleSharp.Css.Parser
                 values.Add(tail);
             }
 
-            if (source.IsDone)
-            {
-                return new CssTupleValue(values.ToArray());
-            }
-
-            return null;
+            return new CssTupleValue(values.ToArray());
         }
 
         private static ICssValue ParseRepeatValue(this StringSource source, Func<StringSource, ICssValue> parseTrack, Boolean hasSize = false)
