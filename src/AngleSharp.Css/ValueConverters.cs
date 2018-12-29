@@ -38,7 +38,7 @@ namespace AngleSharp.Css
         /// Represents a length object with line-width additions.
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
-        public static readonly IValueConverter LineWidthConverter = new ClassValueConverter<ICssValue>(UnitParser.ParseLineWidth);
+        public static readonly IValueConverter LineWidthConverter = FromParser(UnitParser.ParseLineWidth);
 
         /// <summary>
         /// Represents a length object.
@@ -61,18 +61,18 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a string object.
         /// </summary>
-        public static readonly IValueConverter StringConverter = new ClassValueConverter<StringValue>(FromString(StringParser.ParseString));
+        public static readonly IValueConverter StringConverter = FromParser(FromString(StringParser.ParseString));
 
         /// <summary>
         /// Represents an URL object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
-        public static readonly IValueConverter UrlConverter = new ClassValueConverter<UrlReference>(CssUriParser.ParseUri);
+        public static readonly IValueConverter UrlConverter = FromParser(CssUriParser.ParseUri);
 
         /// <summary>
         /// Represents many string objects, but always divisible by 2 (open-close quotes).
         /// </summary>
-        public static readonly IValueConverter QuotesConverter = new ClassValueConverter<CssTupleValue>(CompoundParser.ParseQuotes);
+        public static readonly IValueConverter QuotesConverter = FromParser(CompoundParser.ParseQuotes);
 
         /// <summary>
         /// Represents an identifier object.
@@ -160,7 +160,7 @@ namespace AngleSharp.Css
         /// Represents a shape object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
         /// </summary>
-        public static readonly IValueConverter ShapeConverter = new ClassValueConverter<Shape>(ShapeParser.ParseShape);
+        public static readonly IValueConverter ShapeConverter = FromParser(ShapeParser.ParseShape);
 
         #endregion
 
@@ -540,19 +540,19 @@ namespace AngleSharp.Css
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter TransitionConverter = new ClassValueConverter<ITimingFunction>(TimingFunctionParser.ParseTimingFunction);
+        public static readonly IValueConverter TransitionConverter = FromParser(TimingFunctionParser.ParseTimingFunction);
 
         /// <summary>
         /// Represents a gradient object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
         /// </summary>
-        public static readonly IValueConverter GradientConverter = new ClassValueConverter<IGradient>(GradientParser.ParseGradient);
+        public static readonly IValueConverter GradientConverter = FromParser(GradientParser.ParseGradient);
 
         /// <summary>
         /// Represents a transform function.
         /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
         /// </summary>
-        public static readonly IValueConverter TransformConverter = new ClassValueConverter<ITransform>(TransformParser.ParseTransform);
+        public static readonly IValueConverter TransformConverter = FromParser(TransformParser.ParseTransform);
 
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
@@ -598,7 +598,7 @@ namespace AngleSharp.Css
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
         public static readonly IValueConverter MultipleShadowConverter = Or(
-            new ClassValueConverter<Shadow>(ShadowParser.ParseShadow).FromList(),
+            FromParser(ShadowParser.ParseShadow).FromList(),
             None);
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for font families.
         /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = new ClassValueConverter<ICssValue>(IdentParser.ParseFontFamily).FromList();
+        public static readonly IValueConverter FontFamiliesConverter = FromParser(IdentParser.ParseFontFamily).FromList();
 
         /// <summary>
         /// Represents a converter for background size.
@@ -713,7 +713,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a converter for values containing (potentially multiple, at least one) var references.
         /// </summary>
-        public static IValueConverter AssignReferences() => new ClassValueConverter<VarReferences>(FunctionParser.ParseVars);
+        public static IValueConverter AssignReferences() => FromParser(FunctionParser.ParseVars);
 
         /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.
@@ -750,44 +750,44 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for LineName values.
         /// </summary>
-        public static readonly IValueConverter LineNamesConverter = new ClassValueConverter<ICssValue>(GridParser.ParseLineNames);
+        public static readonly IValueConverter LineNamesConverter = FromParser(GridParser.ParseLineNames);
 
         /// <summary>
         /// Represents a converter for TrackSize values.
         /// </summary>
-        public static readonly IValueConverter TrackSizeConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackSize);
+        public static readonly IValueConverter TrackSizeConverter = FromParser(GridParser.ParseTrackSize);
 
         /// <summary>
         /// Represents a converter for FixedSize values.
         /// </summary>
-        public static readonly IValueConverter FixedSizeConverter = new ClassValueConverter<ICssValue>(GridParser.ParseFixedSize);
+        public static readonly IValueConverter FixedSizeConverter = FromParser(GridParser.ParseFixedSize);
 
         /// <summary>
         /// Represents a converter for TrackRepeat values.
         /// </summary>
-        public static readonly IValueConverter TrackRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackRepeat);
+        public static readonly IValueConverter TrackRepeatConverter = FromParser(GridParser.ParseTrackRepeat);
 
         /// <summary>
         /// Represents a converter for FixedRepeat values.
         /// </summary>
-        public static readonly IValueConverter FixedRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseFixedRepeat);
+        public static readonly IValueConverter FixedRepeatConverter = FromParser(GridParser.ParseFixedRepeat);
 
         /// <summary>
         /// Represents a converter for AutoRepeat values.
         /// </summary>
-        public static readonly IValueConverter AutoRepeatConverter = new ClassValueConverter<ICssValue>(GridParser.ParseAutoRepeat);
+        public static readonly IValueConverter AutoRepeatConverter = FromParser(GridParser.ParseAutoRepeat);
 
         /// <summary>
         /// Represents a converter for TrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#track-list
         /// </summary>
-        public static readonly IValueConverter TrackListConverter = new ClassValueConverter<ICssValue>(GridParser.ParseTrackList);
+        public static readonly IValueConverter TrackListConverter = FromParser(GridParser.ParseTrackList);
 
         /// <summary>
         /// Represents a converter for AutoTrackList values.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns#auto-track-list
         /// </summary>
-        public static readonly IValueConverter AutoTrackListConverter = new ClassValueConverter<ICssValue>(GridParser.ParseAutoTrackList);
+        public static readonly IValueConverter AutoTrackListConverter = FromParser(GridParser.ParseAutoTrackList);
 
         #endregion
 
@@ -813,6 +813,12 @@ namespace AngleSharp.Css
         #endregion
 
         #region Helpers
+
+        private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
+            where T : class, ICssValue
+        {
+            return new ClassValueConverter<T>(converter);
+        }
 
         private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter)
         {
