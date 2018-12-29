@@ -426,5 +426,75 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("minmax(100px, auto) minmax(max-content, 2fr) minmax(20%, 80vmax)", property.Value);
         }
+
+        [Test]
+        public void CssGridRowEndNumberNameAndSpanLegal()
+        {
+            var snippet = @"grid-row-end: 5 somegridarea span";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-row-end", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("span 5 somegridarea", property.Value);
+        }
+
+        [Test]
+        public void CssGridColumnStartSpanNameLegal()
+        {
+            var snippet = @"grid-column-start: span somegridarea";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-column-start", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("span somegridarea", property.Value);
+        }
+
+        [Test]
+        public void CssGridRowStartSpanNumberLegal()
+        {
+            var snippet = @"grid-row-start: span 3";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-row-start", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("span 3", property.Value);
+        }
+
+        [Test]
+        public void CssGridColumnEndNameAndNumberLegal()
+        {
+            var snippet = @"grid-column-end: somegridarea 4";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-column-end", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("4 somegridarea", property.Value);
+        }
+
+        [Test]
+        public void CssGridColumnStartNumberLegal()
+        {
+            var snippet = @"grid-column-start: 2";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-column-start", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2", property.Value);
+        }
+
+        [Test]
+        public void CssGridRowEndNameLegal()
+        {
+            var snippet = @"grid-row-end: somegridarea";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-row-end", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("somegridarea", property.Value);
+        }
+
+        [Test]
+        public void CssGridRowStartAutoLegal()
+        {
+            var snippet = @"grid-row-start: auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-row-start", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
+        }
     }
 }

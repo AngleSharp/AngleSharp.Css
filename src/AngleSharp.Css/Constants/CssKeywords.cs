@@ -337,6 +337,11 @@ namespace AngleSharp.Css
         public static readonly String Round = "round";
 
         /// <summary>
+        /// The span keyword.
+        /// </summary>
+        public static readonly String Span = "span";
+
+        /// <summary>
         /// The space keyword.
         /// </summary>
         public static readonly String Space = "space";
