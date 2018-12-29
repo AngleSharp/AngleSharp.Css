@@ -3,11 +3,14 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    public sealed class Multiple : ICssValue
+    public sealed class CssListValue : ICssValue, IEnumerable<ICssValue>
     {
         private readonly ICssValue[] _items;
 
@@ -15,7 +18,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="items">The items in the list.</param>
-        public Multiple(ICssValue[] items)
+        public CssListValue(ICssValue[] items)
         {
             _items = items;
         }
@@ -23,7 +26,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the contained values.
         /// </summary>
-        public ICssValue[] Values
+        public ICssValue[] Items
         {
             get { return _items; }
         }
@@ -34,6 +37,16 @@ namespace AngleSharp.Css.Values
         public String CssText
         {
             get { return _items.Join(", "); }
+        }
+
+        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
+        {
+            return _items.AsEnumerable().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _items.GetEnumerator();
         }
     }
 }

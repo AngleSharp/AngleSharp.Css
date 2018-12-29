@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (type != null || position != null || image != null)
                 {
-                    return new OrderedOptions(new[] { type, position, image });
+                    return new CssTupleValue(new[] { type, position, image });
                 }
 
                 return null;
@@ -62,15 +62,15 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(ListStyleTypeDeclaration.Name, ListStyleTypeDeclaration.Converter, ListStyleTypeDeclaration.Flags, options.Options[0]),
-                        new CssProperty(ListStylePositionDeclaration.Name, ListStylePositionDeclaration.Converter, ListStylePositionDeclaration.Flags, options.Options[1]),
-                        new CssProperty(ListStyleImageDeclaration.Name, ListStyleImageDeclaration.Converter, ListStyleImageDeclaration.Flags, options.Options[2]),
+                        new CssProperty(ListStyleTypeDeclaration.Name, ListStyleTypeDeclaration.Converter, ListStyleTypeDeclaration.Flags, options.Items[0]),
+                        new CssProperty(ListStylePositionDeclaration.Name, ListStylePositionDeclaration.Converter, ListStylePositionDeclaration.Flags, options.Items[1]),
+                        new CssProperty(ListStyleImageDeclaration.Name, ListStyleImageDeclaration.Converter, ListStyleImageDeclaration.Flags, options.Items[2]),
                     };
                 }
 

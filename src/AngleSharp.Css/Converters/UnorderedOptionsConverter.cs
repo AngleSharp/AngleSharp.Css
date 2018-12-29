@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Converters
                 i++;
             }
             
-            return new OrderedOptions(options);
+            return new CssTupleValue(options);
         }
     }
 }

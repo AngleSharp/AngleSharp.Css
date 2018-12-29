@@ -253,7 +253,7 @@ namespace AngleSharp.Css.Parser
 
             if (source.IsDone)
             {
-                return new OrderedOptions(values.ToArray());
+                return new CssTupleValue(values.ToArray());
             }
 
             return null;
@@ -287,7 +287,7 @@ namespace AngleSharp.Css.Parser
 
             if (hasSize)
             {
-                return new OrderedOptions(values.ToArray());
+                return new CssTupleValue(values.ToArray());
             }
 
             return null;

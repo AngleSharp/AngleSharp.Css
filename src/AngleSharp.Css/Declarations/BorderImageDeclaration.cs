@@ -103,7 +103,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 else
                 {
-                    return new OrderedOptions(new[] { repeatX, repeatY });
+                    return new CssTupleValue(new[] { repeatX, repeatY });
                 }
             }
         }

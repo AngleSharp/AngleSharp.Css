@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (direction != null || wrap != null)
                 {
-                    return new OrderedOptions(new[] { direction, wrap });
+                    return new CssTupleValue(new[] { direction, wrap });
                 }
 
                 return null;
@@ -48,14 +48,14 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(FlexDirectionDeclaration.Name, FlexDirectionDeclaration.Converter, FlexDirectionDeclaration.Flags, options.Options[0]),
-                        new CssProperty(FlexWrapDeclaration.Name, FlexWrapDeclaration.Converter, FlexWrapDeclaration.Flags, options.Options[1]),
+                        new CssProperty(FlexDirectionDeclaration.Name, FlexDirectionDeclaration.Converter, FlexDirectionDeclaration.Flags, options.Items[0]),
+                        new CssProperty(FlexWrapDeclaration.Name, FlexWrapDeclaration.Converter, FlexWrapDeclaration.Flags, options.Items[1]),
                     };
                 }
 

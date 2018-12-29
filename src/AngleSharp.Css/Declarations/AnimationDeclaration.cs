@@ -58,14 +58,14 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Collect(IEnumerable<ICssProperty> properties)
             {
-                var duration = properties.Where(m => m.Name == AnimationDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var timing = properties.Where(m => m.Name == AnimationTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var delay = properties.Where(m => m.Name == AnimationDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var iterationCount = properties.Where(m => m.Name == AnimationIterationCountDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var direction = properties.Where(m => m.Name == AnimationDirectionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var fillMode = properties.Where(m => m.Name == AnimationFillModeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var playState = properties.Where(m => m.Name == AnimationPlayStateDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var name = properties.Where(m => m.Name == AnimationNameDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
+                var duration = properties.Where(m => m.Name == AnimationDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var timing = properties.Where(m => m.Name == AnimationTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var delay = properties.Where(m => m.Name == AnimationDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var iterationCount = properties.Where(m => m.Name == AnimationIterationCountDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var direction = properties.Where(m => m.Name == AnimationDirectionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var fillMode = properties.Where(m => m.Name == AnimationFillModeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var playState = properties.Where(m => m.Name == AnimationPlayStateDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var name = properties.Where(m => m.Name == AnimationNameDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
 
                 if (duration != null || timing != null || delay != null || iterationCount != null || direction != null || fillMode != null || playState != null || name != null)
                 {
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var list = value as Multiple;
+                var list = value as CssListValue;
 
                 if (list != null)
                 {
@@ -97,26 +97,26 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static ICssValue CreateMultiple(Multiple animation, Int32 index)
+            private static ICssValue CreateMultiple(CssListValue animation, Int32 index)
             {
-                var values = animation.Values.OfType<OrderedOptions>().Select(m => m.Options[index]);
+                var values = animation.Items.OfType<CssTupleValue>().Select(m => m.Items[index]);
 
                 if (values.Any())
                 {
-                    return new Multiple(values.ToArray());
+                    return new CssListValue(values.ToArray());
                 }
 
                 return null;
             }
 
-            private static ICssValue CreateValue(Multiple duration, Multiple timing, Multiple delay, Multiple iterationCount, Multiple direction, Multiple fillMode, Multiple playState, Multiple name)
+            private static ICssValue CreateValue(CssListValue duration, CssListValue timing, CssListValue delay, CssListValue iterationCount, CssListValue direction, CssListValue fillMode, CssListValue playState, CssListValue name)
             {
-                var items = (duration ?? timing ?? delay ?? iterationCount ?? direction ?? fillMode ?? playState ?? name).Values;
+                var items = (duration ?? timing ?? delay ?? iterationCount ?? direction ?? fillMode ?? playState ?? name).Items;
                 var layers = new ICssValue[items.Length];
 
                 for (var i = 0; i < items.Length; i++)
                 {
-                    layers[i] = new OrderedOptions(new[]
+                    layers[i] = new CssTupleValue(new[]
                     {
                         GetValue(duration, i),
                         GetValue(timing, i),
@@ -129,14 +129,14 @@ namespace AngleSharp.Css.Declarations
                     });
                 }
 
-                return new Multiple(layers);
+                return new CssListValue(layers);
             }
 
-            private static ICssValue GetValue(Multiple container, Int32 index)
+            private static ICssValue GetValue(CssListValue container, Int32 index)
             {
-                if (container != null && index < container.Values.Length)
+                if (container != null && index < container.Items.Length)
                 {
-                    return container.Values[index];
+                    return container.Items[index];
                 }
 
                 return null;

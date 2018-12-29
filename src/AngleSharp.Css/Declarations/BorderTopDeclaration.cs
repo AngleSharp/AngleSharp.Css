@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (width != null || style != null || color != null)
                 {
-                    return new OrderedOptions(new[] { width, style, color });
+                    return new CssTupleValue(new[] { width, style, color });
                 }
 
                 return null;
@@ -51,15 +51,15 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(BorderTopWidthDeclaration.Name, BorderTopWidthDeclaration.Converter, BorderTopWidthDeclaration.Flags, options.Options[0]),
-                        new CssProperty(BorderTopStyleDeclaration.Name, BorderTopStyleDeclaration.Converter, BorderTopStyleDeclaration.Flags, options.Options[1]),
-                        new CssProperty(BorderTopColorDeclaration.Name, BorderTopColorDeclaration.Converter, BorderTopColorDeclaration.Flags, options.Options[2]),
+                        new CssProperty(BorderTopWidthDeclaration.Name, BorderTopWidthDeclaration.Converter, BorderTopWidthDeclaration.Flags, options.Items[0]),
+                        new CssProperty(BorderTopStyleDeclaration.Name, BorderTopStyleDeclaration.Converter, BorderTopStyleDeclaration.Flags, options.Items[1]),
+                        new CssProperty(BorderTopColorDeclaration.Name, BorderTopColorDeclaration.Converter, BorderTopColorDeclaration.Flags, options.Items[2]),
                     };
                 }
 

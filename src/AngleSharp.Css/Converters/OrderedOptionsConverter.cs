@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Converters
                 options[i] = option;
             }
 
-            return new OrderedOptions(options);
+            return new CssTupleValue(options);
         }
     }
 }

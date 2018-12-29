@@ -94,7 +94,7 @@ namespace AngleSharp.Css.Declarations
 
                     if (fontFamilies != null)
                     {
-                        return new FontInfo(style, variant, weight, stretch, size, lineHeight, new Multiple(fontFamilies));
+                        return new FontInfo(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));
                     }
                 }
 

@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (color != null || style != null || line != null)
                 {
-                    return new OrderedOptions(new[] { color, style, line });
+                    return new CssTupleValue(new[] { color, style, line });
                 }
 
                 return null;
@@ -62,15 +62,15 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(TextDecorationColorDeclaration.Name, TextDecorationColorDeclaration.Converter, TextDecorationColorDeclaration.Flags, options.Options[0]),
-                        new CssProperty(TextDecorationStyleDeclaration.Name, TextDecorationStyleDeclaration.Converter, TextDecorationStyleDeclaration.Flags, options.Options[1]),
-                        new CssProperty(TextDecorationLineDeclaration.Name, TextDecorationLineDeclaration.Converter, TextDecorationLineDeclaration.Flags, options.Options[2]),
+                        new CssProperty(TextDecorationColorDeclaration.Name, TextDecorationColorDeclaration.Converter, TextDecorationColorDeclaration.Flags, options.Items[0]),
+                        new CssProperty(TextDecorationStyleDeclaration.Name, TextDecorationStyleDeclaration.Converter, TextDecorationStyleDeclaration.Flags, options.Items[1]),
+                        new CssProperty(TextDecorationLineDeclaration.Name, TextDecorationLineDeclaration.Converter, TextDecorationLineDeclaration.Flags, options.Items[2]),
                     };
                 }
 

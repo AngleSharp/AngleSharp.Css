@@ -35,7 +35,7 @@ namespace AngleSharp.Css.Converters
                 values.Add(value);
             }
 
-            return values.Count >= _minimum ? new OrderedOptions(values.ToArray()) : null;
+            return values.Count >= _minimum ? new CssTupleValue(values.ToArray()) : null;
         }
     }
 }

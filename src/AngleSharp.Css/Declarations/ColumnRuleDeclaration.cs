@@ -57,7 +57,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 while (pos != source.Index);
 
-                return new OrderedOptions(new[] { color, width, style });
+                return new CssTupleValue(new[] { color, width, style });
             }
         }
 
@@ -78,7 +78,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (color != null || width != null || style != null)
                 {
-                    return new OrderedOptions(new[] { color, width, style });
+                    return new CssTupleValue(new[] { color, width, style });
                 }
 
                 return null;
@@ -86,15 +86,15 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(ColumnRuleColorDeclaration.Name, ColumnRuleColorDeclaration.Converter, ColumnRuleColorDeclaration.Flags, options.Options[0]),
-                        new CssProperty(ColumnRuleWidthDeclaration.Name, ColumnRuleWidthDeclaration.Converter, ColumnRuleWidthDeclaration.Flags, options.Options[1]),
-                        new CssProperty(ColumnRuleStyleDeclaration.Name, ColumnRuleStyleDeclaration.Converter, ColumnRuleStyleDeclaration.Flags, options.Options[2]),
+                        new CssProperty(ColumnRuleColorDeclaration.Name, ColumnRuleColorDeclaration.Converter, ColumnRuleColorDeclaration.Flags, options.Items[0]),
+                        new CssProperty(ColumnRuleWidthDeclaration.Name, ColumnRuleWidthDeclaration.Converter, ColumnRuleWidthDeclaration.Flags, options.Items[1]),
+                        new CssProperty(ColumnRuleStyleDeclaration.Name, ColumnRuleStyleDeclaration.Converter, ColumnRuleStyleDeclaration.Flags, options.Items[2]),
                     };
                 }
 

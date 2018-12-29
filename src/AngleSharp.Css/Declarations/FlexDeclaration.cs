@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (grow != null || shrink != null || basis != null)
                 {
-                    return new OrderedOptions(new[] { grow, shrink, basis });
+                    return new CssTupleValue(new[] { grow, shrink, basis });
                 }
 
                 return null;
@@ -51,15 +51,15 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(FlexGrowDeclaration.Name, FlexGrowDeclaration.Converter, FlexGrowDeclaration.Flags, options.Options[0]),
-                        new CssProperty(FlexShrinkDeclaration.Name, FlexShrinkDeclaration.Converter, FlexShrinkDeclaration.Flags, options.Options[1]),
-                        new CssProperty(FlexBasisDeclaration.Name, FlexBasisDeclaration.Converter, FlexBasisDeclaration.Flags, options.Options[2]),
+                        new CssProperty(FlexGrowDeclaration.Name, FlexGrowDeclaration.Converter, FlexGrowDeclaration.Flags, options.Items[0]),
+                        new CssProperty(FlexShrinkDeclaration.Name, FlexShrinkDeclaration.Converter, FlexShrinkDeclaration.Flags, options.Items[1]),
+                        new CssProperty(FlexBasisDeclaration.Name, FlexBasisDeclaration.Converter, FlexBasisDeclaration.Flags, options.Items[2]),
                     };
                 }
 

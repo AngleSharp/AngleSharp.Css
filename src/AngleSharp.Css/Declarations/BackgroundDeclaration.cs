@@ -112,7 +112,7 @@ namespace AngleSharp.Css.Declarations
                     layers.Add(layer);
                 }
 
-                return new Background(new Multiple(layers.OfType<ICssValue>().ToArray()), color);
+                return new Background(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
             }
         }
 
@@ -128,15 +128,15 @@ namespace AngleSharp.Css.Declarations
             public ICssValue Collect(IEnumerable<ICssProperty> properties)
             {
                 var color = properties.Where(m => m.Name == BackgroundColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var image = properties.Where(m => m.Name == BackgroundImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var attachment = properties.Where(m => m.Name == BackgroundAttachmentDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var clip = properties.Where(m => m.Name == BackgroundClipDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var positionX = properties.Where(m => m.Name == BackgroundPositionXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var positionY = properties.Where(m => m.Name == BackgroundPositionYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var origin = properties.Where(m => m.Name == BackgroundOriginDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var repeatX = properties.Where(m => m.Name == BackgroundRepeatXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var repeatY = properties.Where(m => m.Name == BackgroundRepeatYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var size = properties.Where(m => m.Name == BackgroundSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
+                var image = properties.Where(m => m.Name == BackgroundImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var attachment = properties.Where(m => m.Name == BackgroundAttachmentDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var clip = properties.Where(m => m.Name == BackgroundClipDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var positionX = properties.Where(m => m.Name == BackgroundPositionXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var positionY = properties.Where(m => m.Name == BackgroundPositionYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var origin = properties.Where(m => m.Name == BackgroundOriginDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var repeatX = properties.Where(m => m.Name == BackgroundRepeatXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var repeatY = properties.Where(m => m.Name == BackgroundRepeatYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var size = properties.Where(m => m.Name == BackgroundSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
                 var layers = CreateLayers(image, attachment, clip, positionX, positionY, origin, repeatX, repeatY, size);
 
                 if (color != null || layers != null)
@@ -186,13 +186,13 @@ namespace AngleSharp.Css.Declarations
                 };
             }
 
-            private static ICssValue CreateLayers(Multiple image, Multiple attachment, Multiple clip, Multiple positionX, Multiple positionY, Multiple origin, Multiple repeatX, Multiple repeatY, Multiple size)
+            private static ICssValue CreateLayers(CssListValue image, CssListValue attachment, CssListValue clip, CssListValue positionX, CssListValue positionY, CssListValue origin, CssListValue repeatX, CssListValue repeatY, CssListValue size)
             {
                 if (image != null)
                 {
-                    var layers = new ICssValue[image.Values.Length];
+                    var layers = new ICssValue[image.Items.Length];
 
-                    for (var i = 0; i < image.Values.Length; i++)
+                    for (var i = 0; i < image.Items.Length; i++)
                     {
                         var px = GetValue(positionX, i);
                         var py = GetValue(positionY, i);
@@ -206,21 +206,21 @@ namespace AngleSharp.Css.Declarations
                             Position = px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
                             Repeat = rx == null && ry == null ? new Nullable<ImageRepeats>() : new ImageRepeats(rx, ry),
                             Size = GetValue(size, i),
-                            Source = image.Values[i],
+                            Source = image.Items[i],
                         };
                     }
 
-                    return new Multiple(layers);
+                    return new CssListValue(layers);
                 }
 
                 return null;
             }
 
-            private static ICssValue GetValue(Multiple container, Int32 index)
+            private static ICssValue GetValue(CssListValue container, Int32 index)
             {
-                if (container != null && index < container.Values.Length)
+                if (container != null && index < container.Items.Length)
                 {
-                    return container.Values[index];
+                    return container.Items[index];
                 }
 
                 return null;
@@ -228,15 +228,15 @@ namespace AngleSharp.Css.Declarations
 
             private static ICssValue CreateMultiple(Background background, Func<BackgroundLayer, ICssValue> getValue)
             {
-                var layers = background.Layers as Multiple;
+                var layers = background.Layers as CssListValue;
 
                 if (layers != null)
                 {
-                    var values = layers.Values.OfType<BackgroundLayer>().Select(getValue);
+                    var values = layers.Items.OfType<BackgroundLayer>().Select(getValue);
 
                     if (values.Any())
                     {
-                        return new Multiple(values.ToArray());
+                        return new CssListValue(values.ToArray());
                     }
                 }
 

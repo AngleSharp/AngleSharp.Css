@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Converters
         {
             var value = source.Content;
             source.Next(value.Length);
-            return new Any(value);
+            return new CssAnyValue(value);
         }
     }
 }

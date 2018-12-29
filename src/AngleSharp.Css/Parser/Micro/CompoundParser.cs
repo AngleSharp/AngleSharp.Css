@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class CompoundParser
     {
-        public static OrderedOptions ParseQuotes(this StringSource source)
+        public static CssTupleValue ParseQuotes(this StringSource source)
         {
             var quotes = new List<ICssValue>();
 
@@ -27,7 +27,7 @@ namespace AngleSharp.Css.Parser
                 quotes.Add(new Quote(open, close));
             }
 
-            return new OrderedOptions(quotes.ToArray());
+            return new CssTupleValue(quotes.ToArray());
         }
 
         public static BorderImageSlice? ParseBorderImageSlice(this StringSource source)

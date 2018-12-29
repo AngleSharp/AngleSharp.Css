@@ -50,10 +50,10 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Collect(IEnumerable<ICssProperty> properties)
             {
-                var animatable = properties.Where(m => m.Name == TransitionPropertyDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var duration = properties.Where(m => m.Name == TransitionDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var timing = properties.Where(m => m.Name == TransitionTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
-                var delay = properties.Where(m => m.Name == TransitionDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as Multiple;
+                var animatable = properties.Where(m => m.Name == TransitionPropertyDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var duration = properties.Where(m => m.Name == TransitionDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var timing = properties.Where(m => m.Name == TransitionTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var delay = properties.Where(m => m.Name == TransitionDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
 
                 if (animatable != null || duration != null || timing != null || delay != null)
                 {
@@ -65,7 +65,7 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var list = value as Multiple;
+                var list = value as CssListValue;
 
                 if (list != null)
                 {
@@ -81,26 +81,26 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static ICssValue CreateMultiple(Multiple transition, Int32 index)
+            private static ICssValue CreateMultiple(CssListValue transition, Int32 index)
             {
-                var values = transition.Values.OfType<OrderedOptions>().Select(m => m.Options[index]);
+                var values = transition.Items.OfType<CssTupleValue>().Select(m => m.Items[index]);
 
                 if (values.Any())
                 {
-                    return new Multiple(values.ToArray());
+                    return new CssListValue(values.ToArray());
                 }
 
                 return null;
             }
 
-            private static ICssValue CreateValue(Multiple animatable, Multiple duration, Multiple timing, Multiple delay)
+            private static ICssValue CreateValue(CssListValue animatable, CssListValue duration, CssListValue timing, CssListValue delay)
             {
-                var items = (animatable ?? duration ?? timing ?? delay).Values;
+                var items = (animatable ?? duration ?? timing ?? delay).Items;
                 var layers = new ICssValue[items.Length];
 
                 for (var i = 0; i < items.Length; i++)
                 {
-                    layers[i] = new OrderedOptions(new[]
+                    layers[i] = new CssTupleValue(new[]
                     {
                         GetValue(animatable, i),
                         GetValue(duration, i),
@@ -109,14 +109,14 @@ namespace AngleSharp.Css.Declarations
                     });
                 }
 
-                return new Multiple(layers);
+                return new CssListValue(layers);
             }
 
-            private static ICssValue GetValue(Multiple container, Int32 index)
+            private static ICssValue GetValue(CssListValue container, Int32 index)
             {
-                if (container != null && index < container.Values.Length)
+                if (container != null && index < container.Items.Length)
                 {
-                    return container.Values[index];
+                    return container.Items[index];
                 }
 
                 return null;

@@ -34,7 +34,7 @@ namespace AngleSharp.Css.Converters
                 values.Add(value);
             }
 
-            return values.Count > 0 ? new Multiple(values.ToArray()) : null;
+            return values.Count > 0 ? new CssListValue(values.ToArray()) : null;
         }
     }
 }

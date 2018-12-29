@@ -38,7 +38,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (row != null || col != null)
                 {
-                    return new OrderedOptions(new[] { row, col });
+                    return new CssTupleValue(new[] { row, col });
                 }
 
                 return null;
@@ -46,14 +46,14 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var list = value as OrderedOptions;
+                var list = value as CssTupleValue;
 
                 if (list != null)
                 {
                     return new[]
                     {
-                        new CssProperty(GridRowGapDeclaration.Name, GridRowGapDeclaration.Converter, GridRowGapDeclaration.Flags, list.Options[0]),
-                        new CssProperty(GridColumnGapDeclaration.Name, GridColumnGapDeclaration.Converter, GridColumnGapDeclaration.Flags, list.Options[1]),
+                        new CssProperty(GridRowGapDeclaration.Name, GridRowGapDeclaration.Converter, GridRowGapDeclaration.Flags, list.Items[0]),
+                        new CssProperty(GridColumnGapDeclaration.Name, GridColumnGapDeclaration.Converter, GridColumnGapDeclaration.Flags, list.Items[1]),
                     };
                 }
 

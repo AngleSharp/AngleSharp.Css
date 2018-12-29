@@ -50,7 +50,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (width != null || count != null)
                 {
-                    return new OrderedOptions(new[] { width, count });
+                    return new CssTupleValue(new[] { width, count });
                 }
 
                 return null;
@@ -58,14 +58,14 @@ namespace AngleSharp.Css.Declarations
 
             public IEnumerable<ICssProperty> Distribute(ICssValue value)
             {
-                var options = value as OrderedOptions;
+                var options = value as CssTupleValue;
 
                 if (options != null)
                 {
                     return new[]
                     {
-                        new CssProperty(ColumnWidthDeclaration.Name, ColumnWidthDeclaration.Converter, ColumnWidthDeclaration.Flags, options.Options[0]),
-                        new CssProperty(ColumnCountDeclaration.Name, ColumnCountDeclaration.Converter, ColumnCountDeclaration.Flags, options.Options[1]),
+                        new CssProperty(ColumnWidthDeclaration.Name, ColumnWidthDeclaration.Converter, ColumnWidthDeclaration.Flags, options.Items[0]),
+                        new CssProperty(ColumnCountDeclaration.Name, ColumnCountDeclaration.Converter, ColumnCountDeclaration.Flags, options.Items[1]),
                     };
                 }
 

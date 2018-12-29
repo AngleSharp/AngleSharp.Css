@@ -57,7 +57,7 @@ namespace AngleSharp.Css.Declarations
 
             private static ICssValue Both(ICssValue horizontal, ICssValue vertical)
             {
-                return new OrderedOptions(new[] { horizontal, vertical });
+                return new CssTupleValue(new[] { horizontal, vertical });
             }
 
             private static IEnumerable<ICssProperty> CreateLonghands(ICssValue topLeft, ICssValue topRight, ICssValue bottomRight, ICssValue bottomLeft)
@@ -73,15 +73,15 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Collect(IEnumerable<ICssProperty> properties)
             {
-                var topLeft = properties.Where(m => m.Name == BorderTopLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
-                var topRight = properties.Where(m => m.Name == BorderTopRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
-                var bottomRight = properties.Where(m => m.Name == BorderBottomRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
-                var bottomLeft = properties.Where(m => m.Name == BorderBottomLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as OrderedOptions;
+                var topLeft = properties.Where(m => m.Name == BorderTopLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
+                var topRight = properties.Where(m => m.Name == BorderTopRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
+                var bottomRight = properties.Where(m => m.Name == BorderBottomRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
+                var bottomLeft = properties.Where(m => m.Name == BorderBottomLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
-                    var horizontal = new Periodic<ICssValue>(new[] { topLeft.Options[0], topRight.Options[0], bottomRight.Options[0], bottomLeft.Options[0] });
-                    var vertical = new Periodic<ICssValue>(new[] { topLeft.Options[1], topRight.Options[1], bottomRight.Options[1], bottomLeft.Options[1] });
+                    var horizontal = new Periodic<ICssValue>(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
+                    var vertical = new Periodic<ICssValue>(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
                     return new BorderRadius(horizontal, vertical);
                 }
 
