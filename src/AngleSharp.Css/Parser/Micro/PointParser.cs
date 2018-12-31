@@ -40,6 +40,20 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        public static Point3 ParsePoint3(this StringSource source)
+        {
+            var pt = source.ParsePoint();
+            source.SkipSpacesAndComments();
+            var z = source.ParseLength();
+
+            if (pt.HasValue)
+            {
+                return new Point3(pt.Value.X, pt.Value.Y, z ?? Length.Zero);
+            }
+
+            return null;
+        }
+
         public static Point? ParsePoint(this StringSource source)
         {
             var pos = source.Index;

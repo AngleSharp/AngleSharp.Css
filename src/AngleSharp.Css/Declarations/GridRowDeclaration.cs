@@ -7,8 +7,14 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridRow;
 
+        public static readonly String[] Longhands = new[]
+        {
+            PropertyNames.GridRowStart,
+            PropertyNames.GridRowEnd,
+        };
+
         public static readonly IValueConverter Converter = AssignInitial();
 
-        public static readonly PropertyFlags Flags = PropertyFlags.None;
+        public static readonly PropertyFlags Flags = PropertyFlags.Shorthand;
     }
 }

@@ -1408,12 +1408,14 @@ namespace AngleSharp.Css
                 GridRowDeclaration.Name, new DeclarationInfo(
                     name: GridRowDeclaration.Name,
                     converter: GridRowDeclaration.Converter,
+                    longhands: GridRowDeclaration.Longhands,
                     flags: GridRowDeclaration.Flags)
             },
             {
                 GridColumnDeclaration.Name, new DeclarationInfo(
                     name: GridColumnDeclaration.Name,
                     converter: GridColumnDeclaration.Converter,
+                    longhands: GridColumnDeclaration.Longhands,
                     flags: GridColumnDeclaration.Flags)
             },
             {

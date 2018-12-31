@@ -136,6 +136,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
 
         /// <summary>
+        /// Represents a Point3 object.
+        /// </summary>
+        public static readonly IValueConverter Point3Converter = new ClassValueConverter<Point3>(PointParser.ParsePoint3);
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
@@ -700,6 +705,8 @@ namespace AngleSharp.Css
         /// </summary>
         public static IValueConverter Or(params IValueConverter[] converters) => new OrValueConverter(converters);
 
+        public static IValueConverter SlashSeparated(IValueConverter converter) => new SeparatorConverter(converter, Symbols.Solidus);
+
         /// <summary>
         /// Creates a converter for the initial keyword with the given value.
         /// </summary>
@@ -805,8 +812,8 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, "auto"),
-            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter).Exclusive(),
-            WithAny(IntegerConverter, IdentifierConverter).Exclusive(),
+            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
+            WithAny(IntegerConverter, IdentifierConverter),
             IdentifierConverter,
             AssignInitial());
 

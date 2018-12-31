@@ -33,8 +33,9 @@ namespace AngleSharp.Css.Declarations
                 var start = source.Index;
                 var horizontal = _converter.Convert(source) as Periodic<ICssValue>;
                 var vertical = horizontal;
+                var c = source.SkipSpacesAndComments();
 
-                if (source.Current == Symbols.Solidus)
+                if (c == Symbols.Solidus)
                 {
                     source.SkipCurrentAndSpaces();
                     vertical = _converter.Convert(source) as Periodic<ICssValue>;
