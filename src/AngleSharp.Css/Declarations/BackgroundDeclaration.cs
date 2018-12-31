@@ -128,16 +128,32 @@ namespace AngleSharp.Css.Declarations
             public ICssValue Collect(IEnumerable<ICssProperty> properties)
             {
                 var color = properties.Where(m => m.Name == BackgroundColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var image = properties.Where(m => m.Name == BackgroundImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var attachment = properties.Where(m => m.Name == BackgroundAttachmentDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var clip = properties.Where(m => m.Name == BackgroundClipDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var positionX = properties.Where(m => m.Name == BackgroundPositionXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var positionY = properties.Where(m => m.Name == BackgroundPositionYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var origin = properties.Where(m => m.Name == BackgroundOriginDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var repeatX = properties.Where(m => m.Name == BackgroundRepeatXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var repeatY = properties.Where(m => m.Name == BackgroundRepeatYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var size = properties.Where(m => m.Name == BackgroundSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var layers = CreateLayers(image, attachment, clip, positionX, positionY, origin, repeatX, repeatY, size);
+                var image = properties.Where(m => m.Name == BackgroundImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var attachment = properties.Where(m => m.Name == BackgroundAttachmentDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var clip = properties.Where(m => m.Name == BackgroundClipDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var positionX = properties.Where(m => m.Name == BackgroundPositionXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var positionY = properties.Where(m => m.Name == BackgroundPositionYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var origin = properties.Where(m => m.Name == BackgroundOriginDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var repeatX = properties.Where(m => m.Name == BackgroundRepeatXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var repeatY = properties.Where(m => m.Name == BackgroundRepeatYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var size = properties.Where(m => m.Name == BackgroundSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var child = color as CssChildValue ??
+                    image as CssChildValue ??
+                    attachment as CssChildValue ??
+                    clip as CssChildValue ??
+                    positionX as CssChildValue ??
+                    positionY as CssChildValue ??
+                    origin as CssChildValue ??
+                    repeatX as CssChildValue ??
+                    repeatY as CssChildValue ??
+                    size as CssChildValue;
+
+                if (child != null)
+                {
+                    return child.Parent;
+                }
+
+                var layers = CreateLayers(image as CssListValue, attachment as CssListValue, clip as CssListValue, positionX as CssListValue, positionY as CssListValue, origin as CssListValue, repeatX as CssListValue, repeatY as CssListValue, size as CssListValue);
 
                 if (color != null || layers != null)
                 {
@@ -164,6 +180,11 @@ namespace AngleSharp.Css.Declarations
                         CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Horizontal : null),
                         CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Vertical : null),
                         CreateMultiple(background, m => m.Size));
+                }
+                else if (value is VarReferences)
+                {
+                    var child = new CssChildValue(value);
+                    return CreateProperties(child, child, child, child, child, child, child, child, child, child);
                 }
 
                 return null;

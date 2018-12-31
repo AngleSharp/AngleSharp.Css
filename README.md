@@ -2,11 +2,12 @@
 
 # AngleSharp.Css
 
-[![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp-Css.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp-Css)
-[![GitHub tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/releases)
+[![Build Status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp-Css.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp-Css)
+[![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.Css.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp.Css/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/issues)
-[![CLA assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp.Css?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp.Css)
+[![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
+[![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp.Css?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp.Css)
 
 AngleSharp.Css extends the core AngleSharp library with some more powerful CSS capabilities. This repository is the home of the source for the AngleSharp.Css NuGet package.
 
@@ -20,6 +21,7 @@ The core library already contains the CSS selector parser and the most basic cla
 * Cascades of stylesheets
 * Validation (and property-based exposure) of CSS declarations
 * Responsive design considerations
+* Full access to the value with different converters
 
 The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the browser (and potentially beyond, i.e., useful for being used by editors). Originally, most of the code found here was embedded in the AngleSharp.Core library, however, due to the overhead for HTML use cases it was decided to transfer the code into its own repository.
 

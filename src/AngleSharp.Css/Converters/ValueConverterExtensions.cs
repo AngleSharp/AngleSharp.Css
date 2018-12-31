@@ -15,9 +15,16 @@ namespace AngleSharp.Css.Converters
         {
             var source = new StringSource(value);
             source.SkipSpacesAndComments();
-            var result = converter.Convert(source);
-            source.SkipSpacesAndComments();
-            return source.IsDone ? result : null;
+            var varRefs = source.ParseVars();
+
+            if (varRefs == null)
+            {
+                var result = converter.Convert(source);
+                source.SkipSpacesAndComments();
+                return source.IsDone ? result : null;
+            }
+
+            return varRefs;
         }
 
         public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)

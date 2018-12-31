@@ -27,13 +27,13 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static VarReferences ParseVars(StringSource source)
+        public static VarReferences ParseVars(this StringSource source)
         {
-            var index = 0;
+            var index = source.Index;
             var length = FunctionNames.Var.Length;
-            var refs = new List<VarReference>();
+            var refs = default(List<VarReference>);
 
-            while (true)
+            while (!source.IsDone)
             {
                 index = source.Content.IndexOf(FunctionNames.Var, index, StringComparison.OrdinalIgnoreCase) + length;
 
@@ -49,8 +49,13 @@ namespace AngleSharp.Css.Parser
 
                         if (reference == null)
                         {
-                            refs.Clear();
+                            refs = null;
                             break;
+                        }
+
+                        if (refs == null)
+                        {
+                            refs = new List<VarReference>();
                         }
 
                         refs.Add(reference);
@@ -61,7 +66,7 @@ namespace AngleSharp.Css.Parser
                 break;
             }
 
-            if (refs.Count > 0)
+            if (refs != null)
             {
                 return new VarReferences(source.Content, refs);
             }

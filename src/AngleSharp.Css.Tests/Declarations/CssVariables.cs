@@ -42,10 +42,11 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"padding-bottom: var(--foo)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReference;
+            var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
-            Assert.AreEqual("--foo", variable.Name);
-            Assert.IsNull(variable.DefaultValue);
+            Assert.AreEqual(1, variable.References.Length);
+            Assert.AreEqual("--foo", variable.References[0].Name);
+            Assert.IsNull(variable.References[0].DefaultValue);
         }
 
         [Test]
@@ -54,10 +55,11 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"padding-bottom: var(--my-bar, 24px)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReference;
+            var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
-            Assert.AreEqual("--my-bar", variable.Name);
-            Assert.AreEqual("24px", variable.DefaultValue);
+            Assert.AreEqual(1, variable.References.Length);
+            Assert.AreEqual("--my-bar", variable.References[0].Name);
+            Assert.AreEqual("24px", variable.References[0].DefaultValue);
         }
 
         [Test]
@@ -66,10 +68,11 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"border-top-color: var(--color, red, blue)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReference;
+            var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
-            Assert.AreEqual("--color", variable.Name);
-            Assert.AreEqual("red, blue", variable.DefaultValue);
+            Assert.AreEqual(1, variable.References.Length);
+            Assert.AreEqual("--color", variable.References[0].Name);
+            Assert.AreEqual("red, blue", variable.References[0].DefaultValue);
         }
 
         [Test]

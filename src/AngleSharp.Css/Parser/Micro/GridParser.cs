@@ -215,6 +215,11 @@ namespace AngleSharp.Css.Parser
             return source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
         }
 
+        public static ICssValue ParseExplicitTrackList(this StringSource source)
+        {
+            return source.ParseRepeatValue(s => s.ParseTrackSize());
+        }
+
         public static ICssValue ParseAutoTrackList(this StringSource source)
         {
             var values = new List<ICssValue>();

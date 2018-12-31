@@ -281,7 +281,7 @@ namespace AngleSharp.Css.Dom
             {
                 var info = _context.GetDeclarationInfo(propertyName);
                 var important = !String.IsNullOrEmpty(priority);
-                var mappings = info.Longhands.Length > 0 ? info.Longhands : Enumerable.Repeat(propertyName, 1);
+                var mappings = info.GetMappings();
 
                 foreach (var mapping in mappings)
                 {
@@ -484,8 +484,7 @@ namespace AngleSharp.Css.Dom
         private void SetShorthand(ICssProperty shorthand)
         {
             var info = _context.GetDeclarationInfo(shorthand.Name);
-            var aggregator = info.Converter as IValueAggregator;
-            var properties = aggregator?.Distribute(shorthand.RawValue);
+            var properties = info.GetLonghands(shorthand.RawValue);
 
             if (properties != null)
             {

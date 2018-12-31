@@ -51,6 +51,14 @@ namespace AngleSharp.Css.Declarations
                 var width = properties.Where(m => m.Name == BorderWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
                 var style = properties.Where(m => m.Name == BorderStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
                 var color = properties.Where(m => m.Name == BorderColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var child = width as CssChildValue ??
+                    style as CssChildValue ??
+                    color as CssChildValue;
+
+                if (child != null)
+                {
+                    return child.Parent;
+                }
 
                 if (width != null && style != null && color != null)
                 {
@@ -66,15 +74,25 @@ namespace AngleSharp.Css.Declarations
 
                 if (options != null)
                 {
-                    return new[]
-                    {
-                    new CssProperty(BorderWidthDeclaration.Name, BorderWidthDeclaration.Converter, BorderWidthDeclaration.Flags, options.Items[0]),
-                    new CssProperty(BorderStyleDeclaration.Name, BorderStyleDeclaration.Converter, BorderStyleDeclaration.Flags, options.Items[1]),
-                    new CssProperty(BorderColorDeclaration.Name, BorderColorDeclaration.Converter, BorderColorDeclaration.Flags, options.Items[2]),
-                };
+                    return CreateProperties(options.Items[0], options.Items[1], options.Items[2]);
+                }
+                else if (value is VarReferences)
+                {
+                    var child = new CssChildValue(value);
+                    return CreateProperties(child, child, child);
                 }
 
                 return null;
+            }
+
+            private static IEnumerable<ICssProperty> CreateProperties(ICssValue width, ICssValue style, ICssValue color)
+            {
+                return new[]
+                {
+                    new CssProperty(BorderWidthDeclaration.Name, BorderWidthDeclaration.Converter, BorderWidthDeclaration.Flags, width),
+                    new CssProperty(BorderStyleDeclaration.Name, BorderStyleDeclaration.Converter, BorderStyleDeclaration.Flags, style),
+                    new CssProperty(BorderColorDeclaration.Name, BorderColorDeclaration.Converter, BorderColorDeclaration.Flags, color),
+                };
             }
         }
     }

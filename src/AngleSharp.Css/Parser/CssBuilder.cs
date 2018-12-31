@@ -1,10 +1,11 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
@@ -483,10 +484,9 @@
 
                 if (token.Type == CssTokenType.Colon)
                 {
-                    var important = false;
                     token = NextToken();
                     CollectTrivia(ref token);
-                    var value = CreateValue(ref token, out important);
+                    var value = CreateValue(ref token, out var important);
 
                     if (String.IsNullOrEmpty(value))
                     {
@@ -636,7 +636,7 @@
 
         private String CreateValue(ref CssToken token, out Boolean important)
         {
-            var keyword = "!important";
+            const String keyword = "!important";
             var value = _tokenizer.ContentFrom(token.Position.Position);
             important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
             token = NextToken();
