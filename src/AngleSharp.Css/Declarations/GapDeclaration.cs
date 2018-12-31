@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(ICssValue[] values)
+            public ICssValue Merge(ICssValue[] values)
             {
                 var col = values[0];
                 var row = values[1];
@@ -42,7 +42,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Distribute(ICssValue value)
+            public ICssValue[] Split(ICssValue value)
             {
                 var list = value as CssTupleValue;
 

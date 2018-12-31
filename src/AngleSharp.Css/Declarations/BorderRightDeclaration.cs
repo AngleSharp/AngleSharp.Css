@@ -33,7 +33,7 @@ namespace AngleSharp.Css.Declarations
                 return BorderSideConverter.Convert(source);
             }
 
-            public ICssValue Collect(ICssValue[] values)
+            public ICssValue Merge(ICssValue[] values)
             {
                 var width = values[0];
                 var style = values[1];
@@ -47,7 +47,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Distribute(ICssValue value)
+            public ICssValue[] Split(ICssValue value)
             {
                 var options = value as CssTupleValue;
 

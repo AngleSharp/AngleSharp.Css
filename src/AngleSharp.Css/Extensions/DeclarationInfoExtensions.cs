@@ -20,7 +20,7 @@ namespace AngleSharp.Css
                 return CreateProperties(longhands, values, createProperty);
             }
 
-            return CreateProperties(longhands, aggregator?.Distribute(value), createProperty);
+            return CreateProperties(longhands, aggregator?.Split(value), createProperty);
         }
 
         public static IEnumerable<String> GetMappings(this DeclarationInfo info)

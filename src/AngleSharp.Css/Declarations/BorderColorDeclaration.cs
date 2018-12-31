@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(ICssValue[] values)
+            public ICssValue Merge(ICssValue[] values)
             {
                 var top = values[0];
                 var right = values[1];
@@ -52,7 +52,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Distribute(ICssValue value)
+            public ICssValue[] Split(ICssValue value)
             {
                 var periodic = value as Periodic<ICssValue>;
 

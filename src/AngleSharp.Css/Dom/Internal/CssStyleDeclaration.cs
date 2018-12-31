@@ -166,7 +166,7 @@ namespace AngleSharp.Css.Dom
                             if (important > 0 && important != count)
                                 continue;
 
-                            var value = aggregator.Collect(values);
+                            var value = aggregator.Merge(values);
 
                             if (value != null)
                             {
@@ -401,7 +401,7 @@ namespace AngleSharp.Css.Dom
 
                 if (values.Any(m => m != null))
                 {
-                    var value = aggregator.Collect(values);
+                    var value = aggregator.Merge(values);
 
                     if (value != null)
                     {

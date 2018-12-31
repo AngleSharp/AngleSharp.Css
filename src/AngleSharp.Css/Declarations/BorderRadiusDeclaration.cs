@@ -58,7 +58,7 @@ namespace AngleSharp.Css.Declarations
                 return new CssTupleValue(new[] { horizontal, vertical });
             }
 
-            public ICssValue Collect(ICssValue[] values)
+            public ICssValue Merge(ICssValue[] values)
             {
                 var topLeft = values[0] as CssTupleValue;
                 var topRight = values[1] as CssTupleValue;
@@ -75,7 +75,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Distribute(ICssValue value)
+            public ICssValue[] Split(ICssValue value)
             {
                 var radius = value as BorderRadius;
 

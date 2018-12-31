@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(ICssValue[] values)
+            public ICssValue Merge(ICssValue[] values)
             {
                 var duration = values[0] as CssListValue;
                 var timing = values[1] as CssListValue;
@@ -75,7 +75,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Distribute(ICssValue value)
+            public ICssValue[] Split(ICssValue value)
             {
                 var list = value as CssListValue;
 
