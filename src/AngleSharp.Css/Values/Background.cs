@@ -45,16 +45,21 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var layer = _layers.CssText;
-
-                if (_color != null)
+                if (_layers != null)
                 {
-                    var sep = layer.Length > 0 ? " " : "";
-                    var color = _color.CssText;
-                    return String.Concat(layer, sep, color);
+                    var layer = _layers.CssText;
+
+                    if (_color != null)
+                    {
+                        var sep = layer.Length > 0 ? " " : "";
+                        var color = _color.CssText;
+                        return String.Concat(layer, sep, color);
+                    }
+
+                    return layer;
                 }
 
-                return layer;
+                return _color?.CssText ?? String.Empty;
             }
         }
     }

@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,9 +8,10 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS shorthand that includes var replacements.
     /// </summary>
-    public class VarReferences : ICssValue
+    public class VarReferences : ICssRawValue
     {
         private readonly String _value;
+        private readonly TextRange[] _ranges;
         private readonly VarReference[] _references;
 
         /// <summary>
@@ -18,10 +19,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="value">The value of the shorthand property.</param>
         /// <param name="references">The included variable references.</param>
-        public VarReferences(String value, IEnumerable<VarReference> references)
+        public VarReferences(String value, IEnumerable<Tuple<TextRange, VarReference>> references)
         {
             _value = value;
-            _references = references.ToArray();
+            _ranges = references.Select(m => m.Item1).ToArray();
+            _references = references.Select(m => m.Item2).ToArray();
         }
 
         /// <summary>
@@ -33,7 +35,15 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Gets the references variables.
+        /// Gets the positions of the variable references.
+        /// </summary>
+        public TextRange[] Ranges
+        {
+            get { return _ranges; }
+        }
+
+        /// <summary>
+        /// Gets the referenced variables.
         /// </summary>
         public VarReference[] References
         {

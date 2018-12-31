@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class ColumnRuleDeclaration
@@ -20,8 +18,8 @@ namespace AngleSharp.Css.Declarations
         public static String[] Longhands = new[]
         {
             PropertyNames.ColumnRuleColor,
-            PropertyNames.ColumnRuleStyle,
             PropertyNames.ColumnRuleWidth,
+            PropertyNames.ColumnRuleStyle,
         };
 
         sealed class ColumnRuleValueConverter : IValueConverter
@@ -70,11 +68,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var color = properties.Where(m => m.Name == ColumnRuleColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var width = properties.Where(m => m.Name == ColumnRuleWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == ColumnRuleStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var color = values[0];
+                var width = values[1];
+                var style = values[2];
 
                 if (color != null || width != null || style != null)
                 {
@@ -84,7 +82,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -92,9 +90,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(ColumnRuleColorDeclaration.Name, ColumnRuleColorDeclaration.Converter, ColumnRuleColorDeclaration.Flags, options.Items[0]),
-                        new CssProperty(ColumnRuleWidthDeclaration.Name, ColumnRuleWidthDeclaration.Converter, ColumnRuleWidthDeclaration.Flags, options.Items[1]),
-                        new CssProperty(ColumnRuleStyleDeclaration.Name, ColumnRuleStyleDeclaration.Converter, ColumnRuleStyleDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

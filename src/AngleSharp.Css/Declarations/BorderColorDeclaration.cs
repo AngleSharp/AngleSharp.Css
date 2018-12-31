@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderColorDeclaration
@@ -24,10 +22,10 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.BorderLeftColor,
-            PropertyNames.BorderRightColor,
             PropertyNames.BorderTopColor,
+            PropertyNames.BorderRightColor,
             PropertyNames.BorderBottomColor,
+            PropertyNames.BorderLeftColor,
         };
 
         sealed class BorderColorAggregator : IValueAggregator, IValueConverter
@@ -39,12 +37,12 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var top = properties.Where(m => m.Name == BorderTopColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var right = properties.Where(m => m.Name == BorderRightColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var bottom = properties.Where(m => m.Name == BorderBottomColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var left = properties.Where(m => m.Name == BorderLeftColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var top = values[0];
+                var right = values[1];
+                var bottom = values[2];
+                var left = values[3];
 
                 if (top != null && right != null && bottom != null && left != null)
                 {
@@ -54,7 +52,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var periodic = value as Periodic<ICssValue>;
 
@@ -62,10 +60,10 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(BorderTopColorDeclaration.Name, BorderTopColorDeclaration.Converter, BorderTopColorDeclaration.Flags, periodic.Top),
-                        new CssProperty(BorderRightColorDeclaration.Name, BorderRightColorDeclaration.Converter, BorderRightColorDeclaration.Flags, periodic.Right),
-                        new CssProperty(BorderBottomColorDeclaration.Name, BorderBottomColorDeclaration.Converter, BorderBottomColorDeclaration.Flags, periodic.Bottom),
-                        new CssProperty(BorderLeftColorDeclaration.Name, BorderLeftColorDeclaration.Converter, BorderLeftColorDeclaration.Flags, periodic.Left),
+                        periodic.Top,
+                        periodic.Right,
+                        periodic.Bottom,
+                        periodic.Left,
                     };
                 }
 

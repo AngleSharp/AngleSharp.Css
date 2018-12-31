@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class FlexFlowDeclaration
@@ -33,10 +31,10 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var direction = properties.Where(m => m.Name == FlexDirectionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var wrap = properties.Where(m => m.Name == FlexWrapDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var direction = values[0];
+                var wrap = values[1];
 
                 if (direction != null || wrap != null)
                 {
@@ -46,7 +44,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -54,8 +52,8 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(FlexDirectionDeclaration.Name, FlexDirectionDeclaration.Converter, FlexDirectionDeclaration.Flags, options.Items[0]),
-                        new CssProperty(FlexWrapDeclaration.Name, FlexWrapDeclaration.Converter, FlexWrapDeclaration.Flags, options.Items[1]),
+                        options.Items[0],
+                        options.Items[1],
                     };
                 }
 

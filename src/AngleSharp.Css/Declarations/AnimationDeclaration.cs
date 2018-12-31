@@ -19,7 +19,6 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.AnimationName,
             PropertyNames.AnimationDuration,
             PropertyNames.AnimationTimingFunction,
             PropertyNames.AnimationDelay,
@@ -27,6 +26,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.AnimationDirection,
             PropertyNames.AnimationFillMode,
             PropertyNames.AnimationPlayState,
+            PropertyNames.AnimationName,
         };
 
         sealed class AnimationConverter : IValueConverter
@@ -56,16 +56,16 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var duration = properties.Where(m => m.Name == AnimationDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var timing = properties.Where(m => m.Name == AnimationTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var delay = properties.Where(m => m.Name == AnimationDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var iterationCount = properties.Where(m => m.Name == AnimationIterationCountDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var direction = properties.Where(m => m.Name == AnimationDirectionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var fillMode = properties.Where(m => m.Name == AnimationFillModeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var playState = properties.Where(m => m.Name == AnimationPlayStateDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var name = properties.Where(m => m.Name == AnimationNameDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var duration = values[0] as CssListValue;
+                var timing = values[1] as CssListValue;
+                var delay = values[2] as CssListValue;
+                var iterationCount = values[3] as CssListValue;
+                var direction = values[4] as CssListValue;
+                var fillMode = values[5] as CssListValue;
+                var playState = values[6] as CssListValue;
+                var name = values[7] as CssListValue;
 
                 if (duration != null || timing != null || delay != null || iterationCount != null || direction != null || fillMode != null || playState != null || name != null)
                 {
@@ -75,7 +75,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var list = value as CssListValue;
 
@@ -83,14 +83,14 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(AnimationDurationDeclaration.Name, AnimationDurationDeclaration.Converter, AnimationDurationDeclaration.Flags, CreateMultiple(list, 0)),
-                        new CssProperty(AnimationTimingFunctionDeclaration.Name, AnimationTimingFunctionDeclaration.Converter, AnimationTimingFunctionDeclaration.Flags, CreateMultiple(list, 1)),
-                        new CssProperty(AnimationDelayDeclaration.Name, AnimationDelayDeclaration.Converter, AnimationDelayDeclaration.Flags, CreateMultiple(list, 2)),
-                        new CssProperty(AnimationIterationCountDeclaration.Name, AnimationIterationCountDeclaration.Converter, AnimationIterationCountDeclaration.Flags, CreateMultiple(list, 3)),
-                        new CssProperty(AnimationDirectionDeclaration.Name, AnimationDirectionDeclaration.Converter, AnimationDirectionDeclaration.Flags, CreateMultiple(list, 4)),
-                        new CssProperty(AnimationFillModeDeclaration.Name, AnimationFillModeDeclaration.Converter, AnimationFillModeDeclaration.Flags, CreateMultiple(list, 5)),
-                        new CssProperty(AnimationPlayStateDeclaration.Name, AnimationPlayStateDeclaration.Converter, AnimationPlayStateDeclaration.Flags, CreateMultiple(list, 6)),
-                        new CssProperty(AnimationNameDeclaration.Name, AnimationNameDeclaration.Converter, AnimationNameDeclaration.Flags, CreateMultiple(list, 7)),
+                        CreateMultiple(list, 0),
+                        CreateMultiple(list, 1),
+                        CreateMultiple(list, 2),
+                        CreateMultiple(list, 3),
+                        CreateMultiple(list, 4),
+                        CreateMultiple(list, 5),
+                        CreateMultiple(list, 6),
+                        CreateMultiple(list, 7),
                     };
                 }
 

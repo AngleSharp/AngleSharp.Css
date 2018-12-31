@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderTopDeclaration
@@ -35,11 +33,11 @@ namespace AngleSharp.Css.Declarations
                 return BorderSideConverter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var width = properties.Where(m => m.Name == BorderTopWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == BorderTopStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var color = properties.Where(m => m.Name == BorderTopColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var width = values[0];
+                var style = values[1];
+                var color = values[2];
 
                 if (width != null || style != null || color != null)
                 {
@@ -49,7 +47,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -57,9 +55,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(BorderTopWidthDeclaration.Name, BorderTopWidthDeclaration.Converter, BorderTopWidthDeclaration.Flags, options.Items[0]),
-                        new CssProperty(BorderTopStyleDeclaration.Name, BorderTopStyleDeclaration.Converter, BorderTopStyleDeclaration.Flags, options.Items[1]),
-                        new CssProperty(BorderTopColorDeclaration.Name, BorderTopColorDeclaration.Converter, BorderTopColorDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

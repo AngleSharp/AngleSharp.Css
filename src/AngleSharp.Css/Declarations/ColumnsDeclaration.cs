@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class ColumnsDeclaration
@@ -43,10 +41,10 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var width = properties.Where(m => m.Name == ColumnWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var count = properties.Where(m => m.Name == ColumnCountDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var width = values[0];
+                var count = values[1];
 
                 if (width != null || count != null)
                 {
@@ -56,7 +54,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -64,8 +62,8 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(ColumnWidthDeclaration.Name, ColumnWidthDeclaration.Converter, ColumnWidthDeclaration.Flags, options.Items[0]),
-                        new CssProperty(ColumnCountDeclaration.Name, ColumnCountDeclaration.Converter, ColumnCountDeclaration.Flags, options.Items[1]),
+                        options.Items[0],
+                        options.Items[1],
                     };
                 }
 

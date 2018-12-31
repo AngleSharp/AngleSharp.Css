@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class ListStyleDeclaration
@@ -19,9 +17,9 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.ListStyleImage,
-            PropertyNames.ListStylePosition,
             PropertyNames.ListStyleType,
+            PropertyNames.ListStylePosition,
+            PropertyNames.ListStyleImage,
         };
 
         sealed class ListStyleValueConverter : IValueConverter
@@ -46,11 +44,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var type = properties.Where(m => m.Name == ListStyleTypeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var position = properties.Where(m => m.Name == ListStylePositionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var image = properties.Where(m => m.Name == ListStyleImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var type = values[0];
+                var position = values[1];
+                var image = values[2];
 
                 if (type != null || position != null || image != null)
                 {
@@ -60,7 +58,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -68,9 +66,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(ListStyleTypeDeclaration.Name, ListStyleTypeDeclaration.Converter, ListStyleTypeDeclaration.Flags, options.Items[0]),
-                        new CssProperty(ListStylePositionDeclaration.Name, ListStylePositionDeclaration.Converter, ListStylePositionDeclaration.Flags, options.Items[1]),
-                        new CssProperty(ListStyleImageDeclaration.Name, ListStyleImageDeclaration.Converter, ListStyleImageDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

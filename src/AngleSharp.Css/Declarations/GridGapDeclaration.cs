@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class GridGapDeclaration
@@ -31,10 +29,10 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var row = properties.Where(m => m.Name == GridRowGapDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var col = properties.Where(m => m.Name == GridColumnGapDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var col = values[0];
+                var row = values[1];
 
                 if (row != null || col != null)
                 {
@@ -44,7 +42,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var list = value as CssTupleValue;
 
@@ -52,8 +50,8 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(GridRowGapDeclaration.Name, GridRowGapDeclaration.Converter, GridRowGapDeclaration.Flags, list.Items[0]),
-                        new CssProperty(GridColumnGapDeclaration.Name, GridColumnGapDeclaration.Converter, GridColumnGapDeclaration.Flags, list.Items[1]),
+                        list.Items[0],
+                        list.Items[1],
                     };
                 }
 

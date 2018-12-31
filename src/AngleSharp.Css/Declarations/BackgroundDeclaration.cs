@@ -19,16 +19,16 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.BackgroundAttachment,
-            PropertyNames.BackgroundClip,
             PropertyNames.BackgroundColor,
             PropertyNames.BackgroundImage,
-            PropertyNames.BackgroundOrigin,
+            PropertyNames.BackgroundAttachment,
+            PropertyNames.BackgroundClip,
             PropertyNames.BackgroundPositionX,
             PropertyNames.BackgroundPositionY,
-            PropertyNames.BackgroundSize,
+            PropertyNames.BackgroundOrigin,
             PropertyNames.BackgroundRepeatX,
             PropertyNames.BackgroundRepeatY,
+            PropertyNames.BackgroundSize,
         };
 
         sealed class BackgroundValueConverter : IValueConverter
@@ -116,6 +116,7 @@ namespace AngleSharp.Css.Declarations
             }
         }
 
+
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignInitial());
@@ -125,33 +126,18 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var color = properties.Where(m => m.Name == BackgroundColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var image = properties.Where(m => m.Name == BackgroundImageDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var attachment = properties.Where(m => m.Name == BackgroundAttachmentDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var clip = properties.Where(m => m.Name == BackgroundClipDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var positionX = properties.Where(m => m.Name == BackgroundPositionXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var positionY = properties.Where(m => m.Name == BackgroundPositionYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var origin = properties.Where(m => m.Name == BackgroundOriginDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var repeatX = properties.Where(m => m.Name == BackgroundRepeatXDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var repeatY = properties.Where(m => m.Name == BackgroundRepeatYDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var size = properties.Where(m => m.Name == BackgroundSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var child = color as CssChildValue ??
-                    image as CssChildValue ??
-                    attachment as CssChildValue ??
-                    clip as CssChildValue ??
-                    positionX as CssChildValue ??
-                    positionY as CssChildValue ??
-                    origin as CssChildValue ??
-                    repeatX as CssChildValue ??
-                    repeatY as CssChildValue ??
-                    size as CssChildValue;
-
-                if (child != null)
-                {
-                    return child.Parent;
-                }
+                var color = values[0];
+                var image = values[1];
+                var attachment = values[2];
+                var clip = values[3];
+                var positionX = values[4];
+                var positionY = values[5];
+                var origin = values[6];
+                var repeatX = values[7];
+                var repeatY = values[8];
+                var size = values[9];
 
                 var layers = CreateLayers(image as CssListValue, attachment as CssListValue, clip as CssListValue, positionX as CssListValue, positionY as CssListValue, origin as CssListValue, repeatX as CssListValue, repeatY as CssListValue, size as CssListValue);
 
@@ -163,13 +149,14 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var background = value as Background;
 
                 if (background != null)
                 {
-                    return CreateProperties(
+                    return new[]
+                    {
                         background.Color,
                         CreateMultiple(background, m => m.Source),
                         CreateMultiple(background, m => m.Attachment),
@@ -179,34 +166,13 @@ namespace AngleSharp.Css.Declarations
                         CreateMultiple(background, m => m.Origin),
                         CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Horizontal : null),
                         CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Vertical : null),
-                        CreateMultiple(background, m => m.Size));
-                }
-                else if (value is VarReferences)
-                {
-                    var child = new CssChildValue(value);
-                    return CreateProperties(child, child, child, child, child, child, child, child, child, child);
+                        CreateMultiple(background, m => m.Size),
+                    };
                 }
 
                 return null;
             }
-
-            private static IEnumerable<ICssProperty> CreateProperties(ICssValue color, ICssValue image, ICssValue attachment, ICssValue clip, ICssValue positionX, ICssValue positionY, ICssValue origin, ICssValue repeatX, ICssValue repeatY, ICssValue size)
-            {
-                return new[]
-                {
-                    new CssProperty(BackgroundColorDeclaration.Name, BackgroundColorDeclaration.Converter, BackgroundColorDeclaration.Flags, color),
-                    new CssProperty(BackgroundImageDeclaration.Name, BackgroundImageDeclaration.Converter, BackgroundImageDeclaration.Flags, image),
-                    new CssProperty(BackgroundAttachmentDeclaration.Name, BackgroundAttachmentDeclaration.Converter, BackgroundAttachmentDeclaration.Flags, attachment),
-                    new CssProperty(BackgroundClipDeclaration.Name, BackgroundClipDeclaration.Converter, BackgroundClipDeclaration.Flags, clip),
-                    new CssProperty(BackgroundPositionXDeclaration.Name, BackgroundPositionXDeclaration.Converter, BackgroundPositionXDeclaration.Flags, positionX),
-                    new CssProperty(BackgroundPositionYDeclaration.Name, BackgroundPositionYDeclaration.Converter, BackgroundPositionYDeclaration.Flags, positionY),
-                    new CssProperty(BackgroundOriginDeclaration.Name, BackgroundOriginDeclaration.Converter, BackgroundOriginDeclaration.Flags, origin),
-                    new CssProperty(BackgroundRepeatXDeclaration.Name, BackgroundRepeatXDeclaration.Converter, BackgroundRepeatXDeclaration.Flags, repeatX),
-                    new CssProperty(BackgroundRepeatYDeclaration.Name, BackgroundRepeatYDeclaration.Converter, BackgroundRepeatYDeclaration.Flags, repeatY),
-                    new CssProperty(BackgroundSizeDeclaration.Name, BackgroundSizeDeclaration.Converter, BackgroundSizeDeclaration.Flags, size),
-                };
-            }
-
+            
             private static ICssValue CreateLayers(CssListValue image, CssListValue attachment, CssListValue clip, CssListValue positionX, CssListValue positionY, CssListValue origin, CssListValue repeatX, CssListValue repeatY, CssListValue size)
             {
                 if (image != null)

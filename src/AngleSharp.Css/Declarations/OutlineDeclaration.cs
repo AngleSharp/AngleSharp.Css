@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class OutlineDeclaration
@@ -19,9 +17,9 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.OutlineColor,
-            PropertyNames.OutlineStyle,
             PropertyNames.OutlineWidth,
+            PropertyNames.OutlineStyle,
+            PropertyNames.OutlineColor,
         };
 
         sealed class OutlineValueConverter : IValueConverter
@@ -46,11 +44,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var width = properties.Where(m => m.Name == OutlineWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == OutlineStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var color = properties.Where(m => m.Name == OutlineColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var width = values[0];
+                var style = values[1];
+                var color = values[2];
 
                 if (width != null || style != null || color != null)
                 {
@@ -60,7 +58,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -68,9 +66,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(OutlineWidthDeclaration.Name, OutlineWidthDeclaration.Converter, OutlineWidthDeclaration.Flags, options.Items[0]),
-                        new CssProperty(OutlineStyleDeclaration.Name, OutlineStyleDeclaration.Converter, OutlineStyleDeclaration.Flags, options.Items[1]),
-                        new CssProperty(OutlineColorDeclaration.Name, OutlineColorDeclaration.Converter, OutlineColorDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

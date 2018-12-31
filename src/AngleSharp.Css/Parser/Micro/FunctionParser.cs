@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Parser
         {
             var index = source.Index;
             var length = FunctionNames.Var.Length;
-            var refs = default(List<VarReference>);
+            var refs = default(List<Tuple<TextRange, VarReference>>);
 
             while (!source.IsDone)
             {
@@ -45,6 +45,7 @@ namespace AngleSharp.Css.Parser
                     if (c == Symbols.RoundBracketOpen)
                     {
                         source.SkipCurrentAndSpaces();
+                        var s = new TextPosition(0, 0, source.Index);
                         var reference = ParseVar(source);
 
                         if (reference == null)
@@ -55,10 +56,11 @@ namespace AngleSharp.Css.Parser
 
                         if (refs == null)
                         {
-                            refs = new List<VarReference>();
+                            refs = new List<Tuple<TextRange, VarReference>>();
                         }
 
-                        refs.Add(reference);
+                        var e = new TextPosition(0, 0, source.Index);
+                        refs.Add(Tuple.Create(new TextRange(s, e), reference));
                         continue;
                     }
                 }

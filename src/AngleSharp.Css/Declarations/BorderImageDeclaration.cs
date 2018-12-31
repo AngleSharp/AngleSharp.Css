@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderImageDeclaration
@@ -117,13 +115,13 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var outset = properties.Where(m => m.Name == BorderImageOutsetDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var repeat = properties.Where(m => m.Name == BorderImageRepeatDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var slice = properties.Where(m => m.Name == BorderImageSliceDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var source = properties.Where(m => m.Name == BorderImageSourceDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var width = properties.Where(m => m.Name == BorderImageWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var outset = values[0];
+                var repeat = values[1];
+                var slice = values[2];
+                var source = values[3];
+                var width = values[4];
 
                 if (outset != null || repeat != null || slice != null || source != null || width != null)
                 {
@@ -133,7 +131,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var img = value as BorderImage?;
 
@@ -141,11 +139,11 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(BorderImageOutsetDeclaration.Name, BorderImageOutsetDeclaration.Converter, BorderImageOutsetDeclaration.Flags, img.Value.Outsets),
-                        new CssProperty(BorderImageRepeatDeclaration.Name, BorderImageRepeatDeclaration.Converter, BorderImageRepeatDeclaration.Flags, img.Value.Repeat),
-                        new CssProperty(BorderImageSliceDeclaration.Name, BorderImageSliceDeclaration.Converter, BorderImageSliceDeclaration.Flags, img.Value.Slice),
-                        new CssProperty(BorderImageSourceDeclaration.Name, BorderImageSourceDeclaration.Converter, BorderImageSourceDeclaration.Flags, img.Value.Image),
-                        new CssProperty(BorderImageWidthDeclaration.Name, BorderImageWidthDeclaration.Converter, BorderImageWidthDeclaration.Flags, img.Value.Widths),
+                        img.Value.Outsets,
+                        img.Value.Repeat,
+                        img.Value.Slice,
+                        img.Value.Image,
+                        img.Value.Widths,
                     };
                 }
                 else
@@ -156,11 +154,11 @@ namespace AngleSharp.Css.Declarations
                     {
                         return new[]
                         {
-                            new CssProperty(BorderImageOutsetDeclaration.Name, BorderImageOutsetDeclaration.Converter, BorderImageOutsetDeclaration.Flags, null),
-                            new CssProperty(BorderImageRepeatDeclaration.Name, BorderImageRepeatDeclaration.Converter, BorderImageRepeatDeclaration.Flags, null),
-                            new CssProperty(BorderImageSliceDeclaration.Name, BorderImageSliceDeclaration.Converter, BorderImageSliceDeclaration.Flags, null),
-                            new CssProperty(BorderImageSourceDeclaration.Name, BorderImageSourceDeclaration.Converter, BorderImageSourceDeclaration.Flags, constant),
-                            new CssProperty(BorderImageWidthDeclaration.Name, BorderImageWidthDeclaration.Converter, BorderImageWidthDeclaration.Flags, null)
+                            null,
+                            null,
+                            null,
+                            constant,
+                            null,
                         };
                     }
                 }

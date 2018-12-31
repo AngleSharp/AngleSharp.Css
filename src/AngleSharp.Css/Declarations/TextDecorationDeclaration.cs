@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class TextDecorationDeclaration
@@ -46,11 +44,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var color = properties.Where(m => m.Name == TextDecorationColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == TextDecorationStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var line = properties.Where(m => m.Name == TextDecorationLineDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var color = values[0];
+                var line = values[1];
+                var style = values[2];
 
                 if (color != null || style != null || line != null)
                 {
@@ -60,7 +58,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -68,9 +66,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(TextDecorationColorDeclaration.Name, TextDecorationColorDeclaration.Converter, TextDecorationColorDeclaration.Flags, options.Items[0]),
-                        new CssProperty(TextDecorationStyleDeclaration.Name, TextDecorationStyleDeclaration.Converter, TextDecorationStyleDeclaration.Flags, options.Items[1]),
-                        new CssProperty(TextDecorationLineDeclaration.Name, TextDecorationLineDeclaration.Converter, TextDecorationLineDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

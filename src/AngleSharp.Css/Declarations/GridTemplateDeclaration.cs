@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class GridTemplateDeclaration
@@ -15,9 +13,9 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly String[] Longhands = new[]
         {
-            PropertyNames.GridTemplateAreas,
-            PropertyNames.GridTemplateColumns,
             PropertyNames.GridTemplateRows,
+            PropertyNames.GridTemplateColumns,
+            PropertyNames.GridTemplateAreas,
         };
 
         public static readonly IValueConverter Converter = new GridTemplateAggregator();
@@ -71,11 +69,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var cols = properties.Where(m => m.Name == GridTemplateColumnsDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var rows = properties.Where(m => m.Name == GridTemplateRowsDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var areas = properties.Where(m => m.Name == GridTemplateAreasDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var rows = values[0];
+                var cols = values[1];
+                var areas = values[2];
 
                 if (cols == rows && cols == areas)
                 {
@@ -89,30 +87,20 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var template = value as GridTemplate;
 
                 if (template != null)
                 {
-                    return CreateProperties(template.TemplateColumns, template.TemplateRows, template.TemplateAreas);
+                    return new[] { template.TemplateRows, template.TemplateColumns, template.TemplateAreas };
                 }
                 else if (value is Identifier)
                 {
-                    return CreateProperties(value, value, value);
+                    return new[] { value, value, value };
                 }
 
                 return null;
-            }
-
-            private IEnumerable<ICssProperty> CreateProperties(ICssValue columns, ICssValue rows, ICssValue areas)
-            {
-                return new[]
-                {
-                    new CssProperty(GridTemplateColumnsDeclaration.Name, GridTemplateColumnsDeclaration.Converter, GridTemplateColumnsDeclaration.Flags, columns),
-                    new CssProperty(GridTemplateRowsDeclaration.Name, GridTemplateRowsDeclaration.Converter, GridTemplateRowsDeclaration.Flags, rows),
-                    new CssProperty(GridTemplateAreasDeclaration.Name, GridTemplateAreasDeclaration.Converter, GridTemplateAreasDeclaration.Flags, areas),
-                };
             }
         }
     }

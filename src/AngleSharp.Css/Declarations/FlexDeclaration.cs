@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class FlexDeclaration
@@ -35,11 +33,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var grow = properties.Where(m => m.Name == FlexGrowDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var shrink = properties.Where(m => m.Name == FlexShrinkDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var basis = properties.Where(m => m.Name == FlexBasisDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var grow = values[0];
+                var shrink = values[1];
+                var basis = values[2];
 
                 if (grow != null || shrink != null || basis != null)
                 {
@@ -49,7 +47,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -57,9 +55,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(FlexGrowDeclaration.Name, FlexGrowDeclaration.Converter, FlexGrowDeclaration.Flags, options.Items[0]),
-                        new CssProperty(FlexShrinkDeclaration.Name, FlexShrinkDeclaration.Converter, FlexShrinkDeclaration.Flags, options.Items[1]),
-                        new CssProperty(FlexBasisDeclaration.Name, FlexBasisDeclaration.Converter, FlexBasisDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

@@ -4,8 +4,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderRightDeclaration
@@ -35,11 +33,11 @@ namespace AngleSharp.Css.Declarations
                 return BorderSideConverter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var width = properties.Where(m => m.Name == BorderRightWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == BorderRightStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var color = properties.Where(m => m.Name == BorderRightColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var width = values[0];
+                var style = values[1];
+                var color = values[2];
 
                 if (width != null || style != null || color != null)
                 {
@@ -49,7 +47,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
@@ -57,9 +55,9 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(BorderRightWidthDeclaration.Name, BorderRightWidthDeclaration.Converter, BorderRightWidthDeclaration.Flags, options.Items[0]),
-                        new CssProperty(BorderRightStyleDeclaration.Name, BorderRightStyleDeclaration.Converter, BorderRightStyleDeclaration.Flags, options.Items[1]),
-                        new CssProperty(BorderRightColorDeclaration.Name, BorderRightColorDeclaration.Converter, BorderRightColorDeclaration.Flags, options.Items[2]),
+                        options.Items[0],
+                        options.Items[1],
+                        options.Items[2],
                     };
                 }
 

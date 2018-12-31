@@ -66,8 +66,7 @@ namespace AngleSharp.Css
 
             if (info.Flags != PropertyFlags.Unknown || context.IsAllowingUnknownDeclarations())
             {
-                var property = new CssProperty(propertyName, info.Converter, info.Flags);
-                return property;
+                return new CssProperty(propertyName, info.Converter, info.Flags);
             }
 
             return null;

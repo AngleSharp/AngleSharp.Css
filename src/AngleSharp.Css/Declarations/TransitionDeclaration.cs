@@ -5,7 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using static ValueConverters;
 
@@ -19,10 +18,10 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.TransitionDelay,
-            PropertyNames.TransitionDuration,
             PropertyNames.TransitionProperty,
+            PropertyNames.TransitionDuration,
             PropertyNames.TransitionTimingFunction,
+            PropertyNames.TransitionDelay,
         };
 
         sealed class TransitionValueConverter : IValueConverter
@@ -48,12 +47,12 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var animatable = properties.Where(m => m.Name == TransitionPropertyDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var duration = properties.Where(m => m.Name == TransitionDurationDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var timing = properties.Where(m => m.Name == TransitionTimingFunctionDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
-                var delay = properties.Where(m => m.Name == TransitionDelayDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssListValue;
+                var animatable = values[0] as CssListValue;
+                var duration = values[1] as CssListValue;
+                var timing = values[2] as CssListValue;
+                var delay = values[3] as CssListValue;
 
                 if (animatable != null || duration != null || timing != null || delay != null)
                 {
@@ -63,7 +62,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var list = value as CssListValue;
 
@@ -71,10 +70,10 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        new CssProperty(TransitionPropertyDeclaration.Name, TransitionPropertyDeclaration.Converter, TransitionPropertyDeclaration.Flags, CreateMultiple(list, 0)),
-                        new CssProperty(TransitionDurationDeclaration.Name, TransitionDurationDeclaration.Converter, TransitionDurationDeclaration.Flags, CreateMultiple(list, 1)),
-                        new CssProperty(TransitionTimingFunctionDeclaration.Name, TransitionTimingFunctionDeclaration.Converter, TransitionTimingFunctionDeclaration.Flags, CreateMultiple(list, 2)),
-                        new CssProperty(TransitionDelayDeclaration.Name, TransitionDelayDeclaration.Converter, TransitionDelayDeclaration.Flags, CreateMultiple(list, 3)),
+                        CreateMultiple(list, 0),
+                        CreateMultiple(list, 1),
+                        CreateMultiple(list, 2),
+                        CreateMultiple(list, 3),
                     };
                 }
 

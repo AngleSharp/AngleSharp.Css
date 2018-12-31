@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderDeclaration
@@ -46,19 +44,11 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var width = properties.Where(m => m.Name == BorderWidthDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == BorderStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var color = properties.Where(m => m.Name == BorderColorDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var child = width as CssChildValue ??
-                    style as CssChildValue ??
-                    color as CssChildValue;
-
-                if (child != null)
-                {
-                    return child.Parent;
-                }
+                var width = values[0];
+                var style = values[1];
+                var color = values[2];
 
                 if (width != null && style != null && color != null)
                 {
@@ -68,31 +58,16 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var options = value as CssTupleValue;
 
                 if (options != null)
                 {
-                    return CreateProperties(options.Items[0], options.Items[1], options.Items[2]);
-                }
-                else if (value is VarReferences)
-                {
-                    var child = new CssChildValue(value);
-                    return CreateProperties(child, child, child);
+                    return new[] { options.Items[0], options.Items[1], options.Items[2] };
                 }
 
                 return null;
-            }
-
-            private static IEnumerable<ICssProperty> CreateProperties(ICssValue width, ICssValue style, ICssValue color)
-            {
-                return new[]
-                {
-                    new CssProperty(BorderWidthDeclaration.Name, BorderWidthDeclaration.Converter, BorderWidthDeclaration.Flags, width),
-                    new CssProperty(BorderStyleDeclaration.Name, BorderStyleDeclaration.Converter, BorderStyleDeclaration.Flags, style),
-                    new CssProperty(BorderColorDeclaration.Name, BorderColorDeclaration.Converter, BorderColorDeclaration.Flags, color),
-                };
             }
         }
     }

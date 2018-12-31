@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class FontDeclaration
@@ -111,15 +109,15 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var families = properties.Where(m => m.Name == FontFamilyDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var size = properties.Where(m => m.Name == FontSizeDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var stretch = properties.Where(m => m.Name == FontStretchDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var style = properties.Where(m => m.Name == FontStyleDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var variant = properties.Where(m => m.Name == FontVariantDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var weight = properties.Where(m => m.Name == FontWeightDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var height = properties.Where(m => m.Name == LineHeightDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var families = values[0];
+                var size = values[1];
+                var variant = values[2];
+                var weight = values[3];
+                var stretch = values[4];
+                var style = values[5];
+                var height = values[6];
 
                 if (families != null && size != null || families is Constant<SystemFont>)
                 {
@@ -129,7 +127,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var font = value as FontInfo;
 
@@ -142,24 +140,10 @@ namespace AngleSharp.Css.Declarations
                         return null;
                     }
 
-                    return CreateLonghands(systemFont, null, null, null, null, null, null);
+                    return new[] { systemFont, null, null, null, null, null, null };
                 }
 
-                return CreateLonghands(font.FontFamilies, font.Size, font.Stretch, font.Style, font.Variant, font.Weight, font.LineHeight);
-            }
-
-            private static IEnumerable<ICssProperty> CreateLonghands(ICssValue families, ICssValue size, ICssValue stretch, ICssValue style, ICssValue variant, ICssValue weight, ICssValue height)
-            {
-                return new[]
-                {
-                    new CssProperty(FontFamilyDeclaration.Name, FontFamilyDeclaration.Converter, FontFamilyDeclaration.Flags, families),
-                    new CssProperty(FontSizeDeclaration.Name, FontSizeDeclaration.Converter, FontSizeDeclaration.Flags, size),
-                    new CssProperty(FontStretchDeclaration.Name, FontStretchDeclaration.Converter, FontStretchDeclaration.Flags, stretch),
-                    new CssProperty(FontStyleDeclaration.Name, FontStyleDeclaration.Converter, FontStyleDeclaration.Flags, style),
-                    new CssProperty(FontVariantDeclaration.Name, FontVariantDeclaration.Converter, FontVariantDeclaration.Flags, variant),
-                    new CssProperty(FontWeightDeclaration.Name, FontWeightDeclaration.Converter, FontWeightDeclaration.Flags, weight),
-                    new CssProperty(LineHeightDeclaration.Name, LineHeightDeclaration.Converter, LineHeightDeclaration.Flags, height),
-                };
+                return new[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
             }
         }
     }

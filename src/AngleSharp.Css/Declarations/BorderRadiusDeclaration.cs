@@ -6,8 +6,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderRadiusDeclaration
@@ -22,8 +20,8 @@ namespace AngleSharp.Css.Declarations
         {
             PropertyNames.BorderTopLeftRadius,
             PropertyNames.BorderTopRightRadius,
-            PropertyNames.BorderBottomLeftRadius,
             PropertyNames.BorderBottomRightRadius,
+            PropertyNames.BorderBottomLeftRadius,
         };
 
         sealed class BorderRadiusValueConverter : IValueConverter
@@ -60,23 +58,12 @@ namespace AngleSharp.Css.Declarations
                 return new CssTupleValue(new[] { horizontal, vertical });
             }
 
-            private static IEnumerable<ICssProperty> CreateLonghands(ICssValue topLeft, ICssValue topRight, ICssValue bottomRight, ICssValue bottomLeft)
+            public ICssValue Collect(ICssValue[] values)
             {
-                return new[]
-                {
-                    new CssProperty(BorderTopLeftRadiusDeclaration.Name, BorderTopLeftRadiusDeclaration.Converter, BorderTopLeftRadiusDeclaration.Flags, topLeft),
-                    new CssProperty(BorderTopRightRadiusDeclaration.Name, BorderTopRightRadiusDeclaration.Converter, BorderTopRightRadiusDeclaration.Flags, topRight),
-                    new CssProperty(BorderBottomRightRadiusDeclaration.Name, BorderBottomRightRadiusDeclaration.Converter, BorderBottomRightRadiusDeclaration.Flags, bottomRight),
-                    new CssProperty(BorderBottomLeftRadiusDeclaration.Name, BorderBottomLeftRadiusDeclaration.Converter, BorderBottomLeftRadiusDeclaration.Flags, bottomLeft),
-                };
-            }
-
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
-            {
-                var topLeft = properties.Where(m => m.Name == BorderTopLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
-                var topRight = properties.Where(m => m.Name == BorderTopRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
-                var bottomRight = properties.Where(m => m.Name == BorderBottomRightRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
-                var bottomLeft = properties.Where(m => m.Name == BorderBottomLeftRadiusDeclaration.Name).Select(m => m.RawValue).FirstOrDefault() as CssTupleValue;
+                var topLeft = values[0] as CssTupleValue;
+                var topRight = values[1] as CssTupleValue;
+                var bottomRight = values[2] as CssTupleValue;
+                var bottomLeft = values[3] as CssTupleValue;
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
@@ -88,13 +75,19 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var radius = value as BorderRadius;
 
                 if (radius != null)
                 {
-                    return CreateLonghands(Both(radius.Horizontal.Top, radius.Vertical.Top), Both(radius.Horizontal.Right, radius.Vertical.Right), Both(radius.Horizontal.Bottom, radius.Vertical.Bottom), Both(radius.Horizontal.Left, radius.Vertical.Left));
+                    return new[]
+                    {
+                        Both(radius.Horizontal.Top, radius.Vertical.Top),
+                        Both(radius.Horizontal.Right, radius.Vertical.Right),
+                        Both(radius.Horizontal.Bottom, radius.Vertical.Bottom),
+                        Both(radius.Horizontal.Left, radius.Vertical.Left),
+                    };
                 }
 
                 return null;

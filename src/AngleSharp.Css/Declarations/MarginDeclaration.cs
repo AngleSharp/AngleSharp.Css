@@ -5,8 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using static ValueConverters;
 
     static class MarginDeclaration
@@ -19,10 +17,10 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.MarginBottom,
-            PropertyNames.MarginLeft,
             PropertyNames.MarginTop,
             PropertyNames.MarginRight,
+            PropertyNames.MarginBottom,
+            PropertyNames.MarginLeft,
         };
 
         sealed class MarginAggregator : IValueAggregator, IValueConverter
@@ -34,12 +32,12 @@ namespace AngleSharp.Css.Declarations
                 return converter.Convert(source);
             }
 
-            public ICssValue Collect(IEnumerable<ICssProperty> properties)
+            public ICssValue Collect(ICssValue[] values)
             {
-                var top = properties.Where(m => m.Name == MarginTopDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var right = properties.Where(m => m.Name == MarginRightDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var bottom = properties.Where(m => m.Name == MarginBottomDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
-                var left = properties.Where(m => m.Name == MarginLeftDeclaration.Name).Select(m => m.RawValue).FirstOrDefault();
+                var top = values[0];
+                var right = values[1];
+                var bottom = values[2];
+                var left = values[3];
 
                 if (top != null && right != null && bottom != null && left != null)
                 {
@@ -49,27 +47,16 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public IEnumerable<ICssProperty> Distribute(ICssValue value)
+            public ICssValue[] Distribute(ICssValue value)
             {
                 var period = value as Periodic<ICssValue>;
 
                 if (period != null)
                 {
-                    return CreateLonghands(period.Top, period.Right, period.Bottom, period.Left);
+                    return new[] { period.Top, period.Right, period.Bottom, period.Left };
                 }
 
-                return CreateLonghands(null, null, null, null);
-            }
-
-            private IEnumerable<ICssProperty> CreateLonghands(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left)
-            {
-                return new[]
-                {
-                    new CssProperty(MarginTopDeclaration.Name, MarginTopDeclaration.Converter, MarginTopDeclaration.Flags, top),
-                    new CssProperty(MarginRightDeclaration.Name, MarginRightDeclaration.Converter, MarginRightDeclaration.Flags, right),
-                    new CssProperty(MarginBottomDeclaration.Name, MarginBottomDeclaration.Converter, MarginBottomDeclaration.Flags, bottom),
-                    new CssProperty(MarginLeftDeclaration.Name, MarginLeftDeclaration.Converter, MarginLeftDeclaration.Flags, left),
-                };
+                return null;
             }
         }
     }
