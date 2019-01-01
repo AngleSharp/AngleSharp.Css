@@ -27,9 +27,9 @@ namespace AngleSharp.Css.Converters
             return varRefs;
         }
 
-        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
+        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue, String separator = null)
         {
-            return new OneOrMoreValueConverter(converter, min, max);
+            return new OneOrMoreValueConverter(converter, min, max, separator);
         }
 
         public static IValueConverter FromList(this IValueConverter converter)

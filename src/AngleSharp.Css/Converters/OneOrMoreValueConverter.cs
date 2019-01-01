@@ -12,12 +12,14 @@ namespace AngleSharp.Css.Converters
         private readonly IValueConverter _converter;
         private readonly Int32 _minimum;
         private readonly Int32 _maximum;
+        private readonly String _separator;
 
-        public OneOrMoreValueConverter(IValueConverter converter, Int32 minimum, Int32 maximum)
+        public OneOrMoreValueConverter(IValueConverter converter, Int32 minimum, Int32 maximum, String separator)
         {
             _converter = converter;
             _minimum = minimum;
             _maximum = maximum;
+            _separator = separator;
         }
 
         public ICssValue Convert(StringSource source)
@@ -35,7 +37,7 @@ namespace AngleSharp.Css.Converters
                 values.Add(value);
             }
 
-            return values.Count >= _minimum ? new CssTupleValue(values.ToArray()) : null;
+            return values.Count >= _minimum ? new CssTupleValue(values.ToArray(), _separator) : null;
         }
     }
 }

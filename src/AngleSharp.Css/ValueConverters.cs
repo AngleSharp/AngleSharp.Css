@@ -813,8 +813,6 @@ namespace AngleSharp.Css
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, "auto"),
             WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
-            WithAny(IntegerConverter, IdentifierConverter),
-            IdentifierConverter,
             AssignInitial());
 
         #endregion

@@ -496,5 +496,35 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("auto", property.Value);
         }
+
+        [Test]
+        public void CssGridAreaFourValuesLegal()
+        {
+            var snippet = @"grid-area: 2 / 2 / auto / span 3";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-area", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2 / 2 / auto / span 3", property.Value);
+        }
+
+        [Test]
+        public void CssGridAreaThreeValuesLegal()
+        {
+            var snippet = @"grid-area: 2 / foobar / auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-area", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2 / foobar / auto / foobar", property.Value);
+        }
+
+        [Test]
+        public void CssGridAreaSingleValueLegal()
+        {
+            var snippet = @"grid-area: 2";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-area", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("2 / auto / auto / auto", property.Value);
+        }
     }
 }
