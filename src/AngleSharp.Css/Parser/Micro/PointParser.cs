@@ -1,22 +1,23 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
 
     static class PointParser
     {
-        public static Length? ParsePointX(this StringSource source)
+        public static ICssValue ParsePointX(this StringSource source)
         {
             return source.ParsePointDir(IsHorizontal);
         }
 
-        public static Length? ParsePointY(this StringSource source)
+        public static ICssValue ParsePointY(this StringSource source)
         {
             return source.ParsePointDir(IsVertical);
         }
 
-        private static Length? ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
+        private static ICssValue ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
         {
             var pos = source.Index;
             var x = new Length(50f, Length.Unit.Percent);
@@ -24,11 +25,11 @@ namespace AngleSharp.Css.Parser
 
             if (l == null)
             {
-                var f = source.ParseDistance();
+                var f = source.ParseDistanceOrCalc();
 
-                if (f.HasValue)
+                if (f != null)
                 {
-                    return f.Value;
+                    return f;
                 }
             }
             else if (checkKeyword(l))
@@ -44,11 +45,11 @@ namespace AngleSharp.Css.Parser
         {
             var pt = source.ParsePoint();
             source.SkipSpacesAndComments();
-            var z = source.ParseLength();
+            var z = source.ParseLengthOrCalc();
 
             if (pt.HasValue)
             {
-                return new Point3(pt.Value.X, pt.Value.Y, z ?? Length.Zero);
+                return new Point3(pt.Value.X, pt.Value.Y, z);
             }
 
             return null;
@@ -81,7 +82,7 @@ namespace AngleSharp.Css.Parser
             }
             else if (l != null)
             {
-                var s = source.ParseDistance();
+                var s = source.ParseDistanceOrCalc();
 
                 if (IsHorizontal(l))
                 {
@@ -96,23 +97,22 @@ namespace AngleSharp.Css.Parser
             }
             else
             {
-                var f = source.ParseDistance();
+                var f = source.ParseDistanceOrCalc();
                 source.SkipSpacesAndComments();
-                var s = source.ParseDistance();
+                var s = source.ParseDistanceOrCalc();
 
-                if (s.HasValue)
+                if (s != null)
                 {
                     return new Point(f ?? x, s ?? y);
                 }
-                else if (f.HasValue)
+                else if (f != null)
                 {
                     pos = source.Index;
                     r = source.ParseIdent();
 
                     if (r == null)
                     {
-                        x = f.Value;
-                        return new Point(x, y);
+                        return new Point(f, y);
                     }
                     else if (IsVertical(r))
                     {
@@ -148,17 +148,17 @@ namespace AngleSharp.Css.Parser
             }
             else
             {
-                var w = source.ParseDistance();
+                var w = source.ParseDistanceOrCalc();
 
-                if (!w.HasValue && !source.IsIdentifier(CssKeywords.Auto))
+                if (w == null && !source.IsIdentifier(CssKeywords.Auto))
                 {
                     return null;
                 }
 
                 source.SkipSpacesAndComments();
-                var h = source.ParseDistance();
+                var h = source.ParseDistanceOrCalc();
 
-                if (!h.HasValue)
+                if (h == null)
                 {
                     source.IsIdentifier(CssKeywords.Auto);
                 }

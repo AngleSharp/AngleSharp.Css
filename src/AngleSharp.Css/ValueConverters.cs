@@ -12,6 +12,42 @@ namespace AngleSharp.Css
     /// </summary>
     static class ValueConverters
     {
+        #region Misc
+
+        /// <summary>
+        /// Creates an or converter for the given converters.
+        /// </summary>
+        public static IValueConverter Or(params IValueConverter[] converters) => new OrValueConverter(converters);
+
+        public static IValueConverter SlashSeparated(IValueConverter converter) => new SeparatorConverter(converter, Symbols.Solidus);
+
+        /// <summary>
+        /// Creates a converter for the initial keyword with the given value.
+        /// </summary>
+        public static IValueConverter AssignInitial<T>(T value) => new StandardValueConverter<T>(value);
+
+        /// <summary>
+        /// Creates a converter for the initial keyword with no value.
+        /// </summary>
+        public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
+
+        /// <summary>
+        /// Creates a converter for values containing (potentially multiple, at least one) var references.
+        /// </summary>
+        public static IValueConverter AssignReferences() => FromParser(FunctionParser.ParseVars);
+
+        /// <summary>
+        /// Creates a new converter by assigning the given identifier to a fixed result.
+        /// </summary>
+        public static IValueConverter Assign<T>(String identifier, T result) => new IdentifierValueConverter<T>(identifier, result);
+
+        /// <summary>
+        /// Creates a new boolean converter that toggles between the two given keywords.
+        /// </summary>
+        public static IValueConverter Toggle(String on, String off) => Or(Assign(on, true), Assign(off, false));
+
+        #endregion
+
         #region Elementary
 
         /// <summary>
@@ -41,22 +77,33 @@ namespace AngleSharp.Css
         public static readonly IValueConverter LineWidthConverter = FromParser(UnitParser.ParseLineWidth);
 
         /// <summary>
+        /// Represents a calculated number.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/calc
+        /// </summary>
+        public static readonly IValueConverter CalcConverter = FromParser(CalcParser.ParseCalc);
+
+        /// <summary>
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
         /// </summary>
-        public static readonly IValueConverter LengthConverter = new StructValueConverter<Length>(UnitParser.ParseLength);
+        public static readonly IValueConverter OnlyLengthConverter = new StructValueConverter<Length>(UnitParser.ParseLength);
 
         /// <summary>
         /// Represents a resolution object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
         /// </summary>
-        public static readonly IValueConverter ResolutionConverter = new StructValueConverter<Resolution>(UnitParser.ParseResolution);
+        public static readonly IValueConverter OnlyResolutionConverter = new StructValueConverter<Resolution>(UnitParser.ParseResolution);
 
         /// <summary>
         /// Represents a time object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
         /// </summary>
-        public static readonly IValueConverter TimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
+        public static readonly IValueConverter OnlyTimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
+
+        /// <summary>
+        /// Represents a distance object (either Length or Percent).
+        /// </summary>
+        public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
 
         /// <summary>
         /// Represents a string object.
@@ -90,7 +137,7 @@ namespace AngleSharp.Css
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter IntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseInteger));
+        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseInteger));
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
@@ -116,7 +163,37 @@ namespace AngleSharp.Css
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter NumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNumber));
+        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNumber));
+
+        /// <summary>
+        /// Represents a (calculated) number object.
+        /// </summary>
+        public static readonly IValueConverter NumberConverter = Or(OnlyNumberConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents a (calculated) length object.
+        /// </summary>
+        public static readonly IValueConverter LengthConverter = Or(OnlyLengthConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents a (calculated) resolution object.
+        /// </summary>
+        public static readonly IValueConverter ResolutionConverter = Or(OnlyResolutionConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents a (calculated) time object.
+        /// </summary>
+        public static readonly IValueConverter TimeConverter = Or(OnlyTimeConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents an (calculated) integer object.
+        /// </summary>
+        public static readonly IValueConverter IntegerConverter = Or(OnlyIntegerConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents a (calculated) distance object (either Length or Percent).
+        /// </summary>
+        public static readonly IValueConverter LengthOrPercentConverter = Or(OnlyLengthOrPercentConverter, CalcConverter);
 
         /// <summary>
         /// Represents an number object that is zero or greater.
@@ -138,24 +215,19 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a Point3 object.
         /// </summary>
-        public static readonly IValueConverter Point3Converter = new ClassValueConverter<Point3>(PointParser.ParsePoint3);
+        public static readonly IValueConverter Point3Converter = FromParser(PointParser.ParsePoint3);
 
         /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointXConverter = new StructValueConverter<Length>(PointParser.ParsePointX);
+        public static readonly IValueConverter PointXConverter = FromParser(PointParser.ParsePointX);
 
         /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointYConverter = new StructValueConverter<Length>(PointParser.ParsePointY);
-
-        /// <summary>
-        /// Represents a distance object (either Length or Percent).
-        /// </summary>
-        public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
+        public static readonly IValueConverter PointYConverter = FromParser(PointParser.ParsePointY);
 
         #endregion
 
@@ -537,8 +609,11 @@ namespace AngleSharp.Css
         /// Represents a length object that is based on percentage, length or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
         /// </summary>
-        public static readonly IValueConverter ImageBorderWidthConverter = new StructValueConverter<Length>(UnitParser.ParseBorderWidth);
+        public static readonly IValueConverter ImageBorderWidthConverter = FromParser(UnitParser.ParseBorderWidth);
 
+        /// <summary>
+        /// Represents a length object derived from an image border-width.
+        /// </summary>
         public static readonly IValueConverter BorderImageWidthConverter = ImageBorderWidthConverter.Periodic();
 
         /// <summary>
@@ -695,42 +770,6 @@ namespace AngleSharp.Css
         /// Represents a converter for the column fill mode.
         /// </summary>
         public static readonly IValueConverter ColumnFillConverter = Toggle(CssKeywords.Balance, CssKeywords.Auto);
-
-        #endregion
-
-        #region Misc
-
-        /// <summary>
-        /// Creates an or converter for the given converters.
-        /// </summary>
-        public static IValueConverter Or(params IValueConverter[] converters) => new OrValueConverter(converters);
-
-        public static IValueConverter SlashSeparated(IValueConverter converter) => new SeparatorConverter(converter, Symbols.Solidus);
-
-        /// <summary>
-        /// Creates a converter for the initial keyword with the given value.
-        /// </summary>
-        public static IValueConverter AssignInitial<T>(T value) => new StandardValueConverter<T>(value);
-
-        /// <summary>
-        /// Creates a converter for the initial keyword with no value.
-        /// </summary>
-        public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
-
-        /// <summary>
-        /// Creates a converter for values containing (potentially multiple, at least one) var references.
-        /// </summary>
-        public static IValueConverter AssignReferences() => FromParser(FunctionParser.ParseVars);
-
-        /// <summary>
-        /// Creates a new converter by assigning the given identifier to a fixed result.
-        /// </summary>
-        public static IValueConverter Assign<T>(String identifier, T result) => new IdentifierValueConverter<T>(identifier, result);
-
-        /// <summary>
-        /// Creates a new boolean converter that toggles between the two given keywords.
-        /// </summary>
-        public static IValueConverter Toggle(String on, String off) => Or(Assign(on, true), Assign(off, false));
 
         #endregion
 

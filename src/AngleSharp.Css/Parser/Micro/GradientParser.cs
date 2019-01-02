@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -57,7 +58,7 @@ namespace AngleSharp.Css.Parser
             var start = source.Index;
             var angle = ParseLinearAngle(source);
 
-            if (angle.HasValue)
+            if (angle != null)
             {
                 var current = source.SkipSpacesAndComments();
 
@@ -78,7 +79,7 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new LinearGradient(angle ?? Angle.Half, stops, repeating);
+                return new LinearGradient(angle, stops, repeating);
             }
 
             return null;
@@ -125,8 +126,8 @@ namespace AngleSharp.Css.Parser
             {
                 var circle = options?.Circle ?? false;
                 var center = options?.Center ?? Point.Center;
-                var width = options?.Width ?? Length.Full;
-                var height = options?.Height ?? Length.Full;
+                var width = options?.Width;
+                var height = options?.Height;
                 var sizeMode = options?.Size ?? RadialGradient.SizeMode.None;
                 source.SkipCurrentAndSpaces();
                 return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
@@ -166,30 +167,21 @@ namespace AngleSharp.Css.Parser
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
-            var position = source.ParseDistance();
+            var position = source.ParseDistanceOrCalc();
 
             if (color.HasValue)
             {
-                if (position.HasValue)
-                {
-                    return new GradientStop(color.Value, position.Value);
-                }
-                else
-                {
-                    return new GradientStop(color.Value);
-                }
+                return new GradientStop(color.Value, position);
             }
 
             return null;
         }
         
-        private static Angle? ParseLinearAngle(StringSource source)
+        private static ICssValue ParseLinearAngle(StringSource source)
         {
-            var angle = default(Angle?);
-
             if (source.IsIdentifier(CssKeywords.To))
             {
-                var tmp = Angle.Zero;
+                var angle = Angle.Zero;
                 source.SkipSpacesAndComments();
                 var a = source.ParseIdent();
                 source.SkipSpacesAndComments();
@@ -212,25 +204,23 @@ namespace AngleSharp.Css.Parser
                     keyword = a;
                 }
 
-                if (keyword != null && Map.GradientAngles.TryGetValue(keyword, out tmp))
+                if (keyword != null && Map.GradientAngles.TryGetValue(keyword, out angle))
                 {
-                    angle = tmp;
+                    return angle;
                 }
-            }
-            else
-            {
-                angle = source.ParseAngle();
+
+                return null;
             }
 
-            return angle;
+            return source.ParseAngleOrCalc();
         }
         
         private static RadialOptions? ParseRadialOptions(StringSource source)
         {
             var circle = false;
             var center = Point.Center;
-            var width = Length.Full;
-            var height = Length.Full;
+            var width = default(ICssValue);
+            var height = default(ICssValue);
             var size = RadialGradient.SizeMode.None;
             var redo = false;
             var ident = source.ParseIdent();
@@ -241,11 +231,11 @@ namespace AngleSharp.Css.Parser
                 {
                     circle = true;
                     source.SkipSpacesAndComments();
-                    var radius = source.ParseLength();
+                    var radius = source.ParseLengthOrCalc();
 
-                    if (radius.HasValue)
+                    if (radius != null)
                     {
-                        width = height = radius.Value;
+                        width = height = radius;
                     }
                     else
                     {
@@ -258,22 +248,22 @@ namespace AngleSharp.Css.Parser
                 {
                     circle = false;
                     source.SkipSpacesAndComments();
-                    var el = source.ParseDistance();
+                    var el = source.ParseDistanceOrCalc();
                     source.SkipSpacesAndComments();
-                    var es = source.ParseDistance();
+                    var es = source.ParseDistanceOrCalc();
 
-                    if (el.HasValue && es.HasValue)
+                    if (el != null && es != null)
                     {
-                        width = el.Value;
-                        height = es.Value;
+                        width = el;
+                        height = es;
                     }
-                    else if (el.HasValue != es.HasValue)
+                    else if (el == null && es == null)
                     {
-                        return null;
+                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
                     }
                     else
                     {
-                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                        return null;
                     }
 
                     redo = true;
@@ -301,20 +291,20 @@ namespace AngleSharp.Css.Parser
             }
             else
             {
-                var el = source.ParseDistance();
+                var el = source.ParseDistanceOrCalc();
                 source.SkipSpacesAndComments();
-                var es = source.ParseDistance();
+                var es = source.ParseDistanceOrCalc();
 
-                if (el.HasValue && es.HasValue)
+                if (el != null && es != null)
                 {
                     circle = false;
-                    width = el.Value;
-                    height = es.Value;
+                    width = el;
+                    height = es;
                 }
-                else if (el.HasValue)
+                else if (el != null)
                 {
                     circle = true;
-                    width = el.Value;
+                    width = el;
                 }
                 else
                 {
@@ -362,8 +352,8 @@ namespace AngleSharp.Css.Parser
         {
             public Boolean Circle;
             public Point Center;
-            public Length Width;
-            public Length Height;
+            public ICssValue Width;
+            public ICssValue Height;
             public RadialGradient.SizeMode Size;
         }
 

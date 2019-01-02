@@ -118,8 +118,8 @@ namespace AngleSharp.Css.Parser
             return url;
         }
 
-        public static Periodic<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T?> converter)
-            where T : struct, ICssValue
+        public static Periodic<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T> converter)
+            where T : ICssValue
         {
             var values = new List<T>(4);
 
@@ -127,10 +127,10 @@ namespace AngleSharp.Css.Parser
             {
                 var result = converter.Invoke(source);
 
-                if (!result.HasValue)
+                if (result == null)
                     break;
 
-                values.Add(result.Value);
+                values.Add(result);
                 source.SkipSpacesAndComments();
             }
 

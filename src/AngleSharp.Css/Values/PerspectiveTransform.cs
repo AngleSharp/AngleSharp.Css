@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -10,13 +11,13 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Length _distance;
+        private readonly ICssValue _distance;
 
         #endregion
 
         #region ctor
 
-        internal PerspectiveTransform(Length distance)
+        internal PerspectiveTransform(ICssValue distance)
         {
             _distance = distance;
         }
@@ -40,7 +41,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the distance from the origin.
         /// </summary>
-        public Length Distance
+        public ICssValue Distance
         {
             get { return _distance; }
         }
@@ -55,7 +56,8 @@ namespace AngleSharp.Css.Values
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0 / _distance.ToPixel());
+            var distance = _distance as Length? ?? Length.Zero;
+            return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0 / distance.ToPixel());
         }
 
         #endregion

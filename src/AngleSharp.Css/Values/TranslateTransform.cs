@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -10,9 +11,9 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Length _x;
-        private readonly Length _y;
-        private readonly Length _z;
+        private readonly ICssValue _x;
+        private readonly ICssValue _y;
+        private readonly ICssValue _z;
 
         #endregion
 
@@ -24,7 +25,7 @@ namespace AngleSharp.Css.Values
         /// <param name="x">The x shift.</param>
         /// <param name="y">The y shift.</param>
         /// <param name="z">The z shift.</param>
-        public TranslateTransform(Length x, Length y, Length z)
+        public TranslateTransform(ICssValue x, ICssValue y, ICssValue z)
         {
             _x = x;
             _y = y;
@@ -45,22 +46,22 @@ namespace AngleSharp.Css.Values
                 var fn = FunctionNames.Translate3d;
                 var args = String.Empty;
 
-                if (_x != Length.Zero && _y == Length.Zero && _z == Length.Zero)
+                if (_x != null && _y == null && _z == null)
                 {
                     fn = FunctionNames.TranslateX;
                     args = _x.CssText;
                 }
-                else if (_x == Length.Zero && _y != Length.Zero && _z == Length.Zero)
+                else if (_x == null && _y != null && _z == null)
                 {
                     fn = FunctionNames.TranslateY;
                     args = _y.CssText;
                 }
-                else if (_x == Length.Zero && _y == Length.Zero && _z != Length.Zero)
+                else if (_x == null && _y == null && _z != null)
                 {
                     fn = FunctionNames.TranslateZ;
                     args = _z.CssText;
                 }
-                else if (_z == Length.Zero)
+                else if (_z == null)
                 {
                     fn = FunctionNames.Translate;
                     args = String.Join(", ", new[]
@@ -86,7 +87,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the shift in x-direction.
         /// </summary>
-        public Length ShiftX
+        public ICssValue ShiftX
         {
             get { return _x; }
         }
@@ -94,7 +95,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the shift in y-direction.
         /// </summary>
-        public Length ShiftY
+        public ICssValue ShiftY
         {
             get { return _y; }
         }
@@ -102,7 +103,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the shift in z-direction.
         /// </summary>
-        public Length ShiftZ
+        public ICssValue ShiftZ
         {
             get { return _z; }
         }
@@ -117,9 +118,12 @@ namespace AngleSharp.Css.Values
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var dx = _x.ToPixel();
-            var dy = _y.ToPixel();
-            var dz = _z.ToPixel();
+            var x = _x as Length? ?? Length.Zero;
+            var y = _y as Length? ?? Length.Zero;
+            var z = _z as Length? ?? Length.Zero;
+            var dx = x.ToPixel();
+            var dy = y.ToPixel();
+            var dz = z.ToPixel();
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
 

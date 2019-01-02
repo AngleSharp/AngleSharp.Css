@@ -1,8 +1,8 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
 
     static class ShadowParser
     {
@@ -10,10 +10,10 @@ namespace AngleSharp.Css.Parser
         {
             var start = source.Index;
             var inset = false;
-            var offsetX = default(Length?);
-            var offsetY = default(Length?);
-            var blurRadius = default(Length?);
-            var spreadRadius = default(Length?);
+            var offsetX = default(ICssValue);
+            var offsetY = default(ICssValue);
+            var blurRadius = default(ICssValue);
+            var spreadRadius = default(ICssValue);
             var color = default(Color?);
             var pos = start;
 
@@ -27,27 +27,27 @@ namespace AngleSharp.Css.Parser
                     source.SkipSpacesAndComments();
                 }
 
-                if (!offsetX.HasValue)
+                if (offsetX == null)
                 {
-                    offsetX = source.ParseLength();
+                    offsetX = source.ParseLengthOrCalc();
                     source.SkipSpacesAndComments();
                 }
 
-                if (!offsetY.HasValue)
+                if (offsetY == null)
                 {
-                    offsetY = source.ParseLength();
+                    offsetY = source.ParseLengthOrCalc();
                     source.SkipSpacesAndComments();
                 }
 
-                if (!blurRadius.HasValue)
+                if (blurRadius == null)
                 {
-                    blurRadius = source.ParseLength();
+                    blurRadius = source.ParseLengthOrCalc();
                     source.SkipSpacesAndComments();
                 }
 
-                if (!spreadRadius.HasValue)
+                if (spreadRadius == null)
                 {
-                    spreadRadius = source.ParseLength();
+                    spreadRadius = source.ParseLengthOrCalc();
                     source.SkipSpacesAndComments();
                 }
 
@@ -59,14 +59,14 @@ namespace AngleSharp.Css.Parser
             }
             while (pos != source.Index);
 
-            if (offsetX.HasValue && offsetY.HasValue)
+            if (offsetX != null && offsetY != null)
             {
                 return new Shadow(
                     inset,
-                    offsetX ?? Length.Zero,
-                    offsetY ?? Length.Zero,
-                    blurRadius ?? Length.Zero,
-                    spreadRadius ?? Length.Zero,
+                    offsetX,
+                    offsetY,
+                    blurRadius,
+                    spreadRadius,
                     color ?? Color.Black);
             }
 

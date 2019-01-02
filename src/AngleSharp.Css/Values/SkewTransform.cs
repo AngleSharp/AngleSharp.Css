@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -10,8 +11,8 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Angle _alpha;
-        private readonly Angle _beta;
+        private readonly ICssValue _alpha;
+        private readonly ICssValue _beta;
 
         #endregion
 
@@ -22,7 +23,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="alpha">The alpha skewing angle.</param>
         /// <param name="beta">The beta skewing angle.</param>
-        public SkewTransform(Angle alpha, Angle beta)
+        public SkewTransform(ICssValue alpha, ICssValue beta)
         {
             _alpha = alpha;
             _beta = beta;
@@ -40,26 +41,22 @@ namespace AngleSharp.Css.Values
             get
             {
                 var fn = FunctionNames.Skew;
-                var args = _alpha.CssText;
+                var args = _alpha?.CssText ?? String.Empty;
 
                 if (_alpha != _beta)
                 {
-                    if (_alpha == Angle.Zero)
+                    if (_alpha == null)
                     {
                         fn = FunctionNames.SkewY;
                         args = _beta.CssText;
                     }
-                    else if (_beta == Angle.Zero)
+                    else if (_beta == null)
                     {
                         fn = FunctionNames.SkewX;
                     }
                     else
                     {
-                        args = String.Join(", ", new[]
-                        {
-                            args,
-                            _beta.CssText
-                        });
+                        args = String.Concat(args, ", ", _beta.CssText);
                     }
                 }
 
@@ -70,7 +67,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the first angle.
         /// </summary>
-        public Angle Alpha
+        public ICssValue Alpha
         {
             get { return _alpha; }
         }
@@ -78,7 +75,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the second angle.
         /// </summary>
-        public Angle Beta
+        public ICssValue Beta
         {
             get { return _beta; }
         }
@@ -93,8 +90,8 @@ namespace AngleSharp.Css.Values
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var a = Math.Tan(_alpha.ToRadian());
-            var b = Math.Tan(_beta.ToRadian());
+            var a = Math.Tan((_alpha as Angle ? ?? Angle.Zero).ToRadian());
+            var b = Math.Tan((_beta as Angle? ?? Angle.Zero).ToRadian());
             return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 

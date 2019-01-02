@@ -10,8 +10,8 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Length _width;
-        private readonly Length _height;
+        private readonly ICssValue _width;
+        private readonly ICssValue _height;
         private readonly ValueMode _mode;
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="width">The width to use.</param>
         /// <param name="height">The height to use.</param>
-        public BackgroundSize(Length width, Length height)
+        public BackgroundSize(ICssValue width, ICssValue height)
         {
             _width = width;
             _height = height;
@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the width of the background.
         /// </summary>
-        public Length Width
+        public ICssValue Width
         {
             get { return _width; }
         }
@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the height of the background.
         /// </summary>
-        public Length Height
+        public ICssValue Height
         {
             get { return _height; }
         }

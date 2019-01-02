@@ -54,13 +54,13 @@ namespace AngleSharp.Css.Declarations
                         if (slice != null && c == Symbols.Solidus)
                         {
                             source.SkipCurrentAndSpaces();
-                            widths = source.ParsePeriodic<Length>(UnitParser.ParseBorderWidth);
+                            widths = source.ParsePeriodic<ICssValue>(UnitParser.ParseBorderWidth);
                             c = source.SkipSpacesAndComments();
 
                             if (widths != null && c == Symbols.Solidus)
                             {
                                 source.SkipCurrentAndSpaces();
-                                outsets = source.ParsePeriodic<Length>(UnitParser.ParseDistance);
+                                outsets = source.ParsePeriodic<ICssValue>(UnitParser.ParseDistanceOrCalc);
 
                                 if (outsets == null)
                                 {

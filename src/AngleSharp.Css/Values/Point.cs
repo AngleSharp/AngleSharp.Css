@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public struct Point : IEquatable<Point>, IComparable<Point>, ICssValue
+    public struct Point : IEquatable<Point>, ICssValue
     {
         #region Basic values
 
@@ -59,8 +59,8 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Length _x;
-        private readonly Length _y;
+        private readonly ICssValue _x;
+        private readonly ICssValue _y;
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
-        public Point(Length x, Length y)
+        public Point(ICssValue x, ICssValue y)
         {
             _x = x;
             _y = y;
@@ -136,7 +136,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value for the x-coordinate.
         /// </summary>
-        public Length X
+        public ICssValue X
         {
             get { return _x; }
         }
@@ -144,77 +144,9 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value for the y-coordinate.
         /// </summary>
-        public Length Y
+        public ICssValue Y
         {
             get { return _y; }
-        }
-
-        #endregion
-
-        #region Comparison
-
-        /// <summary>
-        /// Compares the magnitude of two points.
-        /// </summary>
-        public static Boolean operator >=(Point a, Point b)
-        {
-            var result = a.CompareTo(b);
-            return result == 0 || result == 1;
-        }
-
-        /// <summary>
-        /// Compares the magnitude of two points.
-        /// </summary>
-        public static Boolean operator >(Point a, Point b)
-        {
-            return a.CompareTo(b) == 1;
-        }
-
-        /// <summary>
-        /// Compares the magnitude of two points.
-        /// </summary>
-        public static Boolean operator <=(Point a, Point b)
-        {
-            var result = a.CompareTo(b);
-            return result == 0 || result == -1;
-        }
-
-        /// <summary>
-        /// Compares the magnitude of two points.
-        /// </summary>
-        public static Boolean operator <(Point a, Point b)
-        {
-            return a.CompareTo(b) == -1;
-        }
-
-        /// <summary>
-        /// Compares the current point against the given one.
-        /// </summary>
-        /// <param name="other">The point to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Point other)
-        {
-            var x = _x.CompareTo(other._x);
-            var y = _y.CompareTo(other._y);
-            
-            if (x == 0 && y == 0)
-            {
-                return 0;
-            }
-            else if (x > 0 && y > 0)
-            {
-                return 1;
-            }
-            else if (x < 0 && y < 0)
-            {
-                return -1;
-            }
-            else if (x > 0 || y > 0)
-            {
-                return 1;
-            }
-
-            return -1;
         }
 
         #endregion
@@ -250,7 +182,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both points are equal, otherwise false.</returns>
         public Boolean Equals(Point other)
         {
-            return _x == other._x && _y == other._y;
+            return _x.Equals(other._x) && _y.Equals(other._y);
         }
 
         /// <summary>

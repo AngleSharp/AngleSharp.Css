@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -61,14 +62,14 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static SkewTransform ParseSkew2d(StringSource source)
         {
-            var x = source.ParseAngle();
+            var x = source.ParseAngleOrCalc();
             var c = source.SkipGetSkip();
-            var y = source.ParseAngle();
+            var y = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
-            if (x.HasValue && y.HasValue && c == Symbols.Comma && f == Symbols.RoundBracketClose)
+            if (x != null && y != null && c == Symbols.Comma && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(x.Value, y.Value);
+                return new SkewTransform(x, y);
             }
 
             return null;
@@ -80,12 +81,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static SkewTransform ParseSkewX(StringSource source)
         {
-            var x = source.ParseAngle();
+            var x = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
-            if (x.HasValue && f == Symbols.RoundBracketClose)
+            if (x != null && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(x.Value, Angle.Zero);
+                return new SkewTransform(x, null);
             }
 
             return null;
@@ -97,12 +98,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static SkewTransform ParseSkewY(StringSource source)
         {
-            var y = source.ParseAngle();
+            var y = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
-            if (y.HasValue && f == Symbols.RoundBracketClose)
+            if (y != null && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(Angle.Zero, y.Value);
+                return new SkewTransform(null, y);
             }
 
             return null;
@@ -225,12 +226,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static RotateTransform ParseRotate(StringSource source, Double x, Double y, Double z)
         {
-            var angle = source.ParseAngle();
+            var angle = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
-            if (angle.HasValue && f == Symbols.RoundBracketClose)
+            if (angle != null && f == Symbols.RoundBracketClose)
             {
-                return new RotateTransform(x, z, y, angle.Value);
+                return new RotateTransform(x, z, y, angle);
             }
 
             return null;
@@ -361,22 +362,22 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static TranslateTransform ParseTranslate2d(StringSource source)
         {
-            var x = source.ParseDistance();
+            var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
-            if (x.HasValue)
+            if (x != null)
             {
-                var y = default(Length?);
+                var y = default(ICssValue);
 
                 if (f == Symbols.Comma)
                 {
-                    y = source.ParseDistance();
+                    y = source.ParseDistanceOrCalc();
                     f = source.SkipGetSkip();
                 }
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new TranslateTransform(x.Value, y ?? Length.Zero, Length.Zero);
+                    return new TranslateTransform(x, y, null);
                 }
             }
 
@@ -389,34 +390,34 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static TranslateTransform ParseTranslate3d(StringSource source)
         {
-            var x = source.ParseDistance();
+            var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
-            if (x.HasValue)
+            if (x != null)
             {
-                var y = default(Length?);
-                var z = default(Length?);
+                var y = default(ICssValue);
+                var z = default(ICssValue);
 
                 if (f == Symbols.Comma)
                 {
-                    y = source.ParseDistance();
+                    y = source.ParseDistanceOrCalc();
                     f = source.SkipGetSkip();
 
-                    if (!y.HasValue)
+                    if (y == null)
                     {
                         return null;
                     }
 
                     if (f == Symbols.Comma)
                     {
-                        z = source.ParseDistance();
+                        z = source.ParseDistanceOrCalc();
                         f = source.SkipGetSkip();
                     }
                 }
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new TranslateTransform(x.Value, y ?? Length.Zero, z ?? Length.Zero);
+                    return new TranslateTransform(x, y, z);
                 }
             }
 
@@ -429,12 +430,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static TranslateTransform ParseTranslateX(StringSource source)
         {
-            var x = source.ParseDistance();
+            var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
-            if (x.HasValue && f == Symbols.RoundBracketClose)
+            if (x != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(x.Value, Length.Zero, Length.Zero);
+                return new TranslateTransform(x, null, null);
             }
 
             return null;
@@ -446,12 +447,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static TranslateTransform ParseTranslateY(StringSource source)
         {
-            var y = source.ParseDistance();
+            var y = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
-            if (y.HasValue && f == Symbols.RoundBracketClose)
+            if (y != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(Length.Zero, y.Value, Length.Zero);
+                return new TranslateTransform(null, y, null);
             }
 
             return null;
@@ -463,12 +464,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static TranslateTransform ParseTranslateZ(StringSource source)
         {
-            var z = source.ParseDistance();
+            var z = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
-            if (z.HasValue && f == Symbols.RoundBracketClose)
+            if (z != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(Length.Zero, Length.Zero, z.Value);
+                return new TranslateTransform(null, null, z);
             }
 
             return null;
@@ -480,12 +481,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static ITransform ParsePerspective(StringSource source)
         {
-            var l = source.ParseLength();
+            var l = source.ParseLengthOrCalc();
             var f = source.SkipGetSkip();
 
-            if (l.HasValue && f == Symbols.RoundBracketClose)
+            if (l != null && f == Symbols.RoundBracketClose)
             {
-                return new PerspectiveTransform(l.Value);
+                return new PerspectiveTransform(l);
             }
 
             return null;

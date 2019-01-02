@@ -12,8 +12,7 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly Color _color;
-        private readonly Length _location;
-        private readonly Boolean _determined;
+        private readonly ICssValue _location;
 
         #endregion
 
@@ -23,23 +22,11 @@ namespace AngleSharp.Css.Values
         /// Creates a new gradient stop.
         /// </summary>
         /// <param name="color">The color of the stop.</param>
-        /// <param name="location">The location of the stop.</param>
-        public GradientStop(Color color, Length location)
+        /// <param name="location">The location of the stop, if any.</param>
+        public GradientStop(Color color, ICssValue location = null)
         {
             _color = color;
             _location = location;
-            _determined = true;
-        }
-
-        /// <summary>
-        /// Creates a new gradient stop.
-        /// </summary>
-        /// <param name="color">The color of the stop.</param>
-        public GradientStop(Color color)
-        {
-            _color = color;
-            _determined = false;
-            _location = Length.Zero;
         }
 
         #endregion
@@ -59,7 +46,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public Boolean IsDetermined
         {
-            get { return _determined; }
+            get { return _location != null; }
         }
 
         /// <summary>
@@ -67,13 +54,13 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public Boolean IsUndetermined
         {
-            get { return !_determined; }
+            get { return _location == null; }
         }
 
         /// <summary>
         /// Gets the location of the gradient stop.
         /// </summary>
-        public Length Location
+        public ICssValue Location
         {
             get { return _location; }
         }
@@ -83,7 +70,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText
         {
-            get { return _determined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText; }
+            get { return IsDetermined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText; }
         }
 
         #endregion

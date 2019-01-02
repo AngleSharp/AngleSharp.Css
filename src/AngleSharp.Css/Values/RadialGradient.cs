@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -13,8 +14,8 @@ namespace AngleSharp.Css.Values
 
         private readonly GradientStop[] _stops;
         private readonly Point _center;
-        private readonly Length _width;
-        private readonly Length _height;
+        private readonly ICssValue _width;
+        private readonly ICssValue _height;
         private readonly Boolean _repeating;
         private readonly Boolean _circle;
         private readonly SizeMode _sizeMode;
@@ -33,7 +34,7 @@ namespace AngleSharp.Css.Values
         /// <param name="sizeMode">The size mode of the ellipsoid.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public RadialGradient(Boolean circle, Point center, Length width, Length height, SizeMode sizeMode, GradientStop[] stops, Boolean repeating = false)
+        public RadialGradient(Boolean circle, Point center, ICssValue width, ICssValue height, SizeMode sizeMode, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _center = center;
@@ -56,7 +57,7 @@ namespace AngleSharp.Css.Values
             get
             {
                 var fn = _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
-                var isDefault = _center == Point.Center && !_circle && _height == Length.Full && _width == Length.Full && _sizeMode == SizeMode.None;
+                var isDefault = _center == Point.Center && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
                 var offset = isDefault ? 0 : 1;
                 var args = new String[_stops.Length + offset];
 
@@ -75,13 +76,16 @@ namespace AngleSharp.Css.Values
                             }
                         }
                     }
-                    else if (_circle)
+                    else if (_width != null)
                     {
-                        size = _width.CssText;
-                    }
-                    else
-                    {
-                        size = String.Concat(_width.CssText, " ", _height.CssText);
+                        if (_circle || _height == null)
+                        {
+                            size = _width.CssText;
+                        }
+                        else
+                        {
+                            size = String.Concat(_width.CssText, " ", _height.CssText);
+                        }
                     }
 
                     var parts = new[]
@@ -130,17 +134,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the horizontal radius.
         /// </summary>
-        public Length MajorRadius
+        public ICssValue MajorRadius
         {
-            get { return _width; }
+            get { return _width ?? Length.Full; }
         }
 
         /// <summary>
         /// Gets the vertical radius.
         /// </summary>
-        public Length MinorRadius
+        public ICssValue MinorRadius
         {
-            get { return _height; }
+            get { return _height ?? Length.Full; }
         }
 
         /// <summary>

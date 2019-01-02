@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Parser
             return result;
         }
 
-        public static Length? ParseAutoLength(this StringSource source)
+        public static ICssValue ParseAutoLength(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Auto))
             {
@@ -42,21 +42,22 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static Length? ParseBorderWidth(this StringSource source)
+        public static ICssValue ParseBorderWidth(this StringSource source)
         {
-            return source.ParseLength() ?? 
+            return source.ParseLengthOrCalc() ?? 
                 source.ParsePercentOrNumber() ?? 
                 source.ParseAutoLength();
         }
 
         public static ICssValue ParseLineWidth(this StringSource source)
         {
-            return source.ParseLength() ?? source.ParseConstant(Map.BorderWidths);
+            return source.ParseLengthOrCalc() ??
+                source.ParseConstant(Map.BorderWidths);
         }
 
-        public static Length? ParseLineHeight(this StringSource source)
+        public static ICssValue ParseLineHeight(this StringSource source)
         {
-            return source.ParseLength() ??
+            return source.ParseLengthOrCalc() ??
                 source.ParsePercentOrNumber() ??
                 source.ParseNormalLength();
         }
@@ -120,6 +121,11 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        public static ICssValue ParseAngleOrCalc(this StringSource source)
+        {
+            return source.ParseAngle().OrCalc(source);
+        }
+
         public static Frequency? ParseFrequency(this StringSource source)
         {
             var pos = source.Index;
@@ -143,7 +149,8 @@ namespace AngleSharp.Css.Parser
 
         public static ICssValue ParseFontSize(this StringSource source)
         {
-            return source.ParseDistance() ?? source.ParseConstant(Map.FontSizes);
+            return source.ParseDistanceOrCalc() ??
+                source.ParseConstant(Map.FontSizes);
         }
 
         public static ICssValue ParseTrackBreadth(this StringSource source, Boolean flexible = true)
@@ -188,7 +195,7 @@ namespace AngleSharp.Css.Parser
             }
 
             source.BackTo(pos);
-            return null;
+            return source.ParseCalc();
         }
 
         public static Length? ParseDistance(this StringSource source)
@@ -205,6 +212,11 @@ namespace AngleSharp.Css.Parser
             return length;
         }
 
+        public static ICssValue ParseDistanceOrCalc(this StringSource source)
+        {
+            return source.ParseDistance().OrCalc(source);
+        }
+
         public static Length? ParseLength(this StringSource source)
         {
             var pos = source.Index;
@@ -218,6 +230,11 @@ namespace AngleSharp.Css.Parser
             }
 
             return length;
+        }
+
+        public static ICssValue ParseLengthOrCalc(this StringSource source)
+        {
+            return source.ParseLength().OrCalc(source);
         }
 
         public static Resolution? ParseResolution(this StringSource source)
@@ -260,6 +277,11 @@ namespace AngleSharp.Css.Parser
             }
 
             return null;
+        }
+
+        public static ICssValue ParseTimeOrCalc(this StringSource source)
+        {
+            return source.ParseTime().OrCalc(source);
         }
 
         private static Length? GetLength(Unit test)
@@ -486,6 +508,17 @@ namespace AngleSharp.Css.Parser
 
             var number = buffer.ToString();
             return Dimension(source, number, buffer.Clear().Append(letter));
+        }
+
+        private static ICssValue OrCalc<T>(this T? value, StringSource source)
+            where T : struct, ICssValue
+        {
+            if (value.HasValue)
+            {
+                return value.Value;
+            }
+
+            return source.ParseCalc();
         }
     }
 }

@@ -8,9 +8,9 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class Point3 : ICssValue
     {
-        private readonly Length _x;
-        private readonly Length _y;
-        private readonly Length _z;
+        private readonly ICssValue _x;
+        private readonly ICssValue _y;
+        private readonly ICssValue _z;
 
         /// <summary>
         /// Creates a new Point3 (origin).
@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Values
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
         /// <param name="z">The z coordinate.</param>
-        public Point3(Length x, Length y, Length z)
+        public Point3(ICssValue x, ICssValue y, ICssValue z)
         {
             _x = x;
             _y = y;
@@ -33,14 +33,14 @@ namespace AngleSharp.Css.Values
             get
             {
                 var pt = new Point(_x, _y).CssText;
-                return _z != Length.Zero ? String.Concat(pt, " ", _z.CssText) : pt;
+                return _z != null ? String.Concat(pt, " ", _z.CssText) : pt;
             }
         }
 
         /// <summary>
         /// Gets the x coordinate.
         /// </summary>
-        public Length X
+        public ICssValue X
         {
             get { return _x; }
         }
@@ -48,7 +48,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the y coordinate.
         /// </summary>
-        public Length Y
+        public ICssValue Y
         {
             get { return _y; }
         }
@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the z coordinate.
         /// </summary>
-        public Length Z
+        public ICssValue Z
         {
             get { return _z; }
         }

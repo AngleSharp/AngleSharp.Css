@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -14,7 +15,7 @@ namespace AngleSharp.Css.Values
         private readonly Double _x;
         private readonly Double _y;
         private readonly Double _z;
-        private readonly Angle _angle;
+        private readonly ICssValue _angle;
 
         #endregion
 
@@ -27,7 +28,7 @@ namespace AngleSharp.Css.Values
         /// <param name="y">The y coordinate.</param>
         /// <param name="z">The z coordinate.</param>
         /// <param name="angle">The angle of rotation.</param>
-        public RotateTransform(Double x, Double y, Double z, Angle angle)
+        public RotateTransform(Double x, Double y, Double z, ICssValue angle)
         {
             _x = x;
             _y = y;
@@ -107,7 +108,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the angle.
         /// </summary>
-        public Angle Angle
+        public ICssValue Angle
         {
             get { return _angle; }
         }
@@ -123,8 +124,9 @@ namespace AngleSharp.Css.Values
         public TransformMatrix ComputeMatrix()
         {
             var norm = 1.0 / Math.Sqrt(_x * _x + _y * _y + _z * _z);
-            var sina = Math.Sin(_angle.ToRadian());
-            var cosa = Math.Cos(_angle.ToRadian());
+            var alpha = _angle as Angle ? ?? Values.Angle.Zero;
+            var sina = Math.Sin(alpha.ToRadian());
+            var cosa = Math.Cos(alpha.ToRadian());
             var l = _x * norm;
             var m = _y * norm;
             var n = _z * norm;

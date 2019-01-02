@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Parser
 
         public static ICssValue ParseFixedSize(this StringSource source)
         {
-            var length = source.ParseDistance();
+            var length = source.ParseDistanceOrCalc();
 
             if (length == null)
             {
@@ -89,10 +89,10 @@ namespace AngleSharp.Css.Parser
                 if (ident.Isi(CssKeywords.FitContent) && source.Current == Symbols.RoundBracketOpen)
                 {
                     source.SkipCurrentAndSpaces();
-                    var dim = source.ParseDistance();
+                    var dim = source.ParseDistanceOrCalc();
                     var c = source.SkipSpacesAndComments();
 
-                    if (dim.HasValue && c == Symbols.RoundBracketClose)
+                    if (dim != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
                         return new FunctionValue(CssKeywords.FitContent, new ICssValue[] { dim });

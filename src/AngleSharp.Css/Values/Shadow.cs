@@ -13,10 +13,10 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly Boolean _inset;
-        private readonly Length _offsetX;
-        private readonly Length _offsetY;
-        private readonly Length _blurRadius;
-        private readonly Length _spreadRadius;
+        private readonly ICssValue _offsetX;
+        private readonly ICssValue _offsetY;
+        private readonly ICssValue _blurRadius;
+        private readonly ICssValue _spreadRadius;
         private readonly Color _color;
 
         #endregion
@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Values
         /// <param name="blurRadius">The blur radius of the shadow.</param>
         /// <param name="spreadRadius">The spread radius of the shadow.</param>
         /// <param name="color">The color of the shadow.</param>
-        public Shadow(Boolean inset, Length offsetX, Length offsetY, Length blurRadius, Length spreadRadius, Color color)
+        public Shadow(Boolean inset, ICssValue offsetX, ICssValue offsetY, ICssValue blurRadius, ICssValue spreadRadius, Color color)
         {
             _inset = inset;
             _offsetX = offsetX;
@@ -63,12 +63,12 @@ namespace AngleSharp.Css.Values
                 parts.Add(_offsetX.CssText);
                 parts.Add(_offsetY.CssText);
 
-                if (_blurRadius != Length.Zero)
+                if (_blurRadius != null && !_blurRadius.Equals(Length.Zero))
                 {
                     parts.Add(_blurRadius.CssText);
                 }
 
-                if (_spreadRadius != Length.Zero)
+                if (_spreadRadius != null && !_spreadRadius.Equals(Length.Zero))
                 {
                     parts.Add(_spreadRadius.CssText);
                 }
@@ -93,7 +93,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the horizontal offset.
         /// </summary>
-        public Length OffsetX
+        public ICssValue OffsetX
         {
             get { return _offsetX; }
         }
@@ -101,7 +101,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the vertical offset.
         /// </summary>
-        public Length OffsetY
+        public ICssValue OffsetY
         {
             get { return _offsetY; }
         }
@@ -109,7 +109,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the blur radius.
         /// </summary>
-        public Length BlurRadius
+        public ICssValue BlurRadius
         {
             get { return _blurRadius; }
         }
@@ -117,7 +117,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the spread radius.
         /// </summary>
-        public Length SpreadRadius
+        public ICssValue SpreadRadius
         {
             get { return _spreadRadius; }
         }

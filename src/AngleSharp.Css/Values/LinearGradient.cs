@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -12,7 +13,7 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly GradientStop[] _stops;
-        private readonly Angle _angle;
+        private readonly ICssValue _angle;
         private readonly Boolean _repeating;
 
         #endregion
@@ -25,7 +26,7 @@ namespace AngleSharp.Css.Values
         /// <param name="angle">The angle of the linear gradient.</param>
         /// <param name="stops">The stops to use.</param>
         /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public LinearGradient(Angle angle, GradientStop[] stops, Boolean repeating = false)
+        public LinearGradient(ICssValue angle, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _angle = angle;
@@ -44,15 +45,17 @@ namespace AngleSharp.Css.Values
             get
             {
                 var fn = _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
-                var defaultAngle = _angle == Angle.Zero;
-                var offset = defaultAngle ? 0 : 1;
+                var defaultAngle = _angle as Angle?;
+                var offset = defaultAngle.HasValue ? 0 : 1;
                 var args = new String[_stops.Length + offset];
 
-                if (!defaultAngle)
+                if (defaultAngle.HasValue)
                 {
+                    var value = defaultAngle.Value;
+
                     foreach (var angle in Map.GradientAngles)
                     {
-                        if (angle.Value == _angle)
+                        if (angle.Value == value)
                         {
                             args[0] = angle.Key;
                             break;
@@ -74,9 +77,9 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the angle of the linear gradient.
         /// </summary>
-        public Angle Angle
+        public ICssValue Angle
         {
-            get { return _angle; }
+            get { return _angle ?? Values.Angle.Half; }
         }
 
         /// <summary>
