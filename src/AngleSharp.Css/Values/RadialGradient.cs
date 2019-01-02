@@ -1,14 +1,17 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class RadialGradient : IGradient
+    public sealed class RadialGradient : IGradient, ICssFunctionValue
     {
         #region Fields
 
@@ -50,16 +53,22 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
-        /// Gets the CSS text representation.
+        /// Gets the name of the function.
         /// </summary>
-        public String CssText
+        public String Name
+        {
+            get { return _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
         {
             get
             {
-                var fn = _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
                 var isDefault = _center == Point.Center && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
-                var offset = isDefault ? 0 : 1;
-                var args = new String[_stops.Length + offset];
+                var args = new List<ICssValue>();
 
                 if (!isDefault)
                 {
@@ -88,23 +97,30 @@ namespace AngleSharp.Css.Values
                         }
                     }
 
-                    var parts = new[]
+                    args.Add(new CssAnyValue(String.Join(" ", new[]
                     {
-                    _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
-                    size,
-                    CssKeywords.At,
-                    _center.CssText
-                };
-                    args[0] = String.Join(" ", parts);
+                        _circle ? CssKeywords.Circle : CssKeywords.Ellipse,
+                        size,
+                        CssKeywords.At,
+                        _center.CssText
+                    })));
                 }
 
-                for (var i = 0; i < _stops.Length; i++)
+                foreach (var stop in _stops)
                 {
-                    args[offset++] = _stops[i].CssText;
+                    args.Add(stop);
                 }
 
-                return fn.CssFunction(String.Join(", ", args));
+                return args.ToArray();
             }
+        }
+
+        /// <summary>
+        /// Gets the CSS text representation.
+        /// </summary>
+        public String CssText
+        {
+            get {  return Name.CssFunction(Arguments.Join(", ")); }
         }
 
         /// <summary>

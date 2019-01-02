@@ -8,28 +8,65 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS var replacement.
     /// </summary>
-    public class VarReference : ICssValue
+    public class VarReference : ICssValue, ICssFunctionValue
     {
-        private readonly String _name;
+        #region Fields
+
+        private readonly String _variableName;
         private readonly String _defaultValue;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new variable reference.
         /// </summary>
-        /// <param name="name">The name of the custom property.</param>
+        /// <param name="variableName">The name of the custom property.</param>
         /// <param name="defaultValue">The fallback value, if any.</param>
-        public VarReference(String name, String defaultValue = null)
+        public VarReference(String variableName, String defaultValue = null)
         {
-            _name = name;
+            _variableName = variableName;
             _defaultValue = defaultValue;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return FunctionNames.Var; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                var list = new List<ICssValue>();
+                list.Add(new Identifier(_variableName));
+
+                if (_defaultValue != null)
+                {
+                    list.Add(new CssAnyValue(_defaultValue));
+                }
+
+                return list.ToArray();
+            }
         }
 
         /// <summary>
         /// Gets the referenced variable name.
         /// </summary>
-        public String Name
+        public String VariableName
         {
-            get { return _name; }
+            get { return _variableName; }
         }
 
         /// <summary>
@@ -49,7 +86,7 @@ namespace AngleSharp.Css.Values
             {
                 var fn = FunctionNames.Var;
                 var args = new List<String>();
-                args.Add(_name);
+                args.Add(_variableName);
 
                 if (!String.IsNullOrEmpty(_defaultValue))
                 {
@@ -59,5 +96,7 @@ namespace AngleSharp.Css.Values
                 return fn.CssFunction(String.Join(", ", args));
             }
         }
+
+        #endregion
     }
 }

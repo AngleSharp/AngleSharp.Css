@@ -1,13 +1,14 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents the matrix3d transformation.
     /// </summary>
-    public sealed class MatrixTransform : ITransform
+    public sealed class MatrixTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -27,22 +28,37 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                var args = new ICssValue[_values.Length];
+
+                for (var i = 0; i < args.Length; i++)
+                {
+                    args[i] = new Length(_values[i], Length.Unit.None);
+                }
+
+                return args;
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var fn = _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d;
-                var args = new String[_values.Length];
-
-                for (var i = 0; i < args.Length; i++)
-                {
-                    args[i] = _values[i].ToString(CultureInfo.InvariantCulture);
-                }
-
-                return fn.CssFunction(String.Join(", ", args));
-            }
+            get { return Name.CssFunction(Arguments.Join(", ")); }
         }
 
         /// <summary>

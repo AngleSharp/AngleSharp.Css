@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -7,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// Represents an URL object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    public sealed class UrlReference : IImageSource
+    public sealed class UrlReference : IImageSource, ICssFunctionValue
     {
         #region Fields
 
@@ -31,15 +32,27 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return FunctionNames.Url; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get { return new[] { new StringValue(_path) }; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var fn = FunctionNames.Url;
-                return fn.CssFunction(_path.CssString());
-            }
+            get { return Name.CssFunction(_path.CssString()); }
         }
 
         /// <summary>

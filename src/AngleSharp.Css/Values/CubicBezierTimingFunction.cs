@@ -1,8 +1,9 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a cubic-bezier timing-function object.
@@ -68,6 +69,31 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return FunctionNames.CubicBezier; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                return new ICssValue[]
+                {
+                    new Length(_x1, Length.Unit.None),
+                    new Length(_y1, Length.Unit.None),
+                    new Length(_x2, Length.Unit.None),
+                    new Length(_y2, Length.Unit.None),
+                };
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
@@ -94,18 +120,8 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.Linear;
                 }
-                else
-                {
-                    var fn = FunctionNames.CubicBezier;
-                    var args = new[]
-                    {
-                        _x1.ToString(CultureInfo.InvariantCulture),
-                        _y1.ToString(CultureInfo.InvariantCulture),
-                        _x2.ToString(CultureInfo.InvariantCulture),
-                        _y2.ToString(CultureInfo.InvariantCulture)
-                    };
-                    return fn.CssFunction(String.Join(", ", args));
-                }
+
+                return Name.CssFunction(Arguments.Join(", "));
             }
         }
 

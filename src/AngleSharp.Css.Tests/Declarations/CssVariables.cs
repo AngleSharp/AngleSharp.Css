@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--foo", variable.References[0].Name);
+            Assert.AreEqual("--foo", variable.References[0].VariableName);
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -58,7 +58,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--my-bar", variable.References[0].Name);
+            Assert.AreEqual("--my-bar", variable.References[0].VariableName);
             Assert.AreEqual("24px", variable.References[0].DefaultValue);
         }
 
@@ -71,7 +71,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--color", variable.References[0].Name);
+            Assert.AreEqual("--color", variable.References[0].VariableName);
             Assert.AreEqual("red, blue", variable.References[0].DefaultValue);
         }
 
@@ -84,7 +84,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--foo", variable.References[0].Name);
+            Assert.AreEqual("--foo", variable.References[0].VariableName);
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -97,7 +97,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--primary-color", variable.References[0].Name);
+            Assert.AreEqual("--primary-color", variable.References[0].VariableName);
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -110,9 +110,9 @@ namespace AngleSharp.Css.Tests.Declarations
             var variable = property.RawValue as VarReferences;
             Assert.IsNotNull(variable);
             Assert.AreEqual(2, variable.References.Length);
-            Assert.AreEqual("--width", variable.References[0].Name);
+            Assert.AreEqual("--width", variable.References[0].VariableName);
             Assert.IsNull(variable.References[0].DefaultValue);
-            Assert.AreEqual("--color", variable.References[1].Name);
+            Assert.AreEqual("--color", variable.References[1].VariableName);
             Assert.AreEqual("black", variable.References[1].DefaultValue);
         }
     }

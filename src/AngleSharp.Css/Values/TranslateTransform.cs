@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
@@ -7,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the translate3d transformation.
     /// </summary>
-    public sealed class TranslateTransform : ITransform
+    public sealed class TranslateTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -37,51 +38,55 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                if (_x != null && _y == null && _z == null)
+                {
+                    return FunctionNames.TranslateX;
+                }
+                else if (_x == null && _y != null && _z == null)
+                {
+                    return FunctionNames.TranslateY;
+                }
+                else if (_x == null && _y == null && _z != null)
+                {
+                    return FunctionNames.TranslateZ;
+                }
+                else if (_z == null)
+                {
+                    return FunctionNames.Translate;
+                }
+
+                return FunctionNames.Translate3d;
+            }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                return new[]
+                {
+                    _x,
+                    _y,
+                    _z
+                };
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var fn = FunctionNames.Translate3d;
-                var args = String.Empty;
-
-                if (_x != null && _y == null && _z == null)
-                {
-                    fn = FunctionNames.TranslateX;
-                    args = _x.CssText;
-                }
-                else if (_x == null && _y != null && _z == null)
-                {
-                    fn = FunctionNames.TranslateY;
-                    args = _y.CssText;
-                }
-                else if (_x == null && _y == null && _z != null)
-                {
-                    fn = FunctionNames.TranslateZ;
-                    args = _z.CssText;
-                }
-                else if (_z == null)
-                {
-                    fn = FunctionNames.Translate;
-                    args = String.Join(", ", new[]
-                    {
-                        _x.CssText,
-                        _y.CssText
-                    });
-                }
-                else
-                {
-                    args = String.Join(", ", new[]
-                    {
-                        _x.CssText,
-                        _y.CssText,
-                        _z.CssText
-                    });
-                }
-
-                return fn.CssFunction(args);
-            }
+            get { return Name.CssFunction(Arguments.Join(", ")); }
         }
 
         /// <summary>

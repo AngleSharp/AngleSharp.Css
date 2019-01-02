@@ -1,14 +1,14 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents the rotate3d transformation.
     /// </summary>
-    public sealed class RotateTransform : ITransform
+    public sealed class RotateTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -41,40 +41,63 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                if (Double.IsNaN(_x) && Double.IsNaN(_y) && Double.IsNaN(_z))
+                {
+                    return FunctionNames.Rotate;
+                }
+                else if (_x == 1f && _y == 0f && _z == 0f)
+                {
+                    return FunctionNames.RotateX;
+                }
+                else if (_x == 0f && _y == 1f && _z == 0f)
+                {
+                    return FunctionNames.RotateY;
+                }
+                else if (_x == 0f && _y == 0f && _z == 1f)
+                {
+                    return FunctionNames.RotateY;
+                }
+
+                return FunctionNames.Rotate3d;
+            }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                return new ICssValue[]
+                {
+                    new Length(_x, Length.Unit.None),
+                    new Length(_y, Length.Unit.None),
+                    new Length(_z, Length.Unit.None),
+                    _angle,
+                };
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
             get
             {
-                var fn = FunctionNames.Rotate3d;
                 var args = _angle.CssText;
+                var fn = Name;
 
-                if (Double.IsNaN(_x) && Double.IsNaN(_y) && Double.IsNaN(_z))
+                if (fn == FunctionNames.Rotate3d)
                 {
-                    fn = FunctionNames.Rotate;
-                }
-                else if (_x == 1f && _y == 0f && _z == 0f)
-                {
-                    fn = FunctionNames.RotateX;
-                }
-                else if (_x == 0f && _y == 1f && _z == 0f)
-                {
-                    fn = FunctionNames.RotateY;
-                }
-                else if (_x == 0f && _y == 0f && _z == 1f)
-                {
-                    fn = FunctionNames.RotateY;
-                }
-                else
-                {
-                    args = String.Join(", ", new[]
-                    {
-                        _x.ToString(CultureInfo.InvariantCulture),
-                        _y.ToString(CultureInfo.InvariantCulture),
-                        _z.ToString(CultureInfo.InvariantCulture),
-                        args
-                    });
+                    args = Arguments.Join(", ");
                 }
 
                 return fn.CssFunction(args);

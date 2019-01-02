@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the distance transformation.
     /// </summary>
-    public sealed class PerspectiveTransform : ITransform
+    public sealed class PerspectiveTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -27,15 +27,27 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return FunctionNames.Perspective; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get { return new [] { _distance }; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var fn = FunctionNames.Perspective;
-                return fn.CssFunction(_distance.CssText);
-            }
+            get { return Name.CssFunction(_distance.CssText); }
         }
 
         /// <summary>

@@ -3,12 +3,13 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    public sealed class LinearGradient : IGradient
+    public sealed class LinearGradient : IGradient, ICssFunctionValue
     {
         #region Fields
 
@@ -38,13 +39,38 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                var args = _stops.Cast<ICssValue>().ToList();
+
+                if (_angle != null)
+                {
+                    args.Insert(0, _angle);
+                }
+
+                return args.ToArray();
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
             get
             {
-                var fn = _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
                 var defaultAngle = _angle as Angle?;
                 var offset = defaultAngle.HasValue ? 0 : 1;
                 var args = new String[_stops.Length + offset];
@@ -70,7 +96,7 @@ namespace AngleSharp.Css.Values
                     args[offset++] = _stops[i].CssText;
                 }
 
-                return fn.CssFunction(String.Join(", ", args));
+                return Name.CssFunction(String.Join(", ", args));
             }
         }
 

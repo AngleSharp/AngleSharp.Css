@@ -162,6 +162,11 @@ namespace AngleSharp.Css
         public static readonly String AutoFit = "auto-fit";
 
         /// <summary>
+        /// The auto-flow keyword.
+        /// </summary>
+        public static readonly String AutoFlow = "auto-flow";
+
+        /// <summary>
         /// The content keyword.
         /// </summary>
         public static readonly String Content = "content";

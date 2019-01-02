@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -7,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the scale3d transformation.
     /// </summary>
-    public sealed class ScaleTransform : ITransform
+    public sealed class ScaleTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -37,47 +38,84 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                if (_sz == 1f)
+                {
+                    if (_sx != _sy)
+                    {
+                        if (_sx == 1f)
+                        {
+                            return FunctionNames.ScaleY;
+                        }
+                        else if (_sy == 1f)
+                        {
+                            return FunctionNames.ScaleX;
+                        }
+                    }
+
+                    return FunctionNames.Scale;
+                }
+
+                return FunctionNames.Scale3d;
+            }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                return new ICssValue[]
+                {
+                    new Length(_sx, Length.Unit.None),
+                    new Length(_sy, Length.Unit.None),
+                    new Length(_sz, Length.Unit.None),
+                };
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
             get
             {
-                var fn = FunctionNames.Scale3d;
-                var args = _sx.ToString(CultureInfo.InvariantCulture);
+                var args = String.Empty;
 
-                if (_sz == 1f)
+                if (_sz == 1.0)
                 {
-                    fn = FunctionNames.Scale;
-
-                    if (_sx != _sy)
+                    if (_sx == _sy || _sy == 1.0)
                     {
-                        if (_sx == 1f)
-                        {
-                            fn = FunctionNames.ScaleY;
-                            args = _sy.ToString(CultureInfo.InvariantCulture);
-                        }
-                        else if (_sy == 1f)
-                        {
-                            fn = FunctionNames.ScaleX;
-                        }
-                        else
-                        {
-                            args = args + ", " + _sy.ToString(CultureInfo.InvariantCulture);
-                        }
+                        args = _sx.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else if (_sx == 1.0)
+                    {
+                        args = _sy.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        args = String.Concat(
+                            _sx.ToString(CultureInfo.InvariantCulture), ", ",
+                            _sy.ToString(CultureInfo.InvariantCulture));
                     }
                 }
                 else if (_sx != _sy || _sx != _sz)
                 {
-                    args = String.Join(", ", new[]
-                    {
-                        args,
-                        _sy.ToString(CultureInfo.InvariantCulture),
-                        _sz.ToString(CultureInfo.InvariantCulture)
-                    });
+                    args = String.Concat(
+                        _sx.ToString(CultureInfo.InvariantCulture), ", ",
+                        _sy.ToString(CultureInfo.InvariantCulture), ", ",
+                        _sz.ToString(CultureInfo.InvariantCulture));
                 }
 
-                return fn.CssFunction(args);
+                return Name.CssFunction(args);
             }
         }
 

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
@@ -8,14 +9,14 @@ namespace AngleSharp.Css.Values
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class Shape : ICssValue
+    public sealed class Shape : ICssValue, ICssFunctionValue
     {
         #region Fields
 
-        private readonly Length _top;
-        private readonly Length _right;
-        private readonly Length _bottom;
-        private readonly Length _left;
+        private readonly ICssValue _top;
+        private readonly ICssValue _right;
+        private readonly ICssValue _bottom;
+        private readonly ICssValue _left;
 
         #endregion
 
@@ -28,7 +29,7 @@ namespace AngleSharp.Css.Values
         /// <param name="right">The right position.</param>
         /// <param name="bottom">The bottom position.</param>
         /// <param name="left">The left position.</param>
-        public Shape(Length top, Length right, Length bottom, Length left)
+        public Shape(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left)
         {
             _top = top;
             _right = right;
@@ -41,29 +42,42 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get { return FunctionNames.Rect; }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get
+            {
+                return new[]
+                {
+                    _top,
+                    _right,
+                    _bottom,
+                    _left,
+                };
+            }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var parts = new[]
-                {
-                    _top.CssText,
-                    _right.CssText,
-                    _bottom.CssText,
-                    _left.CssText,
-                };
-                var fn = FunctionNames.Rect;
-                var args = String.Join(", ", parts);
-                return fn.CssFunction(args);
-            }
+            get { return Name.CssFunction(Arguments.Join(", ")); }
         }
 
         /// <summary>
         /// Gets the top side.
         /// </summary>
-        public Length Top
+        public ICssValue Top
         {
             get { return _top; }
         }
@@ -71,7 +85,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the right side.
         /// </summary>
-        public Length Right
+        public ICssValue Right
         {
             get { return _right; }
         }
@@ -79,7 +93,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the bottom side.
         /// </summary>
-        public Length Bottom
+        public ICssValue Bottom
         {
             get { return _bottom; }
         }
@@ -87,7 +101,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the left side.
         /// </summary>
-        public Length Left
+        public ICssValue Left
         {
             get { return _left; }
         }

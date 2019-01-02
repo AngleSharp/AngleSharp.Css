@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the skew transformation.
     /// </summary>
-    public sealed class SkewTransform : ITransform
+    public sealed class SkewTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 
@@ -34,33 +34,58 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the name of the function.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                if (_alpha != _beta)
+                {
+                    if (_alpha == null)
+                    {
+                        return FunctionNames.SkewY;
+                    }
+                    else if (_beta == null)
+                    {
+                        return FunctionNames.SkewX;
+                    }
+                }
+
+                return FunctionNames.Skew;
+            }
+        }
+
+        /// <summary>
+        /// Gets the arguments.
+        /// </summary>
+        public ICssValue[] Arguments
+        {
+            get { return new ICssValue[] { }; }
+        }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
         {
             get
             {
-                var fn = FunctionNames.Skew;
                 var args = _alpha?.CssText ?? String.Empty;
 
                 if (_alpha != _beta)
                 {
                     if (_alpha == null)
                     {
-                        fn = FunctionNames.SkewY;
                         args = _beta.CssText;
                     }
-                    else if (_beta == null)
-                    {
-                        fn = FunctionNames.SkewX;
-                    }
-                    else
+                    else if (_beta != null)
                     {
                         args = String.Concat(args, ", ", _beta.CssText);
                     }
                 }
 
-                return fn.CssFunction(args);
+                return Name.CssFunction(args);
             }
         }
 

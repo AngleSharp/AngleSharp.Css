@@ -26,37 +26,7 @@ namespace AngleSharp.Css.Declarations
         {
             public ICssValue Convert(StringSource source)
             {
-                if (source.IsIdentifier(CssKeywords.None))
-                {
-                    return new Identifier(CssKeywords.None);
-                }
-
-
-                var rows = source.ParseTrackList() ?? source.ParseAutoTrackList();
-
-                if (rows != null)
-                {
-                    var c = source.SkipSpacesAndComments();
-
-                    if (c == Symbols.Solidus)
-                    {
-                        source.SkipCurrentAndSpaces();
-                        var cols = source.ParseTrackList() ?? source.ParseAutoTrackList();
-
-                        if (cols != null)
-                        {
-                            source.SkipSpacesAndComments();
-                            return new GridTemplate(rows, cols, null);
-                        }
-                    }
-
-                }
-                else
-                {
-
-                }
-
-                return null;
+                return source.ParseGridTemplate();
             }
         }
 

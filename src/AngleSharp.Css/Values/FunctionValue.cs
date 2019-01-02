@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value using a function call.
     /// </summary>
-    public class FunctionValue : ICssValue
+    public class FunctionValue : ICssFunctionValue
     {
         private readonly String _name;
         private readonly ICssValue[] _arguments;
