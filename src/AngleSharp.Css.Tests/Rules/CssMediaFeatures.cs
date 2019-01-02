@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Rules
+namespace AngleSharp.Css.Tests.Rules
 {
     using AngleSharp.Css;
     using AngleSharp.Css.FeatureValidators;
@@ -32,40 +32,40 @@
         public void CssMediaWidthValidation()
         {
             var validate = CreateValidator(FeatureNames.Width, "100px");
-            var valid = validate(new MockRenderDevice { DeviceWidth = 100, DeviceHeight = 0 });
-            var invalid = validate(new MockRenderDevice { DeviceWidth = 0, DeviceHeight = 0 });
-            //Assert.IsTrue(valid);
-            //Assert.IsFalse(invalid);
+            var valid = validate(new MockRenderDevice { ViewPortWidth = 100, ViewPortHeight = 0 });
+            var invalid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 0 });
+            Assert.IsTrue(valid);
+            Assert.IsFalse(invalid);
         }
 
         [Test]
         public void CssMediaMaxHeightValidation()
         {
             var validate = CreateValidator(FeatureNames.MaxHeight, "100px");
-            var valid = validate(new MockRenderDevice { DeviceWidth = 0, DeviceHeight = 99 });
-            var invalid = validate(new MockRenderDevice { DeviceWidth = 0, DeviceHeight = 101 });
-            //Assert.IsTrue(valid);
-            //Assert.IsFalse(invalid);
+            var valid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 99 });
+            var invalid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 101 });
+            Assert.IsTrue(valid);
+            Assert.IsFalse(invalid);
         }
 
         [Test]
         public void CssMediaMinDeviceWidthValidation()
         {
             var validate = CreateValidator(FeatureNames.MinDeviceWidth, "100px");
-            var valid = validate(new MockRenderDevice { DeviceWidth = 10, DeviceHeight = 0 });
+            var valid = validate(new MockRenderDevice { DeviceWidth = 100, DeviceHeight = 0 });
             var invalid = validate(new MockRenderDevice { DeviceWidth = 99, DeviceHeight = 0 });
-            //Assert.IsTrue(valid);
-            //Assert.IsFalse(invalid);
+            Assert.IsTrue(valid);
+            Assert.IsFalse(invalid);
         }
 
         [Test]
         public void CssMediaAspectRatio()
         {
             var validate = CreateValidator(FeatureNames.AspectRatio, "1/1");
-            var valid = validate(new MockRenderDevice { DeviceWidth = 100, DeviceHeight = 100 });
-            var invalid = validate(new MockRenderDevice { DeviceWidth = 16, DeviceHeight = 9 });
-            //Assert.IsTrue(valid);
-            //Assert.IsFalse(invalid);
+            var valid = validate(new MockRenderDevice { ViewPortWidth = 100, ViewPortHeight = 100 });
+            var invalid = validate(new MockRenderDevice { ViewPortWidth = 16, ViewPortHeight = 9 });
+            Assert.IsTrue(valid);
+            Assert.IsFalse(invalid);
         }
     }
 }

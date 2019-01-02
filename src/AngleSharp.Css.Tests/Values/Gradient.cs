@@ -1,7 +1,9 @@
-﻿namespace AngleSharp.Css.Tests.Values
+namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Values;
     using NUnit.Framework;
+    using System.Linq;
     using static CssConstructionFunctions;
     using static ValueConverters;
 
@@ -31,15 +33,16 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Angle.TripleHalfQuarter.Value, gradient.Angle);
-            //Assert.AreEqual(2, gradient.Stops.Count());
-            //Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
-            //Assert.AreEqual(Color.Blue, gradient.Stops.Last().Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsNotNull(gradient);
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Angle.TripleHalfQuarter, gradient.Angle);
+            Assert.AreEqual(2, gradient.Stops.Length);
+            Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
+            Assert.AreEqual(Color.Blue, gradient.Stops.Last().Color);
         }
 
         [Test]
@@ -49,21 +52,21 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Angle.Quarter.Value, gradient.Angle);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(7, stops.Length);
-            //Assert.AreEqual(Colors.GetColor("red").Value, stops[0].Color);
-            //Assert.AreEqual(Colors.GetColor("orange").Value, stops[1].Color);
-            //Assert.AreEqual(Colors.GetColor("yellow").Value, stops[2].Color);
-            //Assert.AreEqual(Colors.GetColor("green").Value, stops[3].Color);
-            //Assert.AreEqual(Colors.GetColor("blue").Value, stops[4].Color);
-            //Assert.AreEqual(Colors.GetColor("indigo").Value, stops[5].Color);
-            //Assert.AreEqual(Colors.GetColor("violet").Value, stops[6].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Angle.Quarter, gradient.Angle);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(7, stops.Length);
+            Assert.AreEqual(Colors.GetColor("red").Value, stops[0].Color);
+            Assert.AreEqual(Colors.GetColor("orange").Value, stops[1].Color);
+            Assert.AreEqual(Colors.GetColor("yellow").Value, stops[2].Color);
+            Assert.AreEqual(Colors.GetColor("green").Value, stops[3].Color);
+            Assert.AreEqual(Colors.GetColor("blue").Value, stops[4].Color);
+            Assert.AreEqual(Colors.GetColor("indigo").Value, stops[5].Color);
+            Assert.AreEqual(Colors.GetColor("violet").Value, stops[6].Color);
         }
 
         [Test]
@@ -73,15 +76,15 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Angle.TripleHalfQuarter.Value, gradient.Angle);
-            //Assert.AreEqual(2, gradient.Stops.Count());
-            //Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
-            //Assert.AreEqual(Color.FromRgba(255, 0, 0, 0), gradient.Stops.Last().Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Angle.TripleHalfQuarter, gradient.Angle);
+            Assert.AreEqual(2, gradient.Stops.Count());
+            Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
+            Assert.AreEqual(Color.FromRgba(255, 0, 0, 0), gradient.Stops.Last().Color);
         }
 
         [Test]
@@ -91,15 +94,15 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Angle.Half.Value, gradient.Angle);
-            //Assert.AreEqual(2, gradient.Stops.Count());
-            //Assert.AreEqual(Color.FromHsl(0f, 0.8f, 0.7f), gradient.Stops.First().Color);
-            //Assert.AreEqual(Color.FromHex("bada55"), gradient.Stops.Last().Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Angle.Half, gradient.Angle);
+            Assert.AreEqual(2, gradient.Stops.Count());
+            Assert.AreEqual(Color.FromHsl(0f, 0.8f, 0.7f), gradient.Stops.First().Color);
+            Assert.AreEqual(Color.FromHex("bada55"), gradient.Stops.Last().Color);
         }
 
         [Test]
@@ -109,16 +112,16 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Angle.Half.Value, gradient.Angle);
-            //Assert.AreEqual(3, gradient.Stops.Count());
-            //Assert.AreEqual(Colors.GetColor("yellow").Value, gradient.Stops.First().Color);
-            //Assert.AreEqual(Colors.GetColor("blue").Value, gradient.Stops.Skip(1).First().Color);
-            //Assert.AreEqual(Color.FromRgb(0, 255, 0), gradient.Stops.Skip(2).First().Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Angle.Half, gradient.Angle);
+            Assert.AreEqual(3, gradient.Stops.Count());
+            Assert.AreEqual(Colors.GetColor("yellow").Value, gradient.Stops.First().Color);
+            Assert.AreEqual(Colors.GetColor("blue").Value, gradient.Stops.Skip(1).First().Color);
+            Assert.AreEqual(Color.FromRgb(0, 255, 0), gradient.Stops.Skip(2).First().Color);
         }
 
         [Test]
@@ -128,20 +131,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(true, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromRgb(0, 255, 255), stops[0].Color);
-            //Assert.AreEqual(Color.FromRgba(0, 0, 255, 0), stops[1].Color);
-            //Assert.AreEqual(Color.FromRgb(0, 0, 255), stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(45, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(45, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromRgb(0, 255, 255), stops[0].Color);
+            Assert.AreEqual(Color.FromRgba(0, 0, 255, 0), stops[1].Color);
+            Assert.AreEqual(Color.FromRgb(0, 0, 255), stops[2].Color);
         }
 
         [Test]
@@ -151,20 +154,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(470f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(47f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromRgb(0xFF, 0xFF, 0x80), stops[0].Color);
-            //Assert.AreEqual(Color.FromRgba(204, 153, 153, 0.4f), stops[1].Color);
-            //Assert.AreEqual(Color.FromRgb(0xE6, 0xE6, 0xFF), stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(470, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(47, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromRgb(0xFF, 0xFF, 0x80), stops[0].Color);
+            Assert.AreEqual(Color.FromRgba(204, 153, 153, 0.4f), stops[1].Color);
+            Assert.AreEqual(Color.FromRgb(0xE6, 0xE6, 0xFF), stops[2].Color);
         }
 
         [Test]
@@ -174,19 +177,19 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(2, stops.Length);
-            //Assert.AreEqual(Color.FromRgb(255, 0, 0), stops[0].Color);
-            //Assert.AreEqual(Color.FromRgb(0, 0, 255), stops[1].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(45, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(45, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(2, stops.Length);
+            Assert.AreEqual(Color.FromRgb(255, 0, 0), stops[0].Color);
+            Assert.AreEqual(Color.FromRgb(0, 0, 255), stops[1].Color);
         }
 
         [Test]
@@ -196,23 +199,23 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(60f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(true, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
-            //Assert.AreEqual(new Length(16f, Length.Unit.Px), gradient.Width);
-            //Assert.AreEqual(new Length(16f, Length.Unit.Px), gradient.Height);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(4, stops.Length);
-            //Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[0].Color);
-            //Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[1].Color);
-            //Assert.AreEqual(Color.FromRgba(0, 0, 0, 0.3), stops[2].Color);
-            //Assert.AreEqual(Color.Transparent, stops[3].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(60f, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            Assert.AreEqual(new Length(16f, Length.Unit.Px), gradient.MajorRadius);
+            Assert.AreEqual(Length.Full, gradient.MinorRadius);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(4, stops.Length);
+            Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[0].Color);
+            Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[1].Color);
+            Assert.AreEqual(Color.FromRgba(0, 0, 0, 0.3), stops[2].Color);
+            Assert.AreEqual(Color.Transparent, stops[3].Color);
         }
 
         [Test]
@@ -222,19 +225,19 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Half, gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(true, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(2, stops.Length);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Length.Half, gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(2, stops.Length);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
         }
 
         [Test]
@@ -244,19 +247,19 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Half, gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(2, stops.Length);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Length.Half, gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(2, stops.Length);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
         }
 
         [Test]
@@ -266,19 +269,19 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Half, gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(2, stops.Length);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Length.Half, gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(2, stops.Length);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
         }
 
         [Test]
@@ -288,19 +291,19 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Half, gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(2, stops.Length);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Length.Half, gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(2, stops.Length);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[1].Color);
         }
 
         [Test]
@@ -310,20 +313,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
         }
 
         [Test]
@@ -333,22 +336,22 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
-            //Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Width);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Height);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.MajorRadius);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.MinorRadius);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
         }
 
         [Test]
@@ -358,20 +361,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(true, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
         }
 
         [Test]
@@ -381,20 +384,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsFalse(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Zero, gradient.X);
-            //Assert.AreEqual(Length.Full, gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestSide, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsFalse(gradient.IsRepeating);
+            Assert.AreEqual(Length.Zero, gradient.Position.X);
+            Assert.AreEqual(Length.Full, gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestSide, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
         }
 
         [Test]
@@ -404,16 +407,16 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<LinearGradient>(image);
-            //var gradient = image as LinearGradient;
-            //Assert.IsTrue(gradient.IsRepeating);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("blue").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as LinearGradient;
+            Assert.IsTrue(gradient.IsRepeating);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("blue").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("red").Value, stops[2].Color);
         }
 
         [Test]
@@ -423,20 +426,20 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsTrue(gradient.IsRepeating);
-            //Assert.AreEqual(Length.Half, gradient.X);
-            //Assert.AreEqual(Length.Half, gradient.Y);
-            //Assert.AreEqual(false, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(3, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("blue").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[2].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsTrue(gradient.IsRepeating);
+            Assert.AreEqual(Length.Half, gradient.Position.X);
+            Assert.AreEqual(Length.Half, gradient.Position.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("blue").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("red").Value, stops[2].Color);
         }
 
         [Test]
@@ -446,22 +449,22 @@
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
-            //Assert.AreEqual(1, backgroundImage.Images.Count());
-            //var image = backgroundImage.Images.First();
-            //Assert.IsInstanceOf<RadialGradient>(image);
-            //var gradient = image as RadialGradient;
-            //Assert.IsTrue(gradient.IsRepeating);
-            //Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
-            //Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
-            //Assert.AreEqual(true, gradient.IsCircle);
-            //Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
-            //var stops = gradient.Stops.ToArray();
-            //Assert.AreEqual(5, stops.Length);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
-            //Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
-            //Assert.AreEqual(Color.FromName("yellow").Value, stops[3].Color);
-            //Assert.AreEqual(Color.FromName("red").Value, stops[4].Color);
+            var value = property.RawValue as CssListValue;
+            Assert.IsNotNull(value);
+            Assert.AreEqual(1, value.Items.Length);
+            var gradient = value.Items[0] as RadialGradient;
+            Assert.IsTrue(gradient.IsRepeating);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Position.X);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Position.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
+            var stops = gradient.Stops.ToArray();
+            Assert.AreEqual(5, stops.Length);
+            Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[1].Color);
+            Assert.AreEqual(Color.FromName("green").Value, stops[2].Color);
+            Assert.AreEqual(Color.FromName("yellow").Value, stops[3].Color);
+            Assert.AreEqual(Color.FromName("red").Value, stops[4].Color);
         }
     }
 }
