@@ -2,8 +2,6 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents a radial gradient:
@@ -146,11 +144,11 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Gets an enumeration of all stops.
+        /// Gets all stops.
         /// </summary>
-        public IEnumerable<GradientStop> Stops
+        public GradientStop[] Stops
         {
-            get { return _stops.AsEnumerable(); }
+            get { return _stops; }
         }
 
         /// <summary>

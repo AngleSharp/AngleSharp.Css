@@ -78,7 +78,7 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new LinearGradient(angle ?? Angle.Zero, stops, repeating);
+                return new LinearGradient(angle ?? Angle.Half, stops, repeating);
             }
 
             return null;
@@ -123,7 +123,7 @@ namespace AngleSharp.Css.Parser
 
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
-                var circle = options?.Circle ?? true;
+                var circle = options?.Circle ?? false;
                 var center = options?.Center ?? Point.Center;
                 var width = options?.Width ?? Length.Full;
                 var height = options?.Height ?? Length.Full;
@@ -280,7 +280,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (Map.RadialGradientSizeModes.ContainsKey(ident))
                 {
-                    size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                    size = Map.RadialGradientSizeModes[ident];
                     source.SkipSpacesAndComments();
                     ident = source.ParseIdent();
 
