@@ -526,5 +526,155 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("2 / auto / auto / auto", property.Value);
         }
+
+        [Test]
+        public void CssGridAutoFlowAndRepeatLegal()
+        {
+            var snippet = @"grid: auto-flow 300px / repeat(3, [line1 line2 line3] 200px)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto-flow 300px / repeat(3, [line1 line2 line3] 200px)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoFlowDenseLegal()
+        {
+            var snippet = @"grid: auto-flow dense / 30%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto-flow dense / 30%", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoFlowLineNameLegal()
+        {
+            var snippet = @"grid: auto-flow dense 40% / [line1] minmax(20em, max-content)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto-flow dense 40% / [line1] minmax(20em, max-content)", property.Value);
+        }
+
+        [Test]
+        public void CssGridAutoFlowLengthLegal()
+        {
+            var snippet = @"grid: auto-flow / 200px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto-flow / 200px", property.Value);
+        }
+
+        [Test]
+        public void CssGridRepeatAutoFlowLegal()
+        {
+            var snippet = @"grid: repeat(3, [line1 line2 line3] 200px) / auto-flow 300px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("repeat(3, [line1 line2 line3] 200px) / auto-flow 300px", property.Value);
+        }
+
+        [Test]
+        public void CssGridPercentDenseAutoFlowLegal()
+        {
+            var snippet = @"grid: 30% / auto-flow dense";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("30% / auto-flow dense", property.Value);
+        }
+
+        [Test]
+        public void CssGridMinmaxAndRepeatLegal()
+        {
+            var snippet = @"grid: minmax(400px, min-content) / repeat(auto-fill, 50px)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("minmax(400px, min-content) / repeat(auto-fill, 50px)", property.Value);
+        }
+
+        [Test]
+        public void CssGridMinmaxAndAutoFlowDenseLegal()
+        {
+            var snippet = @"grid: [line1] minmax(20em, max-content) / auto-flow dense 40%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("[line1] minmax(20em, max-content) / auto-flow dense 40%", property.Value);
+        }
+
+        [Test]
+        public void CssGridLengthAndAutoFlowLegal()
+        {
+            var snippet = @"grid: 200px / auto-flow";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("200px / auto-flow", property.Value);
+        }
+
+        [Test]
+        public void CssGridLengthAndLengthLegal()
+        {
+            var snippet = @"grid: 100px / 200px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100px / 200px", property.Value);
+        }
+
+        [Test]
+        public void CssGridStirngMinmaxAndStringLegal()
+        {
+            var snippet = @"grid: ""a"" minmax(100px, max-content) ""b"" 20%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"a\" minmax(100px, max-content) \"b\" 20%", property.Value);
+        }
+
+        [Test]
+        public void CssGridStringLengthAndStringLegal()
+        {
+            var snippet = @"grid: ""a"" 200px ""b"" min-content";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"a\" 200px \"b\" min-content", property.Value);
+        }
+
+        [Test]
+        public void CssGridLineNameAndStringLengthLegal()
+        {
+            var snippet = @"grid: [linename1] ""a"" 100px [linename2]";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("[linename1] \"a\" 100px [linename2]", property.Value);
+        }
+
+        [Test]
+        public void CssGridStringAndLengthAndStringLegal()
+        {
+            var snippet = @"grid: ""a"" 100px ""b"" 1fr";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"a\" 100px \"b\" 1fr", property.Value);
+        }
+
+        [Test]
+        public void CssGridNoneLegal()
+        {
+            var snippet = @"grid: none";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
+        }
     }
 }
