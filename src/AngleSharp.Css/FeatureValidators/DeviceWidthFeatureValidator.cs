@@ -13,7 +13,7 @@ namespace AngleSharp.Css.FeatureValidators
 
             if (length != null)
             {
-                var desired = length.AsNumber();
+                var desired = length.AsPixel();
                 var available = (Double)device.DeviceWidth;
 
                 if (feature.IsMaximum)

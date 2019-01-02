@@ -1,18 +1,38 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using System;
 
     static class CssValueExtensions
     {
         public static Double AsNumber(this ICssValue value)
         {
+            var length = value as Length?;
+
+            if (length.HasValue && length.Value.Type == Length.Unit.None)
+            {
+                return length.Value.Value;
+            }
+
+            return 0.0;
+        }
+
+        public static Double AsPixel(this ICssValue value)
+        {
+            var length = value as Length?;
+
+            if (length.HasValue && length.Value.Type != Length.Unit.None)
+            {
+                return length.Value.ToPixel();
+            }
+
             return 0.0;
         }
 
         public static Int32 AsInteger(this ICssValue value)
         {
-            return 0;
+            return (Int32)value.AsNumber();
         }
 
         public static Boolean AsBoolean(this ICssValue value)
