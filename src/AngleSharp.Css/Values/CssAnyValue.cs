@@ -1,14 +1,19 @@
 namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents an unknown (any) value.
     /// </summary>
-    public sealed class CssAnyValue : ICssValue
+    public sealed class CssAnyValue : ICssRawValue
     {
+        #region Fields
+
         private readonly String _text;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new unknown value with the given literal content.
@@ -19,20 +24,20 @@ namespace AngleSharp.Css.Values
             _text = text;
         }
 
+        #endregion
+
+        #region ctor
+
         /// <summary>
         /// Gets the contained value. This is the same as CssText.
         /// </summary>
-        public String Value
-        {
-            get { return _text; }
-        }
+        public String Value => _text;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _text; }
-        }
+        public String CssText => _text;
+
+        #endregion
     }
 }

@@ -9,6 +9,8 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class FontInfo : ICssValue
     {
+        #region Fields
+
         private readonly ICssValue _fontFamilies;
         private readonly ICssValue _lineHeight;
         private readonly ICssValue _size;
@@ -16,6 +18,10 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _style;
         private readonly ICssValue _variant;
         private readonly ICssValue _weight;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS font definition.
@@ -38,61 +44,44 @@ namespace AngleSharp.Css.Values
             _fontFamilies = fontFamilies;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the families value.
         /// </summary>
-        public ICssValue FontFamilies
-        {
-            get { return _fontFamilies; }
-        }
+        public ICssValue FontFamilies => _fontFamilies;
 
         /// <summary>
         /// Gets the line height value.
         /// </summary>
-        public ICssValue LineHeight
-        {
-            get { return _lineHeight; }
-        }
+        public ICssValue LineHeight => _lineHeight;
 
         /// <summary>
         /// Gets the size value.
         /// </summary>
-        public ICssValue Size
-        {
-            get { return _size; }
-        }
+        public ICssValue Size => _size;
 
         /// <summary>
         /// Gets the stretch value.
         /// </summary>
-        public ICssValue Stretch
-        {
-            get { return _stretch; }
-        }
+        public ICssValue Stretch => _stretch;
 
         /// <summary>
         /// Gets the style value.
         /// </summary>
-        public ICssValue Style
-        {
-            get { return _style; }
-        }
+        public ICssValue Style => _style;
 
         /// <summary>
         /// Gets the variant value.
         /// </summary>
-        public ICssValue Variant
-        {
-            get { return _variant; }
-        }
+        public ICssValue Variant => _variant;
 
         /// <summary>
         /// Gets the weight value.
         /// </summary>
-        public ICssValue Weight
-        {
-            get { return _weight; }
-        }
+        public ICssValue Weight => _weight;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -143,6 +132,8 @@ namespace AngleSharp.Css.Values
                 sb.Append(_fontFamilies.CssText);
                 return sb.ToPool();
             }
+
+            #endregion
         }
     }
 }

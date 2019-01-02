@@ -12,8 +12,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class CssTupleValue : ICssValue, IEnumerable<ICssValue>
     {
+        #region Fields
+
         private readonly ICssValue[] _items;
         private readonly String _separator;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new tuple value.
@@ -26,29 +32,28 @@ namespace AngleSharp.Css.Values
             _separator = separator ?? " ";
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the contained items.
         /// </summary>
-        public ICssValue[] Items
-        {
-            get { return _items; }
-        }
+        public ICssValue[] Items => _items;
 
         /// <summary>
         /// Gets the used separator.
         /// </summary>
-        public String Separator
-        {
-            get { return _separator; }
-        }
+        public String Separator => _separator;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _items.Join(_separator); }
-        }
+        public String CssText => _items.Join(_separator);
+
+        #endregion
+
+        #region Methods
 
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
         {
@@ -59,5 +64,7 @@ namespace AngleSharp.Css.Values
         {
             return _items.GetEnumerator();
         }
+
+        #endregion
     }
 }

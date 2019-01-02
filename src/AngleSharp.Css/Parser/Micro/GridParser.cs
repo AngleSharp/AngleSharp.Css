@@ -84,7 +84,7 @@ namespace AngleSharp.Css.Parser
                 var pos = source.Index;
                 var ident = source.ParseIdent();
 
-                if (ident.Isi(CssKeywords.Minmax) && source.Current == Symbols.RoundBracketOpen)
+                if (ident.Isi(FunctionNames.Minmax) && source.Current == Symbols.RoundBracketOpen)
                 {
                     var c = source.SkipCurrentAndSpaces();
                     var min = source.ParseTrackBreadth(false);
@@ -99,7 +99,7 @@ namespace AngleSharp.Css.Parser
                         if (max != null && c == Symbols.RoundBracketClose && (min is Length? || max is Length?))
                         {
                             source.Next();
-                            return new FunctionValue(CssKeywords.Minmax, new[] { min, max });
+                            return new Minmax(min, max);
                         }
                     }
                 }
@@ -120,7 +120,7 @@ namespace AngleSharp.Css.Parser
                 var pos = source.Index;
                 var ident = source.ParseIdent();
 
-                if (ident.Isi(CssKeywords.FitContent) && source.Current == Symbols.RoundBracketOpen)
+                if (ident.Isi(FunctionNames.FitContent) && source.Current == Symbols.RoundBracketOpen)
                 {
                     source.SkipCurrentAndSpaces();
                     var dim = source.ParseDistanceOrCalc();
@@ -129,10 +129,10 @@ namespace AngleSharp.Css.Parser
                     if (dim != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
-                        return new FunctionValue(CssKeywords.FitContent, new ICssValue[] { dim });
+                        return new FitContent(dim);
                     }
                 }
-                else if (ident.Isi(CssKeywords.Minmax) && source.Current == Symbols.RoundBracketOpen)
+                else if (ident.Isi(FunctionNames.Minmax) && source.Current == Symbols.RoundBracketOpen)
                 {
                     var c = source.SkipCurrentAndSpaces();
                     var min = source.ParseTrackBreadth(false);
@@ -147,7 +147,7 @@ namespace AngleSharp.Css.Parser
                         if (max != null && c == Symbols.RoundBracketClose)
                         {
                             source.Next();
-                            return new FunctionValue(CssKeywords.Minmax, new [] { min, max });
+                            return new Minmax(min, max);
                         }
                     }
                 }
@@ -210,7 +210,7 @@ namespace AngleSharp.Css.Parser
             var pos = source.Index;
             var ident = source.ParseIdent();
 
-            if (ident.Isi(CssKeywords.Repeat) && source.Current == Symbols.RoundBracketOpen)
+            if (ident.Isi(FunctionNames.Repeat) && source.Current == Symbols.RoundBracketOpen)
             {
                 var c = source.SkipCurrentAndSpaces();
                 var count = parseCount(source);
@@ -225,7 +225,7 @@ namespace AngleSharp.Css.Parser
                     if (value != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
-                        return new FunctionValue(CssKeywords.Repeat, new ICssValue[] { count, value });
+                        return new Repeat(count, value);
                     }
                 }
             }

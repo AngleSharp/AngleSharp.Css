@@ -9,7 +9,13 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class StringValue : ICssValue
     {
+        #region Fields
+
         private readonly String _value;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS string value.
@@ -20,12 +26,20 @@ namespace AngleSharp.Css.Values
             _value = value;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the string value.
+        /// </summary>
+        public String Value => _value;
+
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _value.CssString(); }
-        }
+        public String CssText => _value.CssString();
+
+        #endregion
     }
 }

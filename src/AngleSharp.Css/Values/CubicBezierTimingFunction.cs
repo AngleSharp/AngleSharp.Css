@@ -71,27 +71,18 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.CubicBezier; }
-        }
+        public String Name => FunctionNames.CubicBezier;
 
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
+        public ICssValue[] Arguments => new ICssValue[]
         {
-            get
-            {
-                return new ICssValue[]
-                {
-                    new Length(_x1, Length.Unit.None),
-                    new Length(_y1, Length.Unit.None),
-                    new Length(_x2, Length.Unit.None),
-                    new Length(_y2, Length.Unit.None),
-                };
-            }
-        }
+            new Length(_x1, Length.Unit.None),
+            new Length(_y1, Length.Unit.None),
+            new Length(_x2, Length.Unit.None),
+            new Length(_y2, Length.Unit.None),
+        };
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -128,34 +119,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the x-coordinate of the p1.
         /// </summary>
-        public Double X1
-        {
-            get { return _x1; }
-        }
+        public Double X1 => _x1;
 
         /// <summary>
         /// Gets the y-coordinate of the p1.
         /// </summary>
-        public Double Y1
-        {
-            get { return _y1; }
-        }
+        public Double Y1 => _y1;
 
         /// <summary>
         /// Gets the x-coordinate of the p2.
         /// </summary>
-        public Double X2
-        {
-            get { return _x2; }
-        }
+        public Double X2 => _x2;
 
         /// <summary>
         /// Gets the y-coordinate of the p2.
         /// </summary>
-        public Double Y2
-        {
-            get { return _y2; }
-        }
+        public Double Y2 => _y2;
 
         #endregion
 

@@ -20,9 +20,6 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return CssKeywords.Inherit; }
-        }
+        public String CssText => CssKeywords.Inherit;
     }
 }

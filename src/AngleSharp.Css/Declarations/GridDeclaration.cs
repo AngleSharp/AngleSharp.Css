@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -117,12 +118,40 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Merge(ICssValue[] values)
             {
-                throw new NotImplementedException();
+                var templateRows = values[0];
+                var templateColumns = values[1];
+                var templateAreas = values[2];
+
+                if (templateRows != null && templateColumns != null)
+                {
+                    return new GridTemplate(templateRows, templateColumns, templateAreas);
+                }
+
+                return null;
             }
 
             public ICssValue[] Split(ICssValue value)
             {
-                throw new NotImplementedException();
+                if (value is GridTemplate)
+                {
+                    var gt = (GridTemplate)value;
+
+                    return new[]
+                    {
+                        gt.TemplateRows,
+                        gt.TemplateColumns,
+                        gt.TemplateAreas,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                    };
+                }
+
+                return null;
             }
         }
     }

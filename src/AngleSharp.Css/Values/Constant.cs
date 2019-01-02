@@ -8,8 +8,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class Constant<T> : ICssValue
     {
+        #region Fields
+
         private readonly String _key;
         private readonly T _data;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new selected CSS enum value.
@@ -22,20 +28,20 @@ namespace AngleSharp.Css.Values
             _data = data;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the associated value.
         /// </summary>
-        public T Value
-        {
-            get { return _data; }
-        }
+        public T Value => _data;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _key; }
-        }
+        public String CssText => _key;
+
+        #endregion
     }
 }

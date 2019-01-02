@@ -36,42 +36,27 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the color of the gradient stop.
         /// </summary>
-        public Color Color
-        {
-            get { return _color; }
-        }
+        public Color Color => _color;
 
         /// <summary>
         /// Gets if the position is determined.
         /// </summary>
-        public Boolean IsDetermined
-        {
-            get { return _location != null; }
-        }
+        public Boolean IsDetermined => _location != null;
 
         /// <summary>
         /// Gets if the position is undetermined.
         /// </summary>
-        public Boolean IsUndetermined
-        {
-            get { return _location == null; }
-        }
+        public Boolean IsUndetermined => _location == null;
 
         /// <summary>
         /// Gets the location of the gradient stop.
         /// </summary>
-        public ICssValue Location
-        {
-            get { return _location; }
-        }
+        public ICssValue Location => _location;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return IsDetermined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText; }
-        }
+        public String CssText => IsDetermined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText;
 
         #endregion
     }

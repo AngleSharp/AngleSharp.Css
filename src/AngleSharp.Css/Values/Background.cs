@@ -25,18 +25,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the used color.
         /// </summary>
-        public ICssValue Color
-        {
-            get { return _color; }
-        }
+        public ICssValue Color => _color;
 
         /// <summary>
         /// Gets the defined layers.
         /// </summary>
-        public ICssValue Layers
-        {
-            get { return _layers; }
-        }
+        public ICssValue Layers => _layers;
 
         /// <summary>
         /// Gets the CSS text representation.

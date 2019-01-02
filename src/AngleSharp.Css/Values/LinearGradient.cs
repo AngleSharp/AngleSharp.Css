@@ -41,10 +41,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient; }
-        }
+        public String Name => _repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient;
 
         /// <summary>
         /// Gets the arguments.

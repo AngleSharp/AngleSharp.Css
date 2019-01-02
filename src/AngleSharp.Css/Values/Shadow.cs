@@ -84,50 +84,32 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the color of the shadow.
         /// </summary>
-        public Color Color
-        {
-            get { return _color; }
-        }
+        public Color Color => _color;
 
         /// <summary>
         /// Gets the horizontal offset.
         /// </summary>
-        public ICssValue OffsetX
-        {
-            get { return _offsetX; }
-        }
+        public ICssValue OffsetX => _offsetX;
 
         /// <summary>
         /// Gets the vertical offset.
         /// </summary>
-        public ICssValue OffsetY
-        {
-            get { return _offsetY; }
-        }
+        public ICssValue OffsetY => _offsetY;
 
         /// <summary>
         /// Gets the blur radius.
         /// </summary>
-        public ICssValue BlurRadius
-        {
-            get { return _blurRadius; }
-        }
+        public ICssValue BlurRadius => _blurRadius;
 
         /// <summary>
         /// Gets the spread radius.
         /// </summary>
-        public ICssValue SpreadRadius
-        {
-            get { return _spreadRadius; }
-        }
+        public ICssValue SpreadRadius => _spreadRadius;
 
         /// <summary>
         /// Gets if the shadow is inset.
         /// </summary>
-        public Boolean IsInset
-        {
-            get { return _inset; }
-        }
+        public Boolean IsInset => _inset;
 
         #endregion
     }

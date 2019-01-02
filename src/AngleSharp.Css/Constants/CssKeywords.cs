@@ -182,16 +182,6 @@ namespace AngleSharp.Css
         public static readonly String MaxContent = "max-content";
 
         /// <summary>
-        /// The fit-content keyword.
-        /// </summary>
-        public static readonly String FitContent = "fit-content";
-
-        /// <summary>
-        /// The minmax keyword.
-        /// </summary>
-        public static readonly String Minmax = "minmax";
-
-        /// <summary>
         /// The from keyword.
         /// </summary>
         public static readonly String From = "from";

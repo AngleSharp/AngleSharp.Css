@@ -34,34 +34,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.Url; }
-        }
+        public String Name => FunctionNames.Url;
 
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get { return new[] { new StringValue(_path) }; }
-        }
+        public ICssValue[] Arguments => new[] { new StringValue(_path) };
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return Name.CssFunction(_path.CssString()); }
-        }
+        public String CssText => Name.CssFunction(_path.CssString());
 
         /// <summary>
         /// Gets the referenced path.
         /// </summary>
-        public String Path
-        {
-            get { return _path; }
-        }
+        public String Path => _path;
 
         #endregion
     }

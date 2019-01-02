@@ -44,67 +44,43 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.Rect; }
-        }
+        public String Name => FunctionNames.Rect;
 
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
+        public ICssValue[] Arguments => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    _top,
-                    _right,
-                    _bottom,
-                    _left,
-                };
-            }
-        }
+            _top,
+            _right,
+            _bottom,
+            _left,
+        };
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return Name.CssFunction(Arguments.Join(", ")); }
-        }
+        public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         /// <summary>
         /// Gets the top side.
         /// </summary>
-        public ICssValue Top
-        {
-            get { return _top; }
-        }
+        public ICssValue Top => _top;
 
         /// <summary>
         /// Gets the right side.
         /// </summary>
-        public ICssValue Right
-        {
-            get { return _right; }
-        }
+        public ICssValue Right => _right;
 
         /// <summary>
         /// Gets the bottom side.
         /// </summary>
-        public ICssValue Bottom
-        {
-            get { return _bottom; }
-        }
+        public ICssValue Bottom => _bottom;
 
         /// <summary>
         /// Gets the left side.
         /// </summary>
-        public ICssValue Left
-        {
-            get { return _left; }
-        }
+        public ICssValue Left => _left;
 
         #endregion
     }

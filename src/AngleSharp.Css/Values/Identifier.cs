@@ -8,7 +8,13 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public struct Identifier : ICssValue
     {
+        #region Fields
+
         private readonly String _text;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS identifier using the text.
@@ -19,12 +25,15 @@ namespace AngleSharp.Css.Values
             _text = text;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _text; }
-        }
+        public String CssText => _text;
+
+        #endregion
     }
 }

@@ -22,6 +22,7 @@ namespace AngleSharp.Css.Values
         {
             _rows = rows;
             _columns = columns;
+            _areas = areas;
         }
 
         /// <summary>

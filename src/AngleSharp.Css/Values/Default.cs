@@ -8,7 +8,13 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class Default<T> : ICssValue
     {
+        #region Fields
+
         private readonly T _value;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new default value.
@@ -19,20 +25,20 @@ namespace AngleSharp.Css.Values
             _value = value;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Empty; }
-        }
+        public String CssText => String.Empty;
 
         /// <summary>
         /// Gets the default value.
         /// </summary>
-        public T Value
-        {
-            get { return _value; }
-        }
+        public T Value => _value;
+
+        #endregion
     }
 }

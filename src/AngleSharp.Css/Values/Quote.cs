@@ -9,8 +9,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public struct Quote : ICssValue
     {
+        #region Fields
+
         private readonly String _open;
         private readonly String _close;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS quote.
@@ -23,28 +29,25 @@ namespace AngleSharp.Css.Values
             _close = close;
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the open quote character(s).
         /// </summary>
-        public String Open
-        {
-            get { return _open; }
-        }
+        public String Open => _open;
 
         /// <summary>
         /// Gets the close quote character(s).
         /// </summary>
-        public String Close
-        {
-            get { return _close; }
-        }
+        public String Close => _close;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Concat(_open.CssString(), " ", _close.CssString()); }
-        }
+        public String CssText => String.Concat(_open.CssString(), " ", _close.CssString());
+
+        #endregion
     }
 }

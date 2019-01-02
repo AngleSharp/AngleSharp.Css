@@ -58,6 +58,21 @@ namespace AngleSharp.Css
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The fit-content function.
+        /// </summary>
+        public static readonly String FitContent = "fit-content";
+
+        /// <summary>
+        /// The repeat function.
+        /// </summary>
+        public static readonly String Repeat = "repeat";
+
+        /// <summary>
+        /// The minmax function.
+        /// </summary>
+        public static readonly String Minmax = "minmax";
+
+        /// <summary>
         /// The var function.
         /// </summary>
         public static readonly String Var = "var";

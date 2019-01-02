@@ -33,18 +33,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the horizontal values.
         /// </summary>
-        public Periodic<ICssValue> Horizontal
-        {
-            get { return _horizontal; }
-        }
+        public Periodic<ICssValue> Horizontal => _horizontal;
 
         /// <summary>
         /// Gets the vertical values.
         /// </summary>
-        public Periodic<ICssValue> Vertical
-        {
-            get { return _vertical; }
-        }
+        public Periodic<ICssValue> Vertical => _vertical;
 
         /// <summary>
         /// Gets the CSS text representation.
