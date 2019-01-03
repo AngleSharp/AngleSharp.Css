@@ -1374,6 +1374,7 @@ namespace AngleSharp.Css
                 GridDeclaration.Name, new DeclarationInfo(
                     name: GridDeclaration.Name,
                     converter: GridDeclaration.Converter,
+                    longhands: GridDeclaration.Longhands,
                     flags: GridDeclaration.Flags)
             },
             {

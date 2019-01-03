@@ -122,7 +122,11 @@ namespace AngleSharp.Css.Declarations
                 var templateColumns = values[1];
                 var templateAreas = values[2];
 
-                if (templateRows != null && templateColumns != null)
+                if (templateRows == templateColumns && templateRows == templateAreas)
+                {
+                    return templateRows;
+                }
+                else if (templateRows != null && templateColumns != null)
                 {
                     return new GridTemplate(templateRows, templateColumns, templateAreas);
                 }
@@ -141,6 +145,22 @@ namespace AngleSharp.Css.Declarations
                         gt.TemplateRows,
                         gt.TemplateColumns,
                         gt.TemplateAreas,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                    };
+                }
+                else if (value is Identifier)
+                {
+                    return new[]
+                    {
+                        value,
+                        value,
+                        value,
                         null,
                         null,
                         null,

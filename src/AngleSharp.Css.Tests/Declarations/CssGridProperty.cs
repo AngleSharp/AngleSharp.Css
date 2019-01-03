@@ -628,7 +628,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridStirngMinmaxAndStringLegal()
+        public void CssGridStringMinmaxAndStringLegal()
         {
             var snippet = @"grid: ""a"" minmax(100px, max-content) ""b"" 20%";
             var property = ParseDeclaration(snippet);
@@ -675,6 +675,89 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.AreEqual("grid", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("none", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateNoneLegal()
+        {
+            var snippet = @"grid-template: none";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateLineNamesAndStringWithFractionsLegal()
+        {
+            var snippet = @"grid-template: [header-top] ""a a a""     [header-bottom]
+                 [main-top] ""b b b"" 1fr [main-bottom] / auto 1fr auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("[header-top] \"a a a\" [header-bottom] [main-top] \"b b b\" 1fr [main-bottom] / auto 1fr auto", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateStirngsAndWidthsLegal()
+        {
+            var snippet = @"grid-template: ""a a a"" 20%
+               ""b b b"" auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"a a a\" 20% \"b b b\" auto", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateStringsLegal()
+        {
+            var snippet = @"grid-template: ""a a a""
+               ""b b b""";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"a a a\" \"b b b\"", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateFitContentColumnsAndRowsLegal()
+        {
+            var snippet = @"grid-template: fit-content(100px) / fit-content(40%)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("fit-content(100px) / fit-content(40%)", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateLineNamesAndPercentagesLegal()
+        {
+            var snippet = @"grid-template: [linename] 100px / [columnname1] 30% [columnname2] 70%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("[linename] 100px / [columnname1] 30% [columnname2] 70%", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateRowsAndColumnsWithAutoLegal()
+        {
+            var snippet = @"grid-template: auto 1fr / auto 1fr auto";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto 1fr / auto 1fr auto", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateRowsAndColumnsWithFractionsLegal()
+        {
+            var snippet = @"grid-template: 100px 1fr / 50px 1fr";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100px 1fr / 50px 1fr", property.Value);
         }
     }
 }

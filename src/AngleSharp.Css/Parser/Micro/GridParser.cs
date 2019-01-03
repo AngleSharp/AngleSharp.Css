@@ -32,7 +32,6 @@ namespace AngleSharp.Css.Parser
                         return new GridTemplate(rows, cols, null);
                     }
                 }
-
             }
             else
             {
