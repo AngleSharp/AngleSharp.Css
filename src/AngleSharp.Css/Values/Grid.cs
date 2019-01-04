@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS grid definition.
     /// </summary>
-    public sealed class Grid : ICssValue
+    class Grid : ICssValue
     {
         #region Fields
 

@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS fit-content function call.
     /// </summary>
-    public sealed class FitContent : ICssFunctionValue
+    class FitContent : ICssFunctionValue
     {
         #region Fields
 

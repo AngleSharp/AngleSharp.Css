@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    public sealed class CssTupleValue : ICssValue, IEnumerable<ICssValue>
+    class CssTupleValue : ICssValue, IEnumerable<ICssValue>
     {
         #region Fields
 

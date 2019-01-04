@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS string value.
     /// </summary>
-    public sealed class StringValue : ICssValue
+    class StringValue : ICssValue
     {
         #region Fields
 

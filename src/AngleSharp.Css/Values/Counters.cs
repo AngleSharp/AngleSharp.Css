@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS counters definition.
     /// </summary>
-    public sealed class Counters : ICssValue
+    class Counters : ICssValue
     {
         private readonly ICssValue[] _counters;
 

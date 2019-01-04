@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a selected CSS enum value.
     /// </summary>
-    public sealed class Constant<T> : ICssValue
+    class Constant<T> : ICssValue
     {
         #region Fields
 

@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS inherit value.
     /// </summary>
-    public sealed class Inherit : ICssValue
+    class Inherit : ICssValue
     {
         private Inherit()
         {

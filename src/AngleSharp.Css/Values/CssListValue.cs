@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    public sealed class CssListValue : ICssValue, IEnumerable<ICssValue>
+    class CssListValue : ICssValue, IEnumerable<ICssValue>
     {
         private readonly ICssValue[] _items;
 

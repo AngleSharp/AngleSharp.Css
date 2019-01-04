@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS font definition.
     /// </summary>
-    public sealed class FontInfo : ICssValue
+    class FontInfo : ICssValue
     {
         #region Fields
 

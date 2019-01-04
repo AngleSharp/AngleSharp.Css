@@ -6,7 +6,7 @@ namespace AngleSharp.Css
     /// Represents a transformation matrix value.
     /// http://dev.w3.org/csswg/css-transforms/#mathematical-description
     /// </summary>
-    public sealed class TransformMatrix : IEquatable<TransformMatrix>
+    class TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 

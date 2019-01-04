@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the skew transformation.
     /// </summary>
-    public sealed class SkewTransform : ITransform, ICssFunctionValue
+    class SkewTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 

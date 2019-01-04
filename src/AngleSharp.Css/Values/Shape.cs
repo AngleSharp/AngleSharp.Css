@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class Shape : ICssValue, ICssFunctionValue
+    class Shape : ICssValue, ICssFunctionValue
     {
         #region Fields
 

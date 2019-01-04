@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS line names definition.
     /// </summary>
-    public class LineNames : ICssValue
+    class LineNames : ICssValue
     {
         private readonly String[] _names;
 

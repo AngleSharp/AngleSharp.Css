@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, ICssValue
+    struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, ICssValue
     {
         #region Fields
 

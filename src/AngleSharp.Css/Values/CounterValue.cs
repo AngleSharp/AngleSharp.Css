@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Sets a CSS counter.
     /// </summary>
-    public struct CounterValue : ICssValue
+    struct CounterValue : ICssValue
     {
         #region Fields
 

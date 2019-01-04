@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS background definition.
     /// </summary>
-    public sealed class Background : ICssValue
+    sealed class Background : ICssValue
     {
         private readonly ICssValue _layers;
         private readonly ICssValue _color;

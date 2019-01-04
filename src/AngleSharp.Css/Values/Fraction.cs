@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a fractional value.
     /// </summary>
-    public struct Fraction : IEquatable<Fraction>, IComparable<Fraction>, ICssValue
+    struct Fraction : IEquatable<Fraction>, IComparable<Fraction>, ICssValue
     {
         #region Fields
 

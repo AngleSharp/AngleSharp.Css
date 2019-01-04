@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS calculated value.
     /// </summary>
-    public sealed class Calc : ICssRawValue, ICssFunctionValue
+    class Calc : ICssRawValue, ICssFunctionValue
     {
         #region Fields
 

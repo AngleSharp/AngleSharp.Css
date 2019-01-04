@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public struct Time : IEquatable<Time>, IComparable<Time>, ICssValue
+    struct Time : IEquatable<Time>, IComparable<Time>, ICssValue
     {
         #region Basic times
 

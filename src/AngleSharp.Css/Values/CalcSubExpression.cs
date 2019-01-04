@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a calc subtraction expression, i.e., a - b.
     /// </summary>
-    public class CalcSubExpression : ICssValue
+    class CalcSubExpression : ICssValue
     {
         private readonly ICssValue _left;
         private readonly ICssValue _right;

@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS image repeat definition.
     /// </summary>
-    public struct ImageRepeats : ICssValue
+    struct ImageRepeats : ICssValue
     {
         private readonly ICssValue _horizontal;
         private readonly ICssValue _vertical;

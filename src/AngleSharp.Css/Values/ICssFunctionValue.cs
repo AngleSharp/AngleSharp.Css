@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value using a function call.
     /// </summary>
-    public interface ICssFunctionValue : ICssValue
+    interface ICssFunctionValue : ICssValue
     {
         /// <summary>
         /// Gets the name of the function.

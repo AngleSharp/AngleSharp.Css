@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS origin definition.
     /// </summary>
-    public sealed class Point3 : ICssValue
+    class Point3 : ICssValue
     {
         private readonly ICssValue _x;
         private readonly ICssValue _y;

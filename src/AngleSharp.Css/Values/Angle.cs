@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// Represents an angle object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
     /// </summary>
-    public struct Angle : IEquatable<Angle>, IComparable<Angle>, ICssValue
+    struct Angle : IEquatable<Angle>, IComparable<Angle>, ICssValue
     {
         #region Basic angles
 

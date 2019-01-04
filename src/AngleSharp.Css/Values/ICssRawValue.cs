@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a value that needs to be evaluated at runtime.
     /// </summary>
-    public interface ICssRawValue : ICssValue
+    interface ICssRawValue : ICssValue
     {
     }
 }

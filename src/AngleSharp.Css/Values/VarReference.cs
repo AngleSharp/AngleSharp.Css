@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS var replacement.
     /// </summary>
-    public class VarReference : ICssValue, ICssFunctionValue
+    class VarReference : ICssValue, ICssFunctionValue
     {
         #region Fields
 

@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// The common interface for all CSS gradients.
     /// </summary>
-    public interface IGradient : IImageSource
+    interface IGradient : IImageSource
     {
         /// <summary>
         /// Gets an enumeration of all stops.

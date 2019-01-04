@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS border image slice definition.
     /// </summary>
-    public struct BorderImageSlice : ICssValue
+    struct BorderImageSlice : ICssValue
     {
         #region Fields
 

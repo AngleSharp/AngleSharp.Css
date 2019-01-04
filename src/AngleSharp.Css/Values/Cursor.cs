@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS cursor definition.
     /// </summary>
-    public sealed class Cursor : ICssValue
+    class Cursor : ICssValue
     {
         private readonly ICssValue[] _definitions;
         private readonly ICssValue _cursor;

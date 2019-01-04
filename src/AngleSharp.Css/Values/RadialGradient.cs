@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class RadialGradient : IGradient, ICssFunctionValue
+    class RadialGradient : IGradient, ICssFunctionValue
     {
         #region Fields
 

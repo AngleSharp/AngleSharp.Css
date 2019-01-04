@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value that was born from a shorthand.
     /// </summary>
-    public sealed class CssChildValue : ICssValue
+    class CssChildValue : ICssValue
     {
         private readonly ICssValue _parent;
         private readonly ICssValue _value;

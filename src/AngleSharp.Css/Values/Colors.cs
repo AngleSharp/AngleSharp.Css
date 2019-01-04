@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Values
+namespace AngleSharp.Css.Values
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     /// assignments of names to colors. Most names are derived from:
     /// http://en.wikipedia.org/wiki/X11_color_names
     /// </summary>
-    public static class Colors
+    static class Colors
     {
         #region Fields
 

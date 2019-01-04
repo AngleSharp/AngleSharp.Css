@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, IComparable<Color>, ICssValue
+    struct Color : IEquatable<Color>, IComparable<Color>, ICssValue
     {
         #region Basic colors
 

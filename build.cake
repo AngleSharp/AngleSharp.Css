@@ -51,7 +51,7 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
+        NuGetRestore("./src/AngleSharp.Css.sln", new NuGetRestoreSettings {
             ToolPath = "tools/nuget.exe"
         });
     });

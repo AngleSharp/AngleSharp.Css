@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public struct Point : IEquatable<Point>, ICssValue
+    struct Point : IEquatable<Point>, ICssValue
     {
         #region Basic values
 

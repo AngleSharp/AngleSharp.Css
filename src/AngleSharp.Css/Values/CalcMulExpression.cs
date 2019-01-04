@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a calc multiplication expression, i.e., a * b.
     /// </summary>
-    public class CalcMulExpression : ICssValue
+    class CalcMulExpression : ICssValue
     {
         private readonly ICssValue _left;
         private readonly ICssValue _right;

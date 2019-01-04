@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    public sealed class Periodic<T> : ICssValue
+    class Periodic<T> : ICssValue
         where T : ICssValue
     {
         #region Fields

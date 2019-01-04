@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the distance transformation.
     /// </summary>
-    public sealed class PerspectiveTransform : ITransform, ICssFunctionValue
+    class PerspectiveTransform : ITransform, ICssFunctionValue
     {
         #region Fields
 

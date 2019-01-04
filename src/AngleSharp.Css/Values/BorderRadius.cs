@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a border radius value.
     /// </summary>
-    public sealed class BorderRadius : ICssValue
+    class BorderRadius : ICssValue
     {
         #region Fields
 
