@@ -51,7 +51,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (cols != null || rows != null || areas != null)
                 {
-                    return new GridTemplate(cols, rows, areas);
+                    return new GridTemplate(rows, cols, areas);
                 }
 
                 return null;

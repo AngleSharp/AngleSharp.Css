@@ -10,6 +10,8 @@ namespace AngleSharp.Css.Parser
     {
         public static ICssValue ParseGridTemplate(this StringSource source)
         {
+            var pos = source.Index;
+
             if (source.IsIdentifier(CssKeywords.None))
             {
                 return new Identifier(CssKeywords.None);
@@ -35,13 +37,70 @@ namespace AngleSharp.Css.Parser
             }
             else
             {
+                var rowValues = new List<ICssValue>();
+                var col = default(ICssValue);
+                var areaValues = new List<ICssValue>();
+                var hasValue = false;
 
+                while (!source.IsDone)
+                {
+                    var value = source.ParseGridTemplateAlternative();
+
+                    if (value == null)
+                    {
+                        break;
+                    }
+
+                    hasValue = true;
+                    source.SkipSpacesAndComments();
+                    rowValues.Add(new CssTupleValue(new[] { value.Item1, value.Item3, value.Item4 }));
+                    areaValues.Add(new StringValue(value.Item2));
+                }
+
+                if (hasValue)
+                {
+                    if (source.Current == Symbols.Solidus)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        col = source.ParseExplicitTrackList();
+
+                        if (col == null)
+                        {
+                            source.BackTo(pos);
+                            return null;
+                        }
+                    }
+
+                    var row = new CssTupleValue(rowValues.ToArray());
+                    var area = new CssTupleValue(areaValues.ToArray());
+                    return new GridTemplate(row, col, area);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static Tuple<LineNames, String, ICssValue, LineNames> ParseGridTemplateAlternative(this StringSource source)
+        {
+            var namesHead = source.ParseLineNames();
+            source.SkipSpacesAndComments();
+            var str = source.ParseString();
+            source.SkipSpacesAndComments();
+
+            if (str != null)
+            {
+                var trackSize = source.ParseTrackSize();
+                source.SkipSpacesAndComments();
+                var namesTail = source.ParseLineNames();
+                source.SkipSpacesAndComments();
+                return Tuple.Create(namesHead, str, trackSize, namesTail);
             }
 
             return null;
         }
 
-        public static ICssValue ParseLineNames(this StringSource source)
+        public static LineNames ParseLineNames(this StringSource source)
         {
             var pos = source.Index;
 
@@ -256,6 +315,7 @@ namespace AngleSharp.Css.Parser
         public static ICssValue ParseAutoTrackList(this StringSource source)
         {
             var values = new List<ICssValue>();
+            var pos = source.Index;
             var head = source.ParseRepeatValue(s => s.ParseFixedSize() ?? s.ParseFixedRepeat(), true);
 
             if (head != null)
@@ -268,6 +328,7 @@ namespace AngleSharp.Css.Parser
 
             if (repeat == null)
             {
+                source.BackTo(pos);
                 return null;
             }
 
@@ -287,6 +348,7 @@ namespace AngleSharp.Css.Parser
         private static ICssValue ParseRepeatValue(this StringSource source, Func<StringSource, ICssValue> parseTrack, Boolean hasSize = false)
         {
             var values = new List<ICssValue>();
+            var pos = source.Index;
 
             while (!source.IsDone)
             {
@@ -315,6 +377,7 @@ namespace AngleSharp.Css.Parser
                 return new CssTupleValue(values.ToArray());
             }
 
+            source.BackTo(pos);
             return null;
         }
     }

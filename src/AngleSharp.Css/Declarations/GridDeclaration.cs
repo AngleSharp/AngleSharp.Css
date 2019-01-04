@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Declarations
                                     sizes.Add(size);
                                 }
 
-                                //rows, sizes, isDense
+                                return new Grid(rows, null, sizes, isDense);
                             }
                         }
                     }
@@ -97,9 +97,11 @@ namespace AngleSharp.Css.Declarations
 
                             if (columns != null)
                             {
-                                //columns, sizes, isDense
+                                return new Grid(null, columns, sizes, isDense);
                             }
                         }
+
+                        return new Grid(null, null, sizes, isDense);
                     }
                 }
 
@@ -121,13 +123,25 @@ namespace AngleSharp.Css.Declarations
                 var templateRows = values[0];
                 var templateColumns = values[1];
                 var templateAreas = values[2];
+                var autoRows = values[3];
+                var autoColumns = values[4];
+                var autoFlow = values[5];
+                var rowGap = values[6];
+                var columnGap = values[7];
 
                 if (templateRows == templateColumns && templateRows == templateAreas)
                 {
                     return templateRows;
                 }
-                else if (templateRows != null && templateColumns != null)
+                else if (templateRows != null || templateColumns != null)
                 {
+                    var tuple = (autoRows ?? autoColumns) as CssTupleValue;
+
+                    if (tuple != null)
+                    {
+                        return new Grid(templateRows, templateColumns, tuple.Items, autoFlow != null);
+                    }
+
                     return new GridTemplate(templateRows, templateColumns, templateAreas);
                 }
 
@@ -148,6 +162,24 @@ namespace AngleSharp.Css.Declarations
                         null,
                         null,
                         null,
+                        null,
+                        null,
+                        null,
+                        null,
+                    };
+                }
+                else if (value is Grid)
+                {
+                    var grid = (Grid)value;
+                    var dense = grid.Rows != null ? CssKeywords.Row : CssKeywords.Column;
+                    return new[]
+                    {
+                        grid.Rows,
+                        grid.Columns,
+                        null,
+                        grid.Columns != null ? new CssTupleValue(grid.Sizes) : null,
+                        grid.Rows != null ? new CssTupleValue(grid.Sizes) : null,
+                        grid.IsDense ? new Identifier(dense) as ICssValue : null,
                         null,
                         null,
                         null,
