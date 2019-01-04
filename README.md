@@ -11,6 +11,23 @@
 
 AngleSharp.Css extends the core AngleSharp library with some more powerful CSS capabilities. This repository is the home of the source for the AngleSharp.Css NuGet package.
 
+## Basic Configuration
+
+If you just want a configuration *that works* (as close as possible to real browsers) you should use the following code:
+
+```cs
+var config = Configuration.Default
+    .WithCss(); // from AngleSharp.Css
+```
+
+This will register a parser for CSS related content. The CSS parsing options and more could be set with parameters of the `WithCss` method. Alternatively, all the (desired) parts may be registered individually as well. That mostly boils down to three elementary parts:
+
+- A CSS parser (implementing the `ICssParser` interface, e.g., `CssParser`)
+- A factory for creating CSS declarations (`IDeclarationFactory`)
+- The styling service that can handle CSS documents, see `CssStylingService`
+
+For an interactive DOM (i.e., to handle `style` attribute changes in the HTML document) an observer needs to be registered as well.
+
 ## Advantages of AngleSharp.Css
 
 The core library already contains the CSS selector parser and the most basic classes and interfaces for dealing with the CSSOM. AngleSharp.Css brings the following advantages and use cases to life:
@@ -24,6 +41,18 @@ The core library already contains the CSS selector parser and the most basic cla
 * Full access to the value with different converters
 
 The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the browser (and potentially beyond, i.e., useful for being used by editors). Originally, most of the code found here was embedded in the AngleSharp.Core library, however, due to the overhead for HTML use cases it was decided to transfer the code into its own repository.
+
+## Features
+
+- Feature validators (e.g., for `@supports`)
+- Document functions (e.g., for `domain`)
+- Pseudo elements (e.g., `::before`)
+- Declarations (e.g., `display`) incl. knowledge of their values
+- Dynamic DOM coupling (i.e., to react to `style` attribute changes)
+- CSS custom properties (also known as CSS variables) with extensibility
+- Media queries and all other commonly implemented rules
+- Calculated values (i.e., `calc(20px + 50%)`)
+- Window-based declaration calculations, see `window.GetComputedStyle`
 
 ## Participating
 
