@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj" />
+    <ProjectReference Include="..\AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj" />
+    <ProjectReference Include="..\AngleSharp.Css\AngleSharp.Css.csproj">
+      <TargetFramework>netstandard2.0</TargetFramework>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
+    <PackageReference Include="AngleSharp" version="0.10.0" />
+    <PackageReference Include="ExCSS" version="2.0.6" />
+  </ItemGroup>
+</Project>
