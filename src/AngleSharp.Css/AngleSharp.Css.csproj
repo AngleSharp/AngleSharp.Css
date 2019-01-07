@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.10.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
+    <PackageReference Include="AngleSharp" Version="0.10.1" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
