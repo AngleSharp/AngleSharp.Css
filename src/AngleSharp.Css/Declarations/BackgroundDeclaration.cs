@@ -58,9 +58,9 @@ namespace AngleSharp.Css.Declarations
                     {
                         pos = source.Index;
 
-                        if (layer.Source == null)
+                        if (layer.Image == null)
                         {
-                            layer.Source = source.ParseImageSource();
+                            layer.Image = source.ParseImageSource();
                             c = source.SkipSpacesAndComments();
                         }
 
@@ -158,7 +158,7 @@ namespace AngleSharp.Css.Declarations
                     return new[]
                     {
                         background.Color,
-                        CreateMultiple(background, m => m.Source),
+                        CreateMultiple(background, m => m.Image),
                         CreateMultiple(background, m => m.Attachment),
                         CreateMultiple(background, m => m.Clip),
                         CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.X : new Nullable<Length>()),
@@ -193,7 +193,7 @@ namespace AngleSharp.Css.Declarations
                             Position = px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
                             Repeat = rx == null && ry == null ? new Nullable<ImageRepeats>() : new ImageRepeats(rx, ry),
                             Size = GetValue(size, i),
-                            Source = image.Items[i],
+                            Image = image.Items[i],
                         };
                     }
 
@@ -221,13 +221,13 @@ namespace AngleSharp.Css.Declarations
                 {
                     var values = layers.Items.OfType<BackgroundLayer>().Select(getValue);
 
-                    if (values.Any())
+                    if (values.Any(m => m != null))
                     {
                         return new CssListValue(values.ToArray());
                     }
                 }
 
-                return null;
+                return new Initial<Object>(null);
             }
         }
     }

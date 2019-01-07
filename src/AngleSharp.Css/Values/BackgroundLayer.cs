@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
 
     struct BackgroundLayer : ICssValue
     {
-        public ICssValue Source;
+        public ICssValue Image;
         public Point? Position;
         public ICssValue Size;
         public ImageRepeats? Repeat;
@@ -23,10 +23,10 @@ namespace AngleSharp.Css.Values
             {
                 var sb = StringBuilderPool.Obtain();
 
-                if (Source != null)
+                if (Image != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Source.CssText);
+                    sb.Append(Image.CssText);
                 }
 
                 if (Position != null)

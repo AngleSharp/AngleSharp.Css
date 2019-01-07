@@ -109,7 +109,7 @@ namespace AngleSharp.Css.Dom
                 if (!String.IsNullOrEmpty(value))
                 {
                     var parser = _context.GetService<ICssParser>();
-                    var decl = parser.ParseDeclaration(value);
+                    var decl = parser?.ParseDeclaration(value);
 
                     if (decl != null)
                     {
@@ -155,12 +155,11 @@ namespace AngleSharp.Css.Dom
                                 {
                                     count = count + 1;
                                     important = important + (longhand.IsImportant ? 1 : 0);
-                                    count++;
                                     values[i] = longhand.RawValue;
                                 }
                             }
 
-                            if (count == 0 || aggregator == null)
+                            if (count != values.Length || aggregator == null)
                                 continue;
 
                             if (important > 0 && important != count)
