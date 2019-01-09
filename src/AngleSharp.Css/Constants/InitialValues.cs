@@ -27,10 +27,10 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue BorderRightWidthDeclaration = new Constant<Length>(CssKeywords.Medium, Length.Medium);
         public static readonly ICssValue BorderBottomWidthDeclaration = new Constant<Length>(CssKeywords.Medium, Length.Medium);
         public static readonly ICssValue BorderLeftWidthDeclaration = new Constant<Length>(CssKeywords.Medium, Length.Medium);
-        public static readonly ICssValue BorderTopStyleDeclaration = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue BorderRightStyleDeclaration = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue BorderBottomStyleDeclaration = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue BorderLeftStyleDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue BorderTopStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
+        public static readonly ICssValue BorderRightStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
+        public static readonly ICssValue BorderBottomStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
+        public static readonly ICssValue BorderLeftStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
         public static readonly ICssValue BorderTopColorDeclaration = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
         public static readonly ICssValue BorderRightColorDeclaration = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
         public static readonly ICssValue BorderBottomColorDeclaration = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
@@ -38,7 +38,7 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue ColumnWidthDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
         public static readonly ICssValue ColumnCountDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
         public static readonly ICssValue ColumnRuleWidthDeclaration = new Constant<Length>(CssKeywords.Medium, Length.Medium);
-        public static readonly ICssValue ColumnRuleStyleDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ColumnRuleStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
         public static readonly ICssValue ColumnRuleColorDeclaration = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
         public static readonly ICssValue AnimationNameDeclaration = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue AnimationDurationDeclaration = Time.Zero;
@@ -54,94 +54,94 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue TransitionTimingFunctionDeclaration = CubicBezierTimingFunction.Ease;
         public static readonly ICssValue DirectionDeclaration = new Constant<DirectionMode>(CssKeywords.Ltr, DirectionMode.Ltr);
         public static readonly ICssValue EmptyCellsDeclaration = new Constant<Boolean>(CssKeywords.Show, true);
-        //flex-grow: 0
-        //flex-shrink: 1
-        //flex-basis: auto
-        //float: none
-        //border-spacing: 0
-        //box-shadow: none
-        //box-sizing: content-box
-        //break-after: auto
-        //bottom: auto
-        //top: auto
-        //right: auto
-        //left: auto
-        //caption-side: top
-        //cursor: auto
-        //margin-bottom: 0
-        //margin-left: 0
-        //margin-right: 0
-        //margin-top: 0
-        //max-height: none
-        //max-width: none
-        //min-height: auto
-        //min-width: auto
-        //overflow-wrap: normal
-        //word-spacing: normal
-        //word-break: normal
-        //visibility: visible
-        //vertical-align: baseline
-        //opacity: 1.0
-        //overflow: visible
-        //outline-color: invert, for browsers supporting it, currentColor for the other
-        //outline-style: none
-        //outline-width: medium
-        //padding-bottom: 0
-        //padding-left: 0
-        //padding-right: 0
-        //padding-top: 0
-        //text-transform: none
-        //text-shadow: none
-        //text-rendering: auto
-        //text-overflow: clip
-        //text-orientation: mixed
-        //text-justify: auto
-        //text-indent: 0
-        //text-align: start, or a nameless value that acts as left if direction is ltr, right if direction is rtl if start is not supported by the browser.
-        //text-align-last: auto
-        //text-decoration-color: currentcolor
-        //text-decoration-style: solid
-        //text-decoration-line: none
-        //list-style-type: disc
-        //list-style-position: outside
-        //list-style-image: none
-        //line-break: auto
-        //grid-template-rows: none
-        //grid-template-columns: none
-        //grid-template-areas: none
-        //grid-auto-rows: auto
-        //grid-auto-columns: auto
-        //grid-auto-flow: row
-        //grid-column-gap: 0
-        //grid-row-gap: 0
-        //column-gap: normal
-        //row-gap: normal
-        //page-break-after: auto
-        //page-break-before: auto
-        //page-break-inside: auto
-        //perspective: none
-        //position: static
-        //transform: none
-        //break-inside: auto
-        //break-before: auto
-        //clear: none
-        //clip: auto
-        //content: normal
-        //counter-increment: none
-        //counter-reset: none
-        //display: inline
-        //backface-visibility: visible
-        //border-image-source: none
-        //border-image-slice: 100%
-        //border-image-width: 1
-        //border-image-outset: 0
-        //border-image-repeat: stretch
-        //align-self: auto
-        //align-items: normal
-        //align-content: normal
-        //justify-content: normal
-        //justify-items: legacy
-        //justify-self: auto
-        //z-index: auto
+        public static readonly ICssValue FlexGrowDeclaration = new Length(0, Length.Unit.None);
+        public static readonly ICssValue FlexShrinkDeclaration = new Length(1, Length.Unit.None);
+        public static readonly ICssValue FlexBasisDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue FloatDeclaration = new Constant<Floating>(CssKeywords.None, Floating.None);
+        public static readonly ICssValue BorderSpacingDeclaration = Length.Zero;
+        public static readonly ICssValue BoxShadowDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue BoxSizingDeclaration = new Constant<BoxModel>(CssKeywords.ContentBox, BoxModel.ContentBox);
+        public static readonly ICssValue BreakAfterDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue BreakBeforeDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue BreakInsideDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue PageBreakInsideDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue PageBreakBeforeDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue PageBreakAfterDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue BottomDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue TopDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue LeftDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue RightDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue MinHeightDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue MinWidthDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue MaxHeightDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue MaxWidthDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue MarginLeftDeclaration = Length.Zero;
+        public static readonly ICssValue MarginBottomDeclaration = Length.Zero;
+        public static readonly ICssValue MarginRightDeclaration = Length.Zero;
+        public static readonly ICssValue MarginTopDeclaration = Length.Zero;
+        public static readonly ICssValue PaddingLeftDeclaration = Length.Zero;
+        public static readonly ICssValue PaddingBottomDeclaration = Length.Zero;
+        public static readonly ICssValue PaddingRightDeclaration = Length.Zero;
+        public static readonly ICssValue PaddingTopDeclaration = Length.Zero;
+        public static readonly ICssValue CaptionSideDeclaration = new Constant<Boolean>(CssKeywords.Top, true);
+        public static readonly ICssValue CursorDeclaration = new Constant<SystemCursor>(CssKeywords.Auto, SystemCursor.Auto);
+        public static readonly ICssValue OverflowWrapDeclaration = new Constant<OverflowWrap>(CssKeywords.Normal, OverflowWrap.Normal);
+        public static readonly ICssValue WordSpacingDeclaration = new Constant<Length>(CssKeywords.Normal, Length.Normal);
+        public static readonly ICssValue WordBreakDeclaration = new Constant<WordBreak>(CssKeywords.Normal, WordBreak.Normal);
+        public static readonly ICssValue VisibilityDeclaration = new Constant<Visibility>(CssKeywords.Visible, Visibility.Visible);
+        public static readonly ICssValue VerticalAlignDeclaration = new Constant<VerticalAlignment>(CssKeywords.Baseline, VerticalAlignment.Baseline);
+        public static readonly ICssValue OpacityDeclaration = new Length(1.0, Length.Unit.None);
+        public static readonly ICssValue OverflowDeclaration = new Constant<OverflowMode>(CssKeywords.Visible, OverflowMode.Visible);
+        public static readonly ICssValue OutlineWidthDeclaration = new Constant<Length>(CssKeywords.Medium, Length.Medium);
+        public static readonly ICssValue OutlineStyleDeclaration = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
+        public static readonly ICssValue OutlineColorDeclaration = new Constant<Color>(CssKeywords.Invert, Color.InvertedColor);
+        public static readonly ICssValue TextTransformDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue TextShadowDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue TextRenderingDeclaration = new Constant<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue TextOverflowDeclaration = new Constant<OverflowMode>(CssKeywords.Auto, OverflowMode.Clip);
+        public static readonly ICssValue TextOrientationDeclaration = new Constant<Object>(CssKeywords.Mixed, null);
+        public static readonly ICssValue TextJustifyDeclaration = new Constant<TextJustify>(CssKeywords.Auto, TextJustify.Auto);
+        public static readonly ICssValue TextIndentDeclaration = Length.Zero;
+        public static readonly ICssValue TextAlignDeclaration = new Constant<HorizontalAlignment>(CssKeywords.Left, HorizontalAlignment.Left);
+        public static readonly ICssValue TextAlignLastDeclaration = new Constant<TextAlignLast>(CssKeywords.Auto, TextAlignLast.Auto);
+        public static readonly ICssValue TextDecorationLineDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue TextDecorationStyleDeclaration = new Constant<LineStyle>(CssKeywords.Solid, LineStyle.Solid);
+        public static readonly ICssValue TextDecorationColorDeclaration = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
+        public static readonly ICssValue ListStyleTypeDeclaration = new Constant<ListStyle>(CssKeywords.Disc, ListStyle.Disc);
+        public static readonly ICssValue ListStylePositionDeclaration = new Constant<ListPosition>(CssKeywords.Outside, ListPosition.Outside);
+        public static readonly ICssValue ListStyleImageDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue LineBreakDeclaration = new Constant<BreakMode>(CssKeywords.Auto, BreakMode.Auto);
+        public static readonly ICssValue GridTemplateRowsDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue GridTemplateColumnsDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue GridTemplateAreasDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue GridAutoRowsDeclaration = new Constant<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue GridAutoColumnsDeclaration = new Constant<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue GridAutoFlowDeclaration = new Constant<Boolean>(CssKeywords.Row, false);
+        public static readonly ICssValue GridColumnGapDeclaration = Length.Zero;
+        public static readonly ICssValue GridRowGapDeclaration = Length.Zero;
+        public static readonly ICssValue ColumnGapDeclaration = new Constant<Length>(CssKeywords.Normal, Length.Normal);
+        public static readonly ICssValue RowGapDeclaration = new Constant<Length>(CssKeywords.Normal, Length.Normal);
+        public static readonly ICssValue PerspectiveDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue PositionDeclaration = new Constant<PositionMode>(CssKeywords.Inline, PositionMode.Static);
+        public static readonly ICssValue TransformDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ClearModeDeclaration = new Constant<ClearMode>(CssKeywords.None, ClearMode.None);
+        public static readonly ICssValue ClipDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue ContentDeclaration = new Constant<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue CounterIncrementDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue CounterResetDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue DisplayDeclaration = new Constant<DisplayMode>(CssKeywords.Inline, DisplayMode.Inline);
+        public static readonly ICssValue BackfaceVisibilityDeclaration = new Constant<Visibility>(CssKeywords.Visible, Visibility.Visible);
+        public static readonly ICssValue BorderImageSourceDeclaration = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue BorderImageSliceDeclaration = Length.Full;
+        public static readonly ICssValue BorderImageWidthDeclaration = new Length(1, Length.Unit.None);
+        public static readonly ICssValue BorderImageOutsetDeclaration = Length.Zero;
+        public static readonly ICssValue BorderImageRepeatDeclaration = new Constant<BorderRepeat>(CssKeywords.Stretch, BorderRepeat.Stretch);
+        public static readonly ICssValue AlignSelfDeclaration = new Constant<FlexContentMode>(CssKeywords.Auto, FlexContentMode.Auto);
+        public static readonly ICssValue AlignItemsDeclaration = new Constant<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue AlignContentDeclaration = new Constant<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue JustifyContentDeclaration = new Constant<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue JustifyItemsDeclaration = new Constant<Object>(CssKeywords.Legacy, null);
+        public static readonly ICssValue JustifySelfDeclaration = new Constant<FlexContentMode>(CssKeywords.Auto, FlexContentMode.Auto);
+        public static readonly ICssValue ZIndexDeclaration = new Constant<Length>(CssKeywords.Auto, Length.Auto);
     }
 }

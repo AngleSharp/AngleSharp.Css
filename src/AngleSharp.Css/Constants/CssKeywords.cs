@@ -18,6 +18,11 @@ namespace AngleSharp.Css
         public static readonly String Clip = "clip";
 
         /// <summary>
+        /// The legacy keyword.
+        /// </summary>
+        public static readonly String Legacy = "legacy";
+
+        /// <summary>
         /// The normal keyword.
         /// </summary>
         public static readonly String Normal = "normal";
@@ -150,6 +155,11 @@ namespace AngleSharp.Css
         /// The auto keyword.
         /// </summary>
         public static readonly String Auto = "auto";
+
+        /// <summary>
+        /// The mixed keyword.
+        /// </summary>
+        public static readonly String Mixed = "mixed";
 
         /// <summary>
         /// The auto-fill keyword.
