@@ -1,3 +1,6 @@
+using AngleSharp.Css.Dom;
+using AngleSharp.Css.Parser;
+
 namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
@@ -553,6 +556,18 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("1px outset", property.Value);
+        }
+
+        [Test]
+        public void CssBorderAggregation()
+        {
+            var expectedCss = "border: 1px solid rgba(0, 0, 0, 1)";
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
+            var style = new CssStyleDeclaration(context);
+            style.SetBorderWidth("1px");
+            style.SetBorderStyle("solid");
+            style.SetBorderColor("black");
+            Assert.AreEqual(expectedCss, style.CssText);
         }
     }
 }
