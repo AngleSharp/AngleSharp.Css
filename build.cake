@@ -139,6 +139,7 @@ Task("Create-Package")
 
 Task("Publish-Package")
     .IsDependentOn("Create-Package")
+    .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
         var apiKey = EnvironmentVariable("NUGET_API_KEY");
@@ -159,7 +160,8 @@ Task("Publish-Package")
     });
 
 Task("Publish-Release")
-    .IsDependentOn("Publish-Package")
+    .IsDependentOn("Create-Package")
+    .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
         var githubToken = EnvironmentVariable("GITHUB_API_TOKEN");
