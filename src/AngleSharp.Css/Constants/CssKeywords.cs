@@ -192,6 +192,11 @@ namespace AngleSharp.Css
         public static readonly String MaxContent = "max-content";
 
         /// <summary>
+        /// The format keyword.
+        /// </summary>
+        public static readonly String Format = "format";
+
+        /// <summary>
         /// The from keyword.
         /// </summary>
         public static readonly String From = "from";

@@ -850,63 +850,89 @@ namespace AngleSharp.Css
         public static readonly IValueConverter GridAutoConverter = Or(TrackSizeConverter.Many(), AssignInitial());
 
         public static readonly IValueConverter GridLineConverter = Or(
-            Assign(CssKeywords.Auto, "auto"),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
             WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
             AssignInitial());
+
+        public static readonly IValueConverter SrcListConverter =
+            WithOrder(
+                Or(UrlConverter, FromParser(ParseLocal)),
+                Or(FromParser(ParseFormat), None))
+            .FromList();
 
         #endregion
 
         #region Helpers
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
-            where T : class, ICssValue
+            where T : class, ICssValue => new ClassValueConverter<T>(converter);
+
+        private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter) => source =>
         {
-            return new ClassValueConverter<T>(converter);
+            var result = converter.Invoke(source);
+
+            if (result != null)
+            {
+                return new StringValue(result);
+            }
+
+            return null;
+        };
+
+        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter) => source =>
+        {
+            var result = converter.Invoke(source);
+
+            if (result.HasValue)
+            {
+                return new Length(result.Value, Length.Unit.None);
+            }
+
+            return null;
+        };
+
+        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter) => source =>
+        {
+            var result = converter.Invoke(source);
+
+            if (result.HasValue)
+            {
+                return new Length(result.Value, Length.Unit.None);
+            }
+
+            return null;
+        };
+
+        private static ICssFunctionValue ParseLocal(this StringSource source)
+        {
+            if (source.IsFunction(CssKeywords.Local))
+            {
+                var content = source.ParseString() ?? source.ParseIdent();
+                var f = source.SkipGetSkip();
+
+                if (content != null && f == Symbols.RoundBracketClose)
+                {
+                    return new LocalFont(content);
+                }
+            }
+
+            return null;
         }
 
-        private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter)
+        private static ICssFunctionValue ParseFormat(this StringSource source)
         {
-            return source =>
+            if (source.IsFunction(CssKeywords.Format))
             {
-                var result = converter.Invoke(source);
+                var content = source.ParseString() ?? source.ParseIdent();
+                var f = source.SkipGetSkip();
 
-                if (result != null)
+                if (content != null && f == Symbols.RoundBracketClose)
                 {
-                    return new StringValue(result);
+                    return new FontFormat(content);
                 }
+            }
 
-                return null;
-            };
-        }
-
-        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter)
-        {
-            return source =>
-            {
-                var result = converter.Invoke(source);
-
-                if (result.HasValue)
-                {
-                    return new Length(result.Value, Length.Unit.None);
-                }
-
-                return null;
-            };
-        }
-
-        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter)
-        {
-            return source =>
-            {
-                var result = converter.Invoke(source);
-
-                if (result.HasValue)
-                {
-                    return new Length(result.Value, Length.Unit.None);
-                }
-
-                return null;
-            };
+            return null;
         }
 
         #endregion
