@@ -7,8 +7,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeWidth;
 
-        public static IValueConverter Converter = LengthOrPercentConverter;
+        public static IValueConverter Converter = Or(
+            LengthOrPercentConverter,
+            NumberConverter);
 
-        public static PropertyFlags Flags = PropertyFlags.Animatable;
+        public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }
 }
