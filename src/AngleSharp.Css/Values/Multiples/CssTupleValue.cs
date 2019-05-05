@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    class CssTupleValue : ICssMultipleValue, IEnumerable<ICssValue>
+    class CssTupleValue : ICssMultipleValue
     {
         #region Fields
 
@@ -20,12 +20,7 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new tuple value.
-        /// </summary>
-        /// <param name="items">The items to contain.</param>
-        /// <param name="separator">The optional connection string.</param>
+        
         public CssTupleValue(ICssValue[] items, String separator = null)
         {
             _items = items;
@@ -36,20 +31,15 @@ namespace AngleSharp.Css.Values
 
         #region Properties
 
-        /// <summary>
-        /// Gets the contained items.
-        /// </summary>
+        public ICssValue this[Int32 index] => _items[index];
+
         public ICssValue[] Items => _items;
 
-        /// <summary>
-        /// Gets the used separator.
-        /// </summary>
         public String Separator => _separator;
 
-        /// <summary>
-        /// Gets the CSS text representation.
-        /// </summary>
         public String CssText => _items.Join(_separator);
+
+        public Int32 Count => _items.Length;
 
         #endregion
 

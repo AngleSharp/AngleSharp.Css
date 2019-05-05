@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a selected CSS enum value.
     /// </summary>
-    class Constant<T> : ICssPrimitiveValue
+    struct Constant<T> : ICssPrimitiveValue
     {
         #region Fields
 

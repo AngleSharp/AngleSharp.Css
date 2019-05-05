@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS label ("string") value.
     /// </summary>
-    class Label : ICssPrimitiveValue
+    struct Label : ICssPrimitiveValue
     {
         #region Fields
 

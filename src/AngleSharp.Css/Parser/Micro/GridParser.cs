@@ -81,7 +81,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Tuple<LineNames, String, ICssValue, LineNames> ParseGridTemplateAlternative(this StringSource source)
+        private static Tuple<LineNames?, String, ICssValue, LineNames?> ParseGridTemplateAlternative(this StringSource source)
         {
             var namesHead = source.ParseLineNames();
             source.SkipSpacesAndComments();
@@ -100,7 +100,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static LineNames ParseLineNames(this StringSource source)
+        public static LineNames? ParseLineNames(this StringSource source)
         {
             var pos = source.Index;
 

@@ -2,6 +2,9 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a periodic CSS value.
@@ -16,10 +19,7 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Constructs a new periodic value from the given values.
-        /// </summary>
+        
         public Periodic(T[] values)
         {
             _values = values;
@@ -29,9 +29,26 @@ namespace AngleSharp.Css.Values
 
         #region Properties
 
-        /// <summary>
-        /// Gets the CSS text representation.
-        /// </summary>
+        public ICssValue this[Int32 index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return Top;
+                    case 1:
+                        return Right;
+                    case 2:
+                        return Bottom;
+                    case 3:
+                        return Left;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(index));
+                }
+            }
+        }
+
         public String CssText
         {
             get
@@ -66,25 +83,24 @@ namespace AngleSharp.Css.Values
             }
         }
 
-        /// <summary>
-        /// Gets the first value.
-        /// </summary>
         public T Top => _values.Length > 0 ? _values[0] : default(T);
 
-        /// <summary>
-        /// Gets the second value.
-        /// </summary>
         public T Right => _values.Length > 1 ? _values[1] : Top;
 
-        /// <summary>
-        /// Gets the third value.
-        /// </summary>
         public T Bottom => _values.Length > 2 ? _values[2] : Top;
 
-        /// <summary>
-        /// Gets the fourth value.
-        /// </summary>
         public T Left => _values.Length > 3 ? _values[3] : Right;
+
+        public Int32 Count => 4;
+
+        #endregion
+
+        #region Methods
+
+        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
+            _values.OfType<ICssValue>().GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _values.GetEnumerator();
 
         #endregion
     }

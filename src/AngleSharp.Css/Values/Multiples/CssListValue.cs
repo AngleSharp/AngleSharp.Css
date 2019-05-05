@@ -10,32 +10,42 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    class CssListValue : ICssMultipleValue, IEnumerable<ICssValue>
+    class CssListValue : ICssMultipleValue
     {
+        #region Fields
+
         private readonly ICssValue[] _items;
 
-        /// <summary>
-        /// Creates a new CSS value list.
-        /// </summary>
-        /// <param name="items">The items in the list.</param>
+        #endregion
+
+        #region ctor
+
         public CssListValue(ICssValue[] items)
         {
             _items = items;
         }
 
-        /// <summary>
-        /// Gets the contained values.
-        /// </summary>
-        public ICssValue[] Items => _items;
+        #endregion
 
-        /// <summary>
-        /// Gets the CSS text representation.
-        /// </summary>
+        #region Properties
+
+        public ICssValue this[Int32 index] => _items[index];
+
+        public ICssValue[] Items => _items;
+        
         public String CssText => _items.Join(", ");
+
+        public Int32 Count => _items.Length;
+
+        #endregion
+
+        #region Methods
 
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
             _items.AsEnumerable().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+        #endregion
     }
 }

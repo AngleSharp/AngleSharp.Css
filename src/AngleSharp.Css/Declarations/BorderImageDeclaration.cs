@@ -137,7 +137,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (img.HasValue)
                 {
-                    return new[]
+                    return new ICssValue[]
                     {
                         img.Value.Outsets,
                         img.Value.Repeat,
@@ -146,21 +146,16 @@ namespace AngleSharp.Css.Declarations
                         img.Value.Widths,
                     };
                 }
-                else
+                else if (value is Constant<Object> constant)
                 {
-                    var constant = value as Constant<Object>;
-
-                    if (constant != null)
+                    return new ICssValue[]
                     {
-                        return new[]
-                        {
-                            null,
-                            null,
-                            null,
-                            constant,
-                            null,
-                        };
-                    }
+                        null,
+                        null,
+                        null,
+                        constant,
+                        null,
+                    };
                 }
 
                 return null;

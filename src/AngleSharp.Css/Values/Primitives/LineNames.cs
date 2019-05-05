@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css.Dom;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS line names definition.
     /// </summary>
-    class LineNames : ICssPrimitiveValue
+    struct LineNames : ICssPrimitiveValue
     {
         private readonly String[] _names;
 

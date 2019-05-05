@@ -129,21 +129,18 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var font = value as FontInfo;
-
-                if (font == null)
+                if (!(value is FontInfo font))
                 {
-                    var systemFont = value as Constant<SystemFont>;
 
-                    if (systemFont == null)
+                    if (!(value is Constant<SystemFont> systemFont))
                     {
                         return null;
                     }
 
-                    return new[] { systemFont, null, null, null, null, null, null };
+                    return new ICssValue[] { systemFont, null, null, null, null, null, null };
                 }
 
-                return new[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
+                return new ICssValue[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
             }
         }
     }

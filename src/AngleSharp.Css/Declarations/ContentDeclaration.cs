@@ -84,9 +84,9 @@ namespace AngleSharp.Css.Declarations
 
                         var m = source.ParseStatic(ContentModes);
 
-                        if (m != null)
+                        if (m.HasValue)
                         {
-                            ms.Add(m);
+                            ms.Add(m.Value);
                             source.SkipSpacesAndComments();
                             continue;
                         }

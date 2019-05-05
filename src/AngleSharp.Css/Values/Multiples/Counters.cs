@@ -3,39 +3,54 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents the CSS counters definition.
     /// </summary>
     class Counters : ICssMultipleValue
     {
+        #region Fields
+
         private readonly ICssValue[] _counters;
 
-        /// <summary>
-        /// Creates an empty CSS counters definition.
-        /// </summary>
+        #endregion
+
+        #region ctor
+        
         public Counters()
         {
             _counters = null;
         }
-
-        /// <summary>
-        /// Creates a CSS counters definition.
-        /// </summary>
-        /// <param name="counters">The counters to contain.</param>
+        
         public Counters(ICssValue[] counters)
         {
             _counters = counters;
         }
 
-        /// <summary>
-        /// Gets the values of the contained counters.
-        /// </summary>
-        public ICssValue[] Values => _counters;
+        public ICssValue this[Int32 index] => _counters[index];
 
-        /// <summary>
-        /// Gets the CSS text representation.
-        /// </summary>
+        #endregion
+
+        #region Properties
+        
+        public ICssValue[] Values => _counters;
+        
         public String CssText => _counters != null ? _counters.Join(" ") : CssKeywords.None;
+
+        public Int32 Count => _counters.Length;
+
+        #endregion
+
+        #region Methods
+
+        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
+            _counters.AsEnumerable().GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _counters.GetEnumerator();
+
+        #endregion
     }
 }

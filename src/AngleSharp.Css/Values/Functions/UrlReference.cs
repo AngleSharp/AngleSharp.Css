@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments => new[] { new Label(_path) };
+        public ICssValue[] Arguments => new ICssValue[] { new Label(_path) };
 
         /// <summary>
         /// Gets the CSS text representation.

@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Values
 
         public String Name => CssKeywords.Format;
 
-        public ICssValue[] Arguments => new[] { new Label(_fontFormat) };
+        public ICssValue[] Arguments => new ICssValue[] { new Label(_fontFormat) };
 
         public String CssText => Name.CssFunction(Arguments.Join(", "));
     }

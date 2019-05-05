@@ -29,6 +29,11 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets the value of the identifier.
+        /// </summary>
+        public String Value => _text;
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => _text;

@@ -108,7 +108,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a string object.
         /// </summary>
-        public static readonly IValueConverter StringConverter = FromParser(FromString(StringParser.ParseString));
+        public static readonly IValueConverter StringConverter = new StructValueConverter<Label>(FromString(StringParser.ParseString));
 
         /// <summary>
         /// Represents an URL object.
@@ -801,7 +801,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for LineName values.
         /// </summary>
-        public static readonly IValueConverter LineNamesConverter = FromParser(GridParser.ParseLineNames);
+        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<LineNames>(GridParser.ParseLineNames);
 
         /// <summary>
         /// Represents a converter for TrackSize values.
@@ -872,7 +872,7 @@ namespace AngleSharp.Css
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
 
-        private static Func<StringSource, Label> FromString(Func<StringSource, String> converter) => source =>
+        private static Func<StringSource, Label?> FromString(Func<StringSource, String> converter) => source =>
         {
             var result = converter.Invoke(source);
 
