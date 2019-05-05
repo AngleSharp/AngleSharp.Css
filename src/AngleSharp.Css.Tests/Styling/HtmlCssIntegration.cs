@@ -432,13 +432,23 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
-        public static void DefaultStyleSheetTest_Issue21()
+        public void DefaultStyleSheetTest_Issue21()
         {
             var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());
             var htmlParser = browsingContext.GetService<IHtmlParser>();
             var document = htmlParser.ParseDocument("<html><body><b>Hello, World!</b></body></html>");
             var boldStyle = document.Body.FirstElementChild.ComputeCurrentStyle();
             Assert.AreEqual("bolder", boldStyle.GetFontWeight());
+        }
+
+        [Test]
+        public void MediaRuleCssCausesException_Issue20()
+        {
+            var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>@media screen { }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.IsNotNull(style);
         }
     }
 }
