@@ -1,9 +1,11 @@
 # 0.12.0
 
-Released on Thursday, May 2 2019.
+Released on Thursday, May 5 2019.
 
 - Reference latest AngleSharp
+- Returns `null` in `GetStyle` if CSS not configured (#15)
 - Added extension helper `SetStyle` to modify all styles of many elements (#22)
+- Fixed bug regarding CSS grid serialization (#27)
 
 # 0.10.1
 

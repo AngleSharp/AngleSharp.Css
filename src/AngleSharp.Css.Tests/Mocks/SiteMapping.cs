@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Mocks
+namespace AngleSharp.Css.Tests.Mocks
 {
     using AngleSharp.Xml;
     using AngleSharp.Xml.Dom;
@@ -24,14 +24,11 @@
             get
             {
                 var element = _xml.QuerySelector("entry[url='" + url + "']");
-                return element != null ? element.TextContent : null;
+                return element?.TextContent;
             }
         }
 
-        public Boolean Contains(String url)
-        {
-            return this[url] != null;
-        }
+        public Boolean Contains(String url) => this[url] != null;
 
         public void Add(String url, String fileName)
         {
