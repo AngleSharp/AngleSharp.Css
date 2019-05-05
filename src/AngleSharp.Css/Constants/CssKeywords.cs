@@ -1500,5 +1500,30 @@ namespace AngleSharp.Css
         /// The right bottom keyword.
         /// </summary>
         public static readonly String RightBottom = "right bottom";
+
+        /// <summary>
+        /// The stroke keyword.
+        /// </summary>
+        public static readonly String Stroke = "stroke";
+
+        /// <summary>
+        /// The painted keyword.
+        /// </summary>
+        public static readonly String Painted = "painted";
+
+        /// <summary>
+        /// The visibleStroke keyword.
+        /// </summary>
+        public static readonly String VisibleStroke = "visibleStroke";
+
+        /// <summary>
+        /// The visibleFill keyword.
+        /// </summary>
+        public static readonly String VisibleFill = "visibleFill";
+
+        /// <summary>
+        /// The visiblePainted keyword.
+        /// </summary>
+        public static readonly String VisiblePainted = "visiblePainted";
     }
 }

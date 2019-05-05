@@ -1246,6 +1246,12 @@ namespace AngleSharp.Css
                     flags: ScrollbarTrackColorDeclaration.Flags)
             },
             {
+                PointerEventsDeclaration.Name, new DeclarationInfo(
+                    name: PointerEventsDeclaration.Name,
+                    converter: PointerEventsDeclaration.Converter,
+                    flags: PointerEventsDeclaration.Flags)
+            },
+            {
                 OrderDeclaration.Name, new DeclarationInfo(
                     name: OrderDeclaration.Name,
                     converter: OrderDeclaration.Converter,

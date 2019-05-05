@@ -445,6 +445,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter RubyPositionConverter = Map.RubyPositions.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the PointerEvent enumeration.
+        /// </summary>
+        public static readonly IValueConverter PointerEventConverter = Map.PointerEvents.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the SystemFont enumeration.
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();

@@ -416,5 +416,18 @@ namespace AngleSharp.Css.Tests.Styling
 
             Assert.AreEqual("background-color: rgba(0, 0, 0, 0); background-image: none; background-attachment: scroll; background-clip: border-box; background-origin: padding-box; background-repeat: repeat; background-size: auto auto", style.CssText);
         }
+
+        [Test]
+        public void RecombinationWorksWithBorder_Issue16()
+        {
+            var expected = "<button style=\"pointer-events: auto; border-width: 1px; border-style: solid; border-color: rgba(0, 0, 0, 1)\"></button>";
+            var document = ParseDocument("");
+            var element = document.CreateElement("button");
+            element.GetStyle().SetPointerEvents("auto");
+            element.GetStyle().SetBorderWidth("1px");
+            element.GetStyle().SetBorderStyle("solid");
+            element.GetStyle().SetBorderColor("black");
+            Assert.AreEqual(expected, element.ToHtml());
+        }
     }
 }

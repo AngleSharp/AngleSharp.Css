@@ -754,6 +754,23 @@ namespace AngleSharp.Css
         };
 
         /// <summary>
+        /// Contains the string-PointerEvent mapping.
+        /// </summary>
+        public static readonly Dictionary<String, PointerEvent> PointerEvents = new Dictionary<String, PointerEvent>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.None, PointerEvent.None },
+            { CssKeywords.Auto, PointerEvent.Auto },
+            { CssKeywords.Visible, PointerEvent.Visible },
+            { CssKeywords.VisibleFill, PointerEvent.VisibleFill },
+            { CssKeywords.VisiblePainted, PointerEvent.VisiblePainted },
+            { CssKeywords.VisibleStroke, PointerEvent.VisibleStroke },
+            { CssKeywords.Painted, PointerEvent.Painted },
+            { CssKeywords.Fill, PointerEvent.Fill },
+            { CssKeywords.Stroke, PointerEvent.Stroke },
+            { CssKeywords.All, PointerEvent.All },
+        };
+
+        /// <summary>
         /// Contains the string-FlexDirection mapping.
         /// </summary>
         public static readonly Dictionary<String, FlexDirection> FlexDirections = new Dictionary<String, FlexDirection>(StringComparer.OrdinalIgnoreCase)
