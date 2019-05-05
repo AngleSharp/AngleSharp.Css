@@ -146,7 +146,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-TimingFunction mapping.
         /// </summary>
-        public static readonly Dictionary<String, ITimingFunction> TimingFunctions = new Dictionary<String, ITimingFunction>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ICssTimingFunctionValue> TimingFunctions = new Dictionary<String, ICssTimingFunctionValue>(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Ease, new CubicBezierTimingFunction(0.25, 0.1, 0.25, 1.0) },
             { CssKeywords.EaseIn, new CubicBezierTimingFunction(0.42, 0.0, 1.0, 1.0) },

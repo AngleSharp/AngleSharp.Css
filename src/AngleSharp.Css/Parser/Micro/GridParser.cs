@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Parser
                     hasValue = true;
                     source.SkipSpacesAndComments();
                     rowValues.Add(new CssTupleValue(new[] { value.Item1, value.Item3, value.Item4 }));
-                    areaValues.Add(new StringValue(value.Item2));
+                    areaValues.Add(new Label(value.Item2));
                 }
 
                 if (hasValue)

@@ -151,9 +151,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var background = value as Background;
-
-                if (background != null)
+                if (value is Background background)
                 {
                     return new[]
                     {
@@ -215,9 +213,7 @@ namespace AngleSharp.Css.Declarations
 
             private static ICssValue CreateMultiple(Background background, Func<BackgroundLayer, ICssValue> getValue)
             {
-                var layers = background.Layers as CssListValue;
-
-                if (layers != null)
+                if (background.Layers is CssListValue layers)
                 {
                     var values = layers.Items.OfType<BackgroundLayer>().Select(getValue);
 

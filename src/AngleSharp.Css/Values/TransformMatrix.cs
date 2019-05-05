@@ -174,7 +174,7 @@ namespace AngleSharp.Css
         /// <returns>True if all elements are equal, otherwise false.</returns>
         public Boolean Equals(TransformMatrix other)
         {
-            var A = this._matrix;
+            var A = _matrix;
             var B = other._matrix;
 
             for (var i = 0; i < 4; i++)
@@ -200,11 +200,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as TransformMatrix;
-            return other != null ? Equals(other) : false;
-        }
+        public override Boolean Equals(Object obj) => obj is TransformMatrix other ? Equals(other) : false;
 
         /// <summary>
         /// Returns a hash code that defines the current length.

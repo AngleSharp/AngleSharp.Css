@@ -130,7 +130,7 @@ namespace AngleSharp.Css.Parser
                 return null;
             }
 
-            return new StringValue(str);
+            return new Label(str);
         }
 
         public static ICssValue[] ParseFontFamilies(this StringSource source)

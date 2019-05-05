@@ -192,7 +192,7 @@ namespace AngleSharp.Css.Values
             { "threedshadow", new Color(136, 136, 136) },
             { "window", new Color(255, 255, 255) },
             { "windowframe", new Color(204, 204, 204) },
-            { "windowtext", new Color(0, 0, 0) }
+            { "windowtext", new Color(0, 0, 0) },
         };
 
         #endregion
@@ -215,9 +215,7 @@ namespace AngleSharp.Css.Values
         /// <returns>The color with the given name or null.</returns>
         public static Color? GetColor(String name)
         {
-            var color = default(Color);
-
-            if (TheColors.TryGetValue(name, out color))
+            if (TheColors.TryGetValue(name, out Color color))
             {
                 return color;
             }

@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class TransformParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ITransform>> TransformFunctions = new Dictionary<String, Func<StringSource, ITransform>>
+        private static readonly Dictionary<String, Func<StringSource, ICssTransformFunctionValue>> TransformFunctions = new Dictionary<String, Func<StringSource, ICssTransformFunctionValue>>
         {
             { FunctionNames.Skew, ParseSkew2d },
             { FunctionNames.SkewX, ParseSkewX },
@@ -33,7 +33,7 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Perspective, ParsePerspective },
         };
 
-        public static ITransform ParseTransform(this StringSource source)
+        public static ICssTransformFunctionValue ParseTransform(this StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -42,7 +42,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (source.Current == Symbols.RoundBracketOpen)
                 {
-                    var function = default(Func<StringSource, ITransform>);
+                    var function = default(Func<StringSource, ICssTransformFunctionValue>);
 
                     if (TransformFunctions.TryGetValue(ident, out function))
                     {
@@ -479,7 +479,7 @@ namespace AngleSharp.Css.Parser
         /// A perspective for 3D transformations.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-perspective
         /// </summary>
-        private static ITransform ParsePerspective(StringSource source)
+        private static ICssTransformFunctionValue ParsePerspective(StringSource source)
         {
             var l = source.ParseLengthOrCalc();
             var f = source.SkipGetSkip();

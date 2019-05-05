@@ -872,13 +872,13 @@ namespace AngleSharp.Css
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
 
-        private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter) => source =>
+        private static Func<StringSource, Label> FromString(Func<StringSource, String> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result != null)
             {
-                return new StringValue(result);
+                return new Label(result);
             }
 
             return null;

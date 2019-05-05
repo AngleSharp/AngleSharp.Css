@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class GradientParser
     {
-        private static readonly Dictionary<String, Func<StringSource, IGradient>> GradientFunctions = new Dictionary<string, Func<StringSource, IGradient>>
+        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>
         {
             { FunctionNames.LinearGradient, ParseLinearGradient },
             { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.RepeatingRadialGradient, ParseRepeatingRadialGradient },
         };
 
-        public static IGradient ParseGradient(this StringSource source)
+        public static ICssGradientFunctionValue ParseGradient(this StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (source.Current == Symbols.RoundBracketOpen)
                 {
-                    var function = default(Func<StringSource, IGradient>);
+                    var function = default(Func<StringSource, ICssGradientFunctionValue>);
 
                     if (GradientFunctions.TryGetValue(ident, out function))
                     {
@@ -39,12 +39,12 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static IGradient ParseLinearGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseLinearGradient(StringSource source)
         {
             return ParseLinearGradient(source, false);
         }
 
-        private static IGradient ParseRepeatingLinearGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRepeatingLinearGradient(StringSource source)
         {
             return ParseLinearGradient(source, true);
         }
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a linear gradient.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
         /// </summary>
-        private static IGradient ParseLinearGradient(StringSource source, Boolean repeating)
+        private static ICssGradientFunctionValue ParseLinearGradient(StringSource source, Boolean repeating)
         {
             var start = source.Index;
             var angle = ParseLinearAngle(source);
@@ -85,12 +85,12 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static IGradient ParseRadialGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRadialGradient(StringSource source)
         {
             return ParseRadialGradient(source, false);
         }
 
-        private static IGradient ParseRepeatingRadialGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRepeatingRadialGradient(StringSource source)
         {
             return ParseRadialGradient(source, true);
         }
@@ -99,7 +99,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a radial gradient
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
         /// </summary>
-        private static IGradient ParseRadialGradient(StringSource source, Boolean repeating)
+        private static ICssGradientFunctionValue ParseRadialGradient(StringSource source, Boolean repeating)
         {
             var start = source.Index;
             var options = ParseRadialOptions(source);

@@ -106,7 +106,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static IImageSource ParseImageSource(this StringSource source)
+        public static ICssImageValue ParseImageSource(this StringSource source)
         {
             var url = source.ParseUri();
 
