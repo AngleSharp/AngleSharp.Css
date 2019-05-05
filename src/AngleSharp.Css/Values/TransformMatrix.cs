@@ -106,98 +106,62 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the element of the 1st row, 1st column.
         /// </summary>
-        public Double M11
-        {
-            get { return _matrix[0, 0]; }
-        }
+        public Double M11 => _matrix[0, 0];
 
         /// <summary>
         /// Gets the element of the 1st row, 2nd column.
         /// </summary>
-        public Double M12
-        {
-            get { return _matrix[0, 1]; }
-        }
+        public Double M12 => _matrix[0, 1];
 
         /// <summary>
         /// Gets the element of the 1st row, 3rd column.
         /// </summary>
-        public Double M13
-        {
-            get { return _matrix[0, 2]; }
-        }
+        public Double M13 => _matrix[0, 2];
 
         /// <summary>
         /// Gets the element of the 2nd row, 1st column.
         /// </summary>
-        public Double M21
-        {
-            get { return _matrix[1, 0]; }
-        }
+        public Double M21 => _matrix[1, 0];
 
         /// <summary>
         /// Gets the element of the 2nd row, 2nd column.
         /// </summary>
-        public Double M22
-        {
-            get { return _matrix[1, 1]; }
-        }
+        public Double M22 => _matrix[1, 1];
 
         /// <summary>
         /// Gets the element of the 2nd row, 3rd column.
         /// </summary>
-        public Double M23
-        {
-            get { return _matrix[1, 2]; }
-        }
+        public Double M23 => _matrix[1, 2];
 
         /// <summary>
         /// Gets the element of the 3rd row, 1st column.
         /// </summary>
-        public Double M31
-        {
-            get { return _matrix[2, 0]; }
-        }
+        public Double M31 => _matrix[2, 0];
 
         /// <summary>
         /// Gets the element of the 3rd row, 2nd column.
         /// </summary>
-        public Double M32
-        {
-            get { return _matrix[2, 1]; }
-        }
+        public Double M32 => _matrix[2, 1];
 
         /// <summary>
         /// Gets the element of the 3rd row, 3rd column.
         /// </summary>
-        public Double M33
-        {
-            get { return _matrix[2, 2]; }
-        }
+        public Double M33 => _matrix[2, 2];
 
         /// <summary>
         /// Gets the x-element of the translation vector.
         /// </summary>
-        public Double Tx
-        {
-            get { return _matrix[0, 3]; }
-        }
+        public Double Tx => _matrix[0, 3];
 
         /// <summary>
         /// Gets the y-element of the translation vector.
         /// </summary>
-        public Double Ty
-        {
-            get { return _matrix[1, 3]; }
-        }
+        public Double Ty => _matrix[1, 3];
 
         /// <summary>
         /// Gets the z-element of the translation vector.
         /// </summary>
-        public Double Tz
-        {
-            get { return _matrix[2, 3]; }
-        }
+        public Double Tz => _matrix[2, 3];
 
         #endregion
 

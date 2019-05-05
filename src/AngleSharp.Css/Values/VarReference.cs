@@ -37,10 +37,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.Var; }
-        }
+        public String Name => FunctionNames.Var;
 
         /// <summary>
         /// Gets the arguments.
@@ -64,18 +61,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the referenced variable name.
         /// </summary>
-        public String VariableName
-        {
-            get { return _variableName; }
-        }
+        public String VariableName => _variableName;
 
         /// <summary>
         /// Gets the defined fallback value, if any.
         /// </summary>
-        public String DefaultValue
-        {
-            get { return _defaultValue; }
-        }
+        public String DefaultValue => _defaultValue;
 
         /// <summary>
         /// Gets the CSS text representation.

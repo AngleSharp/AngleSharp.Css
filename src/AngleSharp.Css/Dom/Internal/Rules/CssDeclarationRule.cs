@@ -39,10 +39,7 @@ namespace AngleSharp.Css.Dom
             get { return GetValue(propertyName); }
         }
 
-        public Int32 Length
-        {
-            get { return _declarations.Count; }
-        }
+        public Int32 Length => _declarations.Count;
 
         #endregion
 

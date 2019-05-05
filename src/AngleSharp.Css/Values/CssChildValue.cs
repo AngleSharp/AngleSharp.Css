@@ -25,25 +25,16 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the shorthand.
         /// </summary>
-        public ICssValue Parent
-        {
-            get { return _parent; }
-        }
+        public ICssValue Parent => _parent;
 
         /// <summary>
         /// Gets the value of the longhand, if any.
         /// </summary>
-        public ICssValue Value
-        {
-            get { return _value; }
-        }
+        public ICssValue Value => _value;
 
         /// <summary>
         /// Gets the text representation of the longhand.
         /// </summary>
-        public String CssText
-        {
-            get { return _value?.CssText ?? String.Empty; }
-        }
+        public String CssText => _value?.CssText ?? String.Empty;
     }
 }

@@ -202,10 +202,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the available color names.
         /// </summary>
-        public static IEnumerable<String> Names
-        {
-            get { return TheColors.Keys; }
-        }
+        public static IEnumerable<String> Names => TheColors.Keys;
 
         #endregion
 

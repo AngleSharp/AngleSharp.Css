@@ -40,20 +40,11 @@
 
         #region Properties
 
-        public String MediaText
-        {
-            get { return _media.MediaText; }
-        }
+        public String MediaText => _media.MediaText;
 
-        public IMediaList Media
-        {
-            get { return _media; }
-        }
+        public IMediaList Media => _media;
 
-        public Boolean IsMatched
-        {
-            get { return _matched; }
-        }
+        public Boolean IsMatched => _matched;
 
         #endregion
 

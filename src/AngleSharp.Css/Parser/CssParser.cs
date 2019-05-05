@@ -102,10 +102,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Gets the specified options.
         /// </summary>
-        public CssParserOptions Options
-        {
-            get { return _options; }
-        }
+        public CssParserOptions Options => _options;
 
         #endregion
 

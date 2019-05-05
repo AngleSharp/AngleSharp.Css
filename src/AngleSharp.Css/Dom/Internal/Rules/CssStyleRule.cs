@@ -27,10 +27,7 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public ISelector Selector
-        {
-            get { return _selector; }
-        }
+        public ISelector Selector => _selector;
 
         public String SelectorText
         {
@@ -38,15 +35,9 @@ namespace AngleSharp.Css.Dom
             set { _selector = ParseSelector(value); }
         }
 
-        ICssStyleDeclaration ICssStyleRule.Style
-        {
-            get { return _style; }
-        }
+        ICssStyleDeclaration ICssStyleRule.Style => _style;
 
-        public CssStyleDeclaration Style
-        {
-            get { return _style; }
-        }
+        public CssStyleDeclaration Style => _style;
 
         #endregion
 

@@ -37,15 +37,9 @@
 
         #region Properties
 
-        public Boolean HasDeclarativeRules
-        {
-            get { return _rules.Any(IsDeclarativeRule); }
-        }
+        public Boolean HasDeclarativeRules => _rules.Any(IsDeclarativeRule);
 
-        public Int32 Length
-        {
-            get { return _rules.Count; }
-        }
+        public Int32 Length => _rules.Count;
 
         #endregion
 

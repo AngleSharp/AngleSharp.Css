@@ -35,15 +35,9 @@
             set { _href = value; }
         }
 
-        IMediaList ICssImportRule.Media
-        {
-            get { return _media; }
-        }
+        IMediaList ICssImportRule.Media => _media;
 
-        public MediaList Media
-        {
-            get { return _media; }
-        }
+        public MediaList Media => _media;
 
         public ICssStyleSheet Sheet
         {

@@ -33,20 +33,11 @@
             set { _selector = ParseSelector(value); ; }
         }
 
-        public ISelector Selector
-        {
-            get { return _selector; }
-        }
+        public ISelector Selector => _selector;
 
-        ICssStyleDeclaration ICssPageRule.Style
-        {
-            get { return _style; }
-        }
+        ICssStyleDeclaration ICssPageRule.Style => _style;
 
-        public CssStyleDeclaration Style
-        {
-            get { return _style; }
-        }
+        public CssStyleDeclaration Style => _style;
 
         #endregion
 

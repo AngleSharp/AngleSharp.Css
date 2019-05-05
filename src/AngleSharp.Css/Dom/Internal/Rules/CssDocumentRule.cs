@@ -34,10 +34,7 @@
             set { SetConditionText(value, throwOnError: true); }
         }
 
-        public IDocumentFunctions Conditions
-        {
-            get { return _conditions; }
-        }
+        public IDocumentFunctions Conditions => _conditions;
 
         #endregion
 

@@ -69,34 +69,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the first value.
         /// </summary>
-        public T Top
-        {
-            get { return _values.Length > 0 ? _values[0] : default(T); }
-        }
+        public T Top => _values.Length > 0 ? _values[0] : default(T);
 
         /// <summary>
         /// Gets the second value.
         /// </summary>
-        public T Right
-        {
-            get { return _values.Length > 1 ? _values[1] : Top; }
-        }
+        public T Right => _values.Length > 1 ? _values[1] : Top;
 
         /// <summary>
         /// Gets the third value.
         /// </summary>
-        public T Bottom
-        {
-            get { return _values.Length > 2 ? _values[2] : Top; }
-        }
+        public T Bottom => _values.Length > 2 ? _values[2] : Top;
 
         /// <summary>
         /// Gets the fourth value.
         /// </summary>
-        public T Left
-        {
-            get { return _values.Length > 3 ? _values[3] : Right; }
-        }
+        public T Left => _values.Length > 3 ? _values[3] : Right;
 
         #endregion
     }

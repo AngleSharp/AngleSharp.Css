@@ -169,6 +169,7 @@ namespace AngleSharp.Dom
                 {
                     elementHidden = elementStyle.GetDisplay() == "none";
                 }
+
                 if (!String.IsNullOrEmpty(elementStyle.GetVisibility()) && elementHidden != true)
                 {
                     elementHidden = elementStyle.GetVisibility() != "visible";
@@ -190,9 +191,8 @@ namespace AngleSharp.Dom
                     InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle);
                 }
 
-                if (node is IText)
+                if (node is IText textElement)
                 {
-                    var textElement = (IText)node;
                     ProcessText(textElement.Data, sb, parentStyle);
                 }
                 else if (node is IHtmlBreakRowElement)
@@ -201,9 +201,7 @@ namespace AngleSharp.Dom
                 }
                 else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-cell")
                 {
-                    var nextSibling = node.NextSibling as IElement;
-
-                    if (nextSibling != null)
+                    if (node.NextSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 
@@ -215,9 +213,7 @@ namespace AngleSharp.Dom
                 }
                 else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-row")
                 {
-                    var nextSibling = node.NextSibling as IElement;
-
-                    if (nextSibling != null)
+                    if (node.NextSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 
@@ -229,16 +225,14 @@ namespace AngleSharp.Dom
                 }
                 else if (node is IHtmlParagraphElement)
                 {
-                    var startIndexCount = 0;
-                    requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
+                    requiredLineBreakCounts.TryGetValue(startIndex, out int startIndexCount);
 
                     if (startIndexCount < 2)
                     {
                         requiredLineBreakCounts[startIndex] = 2;
                     }
 
-                    var endIndexCount = 0;
-                    requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out int endIndexCount);
 
                     if (endIndexCount < 2)
                     {
@@ -261,16 +255,14 @@ namespace AngleSharp.Dom
 
                 if (isBlockLevel.Value)
                 {
-                    var startIndexCount = 0;
-                    requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
+                    requiredLineBreakCounts.TryGetValue(startIndex, out int startIndexCount);
 
                     if (startIndexCount < 1)
                     {
                         requiredLineBreakCounts[startIndex] = 1;
                     }
 
-                    var endIndexCount = 0;
-                    requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out int endIndexCount);
 
                     if (endIndexCount < 1)
                     {
@@ -278,6 +270,26 @@ namespace AngleSharp.Dom
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the style on all elements of the collection.
+        /// </summary>
+        /// <typeparam name="TElement">The type of elements.</typeparam>
+        /// <param name="elements">The collection to go over.</param>
+        /// <param name="change">The action to trigger for each element style.</param>
+        /// <returns>The collection for chaining.</returns>
+        public static IEnumerable<TElement> SetStyle<TElement>(this IEnumerable<TElement> elements, Action<ICssStyleDeclaration> change)
+            where TElement : IElement
+        {
+            change = change ?? throw new ArgumentNullException(nameof(change));
+
+            foreach (var element in elements)
+            {
+                change.Invoke(element.GetStyle());
+            }
+
+            return elements;
         }
 
         private static Boolean HasCssBox(INode node)

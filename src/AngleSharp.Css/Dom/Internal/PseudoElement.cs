@@ -28,11 +28,8 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Properties
-        
-        public IElement AssignedSlot
-        {
-            get { return _host.AssignedSlot; }
-        }
+
+        public IElement AssignedSlot => _host.AssignedSlot;
 
         public String Slot
         {
@@ -40,40 +37,21 @@ namespace AngleSharp.Css.Dom
             set { }
         }
 
-        public IShadowRoot ShadowRoot
-        {
-            get { return _host.ShadowRoot; }
-        }
+        public ISourceReference SourceReference => null;
 
-        public String Prefix
-        {
-            get { return _host.Prefix; }
-        }
+        public IShadowRoot ShadowRoot => _host.ShadowRoot;
 
-        public String PseudoName
-        {
-            get { return _name; }
-        }
+        public String Prefix => _host.Prefix;
 
-        public String LocalName
-        {
-            get { return _host.LocalName; }
-        }
+        public String PseudoName => _name;
 
-        public String NamespaceUri
-        {
-            get { return _host.NamespaceUri; }
-        }
+        public String LocalName => _host.LocalName;
 
-        public INamedNodeMap Attributes
-        {
-            get { return _host.Attributes; }
-        }
+        public String NamespaceUri => _host.NamespaceUri;
 
-        public ITokenList ClassList
-        {
-            get { return _host.ClassList; }
-        }
+        public INamedNodeMap Attributes => _host.Attributes;
+
+        public ITokenList ClassList => _host.ClassList;
 
         public String ClassName
         {
@@ -99,75 +77,33 @@ namespace AngleSharp.Css.Dom
             set { }
         }
 
-        public String TagName
-        {
-            get { return _host.TagName; }
-        }
+        public String TagName => _host.TagName;
 
-        public Boolean IsFocused
-        {
-            get { return _host.IsFocused; }
-        }
+        public Boolean IsFocused => _host.IsFocused;
 
-        public String BaseUri
-        {
-            get { return _host.BaseUri; }
-        }
+        public String BaseUri => _host.BaseUri;
 
-        public Url BaseUrl
-        {
-            get { return _host.BaseUrl; }
-        }
+        public Url BaseUrl => _host.BaseUrl;
 
-        public String NodeName
-        {
-            get { return _host.NodeName; }
-        }
+        public String NodeName => _host.NodeName;
 
-        public INodeList ChildNodes
-        {
-            get { return _host.ChildNodes; }
-        }
+        public INodeList ChildNodes => _host.ChildNodes;
 
-        public IDocument Owner
-        {
-            get { return _host.Owner; }
-        }
+        public IDocument Owner => _host.Owner;
 
-        public IElement ParentElement
-        {
-            get { return _host.ParentElement; }
-        }
+        public IElement ParentElement => _host.ParentElement;
 
-        public INode Parent
-        {
-            get { return _host.Parent; }
-        }
+        public INode Parent => _host.Parent;
 
-        public INode FirstChild
-        {
-            get { return _host.FirstChild; }
-        }
+        public INode FirstChild => _host.FirstChild;
 
-        public INode LastChild
-        {
-            get { return _host.LastChild; }
-        }
+        public INode LastChild => _host.LastChild;
 
-        public INode NextSibling
-        {
-            get { return _host.NextSibling; }
-        }
+        public INode NextSibling => _host.NextSibling;
 
-        public INode PreviousSibling
-        {
-            get { return _host.PreviousSibling; }
-        }
+        public INode PreviousSibling => _host.PreviousSibling;
 
-        public NodeType NodeType
-        {
-            get { return NodeType.Element; }
-        }
+        public NodeType NodeType => NodeType.Element;
 
         public String NodeValue
         {
@@ -181,40 +117,19 @@ namespace AngleSharp.Css.Dom
             set {  }
         }
 
-        public Boolean HasChildNodes
-        {
-            get { return _host.HasChildNodes; }
-        }
+        public Boolean HasChildNodes => _host.HasChildNodes;
 
-        public IHtmlCollection<IElement> Children
-        {
-            get { return _host.Children; }
-        }
+        public IHtmlCollection<IElement> Children => _host.Children;
 
-        public IElement FirstElementChild
-        {
-            get { return _host.FirstElementChild; }
-        }
+        public IElement FirstElementChild => _host.FirstElementChild;
 
-        public IElement LastElementChild
-        {
-            get { return _host.LastElementChild; }
-        }
+        public IElement LastElementChild => _host.LastElementChild;
 
-        public Int32 ChildElementCount
-        {
-            get { return _host.ChildElementCount; }
-        }
+        public Int32 ChildElementCount => _host.ChildElementCount;
 
-        public IElement NextElementSibling
-        {
-            get { return _host.NextElementSibling; }
-        }
+        public IElement NextElementSibling => _host.NextElementSibling;
 
-        public IElement PreviousElementSibling
-        {
-            get { return _host.PreviousElementSibling; }
-        }
+        public IElement PreviousElementSibling => _host.PreviousElementSibling;
 
         #endregion
 

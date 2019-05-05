@@ -29,33 +29,21 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the literal value of the shorthand.
         /// </summary>
-        public String Value
-        {
-            get { return _value; }
-        }
+        public String Value => _value;
 
         /// <summary>
         /// Gets the positions of the variable references.
         /// </summary>
-        public TextRange[] Ranges
-        {
-            get { return _ranges; }
-        }
+        public TextRange[] Ranges => _ranges;
 
         /// <summary>
         /// Gets the referenced variables.
         /// </summary>
-        public VarReference[] References
-        {
-            get { return _references; }
-        }
+        public VarReference[] References => _references;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _value; }
-        }
+        public String CssText => _value;
     }
 }

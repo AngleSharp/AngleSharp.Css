@@ -424,50 +424,32 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the Int32 value of the color.
         /// </summary>
-        public Int32 Value
-        {
-            get { return _hashcode; }
-        }
+        public Int32 Value => _hashcode;
 
         /// <summary>
         /// Gets the alpha part of the color.
         /// </summary>
-        public Byte A
-        {
-            get { return _alpha; }
-        }
+        public Byte A => _alpha;
 
         /// <summary>
         /// Gets the alpha part of the color in percent (0..1).
         /// </summary>
-        public Double Alpha
-        {
-            get { return Math.Round(_alpha / 255.0, 2); }
-        }
+        public Double Alpha => Math.Round(_alpha / 255.0, 2);
 
         /// <summary>
         /// Gets the red part of the color.
         /// </summary>
-        public Byte R
-        {
-            get { return _red; }
-        }
+        public Byte R => _red;
 
         /// <summary>
         /// Gets the green part of the color.
         /// </summary>
-        public Byte G
-        {
-            get { return _green; }
-        }
+        public Byte G => _green;
 
         /// <summary>
         /// Gets the blue part of the color.
         /// </summary>
-        public Byte B
-        {
-            get { return _blue; }
-        }
+        public Byte B => _blue;
 
         #endregion
 

@@ -59,10 +59,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get { return new ICssValue[] { }; }
-        }
+        public ICssValue[] Arguments => new ICssValue[] { };
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -92,18 +89,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the first angle.
         /// </summary>
-        public ICssValue Alpha
-        {
-            get { return _alpha; }
-        }
+        public ICssValue Alpha => _alpha;
 
         /// <summary>
         /// Gets the value of the second angle.
         /// </summary>
-        public ICssValue Beta
-        {
-            get { return _beta; }
-        }
+        public ICssValue Beta => _beta;
 
         #endregion
 

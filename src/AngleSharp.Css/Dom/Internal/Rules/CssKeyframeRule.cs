@@ -34,20 +34,11 @@ namespace AngleSharp.Css.Dom
             set { _selector = KeyframeParser.Parse(value); }
         }
 
-        public IKeyframeSelector Key
-        {
-            get { return _selector; }
-        }
+        public IKeyframeSelector Key => _selector;
 
-        ICssStyleDeclaration ICssKeyframeRule.Style
-        {
-            get { return _style; }
-        }
+        ICssStyleDeclaration ICssKeyframeRule.Style => _style;
 
-        public CssStyleDeclaration Style
-        {
-            get { return _style; }
-        }
+        public CssStyleDeclaration Style => _style;
 
         #endregion
 

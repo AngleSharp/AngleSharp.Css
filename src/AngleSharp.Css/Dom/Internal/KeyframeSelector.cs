@@ -28,15 +28,9 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public IEnumerable<Double> Stops
-        {
-            get { return _stops; }
-        }
+        public IEnumerable<Double> Stops => _stops;
 
-        public String Text
-        {
-            get { return this.ToCss(); }
-        }
+        public String Text => this.ToCss();
 
         #endregion
 

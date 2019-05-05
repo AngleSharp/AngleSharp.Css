@@ -68,18 +68,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get
-            {
-                return new ICssValue[]
+        public ICssValue[] Arguments => new ICssValue[]
                 {
                     new Length(_sx, Length.Unit.None),
                     new Length(_sy, Length.Unit.None),
                     new Length(_sz, Length.Unit.None),
                 };
-            }
-        }
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -122,26 +116,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the scaling in x-direction.
         /// </summary>
-        public Double ScaleX
-        {
-            get { return _sx; }
-        }
+        public Double ScaleX => _sx;
 
         /// <summary>
         /// Gets the scaling in y-direction.
         /// </summary>
-        public Double ScaleY
-        {
-            get { return _sy; }
-        }
+        public Double ScaleY => _sy;
 
         /// <summary>
         /// Gets the scaling in z-direction.
         /// </summary>
-        public Double ScaleZ
-        {
-            get { return _sz; }
-        }
+        public Double ScaleZ => _sz;
 
         #endregion
 

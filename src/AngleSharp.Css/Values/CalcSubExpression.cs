@@ -25,25 +25,16 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the left operand.
         /// </summary>
-        public ICssValue Left
-        {
-            get { return _left; }
-        }
+        public ICssValue Left => _left;
 
         /// <summary>
         /// Gets the right operand.
         /// </summary>
-        public ICssValue Right
-        {
-            get { return _right; }
-        }
+        public ICssValue Right => _right;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Concat(_left.CssText, " - ", _right.CssText); }
-        }
+        public String CssText => String.Concat(_left.CssText, " - ", _right.CssText);
     }
 }

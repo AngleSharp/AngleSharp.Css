@@ -40,15 +40,9 @@
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _media.Count; }
-        }
+        public Int32 Length => _media.Count;
 
-        public ICssParser Parser
-        {
-            get { return _context.GetService<ICssParser>(); }
-        }
+        public ICssParser Parser => _context.GetService<ICssParser>();
 
         public String MediaText
         {

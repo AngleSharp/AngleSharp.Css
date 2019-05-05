@@ -31,17 +31,11 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the values of the contained counters.
         /// </summary>
-        public ICssValue[] Values
-        {
-            get { return _counters; }
-        }
+        public ICssValue[] Values => _counters;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _counters != null ? _counters.Join(" ") : CssKeywords.None; }
-        }
+        public String CssText => _counters != null ? _counters.Join(" ") : CssKeywords.None;
     }
 }

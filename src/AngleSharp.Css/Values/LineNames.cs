@@ -24,17 +24,11 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the contained line names.
         /// </summary>
-        public String[] Names
-        {
-            get { return _names; }
-        }
+        public String[] Names => _names;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return $"[{String.Join(" ", _names)}]"; }
-        }
+        public String CssText => $"[{String.Join(" ", _names)}]";
     }
 }

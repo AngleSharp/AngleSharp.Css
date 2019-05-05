@@ -20,30 +20,18 @@
         {
         }
 
-        public override Boolean CanRead
-        {
-            get { return _stream.CanRead; }
-        }
+        public override Boolean CanRead => _stream.CanRead;
 
-        public override Boolean CanSeek
-        {
-            get { return _stream.CanSeek; }
-        }
+        public override Boolean CanSeek => _stream.CanSeek;
 
-        public override Boolean CanWrite
-        {
-            get { return _stream.CanWrite; }
-        }
+        public override Boolean CanWrite => _stream.CanWrite;
 
         public override void Flush()
         {
             _stream.Flush();
         }
 
-        public override Int64 Length
-        {
-            get { return _stream.Length; }
-        }
+        public override Int64 Length => _stream.Length;
 
         public override Int64 Position
         {

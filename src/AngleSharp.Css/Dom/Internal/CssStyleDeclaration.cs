@@ -62,10 +62,7 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public IEnumerable<ICssProperty> Declarations
-        {
-            get { return _declarations; }
-        }
+        public IEnumerable<ICssProperty> Declarations => _declarations;
 
         public String CssText
         {
@@ -73,20 +70,11 @@ namespace AngleSharp.Css.Dom
             set { Update(value); RaiseChanged(); }
         }
 
-        public Boolean IsReadOnly
-        {
-            get { return _context == null; }
-        }
+        public Boolean IsReadOnly => _context == null;
 
-        public Int32 Length
-        {
-            get { return Declarations.Count(); }
-        }
+        public Int32 Length => Declarations.Count();
 
-        public ICssRule Parent
-        {
-            get { return _parent; }
-        }
+        public ICssRule Parent => _parent;
 
         #endregion
 

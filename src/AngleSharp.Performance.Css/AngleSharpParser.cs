@@ -14,15 +14,9 @@
         };
         private static readonly CssParser parser = new CssParser(options);
 
-        public String Name
-        {
-            get { return "AngleSharp"; }
-        }
+        public String Name => "AngleSharp";
 
-        public Type Library
-        {
-            get { return typeof(BrowsingContext); }
-        }
+        public Type Library => typeof(BrowsingContext);
 
         public void Run(String source)
         {

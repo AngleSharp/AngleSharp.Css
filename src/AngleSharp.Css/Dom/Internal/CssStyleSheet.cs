@@ -39,35 +39,17 @@
 
         #region Properties
 
-        public String Type
-        {
-            get { return MimeTypeNames.Css; }
-        }
+        public String Type => MimeTypeNames.Css;
 
-        public String Title
-        {
-            get { return OwnerNode?.GetAttribute(AttributeNames.Title); }
-        }
+        public String Title => OwnerNode?.GetAttribute(AttributeNames.Title);
 
-        public IMediaList Media
-        {
-            get { return _media; }
-        }
+        public IMediaList Media => _media;
 
-        public ICssRuleList Rules
-        {
-            get { return _rules; }
-        }
+        public ICssRuleList Rules => _rules;
 
-        public IBrowsingContext Context
-        {
-            get { return _context; }
-        }
+        public IBrowsingContext Context => _context;
 
-        public TextSource Source
-        {
-            get { return _source; }
-        }
+        public TextSource Source => _source;
 
         public Boolean IsDisabled
         {
@@ -75,20 +57,11 @@
             set;
         }
 
-        public IElement OwnerNode
-        {
-            get { return _element; }
-        }
+        public IElement OwnerNode => _element;
 
-        public ICssStyleSheet Parent
-        {
-            get { return _parent; }
-        }
+        public ICssStyleSheet Parent => _parent;
 
-        public ICssRule OwnerRule
-        {
-            get { return _owner; }
-        }
+        public ICssRule OwnerRule => _owner;
 
         public String Href
         {

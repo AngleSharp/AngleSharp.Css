@@ -28,15 +28,9 @@
 
         #region Properties
 
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
-        public String Data
-        {
-            get { return _data; }
-        }
+        public String Data => _data;
 
         #endregion
 

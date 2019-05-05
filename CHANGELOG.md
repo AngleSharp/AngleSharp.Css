@@ -3,6 +3,7 @@
 Released on Thursday, May 2 2019.
 
 - Reference latest AngleSharp
+- Added extension helper `SetStyle` to modify all styles of many elements (#22)
 
 # 0.10.1
 

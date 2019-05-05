@@ -26,10 +26,7 @@
         /// Gets the default stylesheet as specified by the W3C:
         /// http://www.w3.org/TR/CSS21/sample.html
         /// </summary>
-        public ICssStyleSheet Default
-        {
-            get { return _default ?? (_default = ParseDefault()); }
-        }
+        public ICssStyleSheet Default => _default ?? (_default = ParseDefault());
 
         #endregion
 

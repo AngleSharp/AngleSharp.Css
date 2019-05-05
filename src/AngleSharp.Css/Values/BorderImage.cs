@@ -87,42 +87,27 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the associated image value.
         /// </summary>
-        public ICssValue Image
-        {
-            get { return _image; }
-        }
+        public ICssValue Image => _image;
 
         /// <summary>
         /// Gets the associated slice value.
         /// </summary>
-        public ICssValue Slice
-        {
-            get { return _slice; }
-        }
+        public ICssValue Slice => _slice;
 
         /// <summary>
         /// Gets the associated width value.
         /// </summary>
-        public ICssValue Widths
-        {
-            get { return _widths; }
-        }
+        public ICssValue Widths => _widths;
 
         /// <summary>
         /// Gets the associated outset value.
         /// </summary>
-        public ICssValue Outsets
-        {
-            get { return _outsets; }
-        }
+        public ICssValue Outsets => _outsets;
 
         /// <summary>
         /// Gets the associated repeat value.
         /// </summary>
-        public ICssValue Repeat
-        {
-            get { return _repeat; }
-        }
+        public ICssValue Repeat => _repeat;
 
         #endregion
     }

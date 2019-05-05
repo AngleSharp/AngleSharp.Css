@@ -40,25 +40,13 @@
 
         #region Properties
 
-        public IEnumerable<IMediaFeature> Features
-        {
-            get { return _features; }
-        }
+        public IEnumerable<IMediaFeature> Features => _features;
 
-        public String Type
-        {
-            get { return _type; }
-        }
+        public String Type => _type;
 
-        public Boolean IsExclusive
-        {
-            get { return _exclusive; }
-        }
+        public Boolean IsExclusive => _exclusive;
 
-        public Boolean IsInverse
-        {
-            get { return _inverse; }
-        }
+        public Boolean IsInverse => _inverse;
 
         public String Constraints
         {

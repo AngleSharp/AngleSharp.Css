@@ -32,15 +32,9 @@
             set { _media.MediaText = value; }
         }
 
-        IMediaList ICssMediaRule.Media
-        {
-            get { return _media; }
-        }
+        IMediaList ICssMediaRule.Media => _media;
 
-        public MediaList Media
-        {
-            get { return _media; }
-        }
+        public MediaList Media => _media;
 
         #endregion
 

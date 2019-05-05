@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -20,26 +20,18 @@
         /// </summary>
         [DomName("style")]
         [DomAccessor(Accessors.Getter)]
-        public static ICssStyleDeclaration GetStyle(this IElement element)
-        {
-            return _styles.GetValue(element, CreateStyle);
-        }
+        public static ICssStyleDeclaration GetStyle(this IElement element) => _styles.GetValue(element, CreateStyle);
 
         /// <summary>
         /// Sets the style declaration of an element.
         /// </summary>
         [DomName("style")]
         [DomAccessor(Accessors.Setter)]
-        public static void SetStyle(this IElement element, String value)
-        {
-            element.SetAttribute(AttributeNames.Style, value);
-        }
+        public static void SetStyle(this IElement element, String value) => element.SetAttribute(AttributeNames.Style, value);
 
         internal static void UpdateStyle(this IElement element, String value)
         {
-            var style = default(ICssStyleDeclaration);
-
-            if (_styles.TryGetValue(element, out style))
+            if (_styles.TryGetValue(element, out ICssStyleDeclaration style))
             {
                 style.Update(value);
             }
@@ -50,10 +42,7 @@
             }
         }
 
-        private static ICssStyleDeclaration CreateStyle(IElement element)
-        {
-            return CreateStyle(element, null);
-        }
+        private static ICssStyleDeclaration CreateStyle(IElement element) => CreateStyle(element, null);
 
         private static ICssStyleDeclaration CreateStyle(IElement element, String source)
         {

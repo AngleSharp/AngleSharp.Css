@@ -100,26 +100,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the angle of the linear gradient.
         /// </summary>
-        public ICssValue Angle
-        {
-            get { return _angle ?? Values.Angle.Half; }
-        }
+        public ICssValue Angle => _angle ?? Values.Angle.Half;
 
         /// <summary>
         /// Gets all stops.
         /// </summary>
-        public GradientStop[] Stops
-        {
-            get { return _stops; }
-        }
+        public GradientStop[] Stops => _stops;
 
         /// <summary>
         /// Gets if the gradient is repeating.
         /// </summary>
-        public Boolean IsRepeating
-        {
-            get { return _repeating; }
-        }
+        public Boolean IsRepeating => _repeating;
 
         #endregion
     }

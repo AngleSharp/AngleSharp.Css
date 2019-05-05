@@ -55,10 +55,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient; }
-        }
+        public String Name => _repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient;
 
         /// <summary>
         /// Gets the arguments.
@@ -118,66 +115,42 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get {  return Name.CssFunction(Arguments.Join(", ")); }
-        }
+        public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         /// <summary>
         /// Gets if the gradient should always be displayed as a circle.
         /// </summary>
-        public Boolean IsCircle
-        {
-            get { return _circle; }
-        }
+        public Boolean IsCircle => _circle;
 
         /// <summary>
         /// Gets the special size mode of the gradient.
         /// </summary>
-        public SizeMode Mode
-        {
-            get { return _sizeMode; }
-        }
+        public SizeMode Mode => _sizeMode;
 
         /// <summary>
         /// Gets the position of the radial gradient.
         /// </summary>
-        public Point Position
-        {
-            get { return _center; }
-        }
+        public Point Position => _center;
 
         /// <summary>
         /// Gets the horizontal radius.
         /// </summary>
-        public ICssValue MajorRadius
-        {
-            get { return _width ?? Length.Full; }
-        }
+        public ICssValue MajorRadius => _width ?? Length.Full;
 
         /// <summary>
         /// Gets the vertical radius.
         /// </summary>
-        public ICssValue MinorRadius
-        {
-            get { return _height ?? Length.Full; }
-        }
+        public ICssValue MinorRadius => _height ?? Length.Full;
 
         /// <summary>
         /// Gets all stops.
         /// </summary>
-        public GradientStop[] Stops
-        {
-            get { return _stops; }
-        }
+        public GradientStop[] Stops => _stops;
 
         /// <summary>
         /// Gets if the gradient is repeating.
         /// </summary>
-        public Boolean IsRepeating
-        {
-            get { return _repeating; }
-        }
+        public Boolean IsRepeating => _repeating;
 
         #endregion
 

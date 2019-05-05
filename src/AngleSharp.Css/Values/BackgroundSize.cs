@@ -54,18 +54,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the width of the background.
         /// </summary>
-        public ICssValue Width
-        {
-            get { return _width; }
-        }
+        public ICssValue Width => _width;
 
         /// <summary>
         /// Gets the height of the background.
         /// </summary>
-        public ICssValue Height
-        {
-            get { return _height; }
-        }
+        public ICssValue Height => _height;
 
         /// <summary>
         /// Gets the CSS text representation.

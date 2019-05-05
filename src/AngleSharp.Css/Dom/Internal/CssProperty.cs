@@ -50,40 +50,19 @@ namespace AngleSharp.Css.Dom
             set { _value = _converter.Convert(value); }
         }
 
-        public Boolean HasValue
-        {
-            get { return _value != null; }
-        }
+        public Boolean HasValue => _value != null;
 
-        public Boolean IsInherited
-        {
-            get { return (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (HasValue && _value.CssText.Is(CssKeywords.Inherit)); }
-        }
+        public Boolean IsInherited => (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (HasValue && _value.CssText.Is(CssKeywords.Inherit));
 
-        public Boolean CanBeInherited
-        {
-            get { return (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited; }
-        }
+        public Boolean CanBeInherited => (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited;
 
-        public Boolean IsAnimatable
-        {
-            get { return (_flags & PropertyFlags.Animatable) == PropertyFlags.Animatable; }
-        }
+        public Boolean IsAnimatable => (_flags & PropertyFlags.Animatable) == PropertyFlags.Animatable;
 
-        public Boolean IsInitial
-        {
-            get { return !HasValue || _value.CssText.Is(CssKeywords.Initial); }
-        }
+        public Boolean IsInitial => !HasValue || _value.CssText.Is(CssKeywords.Initial);
 
-        public Boolean IsShorthand
-        {
-            get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
-        }
+        public Boolean IsShorthand => (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand;
 
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
         public Boolean IsImportant
         {
@@ -91,29 +70,17 @@ namespace AngleSharp.Css.Dom
             set { _important = value; }
         }
 
-        public String CssText
-        {
-            get { return this.ToCss(); }
-        }
+        public String CssText => this.ToCss();
 
         #endregion
 
         #region Internal Properties
 
-        internal Boolean CanBeHashless
-        {
-            get { return (_flags & PropertyFlags.Hashless) == PropertyFlags.Hashless; }
-        }
+        internal Boolean CanBeHashless => (_flags & PropertyFlags.Hashless) == PropertyFlags.Hashless;
 
-        internal Boolean CanBeUnitless
-        {
-            get { return (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless; }
-        }
+        internal Boolean CanBeUnitless => (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless;
 
-        internal IValueConverter Converter
-        {
-            get { return _converter; }
-        }
+        internal IValueConverter Converter => _converter;
 
         #endregion
 

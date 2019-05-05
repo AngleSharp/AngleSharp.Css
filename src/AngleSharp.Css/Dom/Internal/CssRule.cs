@@ -68,15 +68,9 @@
             set { _owner = value; }
         }
 
-        public CssRuleType Type
-        {
-            get { return _type; }
-        }
+        public CssRuleType Type => _type;
 
-        public ICssParser Parser
-        {
-            get { return _owner.Context.GetService<ICssParser>(); }
-        }
+        public ICssParser Parser => _owner.Context.GetService<ICssParser>();
 
         #endregion
 

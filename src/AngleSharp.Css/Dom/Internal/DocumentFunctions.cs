@@ -24,10 +24,7 @@
             get { return _functions[index]; }
         }
 
-        public Int32 Length
-        {
-            get { return _functions.Count; }
-        }
+        public Int32 Length => _functions.Count;
 
         public IEnumerator<IDocumentFunction> GetEnumerator()
         {

@@ -136,18 +136,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value for the x-coordinate.
         /// </summary>
-        public ICssValue X
-        {
-            get { return _x; }
-        }
+        public ICssValue X => _x;
 
         /// <summary>
         /// Gets the value for the y-coordinate.
         /// </summary>
-        public ICssValue Y
-        {
-            get { return _y; }
-        }
+        public ICssValue Y => _y;
 
         #endregion
 

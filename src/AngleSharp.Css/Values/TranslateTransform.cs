@@ -68,50 +68,32 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get
-            {
-                return new[]
+        public ICssValue[] Arguments => new[]
                 {
                     _x,
                     _y,
                     _z
                 };
-            }
-        }
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return Name.CssFunction(Arguments.Join(", ")); }
-        }
+        public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         /// <summary>
         /// Gets the shift in x-direction.
         /// </summary>
-        public ICssValue ShiftX
-        {
-            get { return _x; }
-        }
+        public ICssValue ShiftX => _x;
 
         /// <summary>
         /// Gets the shift in y-direction.
         /// </summary>
-        public ICssValue ShiftY
-        {
-            get { return _y; }
-        }
+        public ICssValue ShiftY => _y;
 
         /// <summary>
         /// Gets the shift in z-direction.
         /// </summary>
-        public ICssValue ShiftZ
-        {
-            get { return _z; }
-        }
+        public ICssValue ShiftZ => _z;
 
         #endregion
 

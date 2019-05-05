@@ -25,10 +25,7 @@
 
         #region Properties
 
-        public Boolean IsBad
-        {
-            get { return _bad; }
-        }
+        public Boolean IsBad => _bad;
 
         #endregion
     }

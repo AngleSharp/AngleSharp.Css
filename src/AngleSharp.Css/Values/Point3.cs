@@ -40,25 +40,16 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the x coordinate.
         /// </summary>
-        public ICssValue X
-        {
-            get { return _x; }
-        }
+        public ICssValue X => _x;
 
         /// <summary>
         /// Gets the y coordinate.
         /// </summary>
-        public ICssValue Y
-        {
-            get { return _y; }
-        }
+        public ICssValue Y => _y;
 
         /// <summary>
         /// Gets the z coordinate.
         /// </summary>
-        public ICssValue Z
-        {
-            get { return _z; }
-        }
+        public ICssValue Z => _z;
     }
 }

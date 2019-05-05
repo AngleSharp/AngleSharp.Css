@@ -38,34 +38,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Concat(_identifier, " ", _listStyle, " ", _separator); }
-        }
+        public String CssText => String.Concat(_identifier, " ", _listStyle, " ", _separator);
 
         /// <summary>
         /// Gets the identifier of the counter.
         /// </summary>
-        public String CounterIdentifier
-        {
-            get { return _identifier; }
-        }
+        public String CounterIdentifier => _identifier;
 
         /// <summary>
         /// Gets the style of the counter.
         /// </summary>
-        public String ListStyle
-        {
-            get { return _listStyle; }
-        }
+        public String ListStyle => _listStyle;
 
         /// <summary>
         /// Gets the defined separator of the counter.
         /// </summary>
-        public String DefinedSeparator
-        {
-            get { return _separator; }
-        }
+        public String DefinedSeparator => _separator;
 
         #endregion
     }

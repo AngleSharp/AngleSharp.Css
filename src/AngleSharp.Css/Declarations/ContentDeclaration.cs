@@ -115,10 +115,7 @@ namespace AngleSharp.Css.Declarations
                     _modes = modes;
                 }
 
-                public String CssText
-                {
-                    get { return _modes.Length == 0 ? CssKeywords.None : _modes.Join(" "); }
-                }
+                public String CssText => _modes.Length == 0 ? CssKeywords.None : _modes.Join(" ");
             }
 
             private interface IContentMode : ICssValue
@@ -131,10 +128,7 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class NormalContentMode : IContentMode
             {
-                public String CssText
-                {
-                    get { return CssKeywords.Normal; }
-                }
+                public String CssText => CssKeywords.Normal;
 
                 public String Stringify(IElement element)
                 {
@@ -148,10 +142,7 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class OpenQuoteContentMode : IContentMode
             {
-                public String CssText
-                {
-                    get { return CssKeywords.OpenQuote; }
-                }
+                public String CssText => CssKeywords.OpenQuote;
 
                 public String Stringify(IElement element)
                 {
@@ -165,10 +156,7 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class CloseQuoteContentMode : IContentMode
             {
-                public String CssText
-                {
-                    get { return CssKeywords.CloseQuote; }
-                }
+                public String CssText => CssKeywords.CloseQuote;
 
                 public String Stringify(IElement element)
                 {
@@ -182,10 +170,7 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class NoOpenQuoteContentMode : IContentMode
             {
-                public String CssText
-                {
-                    get { return CssKeywords.NoOpenQuote; }
-                }
+                public String CssText => CssKeywords.NoOpenQuote;
 
                 public String Stringify(IElement element)
                 {
@@ -199,10 +184,7 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class NoCloseQuoteContentMode : IContentMode
             {
-                public String CssText
-                {
-                    get { return CssKeywords.NoCloseQuote; }
-                }
+                public String CssText => CssKeywords.NoCloseQuote;
 
                 public String Stringify(IElement element)
                 {
@@ -222,10 +204,7 @@ namespace AngleSharp.Css.Declarations
                     _text = text;
                 }
 
-                public String CssText
-                {
-                    get { return _text.CssString(); }
-                }
+                public String CssText => _text.CssString();
 
                 public String Stringify(IElement element)
                 {
@@ -247,10 +226,7 @@ namespace AngleSharp.Css.Declarations
                     _counter = counter;
                 }
 
-                public String CssText
-                {
-                    get { return _counter.CssText; }
-                }
+                public String CssText => _counter.CssText;
 
                 public String Stringify(IElement element)
                 {
@@ -271,10 +247,7 @@ namespace AngleSharp.Css.Declarations
                     _attribute = attribute;
                 }
 
-                public String CssText
-                {
-                    get { return FunctionNames.Attr.CssFunction(_attribute); }
-                }
+                public String CssText => FunctionNames.Attr.CssFunction(_attribute);
 
                 public String Stringify(IElement element)
                 {
@@ -296,10 +269,7 @@ namespace AngleSharp.Css.Declarations
                     _url = url;
                 }
 
-                public String CssText
-                {
-                    get { return _url.CssText; }
-                }
+                public String CssText => _url.CssText;
 
                 public String Stringify(IElement element)
                 {

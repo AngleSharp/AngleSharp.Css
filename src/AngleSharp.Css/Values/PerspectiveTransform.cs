@@ -29,34 +29,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.Perspective; }
-        }
+        public String Name => FunctionNames.Perspective;
 
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get { return new [] { _distance }; }
-        }
+        public ICssValue[] Arguments => new[] { _distance };
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return Name.CssFunction(_distance.CssText); }
-        }
+        public String CssText => Name.CssFunction(_distance.CssText);
 
         /// <summary>
         /// Gets the distance from the origin.
         /// </summary>
-        public ICssValue Distance
-        {
-            get { return _distance; }
-        }
+        public ICssValue Distance => _distance;
 
         #endregion
 

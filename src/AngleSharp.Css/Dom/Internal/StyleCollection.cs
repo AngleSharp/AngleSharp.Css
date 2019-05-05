@@ -28,10 +28,7 @@
 
         #region Properties
 
-        public IRenderDevice Device
-        {
-            get { return _device; }
-        }
+        public IRenderDevice Device => _device;
 
         #endregion
 

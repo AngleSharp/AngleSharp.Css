@@ -30,10 +30,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d; }
-        }
+        public String Name => _values.Length == 6 ? FunctionNames.Matrix : FunctionNames.Matrix3d;
 
         /// <summary>
         /// Gets the arguments.
@@ -56,10 +53,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return Name.CssFunction(Arguments.Join(", ")); }
-        }
+        public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         /// <summary>
         /// Gets the value of the given index.

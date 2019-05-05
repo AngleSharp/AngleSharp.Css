@@ -41,10 +41,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the name of the function.
         /// </summary>
-        public String Name
-        {
-            get { return FunctionNames.Steps; }
-        }
+        public String Name => FunctionNames.Steps;
 
         /// <summary>
         /// Gets the arguments.
@@ -91,18 +88,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the numbers of intervals.
         /// </summary>
-        public Int32 Intervals
-        {
-            get { return _intervals; }
-        }
+        public Int32 Intervals => _intervals;
 
         /// <summary>
         /// Gets if the steps should occur in the beginning.
         /// </summary>
-        public Boolean IsStart
-        {
-            get { return _start; }
-        }
+        public Boolean IsStart => _start;
 
         #endregion
     }

@@ -36,26 +36,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString); }
-        }
+        public String CssText => String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
 
         /// <summary>
         /// Gets the value of resolution.
         /// </summary>
-        public Double Value
-        {
-            get { return _value; }
-        }
+        public Double Value => _value;
 
         /// <summary>
         /// Gets the type of the length.
         /// </summary>
-        public Unit Type
-        {
-            get { return _unit; }
-        }
+        public Unit Type => _unit;
 
         /// <summary>
         /// Gets the representation of the unit as a string.

@@ -71,19 +71,13 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get
-            {
-                return new ICssValue[]
+        public ICssValue[] Arguments => new ICssValue[]
                 {
                     new Length(_x, Length.Unit.None),
                     new Length(_y, Length.Unit.None),
                     new Length(_z, Length.Unit.None),
                     _angle,
                 };
-            }
-        }
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -107,34 +101,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the x-component of the rotation vector.
         /// </summary>
-        public Double X
-        {
-            get { return _x; }
-        }
+        public Double X => _x;
 
         /// <summary>
         /// Gets the value of the y-component of the rotation vector.
         /// </summary>
-        public Double Y
-        {
-            get { return _y; }
-        }
+        public Double Y => _y;
 
         /// <summary>
         /// Gets the value of the z-component of the rotation vector.
         /// </summary>
-        public Double Z
-        {
-            get { return _z; }
-        }
+        public Double Z => _z;
 
         /// <summary>
         /// Gets the angle.
         /// </summary>
-        public ICssValue Angle
-        {
-            get { return _angle; }
-        }
+        public ICssValue Angle => _angle;
 
         #endregion
 

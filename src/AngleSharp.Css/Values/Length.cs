@@ -110,35 +110,23 @@ namespace AngleSharp.Css.Values
         /// Gets if the length is given in absolute units.
         /// Such a length may be converted to pixels.
         /// </summary>
-        public Boolean IsAbsolute
-        {
-            get { return _unit == Unit.In || _unit == Unit.Mm || _unit == Unit.Pc || _unit == Unit.Px || _unit == Unit.Pt || _unit == Unit.Cm; }
-        }
+        public Boolean IsAbsolute => _unit == Unit.In || _unit == Unit.Mm || _unit == Unit.Pc || _unit == Unit.Px || _unit == Unit.Pt || _unit == Unit.Cm;
 
         /// <summary>
         /// Gets if the length is given in relative units.
         /// Such a length cannot be converted to pixels.
         /// </summary>
-        public Boolean IsRelative
-        {
-            get { return !IsAbsolute; }
-        }
+        public Boolean IsRelative => !IsAbsolute;
 
         /// <summary>
         /// Gets the type of the length.
         /// </summary>
-        public Unit Type
-        {
-            get { return _unit; }
-        }
+        public Unit Type => _unit;
 
         /// <summary>
         /// Gets the value of the length.
         /// </summary>
-        public Double Value
-        {
-            get { return _value; }
-        }
+        public Double Value => _value;
 
         /// <summary>
         /// Gets the representation of the unit as a string.

@@ -35,26 +35,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return String.Concat(_name, " ", _value.ToString()); }
-        }
+        public String CssText => String.Concat(_name, " ", _value.ToString());
 
         /// <summary>
         /// Gets the identifier of the counter.
         /// </summary>
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
         /// <summary>
         /// Gets the value of the counter.
         /// </summary>
-        public Int32 Value
-        {
-            get { return _value; }
-        }
+        public Int32 Value => _value;
 
         #endregion
     }

@@ -26,10 +26,7 @@
 
         #region Properties
 
-        public ICssRuleList Rules
-        {
-            get { return _rules; }
-        }
+        public ICssRuleList Rules => _rules;
 
         #endregion
 

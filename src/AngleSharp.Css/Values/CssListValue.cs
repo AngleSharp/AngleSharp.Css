@@ -26,18 +26,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the contained values.
         /// </summary>
-        public ICssValue[] Items
-        {
-            get { return _items; }
-        }
+        public ICssValue[] Items => _items;
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText
-        {
-            get { return _items.Join(", "); }
-        }
+        public String CssText => _items.Join(", ");
 
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
         {

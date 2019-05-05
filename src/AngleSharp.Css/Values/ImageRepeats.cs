@@ -26,18 +26,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the horizontal repeat component.
         /// </summary>
-        public ICssValue Horizontal
-        {
-            get { return _horizontal; }
-        }
+        public ICssValue Horizontal => _horizontal;
 
         /// <summary>
         /// Gets the value of the vertical repeat component.
         /// </summary>
-        public ICssValue Vertical
-        {
-            get { return _vertical; }
-        }
+        public ICssValue Vertical => _vertical;
 
         /// <summary>
         /// Gets the CSS text representation.

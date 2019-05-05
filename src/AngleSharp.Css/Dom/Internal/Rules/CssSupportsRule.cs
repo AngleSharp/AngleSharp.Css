@@ -33,10 +33,7 @@
             set { SetConditionText(value, throwOnError: true); }
         }
 
-        public IConditionFunction Condition
-        {
-            get { return _condition; }
-        }
+        public IConditionFunction Condition => _condition;
 
         #endregion
 
