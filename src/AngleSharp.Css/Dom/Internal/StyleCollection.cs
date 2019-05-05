@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Css.Extensions;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -93,10 +92,7 @@
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

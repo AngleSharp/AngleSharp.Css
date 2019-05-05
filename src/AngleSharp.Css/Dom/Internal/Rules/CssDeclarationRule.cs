@@ -34,10 +34,7 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public String this[String propertyName]
-        {
-            get { return GetValue(propertyName); }
-        }
+        public String this[String propertyName] => GetValue(propertyName);
 
         public Int32 Length => _declarations.Count;
 

@@ -48,15 +48,9 @@ namespace AngleSharp.Css.Dom
 
         #region Index
 
-        public String this[Int32 index]
-        {
-            get { return _declarations[index]?.Name; }
-        }
+        public String this[Int32 index] => _declarations[index]?.Name;
 
-        public String this[String name]
-        {
-            get { return GetPropertyValue(name); }
-        }
+        public String this[String name] => GetPropertyValue(name);
 
         #endregion
 
@@ -66,7 +60,7 @@ namespace AngleSharp.Css.Dom
 
         public String CssText
         {
-            get { return this.ToCss(); }
+            get => this.ToCss();
             set { Update(value); RaiseChanged(); }
         }
 

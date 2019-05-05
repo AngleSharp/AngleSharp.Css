@@ -40,14 +40,14 @@ namespace AngleSharp.Css.Dom
 
         public ICssValue RawValue
         {
-            get { return _value; }
-            set { _value = value; }
+            get => _value;
+            set => _value = value;
         }
-        
+
         public String Value
         {
-            get { return _value?.CssText ?? CssKeywords.Initial; }
-            set { _value = _converter.Convert(value); }
+            get => _value?.CssText ?? CssKeywords.Initial;
+            set => _value = _converter.Convert(value);
         }
 
         public Boolean HasValue => _value != null;
@@ -66,8 +66,8 @@ namespace AngleSharp.Css.Dom
 
         public Boolean IsImportant
         {
-            get { return _important; }
-            set { _important = value; }
+            get => _important;
+            set => _important = value;
         }
 
         public String CssText => this.ToCss();
@@ -86,10 +86,7 @@ namespace AngleSharp.Css.Dom
 
         #region String Representation
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            writer.Write(formatter.Declaration(Name, Value, IsImportant));
-        }
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Declaration(Name, Value, IsImportant));
 
         #endregion
     }

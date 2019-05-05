@@ -33,7 +33,7 @@ namespace AngleSharp.Css.Dom
 
         public String Slot
         {
-            get { return _host.Slot; }
+            get => _host.Slot;
             set { }
         }
 
@@ -55,25 +55,25 @@ namespace AngleSharp.Css.Dom
 
         public String ClassName
         {
-            get { return _host.ClassName; }
+            get => _host.ClassName;
             set { }
         }
 
         public String Id
         {
-            get { return _host.Id; }
+            get => _host.Id;
             set { }
         }
 
         public String InnerHtml
         {
-            get { return String.Empty; }
+            get => String.Empty;
             set { }
         }
 
         public String OuterHtml
         {
-            get { return String.Empty; }
+            get => String.Empty;
             set { }
         }
 
@@ -107,14 +107,14 @@ namespace AngleSharp.Css.Dom
 
         public String NodeValue
         {
-            get { return _host.NodeValue; }
+            get => _host.NodeValue;
             set { }
         }
 
         public String TextContent
         {
-            get { return String.Empty; }
-            set {  }
+            get => String.Empty;
+            set { }
         }
 
         public Boolean HasChildNodes => _host.HasChildNodes;

@@ -32,13 +32,13 @@
 
         public String NamespaceUri
         {
-            get { return _namespaceUri; }
+            get => _namespaceUri;
             set { CheckValidity(); _namespaceUri = value ?? String.Empty; }
         }
 
         public String Prefix
         {
-            get { return _prefix; }
+            get => _prefix;
             set { CheckValidity(); _prefix = value ?? String.Empty; }
         }
 

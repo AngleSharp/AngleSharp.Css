@@ -29,14 +29,14 @@
 
         public Int32 NumberOfRepeats
         {
-            get { return _repeats; }
-            set { _repeats = value; }
+            get => _repeats;
+            set => _repeats = value;
         }
 
         public Int32 NumberOfReRuns
         {
-            get { return _reruns; }
-            set { _reruns = value; }
+            get => _reruns;
+            set => _reruns = value;
         }
 
         internal IEnumerable<ITest> Tests => _tests;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using System;
     using System.IO;
@@ -31,10 +31,7 @@
 
         #region String Representation
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            writer.Write(formatter.Comment(_data));
-        }
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Comment(_data));
 
         #endregion
     }

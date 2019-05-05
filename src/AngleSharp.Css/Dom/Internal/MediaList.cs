@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
@@ -31,10 +31,7 @@
 
         #region Index
 
-        public String this[Int32 index]
-        {
-            get { return _media[index].ToCss(); }
-        }
+        public String this[Int32 index] => _media[index].ToCss();
 
         #endregion
 
@@ -46,8 +43,8 @@
 
         public String MediaText
         {
-            get { return this.ToCss(); }
-            set { SetMediaText(value, throwOnError: true); }
+            get => this.ToCss();
+            set => SetMediaText(value, throwOnError: true);
         }
 
         #endregion
@@ -76,20 +73,13 @@
 
         public void Add(String newMedium)
         {
-            var medium = MediumParser.Parse(newMedium);
-
-            if (medium == null)
-                throw new DomException(DomError.Syntax);
-
+            var medium = MediumParser.Parse(newMedium) ?? throw new DomException(DomError.Syntax);
             _media.Add(medium);
         }
 
         public void Remove(String oldMedium)
         {
-            var medium = MediumParser.Parse(oldMedium);
-
-            if (medium == null)
-                throw new DomException(DomError.Syntax);
+            var medium = MediumParser.Parse(oldMedium) ?? throw new DomException(DomError.Syntax);
 
             for (var i = 0; i < _media.Count; i++)
             {
@@ -127,15 +117,9 @@
 
         #region IEnumerable implementation
 
-        public IEnumerator<ICssMedium> GetEnumerator()
-        {
-            return _media.GetEnumerator();
-        }
+        public IEnumerator<ICssMedium> GetEnumerator() => _media.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

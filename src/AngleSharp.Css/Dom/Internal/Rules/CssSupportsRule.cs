@@ -29,8 +29,8 @@
 
         public String ConditionText
         {
-            get { return _condition.ToCss(); }
-            set { SetConditionText(value, throwOnError: true); }
+            get => _condition.ToCss();
+            set => SetConditionText(value, throwOnError: true);
         }
 
         public IConditionFunction Condition => _condition;

@@ -19,9 +19,7 @@ namespace AngleSharp.Dom
         /// <returns>The computed style declaration if available.</returns>
         public static ICssStyleDeclaration ComputeCurrentStyle(this IElement element)
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            element = element ?? throw new ArgumentNullException(nameof(element));
             var document = element.Owner;
             var window = document?.DefaultView;
             return window?.GetComputedStyle(element);
@@ -39,13 +37,10 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, String propertyName, String propertyValue)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (propertyName == null)
-                throw new ArgumentNullException(nameof(propertyName));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            propertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
@@ -66,13 +61,10 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, IEnumerable<KeyValuePair<String, String>> properties)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (properties == null)
-                throw new ArgumentNullException(nameof(properties));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            properties = properties ?? throw new ArgumentNullException(nameof(properties));
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
@@ -97,7 +89,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, Object properties)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
             var realProperties = properties.ToDictionary();
             return elements.Css(realProperties);

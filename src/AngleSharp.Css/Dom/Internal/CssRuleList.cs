@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -28,10 +28,7 @@
 
         #region Index
 
-        public ICssRule this[Int32 index]
-        {
-            get { return _rules[index]; }
-        }
+        public ICssRule this[Int32 index] => _rules[index];
 
         #endregion
 
@@ -45,10 +42,7 @@
 
         #region Methods
 
-        public void Clear()
-        {
-            _rules.Clear();
-        }
+        public void Clear() => _rules.Clear();
 
         public void RemoveAt(Int32 index)
         {
@@ -103,24 +97,15 @@
             }
         }
 
-        public void AddRange(IEnumerable<ICssRule> rules)
-        {
-            _rules.AddRange(rules);
-        }
+        public void AddRange(IEnumerable<ICssRule> rules) => _rules.AddRange(rules);
 
         #endregion
 
         #region Implemented Interface
 
-        public IEnumerator<ICssRule> GetEnumerator()
-        {
-            return _rules.GetEnumerator();
-        }
+        public IEnumerator<ICssRule> GetEnumerator() => _rules.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
 

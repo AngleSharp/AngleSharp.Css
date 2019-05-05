@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Dom.Events;
     using AngleSharp.Dom;
@@ -50,11 +50,8 @@
 
         #region Helpers
 
-        private Boolean ComputeMatched(IWindow window)
-        {
-            //TODO use Validate with RenderDevice
-            return false;
-        }
+        //TODO use Validate with RenderDevice
+        private Boolean ComputeMatched(IWindow window) => false;
 
         private void Resized(Object sender, Event ev)
         {

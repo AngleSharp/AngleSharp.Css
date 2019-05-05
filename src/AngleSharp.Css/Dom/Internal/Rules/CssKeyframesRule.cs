@@ -29,8 +29,8 @@
 
         public String Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         #endregion

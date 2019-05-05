@@ -31,8 +31,8 @@
 
         public String Href
         {
-            get { return _href; }
-            set { _href = value; }
+            get => _href;
+            set => _href = value;
         }
 
         IMediaList ICssImportRule.Media => _media;
@@ -41,7 +41,7 @@
 
         public ICssStyleSheet Sheet
         {
-            get { return _styleSheet; }
+            get => _styleSheet;
             set { _styleSheet = value; _styleSheet?.SetParent(Owner); }
         }
 

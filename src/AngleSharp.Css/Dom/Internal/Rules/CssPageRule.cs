@@ -29,7 +29,7 @@
 
         public String SelectorText
         {
-            get { return _selector?.Text; }
+            get => _selector?.Text;
             set { _selector = ParseSelector(value); ; }
         }
 

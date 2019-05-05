@@ -60,10 +60,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="index">The index to look for.</param>
         /// <returns>The value.</returns>
-        public Double this[Int32 index]
-        {
-            get { return _values[index]; }
-        }
+        public Double this[Int32 index] => _values[index];
 
         #endregion
 

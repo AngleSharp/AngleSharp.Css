@@ -28,8 +28,8 @@
 
         public String ConditionText
         {
-            get { return _media.MediaText; }
-            set { _media.MediaText = value; }
+            get => _media.MediaText;
+            set => _media.MediaText = value;
         }
 
         IMediaList ICssMediaRule.Media => _media;

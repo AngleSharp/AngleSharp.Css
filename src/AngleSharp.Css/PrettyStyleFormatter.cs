@@ -39,8 +39,8 @@
         /// </summary>
         public String Indentation
         {
-            get { return _intendString; }
-            set { _intendString = value; }
+            get => _intendString;
+            set => _intendString = value;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@
         /// </summary>
         public String NewLine
         {
-            get { return _newLineString; }
-            set { _newLineString = value; }
+            get => _newLineString;
+            set => _newLineString = value;
         }
 
         #endregion

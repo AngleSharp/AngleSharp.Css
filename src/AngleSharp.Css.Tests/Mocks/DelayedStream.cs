@@ -35,8 +35,8 @@
 
         public override Int64 Position
         {
-            get { return _stream.Position; }
-            set { _stream.Position = value; }
+            get => _stream.Position;
+            set => _stream.Position = value;
         }
 
         public override async Task CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken)

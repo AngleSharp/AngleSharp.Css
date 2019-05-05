@@ -31,8 +31,8 @@ namespace AngleSharp.Css.Dom
 
         public String SelectorText
         {
-            get { return _selector?.Text; }
-            set { _selector = ParseSelector(value); }
+            get => _selector?.Text;
+            set => _selector = ParseSelector(value);
         }
 
         ICssStyleDeclaration ICssStyleRule.Style => _style;

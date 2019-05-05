@@ -29,8 +29,8 @@
 
         public String CharacterSet
         {
-            get { return _charSet; }
-            set { _charSet = value ?? String.Empty; }
+            get => _charSet;
+            set => _charSet = value ?? String.Empty;
         }
 
         #endregion
