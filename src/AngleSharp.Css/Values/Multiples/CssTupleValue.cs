@@ -10,20 +10,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    class CssTupleValue : ICssMultipleValue
+    class CssTupleValue<T> : ICssMultipleValue
+        where T : ICssValue
     {
         #region Fields
 
-        private readonly ICssValue[] _items;
+        private readonly T[] _items;
         private readonly String _separator;
 
         #endregion
 
         #region ctor
-        
-        public CssTupleValue(ICssValue[] items, String separator = null)
+
+        public CssTupleValue(T[] items = null, String separator = null)
         {
-            _items = items;
+            _items = items ?? new T[0];
             _separator = separator ?? " ";
         }
 
@@ -33,7 +34,7 @@ namespace AngleSharp.Css.Values
 
         public ICssValue this[Int32 index] => _items[index];
 
-        public ICssValue[] Items => _items;
+        public T[] Items => _items;
 
         public String Separator => _separator;
 
@@ -46,9 +47,24 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
-            _items.AsEnumerable().GetEnumerator();
+            _items.OfType<ICssValue>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Represents a tuple of CSS values.
+    /// </summary>
+    class CssTupleValue : CssTupleValue<ICssValue>
+    {
+        #region ctor
+        
+        public CssTupleValue(ICssValue[] items = null, String separator = null)
+            : base(items, separator)
+        {
+        }
 
         #endregion
     }

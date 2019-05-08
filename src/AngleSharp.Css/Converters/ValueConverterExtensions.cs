@@ -27,25 +27,17 @@ namespace AngleSharp.Css.Converters
             return varRefs;
         }
 
-        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue, String separator = null)
-        {
-            return new OneOrMoreValueConverter(converter, min, max, separator);
-        }
+        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue, String separator = null) =>
+            new OneOrMoreValueConverter(converter, min, max, separator);
 
-        public static IValueConverter FromList(this IValueConverter converter)
-        {
-            return new ListValueConverter(converter);
-        }
+        public static IValueConverter FromList(this IValueConverter converter) =>
+            new ListValueConverter(converter);
 
-        public static IValueConverter ToConverter<T>(this Dictionary<String, T> values)
-        {
-            return new DictionaryValueConverter<T>(values);
-        }
+        public static IValueConverter ToConverter<T>(this Dictionary<String, T> values) =>
+            new DictionaryValueConverter<T>(values);
 
-        public static IValueConverter Periodic(this IValueConverter converter)
-        {
-            return new PeriodicValueConverter(converter);
-        }
+        public static IValueConverter Periodic(this IValueConverter converter) =>
+            new PeriodicValueConverter(converter);
 
         public static IValueConverter Exclusive(this IValueConverter converter)
         {
@@ -65,17 +57,14 @@ namespace AngleSharp.Css.Converters
             });
         }
 
-        public static IValueConverter Option(this IValueConverter converter)
-        {
-            return new OptionValueConverter<Object>(converter, null);
-        }
+        public static IValueConverter Option(this IValueConverter converter) =>
+            new OptionValueConverter<Object>(converter, null);
 
-        public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
-        {
-            return new OptionValueConverter<T>(converter, defaultValue);
-        }
+        public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue) =>
+            new OptionValueConverter<T>(converter, defaultValue);
 
-        public static String Join(this ICssValue[] values, String separator)
+        public static String Join<T>(this T[] values, String separator)
+            where T : ICssValue
         {
             var buffer = StringBuilderPool.Obtain();
             var previous = false;
@@ -83,30 +72,6 @@ namespace AngleSharp.Css.Converters
             for (var i = 0; i < values.Length; i++)
             {
                 var str = values[i]?.CssText;
-
-                if (!String.IsNullOrEmpty(str))
-                {
-                    if (previous)
-                    {
-                        buffer.Append(separator);
-                    }
-
-                    buffer.Append(str);
-                    previous = true;
-                }
-            }
-
-            return buffer.ToPool();
-        }
-
-        public static String Join<T>(this T[] values, String separator)
-        {
-            var buffer = StringBuilderPool.Obtain();
-            var previous = false;
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                var str = values[i].ToString();
 
                 if (!String.IsNullOrEmpty(str))
                 {

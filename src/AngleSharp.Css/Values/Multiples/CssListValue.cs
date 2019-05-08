@@ -10,17 +10,18 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    class CssListValue : ICssMultipleValue
+    class CssListValue<T> : ICssMultipleValue
+        where T : ICssValue
     {
         #region Fields
 
-        private readonly ICssValue[] _items;
+        private readonly T[] _items;
 
         #endregion
 
         #region ctor
 
-        public CssListValue(ICssValue[] items)
+        public CssListValue(T[] items)
         {
             _items = items;
         }
@@ -31,8 +32,8 @@ namespace AngleSharp.Css.Values
 
         public ICssValue this[Int32 index] => _items[index];
 
-        public ICssValue[] Items => _items;
-        
+        public T[] Items => _items;
+
         public String CssText => _items.Join(", ");
 
         public Int32 Count => _items.Length;
@@ -42,9 +43,24 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
-            _items.AsEnumerable().GetEnumerator();
+            _items.OfType<ICssValue>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Represents a CSS value list.
+    /// </summary>
+    class CssListValue : CssListValue<ICssValue>
+    {
+        #region ctor
+
+        public CssListValue(ICssValue[] items)
+            : base(items)
+        {
+        }
 
         #endregion
     }
