@@ -3,10 +3,10 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    struct CssCustomCursorValue : ICssCompositeValue
+    sealed class CssCustomCursorValue : ICssCompositeValue
     {
         public ICssImageValue Source;
-        public CssPointValue? Position;
+        public Point? Position;
 
         /// <summary>
         /// Gets the CSS text representation.

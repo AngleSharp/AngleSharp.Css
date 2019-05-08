@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS background size definition.
     /// </summary>
-    struct CssBackgroundSizeValue : IEquatable<CssBackgroundSizeValue>, ICssPrimitiveValue
+    sealed class CssBackgroundSizeValue : IEquatable<CssBackgroundSizeValue>, ICssPrimitiveValue
     {
         #region Fields
 

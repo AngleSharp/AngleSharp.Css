@@ -31,14 +31,14 @@ namespace AngleSharp.Css.Declarations
             public ICssValue Convert(StringSource source)
             {
                 var start = source.Index;
-                var horizontal = _converter.Convert(source) as CssPeriodicValue<ICssValue>;
+                var horizontal = _converter.Convert(source) as CssPeriodicValue;
                 var vertical = horizontal;
                 var c = source.SkipSpacesAndComments();
 
                 if (c == Symbols.Solidus)
                 {
                     source.SkipCurrentAndSpaces();
-                    vertical = _converter.Convert(source) as CssPeriodicValue<ICssValue>;
+                    vertical = _converter.Convert(source) as CssPeriodicValue;
                 }
 
                 return vertical != null ? new CssBorderRadiusValue(horizontal, vertical) : null;
@@ -68,8 +68,8 @@ namespace AngleSharp.Css.Declarations
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
-                    var horizontal = new CssPeriodicValue<ICssValue>(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
-                    var vertical = new CssPeriodicValue<ICssValue>(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
+                    var horizontal = new CssPeriodicValue(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
+                    var vertical = new CssPeriodicValue(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
                     return new CssBorderRadiusValue(horizontal, vertical);
                 }
 
@@ -78,9 +78,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var radius = value as CssBorderRadiusValue;
-
-                if (radius != null)
+                if (value is CssBorderRadiusValue radius)
                 {
                     return new[]
                     {

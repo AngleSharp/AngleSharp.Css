@@ -55,7 +55,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static CssPointValue? ParsePoint(this StringSource source)
+        public static Point? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
             var x = new Length(50f, Length.Unit.Percent);
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Parser
                 {
                     x = KeywordToLength(l).Value;
                     y = KeywordToLength(r).Value;
-                    return new CssPointValue(x, y);
+                    return new Point(x, y);
                 }
             }
             else if (l != null)
@@ -87,12 +87,12 @@ namespace AngleSharp.Css.Parser
                 if (IsHorizontal(l))
                 {
                     x = KeywordToLength(l).Value;
-                    return new CssPointValue(x, s ?? y);
+                    return new Point(x, s ?? y);
                 }
                 else if (IsVertical(l))
                 {
                     y = KeywordToLength(l).Value;
-                    return new CssPointValue(s ?? x, y);
+                    return new Point(s ?? x, y);
                 }
             }
             else
@@ -103,7 +103,7 @@ namespace AngleSharp.Css.Parser
 
                 if (s != null)
                 {
-                    return new CssPointValue(f ?? x, s ?? y);
+                    return new Point(f ?? x, s ?? y);
                 }
                 else if (f != null)
                 {
@@ -112,22 +112,22 @@ namespace AngleSharp.Css.Parser
 
                     if (r == null)
                     {
-                        return new CssPointValue(f, y);
+                        return new Point(f, y);
                     }
                     else if (IsVertical(r))
                     {
                         y = KeywordToLength(r).Value;
-                        return new CssPointValue(f ?? x, y);
+                        return new Point(f ?? x, y);
                     }
                     else if (IsHorizontal(r))
                     {
                         x = KeywordToLength(r).Value;
-                        return new CssPointValue(x, f ?? y);
+                        return new Point(x, f ?? y);
                     }
                     else
                     {
                         source.BackTo(pos);
-                        return new CssPointValue(f ?? x, y);
+                        return new Point(f ?? x, y);
                     }
                 }
             }
@@ -136,7 +136,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static CssBackgroundSizeValue? ParseSize(this StringSource source)
+        public static CssBackgroundSizeValue ParseSize(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Cover))
             {

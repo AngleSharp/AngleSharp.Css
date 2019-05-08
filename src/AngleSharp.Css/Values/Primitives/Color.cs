@@ -396,7 +396,7 @@ namespace AngleSharp.Css.Values
                         R.ToString(CultureInfo.InvariantCulture),
                         G.ToString(CultureInfo.InvariantCulture),
                         B.ToString(CultureInfo.InvariantCulture),
-                        Alpha.ToString(CultureInfo.InvariantCulture)
+                        Alpha.ToString(CultureInfo.InvariantCulture),
                     });
                     return fn.CssFunction(args);
                 }

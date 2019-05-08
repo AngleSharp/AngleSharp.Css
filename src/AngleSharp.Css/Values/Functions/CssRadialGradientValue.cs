@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly CssGradientStopValue[] _stops;
-        private readonly CssPointValue _center;
+        private readonly Point _center;
         private readonly ICssValue _width;
         private readonly ICssValue _height;
         private readonly Boolean _repeating;
@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Values
         /// <param name="sizeMode">The size mode of the ellipsoid.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public CssRadialGradientValue(Boolean circle, CssPointValue center, ICssValue width, ICssValue height, SizeMode sizeMode, CssGradientStopValue[] stops, Boolean repeating = false)
+        public CssRadialGradientValue(Boolean circle, Point center, ICssValue width, ICssValue height, SizeMode sizeMode, CssGradientStopValue[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _center = center;
@@ -64,7 +64,7 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var isDefault = _center == CssPointValue.Center && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
+                var isDefault = _center == Point.Center && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
                 var args = new List<ICssValue>();
 
                 if (!isDefault)
@@ -130,7 +130,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the position of the radial gradient.
         /// </summary>
-        public CssPointValue Position => _center;
+        public Point Position => _center;
 
         /// <summary>
         /// Gets the horizontal radius.

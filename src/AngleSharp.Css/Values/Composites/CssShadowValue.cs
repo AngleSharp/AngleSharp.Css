@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// The shadow class for holding information about a box or text-shadow.
     /// </summary>
-    class CssShadowValue : ICssCompositeValue
+    sealed class CssShadowValue : ICssCompositeValue
     {
         #region Fields
 

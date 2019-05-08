@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Declarations
                         {
                             var xp = new Length(x.Value, Length.Unit.None);
                             var yp = new Length(y.Value, Length.Unit.None);
-                            definition.Position = new CssPointValue(xp, yp);
+                            definition.Position = new Point(xp, yp);
                         }
 
                         definitions.Add(definition);

@@ -1,17 +1,16 @@
 namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents a border radius value.
     /// </summary>
-    class CssBorderRadiusValue : ICssCompositeValue
+    sealed class CssBorderRadiusValue : ICssCompositeValue
     {
         #region Fields
 
-        private readonly CssPeriodicValue<ICssValue> _horizontal;
-        private readonly CssPeriodicValue<ICssValue> _vertical;
+        private readonly CssPeriodicValue _horizontal;
+        private readonly CssPeriodicValue _vertical;
 
         #endregion
 
@@ -20,7 +19,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Creates a new border radius value.
         /// </summary>
-        public CssBorderRadiusValue(CssPeriodicValue<ICssValue> horizontal, CssPeriodicValue<ICssValue> vertical)
+        public CssBorderRadiusValue(CssPeriodicValue horizontal, CssPeriodicValue vertical)
         {
             _horizontal = horizontal;
             _vertical = vertical;
@@ -33,12 +32,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the horizontal values.
         /// </summary>
-        public CssPeriodicValue<ICssValue> Horizontal => _horizontal;
+        public CssPeriodicValue Horizontal => _horizontal;
 
         /// <summary>
         /// Gets the vertical values.
         /// </summary>
-        public CssPeriodicValue<ICssValue> Vertical => _vertical;
+        public CssPeriodicValue Vertical => _vertical;
 
         /// <summary>
         /// Gets the CSS text representation.

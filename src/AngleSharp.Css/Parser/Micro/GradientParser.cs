@@ -125,7 +125,7 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 var circle = options?.Circle ?? false;
-                var center = options?.Center ?? CssPointValue.Center;
+                var center = options?.Center ?? Point.Center;
                 var width = options?.Width;
                 var height = options?.Height;
                 var sizeMode = options?.Size ?? CssRadialGradientValue.SizeMode.None;
@@ -156,14 +156,14 @@ namespace AngleSharp.Css.Parser
                 if (stop == null)
                     break;
 
-                stops.Add(stop.Value);
+                stops.Add(stop);
                 current = source.SkipSpacesAndComments();
             }
 
             return stops.ToArray();
         }
 
-        private static CssGradientStopValue? ParseGradientStop(StringSource source)
+        private static CssGradientStopValue ParseGradientStop(StringSource source)
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
@@ -218,7 +218,7 @@ namespace AngleSharp.Css.Parser
         private static RadialOptions? ParseRadialOptions(StringSource source)
         {
             var circle = false;
-            var center = CssPointValue.Center;
+            var center = Point.Center;
             var width = default(ICssValue);
             var height = default(ICssValue);
             var size = CssRadialGradientValue.SizeMode.None;
@@ -351,7 +351,7 @@ namespace AngleSharp.Css.Parser
         public struct RadialOptions
         {
             public Boolean Circle;
-            public CssPointValue Center;
+            public Point Center;
             public ICssValue Width;
             public ICssValue Height;
             public CssRadialGradientValue.SizeMode Size;

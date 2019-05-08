@@ -133,17 +133,15 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var img = value as CssBorderImageValue?;
-
-                if (img.HasValue)
+                if (value is CssBorderImageValue img)
                 {
                     return new ICssValue[]
                     {
-                        img.Value.Outsets,
-                        img.Value.Repeat,
-                        img.Value.Slice,
-                        img.Value.Image,
-                        img.Value.Widths,
+                        img.Outsets,
+                        img.Repeat,
+                        img.Slice,
+                        img.Image,
+                        img.Widths,
                     };
                 }
                 else if (value is Constant<Object> constant)

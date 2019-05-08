@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS origin definition.
     /// </summary>
-    class CssOriginValue : ICssCompositeValue
+    sealed class CssOriginValue : ICssCompositeValue
     {
         private readonly ICssValue _x;
         private readonly ICssValue _y;
@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var pt = new CssPointValue(_x, _y).CssText;
+                var pt = new Point(_x, _y).CssText;
                 return _z != null ? String.Concat(pt, " ", _z.CssText) : pt;
             }
         }

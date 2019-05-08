@@ -210,7 +210,7 @@ namespace AngleSharp.Css
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointConverter = new StructValueConverter<CssPointValue>(PointParser.ParsePoint);
+        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
 
         /// <summary>
         /// Represents an origin (Point3D) object.
@@ -608,7 +608,7 @@ namespace AngleSharp.Css
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter BorderImageSliceConverter = new StructValueConverter<CssBorderImageSliceValue>(CompoundParser.ParseBorderImageSlice);
+        public static readonly IValueConverter BorderImageSliceConverter = FromParser(CompoundParser.ParseBorderImageSlice);
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
@@ -715,12 +715,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for background size.
         /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = new StructValueConverter<CssBackgroundSizeValue>(PointParser.ParseSize);
+        public static readonly IValueConverter BackgroundSizeConverter = FromParser(PointParser.ParseSize);
 
         /// <summary>
         /// Represents a converter for background repeat.
         /// </summary>
-        public static readonly IValueConverter BackgroundRepeatsConverter = new StructValueConverter<CssImageRepeatsValue>(CompoundParser.ParseBackgroundRepeat);
+        public static readonly IValueConverter BackgroundRepeatsConverter = FromParser(CompoundParser.ParseBackgroundRepeat);
 
         #endregion
 

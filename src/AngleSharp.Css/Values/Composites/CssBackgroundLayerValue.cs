@@ -4,12 +4,12 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    struct CssBackgroundLayerValue : ICssCompositeValue
+    sealed class CssBackgroundLayerValue : ICssCompositeValue
     {
         public ICssValue Image;
-        public CssPointValue? Position;
+        public Point? Position;
         public ICssValue Size;
-        public CssImageRepeatsValue? Repeat;
+        public CssImageRepeatsValue Repeat;
         public ICssValue Attachment;
         public ICssValue Origin;
         public ICssValue Clip;
@@ -44,7 +44,7 @@ namespace AngleSharp.Css.Values
                 if (Repeat != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Repeat.Value.CssText);
+                    sb.Append(Repeat.CssText);
                 }
 
                 if (Attachment != null)

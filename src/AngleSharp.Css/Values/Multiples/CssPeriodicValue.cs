@@ -104,4 +104,19 @@ namespace AngleSharp.Css.Values
 
         #endregion
     }
+
+    /// <summary>
+    /// Represents a periodic CSS value.
+    /// </summary>
+    class CssPeriodicValue : CssPeriodicValue<ICssValue>
+    {
+        #region ctor
+
+        public CssPeriodicValue(ICssValue[] values)
+            : base(values)
+        {
+        }
+
+        #endregion
+    }
 }

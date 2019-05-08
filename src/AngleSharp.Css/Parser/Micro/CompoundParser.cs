@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Parser
             return new CssTupleValue(quotes.ToArray());
         }
 
-        public static CssBorderImageSliceValue? ParseBorderImageSlice(this StringSource source)
+        public static CssBorderImageSliceValue ParseBorderImageSlice(this StringSource source)
         {
             var lengths = new Length[4];
             var filled = false;
@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static CssImageRepeatsValue? ParseBackgroundRepeat(this StringSource source)
+        public static CssImageRepeatsValue ParseBackgroundRepeat(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
             {

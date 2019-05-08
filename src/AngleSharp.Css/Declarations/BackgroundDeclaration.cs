@@ -161,8 +161,8 @@ namespace AngleSharp.Css.Declarations
                         CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.X : new Nullable<Length>()),
                         CreateMultiple(background, m => m.Position.HasValue ? m.Position.Value.Y : new Nullable<Length>()),
                         CreateMultiple(background, m => m.Origin),
-                        CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Horizontal : null),
-                        CreateMultiple(background, m => m.Repeat.HasValue ? m.Repeat.Value.Vertical : null),
+                        CreateMultiple(background, m => m.Repeat?.Horizontal),
+                        CreateMultiple(background, m => m.Repeat?.Vertical),
                         CreateMultiple(background, m => m.Size),
                     };
                 }
@@ -187,8 +187,8 @@ namespace AngleSharp.Css.Declarations
                             Attachment = GetValue(attachment, i),
                             Clip = GetValue(clip, i),
                             Origin = GetValue(origin, i),
-                            Position = px == null && py == null ? new Nullable<CssPointValue>() : new CssPointValue(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
-                            Repeat = rx == null && ry == null ? new Nullable<CssImageRepeatsValue>() : new CssImageRepeatsValue(rx, ry),
+                            Position = px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
+                            Repeat = rx == null && ry == null ? null : new CssImageRepeatsValue(rx, ry),
                             Size = GetValue(size, i),
                             Image = image.Items[i],
                         };
