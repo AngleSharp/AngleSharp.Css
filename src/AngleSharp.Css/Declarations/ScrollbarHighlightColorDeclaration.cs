@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ScrollbarHighlightColor;
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(Colors.GetColor("threedhighlight")));
+        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(CssColors.GetColor("threedhighlight")));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

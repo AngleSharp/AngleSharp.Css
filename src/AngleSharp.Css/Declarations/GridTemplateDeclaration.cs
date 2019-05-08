@@ -51,7 +51,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (cols != null || rows != null || areas != null)
                 {
-                    return new GridTemplate(rows, cols, areas);
+                    return new CssGridTemplateValue(rows, cols, areas);
                 }
 
                 return null;
@@ -59,7 +59,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var template = value as GridTemplate;
+                var template = value as CssGridTemplateValue;
 
                 if (template != null)
                 {

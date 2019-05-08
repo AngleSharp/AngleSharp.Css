@@ -148,13 +148,13 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly Dictionary<String, ICssTimingFunctionValue> TimingFunctions = new Dictionary<String, ICssTimingFunctionValue>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Ease, new CubicBezierTimingFunction(0.25, 0.1, 0.25, 1.0) },
-            { CssKeywords.EaseIn, new CubicBezierTimingFunction(0.42, 0.0, 1.0, 1.0) },
-            { CssKeywords.EaseOut, new CubicBezierTimingFunction(0.0, 0.0, 0.58, 1.0) },
-            { CssKeywords.EaseInOut, new CubicBezierTimingFunction(0.42, 0.0, 0.58, 1.0) },
-            { CssKeywords.Linear, new CubicBezierTimingFunction(0.0, 0.0, 1.0, 1.0) },
-            { CssKeywords.StepStart, new StepsTimingFunction(1, true) },
-            { CssKeywords.StepEnd, new StepsTimingFunction(1, false) },
+            { CssKeywords.Ease, new CssCubicBezierValue(0.25, 0.1, 0.25, 1.0) },
+            { CssKeywords.EaseIn, new CssCubicBezierValue(0.42, 0.0, 1.0, 1.0) },
+            { CssKeywords.EaseOut, new CssCubicBezierValue(0.0, 0.0, 0.58, 1.0) },
+            { CssKeywords.EaseInOut, new CssCubicBezierValue(0.42, 0.0, 0.58, 1.0) },
+            { CssKeywords.Linear, new CssCubicBezierValue(0.0, 0.0, 1.0, 1.0) },
+            { CssKeywords.StepStart, new CssStepsValue(1, true) },
+            { CssKeywords.StepEnd, new CssStepsValue(1, false) },
         };
 
         /// <summary>
@@ -638,12 +638,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-SizeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, RadialGradient.SizeMode> RadialGradientSizeModes = new Dictionary<String, RadialGradient.SizeMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, CssRadialGradientValue.SizeMode> RadialGradientSizeModes = new Dictionary<String, CssRadialGradientValue.SizeMode>(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.ClosestSide, RadialGradient.SizeMode.ClosestSide },
-            { CssKeywords.FarthestSide, RadialGradient.SizeMode.FarthestSide },
-            { CssKeywords.ClosestCorner, RadialGradient.SizeMode.ClosestCorner },
-            { CssKeywords.FarthestCorner, RadialGradient.SizeMode.FarthestCorner },
+            { CssKeywords.ClosestSide, CssRadialGradientValue.SizeMode.ClosestSide },
+            { CssKeywords.FarthestSide, CssRadialGradientValue.SizeMode.FarthestSide },
+            { CssKeywords.ClosestCorner, CssRadialGradientValue.SizeMode.ClosestCorner },
+            { CssKeywords.FarthestCorner, CssRadialGradientValue.SizeMode.FarthestCorner },
         };
 
         /// <summary>

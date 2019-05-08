@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static Point3 ParsePoint3(this StringSource source)
+        public static CssOriginValue ParseOrigin(this StringSource source)
         {
             var pt = source.ParsePoint();
             source.SkipSpacesAndComments();
@@ -49,13 +49,13 @@ namespace AngleSharp.Css.Parser
 
             if (pt.HasValue)
             {
-                return new Point3(pt.Value.X, pt.Value.Y, z);
+                return new CssOriginValue(pt.Value.X, pt.Value.Y, z);
             }
 
             return null;
         }
 
-        public static Point? ParsePoint(this StringSource source)
+        public static CssPointValue? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
             var x = new Length(50f, Length.Unit.Percent);
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Parser
                 {
                     x = KeywordToLength(l).Value;
                     y = KeywordToLength(r).Value;
-                    return new Point(x, y);
+                    return new CssPointValue(x, y);
                 }
             }
             else if (l != null)
@@ -87,12 +87,12 @@ namespace AngleSharp.Css.Parser
                 if (IsHorizontal(l))
                 {
                     x = KeywordToLength(l).Value;
-                    return new Point(x, s ?? y);
+                    return new CssPointValue(x, s ?? y);
                 }
                 else if (IsVertical(l))
                 {
                     y = KeywordToLength(l).Value;
-                    return new Point(s ?? x, y);
+                    return new CssPointValue(s ?? x, y);
                 }
             }
             else
@@ -103,7 +103,7 @@ namespace AngleSharp.Css.Parser
 
                 if (s != null)
                 {
-                    return new Point(f ?? x, s ?? y);
+                    return new CssPointValue(f ?? x, s ?? y);
                 }
                 else if (f != null)
                 {
@@ -112,22 +112,22 @@ namespace AngleSharp.Css.Parser
 
                     if (r == null)
                     {
-                        return new Point(f, y);
+                        return new CssPointValue(f, y);
                     }
                     else if (IsVertical(r))
                     {
                         y = KeywordToLength(r).Value;
-                        return new Point(f ?? x, y);
+                        return new CssPointValue(f ?? x, y);
                     }
                     else if (IsHorizontal(r))
                     {
                         x = KeywordToLength(r).Value;
-                        return new Point(x, f ?? y);
+                        return new CssPointValue(x, f ?? y);
                     }
                     else
                     {
                         source.BackTo(pos);
-                        return new Point(f ?? x, y);
+                        return new CssPointValue(f ?? x, y);
                     }
                 }
             }
@@ -136,15 +136,15 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static BackgroundSize? ParseSize(this StringSource source)
+        public static CssBackgroundSizeValue? ParseSize(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Cover))
             {
-                return BackgroundSize.Cover;
+                return CssBackgroundSizeValue.Cover;
             }
             else if (source.IsIdentifier(CssKeywords.Contain))
             {
-                return BackgroundSize.Contain;
+                return CssBackgroundSizeValue.Contain;
             }
             else
             {
@@ -163,7 +163,7 @@ namespace AngleSharp.Css.Parser
                     source.IsIdentifier(CssKeywords.Auto);
                 }
                 
-                return new BackgroundSize(w ?? Length.Auto, h ?? Length.Auto);
+                return new CssBackgroundSizeValue(w ?? Length.Auto, h ?? Length.Auto);
             }
         }
 

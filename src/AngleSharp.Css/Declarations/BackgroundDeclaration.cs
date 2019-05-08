@@ -35,14 +35,14 @@ namespace AngleSharp.Css.Declarations
         {
             public ICssValue Convert(StringSource source)
             {
-                var layers = new List<BackgroundLayer>();
+                var layers = new List<CssBackgroundLayerValue>();
                 var color = default(ICssValue);
                 var pos = 0;
                 var c = source.SkipSpacesAndComments();
 
                 while (!source.IsDone && color == null)
                 {
-                    var layer = new BackgroundLayer();
+                    var layer = new CssBackgroundLayerValue();
 
                     if (layers.Count > 0)
                     {
@@ -112,10 +112,9 @@ namespace AngleSharp.Css.Declarations
                     layers.Add(layer);
                 }
 
-                return new Background(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
+                return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
             }
         }
-
 
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
@@ -143,7 +142,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (color != null || layers != null)
                 {
-                    return new Background(layers, color);
+                    return new CssBackgroundValue(layers, color);
                 }
 
                 return null;
@@ -151,7 +150,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                if (value is Background background)
+                if (value is CssBackgroundValue background)
                 {
                     return new[]
                     {
@@ -183,13 +182,13 @@ namespace AngleSharp.Css.Declarations
                         var py = GetValue(positionY, i);
                         var rx = GetValue(repeatX, i);
                         var ry = GetValue(repeatY, i);
-                        layers[i] = new BackgroundLayer
+                        layers[i] = new CssBackgroundLayerValue
                         {
                             Attachment = GetValue(attachment, i),
                             Clip = GetValue(clip, i),
                             Origin = GetValue(origin, i),
-                            Position = px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
-                            Repeat = rx == null && ry == null ? new Nullable<ImageRepeats>() : new ImageRepeats(rx, ry),
+                            Position = px == null && py == null ? new Nullable<CssPointValue>() : new CssPointValue(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
+                            Repeat = rx == null && ry == null ? new Nullable<CssImageRepeatsValue>() : new CssImageRepeatsValue(rx, ry),
                             Size = GetValue(size, i),
                             Image = image.Items[i],
                         };
@@ -211,11 +210,11 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static ICssValue CreateMultiple(Background background, Func<BackgroundLayer, ICssValue> getValue)
+            private static ICssValue CreateMultiple(CssBackgroundValue background, Func<CssBackgroundLayerValue, ICssValue> getValue)
             {
                 if (background.Layers is CssListValue layers)
                 {
-                    var values = layers.Items.OfType<BackgroundLayer>().Select(getValue);
+                    var values = layers.Items.OfType<CssBackgroundLayerValue>().Select(getValue);
 
                     if (values.Any(m => m != null))
                     {
@@ -223,7 +222,7 @@ namespace AngleSharp.Css.Declarations
                     }
                 }
 
-                return new Initial<Object>(null);
+                return new CssInitialValue<Object>(null);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundPositionY,
         };
 
-        public static IValueConverter Converter = Or(PointConverter.FromList(), AssignInitial(Point.Center));
+        public static IValueConverter Converter = Or(PointConverter.FromList(), AssignInitial(CssPointValue.Center));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

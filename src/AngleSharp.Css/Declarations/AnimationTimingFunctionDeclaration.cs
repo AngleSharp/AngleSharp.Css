@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(TransitionConverter.FromList(), AssignInitial(CubicBezierTimingFunction.Ease));
+        public static IValueConverter Converter = Or(TransitionConverter.FromList(), AssignInitial(CssCubicBezierValue.Ease));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

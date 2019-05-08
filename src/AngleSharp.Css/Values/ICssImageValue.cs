@@ -4,7 +4,7 @@ namespace AngleSharp.Css.Values
     /// Basic interface for all image sources
     /// (linear-gradient, radial-gradient, URL, solid, ...).
     /// </summary>
-    interface ICssImageValue : ICssFunctionValue
+    public interface ICssImageValue : ICssFunctionValue
     {
     }
 }

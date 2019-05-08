@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ObjectPosition;
 
-        public static IValueConverter Converter = Or(PointConverter, AssignInitial(Point.Center));
+        public static IValueConverter Converter = Or(PointConverter, AssignInitial(CssPointValue.Center));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

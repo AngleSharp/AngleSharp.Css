@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets an enumeration of all stops.
         /// </summary>
-        GradientStop[] Stops { get; }
+        CssGradientStopValue[] Stops { get; }
 
         /// <summary>
         /// Gets if the gradient is repeating.

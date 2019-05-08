@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Parser
 
     static class ShapeParser
     {
-        public static Shape ParseShape(this StringSource source)
+        public static CssShapeValue ParseShape(this StringSource source)
         {
             var pos = source.Index;
 
@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Parser
                     if (top.HasValue && right.HasValue && bottom.HasValue && left.HasValue && f == Symbols.RoundBracketClose)
                     {
                         source.SkipCurrentAndSpaces();
-                        return new Shape(top.Value, right.Value, bottom.Value, left.Value);
+                        return new CssShapeValue(top.Value, right.Value, bottom.Value, left.Value);
                     }
                 }
             }

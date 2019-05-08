@@ -92,7 +92,7 @@ namespace AngleSharp.Css.Declarations
 
                     if (fontFamilies != null)
                     {
-                        return new FontInfo(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));
+                        return new CssFontValue(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));
                     }
                 }
 
@@ -121,7 +121,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (families != null && size != null || families is Constant<SystemFont>)
                 {
-                    return new FontInfo(style, variant, weight, stretch, size, height, families);
+                    return new CssFontValue(style, variant, weight, stretch, size, height, families);
                 }
 
                 return null;
@@ -129,7 +129,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                if (!(value is FontInfo font))
+                if (!(value is CssFontValue font))
                 {
 
                     if (!(value is Constant<SystemFont> systemFont))

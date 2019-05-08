@@ -47,7 +47,7 @@ namespace AngleSharp.Css.Declarations
 
                     for (var i = 0; i < repeats.Length; i++)
                     {
-                        repeats[i] = new ImageRepeats(h.Items[i], v.Items[i]);
+                        repeats[i] = new CssImageRepeatsValue(h.Items[i], v.Items[i]);
                     }
 
                     return new CssListValue(repeats);
@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (list != null)
                 {
-                    var repeats = list.Items.OfType<ImageRepeats>();
+                    var repeats = list.Items.OfType<CssImageRepeatsValue>();
                     var h = repeats.Select(m => m.Horizontal).ToArray();
                     var v = repeats.Select(m => m.Vertical).ToArray();
                     return new[]

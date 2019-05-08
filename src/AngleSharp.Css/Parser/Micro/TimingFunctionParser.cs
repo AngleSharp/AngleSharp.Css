@@ -64,7 +64,7 @@ namespace AngleSharp.Css.Parser
 
                 if (start != end && c == Symbols.RoundBracketClose)
                 {
-                    return new StepsTimingFunction(intervals.Value, start);
+                    return new CssStepsValue(intervals.Value, start);
                 }
             }
             
@@ -84,7 +84,7 @@ namespace AngleSharp.Css.Parser
 
             if (p1.HasValue && p2.HasValue && p3.HasValue && p4.HasValue && c1 == c2 && c1 == c3 && c1 == Symbols.Comma && f == Symbols.RoundBracketClose)
             {
-                return new CubicBezierTimingFunction(p1.Value, p2.Value, p3.Value, p4.Value);
+                return new CssCubicBezierValue(p1.Value, p2.Value, p3.Value, p4.Value);
             }
             
             return null;

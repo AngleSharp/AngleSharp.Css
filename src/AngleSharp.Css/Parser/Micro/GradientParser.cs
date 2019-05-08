@@ -79,7 +79,7 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new LinearGradient(angle, stops, repeating);
+                return new CssLinearGradientValue(angle, stops, repeating);
             }
 
             return null;
@@ -125,20 +125,20 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 var circle = options?.Circle ?? false;
-                var center = options?.Center ?? Point.Center;
+                var center = options?.Center ?? CssPointValue.Center;
                 var width = options?.Width;
                 var height = options?.Height;
-                var sizeMode = options?.Size ?? RadialGradient.SizeMode.None;
+                var sizeMode = options?.Size ?? CssRadialGradientValue.SizeMode.None;
                 source.SkipCurrentAndSpaces();
-                return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
+                return new CssRadialGradientValue(circle, center, width, height, sizeMode, stops, repeating);
             }
 
             return null;
         }
 
-        private static GradientStop[] ParseGradientStops(StringSource source)
+        private static CssGradientStopValue[] ParseGradientStops(StringSource source)
         {
-            var stops = new List<GradientStop>();
+            var stops = new List<CssGradientStopValue>();
             var current = source.Current;
 
             while (!source.IsDone)
@@ -163,7 +163,7 @@ namespace AngleSharp.Css.Parser
             return stops.ToArray();
         }
 
-        private static GradientStop? ParseGradientStop(StringSource source)
+        private static CssGradientStopValue? ParseGradientStop(StringSource source)
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
@@ -171,7 +171,7 @@ namespace AngleSharp.Css.Parser
 
             if (color.HasValue)
             {
-                return new GradientStop(color.Value, position);
+                return new CssGradientStopValue(color.Value, position);
             }
 
             return null;
@@ -218,10 +218,10 @@ namespace AngleSharp.Css.Parser
         private static RadialOptions? ParseRadialOptions(StringSource source)
         {
             var circle = false;
-            var center = Point.Center;
+            var center = CssPointValue.Center;
             var width = default(ICssValue);
             var height = default(ICssValue);
-            var size = RadialGradient.SizeMode.None;
+            var size = CssRadialGradientValue.SizeMode.None;
             var redo = false;
             var ident = source.ParseIdent();
 
@@ -239,7 +239,7 @@ namespace AngleSharp.Css.Parser
                     }
                     else
                     {
-                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                        size = ToSizeMode(source) ?? CssRadialGradientValue.SizeMode.None;
                     }
 
                     redo = true;
@@ -259,7 +259,7 @@ namespace AngleSharp.Css.Parser
                     }
                     else if (el == null && es == null)
                     {
-                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                        size = ToSizeMode(source) ?? CssRadialGradientValue.SizeMode.None;
                     }
                     else
                     {
@@ -351,17 +351,17 @@ namespace AngleSharp.Css.Parser
         public struct RadialOptions
         {
             public Boolean Circle;
-            public Point Center;
+            public CssPointValue Center;
             public ICssValue Width;
             public ICssValue Height;
-            public RadialGradient.SizeMode Size;
+            public CssRadialGradientValue.SizeMode Size;
         }
 
-        private static RadialGradient.SizeMode? ToSizeMode(StringSource source)
+        private static CssRadialGradientValue.SizeMode? ToSizeMode(StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
-            var result = RadialGradient.SizeMode.None;
+            var result = CssRadialGradientValue.SizeMode.None;
 
             if (ident != null && Map.RadialGradientSizeModes.TryGetValue(ident, out result))
             {

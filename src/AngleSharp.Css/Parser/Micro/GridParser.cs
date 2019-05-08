@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Parser
                     if (cols != null)
                     {
                         source.SkipSpacesAndComments();
-                        return new GridTemplate(rows, cols, null);
+                        return new CssGridTemplateValue(rows, cols, null);
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Parser
 
                     var row = new CssTupleValue(rowValues.ToArray());
                     var area = new CssTupleValue(areaValues.ToArray());
-                    return new GridTemplate(row, col, area);
+                    return new CssGridTemplateValue(row, col, area);
                 }
             }
 
@@ -157,7 +157,7 @@ namespace AngleSharp.Css.Parser
                         if (max != null && c == Symbols.RoundBracketClose && (min is Length? || max is Length?))
                         {
                             source.Next();
-                            return new Minmax(min, max);
+                            return new CssMinMaxValue(min, max);
                         }
                     }
                 }
@@ -187,7 +187,7 @@ namespace AngleSharp.Css.Parser
                     if (dim != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
-                        return new FitContent(dim);
+                        return new CssFitContentValue(dim);
                     }
                 }
                 else if (ident.Isi(FunctionNames.Minmax) && source.Current == Symbols.RoundBracketOpen)
@@ -205,7 +205,7 @@ namespace AngleSharp.Css.Parser
                         if (max != null && c == Symbols.RoundBracketClose)
                         {
                             source.Next();
-                            return new Minmax(min, max);
+                            return new CssMinMaxValue(min, max);
                         }
                     }
                 }
@@ -283,7 +283,7 @@ namespace AngleSharp.Css.Parser
                     if (value != null && c == Symbols.RoundBracketClose)
                     {
                         source.Next();
-                        return new Repeat(count, value);
+                        return new CssRepeatValue(count, value);
                     }
                 }
             }

@@ -13,9 +13,9 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue ColorDecl = Color.Black;
         public static readonly ICssValue BackgroundColorDecl = Color.Transparent;
         public static readonly ICssValue BackgroundImageDecl = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue BackgroundRepeatDecl = new ImageRepeats(new Identifier(CssKeywords.Repeat), new Identifier(CssKeywords.Repeat));
+        public static readonly ICssValue BackgroundRepeatDecl = new CssImageRepeatsValue(new Identifier(CssKeywords.Repeat), new Identifier(CssKeywords.Repeat));
         public static readonly ICssValue BackgroundPositionDecl = new CssTupleValue(new ICssValue[] { new Length(0, Length.Unit.Percent), new Length(0, Length.Unit.Percent) });
-        public static readonly ICssValue BackgroundSizeDecl = new BackgroundSize(new Constant<Length>(CssKeywords.Auto, Length.Auto), new Constant<Length>(CssKeywords.Auto, Length.Auto));
+        public static readonly ICssValue BackgroundSizeDecl = new CssBackgroundSizeValue(new Constant<Length>(CssKeywords.Auto, Length.Auto), new Constant<Length>(CssKeywords.Auto, Length.Auto));
         public static readonly ICssValue BackgroundOriginDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.PaddingBox);
         public static readonly ICssValue BackgroundClipDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.BorderBox);
         public static readonly ICssValue BackgroundAttachmentDecl = new Constant<BackgroundAttachment>(CssKeywords.Scroll, BackgroundAttachment.Scroll);
@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue ColumnRuleColorDecl = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
         public static readonly ICssValue AnimationNameDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue AnimationDurationDecl = Time.Zero;
-        public static readonly ICssValue AnimationTimingFunctionDecl = CubicBezierTimingFunction.Ease;
+        public static readonly ICssValue AnimationTimingFunctionDecl = CssCubicBezierValue.Ease;
         public static readonly ICssValue AnimationDelayDecl = Time.Zero;
         public static readonly ICssValue AnimationIterationCountDecl = new Length(1, Length.Unit.None);
         public static readonly ICssValue AnimationDirectionDecl = new Constant<AnimationDirection>(CssKeywords.Normal, AnimationDirection.Normal);
@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue TransitionDelayDecl = Time.Zero;
         public static readonly ICssValue TransitionDurationDecl = Time.Zero;
         public static readonly ICssValue TransitionPropertyDecl = new Identifier(CssKeywords.All);
-        public static readonly ICssValue TransitionTimingFunctionDecl = CubicBezierTimingFunction.Ease;
+        public static readonly ICssValue TransitionTimingFunctionDecl = CssCubicBezierValue.Ease;
         public static readonly ICssValue DirectionDecl = new Constant<DirectionMode>(CssKeywords.Ltr, DirectionMode.Ltr);
         public static readonly ICssValue EmptyCellsDecl = new Constant<Boolean>(CssKeywords.Show, true);
         public static readonly ICssValue FlexGrowDecl = new Length(0, Length.Unit.None);

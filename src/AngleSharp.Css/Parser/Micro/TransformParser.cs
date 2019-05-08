@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of skew transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-skew
         /// </summary>
-        private static SkewTransform ParseSkew2d(StringSource source)
+        private static CssSkewValue ParseSkew2d(StringSource source)
         {
             var x = source.ParseAngleOrCalc();
             var c = source.SkipGetSkip();
@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Parser
 
             if (x != null && y != null && c == Symbols.Comma && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(x, y);
+                return new CssSkewValue(x, y);
             }
 
             return null;
@@ -79,14 +79,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of skew transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-skew
         /// </summary>
-        private static SkewTransform ParseSkewX(StringSource source)
+        private static CssSkewValue ParseSkewX(StringSource source)
         {
             var x = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
             if (x != null && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(x, null);
+                return new CssSkewValue(x, null);
             }
 
             return null;
@@ -96,14 +96,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of skew transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-skew
         /// </summary>
-        private static SkewTransform ParseSkewY(StringSource source)
+        private static CssSkewValue ParseSkewY(StringSource source)
         {
             var y = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
             if (y != null && f == Symbols.RoundBracketClose)
             {
-                return new SkewTransform(null, y);
+                return new CssSkewValue(null, y);
             }
 
             return null;
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Parser
         /// Sets the transformation matrix explicitly.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
         /// </summary>
-        private static MatrixTransform ParseMatrix2d(StringSource source)
+        private static CssMatrixValue ParseMatrix2d(StringSource source)
         {
             return ParseMatrix(source, 6);
         }
@@ -122,7 +122,7 @@ namespace AngleSharp.Css.Parser
         /// Sets the transformation matrix explicitly.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
         /// </summary>
-        private static MatrixTransform ParseMatrix3d(StringSource source)
+        private static CssMatrixValue ParseMatrix3d(StringSource source)
         {
             return ParseMatrix(source, 16);
         }
@@ -131,7 +131,7 @@ namespace AngleSharp.Css.Parser
         /// Sets the transformation matrix explicitly.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
         /// </summary>
-        private static MatrixTransform ParseMatrix(StringSource source, Int32 count)
+        private static CssMatrixValue ParseMatrix(StringSource source, Int32 count)
         {
             var numbers = new Double[count];
             var num = source.ParseNumber();
@@ -156,7 +156,7 @@ namespace AngleSharp.Css.Parser
 
                 if (index == count && f == Symbols.RoundBracketClose)
                 {
-                    return new MatrixTransform(numbers);
+                    return new CssMatrixValue(numbers);
                 }
             }
 
@@ -167,7 +167,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotate2d(StringSource source)
+        private static CssRotateValue ParseRotate2d(StringSource source)
         {
             return ParseRotate(source, Double.NaN, Double.NaN, Double.NaN);
         }
@@ -176,7 +176,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotate3d(StringSource source)
+        private static CssRotateValue ParseRotate3d(StringSource source)
         {
             var x = source.ParseNumber();
             var c1 = source.SkipGetSkip();
@@ -197,7 +197,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotateX(StringSource source)
+        private static CssRotateValue ParseRotateX(StringSource source)
         {
             return ParseRotate(source, 1f, 0f, 0f);
         }
@@ -206,7 +206,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotateY(StringSource source)
+        private static CssRotateValue ParseRotateY(StringSource source)
         {
             return ParseRotate(source, 0f, 1f, 0f);
         }
@@ -215,7 +215,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotateZ(StringSource source)
+        private static CssRotateValue ParseRotateZ(StringSource source)
         {
             return ParseRotate(source, 0f, 0f, 1f);
         }
@@ -224,14 +224,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static RotateTransform ParseRotate(StringSource source, Double x, Double y, Double z)
+        private static CssRotateValue ParseRotate(StringSource source, Double x, Double y, Double z)
         {
             var angle = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
             if (angle != null && f == Symbols.RoundBracketClose)
             {
-                return new RotateTransform(x, z, y, angle);
+                return new CssRotateValue(x, z, y, angle);
             }
 
             return null;
@@ -241,7 +241,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        private static ScaleTransform ParseScale2d(StringSource source)
+        private static CssScaleValue ParseScale2d(StringSource source)
         {
             var x = source.ParseNumber();
             var f = source.SkipGetSkip();
@@ -258,7 +258,7 @@ namespace AngleSharp.Css.Parser
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new ScaleTransform(x.Value, y ?? x.Value, 1.0);
+                    return new CssScaleValue(x.Value, y ?? x.Value, 1.0);
                 }
             }
 
@@ -269,7 +269,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        private static ScaleTransform ParseScale3d(StringSource source)
+        private static CssScaleValue ParseScale3d(StringSource source)
         {
             var x = source.ParseNumber();
             var f = source.SkipGetSkip();
@@ -298,7 +298,7 @@ namespace AngleSharp.Css.Parser
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new ScaleTransform(x.Value, y ?? x.Value, z ?? x.Value);
+                    return new CssScaleValue(x.Value, y ?? x.Value, z ?? x.Value);
                 }
             }
 
@@ -309,14 +309,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        private static ScaleTransform ParseScaleX(StringSource source)
+        private static CssScaleValue ParseScaleX(StringSource source)
         {
             var x = source.ParseNumber();
             var f = source.SkipGetSkip();
 
             if (x.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(x.Value, 1.0, 1.0);
+                return new CssScaleValue(x.Value, 1.0, 1.0);
             }
 
             return null;
@@ -326,14 +326,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        private static ScaleTransform ParseScaleY(StringSource source)
+        private static CssScaleValue ParseScaleY(StringSource source)
         {
             var y = source.ParseNumber();
             var f = source.SkipGetSkip();
 
             if (y.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(1.0, y.Value, 1.0);
+                return new CssScaleValue(1.0, y.Value, 1.0);
             }
 
             return null;
@@ -343,14 +343,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of scale transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-scale3d
         /// </summary>
-        private static ScaleTransform ParseScaleZ(StringSource source)
+        private static CssScaleValue ParseScaleZ(StringSource source)
         {
             var z = source.ParseNumber();
             var f = source.SkipGetSkip();
 
             if (z.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new ScaleTransform(1.0, 1.0, z.Value);
+                return new CssScaleValue(1.0, 1.0, z.Value);
             }
 
             return null;
@@ -360,7 +360,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        private static TranslateTransform ParseTranslate2d(StringSource source)
+        private static CssTranslateValue ParseTranslate2d(StringSource source)
         {
             var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
@@ -377,7 +377,7 @@ namespace AngleSharp.Css.Parser
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new TranslateTransform(x, y, null);
+                    return new CssTranslateValue(x, y, null);
                 }
             }
 
@@ -388,7 +388,7 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        private static TranslateTransform ParseTranslate3d(StringSource source)
+        private static CssTranslateValue ParseTranslate3d(StringSource source)
         {
             var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
@@ -417,7 +417,7 @@ namespace AngleSharp.Css.Parser
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new TranslateTransform(x, y, z);
+                    return new CssTranslateValue(x, y, z);
                 }
             }
 
@@ -428,14 +428,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        private static TranslateTransform ParseTranslateX(StringSource source)
+        private static CssTranslateValue ParseTranslateX(StringSource source)
         {
             var x = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
             if (x != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(x, null, null);
+                return new CssTranslateValue(x, null, null);
             }
 
             return null;
@@ -445,14 +445,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        private static TranslateTransform ParseTranslateY(StringSource source)
+        private static CssTranslateValue ParseTranslateY(StringSource source)
         {
             var y = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
             if (y != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(null, y, null);
+                return new CssTranslateValue(null, y, null);
             }
 
             return null;
@@ -462,14 +462,14 @@ namespace AngleSharp.Css.Parser
         /// A broad variety of translate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-translate3d
         /// </summary>
-        private static TranslateTransform ParseTranslateZ(StringSource source)
+        private static CssTranslateValue ParseTranslateZ(StringSource source)
         {
             var z = source.ParseDistanceOrCalc();
             var f = source.SkipGetSkip();
 
             if (z != null && f == Symbols.RoundBracketClose)
             {
-                return new TranslateTransform(null, null, z);
+                return new CssTranslateValue(null, null, z);
             }
 
             return null;
@@ -486,7 +486,7 @@ namespace AngleSharp.Css.Parser
 
             if (l != null && f == Symbols.RoundBracketClose)
             {
-                return new PerspectiveTransform(l);
+                return new CssPerspectiveValue(l);
             }
 
             return null;

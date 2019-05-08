@@ -20,15 +20,15 @@ namespace AngleSharp.Css.Converters
 
             if (ident.Isi(CssKeywords.Initial))
             {
-                return new Initial<T>(_defaultValue);
+                return new CssInitialValue<T>(_defaultValue);
             }
             else if (ident.Isi(CssKeywords.Inherit))
             {
-                return Inherit.Instance;
+                return CssInheritValue.Instance;
             }
             else if (ident.Isi(CssKeywords.Unset))
             {
-                return new Unset<T>(_defaultValue);
+                return new CssUnsetValue<T>(_defaultValue);
             }
             else if (ident.Isi(FunctionNames.Var) && source.Current == Symbols.RoundBracketOpen)
             {

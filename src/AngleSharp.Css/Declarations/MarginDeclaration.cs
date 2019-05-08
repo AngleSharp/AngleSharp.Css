@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (top != null && right != null && bottom != null && left != null)
                 {
-                    return new Periodic<ICssValue>(new[] { top, right, bottom, left });
+                    return new CssPeriodicValue<ICssValue>(new[] { top, right, bottom, left });
                 }
 
                 return null;
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var period = value as Periodic<ICssValue>;
+                var period = value as CssPeriodicValue<ICssValue>;
 
                 if (period != null)
                 {

@@ -19,7 +19,7 @@ namespace AngleSharp.Css.Converters
         {
             if (source.IsDone || source.Current == Symbols.Comma)
             {
-                return new Default<T>(_defaultValue);
+                return new CssDefaultValue<T>(_defaultValue);
             }
 
             return _converter.Convert(source);

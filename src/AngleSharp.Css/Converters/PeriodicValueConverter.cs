@@ -35,7 +35,7 @@
             {
                 var values = new ICssValue[length];
                 Array.Copy(options, values, length);
-                return new Periodic<ICssValue>(values);
+                return new CssPeriodicValue<ICssValue>(values);
             }
 
             return null;

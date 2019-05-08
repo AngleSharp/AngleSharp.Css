@@ -86,7 +86,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 while (pos != source.Index);
 
-                return new BorderImage(image, slice, widths, outsets, CreateRepeat(repeatX, repeatY));
+                return new CssBorderImageValue(image, slice, widths, outsets, CreateRepeat(repeatX, repeatY));
             }
 
             private static ICssValue CreateRepeat(ICssValue repeatX, ICssValue repeatY)
@@ -125,7 +125,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (outset != null || repeat != null || slice != null || source != null || width != null)
                 {
-                    return new BorderImage(source, slice, width, outset, repeat);
+                    return new CssBorderImageValue(source, slice, width, outset, repeat);
                 }
 
                 return null;
@@ -133,7 +133,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var img = value as BorderImage?;
+                var img = value as CssBorderImageValue?;
 
                 if (img.HasValue)
                 {

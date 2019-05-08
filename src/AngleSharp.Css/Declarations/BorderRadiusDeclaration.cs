@@ -31,17 +31,17 @@ namespace AngleSharp.Css.Declarations
             public ICssValue Convert(StringSource source)
             {
                 var start = source.Index;
-                var horizontal = _converter.Convert(source) as Periodic<ICssValue>;
+                var horizontal = _converter.Convert(source) as CssPeriodicValue<ICssValue>;
                 var vertical = horizontal;
                 var c = source.SkipSpacesAndComments();
 
                 if (c == Symbols.Solidus)
                 {
                     source.SkipCurrentAndSpaces();
-                    vertical = _converter.Convert(source) as Periodic<ICssValue>;
+                    vertical = _converter.Convert(source) as CssPeriodicValue<ICssValue>;
                 }
 
-                return vertical != null ? new BorderRadius(horizontal, vertical) : null;
+                return vertical != null ? new CssBorderRadiusValue(horizontal, vertical) : null;
             }
         }
 
@@ -68,9 +68,9 @@ namespace AngleSharp.Css.Declarations
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
-                    var horizontal = new Periodic<ICssValue>(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
-                    var vertical = new Periodic<ICssValue>(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
-                    return new BorderRadius(horizontal, vertical);
+                    var horizontal = new CssPeriodicValue<ICssValue>(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
+                    var vertical = new CssPeriodicValue<ICssValue>(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
+                    return new CssBorderRadiusValue(horizontal, vertical);
                 }
 
                 return null;
@@ -78,7 +78,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var radius = value as BorderRadius;
+                var radius = value as CssBorderRadiusValue;
 
                 if (radius != null)
                 {

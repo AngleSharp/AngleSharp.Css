@@ -262,9 +262,9 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class UrlContentMode : IContentMode
             {
-                private readonly UrlReference _url;
+                private readonly CssUrlValue _url;
 
-                public UrlContentMode(UrlReference url)
+                public UrlContentMode(CssUrlValue url)
                 {
                     _url = url;
                 }

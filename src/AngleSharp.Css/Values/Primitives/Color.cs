@@ -163,7 +163,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="name">The name of the color.</param>
         /// <returns>The CSS color value.</returns>
-        public static Color? FromName(String name) => Colors.GetColor(name);
+        public static Color? FromName(String name) => CssColors.GetColor(name);
 
         /// <summary>
         /// Returns the color from the given primitives without any alpha.

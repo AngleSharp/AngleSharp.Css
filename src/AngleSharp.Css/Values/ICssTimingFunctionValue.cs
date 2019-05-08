@@ -3,7 +3,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a general timing function.
     /// </summary>
-    interface ICssTimingFunctionValue : ICssFunctionValue
+    public interface ICssTimingFunctionValue : ICssFunctionValue
     {
     }
 }

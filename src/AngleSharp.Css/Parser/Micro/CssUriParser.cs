@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Parser
 
     static class CssUriParser
     {
-        public static UrlReference ParseUri(this StringSource source)
+        public static CssUrlValue ParseUri(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Url))
             {
@@ -22,10 +22,10 @@ namespace AngleSharp.Css.Parser
                         return SingleQuoted(source);
 
                     case Symbols.RoundBracketClose:
-                        return new UrlReference(String.Empty);
+                        return new CssUrlValue(String.Empty);
 
                     case Symbols.EndOfFile:
-                        return new UrlReference(String.Empty);
+                        return new CssUrlValue(String.Empty);
 
                     default:
                         return Unquoted(source);
@@ -35,7 +35,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static UrlReference DoubleQuoted(StringSource source)
+        private static CssUrlValue DoubleQuoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (Symbols.EndOfFile == current)
                 {
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (current == Symbols.DoubleQuote)
                 {
@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Parser
                     if (current == Symbols.EndOfFile)
                     {
                         source.Back();
-                        return new UrlReference(buffer.ToPool());
+                        return new CssUrlValue(buffer.ToPool());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -81,7 +81,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static UrlReference SingleQuoted(StringSource source)
+        private static CssUrlValue SingleQuoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -95,7 +95,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (current == Symbols.EndOfFile)
                 {
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (current == Symbols.SingleQuote)
                 {
@@ -112,7 +112,7 @@ namespace AngleSharp.Css.Parser
                     if (current == Symbols.EndOfFile)
                     {
                         source.Back();
-                        return new UrlReference(buffer.ToPool());
+                        return new CssUrlValue(buffer.ToPool());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -126,7 +126,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static UrlReference Unquoted(StringSource source)
+        private static CssUrlValue Unquoted(StringSource source)
         {
             var buffer = StringBuilderPool.Obtain();
             var current = source.Current;
@@ -140,7 +140,7 @@ namespace AngleSharp.Css.Parser
                 else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
                 {
                     source.Next();
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
@@ -163,20 +163,20 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static UrlReference End(StringSource source, StringBuilder buffer)
+        private static CssUrlValue End(StringSource source, StringBuilder buffer)
         {
             var current = source.SkipCurrentAndSpaces();
 
             if (current == Symbols.RoundBracketClose)
             {
                 source.Next();
-                return new UrlReference(buffer.ToPool());
+                return new CssUrlValue(buffer.ToPool());
             }
 
             return Bad(source, buffer);
         }
 
-        private static UrlReference Bad(StringSource source, StringBuilder buffer)
+        private static CssUrlValue Bad(StringSource source, StringBuilder buffer)
         {
             var current = source.Current;
             var curly = 0;
@@ -186,16 +186,16 @@ namespace AngleSharp.Css.Parser
             {
                 if (current == Symbols.Semicolon)
                 {
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (current == Symbols.CurlyBracketClose && --curly == -1)
                 {
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
                     source.Next();
-                    return new UrlReference(buffer.ToPool());
+                    return new CssUrlValue(buffer.ToPool());
                 }
                 else if (source.IsValidEscape())
                 {
@@ -218,7 +218,7 @@ namespace AngleSharp.Css.Parser
                 current = source.Next();
             }
             
-            return new UrlReference(buffer.ToPool());
+            return new CssUrlValue(buffer.ToPool());
         }
     }
 }

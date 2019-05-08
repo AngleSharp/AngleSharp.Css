@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Parser
             return new CssTupleValue(quotes.ToArray());
         }
 
-        public static BorderImageSlice? ParseBorderImageSlice(this StringSource source)
+        public static CssBorderImageSliceValue? ParseBorderImageSlice(this StringSource source)
         {
             var lengths = new Length[4];
             var filled = false;
@@ -67,25 +67,25 @@ namespace AngleSharp.Css.Parser
                     lengths[completed++] = Length.Auto;
                 }
 
-                return new BorderImageSlice(lengths[0], lengths[1], lengths[2], lengths[3], filled);
+                return new CssBorderImageSliceValue(lengths[0], lengths[1], lengths[2], lengths[3], filled);
             }
 
             return null;
         }
 
-        public static ImageRepeats? ParseBackgroundRepeat(this StringSource source)
+        public static CssImageRepeatsValue? ParseBackgroundRepeat(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
             {
                 var h = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
                 var v = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
-                return new ImageRepeats(h, v);
+                return new CssImageRepeatsValue(h, v);
             }
             else if (source.IsIdentifier(CssKeywords.RepeatY))
             {
                 var h = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
                 var v = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
-                return new ImageRepeats(h, v);
+                return new CssImageRepeatsValue(h, v);
             }
             else
             {
@@ -95,11 +95,11 @@ namespace AngleSharp.Css.Parser
 
                 if (repeatY != null)
                 {
-                    return new ImageRepeats(repeatX, repeatY);
+                    return new CssImageRepeatsValue(repeatX, repeatY);
                 }
                 else if (repeatX != null)
                 {
-                    return new ImageRepeats(repeatX, repeatX);
+                    return new CssImageRepeatsValue(repeatX, repeatX);
                 }
             }
 
@@ -118,7 +118,7 @@ namespace AngleSharp.Css.Parser
             return url;
         }
 
-        public static Periodic<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T> converter)
+        public static CssPeriodicValue<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T> converter)
             where T : ICssValue
         {
             var values = new List<T>(4);
@@ -134,7 +134,7 @@ namespace AngleSharp.Css.Parser
                 source.SkipSpacesAndComments();
             }
 
-            return values.Count > 0 ? new Periodic<T>(values.ToArray()) : null;
+            return values.Count > 0 ? new CssPeriodicValue<T>(values.ToArray()) : null;
         }
     }
 }

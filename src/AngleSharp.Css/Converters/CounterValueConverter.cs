@@ -37,10 +37,10 @@ namespace AngleSharp.Css.Converters
                     counters.Add(new CounterValue(name, value));
                 }
 
-                return new Counters(counters.ToArray());
+                return new CssCountersValue(counters.ToArray());
             }
 
-            return new Counters();
+            return new CssCountersValue();
         }
     }
 }

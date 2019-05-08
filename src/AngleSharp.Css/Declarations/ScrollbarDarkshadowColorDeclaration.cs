@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ScrollbarDarkShadowColor;
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(Colors.GetColor("threeddarkshadow")));
+        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(CssColors.GetColor("threeddarkshadow")));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

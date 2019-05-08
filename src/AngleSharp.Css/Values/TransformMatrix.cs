@@ -1,4 +1,4 @@
-namespace AngleSharp.Css
+namespace AngleSharp.Css.Values
 {
     using System;
 
@@ -6,7 +6,7 @@ namespace AngleSharp.Css
     /// Represents a transformation matrix value.
     /// http://dev.w3.org/csswg/css-transforms/#mathematical-description
     /// </summary>
-    class TransformMatrix : IEquatable<TransformMatrix>
+    public class TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 
@@ -102,6 +102,14 @@ namespace AngleSharp.Css
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the element at the specified indices.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <param name="col">The column index.</param>
+        /// <returns>The value of the cell.</returns>
+        public Double this[Int32 row, Int32 col] => _matrix[row, col];
 
         /// <summary>
         /// Gets the element of the 1st row, 1st column.
