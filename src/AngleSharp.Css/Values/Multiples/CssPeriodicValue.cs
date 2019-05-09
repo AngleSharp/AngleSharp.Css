@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    class CssPeriodicValue<T> : ICssMultipleValue
+    public class CssPeriodicValue<T> : ICssMultipleValue
         where T : ICssValue
     {
         #region Fields
@@ -108,7 +108,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    class CssPeriodicValue : CssPeriodicValue<ICssValue>
+    sealed class CssPeriodicValue : CssPeriodicValue<ICssValue>
     {
         #region ctor
 

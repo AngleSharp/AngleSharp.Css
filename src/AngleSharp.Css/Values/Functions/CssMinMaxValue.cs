@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS minmax function call.
     /// </summary>
-    class CssMinMaxValue : ICssFunctionValue
+    sealed class CssMinMaxValue : ICssFunctionValue
     {
         #region Fields
 

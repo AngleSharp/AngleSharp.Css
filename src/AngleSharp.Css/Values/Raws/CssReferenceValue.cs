@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS shorthand that includes var replacements.
     /// </summary>
-    class CssReferenceValue : ICssRawValue
+    sealed class CssReferenceValue : ICssRawValue
     {
         private readonly String _value;
         private readonly TextRange[] _ranges;

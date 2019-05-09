@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an unknown (any) value.
     /// </summary>
-    class CssAnyValue : ICssRawValue
+    sealed class CssAnyValue : ICssRawValue
     {
         #region Fields
 
@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Values
 
         #endregion
 
-        #region ctor
+        #region Properties
 
         /// <summary>
         /// Gets the contained value. This is the same as CssText.

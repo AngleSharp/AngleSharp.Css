@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    class CssTupleValue<T> : ICssMultipleValue
+    public class CssTupleValue<T> : ICssMultipleValue
         where T : ICssValue
     {
         #region Fields
@@ -57,7 +57,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    class CssTupleValue : CssTupleValue<ICssValue>
+    sealed class CssTupleValue : CssTupleValue<ICssValue>
     {
         #region ctor
         

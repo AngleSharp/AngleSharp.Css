@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// Represents a steps timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    class CssStepsValue : ICssTimingFunctionValue
+    sealed class CssStepsValue : ICssTimingFunctionValue
     {
         #region Fields
 

@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the rotate3d transformation.
     /// </summary>
-    class CssRotateValue : ICssTransformFunctionValue
+    sealed class CssRotateValue : ICssTransformFunctionValue
     {
         #region Fields
 

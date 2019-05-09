@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    class CssListValue<T> : ICssMultipleValue
+    public class CssListValue<T> : ICssMultipleValue
         where T : ICssValue
     {
         #region Fields
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    class CssListValue : CssListValue<ICssValue>
+    sealed class CssListValue : CssListValue<ICssValue>
     {
         #region ctor
 

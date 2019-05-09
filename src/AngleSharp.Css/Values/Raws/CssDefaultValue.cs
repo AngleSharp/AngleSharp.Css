@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a default value.
     /// </summary>
-    class CssDefaultValue<T> : ICssValue
+    sealed class CssDefaultValue<T> : ICssValue
     {
         #region Fields
 

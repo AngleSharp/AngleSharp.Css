@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the translate3d transformation.
     /// </summary>
-    class CssTranslateValue : ICssTransformFunctionValue
+    sealed class CssTranslateValue : ICssTransformFunctionValue
     {
         #region Fields
 

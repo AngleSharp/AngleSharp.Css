@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    class CssLinearGradientValue : ICssGradientFunctionValue
+    sealed class CssLinearGradientValue : ICssGradientFunctionValue
     {
         #region Fields
 

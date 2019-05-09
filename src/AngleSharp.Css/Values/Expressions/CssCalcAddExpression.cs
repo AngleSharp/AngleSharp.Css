@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a calc add expression, i.e., a + b.
     /// </summary>
-    class CssCalcAddExpression : ICssCompositeValue
+    sealed class CssCalcAddExpression : ICssCompositeValue
     {
         private readonly ICssValue _left;
         private readonly ICssValue _right;
