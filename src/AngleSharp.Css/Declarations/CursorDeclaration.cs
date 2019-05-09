@@ -25,11 +25,10 @@ namespace AngleSharp.Css.Declarations
 
                 while (!source.IsDone)
                 {
-                    var definition = new CssCustomCursorValue();
-                    definition.Source = source.ParseImageSource();
+                    var imageSource = source.ParseImageSource();
                     var c = source.SkipSpacesAndComments();
 
-                    if (definition.Source != null)
+                    if (imageSource != null)
                     {
                         var x = source.ParseNumber();
                         c = source.SkipSpacesAndComments();
@@ -40,15 +39,16 @@ namespace AngleSharp.Css.Declarations
                             break;
 
                         source.SkipCurrentAndSpaces();
+                        var position = default(Point?);
 
                         if (x.HasValue)
                         {
                             var xp = new Length(x.Value, Length.Unit.None);
                             var yp = new Length(y.Value, Length.Unit.None);
-                            definition.Position = new Point(xp, yp);
+                            position = new Point(xp, yp);
                         }
 
-                        definitions.Add(definition);
+                        definitions.Add(new CssCustomCursorValue(imageSource, position));
                     }
                     else
                     {

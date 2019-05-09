@@ -132,8 +132,8 @@ namespace AngleSharp.Css.Values
                 sb.Append(_fontFamilies.CssText);
                 return sb.ToPool();
             }
-
-            #endregion
         }
+
+        #endregion
     }
 }

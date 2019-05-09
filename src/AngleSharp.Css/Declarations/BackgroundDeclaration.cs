@@ -42,8 +42,6 @@ namespace AngleSharp.Css.Declarations
 
                 while (!source.IsDone && color == null)
                 {
-                    var layer = new CssBackgroundLayerValue();
-
                     if (layers.Count > 0)
                     {
                         if (c != Symbols.Comma)
@@ -54,50 +52,58 @@ namespace AngleSharp.Css.Declarations
                         c = source.SkipCurrentAndSpaces();
                     }
 
+                    var image = default(ICssImageValue);
+                    var position = default(Point?);
+                    var size = default(CssBackgroundSizeValue);
+                    var repeat = default(CssImageRepeatsValue);
+                    var attachment = default(ICssValue);
+                    var origin = default(ICssValue);
+                    var clip = default(ICssValue);
+
                     do
                     {
                         pos = source.Index;
 
-                        if (layer.Image == null)
+                        if (image == null)
                         {
-                            layer.Image = source.ParseImageSource();
+                            image = source.ParseImageSource();
                             c = source.SkipSpacesAndComments();
                         }
 
-                        if (layer.Position == null)
+                        if (position == null)
                         {
-                            layer.Position = source.ParsePoint();
+                            position = source.ParsePoint();
                             c = source.SkipSpacesAndComments();
 
-                            if (c == Symbols.Solidus && layer.Size == null)
+                            if (c == Symbols.Solidus && size == null)
                             {
                                 c = source.SkipSpacesAndComments();
-                                layer.Size = source.ParseSize();
+                                size = source.ParseSize();
                                 c = source.SkipSpacesAndComments();
                             }
                         }
 
-                        if (layer.Repeat == null)
+                        if (repeat == null)
                         {
-                            layer.Repeat = source.ParseBackgroundRepeat();
+                            repeat = source.ParseBackgroundRepeat();
                             c = source.SkipSpacesAndComments();
                         }
 
-                        if (layer.Attachment == null)
+                        if (attachment == null)
                         {
-                            layer.Attachment = source.ParseConstant(Map.BackgroundAttachments);
+                            attachment = source.ParseConstant(Map.BackgroundAttachments);
                             c = source.SkipSpacesAndComments();
                         }
 
-                        if (layer.Origin == null)
+                        if (origin == null)
                         {
-                            layer.Origin = source.ParseConstant(Map.BoxModels);
+                            origin = source.ParseConstant(Map.BoxModels);
                             c = source.SkipSpacesAndComments();
                         }
 
-                        if (layer.Clip == null)
+                        if (clip == null)
                         {
-                            layer.Clip = source.ParseConstant(Map.BoxModels);
+                            clip = source.ParseConstant(Map.BoxModels);
                             c = source.SkipSpacesAndComments();
                         }
 
@@ -108,8 +114,15 @@ namespace AngleSharp.Css.Declarations
                         }
                     }
                     while (pos != source.Index);
-
-                    layers.Add(layer);
+                    
+                    layers.Add(new CssBackgroundLayerValue(
+                        image,
+                        position,
+                        size,
+                        repeat,
+                        attachment,
+                        origin,
+                        clip));
                 }
 
                 return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
@@ -182,16 +195,14 @@ namespace AngleSharp.Css.Declarations
                         var py = GetValue(positionY, i);
                         var rx = GetValue(repeatX, i);
                         var ry = GetValue(repeatY, i);
-                        layers[i] = new CssBackgroundLayerValue
-                        {
-                            Attachment = GetValue(attachment, i),
-                            Clip = GetValue(clip, i),
-                            Origin = GetValue(origin, i),
-                            Position = px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
-                            Repeat = rx == null && ry == null ? null : new CssImageRepeatsValue(rx, ry),
-                            Size = GetValue(size, i),
-                            Image = image.Items[i],
-                        };
+                        layers[i] = new CssBackgroundLayerValue(
+                            image.Items[i] as ICssImageValue,
+                            px == null && py == null ? new Nullable<Point>() : new Point(px as Length? ?? Length.Zero, py as Length? ?? Length.Zero),
+                            GetValue(size, i) as CssBackgroundSizeValue,
+                            rx == null && ry == null ? null : new CssImageRepeatsValue(rx, ry),
+                            GetValue(attachment, i),
+                            GetValue(origin, i),
+                            GetValue(clip, i));
                     }
 
                     return new CssListValue(layers);
