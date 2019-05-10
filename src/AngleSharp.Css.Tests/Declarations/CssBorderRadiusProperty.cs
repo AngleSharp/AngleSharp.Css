@@ -155,7 +155,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 2px 4px 3px 0 1px";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20% 0";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -207,7 +207,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px 1em 0 / 2px 4px 0 20%";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

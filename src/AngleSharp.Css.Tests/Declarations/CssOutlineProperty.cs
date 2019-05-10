@@ -176,7 +176,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  dotted #123456 rgb(255, 255, 255)";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

@@ -191,7 +191,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "margin: 10px 5% 8px 2% 3px auto";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

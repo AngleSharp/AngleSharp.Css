@@ -330,15 +330,8 @@ namespace AngleSharp.Css.Dom
         private ICssProperty GetPropertyShorthand(String name)
         {
             var result = GetShorthandInfo(name);
-            var value = result.Value;
-
-            if (value != null)
-            {
-                var decl = result.Declaration;
-                return new CssProperty(name, decl.Converter, decl.Flags, value, result.IsImportant);
-            }
-
-            return null;
+            var decl = result.Declaration;
+            return new CssProperty(name, decl.Converter, decl.Flags, result.Value, result.IsImportant);
         }
 
         internal void SetDeclarations(IEnumerable<ICssProperty> decls) =>
