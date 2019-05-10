@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
     using static ValueConverters;
 
     static class BorderBottomDeclaration
@@ -28,20 +29,13 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BorderBottomAggregator : IValueAggregator, IValueConverter
         {
-            public ICssValue Convert(StringSource source)
-            {
-                return BorderSideConverter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => BorderSideConverter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
-                var width = values[0];
-                var style = values[1];
-                var color = values[2];
-
-                if (width != null || style != null || color != null)
+                if (values.Length == 3)
                 {
-                    return new CssTupleValue(new[] { width, style, color });
+                    return new CssTupleValue(values);
                 }
 
                 return null;
@@ -49,16 +43,9 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var options = value as CssTupleValue;
-
-                if (options != null)
+                if (value is CssTupleValue options)
                 {
-                    return new[]
-                    {
-                        options.Items[0],
-                        options.Items[1],
-                        options.Items[2],
-                    };
+                    return options.ToArray();
                 }
 
                 return null;

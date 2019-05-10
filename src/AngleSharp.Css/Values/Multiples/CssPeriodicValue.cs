@@ -4,7 +4,6 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents a periodic CSS value.
@@ -108,10 +107,15 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
-            _values.OfType<ICssValue>().GetEnumerator();
+        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
+        {
+            yield return Top;
+            yield return Right;
+            yield return Bottom;
+            yield return Left;
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => _values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
 
         #endregion
     }
