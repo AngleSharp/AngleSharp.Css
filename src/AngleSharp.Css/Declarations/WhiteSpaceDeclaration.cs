@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.WhiteSpace;
 
-        public static IValueConverter Converter = Or(WhitespaceConverter, AssignInitial(Whitespace.Normal));
+        public static IValueConverter Converter = Or(WhitespaceConverter, AssignInitial(InitialValues.WhiteSpaceDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

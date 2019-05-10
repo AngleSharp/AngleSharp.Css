@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(PositiveOrInfiniteNumberConverter.FromList(), AssignInitial(1f));
+        public static IValueConverter Converter = Or(PositiveOrInfiniteNumberConverter.FromList(), AssignInitial(InitialValues.AnimationIterationCountDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

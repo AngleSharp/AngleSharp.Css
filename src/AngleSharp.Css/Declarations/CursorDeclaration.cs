@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Cursor;
 
-        public static IValueConverter Converter = Or(new CursorValueConverter(), AssignInitial(SystemCursor.Auto));
+        public static IValueConverter Converter = Or(new CursorValueConverter(), AssignInitial(InitialValues.CursorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
 

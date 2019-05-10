@@ -6,11 +6,11 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS unset value.
     /// </summary>
-    struct CssUnsetValue<T> : ICssValue
+    struct CssUnsetValue : ICssValue
     {
         #region Fields
 
-        private readonly T _value;
+        private readonly ICssValue _value;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new unset value using the given value.
         /// </summary>
         /// <param name="value">The value to unset to.</param>
-        public CssUnsetValue(T value)
+        public CssUnsetValue(ICssValue value)
         {
             _value = value;
         }
@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the unset value.
         /// </summary>
-        public T Value => _value;
+        public ICssValue Value => _value;
 
         /// <summary>
         /// Gets the CSS text representation.

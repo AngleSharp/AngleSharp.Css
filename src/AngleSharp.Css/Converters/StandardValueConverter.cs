@@ -5,11 +5,11 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
 
-    sealed class StandardValueConverter<T> : IValueConverter
+    sealed class StandardValueConverter : IValueConverter
     {
-        private readonly T _defaultValue;
+        private readonly ICssValue _defaultValue;
 
-        public StandardValueConverter(T defaultValue)
+        public StandardValueConverter(ICssValue defaultValue)
         {
             _defaultValue = defaultValue;
         }
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Converters
 
             if (ident.Isi(CssKeywords.Initial))
             {
-                return new CssInitialValue<T>(_defaultValue);
+                return new CssInitialValue(_defaultValue);
             }
             else if (ident.Isi(CssKeywords.Inherit))
             {
@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Converters
             }
             else if (ident.Isi(CssKeywords.Unset))
             {
-                return new CssUnsetValue<T>(_defaultValue);
+                return new CssUnsetValue(_defaultValue);
             }
             else if (ident.Isi(FunctionNames.Var) && source.Current == Symbols.RoundBracketOpen)
             {

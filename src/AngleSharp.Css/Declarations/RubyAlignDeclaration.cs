@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.RubyAlign;
 
-        public static IValueConverter Converter = Or(RubyAlignmentConverter, AssignInitial(RubyAlignment.SpaceAround));
+        public static IValueConverter Converter = Or(RubyAlignmentConverter, AssignInitial(InitialValues.RubyAlignDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.EmptyCells;
 
-        public static IValueConverter Converter = Or(EmptyCellsConverter, AssignInitial(true));
+        public static IValueConverter Converter = Or(EmptyCellsConverter, AssignInitial(InitialValues.EmptyCellsDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

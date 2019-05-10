@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.ColumnRule,
         };
 
-        public static IValueConverter Converter = Or(LineStyleConverter, AssignInitial(LineStyle.None));
+        public static IValueConverter Converter = Or(LineStyleConverter, AssignInitial(InitialValues.ColumnRuleStyleDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

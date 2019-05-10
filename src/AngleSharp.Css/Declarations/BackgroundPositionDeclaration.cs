@@ -50,9 +50,9 @@ namespace AngleSharp.Css.Declarations
 
                     return new CssListValue(points);
                 }
-                else if (values[0] is CssInitialValue<ICssValue> && values[1] is CssInitialValue<ICssValue>)
+                else if (values[0] is CssInitialValue && values[1] is CssInitialValue)
                 {
-                    return new CssInitialValue<ICssValue>(InitialValues.BackgroundPositionDecl);
+                    return new CssInitialValue(InitialValues.BackgroundPositionDecl);
                 }
 
                 return null;
@@ -71,12 +71,12 @@ namespace AngleSharp.Css.Declarations
                         new CssListValue(y),
                     };
                 }
-                else if (value is CssInitialValue<ICssValue>)
+                else if (value is CssInitialValue)
                 {
                     return new ICssValue[]
                     {
-                        new CssInitialValue<ICssValue>(InitialValues.BackgroundPositionXDecl),
-                        new CssInitialValue<ICssValue>(InitialValues.BackgroundPositionYDecl),
+                        new CssInitialValue(InitialValues.BackgroundPositionXDecl),
+                        new CssInitialValue(InitialValues.BackgroundPositionYDecl),
                     };
                 }
 

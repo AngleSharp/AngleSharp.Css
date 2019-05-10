@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderCollapse;
 
-        public static IValueConverter Converter = Or(BorderCollapseConverter, AssignInitial(true));
+        public static IValueConverter Converter = Or(BorderCollapseConverter, AssignInitial(InitialValues.BorderCollapseDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

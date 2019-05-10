@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeOpacity;
 
-        public static IValueConverter Converter = Or(NumberConverter, AssignInitial(1f));
+        public static IValueConverter Converter = Or(NumberConverter, AssignInitial(InitialValues.StrokeOpacityDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

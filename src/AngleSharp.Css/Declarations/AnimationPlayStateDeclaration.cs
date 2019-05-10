@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -14,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(PlayStateConverter.FromList(), AssignInitial(PlayState.Running));
+        public static IValueConverter Converter = Or(PlayStateConverter.FromList(), AssignInitial(InitialValues.AnimationPlayStateDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

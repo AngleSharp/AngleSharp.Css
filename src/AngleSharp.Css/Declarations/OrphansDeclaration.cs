@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Orphans;
 
-        public static IValueConverter Converter = Or(NaturalIntegerConverter, AssignInitial(2));
+        public static IValueConverter Converter = Or(NaturalIntegerConverter, AssignInitial(InitialValues.OrphansDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

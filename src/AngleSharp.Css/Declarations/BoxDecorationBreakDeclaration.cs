@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BoxDecorationBreak;
 
-        public static IValueConverter Converter = Or(BoxDecorationConverter, AssignInitial(false));
+        public static IValueConverter Converter = Or(BoxDecorationConverter, AssignInitial(InitialValues.BoxDecorationBreakDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

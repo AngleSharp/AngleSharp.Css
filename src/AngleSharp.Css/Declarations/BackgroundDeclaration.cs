@@ -160,7 +160,7 @@ namespace AngleSharp.Css.Declarations
                 {
                     return list;
                 }
-                else if (value is CssInitialValue<ICssValue>)
+                else if (value is CssInitialValue)
                 {
                     return new CssListValue();
                 }
@@ -248,7 +248,7 @@ namespace AngleSharp.Css.Declarations
                     }
                 }
 
-                return new CssInitialValue<ICssValue>(initialValue);
+                return new CssInitialValue(initialValue);
             }
         }
     }

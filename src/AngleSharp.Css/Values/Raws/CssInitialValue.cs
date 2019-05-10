@@ -6,11 +6,11 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS initial value.
     /// </summary>
-    struct CssInitialValue<T> : ICssValue
+    struct CssInitialValue : ICssValue
     {
         #region Fields
 
-        private readonly T _value;
+        private readonly ICssValue _value;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new initial value using the provided data.
         /// </summary>
         /// <param name="value">The initial data.</param>
-        public CssInitialValue(T value)
+        public CssInitialValue(ICssValue value)
         {
             _value = value;
         }
@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the initial value.
         /// </summary>
-        public T Value => _value;
+        public ICssValue Value => _value;
 
         /// <summary>
         /// Gets the CSS text representation.

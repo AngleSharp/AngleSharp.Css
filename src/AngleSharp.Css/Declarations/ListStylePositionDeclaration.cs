@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.ListStyle,
         };
 
-        public static IValueConverter Converter = Or(ListPositionConverter, AssignInitial(ListPosition.Outside));
+        public static IValueConverter Converter = Or(ListPositionConverter, AssignInitial(InitialValues.ListStylePositionDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

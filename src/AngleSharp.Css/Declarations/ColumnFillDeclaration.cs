@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ColumnFill;
 
-        public static IValueConverter Converter = Or(ColumnFillConverter, AssignInitial(true));
+        public static IValueConverter Converter = Or(ColumnFillConverter, AssignInitial(InitialValues.ColumnFillDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

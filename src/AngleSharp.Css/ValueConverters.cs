@@ -24,12 +24,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a converter for the initial keyword with the given value.
         /// </summary>
-        public static IValueConverter AssignInitial<T>(T value) => new StandardValueConverter<T>(value);
+        public static IValueConverter AssignInitial(ICssValue value) => new StandardValueConverter(value);
 
         /// <summary>
         /// Creates a converter for the initial keyword with no value.
         /// </summary>
-        public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
+        public static IValueConverter AssignInitial() => AssignInitial(null);
 
         /// <summary>
         /// Creates a converter for values containing (potentially multiple, at least one) var references.

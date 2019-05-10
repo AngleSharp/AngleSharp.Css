@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TransformStyle;
 
-        public static IValueConverter Converter = Or(Toggle(CssKeywords.Flat, CssKeywords.Preserve3d), AssignInitial(true));
+        public static IValueConverter Converter = Or(Toggle(CssKeywords.Flat, CssKeywords.Preserve3d), AssignInitial(InitialValues.TransformStyleDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

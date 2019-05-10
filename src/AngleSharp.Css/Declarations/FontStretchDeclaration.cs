@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FontStretch;
 
-        public static IValueConverter Converter = Or(FontStretchConverter, AssignInitial(FontStretch.Normal));
+        public static IValueConverter Converter = Or(FontStretchConverter, AssignInitial(InitialValues.FontStretchDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable;
     }

@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Font,
         };
 
-        public static IValueConverter Converter = Or(FontFamiliesConverter, AssignInitial("Times New Roman"));
+        public static IValueConverter Converter = Or(FontFamiliesConverter, AssignInitial(InitialValues.FontFamilyDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.PointerEvents;
 
-        public static IValueConverter Converter = Or(PointerEventConverter, AssignInitial(PointerEvent.Auto));
+        public static IValueConverter Converter = Or(PointerEventConverter, AssignInitial(InitialValues.PointerEventsDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

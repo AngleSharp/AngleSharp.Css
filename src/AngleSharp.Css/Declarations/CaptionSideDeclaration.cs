@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.CaptionSide;
 
-        public static IValueConverter Converter = Or(CaptionSideConverter, AssignInitial(true));
+        public static IValueConverter Converter = Or(CaptionSideConverter, AssignInitial(InitialValues.CaptionSideDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

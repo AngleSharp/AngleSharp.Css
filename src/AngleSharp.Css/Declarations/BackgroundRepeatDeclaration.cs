@@ -50,9 +50,9 @@ namespace AngleSharp.Css.Declarations
 
                     return new CssListValue(repeats);
                 }
-                else if (values[0] is CssInitialValue<ICssValue> && values[1] is CssInitialValue<ICssValue>)
+                else if (values[0] is CssInitialValue && values[1] is CssInitialValue)
                 {
-                    return new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatDecl);
+                    return new CssInitialValue(InitialValues.BackgroundRepeatDecl);
                 }
 
                 return null;
@@ -71,12 +71,12 @@ namespace AngleSharp.Css.Declarations
                         new CssListValue(v),
                     };
                 }
-                else if (value is CssInitialValue<ICssValue>)
+                else if (value is CssInitialValue)
                 {
                     return new ICssValue[]
                     {
-                        new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatHorizontalDecl),
-                        new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatVerticalDecl),
+                        new CssInitialValue(InitialValues.BackgroundRepeatHorizontalDecl),
+                        new CssInitialValue(InitialValues.BackgroundRepeatVerticalDecl),
                     };
                 }
 

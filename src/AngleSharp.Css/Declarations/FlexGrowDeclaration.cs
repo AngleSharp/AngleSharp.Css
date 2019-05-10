@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Flex,
         };
 
-        public static IValueConverter Converter = Or(NumberConverter, AssignInitial(0));
+        public static IValueConverter Converter = Or(NumberConverter, AssignInitial(InitialValues.FlexGrowDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

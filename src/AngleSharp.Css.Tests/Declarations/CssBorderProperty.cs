@@ -181,7 +181,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-color: red blue green black transparent";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

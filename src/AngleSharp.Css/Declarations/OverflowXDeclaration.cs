@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.OverflowX;
 
-        public static IValueConverter Converter = Or(OverflowExtendedModeConverter, AssignInitial(OverflowMode.Visible));
+        public static IValueConverter Converter = Or(OverflowExtendedModeConverter, AssignInitial(InitialValues.OverflowDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }
