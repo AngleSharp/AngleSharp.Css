@@ -406,6 +406,16 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void Background0ShouldSerializeCorrectly_Issue14()
+        {
+            var dom = ParseDocument(@"<html><body><div style=""background: 0;"">Test</div></body></html>");
+            var div = dom.QuerySelector("div");
+            var style = div.GetStyle();
+
+            Assert.AreEqual("background: left", style.CssText);
+        }
+
+        [Test]
         public void RemovingPropertiesShouldNotYieldEmptyStyle_Issue14()
         {
             var dom = ParseDocument(@"<html><body><div style=""background: 0;"">Test</div></body></html>");
@@ -415,7 +425,7 @@ namespace AngleSharp.Css.Tests.Styling
             style.RemoveProperty("background-position-x");
             style.RemoveProperty("background-position-y");
 
-            Assert.AreEqual("background-color: rgba(0, 0, 0, 0); background-image: none; background-attachment: scroll; background-clip: border-box; background-origin: padding-box; background-repeat: repeat; background-size: auto auto", style.CssText);
+            Assert.AreEqual("background-image: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial", style.CssText);
         }
 
         [Test]

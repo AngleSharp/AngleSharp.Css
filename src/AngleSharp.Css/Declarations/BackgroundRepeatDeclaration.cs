@@ -25,16 +25,14 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BackgroundRepeatAggregator();
 
-        public static PropertyFlags Flags = PropertyFlags.None;
+        public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         sealed class BackgroundRepeatAggregator : IValueConverter, IValueAggregator
         {
-            private static readonly IValueConverter converter = Or(BackgroundRepeatsConverter.FromList(), AssignInitial(BackgroundRepeat.Repeat));
+            private static readonly IValueConverter converter = Or(BackgroundRepeatsConverter.FromList(), AssignInitial(InitialValues.BackgroundRepeatDecl));
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) =>
+                converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -52,23 +50,33 @@ namespace AngleSharp.Css.Declarations
 
                     return new CssListValue(repeats);
                 }
+                else if (values[0] is CssInitialValue<ICssValue> && values[1] is CssInitialValue<ICssValue>)
+                {
+                    return new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatDecl);
+                }
 
                 return null;
             }
 
             public ICssValue[] Split(ICssValue value)
             {
-                var list = value as CssListValue;
-
-                if (list != null)
+                if (value is CssListValue list)
                 {
                     var repeats = list.Items.OfType<CssImageRepeatsValue>();
                     var h = repeats.Select(m => m.Horizontal).ToArray();
                     var v = repeats.Select(m => m.Vertical).ToArray();
-                    return new[]
+                    return new ICssValue[]
                     {
                         new CssListValue(h),
-                        new CssListValue(v)
+                        new CssListValue(v),
+                    };
+                }
+                else if (value is CssInitialValue<ICssValue>)
+                {
+                    return new ICssValue[]
+                    {
+                        new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatHorizontalDecl),
+                        new CssInitialValue<ICssValue>(InitialValues.BackgroundRepeatVerticalDecl),
                     };
                 }
 

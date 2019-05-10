@@ -688,7 +688,7 @@ h1 { color: blue }");
             Assert.AreEqual(1, sheet.Rules.Length);
             var rule = sheet.Rules[0] as CssStyleRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(4, rule.Style.Length);
+            Assert.AreEqual(5, rule.Style.Length);
             Assert.AreEqual(".App_Header_ .logo", rule.SelectorText);
             var decl = rule.Style as ICssStyleDeclaration;
             Assert.AreEqual("url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\")", decl.GetBackgroundImage());

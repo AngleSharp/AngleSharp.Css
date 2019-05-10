@@ -1,4 +1,4 @@
-namespace AngleSharp.Css.Constants
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
@@ -13,8 +13,12 @@ namespace AngleSharp.Css.Constants
         public static readonly ICssValue ColorDecl = Color.Black;
         public static readonly ICssValue BackgroundColorDecl = Color.Transparent;
         public static readonly ICssValue BackgroundImageDecl = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue BackgroundRepeatDecl = new CssImageRepeatsValue(new Identifier(CssKeywords.Repeat), new Identifier(CssKeywords.Repeat));
-        public static readonly ICssValue BackgroundPositionDecl = new CssTupleValue(new ICssValue[] { new Length(0, Length.Unit.Percent), new Length(0, Length.Unit.Percent) });
+        public static readonly ICssValue BackgroundRepeatHorizontalDecl = new Identifier(CssKeywords.Repeat);
+        public static readonly ICssValue BackgroundRepeatVerticalDecl = new Identifier(CssKeywords.Repeat);
+        public static readonly ICssValue BackgroundRepeatDecl = new CssImageRepeatsValue(BackgroundRepeatHorizontalDecl, BackgroundRepeatVerticalDecl);
+        public static readonly ICssValue BackgroundPositionXDecl = new Length(0, Length.Unit.Percent);
+        public static readonly ICssValue BackgroundPositionYDecl = new Length(0, Length.Unit.Percent);
+        public static readonly ICssValue BackgroundPositionDecl = new CssTupleValue(new [] { BackgroundPositionXDecl, BackgroundPositionYDecl });
         public static readonly ICssValue BackgroundSizeDecl = new CssBackgroundSizeValue(new Constant<Length>(CssKeywords.Auto, Length.Auto), new Constant<Length>(CssKeywords.Auto, Length.Auto));
         public static readonly ICssValue BackgroundOriginDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.PaddingBox);
         public static readonly ICssValue BackgroundClipDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.BorderBox);

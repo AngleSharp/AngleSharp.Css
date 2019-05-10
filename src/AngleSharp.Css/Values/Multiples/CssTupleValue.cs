@@ -22,9 +22,14 @@ namespace AngleSharp.Css.Values
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new CSS tuple value.
+        /// </summary>
+        /// <param name="items">The items to contain.</param>
+        /// <param name="separator">The custom separator, if any.</param>
         public CssTupleValue(T[] items = null, String separator = null)
         {
-            _items = items ?? new T[0];
+            _items = items ?? Array.Empty<T>();
             _separator = separator ?? " ";
         }
 
@@ -32,14 +37,19 @@ namespace AngleSharp.Css.Values
 
         #region Properties
 
+        /// <inheritdoc />
         public ICssValue this[Int32 index] => _items[index];
 
+        /// <inheritdoc />
         public T[] Items => _items;
 
+        /// <inheritdoc />
         public String Separator => _separator;
 
+        /// <inheritdoc />
         public String CssText => _items.Join(_separator);
 
+        /// <inheritdoc />
         public Int32 Count => _items.Length;
 
         #endregion

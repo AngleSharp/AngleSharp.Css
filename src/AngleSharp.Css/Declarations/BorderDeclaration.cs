@@ -29,20 +29,14 @@ namespace AngleSharp.Css.Declarations
                 LineStyleConverter.Option(),
                 CurrentColorConverter.Option());
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
         }
 
         sealed class BorderAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter converter = Or(new BorderValueConverter(), AssignInitial());
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -60,9 +54,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var options = value as CssTupleValue;
-
-                if (options != null)
+                if (value is CssTupleValue options)
                 {
                     return new[] { options.Items[0], options.Items[1], options.Items[2] };
                 }

@@ -20,8 +20,8 @@ namespace AngleSharp.Css
             Name = name;
             Converter = converter;
             Flags = flags;
-            Shorthands = shorthands ?? new String[0];
-            Longhands = longhands ?? new String[0];
+            Shorthands = shorthands ?? Array.Empty<String>();
+            Longhands = longhands ?? Array.Empty<String>();
         }
 
         /// <summary>

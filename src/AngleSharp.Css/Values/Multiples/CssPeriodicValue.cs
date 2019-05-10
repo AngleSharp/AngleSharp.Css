@@ -19,16 +19,21 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
-        
-        public CssPeriodicValue(T[] values)
+
+        /// <summary>
+        /// Creates a new CSS periodic value container.
+        /// </summary>
+        /// <param name="values">The items to contain.</param>
+        public CssPeriodicValue(T[] values = null)
         {
-            _values = values;
+            _values = values ?? Array.Empty<T>();
         }
 
         #endregion
 
         #region Properties
 
+        /// <inheritdoc />
         public ICssValue this[Int32 index]
         {
             get
@@ -49,6 +54,7 @@ namespace AngleSharp.Css.Values
             }
         }
 
+        /// <inheritdoc />
         public String CssText
         {
             get
@@ -83,14 +89,19 @@ namespace AngleSharp.Css.Values
             }
         }
 
+        /// <inheritdoc />
         public T Top => _values.Length > 0 ? _values[0] : default(T);
 
+        /// <inheritdoc />
         public T Right => _values.Length > 1 ? _values[1] : Top;
 
+        /// <inheritdoc />
         public T Bottom => _values.Length > 2 ? _values[2] : Top;
 
+        /// <inheritdoc />
         public T Left => _values.Length > 3 ? _values[3] : Right;
 
+        /// <inheritdoc />
         public Int32 Count => 4;
 
         #endregion
@@ -112,7 +123,7 @@ namespace AngleSharp.Css.Values
     {
         #region ctor
 
-        public CssPeriodicValue(ICssValue[] values)
+        public CssPeriodicValue(ICssValue[] values = null)
             : base(values)
         {
         }

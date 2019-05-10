@@ -21,21 +21,29 @@ namespace AngleSharp.Css.Values
 
         #region ctor
 
-        public CssListValue(T[] items)
+        /// <summary>
+        /// Creates a new list value.
+        /// </summary>
+        /// <param name="items">The items to contain.</param>
+        public CssListValue(T[] items = null)
         {
-            _items = items;
+            _items = items ?? Array.Empty<T>();
         }
 
         #endregion
 
         #region Properties
 
+        /// <inheritdoc />
         public ICssValue this[Int32 index] => _items[index];
 
+        /// <inheritdoc />
         public T[] Items => _items;
 
+        /// <inheritdoc />
         public String CssText => _items.Join(", ");
 
+        /// <inheritdoc />
         public Int32 Count => _items.Length;
 
         #endregion
@@ -57,7 +65,7 @@ namespace AngleSharp.Css.Values
     {
         #region ctor
 
-        public CssListValue(ICssValue[] items)
+        public CssListValue(ICssValue[] items = null)
             : base(items)
         {
         }

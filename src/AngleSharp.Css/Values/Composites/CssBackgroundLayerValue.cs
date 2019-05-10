@@ -6,10 +6,10 @@ namespace AngleSharp.Css.Values
 
     sealed class CssBackgroundLayerValue : ICssCompositeValue
     {
-        private readonly ICssImageValue _image;
-        private readonly Point? _position;
-        private readonly CssBackgroundSizeValue _size;
-        private readonly CssImageRepeatsValue _repeat;
+        private readonly ICssValue _image;
+        private readonly ICssValue _position;
+        private readonly ICssValue _size;
+        private readonly ICssValue _repeat;
         private readonly ICssValue _attachment;
         private readonly ICssValue _origin;
         private readonly ICssValue _clip;
@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Creates a new background image layer.
         /// </summary>
-        public CssBackgroundLayerValue(ICssImageValue image, Point? position, CssBackgroundSizeValue size, CssImageRepeatsValue repeat, ICssValue attachment, ICssValue origin, ICssValue clip)
+        public CssBackgroundLayerValue(ICssValue image, ICssValue position, ICssValue size, ICssValue repeat, ICssValue attachment, ICssValue origin, ICssValue clip)
         {
             _image = image;
             _position = position;
@@ -31,22 +31,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the background image.
         /// </summary>
-        public ICssImageValue Image => _image;
+        public ICssValue Image => _image;
 
         /// <summary>
         /// Gets the position of the background image.
         /// </summary>
-        public Point? Position => _position;
+        public ICssValue Position => _position;
 
         /// <summary>
         /// Gets the size of the background image.
         /// </summary>
-        public CssBackgroundSizeValue Size => _size;
+        public ICssValue Size => _size;
 
         /// <summary>
         /// Gets the repeat mode of the background image.
         /// </summary>
-        public CssImageRepeatsValue Repeat => _repeat;
+        public ICssValue Repeat => _repeat;
 
         /// <summary>
         /// Gets the mode of the background image.
@@ -72,46 +72,46 @@ namespace AngleSharp.Css.Values
             {
                 var sb = StringBuilderPool.Obtain();
 
-                if (Image != null)
+                if (_image != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Image.CssText);
+                    sb.Append(_image.CssText);
                 }
 
-                if (Position != null)
+                if (_position != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Position.Value.CssText);
+                    sb.Append(_position.CssText);
 
-                    if (Size != null)
+                    if (_size != null)
                     {
                         sb.Append(" / ");
-                        sb.Append(Size.CssText);
+                        sb.Append(_size.CssText);
                     }
                 }
 
-                if (Repeat != null)
+                if (_repeat != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Repeat.CssText);
+                    sb.Append(_repeat.CssText);
                 }
 
-                if (Attachment != null)
+                if (_attachment != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Attachment.CssText);
+                    sb.Append(_attachment.CssText);
                 }
 
-                if (Origin != null)
+                if (_origin != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Origin.CssText);
+                    sb.Append(_origin.CssText);
                 }
 
-                if (Clip != null)
+                if (_clip != null)
                 {
                     if (sb.Length > 0) sb.Append(' ');
-                    sb.Append(Clip.CssText);
+                    sb.Append(_clip.CssText);
                 }
 
                 return sb.ToPool();

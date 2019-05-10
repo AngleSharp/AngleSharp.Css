@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Converters
 
     sealed class CounterValueConverter : IValueConverter
     {
-        private static readonly CounterValue[] NoneValue = new CounterValue[0];
+        private static readonly CounterValue[] NoneValue = Array.Empty<CounterValue>();
 
         private readonly Int32 _defaultValue;
 
