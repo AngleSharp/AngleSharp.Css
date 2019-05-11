@@ -59,6 +59,22 @@ namespace AngleSharp.Css
             return factory.Create(propertyName);
         }
 
+        internal static ICssProperty CreateShorthand(this IBrowsingContext context, String name, ICssValue[] longhands, Boolean important)
+        {
+            var factory = context.GetFactory<IDeclarationFactory>();
+            var info = factory.Create(name);
+            var value = info.Combine(longhands);
+            return new CssProperty(name, info.Converter, info.Flags, value, important);
+        }
+
+        internal static ICssProperty[] CreateLonghands(this IBrowsingContext context, ICssProperty shorthand)
+        {
+            var factory = context.GetFactory<IDeclarationFactory>();
+            var info = factory.Create(shorthand.Name);
+            var values = info.Seperate(factory, shorthand.RawValue);
+            return factory.CreateProperties(info.Longhands, values, shorthand.IsImportant);
+        }
+
         internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
         {
             var info = context.GetDeclarationInfo(propertyName);
@@ -75,7 +91,25 @@ namespace AngleSharp.Css
         private static Boolean IsAllowingUnknownDeclarations(this IBrowsingContext context)
         {
             var parser = context.GetProvider<CssParser>();
-            return parser != null ? parser.Options.IsIncludingUnknownDeclarations : true;
+            return parser?.Options.IsIncludingUnknownDeclarations ?? true;
+        }
+
+        private static ICssProperty[] CreateProperties(this IDeclarationFactory factory, String[] names, ICssValue[] values, Boolean important)
+        {
+            if (values != null && values.Length == names.Length)
+            {
+                var properties = new ICssProperty[names.Length];
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    var info = factory.Create(names[i]);
+                    properties[i] = new CssProperty(names[i], info.Converter, info.Flags, values[i], important);
+                }
+
+                return properties;
+            }
+
+            return null;
         }
     }
 }

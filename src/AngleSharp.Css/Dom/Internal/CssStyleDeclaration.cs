@@ -2,7 +2,6 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Parser;
-    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
@@ -75,11 +74,8 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public void SetParent(ICssRule parent)
-        {
-            _parent = parent;
-        }
-        
+        public void SetParent(ICssRule parent) => _parent = parent;
+
         public void Update(String value)
         {
             if (IsReadOnly)
@@ -102,22 +98,22 @@ namespace AngleSharp.Css.Dom
             }
         }
 
-        private ICssProperty TryCreateShorthand(String shorthandName, IEnumerable<String> serialized, List<String> usedProperties)
+        private ICssProperty TryCreateShorthand(String shorthandName, IEnumerable<String> serialized, List<String> usedProperties, Boolean force)
         {
             var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
-            var shorthand = _context.GetDeclarationInfo(shorthandName);
+            var factory = _context.GetFactory<IDeclarationFactory>();
+            var shorthand = factory.Create(shorthandName);
             var requiredProperties = shorthand.Longhands;
             var values = new ICssValue[requiredProperties.Length];
             var important = 0;
             var count = 0;
-            var aggregator = shorthand.Converter as IValueAggregator;
 
             for (var i = 0; i < values.Length; i++)
             {
                 var name = requiredProperties[i];
-                var propInfo = _context.GetDeclarationInfo(name);
+                var propInfo = factory.Create(name);
                 var property = propInfo.Longhands.Any() ?
-                    TryCreateShorthand(name, serialized, usedProperties) :
+                    TryCreateShorthand(name, serialized, usedProperties, force) :
                     longhands.Where(m => m.Name == name).FirstOrDefault();
 
                 if (property != null)
@@ -129,23 +125,16 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            if (count == values.Length && aggregator != null && (important == 0 || important == count))
-            {
-                var value = aggregator.Merge(values);
-
-                if (value != null)
-                {
-                    return CreateNewProperty(shorthandName, value, important != 0);
-                }
-            }
-
-            return null;
+            var valid = count == values.Length && (important == 0 || important == count);
+            var result = force || valid ? _context.CreateShorthand(shorthandName, values, important != 0) : null;
+            return force || result?.RawValue != null ? result : null;
         }
 
         public String ToCssBlock(IStyleFormatter formatter)
         {
             var list = new List<ICssProperty>();
             var serialized = new List<String>();
+            var factory = _context.GetFactory<IDeclarationFactory>();
 
             foreach (var declaration in Declarations)
             {
@@ -153,17 +142,17 @@ namespace AngleSharp.Css.Dom
 
                 if (!serialized.Contains(property))
                 {
-                    var info = _context.GetDeclarationInfo(property);
+                    var info = factory.Create(property);
                     var shorthands = info.Shorthands;
 
                     if (shorthands.Any())
                     {
-                        var sortedShorthands = shorthands.OrderByDescending(shorthand => _context.GetDeclarationInfo(property).Longhands.Length);
+                        var sortedShorthands = shorthands.OrderByDescending(shorthand => factory.Create(property).Longhands.Length);
 
                         foreach (var shorthandName in sortedShorthands)
                         {
                             var usedProperties = new List<String>();
-                            var shorthand = TryCreateShorthand(shorthandName, serialized, usedProperties);
+                            var shorthand = TryCreateShorthand(shorthandName, serialized, usedProperties, false);
 
                             if (shorthand != null)
                             {
@@ -190,11 +179,8 @@ namespace AngleSharp.Css.Dom
             return formatter.BlockDeclarations(list);
         }
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
-            var block = ToCssBlock(formatter);
-            writer.Write(block.Trim(' ', '\t', '\r', '\n', '{', '}'));
-        }
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) =>
+            writer.Write(ToCssBlock(formatter).Trim(' ', '\t', '\r', '\n', '{', '}'));
 
         public String RemoveProperty(String propertyName)
         {
@@ -235,29 +221,11 @@ namespace AngleSharp.Css.Dom
             return CssKeywords.Important;
         }
 
-        public String GetPropertyValue(String propertyName)
-        {
-            var property = GetProperty(propertyName);
+        public String GetPropertyValue(String propertyName) =>
+            GetProperty(propertyName)?.Value ?? String.Empty;
 
-            if (property == null)
-            {
-                var value = GetShorthandInfo(propertyName).Value;
-
-                if (value != null)
-                {
-                    return value.CssText;
-                }
-
-                return String.Empty;
-            }
-
-            return property.Value;
-        }
-
-        public void SetPropertyValue(String propertyName, String propertyValue)
-        {
+        public void SetPropertyValue(String propertyName, String propertyValue) =>
             SetProperty(propertyName, propertyValue);
-        }
 
         public void SetPropertyPriority(String propertyName, String priority)
         {
@@ -327,12 +295,8 @@ namespace AngleSharp.Css.Dom
             return GetPropertyShorthand(name);
         }
 
-        private ICssProperty GetPropertyShorthand(String name)
-        {
-            var result = GetShorthandInfo(name);
-            var decl = result.Declaration;
-            return new CssProperty(name, decl.Converter, decl.Flags, result.Value, result.IsImportant);
-        }
+        private ICssProperty GetPropertyShorthand(String name) =>
+            TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
 
         internal void SetDeclarations(IEnumerable<ICssProperty> decls) =>
             ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
@@ -344,78 +308,8 @@ namespace AngleSharp.Css.Dom
 
         #region Helpers
 
-        struct ShorthandInfo
-        {
-            public DeclarationInfo Declaration;
-            public ICssValue Value;
-            public Boolean IsImportant;
-        }
-
-        private ShorthandInfo GetShorthandInfo(String propertyName)
-        {
-            var info = _context.GetDeclarationInfo(propertyName);
-            var important = false;
-
-            if (info.Converter is IValueAggregator aggregator)
-            {
-                var declarations = info.Longhands;
-                var values = new ICssValue[declarations.Length];
-
-                for (var i = 0; i < values.Length; i++)
-                {
-                    var prop = GetProperty(declarations[i]);
-
-                    if (prop != null)
-                    {
-                        var value = prop.RawValue;
-                        important = important || prop.IsImportant;
-
-                        if (value is CssChildValue child)
-                        {
-                            return new ShorthandInfo
-                            {
-                                Value = child.Parent,
-                                IsImportant = important,
-                                Declaration = info,
-                            };
-                        }
-
-                        values[i] = value;
-                    }
-                }
-
-                if (values.Any(m => m != null))
-                {
-                    var value = aggregator.Merge(values);
-
-                    if (value != null)
-                    {
-                        return new ShorthandInfo
-                        {
-                            Value = value,
-                            IsImportant = important,
-                            Declaration = info,
-                        };
-                    }
-                }
-            }
-
-            return new ShorthandInfo
-            {
-                Value = null,
-                IsImportant = important,
-                Declaration = info,
-            };
-        }
-
         private ICssProperty CreateProperty(String propertyName) =>
             GetProperty(propertyName) ?? _context.CreateProperty(propertyName);
-
-        private ICssProperty CreateNewProperty(String propertyName, ICssValue value, Boolean important = false)
-        {
-            var info = _context.GetDeclarationInfo(propertyName);
-            return new CssProperty(propertyName, info.Converter, info.Flags, value, important);
-        }
 
         private void SetProperty(ICssProperty property)
         {
@@ -505,17 +399,12 @@ namespace AngleSharp.Css.Dom
 
         private void SetShorthand(ICssProperty shorthand)
         {
-            var info = _context.GetDeclarationInfo(shorthand.Name);
-            var properties = info.CreateLonghands(shorthand.RawValue, (name, value) =>
-            {
-                return CreateNewProperty(name, value, shorthand.IsImportant);
-            });
+            var properties = _context.CreateLonghands(shorthand);
 
             if (properties != null)
             {
                 foreach (var property in properties)
                 {
-                    property.IsImportant = shorthand.IsImportant;
                     SetProperty(property);
                 }
             }
@@ -535,15 +424,9 @@ namespace AngleSharp.Css.Dom
 
         #region Interface implementation
 
-        public IEnumerator<ICssProperty> GetEnumerator()
-        {
-            return Declarations.GetEnumerator();
-        }
+        public IEnumerator<ICssProperty> GetEnumerator() => Declarations.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

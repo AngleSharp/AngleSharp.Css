@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Merge(ICssValue[] values)
             {
-                if (values.Length > 0)
+                if (values[0] != null)
                 {
                     return new CssPeriodicValue(values);
                 }

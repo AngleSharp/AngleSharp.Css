@@ -221,7 +221,7 @@ namespace AngleSharp.Css.Declarations
 
                 foreach (var list in lists)
                 {
-                    count = Math.Max(count, list.Count);
+                    count = Math.Max(count, list?.Count ?? 0);
                 }
 
                 return count;

@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.AnimationName,
         };
 
-        sealed class AnimationConverter : IValueConverter
+        sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter ListConverter = WithAny(
                 TimeConverter.Option(),
@@ -43,13 +43,6 @@ namespace AngleSharp.Css.Declarations
                 IdentifierConverter.Option()).FromList();
 
             public ICssValue Convert(StringSource source) => ListConverter.Convert(source);
-        }
-
-        sealed class AnimationAggregator : IValueAggregator, IValueConverter
-        {
-            private static readonly IValueConverter converter = new AnimationConverter();
-
-            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -72,9 +65,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var list = value as CssListValue;
-
-                if (list != null)
+                if (value is CssListValue list)
                 {
                     return new[]
                     {
