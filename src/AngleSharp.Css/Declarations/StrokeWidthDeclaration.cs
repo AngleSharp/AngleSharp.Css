@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -9,8 +10,9 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = Or(
             LengthOrPercentConverter,
-            NumberConverter,
-            AssignInitial(InitialValues.StrokeWidthDecl));
+            NumberConverter);
+
+        public static ICssValue InitialValue = InitialValues.StrokeWidthDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

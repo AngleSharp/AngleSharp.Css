@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Color;
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(InitialValues.ColorDecl));
+        public static IValueConverter Converter = ColorConverter;
+
+        public static ICssValue InitialValue = InitialValues.ColorDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Hashless | PropertyFlags.Animatable;
     }

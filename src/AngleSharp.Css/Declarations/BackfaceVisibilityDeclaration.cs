@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackfaceVisibility;
 
-        public static IValueConverter Converter = Or(BackfaceVisibilityConverter, AssignInitial(InitialValues.BackfaceVisibilityDecl));
+        public static IValueConverter Converter = BackfaceVisibilityConverter;
+
+        public static ICssValue InitialValue = InitialValues.BackfaceVisibilityDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

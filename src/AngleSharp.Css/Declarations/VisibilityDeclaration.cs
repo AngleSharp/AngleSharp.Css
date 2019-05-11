@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Visibility;
 
-        public static IValueConverter Converter = Or(VisibilityConverter, AssignInitial(InitialValues.VisibilityDecl));
+        public static IValueConverter Converter = VisibilityConverter;
+
+        public static ICssValue InitialValue = InitialValues.VisibilityDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable;
     }

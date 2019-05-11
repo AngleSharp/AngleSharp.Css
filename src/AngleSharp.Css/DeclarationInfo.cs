@@ -1,6 +1,8 @@
 namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Dom;
     using System;
+    using static ValueConverters;
 
     /// <summary>
     /// A collection of useful information regarding a CSS declaration.
@@ -13,13 +15,15 @@ namespace AngleSharp.Css
         /// <param name="name">The name of the declaration.</param>
         /// <param name="converter">The value converter.</param>
         /// <param name="flags">The property flags.</param>
+        /// <param name="initialValue">The initial value, if any.</param>
         /// <param name="shorthands">The names of the associated shorthand declarations, if any.</param>
         /// <param name="longhands">The names of the associated longhand declarations, if any.</param>
-        public DeclarationInfo(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, String[] shorthands = null, String[] longhands = null)
+        public DeclarationInfo(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue initialValue = null, String[] shorthands = null, String[] longhands = null)
         {
             Name = name;
-            Converter = converter;
+            Converter = Or(converter, AssignInitial(initialValue));
             Flags = flags;
+            InitialValue = initialValue;
             Shorthands = shorthands ?? Array.Empty<String>();
             Longhands = longhands ?? Array.Empty<String>();
         }
@@ -28,6 +32,11 @@ namespace AngleSharp.Css
         /// Gets the declaration name.
         /// </summary>
         public String Name { get; }
+
+        /// <summary>
+        /// Gets the initial value of the declaration, if any.
+        /// </summary>
+        public ICssValue InitialValue { get; }
 
         /// <summary>
         /// Gets the associated value converter.

@@ -15,318 +15,371 @@ namespace AngleSharp.Css
                 CaptionSideDeclaration.Name, new DeclarationInfo(
                     name: CaptionSideDeclaration.Name,
                     converter: CaptionSideDeclaration.Converter,
+                    initialValue: CaptionSideDeclaration.InitialValue,
                     flags: CaptionSideDeclaration.Flags)
             },
             {
                 CursorDeclaration.Name, new DeclarationInfo(
                     name: CursorDeclaration.Name,
                     converter: CursorDeclaration.Converter,
+                    initialValue: CursorDeclaration.InitialValue,
                     flags: CursorDeclaration.Flags)
             },
             {
                 EmptyCellsDeclaration.Name, new DeclarationInfo(
                     name: EmptyCellsDeclaration.Name,
                     converter: EmptyCellsDeclaration.Converter,
+                    initialValue: EmptyCellsDeclaration.InitialValue,
                     flags: EmptyCellsDeclaration.Flags)
             },
             {
                 OrphansDeclaration.Name, new DeclarationInfo(
                     name: OrphansDeclaration.Name,
                     converter: OrphansDeclaration.Converter,
+                    initialValue: OrphansDeclaration.InitialValue,
                     flags: OrphansDeclaration.Flags)
             },
             {
                 QuotesDeclaration.Name, new DeclarationInfo(
                     name: QuotesDeclaration.Name,
                     converter: QuotesDeclaration.Converter,
+                    initialValue: QuotesDeclaration.InitialValue,
                     flags: QuotesDeclaration.Flags)
             },
             {
                 TableLayoutDeclaration.Name, new DeclarationInfo(
                     name: TableLayoutDeclaration.Name,
                     converter: TableLayoutDeclaration.Converter,
+                    initialValue: TableLayoutDeclaration.InitialValue,
                     flags: TableLayoutDeclaration.Flags)
             },
             {
                 UnicodeBidiDeclaration.Name, new DeclarationInfo(
                     name: UnicodeBidiDeclaration.Name,
                     converter: UnicodeBidiDeclaration.Converter,
+                    initialValue: UnicodeBidiDeclaration.InitialValue,
                     flags: UnicodeBidiDeclaration.Flags)
             },
             {
                 WidowsDeclaration.Name, new DeclarationInfo(
                     name: WidowsDeclaration.Name,
                     converter: WidowsDeclaration.Converter,
+                    initialValue: WidowsDeclaration.InitialValue,
                     flags: WidowsDeclaration.Flags)
             },
             {
                 ContentDeclaration.Name, new DeclarationInfo(
                     name: ContentDeclaration.Name,
                     converter: ContentDeclaration.Converter,
+                    initialValue: ContentDeclaration.InitialValue,
                     flags: ContentDeclaration.Flags)
             },
             {
                 BoxDecorationBreakDeclaration.Name, new DeclarationInfo(
                     name: BoxDecorationBreakDeclaration.Name,
                     converter: BoxDecorationBreakDeclaration.Converter,
+                    initialValue: BoxDecorationBreakDeclaration.InitialValue,
                     flags: BoxDecorationBreakDeclaration.Flags)
             },
             {
                 BoxShadowDeclaration.Name, new DeclarationInfo(
                     name: BoxShadowDeclaration.Name,
                     converter: BoxShadowDeclaration.Converter,
+                    initialValue: BoxShadowDeclaration.InitialValue,
                     flags: BoxShadowDeclaration.Flags)
             },
             {
                 ClearDeclaration.Name, new DeclarationInfo(
                     name: ClearDeclaration.Name,
                     converter: ClearDeclaration.Converter,
+                    initialValue: ClearDeclaration.InitialValue,
                     flags: ClearDeclaration.Flags)
             },
             {
                 DisplayDeclaration.Name, new DeclarationInfo(
                     name: DisplayDeclaration.Name,
                     converter: DisplayDeclaration.Converter,
+                    initialValue: DisplayDeclaration.InitialValue,
                     flags: DisplayDeclaration.Flags)
             },
             {
                 FloatDeclaration.Name, new DeclarationInfo(
                     name: FloatDeclaration.Name,
                     converter: FloatDeclaration.Converter,
+                    initialValue: FloatDeclaration.InitialValue,
                     flags: FloatDeclaration.Flags)
             },
             {
                 OverflowDeclaration.Name, new DeclarationInfo(
                     name: OverflowDeclaration.Name,
                     converter: OverflowDeclaration.Converter,
+                    initialValue: OverflowDeclaration.InitialValue,
                     flags: OverflowDeclaration.Flags)
             },
             {
                 OverflowXDeclaration.Name, new DeclarationInfo(
                     name: OverflowXDeclaration.Name,
                     converter: OverflowXDeclaration.Converter,
+                    initialValue: OverflowXDeclaration.InitialValue,
                     flags: OverflowXDeclaration.Flags)
             },
             {
                 OverflowYDeclaration.Name, new DeclarationInfo(
                     name: OverflowYDeclaration.Name,
                     converter: OverflowYDeclaration.Converter,
+                    initialValue: OverflowYDeclaration.InitialValue,
                     flags: OverflowYDeclaration.Flags)
             },
             {
                 PositionDeclaration.Name, new DeclarationInfo(
                     name: PositionDeclaration.Name,
                     converter: PositionDeclaration.Converter,
+                    initialValue: PositionDeclaration.InitialValue,
                     flags: PositionDeclaration.Flags)
             },
             {
                 ZIndexDeclaration.Name, new DeclarationInfo(
                     name: ZIndexDeclaration.Name,
                     converter: ZIndexDeclaration.Converter,
+                    initialValue: ZIndexDeclaration.InitialValue,
                     flags: ZIndexDeclaration.Flags)
             },
             {
                 CounterResetDeclaration.Name, new DeclarationInfo(
                     name: CounterResetDeclaration.Name,
                     converter: CounterResetDeclaration.Converter,
+                    initialValue: CounterResetDeclaration.InitialValue,
                     flags: CounterResetDeclaration.Flags)
             },
             {
                 CounterIncrementDeclaration.Name, new DeclarationInfo(
                     name: CounterIncrementDeclaration.Name,
                     converter: CounterIncrementDeclaration.Converter,
+                    initialValue: CounterIncrementDeclaration.InitialValue,
                     flags: CounterIncrementDeclaration.Flags)
             },
             {
                 ObjectFitDeclaration.Name, new DeclarationInfo(
                     name: ObjectFitDeclaration.Name,
                     converter: ObjectFitDeclaration.Converter,
+                    initialValue: ObjectFitDeclaration.InitialValue,
                     flags: ObjectFitDeclaration.Flags)
             },
             {
                 ObjectPositionDeclaration.Name, new DeclarationInfo(
                     name: ObjectPositionDeclaration.Name,
                     converter: ObjectPositionDeclaration.Converter,
+                    initialValue: ObjectPositionDeclaration.InitialValue,
                     flags: ObjectPositionDeclaration.Flags)
             },
             {
                 StrokeDasharrayDeclaration.Name, new DeclarationInfo(
                     name: StrokeDasharrayDeclaration.Name,
                     converter: StrokeDasharrayDeclaration.Converter,
+                    initialValue: StrokeDasharrayDeclaration.InitialValue,
                     flags: StrokeDasharrayDeclaration.Flags)
             },
             {
                 StrokeDashoffsetDeclaration.Name, new DeclarationInfo(
                     name: StrokeDashoffsetDeclaration.Name,
                     converter: StrokeDashoffsetDeclaration.Converter,
+                    initialValue: StrokeDashoffsetDeclaration.InitialValue,
                     flags: StrokeDashoffsetDeclaration.Flags)
             },
             {
                 StrokeLinecapDeclaration.Name, new DeclarationInfo(
                     name: StrokeLinecapDeclaration.Name,
                     converter: StrokeLinecapDeclaration.Converter,
+                    initialValue: StrokeLinecapDeclaration.InitialValue,
                     flags: StrokeLinecapDeclaration.Flags)
             },
             {
                 StrokeLinejoinDeclaration.Name, new DeclarationInfo(
                     name: StrokeLinejoinDeclaration.Name,
                     converter: StrokeLinejoinDeclaration.Converter,
+                    initialValue: StrokeLinejoinDeclaration.InitialValue,
                     flags: StrokeLinejoinDeclaration.Flags)
             },
             {
                 StrokeMiterlimitDeclaration.Name, new DeclarationInfo(
                     name: StrokeMiterlimitDeclaration.Name,
                     converter: StrokeMiterlimitDeclaration.Converter,
+                    initialValue: StrokeMiterlimitDeclaration.InitialValue,
                     flags: StrokeMiterlimitDeclaration.Flags)
             },
             {
                 StrokeOpacityDeclaration.Name, new DeclarationInfo(
                     name: StrokeOpacityDeclaration.Name,
                     converter: StrokeOpacityDeclaration.Converter,
+                    initialValue: StrokeOpacityDeclaration.InitialValue,
                     flags: StrokeOpacityDeclaration.Flags)
             },
             {
                 StrokeDeclaration.Name, new DeclarationInfo(
                     name: StrokeDeclaration.Name,
                     converter: StrokeDeclaration.Converter,
+                    initialValue: StrokeDeclaration.InitialValue,
                     flags: StrokeDeclaration.Flags)
             },
             {
                 StrokeWidthDeclaration.Name, new DeclarationInfo(
                     name: StrokeWidthDeclaration.Name,
                     converter: StrokeWidthDeclaration.Converter,
+                    initialValue: StrokeWidthDeclaration.InitialValue,
                     flags: StrokeWidthDeclaration.Flags)
             },
             {
                 DirectionDeclaration.Name, new DeclarationInfo(
                     name: DirectionDeclaration.Name,
                     converter: DirectionDeclaration.Converter,
+                    initialValue: DirectionDeclaration.InitialValue,
                     flags: DirectionDeclaration.Flags)
             },
             {
                 OverflowWrapDeclaration.Name, new DeclarationInfo(
                     name: OverflowWrapDeclaration.Name,
                     converter: OverflowWrapDeclaration.Converter,
+                    initialValue: OverflowWrapDeclaration.InitialValue,
                     flags: OverflowWrapDeclaration.Flags)
             },
             {
                 WordWrapDeclaration.Name, new DeclarationInfo(
                     name: WordWrapDeclaration.Name,
                     converter: WordWrapDeclaration.Converter,
+                    initialValue: WordWrapDeclaration.InitialValue,
                     flags: WordWrapDeclaration.Flags)
             },
             {
                 PerspectiveOriginDeclaration.Name, new DeclarationInfo(
                     name: PerspectiveOriginDeclaration.Name,
                     converter: PerspectiveOriginDeclaration.Converter,
+                    initialValue: PerspectiveOriginDeclaration.InitialValue,
                     flags: PerspectiveOriginDeclaration.Flags)
             },
             {
                 PerspectiveDeclaration.Name, new DeclarationInfo(
                     name: PerspectiveDeclaration.Name,
                     converter: PerspectiveDeclaration.Converter,
+                    initialValue: PerspectiveDeclaration.InitialValue,
                     flags: PerspectiveDeclaration.Flags)
             },
             {
                 BackfaceVisibilityDeclaration.Name, new DeclarationInfo(
                     name: BackfaceVisibilityDeclaration.Name,
                     converter: BackfaceVisibilityDeclaration.Converter,
+                    initialValue: BackfaceVisibilityDeclaration.InitialValue,
                     flags: BackfaceVisibilityDeclaration.Flags)
             },
             {
                 ClipDeclaration.Name, new DeclarationInfo(
                     name: ClipDeclaration.Name,
                     converter: ClipDeclaration.Converter,
+                    initialValue: ClipDeclaration.InitialValue,
                     flags: ClipDeclaration.Flags)
             },
             {
                 OpacityDeclaration.Name, new DeclarationInfo(
                     name: OpacityDeclaration.Name,
                     converter: OpacityDeclaration.Converter,
+                    initialValue: OpacityDeclaration.InitialValue,
                     flags: OpacityDeclaration.Flags)
             },
             {
                 VisibilityDeclaration.Name, new DeclarationInfo(
                     name: VisibilityDeclaration.Name,
                     converter: VisibilityDeclaration.Converter,
+                    initialValue: VisibilityDeclaration.InitialValue,
                     flags: VisibilityDeclaration.Flags)
             },
             {
                 BottomDeclaration.Name, new DeclarationInfo(
                     name: BottomDeclaration.Name,
                     converter: BottomDeclaration.Converter,
+                    initialValue: BottomDeclaration.InitialValue,
                     flags: BottomDeclaration.Flags)
             },
             {
                 HeightDeclaration.Name, new DeclarationInfo(
                     name: HeightDeclaration.Name,
                     converter: HeightDeclaration.Converter,
+                    initialValue: HeightDeclaration.InitialValue,
                     flags: HeightDeclaration.Flags)
             },
             {
                 LeftDeclaration.Name, new DeclarationInfo(
                     name: LeftDeclaration.Name,
                     converter: LeftDeclaration.Converter,
+                    initialValue: LeftDeclaration.InitialValue,
                     flags: LeftDeclaration.Flags)
             },
             {
                 MaxHeightDeclaration.Name, new DeclarationInfo(
                     name: MaxHeightDeclaration.Name,
                     converter: MaxHeightDeclaration.Converter,
+                    initialValue: MaxHeightDeclaration.InitialValue,
                     flags: MaxHeightDeclaration.Flags)
             },
             {
                 MaxWidthDeclaration.Name, new DeclarationInfo(
                     name: MaxWidthDeclaration.Name,
                     converter: MaxWidthDeclaration.Converter,
+                    initialValue: MaxWidthDeclaration.InitialValue,
                     flags: MaxWidthDeclaration.Flags)
             },
             {
                 MinHeightDeclaration.Name, new DeclarationInfo(
                     name: MinHeightDeclaration.Name,
                     converter: MinHeightDeclaration.Converter,
+                    initialValue: MinHeightDeclaration.InitialValue,
                     flags: MinHeightDeclaration.Flags)
             },
             {
                 MinWidthDeclaration.Name, new DeclarationInfo(
                     name: MinWidthDeclaration.Name,
                     converter: MinWidthDeclaration.Converter,
+                    initialValue: MinWidthDeclaration.InitialValue,
                     flags: MinWidthDeclaration.Flags)
             },
             {
                 RightDeclaration.Name, new DeclarationInfo(
                     name: RightDeclaration.Name,
                     converter: RightDeclaration.Converter,
+                    initialValue: RightDeclaration.InitialValue,
                     flags: RightDeclaration.Flags)
             },
             {
                 TopDeclaration.Name, new DeclarationInfo(
                     name: TopDeclaration.Name,
                     converter: TopDeclaration.Converter,
+                    initialValue: TopDeclaration.InitialValue,
                     flags: TopDeclaration.Flags)
             },
             {
                 WidthDeclaration.Name, new DeclarationInfo(
                     name: WidthDeclaration.Name,
                     converter: WidthDeclaration.Converter,
+                    initialValue: WidthDeclaration.InitialValue,
                     flags: WidthDeclaration.Flags)
             },
             {
                 ColorDeclaration.Name, new DeclarationInfo(
                     name: ColorDeclaration.Name,
                     converter: ColorDeclaration.Converter,
+                    initialValue: ColorDeclaration.InitialValue,
                     flags: ColorDeclaration.Flags)
             },
             {
                 WordSpacingDeclaration.Name, new DeclarationInfo(
                     name: WordSpacingDeclaration.Name,
                     converter: WordSpacingDeclaration.Converter,
+                    initialValue: WordSpacingDeclaration.InitialValue,
                     flags: WordSpacingDeclaration.Flags)
             },
             {
                 LineHeightDeclaration.Name, new DeclarationInfo(
                     name: LineHeightDeclaration.Name,
                     converter: LineHeightDeclaration.Converter,
+                    initialValue: LineHeightDeclaration.InitialValue,
                     flags: LineHeightDeclaration.Flags,
                     shorthands: LineHeightDeclaration.Shorthands)
             },
@@ -334,48 +387,56 @@ namespace AngleSharp.Css
                 LetterSpacingDeclaration.Name, new DeclarationInfo(
                     name: LetterSpacingDeclaration.Name,
                     converter: LetterSpacingDeclaration.Converter,
+                    initialValue: LetterSpacingDeclaration.InitialValue,
                     flags: LetterSpacingDeclaration.Flags)
             },
             {
                 FontSizeAdjustDeclaration.Name, new DeclarationInfo(
                     name: FontSizeAdjustDeclaration.Name,
                     converter: FontSizeAdjustDeclaration.Converter,
+                    initialValue: FontSizeAdjustDeclaration.InitialValue,
                     flags: FontSizeAdjustDeclaration.Flags)
             },
             {
                 BreakAfterDeclaration.Name, new DeclarationInfo(
                     name: BreakAfterDeclaration.Name,
                     converter: BreakAfterDeclaration.Converter,
+                    initialValue: BreakAfterDeclaration.InitialValue,
                     flags: BreakAfterDeclaration.Flags)
             },
             {
                 BreakBeforeDeclaration.Name, new DeclarationInfo(
                     name: BreakBeforeDeclaration.Name,
                     converter: BreakBeforeDeclaration.Converter,
+                    initialValue: BreakBeforeDeclaration.InitialValue,
                     flags: BreakBeforeDeclaration.Flags)
             },
             {
                 BreakInsideDeclaration.Name, new DeclarationInfo(
                     name: BreakInsideDeclaration.Name,
                     converter: BreakInsideDeclaration.Converter,
+                    initialValue: BreakInsideDeclaration.InitialValue,
                     flags: BreakInsideDeclaration.Flags)
             },
             {
                 PageBreakAfterDeclaration.Name, new DeclarationInfo(
                     name: PageBreakAfterDeclaration.Name,
                     converter: PageBreakAfterDeclaration.Converter,
+                    initialValue: PageBreakAfterDeclaration.InitialValue,
                     flags: PageBreakAfterDeclaration.Flags)
             },
             {
                 PageBreakBeforeDeclaration.Name, new DeclarationInfo(
                     name: PageBreakBeforeDeclaration.Name,
                     converter: PageBreakBeforeDeclaration.Converter,
+                    initialValue: PageBreakBeforeDeclaration.InitialValue,
                     flags: PageBreakBeforeDeclaration.Flags)
             },
             {
                 PageBreakInsideDeclaration.Name, new DeclarationInfo(
                     name: PageBreakInsideDeclaration.Name,
                     converter: PageBreakInsideDeclaration.Converter,
+                    initialValue: PageBreakInsideDeclaration.InitialValue,//HERE
                     flags: PageBreakInsideDeclaration.Flags)
             },
             {

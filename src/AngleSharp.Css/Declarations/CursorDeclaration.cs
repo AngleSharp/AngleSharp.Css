@@ -6,13 +6,14 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using static ValueConverters;
 
     static class CursorDeclaration
     {
         public static String Name = PropertyNames.Cursor;
 
-        public static IValueConverter Converter = Or(new CursorValueConverter(), AssignInitial(InitialValues.CursorDecl));
+        public static IValueConverter Converter = new CursorValueConverter();
+
+        public static ICssValue InitialValue = InitialValues.CursorDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
 

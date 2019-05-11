@@ -147,6 +147,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue StrokeDashoffsetDecl = Length.Zero;
         public static readonly ICssValue StrokeDasharrayDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue StrokeWidthDecl = new Length(1.0, Length.Unit.Px);
+        public static readonly ICssValue StrokeMiterlimitDecl = new Length(1.0, Length.Unit.None);
         public static readonly ICssValue RubyPositionDecl = new Constant<RubyPosition>(CssKeywords.Over, RubyPosition.Over);
         public static readonly ICssValue RubyOverhangDecl = new Constant<RubyOverhangMode>(CssKeywords.None, RubyOverhangMode.None);
         public static readonly ICssValue RubyAlignDecl = new Constant<RubyAlignment>(CssKeywords.SpaceAround, RubyAlignment.SpaceAround);

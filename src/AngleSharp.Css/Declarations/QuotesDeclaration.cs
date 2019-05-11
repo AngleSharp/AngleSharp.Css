@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Quotes;
 
-        public static IValueConverter Converter = Or(QuotesConverter, None, AssignInitial(InitialValues.QuotesDecl));
+        public static IValueConverter Converter = Or(QuotesConverter, None);
+
+        public static ICssValue InitialValue = InitialValues.QuotesDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

@@ -8,13 +8,14 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using static ValueConverters;
 
     static class ContentDeclaration
     {
         public static String Name = PropertyNames.Content;
 
-        public static IValueConverter Converter = Or(new ContentValueConverter(), AssignInitial(InitialValues.ContentDecl));
+        public static IValueConverter Converter = new ContentValueConverter();
+
+        public static ICssValue InitialValue = InitialValues.ContentDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
 

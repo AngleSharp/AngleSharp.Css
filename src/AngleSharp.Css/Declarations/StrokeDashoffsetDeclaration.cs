@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeDashoffset;
 
-        public static IValueConverter Converter = Or(LengthOrPercentConverter, AssignInitial(InitialValues.StrokeDashoffsetDecl));
+        public static IValueConverter Converter = LengthOrPercentConverter;
+
+        public static ICssValue InitialValue = InitialValues.StrokeDashoffsetDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

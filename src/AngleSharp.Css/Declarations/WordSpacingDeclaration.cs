@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.WordSpacing;
 
-        public static IValueConverter Converter = Or(OptionalLengthConverter, AssignInitial(InitialValues.WordSpacingDecl));
+        public static IValueConverter Converter = OptionalLengthConverter;
+
+        public static ICssValue InitialValue = InitialValues.WordSpacingDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

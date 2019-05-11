@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BreakBefore;
 
-        public static IValueConverter Converter = Or(BreakModeConverter, AssignInitial(InitialValues.BreakBeforeDecl));
+        public static IValueConverter Converter = BreakModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.BreakBeforeDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }
