@@ -14,6 +14,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BorderRadiusAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -47,7 +49,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BorderRadiusAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new BorderRadiusValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new BorderRadiusValueConverter();
 
             public ICssValue Convert(StringSource source)
             {

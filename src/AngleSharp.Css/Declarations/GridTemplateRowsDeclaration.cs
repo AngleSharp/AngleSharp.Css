@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.GridTemplate,
         };
 
-        public static readonly IValueConverter Converter = Or(GridTemplateConverter, AssignInitial(InitialValues.GridTemplateRowsDecl));
+        public static readonly IValueConverter Converter = GridTemplateConverter;
+
+        public static readonly ICssValue InitialValue = InitialValues.GridTemplateRowsDecl;
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;
     }

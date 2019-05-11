@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new OutlineAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -37,7 +39,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class OutlineAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new OutlineValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new OutlineValueConverter();
 
             public ICssValue Convert(StringSource source)
             {

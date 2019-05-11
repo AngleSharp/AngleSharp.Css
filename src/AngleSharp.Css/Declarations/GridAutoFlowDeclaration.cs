@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,9 +8,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridAutoFlow;
 
-        public static readonly IValueConverter Converter = Or(
-            WithAny(Toggle(CssKeywords.Column, CssKeywords.Row), Assign(CssKeywords.Dense, true)),
-            AssignInitial(InitialValues.GridAutoFlowDecl));
+        public static readonly IValueConverter Converter = WithAny(
+            Toggle(CssKeywords.Column, CssKeywords.Row),
+            Assign(CssKeywords.Dense, true));
+
+        public static readonly ICssValue InitialValue = InitialValues.GridAutoFlowDecl;
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;
     }

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Gap,
         };
 
-        public static IValueConverter Converter = Or(GapConverter, AssignInitial(InitialValues.ColumnGapDecl));
+        public static IValueConverter Converter = GapConverter;
+
+        public static ICssValue InitialValue = InitialValues.ColumnGapDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

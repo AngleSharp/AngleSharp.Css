@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderImage,
         };
 
-        public static IValueConverter Converter = Or(OptionalImageSourceConverter, AssignInitial(InitialValues.BorderImageSourceDecl));
+        public static IValueConverter Converter = OptionalImageSourceConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderImageSourceDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

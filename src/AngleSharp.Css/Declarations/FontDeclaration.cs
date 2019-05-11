@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new FontAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -102,7 +104,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class FontAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new FontValueConverter(), SystemFontConverter, AssignInitial());
+            private static readonly IValueConverter converter = Or(new FontValueConverter(), SystemFontConverter);
 
             public ICssValue Convert(StringSource source)
             {

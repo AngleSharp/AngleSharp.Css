@@ -5,7 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using static ValueConverters;
 
     static class GridTemplateDeclaration
     {
@@ -20,6 +19,8 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly IValueConverter Converter = new GridTemplateAggregator();
 
+        public static readonly ICssValue InitialValue = null;
+
         public static readonly PropertyFlags Flags = PropertyFlags.Shorthand;
 
         sealed class GridTemplateConverter : IValueConverter
@@ -32,7 +33,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class GridTemplateAggregator : IValueConverter, IValueAggregator
         {
-            private static readonly IValueConverter converter = Or(new GridTemplateConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new GridTemplateConverter();
 
             public ICssValue Convert(StringSource source)
             {
@@ -59,9 +60,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var template = value as CssGridTemplateValue;
-
-                if (template != null)
+                if (value is CssGridTemplateValue template)
                 {
                     return new[] { template.TemplateRows, template.TemplateColumns, template.TemplateAreas };
                 }

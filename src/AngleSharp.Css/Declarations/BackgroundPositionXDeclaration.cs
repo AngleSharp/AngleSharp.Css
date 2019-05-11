@@ -1,7 +1,7 @@
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundPosition,
         };
 
-        public static IValueConverter Converter = Or(PointXConverter.FromList(), AssignInitial(Length.Zero));
+        public static IValueConverter Converter = PointXConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.BackgroundPositionXDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BorderBottomAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Shorthands = new[]

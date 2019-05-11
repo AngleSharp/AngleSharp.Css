@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
-        public static IValueConverter Converter = Or(MultipleImageSourceConverter, AssignInitial(InitialValues.BackgroundImageDecl));
+        public static IValueConverter Converter = MultipleImageSourceConverter;
+
+        public static ICssValue InitialValue = InitialValues.BackgroundImageDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

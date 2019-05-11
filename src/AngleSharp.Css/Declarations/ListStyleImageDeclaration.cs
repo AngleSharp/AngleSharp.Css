@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.ListStyle,
         };
 
-        public static IValueConverter Converter = Or(OptionalImageSourceConverter, AssignInitial(InitialValues.ListStyleImageDecl));
+        public static IValueConverter Converter = OptionalImageSourceConverter;
+
+        public static ICssValue InitialValue = InitialValues.ListStyleImageDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

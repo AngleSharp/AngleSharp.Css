@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.FlexFlow,
         };
 
-        public static IValueConverter Converter = Or(FlexDirectionConverter, AssignInitial(InitialValues.FlexDirectionDecl));
+        public static IValueConverter Converter = FlexDirectionConverter;
+
+        public static ICssValue InitialValue = InitialValues.FlexDirectionDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

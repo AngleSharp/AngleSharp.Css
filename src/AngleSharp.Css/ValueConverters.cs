@@ -27,11 +27,6 @@ namespace AngleSharp.Css
         public static IValueConverter AssignInitial(ICssValue value) => new StandardValueConverter(value);
 
         /// <summary>
-        /// Creates a converter for the initial keyword with no value.
-        /// </summary>
-        public static IValueConverter AssignInitial() => AssignInitial(null);
-
-        /// <summary>
         /// Creates a converter for values containing (potentially multiple, at least one) var references.
         /// </summary>
         public static IValueConverter AssignReferences() => FromParser(FunctionParser.ParseVars);
@@ -844,7 +839,7 @@ namespace AngleSharp.Css
 
         #region Premade
 
-        public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
+        public static readonly IValueConverter BorderSideConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
 
         public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 
@@ -852,8 +847,7 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, CssKeywords.Auto),
-            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
-            AssignInitial());
+            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter));
 
         public static readonly IValueConverter SrcListConverter =
             WithOrder(

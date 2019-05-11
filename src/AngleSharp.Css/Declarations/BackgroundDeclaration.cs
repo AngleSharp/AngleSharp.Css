@@ -7,13 +7,14 @@ namespace AngleSharp.Css.Declarations
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using static ValueConverters;
 
     static class BackgroundDeclaration
     {
         public static String Name = PropertyNames.Background;
 
         public static IValueConverter Converter = new BackgroundAggregator();
+
+        public static ICssValue InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
@@ -129,7 +130,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new BackgroundValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new BackgroundValueConverter();
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

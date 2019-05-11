@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new TextDecorationAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -37,7 +39,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class TextDecorationAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new TextDecorationValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new TextDecorationValueConverter();
 
             public ICssValue Convert(StringSource source)
             {

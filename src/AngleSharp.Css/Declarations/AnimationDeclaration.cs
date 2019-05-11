@@ -5,7 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using static ValueConverters;
 
@@ -14,6 +13,8 @@ namespace AngleSharp.Css.Declarations
         public static String Name = PropertyNames.Animation;
 
         public static IValueConverter Converter = new AnimationAggregator();
+
+        public static ICssValue InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
@@ -46,7 +47,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new AnimationConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new AnimationConverter();
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

@@ -25,6 +25,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BackgroundPositionAggregator();
 
+        public static ICssValue InitialValue = InitialValues.BackgroundPositionDecl;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         sealed class BackgroundPositionAggregator : IValueConverter, IValueAggregator

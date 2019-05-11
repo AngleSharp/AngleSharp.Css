@@ -25,6 +25,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BackgroundRepeatAggregator();
 
+        public static ICssValue InitialValue = InitialValues.BackgroundRepeatDecl;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         sealed class BackgroundRepeatAggregator : IValueConverter, IValueAggregator

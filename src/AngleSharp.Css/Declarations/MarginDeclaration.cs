@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new MarginAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -25,7 +27,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class MarginAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(AutoLengthOrPercentConverter.Periodic(), AssignInitial());
+            private static readonly IValueConverter converter = AutoLengthOrPercentConverter.Periodic();
 
             public ICssValue Convert(StringSource source)
             {

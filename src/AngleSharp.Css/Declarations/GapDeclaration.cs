@@ -18,16 +18,15 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly IValueConverter Converter = new GapAggregagtor();
 
+        public static readonly ICssValue InitialValue = null;
+
         public static readonly PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         sealed class GapAggregagtor : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(WithOrder(GapConverter, GapConverter), AssignInitial());
+            private static readonly IValueConverter converter = WithOrder(GapConverter, GapConverter);
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -44,9 +43,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var list = value as CssTupleValue;
-
-                if (list != null)
+                if (value is CssTupleValue list)
                 {
                     return new[]
                     {

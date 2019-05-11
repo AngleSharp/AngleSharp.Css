@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderLeft,
         };
 
-        public static IValueConverter Converter = Or(LineStyleConverter, AssignInitial(InitialValues.BorderLeftStyleDecl));
+        public static IValueConverter Converter = LineStyleConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderLeftStyleDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

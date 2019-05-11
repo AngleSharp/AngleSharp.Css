@@ -436,31 +436,35 @@ namespace AngleSharp.Css
                 PageBreakInsideDeclaration.Name, new DeclarationInfo(
                     name: PageBreakInsideDeclaration.Name,
                     converter: PageBreakInsideDeclaration.Converter,
-                    initialValue: PageBreakInsideDeclaration.InitialValue,//HERE
+                    initialValue: PageBreakInsideDeclaration.InitialValue,
                     flags: PageBreakInsideDeclaration.Flags)
             },
             {
                 TransformOriginDeclaration.Name, new DeclarationInfo(
                     name: TransformOriginDeclaration.Name,
                     converter: TransformOriginDeclaration.Converter,
+                    initialValue: TransformOriginDeclaration.InitialValue,
                     flags: TransformOriginDeclaration.Flags)
             },
             {
                 TransformDeclaration.Name, new DeclarationInfo(
                     name: TransformDeclaration.Name,
                     converter: TransformDeclaration.Converter,
+                    initialValue: TransformDeclaration.InitialValue,
                     flags: TransformDeclaration.Flags)
             },
             {
                 TransformStyleDeclaration.Name, new DeclarationInfo(
                     name: TransformStyleDeclaration.Name,
                     converter: TransformStyleDeclaration.Converter,
+                    initialValue: TransformStyleDeclaration.InitialValue,
                     flags: TransformStyleDeclaration.Flags)
             },
             {
                 ColumnCountDeclaration.Name, new DeclarationInfo(
                     name: ColumnCountDeclaration.Name,
                     converter: ColumnCountDeclaration.Converter,
+                    initialValue: ColumnCountDeclaration.InitialValue,
                     flags: ColumnCountDeclaration.Flags,
                     shorthands: ColumnCountDeclaration.Shorthands)
             },
@@ -468,12 +472,14 @@ namespace AngleSharp.Css
                 ColumnFillDeclaration.Name, new DeclarationInfo(
                     name: ColumnFillDeclaration.Name,
                     converter: ColumnFillDeclaration.Converter,
+                    initialValue: ColumnFillDeclaration.InitialValue,
                     flags: ColumnFillDeclaration.Flags)
             },
             {
                 ColumnGapDeclaration.Name, new DeclarationInfo(
                     name: ColumnGapDeclaration.Name,
                     converter: ColumnGapDeclaration.Converter,
+                    initialValue: ColumnGapDeclaration.InitialValue,
                     shorthands: ColumnGapDeclaration.Shorthands,
                     flags: ColumnGapDeclaration.Flags)
             },
@@ -481,6 +487,7 @@ namespace AngleSharp.Css
                 RowGapDeclaration.Name, new DeclarationInfo(
                     name: RowGapDeclaration.Name,
                     converter: RowGapDeclaration.Converter,
+                    initialValue: RowGapDeclaration.InitialValue,
                     shorthands: RowGapDeclaration.Shorthands,
                     flags: RowGapDeclaration.Flags)
             },
@@ -488,6 +495,7 @@ namespace AngleSharp.Css
                 GapDeclaration.Name, new DeclarationInfo(
                     name: GapDeclaration.Name,
                     converter: GapDeclaration.Converter,
+                    initialValue: GapDeclaration.InitialValue,
                     longhands: GapDeclaration.Longhands,
                     flags: GapDeclaration.Flags)
             },
@@ -495,12 +503,14 @@ namespace AngleSharp.Css
                 ColumnSpanDeclaration.Name, new DeclarationInfo(
                     name: ColumnSpanDeclaration.Name,
                     converter: ColumnSpanDeclaration.Converter,
+                    initialValue: ColumnSpanDeclaration.InitialValue,
                     flags: ColumnSpanDeclaration.Flags)
             },
             {
                 ColumnWidthDeclaration.Name, new DeclarationInfo(
                     name: ColumnWidthDeclaration.Name,
                     converter: ColumnWidthDeclaration.Converter,
+                    initialValue: ColumnWidthDeclaration.InitialValue,
                     flags: ColumnWidthDeclaration.Flags,
                     shorthands: ColumnWidthDeclaration.Shorthands)
             },
@@ -508,78 +518,91 @@ namespace AngleSharp.Css
                 BorderCollapseDeclaration.Name, new DeclarationInfo(
                     name: BorderCollapseDeclaration.Name,
                     converter: BorderCollapseDeclaration.Converter,
+                    initialValue: BorderCollapseDeclaration.InitialValue,
                     flags: BorderCollapseDeclaration.Flags)
             },
             {
                 BorderSpacingDeclaration.Name, new DeclarationInfo(
                     name: BorderSpacingDeclaration.Name,
                     converter: BorderSpacingDeclaration.Converter,
+                    initialValue: BorderSpacingDeclaration.InitialValue,
                     flags: BorderSpacingDeclaration.Flags)
             },
             {
                 WordBreakDeclaration.Name, new DeclarationInfo(
                     name: WordBreakDeclaration.Name,
                     converter: WordBreakDeclaration.Converter,
+                    initialValue: WordBreakDeclaration.InitialValue,
                     flags: WordBreakDeclaration.Flags)
             },
             {
                 WhiteSpaceDeclaration.Name, new DeclarationInfo(
                     name: WhiteSpaceDeclaration.Name,
                     converter: WhiteSpaceDeclaration.Converter,
+                    initialValue: WhiteSpaceDeclaration.InitialValue,
                     flags: WhiteSpaceDeclaration.Flags)
             },
             {
                 VerticalAlignDeclaration.Name, new DeclarationInfo(
                     name: VerticalAlignDeclaration.Name,
                     converter: VerticalAlignDeclaration.Converter,
+                    initialValue: VerticalAlignDeclaration.InitialValue,
                     flags: VerticalAlignDeclaration.Flags)
             },
             {
                 TextShadowDeclaration.Name, new DeclarationInfo(
                     name: TextShadowDeclaration.Name,
                     converter: TextShadowDeclaration.Converter,
+                    initialValue: TextShadowDeclaration.InitialValue,
                     flags: TextShadowDeclaration.Flags)
             },
             {
                 TextJustifyDeclaration.Name, new DeclarationInfo(
                     name: TextJustifyDeclaration.Name,
                     converter: TextJustifyDeclaration.Converter,
+                    initialValue: TextJustifyDeclaration.InitialValue,
                     flags: TextJustifyDeclaration.Flags)
             },
             {
                 TextIndentDeclaration.Name, new DeclarationInfo(
                     name: TextIndentDeclaration.Name,
                     converter: TextIndentDeclaration.Converter,
+                    initialValue: TextIndentDeclaration.InitialValue,
                     flags: TextIndentDeclaration.Flags)
             },
             {
                 TextAnchorDeclaration.Name, new DeclarationInfo(
                     name: TextAnchorDeclaration.Name,
                     converter: TextAnchorDeclaration.Converter,
+                    initialValue: TextAnchorDeclaration.InitialValue,
                     flags: TextAnchorDeclaration.Flags)
             },
             {
                 TextAlignDeclaration.Name, new DeclarationInfo(
                     name: TextAlignDeclaration.Name,
                     converter: TextAlignDeclaration.Converter,
+                    initialValue: TextAlignDeclaration.InitialValue,
                     flags: TextAlignDeclaration.Flags)
             },
             {
                 TextAlignLastDeclaration.Name, new DeclarationInfo(
                     name: TextAlignLastDeclaration.Name,
                     converter: TextAlignLastDeclaration.Converter,
+                    initialValue: TextAlignLastDeclaration.InitialValue,
                     flags: TextAlignLastDeclaration.Flags)
             },
             {
                 TextTransformDeclaration.Name, new DeclarationInfo(
                     name: TextTransformDeclaration.Name,
                     converter: TextTransformDeclaration.Converter,
+                    initialValue: TextTransformDeclaration.InitialValue,
                     flags: TextTransformDeclaration.Flags)
             },
             {
                 ListStyleImageDeclaration.Name, new DeclarationInfo(
                     name: ListStyleImageDeclaration.Name,
                     converter: ListStyleImageDeclaration.Converter,
+                    initialValue: ListStyleImageDeclaration.InitialValue,
                     flags: ListStyleImageDeclaration.Flags,
                     shorthands: ListStyleImageDeclaration.Shorthands)
             },
@@ -587,6 +610,7 @@ namespace AngleSharp.Css
                 ListStylePositionDeclaration.Name, new DeclarationInfo(
                     name: ListStylePositionDeclaration.Name,
                     converter: ListStylePositionDeclaration.Converter,
+                    initialValue: ListStylePositionDeclaration.InitialValue,
                     flags: ListStylePositionDeclaration.Flags,
                     shorthands: ListStylePositionDeclaration.Shorthands)
             },
@@ -594,6 +618,7 @@ namespace AngleSharp.Css
                 ListStyleTypeDeclaration.Name, new DeclarationInfo(
                     name: ListStyleTypeDeclaration.Name,
                     converter: ListStyleTypeDeclaration.Converter,
+                    initialValue: ListStyleTypeDeclaration.InitialValue,
                     flags: ListStyleTypeDeclaration.Flags,
                     shorthands: ListStyleTypeDeclaration.Shorthands)
             },
@@ -601,6 +626,7 @@ namespace AngleSharp.Css
                 FontFamilyDeclaration.Name, new DeclarationInfo(
                     name: FontFamilyDeclaration.Name,
                     converter: FontFamilyDeclaration.Converter,
+                    initialValue: FontFamilyDeclaration.InitialValue,
                     flags: FontFamilyDeclaration.Flags,
                     shorthands: FontFamilyDeclaration.Shorthands)
             },
@@ -608,6 +634,7 @@ namespace AngleSharp.Css
                 FontSizeDeclaration.Name, new DeclarationInfo(
                     name: FontSizeDeclaration.Name,
                     converter: FontSizeDeclaration.Converter,
+                    initialValue: FontSizeDeclaration.InitialValue,
                     flags: FontSizeDeclaration.Flags,
                     shorthands: FontSizeDeclaration.Shorthands)
             },
@@ -615,6 +642,7 @@ namespace AngleSharp.Css
                 FontStyleDeclaration.Name, new DeclarationInfo(
                     name: FontStyleDeclaration.Name,
                     converter: FontStyleDeclaration.Converter,
+                    initialValue: FontStyleDeclaration.InitialValue,
                     flags: FontStyleDeclaration.Flags,
                     shorthands: FontStyleDeclaration.Shorthands)
             },
@@ -622,12 +650,14 @@ namespace AngleSharp.Css
                 FontStretchDeclaration.Name, new DeclarationInfo(
                     name: FontStretchDeclaration.Name,
                     converter: FontStretchDeclaration.Converter,
+                    initialValue: FontStretchDeclaration.InitialValue,
                     flags: FontStretchDeclaration.Flags)
             },
             {
                 FontVariantDeclaration.Name, new DeclarationInfo(
                     name: FontVariantDeclaration.Name,
                     converter: FontVariantDeclaration.Converter,
+                    initialValue: FontVariantDeclaration.InitialValue,
                     flags: FontVariantDeclaration.Flags,
                     shorthands: FontVariantDeclaration.Shorthands)
             },
@@ -635,6 +665,7 @@ namespace AngleSharp.Css
                 FontWeightDeclaration.Name, new DeclarationInfo(
                     name: FontWeightDeclaration.Name,
                     converter: FontWeightDeclaration.Converter,
+                    initialValue: FontWeightDeclaration.InitialValue,
                     flags: FontWeightDeclaration.Flags,
                     shorthands: FontWeightDeclaration.Shorthands)
             },
@@ -642,18 +673,21 @@ namespace AngleSharp.Css
                 UnicodeRangeDeclaration.Name, new DeclarationInfo(
                     name: UnicodeRangeDeclaration.Name,
                     converter: UnicodeRangeDeclaration.Converter,
+                    initialValue: UnicodeRangeDeclaration.InitialValue,
                     flags: UnicodeRangeDeclaration.Flags)
             },
             {
                 SrcDeclaration.Name, new DeclarationInfo(
                     name: SrcDeclaration.Name,
                     converter: SrcDeclaration.Converter,
+                    initialValue: SrcDeclaration.InitialValue,
                     flags: SrcDeclaration.Flags)
             },
             {
                 ColumnRuleWidthDeclaration.Name, new DeclarationInfo(
                     name: ColumnRuleWidthDeclaration.Name,
                     converter: ColumnRuleWidthDeclaration.Converter,
+                    initialValue: ColumnRuleWidthDeclaration.InitialValue,
                     flags: ColumnRuleWidthDeclaration.Flags,
                     shorthands: ColumnRuleWidthDeclaration.Shorthands)
             },
@@ -661,6 +695,7 @@ namespace AngleSharp.Css
                 ColumnRuleStyleDeclaration.Name, new DeclarationInfo(
                     name: ColumnRuleStyleDeclaration.Name,
                     converter: ColumnRuleStyleDeclaration.Converter,
+                    initialValue: ColumnRuleStyleDeclaration.InitialValue,
                     flags: ColumnRuleStyleDeclaration.Flags,
                     shorthands: ColumnRuleStyleDeclaration.Shorthands)
             },
@@ -668,6 +703,7 @@ namespace AngleSharp.Css
                 ColumnRuleColorDeclaration.Name, new DeclarationInfo(
                     name: ColumnRuleColorDeclaration.Name,
                     converter: ColumnRuleColorDeclaration.Converter,
+                    initialValue: ColumnRuleColorDeclaration.InitialValue,
                     flags: ColumnRuleColorDeclaration.Flags,
                     shorthands: ColumnRuleColorDeclaration.Shorthands)
             },
@@ -675,6 +711,7 @@ namespace AngleSharp.Css
                 PaddingTopDeclaration.Name, new DeclarationInfo(
                     name: PaddingTopDeclaration.Name,
                     converter: PaddingTopDeclaration.Converter,
+                    initialValue: PaddingTopDeclaration.InitialValue,
                     flags: PaddingTopDeclaration.Flags,
                     shorthands: PaddingTopDeclaration.Shorthands)
             },
@@ -682,6 +719,7 @@ namespace AngleSharp.Css
                 PaddingRightDeclaration.Name, new DeclarationInfo(
                     name: PaddingRightDeclaration.Name,
                     converter: PaddingRightDeclaration.Converter,
+                    initialValue: PaddingRightDeclaration.InitialValue,
                     flags: PaddingRightDeclaration.Flags,
                     shorthands: PaddingRightDeclaration.Shorthands)
             },
@@ -689,6 +727,7 @@ namespace AngleSharp.Css
                 PaddingLeftDeclaration.Name, new DeclarationInfo(
                     name: PaddingLeftDeclaration.Name,
                     converter: PaddingLeftDeclaration.Converter,
+                    initialValue: PaddingLeftDeclaration.InitialValue,
                     flags: PaddingLeftDeclaration.Flags,
                     shorthands: PaddingLeftDeclaration.Shorthands)
             },
@@ -696,6 +735,7 @@ namespace AngleSharp.Css
                 PaddingBottomDeclaration.Name, new DeclarationInfo(
                     name: PaddingBottomDeclaration.Name,
                     converter: PaddingBottomDeclaration.Converter,
+                    initialValue: PaddingBottomDeclaration.InitialValue,
                     flags: PaddingBottomDeclaration.Flags,
                     shorthands: PaddingBottomDeclaration.Shorthands)
             },
@@ -703,6 +743,7 @@ namespace AngleSharp.Css
                 MarginTopDeclaration.Name, new DeclarationInfo(
                     name: MarginTopDeclaration.Name,
                     converter: MarginTopDeclaration.Converter,
+                    initialValue: MarginTopDeclaration.InitialValue,
                     flags: MarginTopDeclaration.Flags,
                     shorthands: MarginTopDeclaration.Shorthands)
             },
@@ -710,6 +751,7 @@ namespace AngleSharp.Css
                 MarginRightDeclaration.Name, new DeclarationInfo(
                     name: MarginRightDeclaration.Name,
                     converter: MarginRightDeclaration.Converter,
+                    initialValue: MarginRightDeclaration.InitialValue,
                     flags: MarginRightDeclaration.Flags,
                     shorthands: MarginRightDeclaration.Shorthands)
             },
@@ -717,6 +759,7 @@ namespace AngleSharp.Css
                 MarginLeftDeclaration.Name, new DeclarationInfo(
                     name: MarginLeftDeclaration.Name,
                     converter: MarginLeftDeclaration.Converter,
+                    initialValue: MarginLeftDeclaration.InitialValue,
                     flags: MarginLeftDeclaration.Flags,
                     shorthands: MarginLeftDeclaration.Shorthands)
             },
@@ -724,6 +767,7 @@ namespace AngleSharp.Css
                 MarginBottomDeclaration.Name, new DeclarationInfo(
                     name: MarginBottomDeclaration.Name,
                     converter: MarginBottomDeclaration.Converter,
+                    initialValue: MarginBottomDeclaration.InitialValue,
                     flags: MarginBottomDeclaration.Flags,
                     shorthands: MarginBottomDeclaration.Shorthands)
             },
@@ -731,6 +775,7 @@ namespace AngleSharp.Css
                 BorderTopRightRadiusDeclaration.Name, new DeclarationInfo(
                     name: BorderTopRightRadiusDeclaration.Name,
                     converter: BorderTopRightRadiusDeclaration.Converter,
+                    initialValue: BorderTopRightRadiusDeclaration.InitialValue,
                     flags: BorderTopRightRadiusDeclaration.Flags,
                     shorthands: BorderTopRightRadiusDeclaration.Shorthands)
             },
@@ -738,6 +783,7 @@ namespace AngleSharp.Css
                 BorderTopLeftRadiusDeclaration.Name, new DeclarationInfo(
                     name: BorderTopLeftRadiusDeclaration.Name,
                     converter: BorderTopLeftRadiusDeclaration.Converter,
+                    initialValue: BorderTopLeftRadiusDeclaration.InitialValue,
                     flags: BorderTopLeftRadiusDeclaration.Flags,
                     shorthands: BorderTopLeftRadiusDeclaration.Shorthands)
             },
@@ -745,6 +791,7 @@ namespace AngleSharp.Css
                 BorderBottomRightRadiusDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomRightRadiusDeclaration.Name,
                     converter: BorderBottomRightRadiusDeclaration.Converter,
+                    initialValue: BorderBottomRightRadiusDeclaration.InitialValue,
                     flags: BorderBottomRightRadiusDeclaration.Flags,
                     shorthands: BorderBottomRightRadiusDeclaration.Shorthands)
             },
@@ -752,6 +799,7 @@ namespace AngleSharp.Css
                 BorderBottomLeftRadiusDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomLeftRadiusDeclaration.Name,
                     converter: BorderBottomLeftRadiusDeclaration.Converter,
+                    initialValue: BorderBottomLeftRadiusDeclaration.InitialValue,
                     flags: BorderBottomLeftRadiusDeclaration.Flags,
                     shorthands: BorderBottomLeftRadiusDeclaration.Shorthands)
             },
@@ -759,6 +807,7 @@ namespace AngleSharp.Css
                 OutlineWidthDeclaration.Name, new DeclarationInfo(
                     name: OutlineWidthDeclaration.Name,
                     converter: OutlineWidthDeclaration.Converter,
+                    initialValue: OutlineWidthDeclaration.InitialValue,
                     flags: OutlineWidthDeclaration.Flags,
                     shorthands: OutlineWidthDeclaration.Shorthands)
             },
@@ -766,6 +815,7 @@ namespace AngleSharp.Css
                 OutlineStyleDeclaration.Name, new DeclarationInfo(
                     name: OutlineStyleDeclaration.Name,
                     converter: OutlineStyleDeclaration.Converter,
+                    initialValue: OutlineStyleDeclaration.InitialValue,
                     flags: OutlineStyleDeclaration.Flags,
                     shorthands: OutlineStyleDeclaration.Shorthands)
             },
@@ -773,6 +823,7 @@ namespace AngleSharp.Css
                 OutlineColorDeclaration.Name, new DeclarationInfo(
                     name: OutlineColorDeclaration.Name,
                     converter: OutlineColorDeclaration.Converter,
+                    initialValue: OutlineColorDeclaration.InitialValue,
                     flags: OutlineColorDeclaration.Flags,
                     shorthands: OutlineColorDeclaration.Shorthands)
             },
@@ -780,6 +831,7 @@ namespace AngleSharp.Css
                 TextDecorationStyleDeclaration.Name, new DeclarationInfo(
                     name: TextDecorationStyleDeclaration.Name,
                     converter: TextDecorationStyleDeclaration.Converter,
+                    initialValue: TextDecorationStyleDeclaration.InitialValue,
                     flags: TextDecorationStyleDeclaration.Flags,
                     shorthands: TextDecorationStyleDeclaration.Shorthands)
             },
@@ -787,6 +839,7 @@ namespace AngleSharp.Css
                 TextDecorationLineDeclaration.Name, new DeclarationInfo(
                     name: TextDecorationLineDeclaration.Name,
                     converter: TextDecorationLineDeclaration.Converter,
+                    initialValue: TextDecorationLineDeclaration.InitialValue,
                     flags: TextDecorationLineDeclaration.Flags,
                     shorthands: TextDecorationLineDeclaration.Shorthands)
             },
@@ -794,6 +847,7 @@ namespace AngleSharp.Css
                 TextDecorationColorDeclaration.Name, new DeclarationInfo(
                     name: TextDecorationColorDeclaration.Name,
                     converter: TextDecorationColorDeclaration.Converter,
+                    initialValue: TextDecorationColorDeclaration.InitialValue,
                     flags: TextDecorationColorDeclaration.Flags,
                     shorthands: TextDecorationColorDeclaration.Shorthands)
             },
@@ -801,6 +855,7 @@ namespace AngleSharp.Css
                 TransitionTimingFunctionDeclaration.Name, new DeclarationInfo(
                     name: TransitionTimingFunctionDeclaration.Name,
                     converter: TransitionTimingFunctionDeclaration.Converter,
+                    initialValue: TransitionTimingFunctionDeclaration.InitialValue,
                     flags: TransitionTimingFunctionDeclaration.Flags,
                     shorthands: TransitionTimingFunctionDeclaration.Shorthands)
             },
@@ -808,6 +863,7 @@ namespace AngleSharp.Css
                 TransitionPropertyDeclaration.Name, new DeclarationInfo(
                     name: TransitionPropertyDeclaration.Name,
                     converter: TransitionPropertyDeclaration.Converter,
+                    initialValue: TransitionPropertyDeclaration.InitialValue,
                     flags: TransitionPropertyDeclaration.Flags,
                     shorthands: TransitionPropertyDeclaration.Shorthands)
             },
@@ -815,6 +871,7 @@ namespace AngleSharp.Css
                 TransitionDurationDeclaration.Name, new DeclarationInfo(
                     name: TransitionDurationDeclaration.Name,
                     converter: TransitionDurationDeclaration.Converter,
+                    initialValue: TransitionDurationDeclaration.InitialValue,
                     flags: TransitionDurationDeclaration.Flags,
                     shorthands: TransitionDurationDeclaration.Shorthands)
             },
@@ -822,6 +879,7 @@ namespace AngleSharp.Css
                 TransitionDelayDeclaration.Name, new DeclarationInfo(
                     name: TransitionDelayDeclaration.Name,
                     converter: TransitionDelayDeclaration.Converter,
+                    initialValue: TransitionDelayDeclaration.InitialValue,
                     flags: TransitionDelayDeclaration.Flags,
                     shorthands: TransitionDelayDeclaration.Shorthands)
             },
@@ -829,6 +887,7 @@ namespace AngleSharp.Css
                 BorderImageWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderImageWidthDeclaration.Name,
                     converter: BorderImageWidthDeclaration.Converter,
+                    initialValue: BorderImageWidthDeclaration.InitialValue,
                     flags: BorderImageWidthDeclaration.Flags,
                     shorthands: BorderImageWidthDeclaration.Shorthands)
             },
@@ -836,6 +895,7 @@ namespace AngleSharp.Css
                 BorderImageSourceDeclaration.Name, new DeclarationInfo(
                     name: BorderImageSourceDeclaration.Name,
                     converter: BorderImageSourceDeclaration.Converter,
+                    initialValue: BorderImageSourceDeclaration.InitialValue,
                     flags: BorderImageSourceDeclaration.Flags,
                     shorthands: BorderImageSourceDeclaration.Shorthands)
             },
@@ -843,6 +903,7 @@ namespace AngleSharp.Css
                 BorderImageSliceDeclaration.Name, new DeclarationInfo(
                     name: BorderImageSliceDeclaration.Name,
                     converter: BorderImageSliceDeclaration.Converter,
+                    initialValue: BorderImageSliceDeclaration.InitialValue,
                     flags: BorderImageSliceDeclaration.Flags,
                     shorthands: BorderImageSliceDeclaration.Shorthands)
             },
@@ -850,6 +911,7 @@ namespace AngleSharp.Css
                 BorderImageRepeatDeclaration.Name, new DeclarationInfo(
                     name: BorderImageRepeatDeclaration.Name,
                     converter: BorderImageRepeatDeclaration.Converter,
+                    initialValue: BorderImageRepeatDeclaration.InitialValue,
                     flags: BorderImageRepeatDeclaration.Flags,
                     shorthands: BorderImageRepeatDeclaration.Shorthands)
             },
@@ -857,6 +919,7 @@ namespace AngleSharp.Css
                 BorderImageOutsetDeclaration.Name, new DeclarationInfo(
                     name: BorderImageOutsetDeclaration.Name,
                     converter: BorderImageOutsetDeclaration.Converter,
+                    initialValue: BorderImageOutsetDeclaration.InitialValue,
                     flags: BorderImageOutsetDeclaration.Flags,
                     shorthands: BorderImageOutsetDeclaration.Shorthands)
             },
@@ -864,6 +927,7 @@ namespace AngleSharp.Css
                 AnimationTimingFunctionDeclaration.Name, new DeclarationInfo(
                     name: AnimationTimingFunctionDeclaration.Name,
                     converter: AnimationTimingFunctionDeclaration.Converter,
+                    initialValue: AnimationTimingFunctionDeclaration.InitialValue,
                     flags: AnimationTimingFunctionDeclaration.Flags,
                     shorthands: AnimationTimingFunctionDeclaration.Shorthands)
             },
@@ -871,6 +935,7 @@ namespace AngleSharp.Css
                 AnimationPlayStateDeclaration.Name, new DeclarationInfo(
                     name: AnimationPlayStateDeclaration.Name,
                     converter: AnimationPlayStateDeclaration.Converter,
+                    initialValue: AnimationPlayStateDeclaration.InitialValue,
                     flags: AnimationPlayStateDeclaration.Flags,
                     shorthands: AnimationPlayStateDeclaration.Shorthands)
             },
@@ -878,6 +943,7 @@ namespace AngleSharp.Css
                 AnimationNameDeclaration.Name, new DeclarationInfo(
                     name: AnimationNameDeclaration.Name,
                     converter: AnimationNameDeclaration.Converter,
+                    initialValue: AnimationNameDeclaration.InitialValue,
                     flags: AnimationNameDeclaration.Flags,
                     shorthands: AnimationNameDeclaration.Shorthands)
             },
@@ -885,6 +951,7 @@ namespace AngleSharp.Css
                 AnimationIterationCountDeclaration.Name, new DeclarationInfo(
                     name: AnimationIterationCountDeclaration.Name,
                     converter: AnimationIterationCountDeclaration.Converter,
+                    initialValue: AnimationIterationCountDeclaration.InitialValue,
                     flags: AnimationIterationCountDeclaration.Flags,
                     shorthands: AnimationIterationCountDeclaration.Shorthands)
             },
@@ -892,6 +959,7 @@ namespace AngleSharp.Css
                 AnimationFillModeDeclaration.Name, new DeclarationInfo(
                     name: AnimationFillModeDeclaration.Name,
                     converter: AnimationFillModeDeclaration.Converter,
+                    initialValue: AnimationFillModeDeclaration.InitialValue,
                     flags: AnimationFillModeDeclaration.Flags,
                     shorthands: AnimationFillModeDeclaration.Shorthands)
             },
@@ -899,6 +967,7 @@ namespace AngleSharp.Css
                 AnimationDurationDeclaration.Name, new DeclarationInfo(
                     name: AnimationDurationDeclaration.Name,
                     converter: AnimationDurationDeclaration.Converter,
+                    initialValue: AnimationDurationDeclaration.InitialValue,
                     flags: AnimationDurationDeclaration.Flags,
                     shorthands: AnimationDurationDeclaration.Shorthands)
             },
@@ -906,6 +975,7 @@ namespace AngleSharp.Css
                 AnimationDirectionDeclaration.Name, new DeclarationInfo(
                     name: AnimationDirectionDeclaration.Name,
                     converter: AnimationDirectionDeclaration.Converter,
+                    initialValue: AnimationDirectionDeclaration.InitialValue,
                     flags: AnimationDirectionDeclaration.Flags,
                     shorthands: AnimationDirectionDeclaration.Shorthands)
             },
@@ -913,6 +983,7 @@ namespace AngleSharp.Css
                 AnimationDelayDeclaration.Name, new DeclarationInfo(
                     name: AnimationDelayDeclaration.Name,
                     converter: AnimationDelayDeclaration.Converter,
+                    initialValue: AnimationDelayDeclaration.InitialValue,
                     flags: AnimationDelayDeclaration.Flags,
                     shorthands: AnimationDelayDeclaration.Shorthands)
             },
@@ -920,6 +991,7 @@ namespace AngleSharp.Css
                 BackgroundSizeDeclaration.Name, new DeclarationInfo(
                     name: BackgroundSizeDeclaration.Name,
                     converter: BackgroundSizeDeclaration.Converter,
+                    initialValue: BackgroundSizeDeclaration.InitialValue,
                     flags: BackgroundSizeDeclaration.Flags,
                     shorthands: BackgroundSizeDeclaration.Shorthands)
             },
@@ -927,6 +999,7 @@ namespace AngleSharp.Css
                 BackgroundRepeatDeclaration.Name, new DeclarationInfo(
                     name: BackgroundRepeatDeclaration.Name,
                     converter: BackgroundRepeatDeclaration.Converter,
+                    initialValue: BackgroundRepeatDeclaration.InitialValue,
                     flags: BackgroundRepeatDeclaration.Flags,
                     longhands: BackgroundRepeatDeclaration.Longhands,
                     shorthands: BackgroundRepeatDeclaration.Shorthands)
@@ -935,6 +1008,7 @@ namespace AngleSharp.Css
                 BackgroundRepeatXDeclaration.Name, new DeclarationInfo(
                     name: BackgroundRepeatXDeclaration.Name,
                     converter: BackgroundRepeatXDeclaration.Converter,
+                    initialValue: BackgroundRepeatXDeclaration.InitialValue,
                     flags: BackgroundRepeatXDeclaration.Flags,
                     shorthands: BackgroundRepeatXDeclaration.Shorthands)
             },
@@ -942,6 +1016,7 @@ namespace AngleSharp.Css
                 BackgroundRepeatYDeclaration.Name, new DeclarationInfo(
                     name: BackgroundRepeatYDeclaration.Name,
                     converter: BackgroundRepeatYDeclaration.Converter,
+                    initialValue: BackgroundRepeatYDeclaration.InitialValue,
                     flags: BackgroundRepeatYDeclaration.Flags,
                     shorthands: BackgroundRepeatYDeclaration.Shorthands)
             },
@@ -949,6 +1024,7 @@ namespace AngleSharp.Css
                 BackgroundPositionDeclaration.Name, new DeclarationInfo(
                     name: BackgroundPositionDeclaration.Name,
                     converter: BackgroundPositionDeclaration.Converter,
+                    initialValue: BackgroundPositionDeclaration.InitialValue,
                     flags: BackgroundPositionDeclaration.Flags,
                     shorthands: BackgroundPositionDeclaration.Shorthands,
                     longhands: BackgroundPositionDeclaration.Longhands)
@@ -957,6 +1033,7 @@ namespace AngleSharp.Css
                 BackgroundPositionXDeclaration.Name, new DeclarationInfo(
                     name: BackgroundPositionXDeclaration.Name,
                     converter: BackgroundPositionXDeclaration.Converter,
+                    initialValue: BackgroundPositionXDeclaration.InitialValue,
                     flags: BackgroundPositionXDeclaration.Flags,
                     shorthands: BackgroundPositionXDeclaration.Shorthands)
             },
@@ -964,6 +1041,7 @@ namespace AngleSharp.Css
                 BackgroundPositionYDeclaration.Name, new DeclarationInfo(
                     name: BackgroundPositionYDeclaration.Name,
                     converter: BackgroundPositionYDeclaration.Converter,
+                    initialValue: BackgroundPositionYDeclaration.InitialValue,
                     flags: BackgroundPositionYDeclaration.Flags,
                     shorthands: BackgroundPositionYDeclaration.Shorthands)
             },
@@ -971,6 +1049,7 @@ namespace AngleSharp.Css
                 BackgroundOriginDeclaration.Name, new DeclarationInfo(
                     name: BackgroundOriginDeclaration.Name,
                     converter: BackgroundOriginDeclaration.Converter,
+                    initialValue: BackgroundOriginDeclaration.InitialValue,
                     flags: BackgroundOriginDeclaration.Flags,
                     shorthands: BackgroundOriginDeclaration.Shorthands)
             },
@@ -978,6 +1057,7 @@ namespace AngleSharp.Css
                 BackgroundImageDeclaration.Name, new DeclarationInfo(
                     name: BackgroundImageDeclaration.Name,
                     converter: BackgroundImageDeclaration.Converter,
+                    initialValue: BackgroundImageDeclaration.InitialValue,
                     flags: BackgroundImageDeclaration.Flags,
                     shorthands: BackgroundImageDeclaration.Shorthands)
             },
@@ -985,6 +1065,7 @@ namespace AngleSharp.Css
                 BackgroundColorDeclaration.Name, new DeclarationInfo(
                     name: BackgroundColorDeclaration.Name,
                     converter: BackgroundColorDeclaration.Converter,
+                    initialValue: BackgroundColorDeclaration.InitialValue,
                     flags: BackgroundColorDeclaration.Flags,
                     shorthands: BackgroundColorDeclaration.Shorthands)
             },
@@ -992,6 +1073,7 @@ namespace AngleSharp.Css
                 BackgroundClipDeclaration.Name, new DeclarationInfo(
                     name: BackgroundClipDeclaration.Name,
                     converter: BackgroundClipDeclaration.Converter,
+                    initialValue: BackgroundClipDeclaration.InitialValue,
                     flags: BackgroundClipDeclaration.Flags,
                     shorthands: BackgroundClipDeclaration.Shorthands)
             },
@@ -999,6 +1081,7 @@ namespace AngleSharp.Css
                 BackgroundAttachmentDeclaration.Name, new DeclarationInfo(
                     name: BackgroundAttachmentDeclaration.Name,
                     converter: BackgroundAttachmentDeclaration.Converter,
+                    initialValue: BackgroundAttachmentDeclaration.InitialValue,
                     flags: BackgroundAttachmentDeclaration.Flags,
                     shorthands: BackgroundAttachmentDeclaration.Shorthands)
             },
@@ -1006,6 +1089,7 @@ namespace AngleSharp.Css
                 BorderTopWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderTopWidthDeclaration.Name,
                     converter: BorderTopWidthDeclaration.Converter,
+                    initialValue: BorderTopWidthDeclaration.InitialValue,
                     flags: BorderTopWidthDeclaration.Flags,
                     shorthands: BorderTopWidthDeclaration.Shorthands)
             },
@@ -1013,6 +1097,7 @@ namespace AngleSharp.Css
                 BorderTopStyleDeclaration.Name, new DeclarationInfo(
                     name: BorderTopStyleDeclaration.Name,
                     converter: BorderTopStyleDeclaration.Converter,
+                    initialValue: BorderTopStyleDeclaration.InitialValue,
                     flags: BorderTopStyleDeclaration.Flags,
                     shorthands: BorderTopStyleDeclaration.Shorthands)
             },
@@ -1020,6 +1105,7 @@ namespace AngleSharp.Css
                 BorderTopColorDeclaration.Name, new DeclarationInfo(
                     name: BorderTopColorDeclaration.Name,
                     converter: BorderTopColorDeclaration.Converter,
+                    initialValue: BorderTopColorDeclaration.InitialValue,
                     flags: BorderTopColorDeclaration.Flags,
                     shorthands: BorderTopColorDeclaration.Shorthands)
             },
@@ -1027,6 +1113,7 @@ namespace AngleSharp.Css
                 BorderRightWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderRightWidthDeclaration.Name,
                     converter: BorderRightWidthDeclaration.Converter,
+                    initialValue: BorderRightWidthDeclaration.InitialValue,
                     flags: BorderRightWidthDeclaration.Flags,
                     shorthands: BorderRightWidthDeclaration.Shorthands)
             },
@@ -1034,6 +1121,7 @@ namespace AngleSharp.Css
                 BorderRightStyleDeclaration.Name, new DeclarationInfo(
                     name: BorderRightStyleDeclaration.Name,
                     converter: BorderRightStyleDeclaration.Converter,
+                    initialValue: BorderRightStyleDeclaration.InitialValue,
                     flags: BorderRightStyleDeclaration.Flags,
                     shorthands: BorderRightStyleDeclaration.Shorthands)
             },
@@ -1041,6 +1129,7 @@ namespace AngleSharp.Css
                 BorderRightColorDeclaration.Name, new DeclarationInfo(
                     name: BorderRightColorDeclaration.Name,
                     converter: BorderRightColorDeclaration.Converter,
+                    initialValue: BorderRightColorDeclaration.InitialValue,
                     flags: BorderRightColorDeclaration.Flags,
                     shorthands: BorderRightColorDeclaration.Shorthands)
             },
@@ -1048,6 +1137,7 @@ namespace AngleSharp.Css
                 BorderLeftWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderLeftWidthDeclaration.Name,
                     converter: BorderLeftWidthDeclaration.Converter,
+                    initialValue: BorderLeftWidthDeclaration.InitialValue,
                     flags: BorderLeftWidthDeclaration.Flags,
                     shorthands: BorderLeftWidthDeclaration.Shorthands)
             },
@@ -1055,6 +1145,7 @@ namespace AngleSharp.Css
                 BorderLeftStyleDeclaration.Name, new DeclarationInfo(
                     name: BorderLeftStyleDeclaration.Name,
                     converter: BorderLeftStyleDeclaration.Converter,
+                    initialValue: BorderLeftStyleDeclaration.InitialValue,
                     flags: BorderLeftStyleDeclaration.Flags,
                     shorthands: BorderLeftStyleDeclaration.Shorthands)
             },
@@ -1062,6 +1153,7 @@ namespace AngleSharp.Css
                 BorderLeftColorDeclaration.Name, new DeclarationInfo(
                     name: BorderLeftColorDeclaration.Name,
                     converter: BorderLeftColorDeclaration.Converter,
+                    initialValue: BorderLeftColorDeclaration.InitialValue,
                     flags: BorderLeftColorDeclaration.Flags,
                     shorthands: BorderLeftColorDeclaration.Shorthands)
             },
@@ -1069,6 +1161,7 @@ namespace AngleSharp.Css
                 BorderBottomWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomWidthDeclaration.Name,
                     converter: BorderBottomWidthDeclaration.Converter,
+                    initialValue: BorderBottomWidthDeclaration.InitialValue,
                     flags: BorderBottomWidthDeclaration.Flags,
                     shorthands: BorderBottomWidthDeclaration.Shorthands)
             },
@@ -1076,6 +1169,7 @@ namespace AngleSharp.Css
                 BorderBottomStyleDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomStyleDeclaration.Name,
                     converter: BorderBottomStyleDeclaration.Converter,
+                    initialValue: BorderBottomStyleDeclaration.InitialValue,
                     flags: BorderBottomStyleDeclaration.Flags,
                     shorthands: BorderBottomStyleDeclaration.Shorthands)
             },
@@ -1083,6 +1177,7 @@ namespace AngleSharp.Css
                 BorderBottomColorDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomColorDeclaration.Name,
                     converter: BorderBottomColorDeclaration.Converter,
+                    initialValue: BorderBottomColorDeclaration.InitialValue,
                     flags: BorderBottomColorDeclaration.Flags,
                     shorthands: BorderBottomColorDeclaration.Shorthands)
             },
@@ -1090,6 +1185,7 @@ namespace AngleSharp.Css
                 AnimationDeclaration.Name, new DeclarationInfo(
                     name: AnimationDeclaration.Name,
                     converter: AnimationDeclaration.Converter,
+                    initialValue: AnimationDeclaration.InitialValue,
                     flags: AnimationDeclaration.Flags,
                     longhands: AnimationDeclaration.Longhands)
             },
@@ -1097,6 +1193,7 @@ namespace AngleSharp.Css
                 BackgroundDeclaration.Name, new DeclarationInfo(
                     name: BackgroundDeclaration.Name,
                     converter: BackgroundDeclaration.Converter,
+                    initialValue: BackgroundDeclaration.InitialValue,
                     flags: BackgroundDeclaration.Flags,
                     longhands: BackgroundDeclaration.Longhands)
             },
@@ -1104,6 +1201,7 @@ namespace AngleSharp.Css
                 TransitionDeclaration.Name, new DeclarationInfo(
                     name: TransitionDeclaration.Name,
                     converter: TransitionDeclaration.Converter,
+                    initialValue: TransitionDeclaration.InitialValue,
                     flags: TransitionDeclaration.Flags,
                     longhands: TransitionDeclaration.Longhands)
             },
@@ -1111,6 +1209,7 @@ namespace AngleSharp.Css
                 TextDecorationDeclaration.Name, new DeclarationInfo(
                     name: TextDecorationDeclaration.Name,
                     converter: TextDecorationDeclaration.Converter,
+                    initialValue: TextDecorationDeclaration.InitialValue,
                     flags: TextDecorationDeclaration.Flags,
                     longhands: TextDecorationDeclaration.Longhands)
             },
@@ -1118,6 +1217,7 @@ namespace AngleSharp.Css
                 OutlineDeclaration.Name, new DeclarationInfo(
                     name: OutlineDeclaration.Name,
                     converter: OutlineDeclaration.Converter,
+                    initialValue: OutlineDeclaration.InitialValue,
                     flags: OutlineDeclaration.Flags,
                     longhands: OutlineDeclaration.Longhands)
             },
@@ -1125,6 +1225,7 @@ namespace AngleSharp.Css
                 ListStyleDeclaration.Name, new DeclarationInfo(
                     name: ListStyleDeclaration.Name,
                     converter: ListStyleDeclaration.Converter,
+                    initialValue: ListStyleDeclaration.InitialValue,
                     flags: ListStyleDeclaration.Flags,
                     longhands: ListStyleDeclaration.Longhands)
             },
@@ -1132,6 +1233,7 @@ namespace AngleSharp.Css
                 FontDeclaration.Name, new DeclarationInfo(
                     name: FontDeclaration.Name,
                     converter: FontDeclaration.Converter,
+                    initialValue: FontDeclaration.InitialValue,
                     flags: FontDeclaration.Flags,
                     longhands: FontDeclaration.Longhands)
             },
@@ -1139,6 +1241,7 @@ namespace AngleSharp.Css
                 ColumnsDeclaration.Name, new DeclarationInfo(
                     name: ColumnsDeclaration.Name,
                     converter: ColumnsDeclaration.Converter,
+                    initialValue: ColumnsDeclaration.InitialValue,
                     flags: ColumnsDeclaration.Flags,
                     longhands: ColumnsDeclaration.Longhands)
             },
@@ -1146,6 +1249,7 @@ namespace AngleSharp.Css
                 ColumnRuleDeclaration.Name, new DeclarationInfo(
                     name: ColumnRuleDeclaration.Name,
                     converter: ColumnRuleDeclaration.Converter,
+                    initialValue: ColumnRuleDeclaration.InitialValue,
                     flags: ColumnRuleDeclaration.Flags,
                     longhands: ColumnRuleDeclaration.Longhands)
             },
@@ -1153,6 +1257,7 @@ namespace AngleSharp.Css
                 PaddingDeclaration.Name, new DeclarationInfo(
                     name: PaddingDeclaration.Name,
                     converter: PaddingDeclaration.Converter,
+                    initialValue: PaddingDeclaration.InitialValue,
                     flags: PaddingDeclaration.Flags,
                     longhands: PaddingDeclaration.Longhands)
             },
@@ -1160,6 +1265,7 @@ namespace AngleSharp.Css
                 MarginDeclaration.Name, new DeclarationInfo(
                     name: MarginDeclaration.Name,
                     converter: MarginDeclaration.Converter,
+                    initialValue: MarginDeclaration.InitialValue,
                     flags: MarginDeclaration.Flags,
                     longhands: MarginDeclaration.Longhands)
             },
@@ -1167,6 +1273,7 @@ namespace AngleSharp.Css
                 BorderRadiusDeclaration.Name, new DeclarationInfo(
                     name: BorderRadiusDeclaration.Name,
                     converter: BorderRadiusDeclaration.Converter,
+                    initialValue: BorderRadiusDeclaration.InitialValue,
                     flags: BorderRadiusDeclaration.Flags,
                     longhands: BorderRadiusDeclaration.Longhands)
             },
@@ -1174,6 +1281,7 @@ namespace AngleSharp.Css
                 BorderImageDeclaration.Name, new DeclarationInfo(
                     name: BorderImageDeclaration.Name,
                     converter: BorderImageDeclaration.Converter,
+                    initialValue: BorderImageDeclaration.InitialValue,
                     flags: BorderImageDeclaration.Flags,
                     longhands: BorderImageDeclaration.Longhands)
             },
@@ -1181,6 +1289,7 @@ namespace AngleSharp.Css
                 BorderWidthDeclaration.Name, new DeclarationInfo(
                     name: BorderWidthDeclaration.Name,
                     converter: BorderWidthDeclaration.Converter,
+                    initialValue: BorderWidthDeclaration.InitialValue,
                     flags: BorderWidthDeclaration.Flags,
                     shorthands: BorderWidthDeclaration.Shorthands,
                     longhands: BorderWidthDeclaration.Longhands)
@@ -1189,6 +1298,7 @@ namespace AngleSharp.Css
                 BorderTopDeclaration.Name, new DeclarationInfo(
                     name: BorderTopDeclaration.Name,
                     converter: BorderTopDeclaration.Converter,
+                    initialValue: BorderTopDeclaration.InitialValue,
                     flags: BorderTopDeclaration.Flags,
                     shorthands: BorderTopDeclaration.Shorthands,
                     longhands: BorderTopDeclaration.Longhands)
@@ -1197,6 +1307,7 @@ namespace AngleSharp.Css
                 BorderStyleDeclaration.Name, new DeclarationInfo(
                     name: BorderStyleDeclaration.Name,
                     converter: BorderStyleDeclaration.Converter,
+                    initialValue: BorderStyleDeclaration.InitialValue,
                     flags: BorderStyleDeclaration.Flags,
                     shorthands: BorderStyleDeclaration.Shorthands,
                     longhands: BorderStyleDeclaration.Longhands)
@@ -1205,6 +1316,7 @@ namespace AngleSharp.Css
                 BorderRightDeclaration.Name, new DeclarationInfo(
                     name: BorderRightDeclaration.Name,
                     converter: BorderRightDeclaration.Converter,
+                    initialValue: BorderRightDeclaration.InitialValue,
                     flags: BorderRightDeclaration.Flags,
                     shorthands: BorderRightDeclaration.Shorthands,
                     longhands: BorderRightDeclaration.Longhands)
@@ -1213,6 +1325,7 @@ namespace AngleSharp.Css
                 BorderLeftDeclaration.Name, new DeclarationInfo(
                     name: BorderLeftDeclaration.Name,
                     converter: BorderLeftDeclaration.Converter,
+                    initialValue: BorderLeftDeclaration.InitialValue,
                     flags: BorderLeftDeclaration.Flags,
                     shorthands: BorderLeftDeclaration.Shorthands,
                     longhands: BorderLeftDeclaration.Longhands)
@@ -1221,6 +1334,7 @@ namespace AngleSharp.Css
                 BorderColorDeclaration.Name, new DeclarationInfo(
                     name: BorderColorDeclaration.Name,
                     converter: BorderColorDeclaration.Converter,
+                    initialValue: BorderColorDeclaration.InitialValue,
                     flags: BorderColorDeclaration.Flags,
                     shorthands: BorderColorDeclaration.Shorthands,
                     longhands: BorderColorDeclaration.Longhands)
@@ -1229,6 +1343,7 @@ namespace AngleSharp.Css
                 BorderBottomDeclaration.Name, new DeclarationInfo(
                     name: BorderBottomDeclaration.Name,
                     converter: BorderBottomDeclaration.Converter,
+                    initialValue: BorderBottomDeclaration.InitialValue,
                     flags: BorderBottomDeclaration.Flags,
                     shorthands: BorderBottomDeclaration.Shorthands,
                     longhands: BorderBottomDeclaration.Longhands)
@@ -1237,6 +1352,7 @@ namespace AngleSharp.Css
                 BorderDeclaration.Name, new DeclarationInfo(
                     name: BorderDeclaration.Name,
                     converter: BorderDeclaration.Converter,
+                    initialValue: BorderDeclaration.InitialValue,
                     flags: BorderDeclaration.Flags,
                     longhands: BorderDeclaration.Longhands)
             },
@@ -1244,84 +1360,98 @@ namespace AngleSharp.Css
                 RubyAlignDeclaration.Name, new DeclarationInfo(
                     name: RubyAlignDeclaration.Name,
                     converter: RubyAlignDeclaration.Converter,
+                    initialValue: RubyAlignDeclaration.InitialValue,
                     flags: RubyAlignDeclaration.Flags)
             },
             {
                 RubyOverhangDeclaration.Name, new DeclarationInfo(
                     name: RubyOverhangDeclaration.Name,
                     converter: RubyOverhangDeclaration.Converter,
+                    initialValue: RubyOverhangDeclaration.InitialValue,
                     flags: RubyOverhangDeclaration.Flags)
             },
             {
                 RubyPositionDeclaration.Name, new DeclarationInfo(
                     name: RubyPositionDeclaration.Name,
                     converter: RubyPositionDeclaration.Converter,
+                    initialValue: RubyPositionDeclaration.InitialValue,
                     flags: RubyPositionDeclaration.Flags)
             },
             {
                 Scrollbar3dLightColorDeclaration.Name, new DeclarationInfo(
                     name: Scrollbar3dLightColorDeclaration.Name,
                     converter: Scrollbar3dLightColorDeclaration.Converter,
+                    initialValue: Scrollbar3dLightColorDeclaration.InitialValue,
                     flags: Scrollbar3dLightColorDeclaration.Flags)
             },
             {
                 ScrollbarArrowColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarArrowColorDeclaration.Name,
                     converter: ScrollbarArrowColorDeclaration.Converter,
+                    initialValue: ScrollbarArrowColorDeclaration.InitialValue,
                     flags: ScrollbarArrowColorDeclaration.Flags)
             },
             {
                 ScrollbarBaseColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarBaseColorDeclaration.Name,
                     converter: ScrollbarBaseColorDeclaration.Converter,
+                    initialValue: ScrollbarBaseColorDeclaration.InitialValue,
                     flags: ScrollbarBaseColorDeclaration.Flags)
             },
             {
                 ScrollbarDarkshadowColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarDarkshadowColorDeclaration.Name,
                     converter: ScrollbarDarkshadowColorDeclaration.Converter,
+                    initialValue: ScrollbarDarkshadowColorDeclaration.InitialValue,
                     flags: ScrollbarDarkshadowColorDeclaration.Flags)
             },
             {
                 ScrollbarFaceColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarFaceColorDeclaration.Name,
                     converter: ScrollbarFaceColorDeclaration.Converter,
+                    initialValue: ScrollbarFaceColorDeclaration.InitialValue,
                     flags: ScrollbarFaceColorDeclaration.Flags)
             },
             {
                 ScrollbarHighlightColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarHighlightColorDeclaration.Name,
                     converter: ScrollbarHighlightColorDeclaration.Converter,
+                    initialValue: ScrollbarHighlightColorDeclaration.InitialValue,
                     flags: ScrollbarHighlightColorDeclaration.Flags)
             },
             {
                 ScrollbarShadowColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarShadowColorDeclaration.Name,
                     converter: ScrollbarShadowColorDeclaration.Converter,
+                    initialValue: ScrollbarShadowColorDeclaration.InitialValue,
                     flags: ScrollbarShadowColorDeclaration.Flags)
             },
             {
                 ScrollbarTrackColorDeclaration.Name, new DeclarationInfo(
                     name: ScrollbarTrackColorDeclaration.Name,
                     converter: ScrollbarTrackColorDeclaration.Converter,
+                    initialValue: ScrollbarTrackColorDeclaration.InitialValue,
                     flags: ScrollbarTrackColorDeclaration.Flags)
             },
             {
                 PointerEventsDeclaration.Name, new DeclarationInfo(
                     name: PointerEventsDeclaration.Name,
                     converter: PointerEventsDeclaration.Converter,
+                    initialValue: PointerEventsDeclaration.InitialValue,
                     flags: PointerEventsDeclaration.Flags)
             },
             {
                 OrderDeclaration.Name, new DeclarationInfo(
                     name: OrderDeclaration.Name,
                     converter: OrderDeclaration.Converter,
+                    initialValue: OrderDeclaration.InitialValue,
                     flags: OrderDeclaration.Flags)
             },
             {
                 FlexShrinkDeclaration.Name, new DeclarationInfo(
                     name: FlexShrinkDeclaration.Name,
                     converter: FlexShrinkDeclaration.Converter,
+                    initialValue: FlexShrinkDeclaration.InitialValue,
                     shorthands: FlexShrinkDeclaration.Shorthands,
                     flags: FlexShrinkDeclaration.Flags)
             },
@@ -1329,6 +1459,7 @@ namespace AngleSharp.Css
                 FlexGrowDeclaration.Name, new DeclarationInfo(
                     name: FlexGrowDeclaration.Name,
                     converter: FlexGrowDeclaration.Converter,
+                    initialValue: FlexGrowDeclaration.InitialValue,
                     shorthands: FlexGrowDeclaration.Shorthands,
                     flags: FlexGrowDeclaration.Flags)
             },
@@ -1336,6 +1467,7 @@ namespace AngleSharp.Css
                 FlexBasisDeclaration.Name, new DeclarationInfo(
                     name: FlexBasisDeclaration.Name,
                     converter: FlexBasisDeclaration.Converter,
+                    initialValue: FlexBasisDeclaration.InitialValue,
                     shorthands: FlexBasisDeclaration.Shorthands,
                     flags: FlexBasisDeclaration.Flags)
             },
@@ -1343,30 +1475,35 @@ namespace AngleSharp.Css
                 JustifyContentDeclaration.Name, new DeclarationInfo(
                     name: JustifyContentDeclaration.Name,
                     converter: JustifyContentDeclaration.Converter,
+                    initialValue: JustifyContentDeclaration.InitialValue,
                     flags: JustifyContentDeclaration.Flags)
             },
             {
                 AlignContentDeclaration.Name, new DeclarationInfo(
                     name: AlignContentDeclaration.Name,
                     converter: AlignContentDeclaration.Converter,
+                    initialValue: AlignContentDeclaration.InitialValue,
                     flags: AlignContentDeclaration.Flags)
             },
             {
                 AlignSelfDeclaration.Name, new DeclarationInfo(
                     name: AlignSelfDeclaration.Name,
                     converter: AlignSelfDeclaration.Converter,
+                    initialValue: AlignSelfDeclaration.InitialValue,
                     flags: AlignSelfDeclaration.Flags)
             },
             {
                 AlignItemsDeclaration.Name, new DeclarationInfo(
                     name: AlignItemsDeclaration.Name,
                     converter: AlignItemsDeclaration.Converter,
+                    initialValue: AlignItemsDeclaration.InitialValue,
                     flags: AlignItemsDeclaration.Flags)
             },
             {
                 FlexDirectionDeclaration.Name, new DeclarationInfo(
                     name: FlexDirectionDeclaration.Name,
                     converter: FlexDirectionDeclaration.Converter,
+                    initialValue: FlexDirectionDeclaration.InitialValue,
                     shorthands: FlexDirectionDeclaration.Shorthands,
                     flags: FlexDirectionDeclaration.Flags)
             },
@@ -1374,6 +1511,7 @@ namespace AngleSharp.Css
                 FlexWrapDeclaration.Name, new DeclarationInfo(
                     name: FlexWrapDeclaration.Name,
                     converter: FlexWrapDeclaration.Converter,
+                    initialValue: FlexWrapDeclaration.InitialValue,
                     shorthands: FlexWrapDeclaration.Shorthands,
                     flags: FlexWrapDeclaration.Flags)
             },
@@ -1381,6 +1519,7 @@ namespace AngleSharp.Css
                 FlexDeclaration.Name, new DeclarationInfo(
                     name: FlexDeclaration.Name,
                     converter: FlexDeclaration.Converter,
+                    initialValue: FlexDeclaration.InitialValue,
                     longhands: FlexDeclaration.Longhands,
                     flags: FlexDeclaration.Flags)
             },
@@ -1388,6 +1527,7 @@ namespace AngleSharp.Css
                 FlexFlowDeclaration.Name, new DeclarationInfo(
                     name: FlexFlowDeclaration.Name,
                     converter: FlexFlowDeclaration.Converter,
+                    initialValue: FlexFlowDeclaration.InitialValue,
                     longhands: FlexFlowDeclaration.Longhands,
                     flags: FlexFlowDeclaration.Flags)
             },
@@ -1395,6 +1535,7 @@ namespace AngleSharp.Css
                 GridTemplateColumnsDeclaration.Name, new DeclarationInfo(
                     name: GridTemplateColumnsDeclaration.Name,
                     converter: GridTemplateColumnsDeclaration.Converter,
+                    initialValue: GridTemplateColumnsDeclaration.InitialValue,
                     shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateColumnsDeclaration.Flags)
             },
@@ -1402,6 +1543,7 @@ namespace AngleSharp.Css
                 GridTemplateRowsDeclaration.Name, new DeclarationInfo(
                     name: GridTemplateRowsDeclaration.Name,
                     converter: GridTemplateRowsDeclaration.Converter,
+                    initialValue: GridTemplateRowsDeclaration.InitialValue,
                     shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateRowsDeclaration.Flags)
             },
@@ -1409,6 +1551,7 @@ namespace AngleSharp.Css
                 GridTemplateAreasDeclaration.Name, new DeclarationInfo(
                     name: GridTemplateAreasDeclaration.Name,
                     converter: GridTemplateAreasDeclaration.Converter,
+                    initialValue: GridTemplateAreasDeclaration.InitialValue,
                     shorthands: GridTemplateAreasDeclaration.Shorthands,
                     flags: GridTemplateAreasDeclaration.Flags)
             },
@@ -1416,6 +1559,7 @@ namespace AngleSharp.Css
                 GridTemplateDeclaration.Name, new DeclarationInfo(
                     name: GridTemplateDeclaration.Name,
                     converter: GridTemplateDeclaration.Converter,
+                    initialValue: GridTemplateDeclaration.InitialValue,
                     longhands: GridTemplateDeclaration.Longhands,
                     flags: GridTemplateDeclaration.Flags)
             },
@@ -1423,24 +1567,28 @@ namespace AngleSharp.Css
                 GridAutoColumnsDeclaration.Name, new DeclarationInfo(
                     name: GridAutoColumnsDeclaration.Name,
                     converter: GridAutoColumnsDeclaration.Converter,
+                    initialValue: GridAutoColumnsDeclaration.InitialValue,
                     flags: GridAutoColumnsDeclaration.Flags)
             },
             {
                 GridAutoRowsDeclaration.Name, new DeclarationInfo(
                     name: GridAutoRowsDeclaration.Name,
                     converter: GridAutoRowsDeclaration.Converter,
+                    initialValue: GridAutoRowsDeclaration.InitialValue,
                     flags: GridAutoRowsDeclaration.Flags)
             },
             {
                 GridAutoFlowDeclaration.Name, new DeclarationInfo(
                     name: GridAutoFlowDeclaration.Name,
                     converter: GridAutoFlowDeclaration.Converter,
+                    initialValue: GridAutoFlowDeclaration.InitialValue,
                     flags: GridAutoFlowDeclaration.Flags)
             },
             {
                 GridDeclaration.Name, new DeclarationInfo(
                     name: GridDeclaration.Name,
                     converter: GridDeclaration.Converter,
+                    initialValue: GridDeclaration.InitialValue,
                     longhands: GridDeclaration.Longhands,
                     flags: GridDeclaration.Flags)
             },
@@ -1448,6 +1596,7 @@ namespace AngleSharp.Css
                 GridRowStartDeclaration.Name, new DeclarationInfo(
                     name: GridRowStartDeclaration.Name,
                     converter: GridRowStartDeclaration.Converter,
+                    initialValue: GridRowStartDeclaration.InitialValue,
                     shorthands: GridRowStartDeclaration.Shorthands,
                     flags: GridRowStartDeclaration.Flags)
             },
@@ -1455,6 +1604,7 @@ namespace AngleSharp.Css
                 GridColumnStartDeclaration.Name, new DeclarationInfo(
                     name: GridColumnStartDeclaration.Name,
                     converter: GridColumnStartDeclaration.Converter,
+                    initialValue: GridColumnStartDeclaration.InitialValue,
                     shorthands: GridColumnStartDeclaration.Shorthands,
                     flags: GridColumnStartDeclaration.Flags)
             },
@@ -1462,6 +1612,7 @@ namespace AngleSharp.Css
                 GridRowEndDeclaration.Name, new DeclarationInfo(
                     name: GridRowEndDeclaration.Name,
                     converter: GridRowEndDeclaration.Converter,
+                    initialValue: GridRowEndDeclaration.InitialValue,
                     shorthands: GridRowEndDeclaration.Shorthands,
                     flags: GridRowEndDeclaration.Flags)
             },
@@ -1469,6 +1620,7 @@ namespace AngleSharp.Css
                 GridColumnEndDeclaration.Name, new DeclarationInfo(
                     name: GridColumnEndDeclaration.Name,
                     converter: GridColumnEndDeclaration.Converter,
+                    initialValue: GridColumnEndDeclaration.InitialValue,
                     shorthands: GridColumnEndDeclaration.Shorthands,
                     flags: GridColumnEndDeclaration.Flags)
             },
@@ -1476,6 +1628,7 @@ namespace AngleSharp.Css
                 GridRowDeclaration.Name, new DeclarationInfo(
                     name: GridRowDeclaration.Name,
                     converter: GridRowDeclaration.Converter,
+                    initialValue: GridRowDeclaration.InitialValue,
                     longhands: GridRowDeclaration.Longhands,
                     flags: GridRowDeclaration.Flags)
             },
@@ -1483,6 +1636,7 @@ namespace AngleSharp.Css
                 GridColumnDeclaration.Name, new DeclarationInfo(
                     name: GridColumnDeclaration.Name,
                     converter: GridColumnDeclaration.Converter,
+                    initialValue: GridColumnDeclaration.InitialValue,
                     longhands: GridColumnDeclaration.Longhands,
                     flags: GridColumnDeclaration.Flags)
             },
@@ -1490,6 +1644,7 @@ namespace AngleSharp.Css
                 GridAreaDeclaration.Name, new DeclarationInfo(
                     name: GridAreaDeclaration.Name,
                     converter: GridAreaDeclaration.Converter,
+                    initialValue: GridAreaDeclaration.InitialValue,
                     longhands: GridAreaDeclaration.Longhands,
                     flags: GridAreaDeclaration.Flags)
             },
@@ -1497,6 +1652,7 @@ namespace AngleSharp.Css
                 GridRowGapDeclaration.Name, new DeclarationInfo(
                     name: GridRowGapDeclaration.Name,
                     converter: GridRowGapDeclaration.Converter,
+                    initialValue: GridRowGapDeclaration.InitialValue,
                     shorthands: GridRowGapDeclaration.Shorthands,
                     flags: GridRowGapDeclaration.Flags)
             },
@@ -1504,6 +1660,7 @@ namespace AngleSharp.Css
                 GridColumnGapDeclaration.Name, new DeclarationInfo(
                     name: GridColumnGapDeclaration.Name,
                     converter: GridColumnGapDeclaration.Converter,
+                    initialValue: GridColumnGapDeclaration.InitialValue,
                     shorthands: GridColumnGapDeclaration.Shorthands,
                     flags: GridColumnGapDeclaration.Flags)
             },
@@ -1511,6 +1668,7 @@ namespace AngleSharp.Css
                 GridGapDeclaration.Name, new DeclarationInfo(
                     name: GridGapDeclaration.Name,
                     converter: GridGapDeclaration.Converter,
+                    initialValue: GridGapDeclaration.InitialValue,
                     longhands: GridGapDeclaration.Longhands,
                     flags: GridGapDeclaration.Flags)
             },

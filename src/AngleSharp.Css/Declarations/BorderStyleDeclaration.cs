@@ -18,6 +18,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BorderStyleAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -30,7 +32,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BorderStyleAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(LineStyleConverter.Periodic(), AssignInitial());
+            private static readonly IValueConverter converter = LineStyleConverter.Periodic();
 
             public ICssValue Convert(StringSource source)
             {

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.AlignContent;
 
-        public static IValueConverter Converter = Or(AlignContentConverter, AssignInitial(InitialValues.AlignContentDecl));
+        public static IValueConverter Converter = AlignContentConverter;
+
+        public static ICssValue InitialValue = InitialValues.AlignContentDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }
