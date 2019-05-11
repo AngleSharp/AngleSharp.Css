@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -66,19 +67,19 @@ namespace AngleSharp.Css.Values
                     parts[i] = _values[i].CssText;
                 }
 
-                if (l == 4 && parts[3] == parts[1])
+                if (l == 4 && parts[3].Is(parts[1]))
                 {
                     l = 3;
                     parts = new[] { parts[0], parts[1], parts[2] };
                 }
 
-                if (l == 3 && parts[2] == parts[0])
+                if (l == 3 && parts[2].Is(parts[0]))
                 {
                     l = 2;
                     parts = new[] { parts[0], parts[1] };
                 }
 
-                if (l == 2 && parts[1] == parts[0])
+                if (l == 2 && parts[1].Is(parts[0]))
                 {
                     l = 1;
                     parts = new[] { parts[0] };

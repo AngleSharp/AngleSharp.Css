@@ -249,7 +249,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-style: wavy";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -437,7 +437,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-width: 0 0 0 0 0";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

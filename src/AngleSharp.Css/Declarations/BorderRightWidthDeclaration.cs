@@ -10,6 +10,7 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Shorthands = new[]
         {
+            PropertyNames.Border,
             PropertyNames.BorderWidth,
             PropertyNames.BorderRight,
         };

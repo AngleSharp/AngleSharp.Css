@@ -41,15 +41,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 
-            public ICssValue Merge(ICssValue[] values)
-            {
-                if (values.Length == 3)
-                {
-                    return new CssTupleValue(values);
-                }
-
-                return null;
-            }
+            public ICssValue Merge(ICssValue[] values) => new CssTupleValue(values);
 
             public ICssValue[] Split(ICssValue value)
             {

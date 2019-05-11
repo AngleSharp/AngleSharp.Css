@@ -573,7 +573,7 @@ h1 { color: blue }");
         public void CssBackgroundWebkitGradientIsInvalid()
         {
             var background = ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
-            Assert.IsNull(background);
+            Assert.IsFalse(background.HasValue);
         }
 
         [Test]

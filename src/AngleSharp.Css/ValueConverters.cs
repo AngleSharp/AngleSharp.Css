@@ -6,6 +6,7 @@ namespace AngleSharp.Css
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// A set of already constructed CSS value converters.
@@ -928,6 +929,53 @@ namespace AngleSharp.Css
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region Aggregators
+
+        public static IValueConverter AggregatePeriodic(IValueConverter converter) => new PeriodicAggregator(converter);
+
+        sealed class PeriodicAggregator : IValueAggregator, IValueConverter
+        {
+            private readonly IValueConverter _converter;
+
+            public PeriodicAggregator(IValueConverter converter)
+            {
+                _converter = converter.Periodic();
+            }
+
+            public ICssValue Convert(StringSource source) => _converter.Convert(source);
+
+            public ICssValue Merge(ICssValue[] values)
+            {
+                var first = values[0];
+
+                if (first != null)
+                {
+                    var same = values.All(m => Object.Equals(m, first));
+                    return same ? first : new CssPeriodicValue(values);
+                }
+
+                return null;
+            }
+
+            public ICssValue[] Split(ICssValue value)
+            {
+                if (value is CssPeriodicValue periodic)
+                {
+                    return periodic.ToArray();
+                }
+
+                return new[]
+                {
+                    value,
+                    value,
+                    value,
+                    value,
+                };
+            }
         }
 
         #endregion

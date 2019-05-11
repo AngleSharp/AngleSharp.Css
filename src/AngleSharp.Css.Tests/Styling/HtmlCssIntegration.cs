@@ -431,7 +431,7 @@ namespace AngleSharp.Css.Tests.Styling
         [Test]
         public void RecombinationWorksWithBorder_Issue16()
         {
-            var expected = "<button style=\"pointer-events: auto; border-width: 1px; border-style: solid; border-color: rgba(0, 0, 0, 1)\"></button>";
+            var expected = "<button style=\"pointer-events: auto; border: 1px solid rgba(0, 0, 0, 1)\"></button>";
             var document = ParseDocument("");
             var element = document.CreateElement("button");
             element.GetStyle().SetPointerEvents("auto");

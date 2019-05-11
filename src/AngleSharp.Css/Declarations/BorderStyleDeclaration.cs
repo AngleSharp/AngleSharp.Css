@@ -1,9 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Text;
     using System;
     using static ValueConverters;
 
@@ -16,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Border,
         };
 
-        public static IValueConverter Converter = new BorderStyleAggregator();
+        public static IValueConverter Converter = AggregatePeriodic(LineStyleConverter);
 
         public static ICssValue InitialValue = null;
 
@@ -29,46 +26,5 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderBottomStyle,
             PropertyNames.BorderLeftStyle,
         };
-
-        sealed class BorderStyleAggregator : IValueAggregator, IValueConverter
-        {
-            private static readonly IValueConverter converter = LineStyleConverter.Periodic();
-
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
-
-            public ICssValue Merge(ICssValue[] values)
-            {
-                var top = values[0];
-                var right = values[1];
-                var bottom = values[2];
-                var left = values[3];
-
-                if (top != null && right != null && bottom != null && left != null)
-                {
-                    return new CssPeriodicValue(new[] { top, right, bottom, left });
-                }
-
-                return null;
-            }
-
-            public ICssValue[] Split(ICssValue value)
-            {
-                if (value is CssPeriodicValue periodic)
-                {
-                    return new[]
-                    {
-                        periodic.Top,
-                        periodic.Right,
-                        periodic.Bottom,
-                        periodic.Left,
-                    };
-                }
-
-                return null;
-            }
-        }
     }
 }

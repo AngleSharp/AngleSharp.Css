@@ -1,11 +1,7 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Text;
     using System;
-    using System.Linq;
     using static ValueConverters;
 
     static class BorderColorDeclaration
@@ -17,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Border,
         };
 
-        public static IValueConverter Converter = new BorderColorAggregator();
+        public static IValueConverter Converter = AggregatePeriodic(CurrentColorConverter);
 
         public static ICssValue InitialValue = null;
 
@@ -30,32 +26,5 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderBottomColor,
             PropertyNames.BorderLeftColor,
         };
-
-        sealed class BorderColorAggregator : IValueAggregator, IValueConverter
-        {
-            private static readonly IValueConverter converter = CurrentColorConverter.Periodic();
-
-            public ICssValue Convert(StringSource source) => converter.Convert(source);
-
-            public ICssValue Merge(ICssValue[] values)
-            {
-                if (values[0] != null)
-                {
-                    return new CssPeriodicValue(values);
-                }
-
-                return null;
-            }
-
-            public ICssValue[] Split(ICssValue value)
-            {
-                if (value is CssPeriodicValue periodic)
-                {
-                    return periodic.ToArray();
-                }
-
-                return null;
-            }
-        }
     }
 }
