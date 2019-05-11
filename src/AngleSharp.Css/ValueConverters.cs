@@ -937,6 +937,8 @@ namespace AngleSharp.Css
 
         public static IValueConverter AggregatePeriodic(IValueConverter converter) => new PeriodicAggregator(converter);
 
+        public static IValueConverter AggregateTuple(IValueConverter converter) => new TupleAggregator(converter);
+
         sealed class PeriodicAggregator : IValueAggregator, IValueConverter
         {
             private readonly IValueConverter _converter;
@@ -975,6 +977,38 @@ namespace AngleSharp.Css
                     value,
                     value,
                 };
+            }
+        }
+
+        sealed class TupleAggregator : IValueAggregator, IValueConverter
+        {
+            private readonly IValueConverter _converter;
+
+            public TupleAggregator(IValueConverter converter)
+            {
+                _converter = converter;
+            }
+
+            public ICssValue Convert(StringSource source) => _converter.Convert(source);
+
+            public ICssValue Merge(ICssValue[] values)
+            {
+                if (values.Any(m => m != null))
+                {
+                    return new CssTupleValue(values);
+                }
+
+                return null;
+            }
+
+            public ICssValue[] Split(ICssValue value)
+            {
+                if (value is CssTupleValue options)
+                {
+                    return options.ToArray();
+                }
+
+                return null;
             }
         }
 

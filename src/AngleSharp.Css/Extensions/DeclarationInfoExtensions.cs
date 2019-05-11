@@ -11,7 +11,7 @@ namespace AngleSharp.Css
         public static IEnumerable<String> GetMappings(this DeclarationInfo info) =>
             info.Longhands.Length > 0 ? info.Longhands : Enumerable.Repeat(info.Name, 1);
 
-        public static ICssValue Combine(this DeclarationInfo info, ICssValue[] longhands)
+        public static ICssValue Combine(this DeclarationInfo info, IDeclarationFactory factory, ICssValue[] longhands)
         {
             var initial = true;
             var unset = true;
