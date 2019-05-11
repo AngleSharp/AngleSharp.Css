@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MaxHeight;
 
-        public static IValueConverter Converter = Or(OptionalLengthOrPercentConverter, AssignInitial());
+        public static IValueConverter Converter = Or(OptionalLengthOrPercentConverter, AssignInitial(InitialValues.MaxHeightDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

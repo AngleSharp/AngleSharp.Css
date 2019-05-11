@@ -844,15 +844,11 @@ namespace AngleSharp.Css
 
         #region Premade
 
-        public static readonly IValueConverter MarginConverter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Zero));
-
-        public static readonly IValueConverter PaddingConverter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
-
         public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
 
-        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive(), AssignInitial());
+        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 
-        public static readonly IValueConverter GridAutoConverter = Or(TrackSizeConverter.Many(), AssignInitial());
+        public static readonly IValueConverter GridAutoConverter = TrackSizeConverter.Many();
 
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, CssKeywords.Auto),

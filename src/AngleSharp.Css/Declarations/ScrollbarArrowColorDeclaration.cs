@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ScrollbarArrowColor;
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(CssColors.GetColor("buttontext")));
+        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(InitialValues.ScrollbarArrowColorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

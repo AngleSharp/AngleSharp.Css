@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.GridTemplate,
         };
 
-        public static readonly IValueConverter Converter = GridTemplateConverter;
+        public static readonly IValueConverter Converter = Or(GridTemplateConverter, AssignInitial(InitialValues.GridTemplateRowsDecl));
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;
     }

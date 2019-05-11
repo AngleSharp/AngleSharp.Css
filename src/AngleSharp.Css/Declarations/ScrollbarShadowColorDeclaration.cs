@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ScrollbarShadowColor;
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(CssColors.GetColor("threeddarkshadow")));
+        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(InitialValues.ScrollbarShadowColorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

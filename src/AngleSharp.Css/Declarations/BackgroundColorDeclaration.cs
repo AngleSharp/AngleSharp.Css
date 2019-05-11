@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
-        public static IValueConverter Converter = Or(CurrentColorConverter, AssignInitial());
+        public static IValueConverter Converter = Or(CurrentColorConverter, AssignInitial(InitialValues.BackgroundColorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Hashless | PropertyFlags.Animatable;
     }

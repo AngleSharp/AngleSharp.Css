@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Margin,
         };
 
-        public static IValueConverter Converter = MarginConverter;
+        public static IValueConverter Converter = Or(AutoLengthOrPercentConverter, AssignInitial(InitialValues.MarginBottomDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

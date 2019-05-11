@@ -7,7 +7,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridAutoFlow;
 
-        public static readonly IValueConverter Converter = Or(WithAny(Toggle(CssKeywords.Column, CssKeywords.Row), Assign(CssKeywords.Dense, true)), AssignInitial());
+        public static readonly IValueConverter Converter = Or(
+            WithAny(Toggle(CssKeywords.Column, CssKeywords.Row), Assign(CssKeywords.Dense, true)),
+            AssignInitial(InitialValues.GridAutoFlowDecl));
 
         public static readonly PropertyFlags Flags = PropertyFlags.None;
     }

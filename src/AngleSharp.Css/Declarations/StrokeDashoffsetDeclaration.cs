@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeDashoffset;
 
-        public static IValueConverter Converter = LengthOrPercentConverter;
+        public static IValueConverter Converter = Or(LengthOrPercentConverter, AssignInitial(InitialValues.StrokeDashoffsetDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

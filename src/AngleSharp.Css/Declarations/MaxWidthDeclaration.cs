@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MaxWidth;
 
-        public static IValueConverter Converter = Or(OptionalLengthOrPercentConverter, AssignInitial());
+        public static IValueConverter Converter = Or(OptionalLengthOrPercentConverter, AssignInitial(InitialValues.MaxWidthDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

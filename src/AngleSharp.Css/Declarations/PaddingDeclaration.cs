@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class PaddingAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(LengthOrPercentConverter.Periodic(), AssignInitial(Length.Zero));
+            private static readonly IValueConverter converter = Or(LengthOrPercentConverter.Periodic(), AssignInitial());
 
             public ICssValue Convert(StringSource source)
             {

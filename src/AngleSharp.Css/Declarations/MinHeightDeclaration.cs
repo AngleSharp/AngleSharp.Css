@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -8,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MinHeight;
 
-        public static IValueConverter Converter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
+        public static IValueConverter Converter = Or(LengthOrPercentConverter, AssignInitial(InitialValues.MinHeightDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

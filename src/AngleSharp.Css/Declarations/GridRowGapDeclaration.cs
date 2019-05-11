@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -13,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.GridGap,
         };
 
-        public static readonly IValueConverter Converter = Or(GapConverter, AssignInitial(Length.Normal));
+        public static readonly IValueConverter Converter = Or(GapConverter, AssignInitial(InitialValues.GridRowGapDecl));
 
         public static readonly PropertyFlags Flags = PropertyFlags.Animatable;
     }

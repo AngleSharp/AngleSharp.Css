@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Clip;
 
-        public static IValueConverter Converter = Or(ShapeConverter, Auto, AssignInitial());
+        public static IValueConverter Converter = Or(ShapeConverter, Auto, AssignInitial(InitialValues.ClipDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

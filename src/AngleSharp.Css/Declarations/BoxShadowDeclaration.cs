@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BoxShadow;
 
-        public static IValueConverter Converter = Or(MultipleShadowConverter, AssignInitial());
+        public static IValueConverter Converter = Or(MultipleShadowConverter, AssignInitial(InitialValues.BoxShadowDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

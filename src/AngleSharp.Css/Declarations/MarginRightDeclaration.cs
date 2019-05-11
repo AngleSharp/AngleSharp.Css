@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -13,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Margin,
         };
 
-        public static IValueConverter Converter = MarginConverter;
+        public static IValueConverter Converter = Or(AutoLengthOrPercentConverter, AssignInitial(InitialValues.MarginRightDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

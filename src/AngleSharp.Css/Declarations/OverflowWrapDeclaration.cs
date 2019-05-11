@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.OverflowWrap;
 
-        public static IValueConverter Converter = OverflowWrapConverter;
+        public static IValueConverter Converter = Or(OverflowWrapConverter, AssignInitial(InitialValues.OverflowWrapDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

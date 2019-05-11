@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -14,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(TransitionConverter.FromList(), AssignInitial(CssCubicBezierValue.Ease));
+        public static IValueConverter Converter = Or(TransitionConverter.FromList(), AssignInitial(InitialValues.AnimationTimingFunctionDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

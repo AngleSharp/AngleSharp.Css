@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FontSizeAdjust;
 
-        public static IValueConverter Converter = Or(OptionalNumberConverter, AssignInitial());
+        public static IValueConverter Converter = Or(OptionalNumberConverter, AssignInitial(InitialValues.FontSizeAdjustDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable;
     }

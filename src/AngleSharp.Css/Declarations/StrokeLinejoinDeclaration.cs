@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeLinejoin;
 
-        public static IValueConverter Converter = StrokeLinejoinConverter;
+        public static IValueConverter Converter = Or(StrokeLinejoinConverter, AssignInitial(InitialValues.StrokeLinejoinDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

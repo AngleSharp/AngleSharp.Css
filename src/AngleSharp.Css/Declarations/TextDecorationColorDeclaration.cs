@@ -1,6 +1,5 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -13,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TextDecoration,
         };
 
-        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(Color.Black));
+        public static IValueConverter Converter = Or(ColorConverter, AssignInitial(InitialValues.TextDecorationColorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

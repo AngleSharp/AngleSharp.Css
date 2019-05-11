@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class MarginAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(AutoLengthOrPercentConverter.Periodic(), AssignInitial(Length.Zero));
+            private static readonly IValueConverter converter = Or(AutoLengthOrPercentConverter.Periodic(), AssignInitial());
 
             public ICssValue Convert(StringSource source)
             {

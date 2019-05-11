@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TextAnchor;
 
-        public static IValueConverter Converter = TextAnchorConverter;
+        public static IValueConverter Converter = Or(TextAnchorConverter, AssignInitial(InitialValues.TextAnchorDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

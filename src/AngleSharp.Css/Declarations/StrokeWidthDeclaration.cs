@@ -9,7 +9,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = Or(
             LengthOrPercentConverter,
-            NumberConverter);
+            NumberConverter,
+            AssignInitial(InitialValues.StrokeWidthDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

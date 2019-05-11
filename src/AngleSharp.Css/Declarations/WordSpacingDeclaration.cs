@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.WordSpacing;
 
-        public static IValueConverter Converter = Or(OptionalLengthConverter, AssignInitial());
+        public static IValueConverter Converter = Or(OptionalLengthConverter, AssignInitial(InitialValues.WordSpacingDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

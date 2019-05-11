@@ -117,6 +117,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue TextDecorationLineDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextDecorationStyleDecl = new Constant<LineStyle>(CssKeywords.Solid, LineStyle.Solid);
         public static readonly ICssValue TextDecorationColorDecl = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
+        public static readonly ICssValue TextAnchorDecl = new Constant<TextAnchor>(CssKeywords.Start, TextAnchor.Start);
         public static readonly ICssValue ListStyleTypeDecl = new Constant<ListStyle>(CssKeywords.Disc, ListStyle.Disc);
         public static readonly ICssValue ListStylePositionDecl = new Constant<ListPosition>(CssKeywords.Outside, ListPosition.Outside);
         public static readonly ICssValue ListStyleImageDecl = new Constant<Object>(CssKeywords.None, null);
@@ -132,14 +133,20 @@ namespace AngleSharp.Css
         public static readonly ICssValue ColumnGapDecl = new Constant<Length>(CssKeywords.Normal, Length.Normal);
         public static readonly ICssValue RowGapDecl = new Constant<Length>(CssKeywords.Normal, Length.Normal);
         public static readonly ICssValue PerspectiveDecl = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue PerspectiveOriginDecl = Point.Center;
         public static readonly ICssValue PositionDecl = new Constant<PositionMode>(CssKeywords.Inline, PositionMode.Static);
         public static readonly ICssValue TransformDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue TransformStyleDecl = new Constant<Boolean>(CssKeywords.Flat, true);
+        public static readonly ICssValue TransformOriginDecl = Point.Center;
         public static readonly ICssValue TableLayoutDecl = new Constant<Boolean>(CssKeywords.Auto, false);
         public static readonly ICssValue ClearDecl = new Constant<ClearMode>(CssKeywords.None, ClearMode.None);
         public static readonly ICssValue ClipDecl = new Constant<Length>(CssKeywords.Auto, Length.Auto);
-        public static readonly ICssValue StrokeOpacityDecl = new Length(1, Length.Unit.None);
+        public static readonly ICssValue StrokeOpacityDecl = new Length(1.0, Length.Unit.None);
         public static readonly ICssValue StrokeLinecapDecl = new Constant<StrokeLinecap>(CssKeywords.Butt, StrokeLinecap.Butt);
+        public static readonly ICssValue StrokeLinejoinDecl = new Constant<StrokeLinejoin>(CssKeywords.Miter, StrokeLinejoin.Miter);
+        public static readonly ICssValue StrokeDashoffsetDecl = Length.Zero;
+        public static readonly ICssValue StrokeDasharrayDecl = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue StrokeWidthDecl = new Length(1.0, Length.Unit.Px);
         public static readonly ICssValue RubyPositionDecl = new Constant<RubyPosition>(CssKeywords.Over, RubyPosition.Over);
         public static readonly ICssValue RubyOverhangDecl = new Constant<RubyOverhangMode>(CssKeywords.None, RubyOverhangMode.None);
         public static readonly ICssValue RubyAlignDecl = new Constant<RubyAlignment>(CssKeywords.SpaceAround, RubyAlignment.SpaceAround);
@@ -158,6 +165,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue BorderImageOutsetDecl = Length.Zero;
         public static readonly ICssValue BorderImageRepeatDecl = new Constant<BorderRepeat>(CssKeywords.Stretch, BorderRepeat.Stretch);
         public static readonly ICssValue BorderCollapseDecl = new Constant<Boolean>(CssKeywords.Separate, true);
+        public static readonly ICssValue BorderRadiusDecl = Length.Zero;
         public static readonly ICssValue AlignSelfDecl = new Constant<FlexContentMode>(CssKeywords.Auto, FlexContentMode.Auto);
         public static readonly ICssValue AlignItemsDecl = new Constant<FlexContentMode>(CssKeywords.Normal, FlexContentMode.Stretch);
         public static readonly ICssValue AlignContentDecl = new Constant<FlexContentMode>(CssKeywords.Normal, FlexContentMode.Stretch);
@@ -165,11 +173,25 @@ namespace AngleSharp.Css
         public static readonly ICssValue JustifyItemsDecl = new Constant<Object>(CssKeywords.Legacy, null);
         public static readonly ICssValue JustifySelfDecl = new Constant<FlexContentMode>(CssKeywords.Auto, FlexContentMode.Auto);
         public static readonly ICssValue UnicodeBidiDecl = new Constant<UnicodeMode>(CssKeywords.Normal, UnicodeMode.Normal);
+        public static readonly ICssValue WordWrapDecl = new Constant<OverflowWrap>(CssKeywords.Normal, OverflowWrap.Normal);
         public static readonly ICssValue WidowsDecl = new Length(2, Length.Unit.None);
         public static readonly ICssValue OrphansDecl = new Length(2, Length.Unit.None);
         public static readonly ICssValue OrderDecl = new Length(0, Length.Unit.None);
         public static readonly ICssValue ObjectFitDecl = new Constant<ObjectFitting>(CssKeywords.Fill, ObjectFitting.Fill);
+        public static readonly ICssValue ObjectPositionDecl = Point.Center;
         public static readonly ICssValue WhiteSpaceDecl = new Constant<Whitespace>(CssKeywords.Normal, Whitespace.Normal);
         public static readonly ICssValue ZIndexDecl = new Constant<Length>(CssKeywords.Auto, Length.Auto);
+        public static readonly ICssValue WidthDecl = Length.Auto;
+        public static readonly ICssValue HeightDecl = Length.Auto;
+        public static readonly ICssValue ScrollbarTrackColorDecl = CssColors.GetColor("scrollbar");
+        public static readonly ICssValue ScrollbarShadowColorDecl = CssColors.GetColor("threeddarkshadow");
+        public static readonly ICssValue ScrollbarHighlightColorDecl = CssColors.GetColor("threedhighlight");
+        public static readonly ICssValue ScrollbarFaceColorDecl = CssColors.GetColor("threedface");
+        public static readonly ICssValue ScrollbarDarkshadowColorDecl = CssColors.GetColor("threeddarkshadow");
+        public static readonly ICssValue ScrollbarBaseColorDecl = Color.Transparent;
+        public static readonly ICssValue ScrollbarArrowColorDecl = CssColors.GetColor("buttontext");
+        public static readonly ICssValue Scrollbar3dLightColorDecl = Color.White;
+        public static readonly ICssValue LetterSpacingDecl = Length.Normal;
+        public static readonly ICssValue FontSizeAdjustDecl = new Length(1.0, Length.Unit.Em);
     }
 }

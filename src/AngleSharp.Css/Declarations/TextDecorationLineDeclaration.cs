@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TextDecoration,
         };
 
-        public static IValueConverter Converter = Or(TextDecorationLinesConverter, AssignInitial());
+        public static IValueConverter Converter = Or(TextDecorationLinesConverter, AssignInitial(InitialValues.TextDecorationLineDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

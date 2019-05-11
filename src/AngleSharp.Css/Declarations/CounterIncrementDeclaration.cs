@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.CounterIncrement;
 
-        public static IValueConverter Converter = Or(new CounterValueConverter(1), AssignInitial());
+        public static IValueConverter Converter = Or(new CounterValueConverter(1), AssignInitial(InitialValues.CounterIncrementDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

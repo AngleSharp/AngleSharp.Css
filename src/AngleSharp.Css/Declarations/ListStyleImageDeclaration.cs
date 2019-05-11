@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.ListStyle,
         };
 
-        public static IValueConverter Converter = Or(OptionalImageSourceConverter, AssignInitial());
+        public static IValueConverter Converter = Or(OptionalImageSourceConverter, AssignInitial(InitialValues.ListStyleImageDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

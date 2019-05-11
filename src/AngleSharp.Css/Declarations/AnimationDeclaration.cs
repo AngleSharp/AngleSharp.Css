@@ -41,20 +41,14 @@ namespace AngleSharp.Css.Declarations
                 PlayStateConverter.Option(),
                 IdentifierConverter.Option()).FromList();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return ListConverter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => ListConverter.Convert(source);
         }
 
         sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter converter = Or(new AnimationConverter(), AssignInitial());
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {

@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeDasharray;
 
-        public static IValueConverter Converter = StrokeDasharrayConverter;
+        public static IValueConverter Converter = Or(StrokeDasharrayConverter, AssignInitial(InitialValues.StrokeDasharrayDecl));
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Unitless;
     }

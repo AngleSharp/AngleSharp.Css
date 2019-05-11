@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TextJustify;
 
-        public static IValueConverter Converter = TextJustifyConverter;
+        public static IValueConverter Converter = Or(TextJustifyConverter, AssignInitial(InitialValues.TextJustifyDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

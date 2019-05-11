@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Content;
 
-        public static IValueConverter Converter = Or(new ContentValueConverter(), AssignInitial());
+        public static IValueConverter Converter = Or(new ContentValueConverter(), AssignInitial(InitialValues.ContentDecl));
 
         public static PropertyFlags Flags = PropertyFlags.None;
 
