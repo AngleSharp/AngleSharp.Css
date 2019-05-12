@@ -20,10 +20,8 @@ namespace AngleSharp.Css
         /// <param name="address">The address of the resource.</param>
         /// <param name="element">The hosting element.</param>
         /// <returns>The async task.</returns>
-        public static Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element)
-        {
-            return context.OpenStyleSheetAsync(address, element, CancellationToken.None);
-        }
+        public static Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element) =>
+            context.OpenStyleSheetAsync(address, element, CancellationToken.None);
 
         /// <summary>
         /// Loads a stylesheet resource via its URL.

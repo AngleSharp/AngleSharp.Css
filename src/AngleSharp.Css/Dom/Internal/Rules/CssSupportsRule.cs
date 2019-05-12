@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
@@ -41,7 +41,8 @@
 
         public Boolean SetConditionText(String value, Boolean throwOnError)
         {
-            var condition = ConditionParser.Parse(value);
+            var context = Owner?.Context;
+            var condition = ConditionParser.Parse(value, context);
             
             if (condition == null)
             {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -21,7 +21,7 @@
         {
             { PseudoElementNames.Before, element => new PseudoElement(element, PseudoElementNames.Before) },
             { PseudoElementNames.After, element => new PseudoElement(element, PseudoElementNames.After) },
-            { PseudoElementNames.Slotted, element => new PseudoElement(element, PseudoElementNames.Slotted) }
+            { PseudoElementNames.Slotted, element => new PseudoElement(element, PseudoElementNames.Slotted) },
         };
 
         /// <summary>

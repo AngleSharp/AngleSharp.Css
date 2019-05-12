@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -9,6 +10,7 @@ namespace AngleSharp.Css.Dom
     /// A set of globally exposed CSS utilities.
     /// </summary>
     [DomName("CSS")]
+    [DomExposed("Window")]
     public static class CssHelpers
     {
         /// <summary>
@@ -61,13 +63,15 @@ namespace AngleSharp.Css.Dom
         /// Returns a boolean value indicating if the browser supports a given CSS feature,
         /// or not.
         /// </summary>
+        /// <param name="window">The hosting window.</param>
         /// <param name="propertyName">The name of the CSS property to check.</param>
         /// <param name="value">The value of the CSS property to check.</param>
         /// <returns>True if the CSS feature is supported, otherwise false.</returns>
         [DomName("supports")]
-        public static Boolean Supports(String propertyName, String value)
+        public static Boolean Supports(this IWindow window, String propertyName, String value)
         {
-            var condition = new DeclarationCondition(propertyName, value);
+            var context = window.Document?.Context;
+            var condition = new DeclarationCondition(context, propertyName, value);
             return condition.Check(null);
         }
 
@@ -75,12 +79,14 @@ namespace AngleSharp.Css.Dom
         /// Returns a boolean value indicating if the browser supports a given CSS feature,
         /// or not.
         /// </summary>
+        /// <param name="window">The hosting window.</param>
         /// <param name="conditionText">The condition to check.</param>
         /// <returns>True if the CSS feature is supported, otherwise false.</returns>
         [DomName("supports")]
-        public static Boolean Supports(String conditionText)
+        public static Boolean Supports(this IWindow window, String conditionText)
         {
-            var condition = ConditionParser.Parse(conditionText);
+            var context = window.Document?.Context;
+            var condition = ConditionParser.Parse(conditionText, context);
             return condition.Check(null);
         }
     }

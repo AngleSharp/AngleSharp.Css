@@ -126,10 +126,16 @@ namespace AngleSharp.Css
         /// The break-all keyword.
         /// </summary>
         public static readonly String BreakWord = "break-word";
+
         /// <summary>
         /// The important keyword.
         /// </summary>
         public static readonly String Important = "important";
+
+        /// <summary>
+        /// The !important keyword.
+        /// </summary>
+        public static readonly String BangImportant = "!important";
 
         /// <summary>
         /// The inherit keyword.

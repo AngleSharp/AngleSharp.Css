@@ -8,16 +8,18 @@ namespace AngleSharp.Css.Dom
     {
         private readonly String _name;
         private readonly String _value;
+        private readonly IBrowsingContext _context;
 
-        public DeclarationCondition(String name, String value)
+        public DeclarationCondition(IBrowsingContext context, String name, String value)
         {
+            _context = context;
             _name = name;
             _value = value;
         }
 
         public Boolean Check(IRenderDevice device)
         {
-            var factory = device?.Context?.GetService<IDeclarationFactory>() ?? Factory.Declaration;
+            var factory = _context?.GetService<IDeclarationFactory>() ?? Factory.Declaration;
             var info = factory?.Create(_name);
 
             if (info != null && !Object.Equals(info.Converter, ValueConverters.Any))
@@ -30,18 +32,16 @@ namespace AngleSharp.Css.Dom
             return false;
         }
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
-        {
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) =>
             writer.Write(formatter.Declaration(_name, _value, false));
-        }
 
         private static String Normalize(String value)
         {
-            var important = "!important";
+            var keyword = CssKeywords.BangImportant;
 
-            if (value.EndsWith(important))
+            if (value.EndsWith(keyword))
             {
-                return value.Remove(value.Length - important.Length).Trim();
+                return value.Remove(value.Length - keyword.Length).Trim();
             }
 
             return value;

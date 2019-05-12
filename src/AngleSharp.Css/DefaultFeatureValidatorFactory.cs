@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.FeatureValidators;
     using System;
@@ -56,7 +56,7 @@
             { FeatureNames.UpdateFrequency, () => new UpdateFrequencyFeatureValidator() },
             { FeatureNames.Scripting, () => new ScanFeatureValidator() },
             { FeatureNames.Pointer, () => new PointerFeatureValidator() },
-            { FeatureNames.Hover, () => new HoverFeatureValidator() }
+            { FeatureNames.Hover, () => new HoverFeatureValidator() },
         };
 
         /// <summary>

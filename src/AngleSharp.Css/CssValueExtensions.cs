@@ -32,23 +32,14 @@ namespace AngleSharp.Css
 
         public static Int32 AsInteger(this ICssValue value)
         {
-            return (Int32)value.AsNumber();
+            return (int)value.AsNumber();
         }
 
-        public static Boolean AsBoolean(this ICssValue value)
-        {
-            return false;
-        }
+        public static Boolean AsBoolean(this ICssValue value) => false;
 
         public static T AsEnum<T>(this ICssValue value)
-            where T : struct, IComparable
-        {
-            return default(T);
-        }
+            where T : struct, IComparable => default(T);
 
-        public static Boolean Is(this ICssValue value, String keyword)
-        {
-            return false;
-        }
+        public static Boolean Is(this ICssValue value, String keyword) => false;
     }
 }

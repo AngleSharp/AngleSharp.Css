@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -21,7 +21,7 @@
             { FunctionNames.Url, str => new UrlFunction(str) },
             { FunctionNames.Domain, str => new DomainFunction(str) },
             { FunctionNames.UrlPrefix, str => new UrlPrefixFunction(str) },
-            { FunctionNames.Regexp, str => new RegexpFunction(str) }
+            { FunctionNames.Regexp, str => new RegexpFunction(str) },
         };
 
         /// <summary>

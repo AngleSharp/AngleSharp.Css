@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Rules
+namespace AngleSharp.Css.Tests.Rules
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Tests.Mocks;
@@ -13,7 +13,7 @@
         {
             var source = @"@supports () { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -26,7 +26,7 @@
         {
             var source = @"@supports (background-color: red) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -39,7 +39,7 @@
         {
             var source = @"@supports ((background-color: red) and (color: blue)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -52,7 +52,7 @@
         {
             var source = @"@supports (not (background-transparency: half)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -65,7 +65,7 @@
         {
             var source = @"@supports ((background-transparency: zero)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -78,7 +78,7 @@
         {
             var source = @"@supports (background: red !important) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -91,7 +91,7 @@
         {
             var source = @"@supports ((padding-TOP :  0) or (padding-left : 0)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -104,7 +104,7 @@
         {
             var source = @"@supports (((padding-top: 0)  or  (padding-left: 0))  and  ((padding-bottom:  0)  or  (padding-right: 0))) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -117,7 +117,7 @@
         {
             var source = @"@supports (display: flex !important) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -138,7 +138,7 @@
         {
             var source = @"@supports ((display: flex)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -153,7 +153,7 @@
            (animation-name: foo)) and
           (transform: rotate(10deg)) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -168,7 +168,7 @@
            ((animation-name: foo) and
           (transform: rotate(10deg))) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -184,7 +184,7 @@
           ( -webkit-box-shadow: 0 0 2px black ) or
           ( -o-box-shadow: 0 0 2px black ) { }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
@@ -201,7 +201,7 @@
   #article { width: 75%; }
 }";
             var sheet = ParseStyleSheet(source);
-            var device = new MockRenderDevice { Context = sheet.Context };
+            var device = new DefaultRenderDevice();
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;

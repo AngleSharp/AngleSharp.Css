@@ -636,7 +636,7 @@ namespace AngleSharp.Css.Parser
 
         private String CreateValue(ref CssToken token, out Boolean important)
         {
-            const String keyword = "!important";
+            var keyword = CssKeywords.BangImportant;
             var value = _tokenizer.ContentFrom(token.Position.Position);
             important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
             token = NextToken();
