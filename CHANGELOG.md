@@ -1,6 +1,6 @@
 # 0.12.0
 
-Released on Thursday, May 5 2019.
+Released on Sunday, May 12 2019.
 
 - Reference latest AngleSharp
 - Fixed empty value when removing properties (#14)
@@ -10,6 +10,7 @@ Released on Thursday, May 5 2019.
 - Fixed exception when not providing an `IRenderDevice` (#20)
 - Fixed missing `CssStylingService.Default` in cascade (#21)
 - Added extension helper `SetStyle` to modify all styles of many elements (#22)
+- Fixed expansion of shorthand properties to longhand (#23)
 - Opened CSSOM, e.g., declared `ICssFunctionValue` `public` (#24)
 - Introduced special converter for the `src` declaration (#25)
 - Fixed bug regarding CSS grid serialization (#27)

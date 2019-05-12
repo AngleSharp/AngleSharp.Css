@@ -4,12 +4,12 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
 
-    sealed class OptionValueConverter<T> : IValueConverter
+    sealed class OptionValueConverter : IValueConverter
     {
         private readonly IValueConverter _converter;
-        private readonly T _defaultValue;
+        private readonly ICssValue _defaultValue;
 
-        public OptionValueConverter(IValueConverter converter, T defaultValue)
+        public OptionValueConverter(IValueConverter converter, ICssValue defaultValue)
         {
             _converter = converter;
             _defaultValue = defaultValue;
@@ -19,7 +19,7 @@ namespace AngleSharp.Css.Converters
         {
             if (source.IsDone || source.Current == Symbols.Comma)
             {
-                return new CssDefaultValue<T>(_defaultValue);
+                return new CssDefaultValue(_defaultValue);
             }
 
             return _converter.Convert(source);

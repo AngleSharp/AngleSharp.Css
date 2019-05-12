@@ -26,20 +26,13 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TransitionDelay,
         };
 
-        sealed class TransitionValueConverter : IValueConverter
-        {
-            private static readonly IValueConverter converter = WithAny(
-                AnimatableConverter.Option(),
-                TimeConverter.Option(),
-                TransitionConverter.Option(),
-                TimeConverter.Option()).FromList();
-
-            public ICssValue Convert(StringSource source) => converter.Convert(source);
-        }
-
         sealed class TransitionAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = new TransitionValueConverter();
+            private static readonly IValueConverter converter = WithAny(
+                AnimatableConverter.Option(InitialValues.TransitionPropertyDecl),
+                TimeConverter.Option(InitialValues.TransitionDurationDecl),
+                TransitionConverter.Option(InitialValues.TransitionTimingFunctionDecl),
+                TimeConverter.Option(InitialValues.TransitionDelayDecl)).FromList();
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

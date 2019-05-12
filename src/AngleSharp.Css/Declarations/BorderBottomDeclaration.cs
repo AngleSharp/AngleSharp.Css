@@ -8,16 +8,19 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderBottom;
 
-        public static IValueConverter Converter = AggregateTuple(BorderSideConverter);
-
-        public static ICssValue InitialValue = null;
-
-        public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
-
         public static String[] Shorthands = new[]
         {
             PropertyNames.Border,
         };
+
+        public static IValueConverter Converter = WithBorderSide(
+            InitialValues.BorderBottomWidthDecl,
+            InitialValues.BorderBottomStyleDecl,
+            InitialValues.BorderBottomColorDecl);
+
+        public static ICssValue InitialValue = null;
+
+        public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
         {

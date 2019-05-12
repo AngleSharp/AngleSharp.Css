@@ -29,6 +29,9 @@ namespace AngleSharp.Css
         public static readonly ICssValue FontStretchDecl = new Constant<FontStretch>(CssKeywords.Normal, FontStretch.Normal);
         public static readonly ICssValue FontSizeDecl = new Constant<Length>(CssKeywords.Medium, Length.Medium);
         public static readonly ICssValue FontFamilyDecl = new Label("Times New Roman");
+        public static readonly ICssValue BorderWidthDecl = new Constant<Length>(CssKeywords.Medium, Length.Medium);
+        public static readonly ICssValue BorderStyleDecl = new Constant<LineStyle>(CssKeywords.None, LineStyle.None);
+        public static readonly ICssValue BorderColorDecl = new Constant<Color>(CssKeywords.CurrentColor, Color.CurrentColor);
         public static readonly ICssValue LineHeightDecl = new Constant<Length>(CssKeywords.Normal, Length.Normal);
         public static readonly ICssValue BorderTopWidthDecl = new Constant<Length>(CssKeywords.Medium, Length.Medium);
         public static readonly ICssValue BorderRightWidthDecl = new Constant<Length>(CssKeywords.Medium, Length.Medium);

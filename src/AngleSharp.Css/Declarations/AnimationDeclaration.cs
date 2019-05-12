@@ -33,14 +33,14 @@ namespace AngleSharp.Css.Declarations
         sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter ListConverter = WithAny(
-                TimeConverter.Option(),
-                TransitionConverter.Option(),
-                TimeConverter.Option(),
-                PositiveOrInfiniteNumberConverter.Option(),
-                AnimationDirectionConverter.Option(),
-                AnimationFillStyleConverter.Option(),
-                PlayStateConverter.Option(),
-                IdentifierConverter.Option()).FromList();
+                TimeConverter.Option(InitialValues.AnimationDurationDecl),
+                TransitionConverter.Option(InitialValues.AnimationTimingFunctionDecl),
+                TimeConverter.Option(InitialValues.AnimationDelayDecl),
+                PositiveOrInfiniteNumberConverter.Option(InitialValues.AnimationIterationCountDecl),
+                AnimationDirectionConverter.Option(InitialValues.AnimationDirectionDecl),
+                AnimationFillStyleConverter.Option(InitialValues.AnimationFillModeDecl),
+                PlayStateConverter.Option(InitialValues.AnimationPlayStateDecl),
+                IdentifierConverter.Option(InitialValues.AnimationNameDecl)).FromList();
 
             public ICssValue Convert(StringSource source) => ListConverter.Convert(source);
 

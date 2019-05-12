@@ -25,19 +25,12 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderColor,
         };
 
-        sealed class BorderValueConverter : IValueConverter
-        {
-            private static readonly IValueConverter converter = WithAny(
-                LineWidthConverter.Option(),
-                LineStyleConverter.Option(),
-                CurrentColorConverter.Option());
-
-            public ICssValue Convert(StringSource source) => converter.Convert(source);
-        }
-
         sealed class BorderAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = new BorderValueConverter();
+            private static readonly IValueConverter converter = WithAny(
+                LineWidthConverter.Option(InitialValues.BorderWidthDecl),
+                LineStyleConverter.Option(InitialValues.BorderStyleDecl),
+                CurrentColorConverter.Option(InitialValues.BorderColorDecl));
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

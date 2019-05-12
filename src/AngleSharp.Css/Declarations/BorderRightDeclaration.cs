@@ -13,7 +13,10 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Border,
         };
 
-        public static IValueConverter Converter = AggregateTuple(BorderSideConverter);
+        public static IValueConverter Converter = WithBorderSide(
+            InitialValues.BorderRightWidthDecl,
+            InitialValues.BorderRightStyleDecl,
+            InitialValues.BorderRightColorDecl);
 
         public static ICssValue InitialValue = null;
 

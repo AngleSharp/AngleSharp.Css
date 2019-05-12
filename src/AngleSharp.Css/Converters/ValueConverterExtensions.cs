@@ -39,6 +39,9 @@ namespace AngleSharp.Css.Converters
         public static IValueConverter Periodic(this IValueConverter converter) =>
             new PeriodicValueConverter(converter);
 
+        public static IValueConverter Radius(this IValueConverter converter) =>
+            new RadiusValueConverter(converter);
+
         public static IValueConverter Exclusive(this IValueConverter converter)
         {
             return new ClassValueConverter<ICssValue>(source =>
@@ -57,11 +60,8 @@ namespace AngleSharp.Css.Converters
             });
         }
 
-        public static IValueConverter Option(this IValueConverter converter) =>
-            new OptionValueConverter<Object>(converter, null);
-
-        public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue) =>
-            new OptionValueConverter<T>(converter, defaultValue);
+        public static IValueConverter Option(this IValueConverter converter, ICssValue defaultValue) =>
+            new OptionValueConverter(converter, defaultValue);
 
         public static String Join<T>(this T[] values, String separator)
             where T : ICssValue

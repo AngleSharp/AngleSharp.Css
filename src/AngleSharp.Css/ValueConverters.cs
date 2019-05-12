@@ -699,9 +699,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents the border-radius (horizontal / vertical; radius) converter.
         /// </summary>
-        public static readonly IValueConverter BorderRadiusLonghandConverter = WithOrder(
-            LengthOrPercentConverter,
-            LengthOrPercentConverter.Option());
+        public static readonly IValueConverter BorderRadiusLonghandConverter = LengthOrPercentConverter.Radius();
 
         /// <summary>
         /// Represents a converter for font families.
@@ -840,7 +838,11 @@ namespace AngleSharp.Css
 
         #region Premade
 
-        public static readonly IValueConverter BorderSideConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
+        public static IValueConverter WithBorderSide(ICssValue lineWidth, ICssValue lineStyle, ICssValue lineColor) => AggregateTuple(
+            WithAny(
+                LineWidthConverter.Option(lineWidth),
+                LineStyleConverter.Option(lineStyle),
+                CurrentColorConverter.Option(lineColor)));
 
         public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 

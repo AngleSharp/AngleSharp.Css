@@ -6,11 +6,11 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a default value.
     /// </summary>
-    sealed class CssDefaultValue<T> : ICssValue
+    sealed class CssDefaultValue : ICssValue
     {
         #region Fields
 
-        private readonly T _value;
+        private readonly ICssValue _value;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new default value.
         /// </summary>
         /// <param name="value">The used value.</param>
-        public CssDefaultValue(T value)
+        public CssDefaultValue(ICssValue value)
         {
             _value = value;
         }
@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the default value.
         /// </summary>
-        public T Value => _value;
+        public ICssValue Value => _value;
 
         #endregion
     }

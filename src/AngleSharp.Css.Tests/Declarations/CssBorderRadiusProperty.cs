@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("40px 40px", property.Value);
+            Assert.AreEqual("40px", property.Value);
         }
 
         [Test]
