@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Performance.Css
+namespace AngleSharp.Performance.Css
 {
     using AngleSharp;
     using AngleSharp.Css.Parser;
@@ -10,7 +10,7 @@
         {
             IsIncludingUnknownDeclarations = true,
             IsIncludingUnknownRules = true,
-            IsToleratingInvalidSelectors = true
+            IsToleratingInvalidSelectors = true,
         };
         private static readonly CssParser parser = new CssParser(options);
 

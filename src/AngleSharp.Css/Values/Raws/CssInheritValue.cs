@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS inherit value.
     /// </summary>
-    sealed class CssInheritValue : ICssValue
+    sealed class CssInheritValue : ICssSpecialValue
     {
         private CssInheritValue()
         {
@@ -16,6 +16,11 @@ namespace AngleSharp.Css.Values
         /// Gets the only instance.
         /// </summary>
         public static readonly CssInheritValue Instance = new CssInheritValue();
+
+        /// <summary>
+        /// Gets the referring value.
+        /// </summary>
+        public ICssValue Value => null;
 
         /// <summary>
         /// Gets the CSS text representation.

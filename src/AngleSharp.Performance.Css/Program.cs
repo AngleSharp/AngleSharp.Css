@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Performance.Css
+namespace AngleSharp.Performance.Css
 {
     using System;
     using System.Collections.Generic;
@@ -30,13 +30,13 @@
             {
                 new AngleSharpParser(),
                 new ExCssParser(),
-                new CsCssParser()
+                new CsCssParser(),
             };
 
             var testsuite = new TestSuite(parsers, stylesheets.Tests, new Output(), new Warmup())
             {
                 NumberOfRepeats = 5,
-                NumberOfReRuns = 1
+                NumberOfReRuns = 1,
             };
 
             testsuite.Run();
