@@ -142,12 +142,11 @@ h1 {
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual(2, p.Style.Length);
+            Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("font-family", p.Style[1]);
             Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
-            Assert.AreEqual("initial", p.Style.GetFontFamily());
+            Assert.AreEqual("", p.Style.GetFontFamily());
         }
 
         [Test]
@@ -304,8 +303,8 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(1, img.Style.Length);
-            Assert.AreEqual("initial", img.Style.GetFloat());
+            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual("", img.Style.GetFloat());
         }
 
         [Test]

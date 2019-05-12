@@ -100,34 +100,40 @@ namespace AngleSharp.Css.Dom
 
         private ICssProperty TryCreateShorthand(String shorthandName, IEnumerable<String> serialized, List<String> usedProperties, Boolean force)
         {
-            var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
             var factory = _context.GetFactory<IDeclarationFactory>();
             var shorthand = factory.Create(shorthandName);
             var requiredProperties = shorthand.Longhands;
-            var values = new ICssValue[requiredProperties.Length];
-            var important = 0;
-            var count = 0;
 
-            for (var i = 0; i < values.Length; i++)
+            if (requiredProperties.Length > 0)
             {
-                var name = requiredProperties[i];
-                var propInfo = factory.Create(name);
-                var property = propInfo.Longhands.Any() ?
-                    TryCreateShorthand(name, serialized, usedProperties, force) :
-                    longhands.Where(m => m.Name == name).FirstOrDefault();
+                var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                var values = new ICssValue[requiredProperties.Length];
+                var important = 0;
+                var count = 0;
 
-                if (property != null)
+                for (var i = 0; i < values.Length; i++)
                 {
-                    usedProperties.Add(name);
-                    count = count + 1;
-                    important = important + (property.IsImportant ? 1 : 0);
-                    values[i] = property.RawValue;
+                    var name = requiredProperties[i];
+                    var propInfo = factory.Create(name);
+                    var property = propInfo.Longhands.Any() ?
+                        TryCreateShorthand(name, serialized, usedProperties, force) :
+                        longhands.Where(m => m.Name == name).FirstOrDefault();
+
+                    if (property != null)
+                    {
+                        usedProperties.Add(name);
+                        count = count + 1;
+                        important = important + (property.IsImportant ? 1 : 0);
+                        values[i] = property.RawValue;
+                    }
                 }
+
+                var valid = count == values.Length && (important == 0 || important == count);
+                var result = force || valid ? _context.CreateShorthand(shorthandName, values, important != 0) : null;
+                return force || result?.RawValue != null ? result : null;
             }
 
-            var valid = count == values.Length && (important == 0 || important == count);
-            var result = force || valid ? _context.CreateShorthand(shorthandName, values, important != 0) : null;
-            return force || result?.RawValue != null ? result : null;
+            return _context.CreateProperty(shorthandName);
         }
 
         public String ToCssBlock(IStyleFormatter formatter)
@@ -264,9 +270,13 @@ namespace AngleSharp.Css.Dom
                     if (property != null)
                     {
                         property.Value = propertyValue;
-                        property.IsImportant = priority != null;
-                        SetProperty(property);
-                        RaiseChanged();
+
+                        if (property.RawValue != null)
+                        {
+                            property.IsImportant = priority != null;
+                            SetProperty(property);
+                            RaiseChanged();
+                        }
                     }
                 }
             }

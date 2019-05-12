@@ -61,8 +61,8 @@ namespace AngleSharp.Css.Tests.Styling
                 IsIncludingUnknownRules = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual("initial", div.GetStyle()["background-color"]);
-            Assert.AreEqual("background-color: initial", div.GetStyle().CssText);
+            Assert.AreEqual("", div.GetStyle()["background-color"]);
+            Assert.AreEqual("", div.GetStyle().CssText);
         }
 
         [Test]
@@ -326,7 +326,7 @@ namespace AngleSharp.Css.Tests.Styling
             // hang occurs only if this line is executed prior to setting the attribute
             // hang occurs when executing next line
             div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual("initial", div.GetStyle().GetBackgroundColor());
+            Assert.AreEqual("", div.GetStyle().GetBackgroundColor());
         }
 
         [Test]

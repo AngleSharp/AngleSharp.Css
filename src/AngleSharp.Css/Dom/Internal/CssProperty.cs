@@ -46,7 +46,7 @@ namespace AngleSharp.Css.Dom
 
         public String Value
         {
-            get => _value?.CssText ?? CssKeywords.Initial;
+            get => _value?.CssText ?? String.Empty;
             set => _value = _converter.Convert(value);
         }
 
