@@ -5,7 +5,6 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
@@ -598,10 +597,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private CssToken NextToken()
-        {
-            return _tokenizer.Get();
-        }
+        private CssToken NextToken() => _tokenizer.Get();
 
         private void CollectTrivia(ref CssToken token)
         {
@@ -625,10 +621,8 @@ namespace AngleSharp.Css.Parser
             JumpToRuleEnd(ref token);
         }
 
-        private void RaiseErrorOccurred(CssParseError code, TextPosition position)
-        {
+        private void RaiseErrorOccurred(CssParseError code, TextPosition position) =>
             _tokenizer.RaiseErrorOccurred(code, position);
-        }
 
         #endregion
 

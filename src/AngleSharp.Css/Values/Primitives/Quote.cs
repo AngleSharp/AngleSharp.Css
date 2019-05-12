@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS quote.
     /// </summary>
-    struct Quote : ICssPrimitiveValue
+    struct Quote : ICssPrimitiveValue, IEquatable<Quote>
     {
         #region Fields
 
@@ -46,6 +46,33 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => String.Concat(_open.CssString(), " ", _close.CssString());
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks the two quotes for equality.
+        /// </summary>
+        /// <param name="other">The other quote to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(Quote other) => Open.Is(other.Open) && Close.Is(other.Close);
+
+        /// <summary>
+        /// Checks for equality against the given object,
+        /// if the provided object is no quote the result
+        /// is false.
+        /// </summary>
+        /// <param name="obj">The object to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public override Boolean Equals(Object obj) =>
+            obj is Quote quote ? Equals(quote) : false;
+
+        /// <summary>
+        /// Gets the hash code of the object.
+        /// </summary>
+        /// <returns>The computed hash code.</returns>
+        public override Int32 GetHashCode() => CssText.GetHashCode();
 
         #endregion
     }

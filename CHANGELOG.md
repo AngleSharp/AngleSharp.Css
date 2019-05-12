@@ -14,6 +14,7 @@ Released on Sunday, May 12 2019.
 - Opened CSSOM, e.g., declared `ICssFunctionValue` `public` (#24)
 - Introduced special converter for the `src` declaration (#25)
 - Fixed bug regarding CSS grid serialization (#27)
+- Added `DefaultRenderDevice` implementation
 
 # 0.10.1
 

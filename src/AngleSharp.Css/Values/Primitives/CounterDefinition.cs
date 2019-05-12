@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    struct CounterDefinition : ICssPrimitiveValue
+    struct CounterDefinition : ICssPrimitiveValue, IEquatable<CounterDefinition>
     {
         #region Fields
 
@@ -53,6 +54,36 @@ namespace AngleSharp.Css.Values
         /// Gets the defined separator of the counter.
         /// </summary>
         public String DefinedSeparator => _separator;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks the two counter definitions for equality.
+        /// </summary>
+        /// <param name="other">The other counter to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CounterDefinition other) =>
+            CounterIdentifier.Is(other.CounterIdentifier) &&
+            ListStyle.Is(other.ListStyle) &&
+            DefinedSeparator.Is(other.DefinedSeparator);
+
+        /// <summary>
+        /// Checks for equality against the given object, if
+        /// the provided object is no coutner definition the
+        /// result is false.
+        /// </summary>
+        /// <param name="obj">The object to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public override Boolean Equals(Object obj) =>
+            obj is CounterDefinition cd ? Equals(cd) : false;
+
+        /// <summary>
+        /// Gets the hash code of the object.
+        /// </summary>
+        /// <returns>The computed hash code.</returns>
+        public override Int32 GetHashCode() => CssText.GetHashCode();
 
         #endregion
     }
