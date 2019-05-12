@@ -13,7 +13,7 @@ namespace AngleSharp.Css.FeatureValidators
 
             if (ratio != null)
             {
-                var desired = ratio.AsNumber();
+                var desired = ratio.AsDouble();
                 var available = device.ViewPortWidth / (Double)device.ViewPortHeight;
 
                 if (feature.IsMaximum)

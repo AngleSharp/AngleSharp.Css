@@ -19,9 +19,7 @@ namespace AngleSharp.Dom
         public static IEnumerable<TRule> RulesOf<TRule>(this IEnumerable<IStyleSheet> sheets)
             where TRule : ICssRule
         {
-            if (sheets == null)
-                throw new ArgumentNullException(nameof(sheets));
-
+            sheets = sheets ?? throw new ArgumentNullException(nameof(sheets));
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
         }
 
@@ -33,9 +31,7 @@ namespace AngleSharp.Dom
         /// <returns>The list of style rules.</returns>
         public static IEnumerable<ICssStyleRule> StylesWith(this IEnumerable<IStyleSheet> sheets, ISelector selector)
         {
-            if (selector == null)
-                throw new ArgumentNullException(nameof(selector));
-
+            selector = selector ?? throw new ArgumentNullException(nameof(selector));
             var selectorText = selector.Text;
             return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
         }
@@ -45,9 +41,6 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="sheet">The sheet.</param>
         /// <returns>The associated document, if any.</returns>
-        public static IDocument GetDocument(this IStyleSheet sheet)
-        {
-            return sheet?.OwnerNode?.Owner;
-        }
+        public static IDocument GetDocument(this IStyleSheet sheet) => sheet?.OwnerNode?.Owner;
     }
 }

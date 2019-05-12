@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -32,6 +32,13 @@
         /// <returns>A string or null if nothing has been set.</returns>
         [DomName("getPropertyValue")]
         String GetPropertyValue(String propertyName);
+
+        /// <summary>
+        /// Gets the full property model for the given property name.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to get.</param>
+        /// <returns>The computed or stored property model.</returns>
+        ICssProperty GetProperty(String propertyName);
 
         /// <summary>
         /// Returns the optional priority, "important" or null, if no priority

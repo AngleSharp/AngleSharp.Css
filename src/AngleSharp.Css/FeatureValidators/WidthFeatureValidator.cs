@@ -13,7 +13,7 @@ namespace AngleSharp.Css.FeatureValidators
 
             if (length != null)
             {
-                var desired = length.AsPixel();
+                var desired = length.AsPx();
                 var available = (Double)device.ViewPortWidth;
 
                 if (feature.IsMaximum)

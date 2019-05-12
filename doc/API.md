@@ -28,3 +28,17 @@ The `ICssValue` interface is split in various interfaces with respect to their u
 ![The CSSOM Value Tree](cssom-value-tree.png)
 
 A converter may also implement the `IValueAggregator` interface, which indicates that the declaration behind it is actually a shorthand that can additionally merge values into a shorthand representation or split the shorthand representation into the atoms described by the shorthand.
+
+For convenience some (extension) methods have been introduced to make working with the CSSOM (specifically values) simpler. The shown extension methods are placed in the `AngleSharp.Css.Dom` namespace.
+
+```cs
+// sheet is a stylesheet, e.g., obtained from a document, with content:
+//   p > a { border: 1px solid red }
+var rule = sheet.GetStyleRuleWith("p>a");
+var color = rule.GetValueOf("border-right-color").AsRgba();
+// the color is an Int32, e.g., 0xFF_FF - same as rgba(255, 0, 0, 1)
+```
+
+The idea behind `GetStyleRuleWith` is to get the first top-level style rule that matches the given selector exactly. The text of the selector does not have to be equal to the text of the selector in the stylesheet, but it needs to be equal *semantically*, i.e., in the provided example the spaces do not matter as the semantics are not influenced by them.
+
+The `GetValueOf` obtains the `ICssValue` instance behind the property with the given name. The `AsRgba` works (like all the other `As*` extension methods) against the `ICssValue` to get an elementary value out of it. This works in simple cases, but will fail, e.g., when there are multiple values available or when the primitive value is hidden in a composite one.

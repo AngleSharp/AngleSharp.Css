@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.FeatureValidators
+namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -13,7 +13,7 @@
 
             if (value != null)
             {
-                var desired = value.AsNumber();
+                var desired = value.AsDouble();
                 var available = device.Resolution / 96f;
 
                 if (feature.IsMaximum)

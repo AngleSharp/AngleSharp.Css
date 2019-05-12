@@ -42,20 +42,15 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public String GetPropertyValue(String propertyName)
-        {
-            return GetValue(propertyName);
-        }
+        public ICssProperty GetProperty(String propertyName) =>
+            _declarations.Find(m => m.Name.Is(propertyName));
 
-        public String GetPropertyPriority(String propertyName)
-        {
-            return null;
-        }
+        public String GetPropertyValue(String propertyName) => GetValue(propertyName);
 
-        public void SetProperty(String propertyName, String propertyValue, String priority = null)
-        {
+        public String GetPropertyPriority(String propertyName) => null;
+
+        public void SetProperty(String propertyName, String propertyValue, String priority = null) =>
             SetValue(propertyName, propertyValue);
-        }
 
         public String RemoveProperty(String propertyName)
         {
@@ -73,15 +68,9 @@ namespace AngleSharp.Css.Dom
             return null;
         }
 
-        public IEnumerator<ICssProperty> GetEnumerator()
-        {
-            return _declarations.GetEnumerator();
-        }
+        public IEnumerator<ICssProperty> GetEnumerator() => _declarations.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {

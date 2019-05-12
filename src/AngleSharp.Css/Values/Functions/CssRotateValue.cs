@@ -72,12 +72,12 @@ namespace AngleSharp.Css.Values
         /// Gets the arguments.
         /// </summary>
         public ICssValue[] Arguments => new ICssValue[]
-                {
-                    new Length(_x, Length.Unit.None),
-                    new Length(_y, Length.Unit.None),
-                    new Length(_z, Length.Unit.None),
-                    _angle,
-                };
+        {
+            new Length(_x, Length.Unit.None),
+            new Length(_y, Length.Unit.None),
+            new Length(_z, Length.Unit.None),
+            _angle,
+        };
 
         /// <summary>
         /// Gets the CSS text representation.

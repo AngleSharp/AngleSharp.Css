@@ -16,7 +16,7 @@ namespace AngleSharp.Css.FeatureValidators
 
             if (index != null)
             {
-                var desired = index.AsInteger();
+                var desired = index.AsInt32();
                 var available = device.ColorBits;
 
                 if (feature.IsMaximum)

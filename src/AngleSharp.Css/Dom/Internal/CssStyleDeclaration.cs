@@ -74,6 +74,21 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
+        public ICssProperty GetProperty(String name)
+        {
+            for (var i = 0; i < _declarations.Count; i++)
+            {
+                var declaration = _declarations[i];
+
+                if (declaration.Name.Isi(name))
+                {
+                    return declaration;
+                }
+            }
+
+            return GetPropertyShorthand(name);
+        }
+
         public void SetParent(ICssRule parent) => _parent = parent;
 
         public void Update(String value)
@@ -290,24 +305,6 @@ namespace AngleSharp.Css.Dom
 
         #region Internal Methods
 
-        internal ICssProperty GetProperty(String name)
-        {
-            for (var i = 0; i < _declarations.Count; i++)
-            {
-                var declaration = _declarations[i];
-
-                if (declaration.Name.Isi(name))
-                {
-                    return declaration;
-                }
-            }
-
-            return GetPropertyShorthand(name);
-        }
-
-        private ICssProperty GetPropertyShorthand(String name) =>
-            TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
-
         internal void SetDeclarations(IEnumerable<ICssProperty> decls) =>
             ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
 
@@ -317,6 +314,9 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Helpers
+
+        private ICssProperty GetPropertyShorthand(String name) =>
+            TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
 
         private ICssProperty CreateProperty(String propertyName) =>
             GetProperty(propertyName) ?? _context.CreateProperty(propertyName);

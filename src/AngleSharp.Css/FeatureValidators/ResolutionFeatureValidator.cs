@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.FeatureValidators
+namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
@@ -13,7 +13,7 @@
 
             if (res != null)
             {
-                var desired = res.AsInteger();
+                var desired = res.AsInt32();
                 var available = device.Resolution;
 
                 if (feature.IsMaximum)

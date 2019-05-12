@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Tests.Styling
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -985,6 +986,24 @@ font-weight:bold;}";
             var s = ParseStyleSheet(String.Empty);
             s.Insert("a {color: blue}", 0);
             Assert.AreEqual(s, s.Rules[0].Owner);
+        }
+
+        [Test]
+        public void GetImageRefOfACertainDeclarationFromSheet()
+        {
+            var s = ParseStyleSheet("body { background: url(http://example.com/foo.png) no-repeat }");
+            var rule = s.GetStyleRuleWith("body");
+            var url = rule.GetValueOf("background-image").AsUrl();
+            Assert.AreEqual("http://example.com/foo.png", url);
+        }
+
+        [Test]
+        public void GetBorderRightColorOfACertainDeclarationFromSheet()
+        {
+            var s = ParseStyleSheet("p > a { border: 1px solid red }");
+            var rule = s.GetStyleRuleWith("p > a");
+            var color = rule.GetValueOf("border-right-color").AsRgba();
+            Assert.AreEqual(0x00_00_ff_ff, color);
         }
 
         [Test]
