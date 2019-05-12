@@ -82,7 +82,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1); border-top: none }";
+            var expected = "#rule1 { border-top: none; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1) }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);

@@ -11,8 +11,8 @@ namespace AngleSharp.Css.Declarations
         public static String[] Shorthands = new[]
         {
             PropertyNames.Border,
-            PropertyNames.BorderColor,
             PropertyNames.BorderBottom,
+            PropertyNames.BorderColor,
         };
 
         public static IValueConverter Converter = CurrentColorConverter;

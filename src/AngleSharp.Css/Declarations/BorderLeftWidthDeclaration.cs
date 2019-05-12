@@ -11,8 +11,8 @@ namespace AngleSharp.Css.Declarations
         public static String[] Shorthands = new[]
         {
             PropertyNames.Border,
-            PropertyNames.BorderWidth,
             PropertyNames.BorderLeft,
+            PropertyNames.BorderWidth,
         };
 
         public static IValueConverter Converter = LineWidthConverter;
