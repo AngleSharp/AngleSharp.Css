@@ -64,7 +64,13 @@ namespace AngleSharp.Css
             var factory = context.GetFactory<IDeclarationFactory>();
             var info = factory.Create(name);
             var value = info.Combine(factory, longhands);
-            return new CssProperty(name, info.Converter, info.Flags, value, important);
+
+            if (context.AllowsDeclaration(info))
+            {
+                return new CssProperty(name, info.Converter, info.Flags, value, important);
+            }
+
+            return null;
         }
 
         internal static ICssProperty[] CreateLonghands(this IBrowsingContext context, ICssProperty shorthand)
@@ -78,15 +84,17 @@ namespace AngleSharp.Css
         internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
         {
             var info = context.GetDeclarationInfo(propertyName);
-            var provider = context.GetProvider<CssParser>();
 
-            if (info.Flags != PropertyFlags.Unknown || context.IsAllowingUnknownDeclarations())
+            if (context.AllowsDeclaration(info))
             {
                 return new CssProperty(propertyName, info.Converter, info.Flags);
             }
 
             return null;
         }
+
+        private static Boolean AllowsDeclaration(this IBrowsingContext context, DeclarationInfo info) =>
+            info.Flags != PropertyFlags.Unknown || context.IsAllowingUnknownDeclarations();
 
         private static Boolean IsAllowingUnknownDeclarations(this IBrowsingContext context)
         {

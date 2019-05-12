@@ -1680,10 +1680,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="converter">The converter to use.</param>
-        public void Register(String propertyName, DeclarationInfo converter)
-        {
-            _declarations.Add(propertyName, converter);
-        }
+        public void Register(String propertyName, DeclarationInfo converter) => _declarations.Add(propertyName, converter);
 
         /// <summary>
         /// Unregisters an existing declaration.
@@ -1692,9 +1689,7 @@ namespace AngleSharp.Css
         /// <returns>The registered declaration, if any.</returns>
         public DeclarationInfo Unregister(String propertyName)
         {
-            var info = default(DeclarationInfo);
-
-            if (_declarations.TryGetValue(propertyName, out info))
+            if (_declarations.TryGetValue(propertyName, out DeclarationInfo info))
             {
                 _declarations.Remove(propertyName);
             }
