@@ -18,9 +18,7 @@ namespace AngleSharp
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default(CssParserOptions))
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-            
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));            
             var service = new CssStylingService();
 
             if (!configuration.Has<ICssDefaultStyleSheetProvider>())
@@ -57,5 +55,14 @@ namespace AngleSharp
                 .WithOnly(Factory.Observer)
                 .WithOnly<IStylingService>(service);
         }
+
+        /// <summary>
+        /// Registers the render device for the given configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="renderDevice">The custom device to register, if any.</param>
+        /// <returns>The new instance with the render device.</returns>
+        public static IConfiguration WithRenderDevice(this IConfiguration configuration, IRenderDevice renderDevice = null) =>
+            configuration.WithOnly<IRenderDevice>(renderDevice ?? new DefaultRenderDevice());
     }
 }

@@ -460,5 +460,37 @@ namespace AngleSharp.Css.Tests.Styling
             var style = document.Body.ComputeCurrentStyle();
             Assert.IsNotNull(style);
         }
+
+        [Test]
+        public void MediaRuleIsCalculatedIfScreenIsOkay()
+        {
+            var config = Configuration.Default
+                .WithCss()
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    ViewPortWidth = 1000,
+                });
+            var browsingContext = BrowsingContext.New(config);
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+        }
+
+        [Test]
+        public void MediaRuleIsNotCalculatedIfScreenIsNotWideEnough()
+        {
+            var config = Configuration.Default
+                .WithCss()
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    ViewPortWidth = 599,
+                });
+            var browsingContext = BrowsingContext.New(config);
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
+        }
     }
 }

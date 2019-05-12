@@ -27,8 +27,7 @@ namespace AngleSharp.Css.Dom
 
         public static Boolean Validate(this IMediaFeature feature, IRenderDevice device)
         {
-            var validator = default(IFeatureValidator);
-            AssociatedValidators.TryGetValue(feature, out validator);
+            AssociatedValidators.TryGetValue(feature, out var validator);
             return validator?.Validate(feature, device) ?? false;
         }
 

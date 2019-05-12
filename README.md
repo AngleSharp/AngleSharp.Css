@@ -29,6 +29,20 @@ This will register a parser for CSS related content. The CSS parsing options and
 
 For an interactive DOM (i.e., to handle `style` attribute changes in the HTML document) an observer needs to be registered as well.
 
+Furthermore, for some CSSOM features (e.g., media queries) a render device is required.
+
+```cs
+var config = Configuration.Default
+    .WithCss()
+    .WithRenderDevice(new DefaultRenderDevice
+    {
+        DeviceHeight = 768,
+        DeviceWidth = 1024,
+    });
+```
+
+If no specific `IRenderDevice` (e.g., via creating an `DefaultRenderDevice` object) instance is created a default implementation will be set.
+
 ## Advantages of AngleSharp.Css
 
 The core library already contains the CSS selector parser and the most basic classes and interfaces for dealing with the CSSOM. AngleSharp.Css brings the following advantages and use cases to life:

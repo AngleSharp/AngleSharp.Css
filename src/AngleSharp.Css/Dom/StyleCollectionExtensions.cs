@@ -96,10 +96,8 @@ namespace AngleSharp.Css.Extensions
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
-        {
-            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
-        }
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
+            rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
 
         #endregion
     }

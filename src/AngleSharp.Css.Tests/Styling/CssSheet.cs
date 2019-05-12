@@ -3,7 +3,6 @@ namespace AngleSharp.Css.Tests.Styling
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
-    using AngleSharp.Css.Values;
     using NUnit.Framework;
     using System;
     using System.IO;

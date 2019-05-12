@@ -41,6 +41,8 @@ namespace AngleSharp.Css.Dom
 
         public ICssParser Parser => _context.GetService<ICssParser>();
 
+        public IFeatureValidatorFactory ValidatorFactory => _context.GetService<IFeatureValidatorFactory>();
+
         public String MediaText
         {
             get => this.ToCss();
@@ -54,7 +56,7 @@ namespace AngleSharp.Css.Dom
         public void SetMediaText(String value, Boolean throwOnError)
         {
             _media.Clear();
-            var media = MediaParser.Parse(value);
+            var media = MediaParser.Parse(value, ValidatorFactory);
 
             if (media != null)
             {
@@ -73,13 +75,13 @@ namespace AngleSharp.Css.Dom
 
         public void Add(String newMedium)
         {
-            var medium = MediumParser.Parse(newMedium) ?? throw new DomException(DomError.Syntax);
+            var medium = MediumParser.Parse(newMedium, ValidatorFactory) ?? throw new DomException(DomError.Syntax);
             _media.Add(medium);
         }
 
         public void Remove(String oldMedium)
         {
-            var medium = MediumParser.Parse(oldMedium) ?? throw new DomException(DomError.Syntax);
+            var medium = MediumParser.Parse(oldMedium, ValidatorFactory) ?? throw new DomException(DomError.Syntax);
 
             for (var i = 0; i < _media.Count; i++)
             {
