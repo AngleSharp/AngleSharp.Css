@@ -926,6 +926,60 @@ font-weight:bold;}";
         }
 
         [Test]
+        public void CssStyleSheetShouldExpandBorderColorCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border-color: red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("border-color: rgba(255, 0, 0, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderLeftColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderRightColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+        }
+
+        [Test]
+        public void CssStyleSheetShouldCollapseBorderColorCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border-color: red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            body.Style.SetBorderLeftColor("blue");
+            body.Style.SetBorderRightColor("blue");
+            Assert.AreEqual("border-color: rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderLeftColor());
+            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderRightColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+        }
+
+        [Test]
+        public void CssStyleSheetShouldCollapseFullBorderCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border: 1px  solid  red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("border: 1px solid rgba(255, 0, 0, 1)", body.Style.CssText);
+            body.Style.SetBorderLeftColor("blue");
+            body.Style.SetBorderTopWidth("medium");
+            Assert.AreEqual("border-top: 3px solid rgba(255, 0, 0, 1); border-right: 1px solid rgba(255, 0, 0, 1); border-bottom: 1px solid rgba(255, 0, 0, 1); border-left: 1px solid rgba(0, 0, 255, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("3px 1px 1px", body.Style.GetBorderWidth());
+            Assert.AreEqual("solid", body.Style.GetBorderStyle());
+        }
+
+        [Test]
         public void CssStyleSheetInsertShouldSetParentStyleSheetCorrectly()
         {
             var s = ParseStyleSheet(String.Empty);

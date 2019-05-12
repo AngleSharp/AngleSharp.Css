@@ -63,7 +63,7 @@ namespace AngleSharp.Css
         {
             var factory = context.GetFactory<IDeclarationFactory>();
             var info = factory.Create(name);
-            var value = info.Combine(factory, longhands);
+            var value = info.Collapse(factory, longhands);
 
             if (context.AllowsDeclaration(info))
             {
@@ -77,7 +77,7 @@ namespace AngleSharp.Css
         {
             var factory = context.GetFactory<IDeclarationFactory>();
             var info = factory.Create(shorthand.Name);
-            var values = info.Seperate(factory, shorthand.RawValue);
+            var values = info.Expand(factory, shorthand.RawValue);
             return factory.CreateProperties(info.Longhands, values, shorthand.IsImportant);
         }
 
