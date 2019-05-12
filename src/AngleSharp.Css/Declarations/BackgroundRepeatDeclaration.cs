@@ -52,10 +52,6 @@ namespace AngleSharp.Css.Declarations
 
                     return new CssListValue(repeats);
                 }
-                else if (values[0] is CssInitialValue && values[1] is CssInitialValue)
-                {
-                    return new CssInitialValue(InitialValues.BackgroundRepeatDecl);
-                }
 
                 return null;
             }
@@ -71,14 +67,6 @@ namespace AngleSharp.Css.Declarations
                     {
                         new CssListValue(h),
                         new CssListValue(v),
-                    };
-                }
-                else if (value is CssInitialValue)
-                {
-                    return new ICssValue[]
-                    {
-                        new CssInitialValue(InitialValues.BackgroundRepeatHorizontalDecl),
-                        new CssInitialValue(InitialValues.BackgroundRepeatVerticalDecl),
                     };
                 }
 

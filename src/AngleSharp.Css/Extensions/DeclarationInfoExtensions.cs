@@ -47,11 +47,16 @@ namespace AngleSharp.Css
             if (value is ICssRawValue || value is CssChildValue)
             {
                 var child = new CssChildValue(value);
-                return Enumerable.Repeat(child, longhands.Length).ToArray();
+                return Enumerable
+                    .Repeat(child, longhands.Length)
+                    .ToArray();
             }
             else if (value is CssInitialValue)
             {
-                return longhands.Select(name => factory.Create(name)?.InitialValue).ToArray();
+                return longhands
+                    .Select(name => new CssInitialValue(factory.Create(name)?.InitialValue))
+                    .OfType<ICssValue>()
+                    .ToArray();
             }
 
             return info.Aggregator?.Split(value);

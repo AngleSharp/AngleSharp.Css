@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundColor,
         };
 
-        sealed class BackgroundValueConverter : IValueConverter
+        sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
             public ICssValue Convert(StringSource source)
             {
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Declarations
                         }
                     }
                     while (pos != source.Index);
-                    
+
                     layers.Add(new CssBackgroundLayerValue(
                         image,
                         position,
@@ -126,13 +126,6 @@ namespace AngleSharp.Css.Declarations
 
                 return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
             }
-        }
-
-        sealed class BackgroundAggregator : IValueAggregator, IValueConverter
-        {
-            private static readonly IValueConverter converter = new BackgroundValueConverter();
-
-            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -144,7 +137,6 @@ namespace AngleSharp.Css.Declarations
                 var origin = GetList(values[5]);
                 var clip = GetList(values[6]);
                 var color = values[7];
-
                 var layers = CreateLayers(image, attachment, clip, position, origin, repeat, size);
 
                 if (color != null || layers != null)
