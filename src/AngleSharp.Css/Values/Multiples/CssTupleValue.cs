@@ -47,7 +47,9 @@ namespace AngleSharp.Css.Values
         public String Separator => _separator;
 
         /// <inheritdoc />
-        public String CssText => _items.Join(_separator);
+        public String CssText => _items
+            .Where(m => m is CssInitialValue == false)
+            .Join(_separator);
 
         /// <inheritdoc />
         public Int32 Count => _items.Length;

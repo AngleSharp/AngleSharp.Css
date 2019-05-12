@@ -63,15 +63,15 @@ namespace AngleSharp.Css.Converters
         public static IValueConverter Option(this IValueConverter converter, ICssValue defaultValue) =>
             new OptionValueConverter(converter, defaultValue);
 
-        public static String Join<T>(this T[] values, String separator)
+        public static String Join<T>(this IEnumerable<T> values, String separator)
             where T : ICssValue
         {
             var buffer = StringBuilderPool.Obtain();
             var previous = false;
 
-            for (var i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                var str = values[i]?.CssText;
+                var str = value?.CssText;
 
                 if (!String.IsNullOrEmpty(str))
                 {
