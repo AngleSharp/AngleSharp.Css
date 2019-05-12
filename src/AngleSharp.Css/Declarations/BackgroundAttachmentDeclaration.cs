@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
-        public static IValueConverter Converter = Or(BackgroundAttachmentConverter.FromList(), AssignInitial(BackgroundAttachment.Scroll));
+        public static IValueConverter Converter = BackgroundAttachmentConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.BackgroundAttachmentDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

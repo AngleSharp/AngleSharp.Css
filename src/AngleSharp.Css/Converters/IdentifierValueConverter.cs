@@ -41,7 +41,12 @@ namespace AngleSharp.Css.Converters
 
         public ICssValue Convert(StringSource source)
         {
-            return source.IsIdentifier(_identifier) ? new Constant<T>(_identifier, _result) : null;
+            if (source.IsIdentifier(_identifier))
+            {
+                return new Constant<T>(_identifier, _result);
+            }
+
+            return null;
         }
     }
 }

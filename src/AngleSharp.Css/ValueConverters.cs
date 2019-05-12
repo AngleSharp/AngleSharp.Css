@@ -6,6 +6,7 @@ namespace AngleSharp.Css
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// A set of already constructed CSS value converters.
@@ -24,12 +25,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Creates a converter for the initial keyword with the given value.
         /// </summary>
-        public static IValueConverter AssignInitial<T>(T value) => new StandardValueConverter<T>(value);
-
-        /// <summary>
-        /// Creates a converter for the initial keyword with no value.
-        /// </summary>
-        public static IValueConverter AssignInitial() => AssignInitial<Object>(null);
+        public static IValueConverter AssignInitial(ICssValue value) => new StandardValueConverter(value);
 
         /// <summary>
         /// Creates a converter for values containing (potentially multiple, at least one) var references.
@@ -108,7 +104,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a string object.
         /// </summary>
-        public static readonly IValueConverter StringConverter = FromParser(FromString(StringParser.ParseString));
+        public static readonly IValueConverter StringConverter = new StructValueConverter<Label>(FromString(StringParser.ParseString));
 
         /// <summary>
         /// Represents an URL object.
@@ -213,9 +209,9 @@ namespace AngleSharp.Css
         public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
 
         /// <summary>
-        /// Represents a Point3 object.
+        /// Represents an origin (Point3D) object.
         /// </summary>
-        public static readonly IValueConverter Point3Converter = FromParser(PointParser.ParsePoint3);
+        public static readonly IValueConverter OriginConverter = FromParser(PointParser.ParseOrigin);
 
         /// <summary>
         /// Represents a position object.
@@ -445,6 +441,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter RubyPositionConverter = Map.RubyPositions.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the PointerEvent enumeration.
+        /// </summary>
+        public static readonly IValueConverter PointerEventConverter = Map.PointerEvents.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the SystemFont enumeration.
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
@@ -603,7 +604,7 @@ namespace AngleSharp.Css
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter BorderImageSliceConverter = new StructValueConverter<BorderImageSlice>(CompoundParser.ParseBorderImageSlice);
+        public static readonly IValueConverter BorderImageSliceConverter = FromParser(CompoundParser.ParseBorderImageSlice);
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
@@ -698,9 +699,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents the border-radius (horizontal / vertical; radius) converter.
         /// </summary>
-        public static readonly IValueConverter BorderRadiusLonghandConverter = WithOrder(
-            LengthOrPercentConverter,
-            LengthOrPercentConverter.Option());
+        public static readonly IValueConverter BorderRadiusLonghandConverter = LengthOrPercentConverter.Radius();
 
         /// <summary>
         /// Represents a converter for font families.
@@ -710,12 +709,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for background size.
         /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = new StructValueConverter<BackgroundSize>(PointParser.ParseSize);
+        public static readonly IValueConverter BackgroundSizeConverter = FromParser(PointParser.ParseSize);
 
         /// <summary>
         /// Represents a converter for background repeat.
         /// </summary>
-        public static readonly IValueConverter BackgroundRepeatsConverter = new StructValueConverter<ImageRepeats>(CompoundParser.ParseBackgroundRepeat);
+        public static readonly IValueConverter BackgroundRepeatsConverter = FromParser(CompoundParser.ParseBackgroundRepeat);
 
         #endregion
 
@@ -796,7 +795,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for LineName values.
         /// </summary>
-        public static readonly IValueConverter LineNamesConverter = FromParser(GridParser.ParseLineNames);
+        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<LineNames>(GridParser.ParseLineNames);
 
         /// <summary>
         /// Represents a converter for TrackSize values.
@@ -839,74 +838,180 @@ namespace AngleSharp.Css
 
         #region Premade
 
-        public static readonly IValueConverter MarginConverter = Or(AutoLengthOrPercentConverter, AssignInitial(Length.Zero));
+        public static IValueConverter WithBorderSide(ICssValue lineWidth, ICssValue lineStyle, ICssValue lineColor) => AggregateTuple(
+            WithAny(
+                LineWidthConverter.Option(lineWidth),
+                LineStyleConverter.Option(lineStyle),
+                CurrentColorConverter.Option(lineColor)));
 
-        public static readonly IValueConverter PaddingConverter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
+        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 
-        public static readonly IValueConverter BorderSideConverter = Or(WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option()), AssignInitial());
-
-        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive(), AssignInitial());
-
-        public static readonly IValueConverter GridAutoConverter = Or(TrackSizeConverter.Many(), AssignInitial());
+        public static readonly IValueConverter GridAutoConverter = TrackSizeConverter.Many();
 
         public static readonly IValueConverter GridLineConverter = Or(
-            Assign(CssKeywords.Auto, "auto"),
-            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter),
-            AssignInitial());
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter));
+
+        public static readonly IValueConverter SrcListConverter =
+            WithOrder(
+                Or(UrlConverter, FromParser(ParseLocal)),
+                Or(FromParser(ParseFormat), None))
+            .FromList();
 
         #endregion
 
         #region Helpers
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
-            where T : class, ICssValue
+            where T : class, ICssValue => new ClassValueConverter<T>(converter);
+
+        private static Func<StringSource, Label?> FromString(Func<StringSource, String> converter) => source =>
         {
-            return new ClassValueConverter<T>(converter);
+            var result = converter.Invoke(source);
+
+            if (result != null)
+            {
+                return new Label(result);
+            }
+
+            return null;
+        };
+
+        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter) => source =>
+        {
+            var result = converter.Invoke(source);
+
+            if (result.HasValue)
+            {
+                return new Length(result.Value, Length.Unit.None);
+            }
+
+            return null;
+        };
+
+        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter) => source =>
+        {
+            var result = converter.Invoke(source);
+
+            if (result.HasValue)
+            {
+                return new Length(result.Value, Length.Unit.None);
+            }
+
+            return null;
+        };
+
+        private static ICssFunctionValue ParseLocal(this StringSource source)
+        {
+            if (source.IsFunction(CssKeywords.Local))
+            {
+                var content = source.ParseString() ?? source.ParseIdent();
+                var f = source.SkipGetSkip();
+
+                if (content != null && f == Symbols.RoundBracketClose)
+                {
+                    return new CssLocalFontValue(content);
+                }
+            }
+
+            return null;
         }
 
-        private static Func<StringSource, StringValue> FromString(Func<StringSource, String> converter)
+        private static ICssFunctionValue ParseFormat(this StringSource source)
         {
-            return source =>
+            if (source.IsFunction(CssKeywords.Format))
             {
-                var result = converter.Invoke(source);
+                var content = source.ParseString() ?? source.ParseIdent();
+                var f = source.SkipGetSkip();
 
-                if (result != null)
+                if (content != null && f == Symbols.RoundBracketClose)
                 {
-                    return new StringValue(result);
+                    return new CssFontFormatValue(content);
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Aggregators
+
+        public static IValueConverter AggregatePeriodic(IValueConverter converter) => new PeriodicAggregator(converter);
+
+        public static IValueConverter AggregateTuple(IValueConverter converter) => new TupleAggregator(converter);
+
+        sealed class PeriodicAggregator : IValueAggregator, IValueConverter
+        {
+            private readonly IValueConverter _converter;
+
+            public PeriodicAggregator(IValueConverter converter)
+            {
+                _converter = converter.Periodic();
+            }
+
+            public ICssValue Convert(StringSource source) => _converter.Convert(source);
+
+            public ICssValue Merge(ICssValue[] values)
+            {
+                var first = values[0];
+
+                if (first != null)
+                {
+                    var same = values.All(m => Object.Equals(m, first));
+                    return same ? first : new CssPeriodicValue(values);
                 }
 
                 return null;
-            };
+            }
+
+            public ICssValue[] Split(ICssValue value)
+            {
+                if (value is CssPeriodicValue periodic)
+                {
+                    return periodic.ToArray();
+                }
+
+                return new[]
+                {
+                    value,
+                    value,
+                    value,
+                    value,
+                };
+            }
         }
 
-        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter)
+        sealed class TupleAggregator : IValueAggregator, IValueConverter
         {
-            return source =>
-            {
-                var result = converter.Invoke(source);
+            private readonly IValueConverter _converter;
 
-                if (result.HasValue)
+            public TupleAggregator(IValueConverter converter)
+            {
+                _converter = converter;
+            }
+
+            public ICssValue Convert(StringSource source) => _converter.Convert(source);
+
+            public ICssValue Merge(ICssValue[] values)
+            {
+                if (values.Any(m => m != null))
                 {
-                    return new Length(result.Value, Length.Unit.None);
+                    return new CssTupleValue(values);
                 }
 
                 return null;
-            };
-        }
+            }
 
-        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter)
-        {
-            return source =>
+            public ICssValue[] Split(ICssValue value)
             {
-                var result = converter.Invoke(source);
-
-                if (result.HasValue)
+                if (value is CssTupleValue options)
                 {
-                    return new Length(result.Value, Length.Unit.None);
+                    return options.ToArray();
                 }
 
                 return null;
-            };
+            }
         }
 
         #endregion

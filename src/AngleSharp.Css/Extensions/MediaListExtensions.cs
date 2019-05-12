@@ -7,7 +7,8 @@ namespace AngleSharp.Css.Dom
 
     static class MediaListExtensions
     {
-        private readonly static ConditionalWeakTable<IMediaFeature, IFeatureValidator> AssociatedValidators = new ConditionalWeakTable<IMediaFeature, IFeatureValidator>();
+        private readonly static ConditionalWeakTable<IMediaFeature, IFeatureValidator> AssociatedValidators =
+            new ConditionalWeakTable<IMediaFeature, IFeatureValidator>();
 
         private readonly static String[] KnownTypes =
         {
@@ -21,22 +22,16 @@ namespace AngleSharp.Css.Dom
             CssKeywords.All
         };
 
-        public static void AssociateValidator(this IMediaFeature feature, IFeatureValidator validator)
-        {
+        public static void AssociateValidator(this IMediaFeature feature, IFeatureValidator validator) =>
             AssociatedValidators.Add(feature, validator);
-        }
 
         public static Boolean Validate(this IMediaFeature feature, IRenderDevice device)
         {
-            var validator = default(IFeatureValidator);
-            AssociatedValidators.TryGetValue(feature, out validator);
+            AssociatedValidators.TryGetValue(feature, out var validator);
             return validator?.Validate(feature, device) ?? false;
         }
 
-        public static Boolean Validate(this IMediaList list, IRenderDevice device)
-        {
-            return !list.Any(m => !m.Validate(device));
-        }
+        public static Boolean Validate(this IMediaList list, IRenderDevice device) => !list.Any(m => !m.Validate(device));
 
         public static Boolean Validate(this ICssMedium medium, IRenderDevice device)
         {
@@ -48,16 +43,12 @@ namespace AngleSharp.Css.Dom
             return !medium.IsInvalid(device) && !medium.Features.Any(m => m.Validate(device) == medium.IsInverse);
         }
 
-        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device)
-        {
-            return medium.IsInvalid(device, CssKeywords.Screen, DeviceCategory.Screen) ||
-                medium.IsInvalid(device, CssKeywords.Speech, DeviceCategory.Speech) ||
-                medium.IsInvalid(device, CssKeywords.Print, DeviceCategory.Printer);
-        }
+        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device) =>
+            medium.IsInvalid(device, CssKeywords.Screen, DeviceCategory.Screen) ||
+            medium.IsInvalid(device, CssKeywords.Speech, DeviceCategory.Speech) ||
+            medium.IsInvalid(device, CssKeywords.Print, DeviceCategory.Printer);
 
-        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device, String keyword, DeviceCategory category)
-        {
-            return keyword.Is(medium.Type) && (device.Category == category) == medium.IsInverse;
-        }
+        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device, String keyword, DeviceCategory category) =>
+            device != null && keyword.Is(medium.Type) && device.Category == category == medium.IsInverse;
     }
 }

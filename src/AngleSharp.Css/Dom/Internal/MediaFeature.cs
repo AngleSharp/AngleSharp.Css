@@ -32,30 +32,15 @@
 
         #region Properties
 
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
-        public Boolean IsMinimum
-        {
-            get { return _min; }
-        }
+        public Boolean IsMinimum => _min;
 
-        public Boolean IsMaximum
-        {
-            get { return _max; }
-        }
+        public Boolean IsMaximum => _max;
 
-        public String Value
-        {
-            get { return _value; }
-        }
+        public String Value => _value;
 
-        public Boolean HasValue
-        {
-            get { return _value != null; }
-        }
+        public Boolean HasValue => _value != null;
 
         #endregion
 

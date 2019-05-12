@@ -32,10 +32,8 @@ namespace AngleSharp.Css.Parser
             return result;
         }
 
-        public static Color? ParseCurrentColor(this StringSource source)
-        {
-            return source.IsIdentifier(CssKeywords.CurrentColor) ? Color.CurrentColor : ColorParser.ParseColor(source);
-        }
+        public static Color? ParseCurrentColor(this StringSource source) =>
+            source.IsIdentifier(CssKeywords.CurrentColor) ? Color.CurrentColor : ColorParser.ParseColor(source);
 
         private static Color? Start(StringSource source)
         {

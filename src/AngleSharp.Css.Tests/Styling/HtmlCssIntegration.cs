@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Tests.Styling
     using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using NUnit.Framework;
     using System;
@@ -60,8 +61,8 @@ namespace AngleSharp.Css.Tests.Styling
                 IsIncludingUnknownRules = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual("initial", div.GetStyle()["background-color"]);
-            Assert.AreEqual("background-color: initial", div.GetStyle().CssText);
+            Assert.AreEqual("", div.GetStyle()["background-color"]);
+            Assert.AreEqual("", div.GetStyle().CssText);
         }
 
         [Test]
@@ -325,7 +326,7 @@ namespace AngleSharp.Css.Tests.Styling
             // hang occurs only if this line is executed prior to setting the attribute
             // hang occurs when executing next line
             div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual("initial", div.GetStyle().GetBackgroundColor());
+            Assert.AreEqual("", div.GetStyle().GetBackgroundColor());
         }
 
         [Test]
@@ -402,6 +403,94 @@ namespace AngleSharp.Css.Tests.Styling
             var color = style4[1];
             Assert.AreEqual("color", color);
             Assert.AreEqual("rgba(255, 0, 0, 1)", style4.GetPropertyValue(color));
+        }
+
+        [Test]
+        public void Background0ShouldSerializeCorrectly_Issue14()
+        {
+            var dom = ParseDocument(@"<html><body><div style=""background: 0;"">Test</div></body></html>");
+            var div = dom.QuerySelector("div");
+            var style = div.GetStyle();
+
+            Assert.AreEqual("background: left", style.CssText);
+        }
+
+        [Test]
+        public void RemovingPropertiesShouldNotYieldEmptyStyle_Issue14()
+        {
+            var dom = ParseDocument(@"<html><body><div style=""background: 0;"">Test</div></body></html>");
+            var div = dom.QuerySelector("div");
+            var style = div.GetStyle();
+
+            style.RemoveProperty("background-position-x");
+            style.RemoveProperty("background-position-y");
+
+            Assert.AreEqual("background-image: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial", style.CssText);
+        }
+
+        [Test]
+        public void RecombinationWorksWithBorder_Issue16()
+        {
+            var expected = "<button style=\"pointer-events: auto; border: 1px solid rgba(0, 0, 0, 1)\"></button>";
+            var document = ParseDocument("");
+            var element = document.CreateElement("button");
+            element.GetStyle().SetPointerEvents("auto");
+            element.GetStyle().SetBorderWidth("1px");
+            element.GetStyle().SetBorderStyle("solid");
+            element.GetStyle().SetBorderColor("black");
+            Assert.AreEqual(expected, element.ToHtml());
+        }
+
+        [Test]
+        public void DefaultStyleSheetTest_Issue21()
+        {
+            var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><body><b>Hello, World!</b></body></html>");
+            var boldStyle = document.Body.FirstElementChild.ComputeCurrentStyle();
+            Assert.AreEqual("bolder", boldStyle.GetFontWeight());
+        }
+
+        [Test]
+        public void MediaRuleCssCausesException_Issue20()
+        {
+            var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>@media screen { }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.IsNotNull(style);
+        }
+
+        [Test]
+        public void MediaRuleIsCalculatedIfScreenIsOkay()
+        {
+            var config = Configuration.Default
+                .WithCss()
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    ViewPortWidth = 1000,
+                });
+            var browsingContext = BrowsingContext.New(config);
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+        }
+
+        [Test]
+        public void MediaRuleIsNotCalculatedIfScreenIsNotWideEnough()
+        {
+            var config = Configuration.Default
+                .WithCss()
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    ViewPortWidth = 599,
+                });
+            var browsingContext = BrowsingContext.New(config);
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
+            var style = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
         }
     }
 }

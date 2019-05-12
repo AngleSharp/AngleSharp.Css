@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Flex,
         };
 
-        public static IValueConverter Converter = Or(Content, AutoLengthOrPercentConverter, AssignInitial(Length.Auto));
+        public static IValueConverter Converter = Or(Content, AutoLengthOrPercentConverter);
+
+        public static ICssValue InitialValue = InitialValues.FlexBasisDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

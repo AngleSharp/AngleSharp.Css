@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -12,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Columns,
         };
 
-        public static IValueConverter Converter = Or(OptionalIntegerConverter, AssignInitial());
+        public static IValueConverter Converter = OptionalIntegerConverter;
+
+        public static ICssValue InitialValue = InitialValues.ColumnCountDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

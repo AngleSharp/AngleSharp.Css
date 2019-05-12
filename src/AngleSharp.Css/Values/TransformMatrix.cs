@@ -1,4 +1,4 @@
-namespace AngleSharp.Css
+namespace AngleSharp.Css.Values
 {
     using System;
 
@@ -6,7 +6,7 @@ namespace AngleSharp.Css
     /// Represents a transformation matrix value.
     /// http://dev.w3.org/csswg/css-transforms/#mathematical-description
     /// </summary>
-    class TransformMatrix : IEquatable<TransformMatrix>
+    public class TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 
@@ -104,100 +104,72 @@ namespace AngleSharp.Css
         #region Properties
 
         /// <summary>
+        /// Gets the element at the specified indices.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <param name="col">The column index.</param>
+        /// <returns>The value of the cell.</returns>
+        public Double this[Int32 row, Int32 col] => _matrix[row, col];
+
+        /// <summary>
         /// Gets the element of the 1st row, 1st column.
         /// </summary>
-        public Double M11
-        {
-            get { return _matrix[0, 0]; }
-        }
+        public Double M11 => _matrix[0, 0];
 
         /// <summary>
         /// Gets the element of the 1st row, 2nd column.
         /// </summary>
-        public Double M12
-        {
-            get { return _matrix[0, 1]; }
-        }
+        public Double M12 => _matrix[0, 1];
 
         /// <summary>
         /// Gets the element of the 1st row, 3rd column.
         /// </summary>
-        public Double M13
-        {
-            get { return _matrix[0, 2]; }
-        }
+        public Double M13 => _matrix[0, 2];
 
         /// <summary>
         /// Gets the element of the 2nd row, 1st column.
         /// </summary>
-        public Double M21
-        {
-            get { return _matrix[1, 0]; }
-        }
+        public Double M21 => _matrix[1, 0];
 
         /// <summary>
         /// Gets the element of the 2nd row, 2nd column.
         /// </summary>
-        public Double M22
-        {
-            get { return _matrix[1, 1]; }
-        }
+        public Double M22 => _matrix[1, 1];
 
         /// <summary>
         /// Gets the element of the 2nd row, 3rd column.
         /// </summary>
-        public Double M23
-        {
-            get { return _matrix[1, 2]; }
-        }
+        public Double M23 => _matrix[1, 2];
 
         /// <summary>
         /// Gets the element of the 3rd row, 1st column.
         /// </summary>
-        public Double M31
-        {
-            get { return _matrix[2, 0]; }
-        }
+        public Double M31 => _matrix[2, 0];
 
         /// <summary>
         /// Gets the element of the 3rd row, 2nd column.
         /// </summary>
-        public Double M32
-        {
-            get { return _matrix[2, 1]; }
-        }
+        public Double M32 => _matrix[2, 1];
 
         /// <summary>
         /// Gets the element of the 3rd row, 3rd column.
         /// </summary>
-        public Double M33
-        {
-            get { return _matrix[2, 2]; }
-        }
+        public Double M33 => _matrix[2, 2];
 
         /// <summary>
         /// Gets the x-element of the translation vector.
         /// </summary>
-        public Double Tx
-        {
-            get { return _matrix[0, 3]; }
-        }
+        public Double Tx => _matrix[0, 3];
 
         /// <summary>
         /// Gets the y-element of the translation vector.
         /// </summary>
-        public Double Ty
-        {
-            get { return _matrix[1, 3]; }
-        }
+        public Double Ty => _matrix[1, 3];
 
         /// <summary>
         /// Gets the z-element of the translation vector.
         /// </summary>
-        public Double Tz
-        {
-            get { return _matrix[2, 3]; }
-        }
+        public Double Tz => _matrix[2, 3];
 
         #endregion
 
@@ -210,7 +182,7 @@ namespace AngleSharp.Css
         /// <returns>True if all elements are equal, otherwise false.</returns>
         public Boolean Equals(TransformMatrix other)
         {
-            var A = this._matrix;
+            var A = _matrix;
             var B = other._matrix;
 
             for (var i = 0; i < 4; i++)
@@ -236,11 +208,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as TransformMatrix;
-            return other != null ? Equals(other) : false;
-        }
+        public override Boolean Equals(Object obj) => obj is TransformMatrix other ? Equals(other) : false;
 
         /// <summary>
         /// Returns a hash code that defines the current length.

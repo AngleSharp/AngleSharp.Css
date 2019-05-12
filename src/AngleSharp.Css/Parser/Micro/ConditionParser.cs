@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,25 +7,21 @@
 
     static class ConditionParser
     {
-        public static IConditionFunction Parse(String str)
+        public static IConditionFunction Parse(String str, IBrowsingContext context)
         {
             var source = new StringSource(str);
             source.SkipSpacesAndComments();
-            var result = source.ParseConditionFunction();
+            var result = source.ParseConditionFunction(context);
             return source.IsDone ? result : null;
         }
 
-        public static IConditionFunction ParseConditionFunction(this StringSource source)
-        {
-            return Condition(source);
-        }
+        public static IConditionFunction ParseConditionFunction(this StringSource source, IBrowsingContext context) =>
+            source.Condition(context);
 
-        private static IConditionFunction Condition(StringSource source)
-        {
-            return Negation(source) ?? ConjunctionOrDisjunction(source);
-        }
+        private static IConditionFunction Condition(this StringSource source, IBrowsingContext context) =>
+            source.Negation(context) ?? source.ConjunctionOrDisjunction(context);
 
-        private static IConditionFunction Negation(StringSource source)
+        private static IConditionFunction Negation(this StringSource source, IBrowsingContext context)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -33,7 +29,7 @@
             if (ident != null && ident.Isi(CssKeywords.Not))
             {
                 source.SkipSpacesAndComments();
-                var condition = Group(source);
+                var condition = source.Group(context);
 
                 if (condition != null)
                 {
@@ -45,9 +41,9 @@
             return null;
         }
 
-        private static IConditionFunction ConjunctionOrDisjunction(StringSource source)
+        private static IConditionFunction ConjunctionOrDisjunction(this StringSource source, IBrowsingContext context)
         {
-            var condition = Group(source);
+            var condition = source.Group(context);
             source.SkipSpacesAndComments();
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -59,7 +55,7 @@
 
                 if (isAnd || isOr)
                 {
-                    var conditions = Scan(source, ident, condition);
+                    var conditions = source.Scan(ident, condition, context);
 
                     if (isAnd)
                     {
@@ -76,7 +72,7 @@
             return condition;
         }
 
-        private static IConditionFunction Group(StringSource source)
+        private static IConditionFunction Group(this StringSource source, IBrowsingContext context)
         {
             if (source.Current == Symbols.RoundBracketOpen)
             {
@@ -85,7 +81,7 @@
 
                 if (current != Symbols.RoundBracketClose)
                 {
-                    condition = Condition(source) ?? Declaration(source);
+                    condition = source.Condition(context) ?? source.Declaration(context);
                     current = source.SkipSpacesAndComments();
 
                     if (condition == null)
@@ -104,7 +100,7 @@
             return null;
         }
 
-        private static IConditionFunction Declaration(StringSource source)
+        private static IConditionFunction Declaration(this StringSource source, IBrowsingContext context)
         {
             var name = source.ParseIdent();
             var colon = source.SkipSpacesAndComments();
@@ -114,13 +110,13 @@
 
             if (name != null && value != null && colon == Symbols.Colon)
             {
-                return new DeclarationCondition(name, value);
+                return new DeclarationCondition(context, name, value);
             }
 
             return null;
         }
 
-        private static IEnumerable<IConditionFunction> Scan(StringSource source, String keyword, IConditionFunction condition)
+        private static IEnumerable<IConditionFunction> Scan(this StringSource source, String keyword, IConditionFunction condition, IBrowsingContext context)
         {
             var conditions = new List<IConditionFunction>();
             var ident = String.Empty;
@@ -129,7 +125,7 @@
             do
             {
                 source.SkipSpacesAndComments();
-                condition = Group(source);
+                condition = source.Group(context);
 
                 if (condition == null)
                     break;

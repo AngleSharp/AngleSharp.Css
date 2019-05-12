@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Parser
 
     static class ShadowParser
     {
-        public static Shadow ParseShadow(this StringSource source)
+        public static CssShadowValue ParseShadow(this StringSource source)
         {
             var start = source.Index;
             var inset = false;
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Parser
 
             if (offsetX != null && offsetY != null)
             {
-                return new Shadow(
+                return new CssShadowValue(
                     inset,
                     offsetX,
                     offsetY,

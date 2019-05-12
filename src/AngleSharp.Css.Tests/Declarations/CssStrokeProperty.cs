@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -370,5 +370,17 @@
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.HasValue);
 		}
+
+        [Test]
+        public void CssStrokeWithoutUnit_Issue18()
+        {
+            var snippet = "stroke-width: 3";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("stroke-width", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("3", property.Value);
+        }
 	}
 }

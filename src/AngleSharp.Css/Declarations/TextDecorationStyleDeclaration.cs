@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TextDecoration,
         };
 
-        public static IValueConverter Converter = Or(TextDecorationStyleConverter, AssignInitial(TextDecorationStyle.Solid));
+        public static IValueConverter Converter = TextDecorationStyleConverter;
+
+        public static ICssValue InitialValue = InitialValues.TextDecorationStyleDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

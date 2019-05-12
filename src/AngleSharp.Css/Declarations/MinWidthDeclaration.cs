@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MinWidth;
 
-        public static IValueConverter Converter = Or(LengthOrPercentConverter, AssignInitial(Length.Zero));
+        public static IValueConverter Converter = LengthOrPercentConverter;
+
+        public static ICssValue InitialValue = InitialValues.MinWidthDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

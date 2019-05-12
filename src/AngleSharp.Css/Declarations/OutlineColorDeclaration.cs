@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Outline,
         };
 
-        public static IValueConverter Converter = Or(InvertedColorConverter, AssignInitial(Color.Transparent));
+        public static IValueConverter Converter = InvertedColorConverter;
+
+        public static ICssValue InitialValue = InitialValues.OutlineColorDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

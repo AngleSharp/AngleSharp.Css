@@ -30,14 +30,11 @@
 
         public String ConditionText
         {
-            get { return _conditions.ToCss(); }
-            set { SetConditionText(value, throwOnError: true); }
+            get => _conditions.ToCss();
+            set => SetConditionText(value, throwOnError: true);
         }
 
-        public IDocumentFunctions Conditions
-        {
-            get { return _conditions; }
-        }
+        public IDocumentFunctions Conditions => _conditions;
 
         #endregion
 

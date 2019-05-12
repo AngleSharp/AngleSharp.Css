@@ -178,7 +178,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "columns : 5   25%  ";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

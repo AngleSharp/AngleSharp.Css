@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new PaddingAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -25,12 +27,9 @@ namespace AngleSharp.Css.Declarations
 
         sealed class PaddingAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(LengthOrPercentConverter.Periodic(), AssignInitial(Length.Zero));
+            private static readonly IValueConverter converter = LengthOrPercentConverter.Periodic();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -41,7 +40,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (top != null && right != null && bottom != null && left != null)
                 {
-                    return new Periodic<ICssValue>(new[] { top, right, bottom, left });
+                    return new CssPeriodicValue(new[] { top, right, bottom, left });
                 }
 
                 return null;
@@ -49,9 +48,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var period = value as Periodic<ICssValue>;
-
-                if (period != null)
+                if (value is CssPeriodicValue period)
                 {
                     return new[] { period.Top, period.Right, period.Bottom, period.Left };
                 }

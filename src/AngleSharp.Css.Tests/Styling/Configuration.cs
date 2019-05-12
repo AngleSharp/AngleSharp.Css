@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Styling
+namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Io;
@@ -30,10 +30,9 @@
         [Test]
         public void ObtainDefaultSheet()
         {
-            var service = new CssStylingService();
+            var service = new CssDefaultStyleSheetProvider();
             Assert.IsNotNull(service.Default);
-            Assert.IsTrue((service as IStylingService).SupportsType(MimeTypeNames.Css));
-            var sheet = service.Default as ICssStyleSheet;
+            var sheet = service.Default;
             Assert.IsNotNull(sheet);
             Assert.AreEqual(49, sheet.Rules.Length);
         }

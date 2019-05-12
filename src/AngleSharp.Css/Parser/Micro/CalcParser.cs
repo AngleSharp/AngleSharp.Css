@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class CalcParser
     {
-        public static Calc ParseCalc(this StringSource source)
+        public static CssCalcValue ParseCalc(this StringSource source)
         {
             var pos = source.Index;
 
@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Parser
 
                 if (expression != null)
                 {
-                    return new Calc(expression);
+                    return new CssCalcValue(expression);
                 }
             }
 
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                return new CalcAddExpression(left, right);
+                return new CssCalcAddExpression(left, right);
             }
 
             return left;
@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                return new CalcSubExpression(left, right);
+                return new CssCalcSubExpression(left, right);
             }
 
             return left;
@@ -93,7 +93,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                return new CalcMulExpression(left, right);
+                return new CssCalcMulExpression(left, right);
             }
 
             return left;
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                return new CalcDivExpression(left, right);
+                return new CssCalcDivExpression(left, right);
             }
 
             return left;

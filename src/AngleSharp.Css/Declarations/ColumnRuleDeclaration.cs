@@ -5,13 +5,14 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using static ValueConverters;
 
     static class ColumnRuleDeclaration
     {
         public static String Name = PropertyNames.ColumnRule;
 
         public static IValueConverter Converter = new ColumnRuleAggregator();
+
+        public static ICssValue InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
@@ -61,7 +62,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class ColumnRuleAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new ColumnRuleValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new ColumnRuleValueConverter();
 
             public ICssValue Convert(StringSource source)
             {
@@ -84,9 +85,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var options = value as CssTupleValue;
-
-                if (options != null)
+                if (value is CssTupleValue options)
                 {
                     return new[]
                     {

@@ -27,11 +27,11 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static VarReferences ParseVars(this StringSource source)
+        public static CssReferenceValue ParseVars(this StringSource source)
         {
             var index = source.Index;
             var length = FunctionNames.Var.Length;
-            var refs = default(List<Tuple<TextRange, VarReference>>);
+            var refs = default(List<Tuple<TextRange, CssVarValue>>);
 
             while (!source.IsDone)
             {
@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Parser
 
                         if (refs == null)
                         {
-                            refs = new List<Tuple<TextRange, VarReference>>();
+                            refs = new List<Tuple<TextRange, CssVarValue>>();
                         }
 
                         var e = new TextPosition(0, 0, source.Index);
@@ -70,13 +70,13 @@ namespace AngleSharp.Css.Parser
 
             if (refs != null)
             {
-                return new VarReferences(source.Content, refs);
+                return new CssReferenceValue(source.Content, refs);
             }
 
             return null;
         }
 
-        public static VarReference ParseVar(this StringSource source)
+        public static CssVarValue ParseVar(this StringSource source)
         {
             var name = source.ParseCustomIdent();
             var f = source.SkipGetSkip();
@@ -86,11 +86,11 @@ namespace AngleSharp.Css.Parser
                 switch (f)
                 {
                     case Symbols.RoundBracketClose:
-                        return new VarReference(name);
+                        return new CssVarValue(name);
                     case Symbols.Comma:
                         var defaultValue = source.TakeUntilClosed();
                         source.SkipCurrentAndSpaces();
-                        return new VarReference(name, defaultValue);
+                        return new CssVarValue(name, defaultValue);
                 }
             }
 

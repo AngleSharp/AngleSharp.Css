@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderImage,
         };
 
-        public static IValueConverter Converter = Or(BorderImageRepeatConverter, AssignInitial(BorderRepeat.Stretch));
+        public static IValueConverter Converter = BorderImageRepeatConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderImageRepeatDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

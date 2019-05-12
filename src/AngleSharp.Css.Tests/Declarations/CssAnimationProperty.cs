@@ -473,7 +473,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : 10 20";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

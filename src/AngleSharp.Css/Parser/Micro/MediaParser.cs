@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -7,14 +7,14 @@
 
     static class MediaParser
     {
-        public static IEnumerable<CssMedium> Parse(String str)
+        public static IEnumerable<CssMedium> Parse(String str, IFeatureValidatorFactory factory)
         {
             var source = new StringSource(str);
-            var result = source.ParseMedia();
+            var result = source.ParseMedia(factory);
             return source.IsDone ? result : null;
         }
 
-        public static IEnumerable<CssMedium> ParseMedia(this StringSource source)
+        public static IEnumerable<CssMedium> ParseMedia(this StringSource source, IFeatureValidatorFactory factory)
         {
             var current = source.SkipSpacesAndComments();
             var media = new List<CssMedium>();
@@ -29,7 +29,7 @@
                     source.SkipCurrentAndSpaces();
                 }
 
-                var medium = source.ParseMedium();
+                var medium = source.ParseMedium(factory);
 
                 if (medium == null)
                     return null;

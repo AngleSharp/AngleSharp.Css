@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Position;
 
-        public static IValueConverter Converter = Or(PositionModeConverter, AssignInitial(PositionMode.Static));
+        public static IValueConverter Converter = PositionModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.PositionDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Outline,
         };
 
-        public static IValueConverter Converter = Or(LineWidthConverter, AssignInitial(Length.Medium));
+        public static IValueConverter Converter = LineWidthConverter;
+
+        public static ICssValue InitialValue = InitialValues.OutlineWidthDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

@@ -10,11 +10,14 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Shorthands = new[]
         {
-            PropertyNames.BorderStyle,
+            PropertyNames.Border,
             PropertyNames.BorderTop,
+            PropertyNames.BorderStyle,
         };
 
-        public static IValueConverter Converter = Or(LineStyleConverter, AssignInitial(LineStyle.None));
+        public static IValueConverter Converter = LineStyleConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderTopStyleDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

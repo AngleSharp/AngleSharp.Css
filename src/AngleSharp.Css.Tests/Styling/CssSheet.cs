@@ -82,7 +82,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1); border-top: none }";
+            var expected = "#rule1 { border-top: none; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1) }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
@@ -142,12 +142,11 @@ h1 {
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual(2, p.Style.Length);
+            Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("font-family", p.Style[1]);
             Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
-            Assert.AreEqual("initial", p.Style.GetFontFamily());
+            Assert.AreEqual("", p.Style.GetFontFamily());
         }
 
         [Test]
@@ -304,8 +303,8 @@ h1 { color: blue }");
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(1, img.Style.Length);
-            Assert.AreEqual("initial", img.Style.GetFloat());
+            Assert.AreEqual(0, img.Style.Length);
+            Assert.AreEqual("", img.Style.GetFloat());
         }
 
         [Test]
@@ -573,7 +572,7 @@ h1 { color: blue }");
         public void CssBackgroundWebkitGradientIsInvalid()
         {
             var background = ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
-            Assert.IsNull(background);
+            Assert.IsFalse(background.HasValue);
         }
 
         [Test]
@@ -688,7 +687,7 @@ h1 { color: blue }");
             Assert.AreEqual(1, sheet.Rules.Length);
             var rule = sheet.Rules[0] as CssStyleRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(4, rule.Style.Length);
+            Assert.AreEqual(5, rule.Style.Length);
             Assert.AreEqual(".App_Header_ .logo", rule.SelectorText);
             var decl = rule.Style as ICssStyleDeclaration;
             Assert.AreEqual("url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\")", decl.GetBackgroundImage());
@@ -927,11 +926,83 @@ font-weight:bold;}";
         }
 
         [Test]
+        public void CssStyleSheetShouldExpandBorderColorCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border-color: red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("border-color: rgba(255, 0, 0, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderLeftColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderRightColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+        }
+
+        [Test]
+        public void CssStyleSheetShouldCollapseBorderColorCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border-color: red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            body.Style.SetBorderLeftColor("blue");
+            body.Style.SetBorderRightColor("blue");
+            Assert.AreEqual("border-color: rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderLeftColor());
+            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderRightColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+        }
+
+        [Test]
+        public void CssStyleSheetShouldCollapseFullBorderCorrectly_Issue23()
+        {
+            var parser = new CssParser();
+            var source = "body { border: 1px  solid  red }";
+            var sheet = parser.ParseStyleSheet(source);
+
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("border: 1px solid rgba(255, 0, 0, 1)", body.Style.CssText);
+            body.Style.SetBorderLeftColor("blue");
+            body.Style.SetBorderTopWidth("medium");
+            Assert.AreEqual("border-top: 3px solid rgba(255, 0, 0, 1); border-right: 1px solid rgba(255, 0, 0, 1); border-bottom: 1px solid rgba(255, 0, 0, 1); border-left: 1px solid rgba(0, 0, 255, 1)", body.Style.CssText);
+            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
+            Assert.AreEqual("3px 1px 1px", body.Style.GetBorderWidth());
+            Assert.AreEqual("solid", body.Style.GetBorderStyle());
+        }
+
+        [Test]
         public void CssStyleSheetInsertShouldSetParentStyleSheetCorrectly()
         {
             var s = ParseStyleSheet(String.Empty);
             s.Insert("a {color: blue}", 0);
             Assert.AreEqual(s, s.Rules[0].Owner);
+        }
+
+        [Test]
+        public void GetImageRefOfACertainDeclarationFromSheet()
+        {
+            var s = ParseStyleSheet("body { background: url(http://example.com/foo.png) no-repeat }");
+            var rule = s.GetStyleRuleWith("body");
+            var url = rule.GetValueOf("background-image").AsUrl();
+            Assert.AreEqual("http://example.com/foo.png", url);
+        }
+
+        [Test]
+        public void GetBorderRightColorOfACertainDeclarationFromSheet()
+        {
+            var s = ParseStyleSheet("p > a { border: 1px solid red }");
+            var rule = s.GetStyleRuleWith("p > a");
+            var color = rule.GetValueOf("border-right-color").AsRgba();
+            Assert.AreEqual(0x00_00_ff_ff, color);
         }
 
         [Test]

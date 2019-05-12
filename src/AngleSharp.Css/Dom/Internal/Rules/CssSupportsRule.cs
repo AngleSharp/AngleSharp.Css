@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
@@ -29,14 +29,11 @@
 
         public String ConditionText
         {
-            get { return _condition.ToCss(); }
-            set { SetConditionText(value, throwOnError: true); }
+            get => _condition.ToCss();
+            set => SetConditionText(value, throwOnError: true);
         }
 
-        public IConditionFunction Condition
-        {
-            get { return _condition; }
-        }
+        public IConditionFunction Condition => _condition;
 
         #endregion
 
@@ -44,7 +41,8 @@
 
         public Boolean SetConditionText(String value, Boolean throwOnError)
         {
-            var condition = ConditionParser.Parse(value);
+            var context = Owner?.Context;
+            var condition = ConditionParser.Parse(value, context);
             
             if (condition == null)
             {

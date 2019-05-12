@@ -95,7 +95,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: auto ";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 10px 5% 8px 2% 3px";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

@@ -32,8 +32,8 @@ namespace AngleSharp.Css.Tests.Rules
         public void CssMediaWidthValidation()
         {
             var validate = CreateValidator(FeatureNames.Width, "100px");
-            var valid = validate(new MockRenderDevice { ViewPortWidth = 100, ViewPortHeight = 0 });
-            var invalid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 0 });
+            var valid = validate(new DefaultRenderDevice { ViewPortWidth = 100, ViewPortHeight = 0 });
+            var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 0 });
             Assert.IsTrue(valid);
             Assert.IsFalse(invalid);
         }
@@ -42,8 +42,8 @@ namespace AngleSharp.Css.Tests.Rules
         public void CssMediaMaxHeightValidation()
         {
             var validate = CreateValidator(FeatureNames.MaxHeight, "100px");
-            var valid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 99 });
-            var invalid = validate(new MockRenderDevice { ViewPortWidth = 0, ViewPortHeight = 101 });
+            var valid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 99 });
+            var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 101 });
             Assert.IsTrue(valid);
             Assert.IsFalse(invalid);
         }
@@ -52,8 +52,8 @@ namespace AngleSharp.Css.Tests.Rules
         public void CssMediaMinDeviceWidthValidation()
         {
             var validate = CreateValidator(FeatureNames.MinDeviceWidth, "100px");
-            var valid = validate(new MockRenderDevice { DeviceWidth = 100, DeviceHeight = 0 });
-            var invalid = validate(new MockRenderDevice { DeviceWidth = 99, DeviceHeight = 0 });
+            var valid = validate(new DefaultRenderDevice { DeviceWidth = 100, DeviceHeight = 0 });
+            var invalid = validate(new DefaultRenderDevice { DeviceWidth = 99, DeviceHeight = 0 });
             Assert.IsTrue(valid);
             Assert.IsFalse(invalid);
         }
@@ -62,8 +62,8 @@ namespace AngleSharp.Css.Tests.Rules
         public void CssMediaAspectRatio()
         {
             var validate = CreateValidator(FeatureNames.AspectRatio, "1/1");
-            var valid = validate(new MockRenderDevice { ViewPortWidth = 100, ViewPortHeight = 100 });
-            var invalid = validate(new MockRenderDevice { ViewPortWidth = 16, ViewPortHeight = 9 });
+            var valid = validate(new DefaultRenderDevice { ViewPortWidth = 100, ViewPortHeight = 100 });
+            var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 16, ViewPortHeight = 9 });
             Assert.IsTrue(valid);
             Assert.IsFalse(invalid);
         }

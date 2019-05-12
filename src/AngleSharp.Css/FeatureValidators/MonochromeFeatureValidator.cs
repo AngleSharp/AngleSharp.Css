@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Css.FeatureValidators
+namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -9,12 +10,13 @@
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice device)
         {
-            var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(1);
+            var defaultValue = new Length(1.0, Length.Unit.None);
+            var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(defaultValue);
             var index = converter.Convert(feature.Value);
 
             if (index != null)
             {
-                var desired = index.AsInteger();
+                var desired = index.AsInt32();
                 var available = device.MonochromeBits;
 
                 if (feature.IsMaximum)

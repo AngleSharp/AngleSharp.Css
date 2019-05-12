@@ -1,9 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
-    <PackageReference Include="AngleSharp" version="0.10.0" />
+    <PackageReference Include="AngleSharp" Version="0.12.0" />
     <PackageReference Include="ExCSS" version="2.0.6" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.AlignItems;
 
-        public static IValueConverter Converter = Or(AlignItemsConverter, AssignInitial(FlexContentMode.Stretch));
+        public static IValueConverter Converter = AlignItemsConverter;
+
+        public static ICssValue InitialValue = InitialValues.AlignItemsDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

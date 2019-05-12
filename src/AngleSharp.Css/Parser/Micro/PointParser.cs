@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static Point3 ParsePoint3(this StringSource source)
+        public static CssOriginValue ParseOrigin(this StringSource source)
         {
             var pt = source.ParsePoint();
             source.SkipSpacesAndComments();
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Parser
 
             if (pt.HasValue)
             {
-                return new Point3(pt.Value.X, pt.Value.Y, z);
+                return new CssOriginValue(pt.Value.X, pt.Value.Y, z);
             }
 
             return null;
@@ -136,15 +136,15 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static BackgroundSize? ParseSize(this StringSource source)
+        public static CssBackgroundSizeValue ParseSize(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Cover))
             {
-                return BackgroundSize.Cover;
+                return CssBackgroundSizeValue.Cover;
             }
             else if (source.IsIdentifier(CssKeywords.Contain))
             {
-                return BackgroundSize.Contain;
+                return CssBackgroundSizeValue.Contain;
             }
             else
             {
@@ -163,7 +163,7 @@ namespace AngleSharp.Css.Parser
                     source.IsIdentifier(CssKeywords.Auto);
                 }
                 
-                return new BackgroundSize(w ?? Length.Auto, h ?? Length.Auto);
+                return new CssBackgroundSizeValue(w ?? Length.Auto, h ?? Length.Auto);
             }
         }
 

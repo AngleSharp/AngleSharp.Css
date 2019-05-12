@@ -18,6 +18,11 @@ namespace AngleSharp.Css
         public static readonly String Clip = "clip";
 
         /// <summary>
+        /// The legacy keyword.
+        /// </summary>
+        public static readonly String Legacy = "legacy";
+
+        /// <summary>
         /// The normal keyword.
         /// </summary>
         public static readonly String Normal = "normal";
@@ -121,10 +126,16 @@ namespace AngleSharp.Css
         /// The break-all keyword.
         /// </summary>
         public static readonly String BreakWord = "break-word";
+
         /// <summary>
         /// The important keyword.
         /// </summary>
         public static readonly String Important = "important";
+
+        /// <summary>
+        /// The !important keyword.
+        /// </summary>
+        public static readonly String BangImportant = "!important";
 
         /// <summary>
         /// The inherit keyword.
@@ -150,6 +161,11 @@ namespace AngleSharp.Css
         /// The auto keyword.
         /// </summary>
         public static readonly String Auto = "auto";
+
+        /// <summary>
+        /// The mixed keyword.
+        /// </summary>
+        public static readonly String Mixed = "mixed";
 
         /// <summary>
         /// The auto-fill keyword.
@@ -180,6 +196,11 @@ namespace AngleSharp.Css
         /// The max-content keyword.
         /// </summary>
         public static readonly String MaxContent = "max-content";
+
+        /// <summary>
+        /// The format keyword.
+        /// </summary>
+        public static readonly String Format = "format";
 
         /// <summary>
         /// The from keyword.
@@ -1485,5 +1506,30 @@ namespace AngleSharp.Css
         /// The right bottom keyword.
         /// </summary>
         public static readonly String RightBottom = "right bottom";
+
+        /// <summary>
+        /// The stroke keyword.
+        /// </summary>
+        public static readonly String Stroke = "stroke";
+
+        /// <summary>
+        /// The painted keyword.
+        /// </summary>
+        public static readonly String Painted = "painted";
+
+        /// <summary>
+        /// The visibleStroke keyword.
+        /// </summary>
+        public static readonly String VisibleStroke = "visibleStroke";
+
+        /// <summary>
+        /// The visibleFill keyword.
+        /// </summary>
+        public static readonly String VisibleFill = "visibleFill";
+
+        /// <summary>
+        /// The visiblePainted keyword.
+        /// </summary>
+        public static readonly String VisiblePainted = "visiblePainted";
     }
 }

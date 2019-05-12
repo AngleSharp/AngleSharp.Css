@@ -29,15 +29,9 @@
 
         #region Properties
 
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
-        public TextView Content
-        {
-            get { return _content; }
-        }
+        public TextView Content => _content;
 
         #endregion
 

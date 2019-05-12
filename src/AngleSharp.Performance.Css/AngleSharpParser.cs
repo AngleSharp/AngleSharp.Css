@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Performance.Css
+namespace AngleSharp.Performance.Css
 {
     using AngleSharp;
     using AngleSharp.Css.Parser;
@@ -10,19 +10,13 @@
         {
             IsIncludingUnknownDeclarations = true,
             IsIncludingUnknownRules = true,
-            IsToleratingInvalidSelectors = true
+            IsToleratingInvalidSelectors = true,
         };
         private static readonly CssParser parser = new CssParser(options);
 
-        public String Name
-        {
-            get { return "AngleSharp"; }
-        }
+        public String Name => "AngleSharp";
 
-        public Type Library
-        {
-            get { return typeof(BrowsingContext); }
-        }
+        public Type Library => typeof(BrowsingContext);
 
         public void Run(String source)
         {

@@ -180,7 +180,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "text-decoration: line-pass";
             var property = ParseDeclaration(snippet);
-            Assert.IsNull(property);
+            Assert.IsFalse(property.HasValue);
         }
 
         [Test]

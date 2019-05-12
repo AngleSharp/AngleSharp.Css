@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Padding,
         };
 
-        public static IValueConverter Converter = PaddingConverter;
+        public static IValueConverter Converter = LengthOrPercentConverter;
+
+        public static ICssValue InitialValue = InitialValues.PaddingTopDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Unitless | PropertyFlags.Animatable;
     }

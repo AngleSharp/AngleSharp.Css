@@ -759,5 +759,14 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("100px 1fr / 50px 1fr", property.Value);
         }
+
+        [Test]
+        public void CssRuleWithOnlyGridTemplateAreasLegal_Issue27()
+        {
+            var snippet = @"div#A { grid-template-areas: ""a b b"" ""a c d"" }";
+            var rule = ParseRule(snippet);
+            var text = rule.CssText;
+            Assert.AreEqual(snippet, text);
+        }
     }
 }

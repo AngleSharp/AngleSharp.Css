@@ -14,6 +14,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new TransitionAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -24,28 +26,15 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.TransitionDelay,
         };
 
-        sealed class TransitionValueConverter : IValueConverter
-        {
-            private static readonly IValueConverter converter = WithAny(
-                AnimatableConverter.Option(),
-                TimeConverter.Option(),
-                TransitionConverter.Option(),
-                TimeConverter.Option()).FromList();
-
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
-        }
-
         sealed class TransitionAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new TransitionValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = WithAny(
+                AnimatableConverter.Option(InitialValues.TransitionPropertyDecl),
+                TimeConverter.Option(InitialValues.TransitionDurationDecl),
+                TransitionConverter.Option(InitialValues.TransitionTimingFunctionDecl),
+                TimeConverter.Option(InitialValues.TransitionDelayDecl)).FromList();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -64,9 +53,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var list = value as CssListValue;
-
-                if (list != null)
+                if (value is CssListValue list)
                 {
                     return new[]
                     {

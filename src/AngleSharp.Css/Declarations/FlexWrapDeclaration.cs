@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.FlexFlow,
         };
 
-        public static IValueConverter Converter = Or(FlexWrapConverter, AssignInitial(FlexWrapMode.NoWrap));
+        public static IValueConverter Converter = FlexWrapConverter;
+
+        public static ICssValue InitialValue = InitialValues.FlexWrapDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

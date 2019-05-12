@@ -27,26 +27,17 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public ISelector Selector
-        {
-            get { return _selector; }
-        }
+        public ISelector Selector => _selector;
 
         public String SelectorText
         {
-            get { return _selector?.Text; }
-            set { _selector = ParseSelector(value); }
+            get => _selector?.Text;
+            set => _selector = ParseSelector(value);
         }
 
-        ICssStyleDeclaration ICssStyleRule.Style
-        {
-            get { return _style; }
-        }
+        ICssStyleDeclaration ICssStyleRule.Style => _style;
 
-        public CssStyleDeclaration Style
-        {
-            get { return _style; }
-        }
+        public CssStyleDeclaration Style => _style;
 
         #endregion
 

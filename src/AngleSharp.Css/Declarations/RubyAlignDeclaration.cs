@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.RubyAlign;
 
-        public static IValueConverter Converter = Or(RubyAlignmentConverter, AssignInitial(RubyAlignment.SpaceAround));
+        public static IValueConverter Converter = RubyAlignmentConverter;
+
+        public static ICssValue InitialValue = InitialValues.RubyAlignDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

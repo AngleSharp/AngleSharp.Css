@@ -27,15 +27,9 @@ namespace AngleSharp.Css.Parser.Tokens
 
         #region Properties
 
-        public CssTokenType Type
-        {
-            get { return _type; }
-        }
+        public CssTokenType Type => _type;
 
-        public String Data
-        {
-            get { return _data; }
-        }
+        public String Data => _data;
 
         public TextPosition Position
         {

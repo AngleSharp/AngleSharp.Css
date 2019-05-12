@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
@@ -31,29 +31,22 @@
 
         #region Index
 
-        public String this[Int32 index]
-        {
-            get { return _media[index].ToCss(); }
-        }
+        public String this[Int32 index] => _media[index].ToCss();
 
         #endregion
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _media.Count; }
-        }
+        public Int32 Length => _media.Count;
 
-        public ICssParser Parser
-        {
-            get { return _context.GetService<ICssParser>(); }
-        }
+        public ICssParser Parser => _context.GetService<ICssParser>();
+
+        public IFeatureValidatorFactory ValidatorFactory => _context.GetService<IFeatureValidatorFactory>();
 
         public String MediaText
         {
-            get { return this.ToCss(); }
-            set { SetMediaText(value, throwOnError: true); }
+            get => this.ToCss();
+            set => SetMediaText(value, throwOnError: true);
         }
 
         #endregion
@@ -63,7 +56,7 @@
         public void SetMediaText(String value, Boolean throwOnError)
         {
             _media.Clear();
-            var media = MediaParser.Parse(value);
+            var media = MediaParser.Parse(value, ValidatorFactory);
 
             if (media != null)
             {
@@ -82,20 +75,13 @@
 
         public void Add(String newMedium)
         {
-            var medium = MediumParser.Parse(newMedium);
-
-            if (medium == null)
-                throw new DomException(DomError.Syntax);
-
+            var medium = MediumParser.Parse(newMedium, ValidatorFactory) ?? throw new DomException(DomError.Syntax);
             _media.Add(medium);
         }
 
         public void Remove(String oldMedium)
         {
-            var medium = MediumParser.Parse(oldMedium);
-
-            if (medium == null)
-                throw new DomException(DomError.Syntax);
+            var medium = MediumParser.Parse(oldMedium, ValidatorFactory) ?? throw new DomException(DomError.Syntax);
 
             for (var i = 0; i < _media.Count; i++)
             {
@@ -133,15 +119,9 @@
 
         #region IEnumerable implementation
 
-        public IEnumerator<ICssMedium> GetEnumerator()
-        {
-            return _media.GetEnumerator();
-        }
+        public IEnumerator<ICssMedium> GetEnumerator() => _media.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

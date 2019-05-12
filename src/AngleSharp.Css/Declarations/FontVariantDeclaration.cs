@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Font,
         };
 
-        public static IValueConverter Converter = Or(FontVariantConverter, AssignInitial(FontVariant.Normal));
+        public static IValueConverter Converter = FontVariantConverter;
+
+        public static ICssValue InitialValue = InitialValues.FontVariantDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

@@ -5,15 +5,9 @@
 
     class ExCssParser : ITestee
     {
-        public String Name
-        {
-            get { return "ExCSS"; }
-        }
+        public String Name => "ExCSS";
 
-        public Type Library
-        {
-            get { return typeof(Parser); }
-        }
+        public Type Library => typeof(Parser);
 
         public void Run(String source)
         {

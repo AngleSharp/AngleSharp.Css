@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(PlayStateConverter.FromList(), AssignInitial(PlayState.Running));
+        public static IValueConverter Converter = PlayStateConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.AnimationPlayStateDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

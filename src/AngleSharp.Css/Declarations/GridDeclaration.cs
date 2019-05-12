@@ -6,13 +6,14 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using static ValueConverters;
 
     static class GridDeclaration
     {
         public static readonly String Name = PropertyNames.Grid;
 
         public static readonly IValueConverter Converter = new GridAggregator();
+
+        public static readonly ICssValue InitialValue = null;
 
         public static readonly String[] Longhands = new[]
         {
@@ -66,7 +67,7 @@ namespace AngleSharp.Css.Declarations
                                     sizes.Add(size);
                                 }
 
-                                return new Grid(rows, null, sizes, isDense);
+                                return new CssGridValue(rows, null, sizes, isDense);
                             }
                         }
                     }
@@ -97,11 +98,11 @@ namespace AngleSharp.Css.Declarations
 
                             if (columns != null)
                             {
-                                return new Grid(null, columns, sizes, isDense);
+                                return new CssGridValue(null, columns, sizes, isDense);
                             }
                         }
 
-                        return new Grid(null, null, sizes, isDense);
+                        return new CssGridValue(null, null, sizes, isDense);
                     }
                 }
 
@@ -111,12 +112,9 @@ namespace AngleSharp.Css.Declarations
 
         sealed class GridAggregator : IValueConverter, IValueAggregator
         {
-            private static readonly IValueConverter converter = Or(new GridConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new GridConverter();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -135,14 +133,12 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (templateRows != null || templateColumns != null)
                 {
-                    var tuple = (autoRows ?? autoColumns) as CssTupleValue;
-
-                    if (tuple != null)
+                    if ((autoRows ?? autoColumns) is CssTupleValue tuple)
                     {
-                        return new Grid(templateRows, templateColumns, tuple.Items, autoFlow != null);
+                        return new CssGridValue(templateRows, templateColumns, tuple.Items, autoFlow != null);
                     }
 
-                    return new GridTemplate(templateRows, templateColumns, templateAreas);
+                    return new CssGridTemplateValue(templateRows, templateColumns, templateAreas);
                 }
 
                 return null;
@@ -150,10 +146,8 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                if (value is GridTemplate)
+                if (value is CssGridTemplateValue gt)
                 {
-                    var gt = (GridTemplate)value;
-
                     return new[]
                     {
                         gt.TemplateRows,
@@ -168,9 +162,8 @@ namespace AngleSharp.Css.Declarations
                         null,
                     };
                 }
-                else if (value is Grid)
+                else if (value is CssGridValue grid)
                 {
-                    var grid = (Grid)value;
                     var dense = grid.Rows != null ? CssKeywords.Row : CssKeywords.Column;
                     return new[]
                     {

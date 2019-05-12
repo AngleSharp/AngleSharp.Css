@@ -73,7 +73,9 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("<style>test</style>", "")]
         public void GetInnerText(String fixture, String expected)
         {
-            var config = Configuration.Default.WithCss();
+            var defaultSheet = new CssDefaultStyleSheetProvider();
+            defaultSheet.SetDefault("");
+            var config = Configuration.Default.With(defaultSheet).WithCss();
             var doc = fixture.ToHtmlDocument(config);
 
             Assert.AreEqual(expected, doc.Body.GetInnerText());

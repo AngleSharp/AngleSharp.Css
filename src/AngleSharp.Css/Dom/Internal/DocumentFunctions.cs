@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using System;
     using System.Collections;
@@ -19,45 +19,21 @@
             _functions = functions;
         }
 
-        public IDocumentFunction this[Int32 index]
-        {
-            get { return _functions[index]; }
-        }
+        public IDocumentFunction this[Int32 index] => _functions[index];
 
-        public Int32 Length
-        {
-            get { return _functions.Count; }
-        }
+        public Int32 Length => _functions.Count;
 
-        public IEnumerator<IDocumentFunction> GetEnumerator()
-        {
-            return _functions.GetEnumerator();
-        }
+        public IEnumerator<IDocumentFunction> GetEnumerator() => _functions.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Add(IDocumentFunction function)
-        {
-            _functions.Add(function);
-        }
+        public void Add(IDocumentFunction function) => _functions.Add(function);
 
-        public void Remove(IDocumentFunction function)
-        {
-            _functions.Remove(function);
-        }
+        public void Remove(IDocumentFunction function) => _functions.Remove(function);
 
-        public void Clear()
-        {
-            _functions.Clear();
-        }
+        public void Clear() => _functions.Clear();
 
-        public void AddRange(IEnumerable<IDocumentFunction> functions)
-        {
-            _functions.AddRange(functions);
-        }
+        public void AddRange(IEnumerable<IDocumentFunction> functions) => _functions.AddRange(functions);
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {

@@ -19,32 +19,24 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly IValueConverter Converter = new GridColumnAggregator();
 
+        public static readonly ICssValue InitialValue = null;
+
         public static readonly PropertyFlags Flags = PropertyFlags.Shorthand;
 
         sealed class GridColumnAggregator : IValueAggregator, IValueConverter
         {
             private static readonly String seperator = " / ";
-            private static readonly IValueConverter converter = Or(
-                SlashSeparated(Or(
-                    Assign<Object>(CssKeywords.Auto, null),
-                    WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter))).Many(1, 2, seperator),
-                AssignInitial());
+            private static readonly IValueConverter converter = SlashSeparated(Or(
+                Assign<Object>(CssKeywords.Auto, null),
+                WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter))).Many(1, 2, seperator);
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
-            public ICssValue Merge(ICssValue[] values)
-            {
-                return new CssTupleValue(values, seperator);
-            }
+            public ICssValue Merge(ICssValue[] values) => new CssTupleValue(values, seperator);
 
             public ICssValue[] Split(ICssValue value)
             {
-                var tuple = value as CssTupleValue;
-
-                if (tuple != null)
+                if (value is CssTupleValue tuple)
                 {
                     return new[]
                     {

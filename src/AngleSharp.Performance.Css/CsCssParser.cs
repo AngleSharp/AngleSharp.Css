@@ -5,15 +5,9 @@
 
     class CsCssParser : ITestee
     {
-        public String Name
-        {
-            get { return "CsCss"; }
-        }
+        public String Name => "CsCss";
 
-        public Type Library
-        {
-            get { return typeof(CssLoader); }
-        }
+        public Type Library => typeof(CssLoader);
 
         public void Run(String source)
         {

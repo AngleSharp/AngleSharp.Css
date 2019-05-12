@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.PageBreakAfter;
 
-        public static IValueConverter Converter = Or(PageBreakModeConverter, AssignInitial(BreakMode.Auto));
+        public static IValueConverter Converter = PageBreakModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.PageBreakAfterDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

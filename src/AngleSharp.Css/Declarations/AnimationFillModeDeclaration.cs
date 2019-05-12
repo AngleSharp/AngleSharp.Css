@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Animation,
         };
 
-        public static IValueConverter Converter = Or(AnimationFillStyleConverter.FromList(), AssignInitial(AnimationFillStyle.None));
+        public static IValueConverter Converter = AnimationFillStyleConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.AnimationFillModeDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

@@ -14,6 +14,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BorderRadiusAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -24,53 +26,40 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderBottomLeftRadius,
         };
 
-        sealed class BorderRadiusValueConverter : IValueConverter
+        sealed class BorderRadiusAggregator : IValueAggregator, IValueConverter
         {
             private readonly IValueConverter _converter = LengthOrPercentConverter.Periodic();
 
             public ICssValue Convert(StringSource source)
             {
                 var start = source.Index;
-                var horizontal = _converter.Convert(source) as Periodic<ICssValue>;
+                var horizontal = _converter.Convert(source) as CssPeriodicValue;
                 var vertical = horizontal;
                 var c = source.SkipSpacesAndComments();
 
                 if (c == Symbols.Solidus)
                 {
                     source.SkipCurrentAndSpaces();
-                    vertical = _converter.Convert(source) as Periodic<ICssValue>;
+                    vertical = _converter.Convert(source) as CssPeriodicValue;
                 }
 
-                return vertical != null ? new BorderRadius(horizontal, vertical) : null;
-            }
-        }
-
-        sealed class BorderRadiusAggregator : IValueAggregator, IValueConverter
-        {
-            private static readonly IValueConverter converter = Or(new BorderRadiusValueConverter(), AssignInitial());
-
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
+                return vertical != null ? new CssBorderRadiusValue(horizontal, vertical) : null;
             }
 
-            private static ICssValue Both(ICssValue horizontal, ICssValue vertical)
-            {
-                return new CssTupleValue(new[] { horizontal, vertical });
-            }
+            private static ICssValue Both(params ICssValue[] values) => new CssRadiusValue(values);
 
             public ICssValue Merge(ICssValue[] values)
             {
-                var topLeft = values[0] as CssTupleValue;
-                var topRight = values[1] as CssTupleValue;
-                var bottomRight = values[2] as CssTupleValue;
-                var bottomLeft = values[3] as CssTupleValue;
+                var topLeft = values[0] as CssRadiusValue;
+                var topRight = values[1] as CssRadiusValue;
+                var bottomRight = values[2] as CssRadiusValue;
+                var bottomLeft = values[3] as CssRadiusValue;
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
-                    var horizontal = new Periodic<ICssValue>(new[] { topLeft.Items[0], topRight.Items[0], bottomRight.Items[0], bottomLeft.Items[0] });
-                    var vertical = new Periodic<ICssValue>(new[] { topLeft.Items[1], topRight.Items[1], bottomRight.Items[1], bottomLeft.Items[1] });
-                    return new BorderRadius(horizontal, vertical);
+                    var horizontal = new CssPeriodicValue(new[] { topLeft.Width, topRight.Width, bottomRight.Width, bottomLeft.Width });
+                    var vertical = new CssPeriodicValue(new[] { topLeft.Height, topRight.Height, bottomRight.Height, bottomLeft.Height });
+                    return new CssBorderRadiusValue(horizontal, vertical);
                 }
 
                 return null;
@@ -78,9 +67,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var radius = value as BorderRadius;
-
-                if (radius != null)
+                if (value is CssBorderRadiusValue radius)
                 {
                     return new[]
                     {

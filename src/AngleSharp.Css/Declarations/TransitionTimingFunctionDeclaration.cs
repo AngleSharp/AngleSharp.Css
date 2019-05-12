@@ -1,7 +1,7 @@
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Transition,
         };
 
-        public static IValueConverter Converter = Or(TransitionConverter.FromList(), AssignInitial(CubicBezierTimingFunction.Ease));
+        public static IValueConverter Converter = TransitionConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.TransitionTimingFunctionDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

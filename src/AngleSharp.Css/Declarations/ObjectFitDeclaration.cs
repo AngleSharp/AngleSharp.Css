@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ObjectFit;
 
-        public static IValueConverter Converter = Or(ObjectFittingConverter, AssignInitial(ObjectFitting.Fill));
+        public static IValueConverter Converter = ObjectFittingConverter;
+
+        public static ICssValue InitialValue = InitialValues.ObjectFitDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

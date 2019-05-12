@@ -6,6 +6,7 @@
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.Css.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp.Css/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.Css.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp.Css/issues)
+[![Gitter Chat](http://img.shields.io/badge/gitter-AngleSharp/AngleSharp-blue.svg?style=flat-square)](https://gitter.im/AngleSharp/AngleSharp)
 [![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
 [![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp.Css?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp.Css)
 
@@ -27,6 +28,20 @@ This will register a parser for CSS related content. The CSS parsing options and
 - The styling service that can handle CSS documents, see `CssStylingService`
 
 For an interactive DOM (i.e., to handle `style` attribute changes in the HTML document) an observer needs to be registered as well.
+
+Furthermore, for some CSSOM features (e.g., media queries) a render device is required.
+
+```cs
+var config = Configuration.Default
+    .WithCss()
+    .WithRenderDevice(new DefaultRenderDevice
+    {
+        DeviceHeight = 768,
+        DeviceWidth = 1024,
+    });
+```
+
+If no specific `IRenderDevice` (e.g., via creating an `DefaultRenderDevice` object) instance is created a default implementation will be set.
 
 ## Advantages of AngleSharp.Css
 
@@ -59,6 +74,16 @@ The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the
 Participation in the project is highly welcome. For this project the same rules as for the AngleSharp core project may be applied.
 
 If you have any question, concern, or spot an issue then please report it before opening a pull request. An initial discussion is appreciated regardless of the nature of the problem.
+
+Live discussions can take place in our [Gitter chat](https://gitter.im/AngleSharp/AngleSharp), which supports using GitHub accounts.
+
+This project has adopted the code of conduct defined by the Contributor Covenant to clarify expected behavior in our community.
+
+For more information see the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/code-of-conduct).
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](https://dotnetfoundation.org).
 
 ## License
 

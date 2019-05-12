@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BorderImageAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -86,7 +88,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 while (pos != source.Index);
 
-                return new BorderImage(image, slice, widths, outsets, CreateRepeat(repeatX, repeatY));
+                return new CssBorderImageValue(image, slice, widths, outsets, CreateRepeat(repeatX, repeatY));
             }
 
             private static ICssValue CreateRepeat(ICssValue repeatX, ICssValue repeatY)
@@ -108,7 +110,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class BorderImageAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(None, new BorderImageValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = Or(None, new BorderImageValueConverter());
 
             public ICssValue Convert(StringSource source)
             {
@@ -125,7 +127,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (outset != null || repeat != null || slice != null || source != null || width != null)
                 {
-                    return new BorderImage(source, slice, width, outset, repeat);
+                    return new CssBorderImageValue(source, slice, width, outset, repeat);
                 }
 
                 return null;
@@ -133,34 +135,27 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var img = value as BorderImage?;
-
-                if (img.HasValue)
+                if (value is CssBorderImageValue img)
                 {
-                    return new[]
+                    return new ICssValue[]
                     {
-                        img.Value.Outsets,
-                        img.Value.Repeat,
-                        img.Value.Slice,
-                        img.Value.Image,
-                        img.Value.Widths,
+                        img.Outsets,
+                        img.Repeat,
+                        img.Slice,
+                        img.Image,
+                        img.Widths,
                     };
                 }
-                else
+                else if (value is Constant<Object> constant)
                 {
-                    var constant = value as Constant<Object>;
-
-                    if (constant != null)
+                    return new ICssValue[]
                     {
-                        return new[]
-                        {
-                            null,
-                            null,
-                            null,
-                            constant,
-                            null,
-                        };
-                    }
+                        null,
+                        null,
+                        null,
+                        constant,
+                        null,
+                    };
                 }
 
                 return null;

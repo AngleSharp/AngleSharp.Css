@@ -7,23 +7,23 @@ namespace AngleSharp.Css.Parser
 
     static class TimingFunctionParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ITimingFunction>> TimingFunctions = new Dictionary<String, Func<StringSource, ITimingFunction>>
+        private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new Dictionary<String, Func<StringSource, ICssTimingFunctionValue>>
         {
             { FunctionNames.Steps, ParseSteps },
             { FunctionNames.CubicBezier, ParseCubicBezier },
         };
 
-        public static ITimingFunction ParseTimingFunction(this StringSource source)
+        public static ICssTimingFunctionValue ParseTimingFunction(this StringSource source)
         {
             var pos = source.Index;
-            var result = default(ITimingFunction);
+            var result = default(ICssTimingFunctionValue);
             var ident = source.ParseIdent();
 
             if (ident != null)
             {
                 if (source.Current == Symbols.RoundBracketOpen)
                 {
-                    var function = default(Func<StringSource, ITimingFunction>);
+                    var function = default(Func<StringSource, ICssTimingFunctionValue>);
 
                     if (TimingFunctions.TryGetValue(ident, out function))
                     {
@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Parser
             return result;
         }
 
-        private static ITimingFunction ParseSteps(StringSource source)
+        private static ICssTimingFunctionValue ParseSteps(StringSource source)
         {
             var intervals = source.ParseInteger();
             var c = source.SkipGetSkip();
@@ -64,14 +64,14 @@ namespace AngleSharp.Css.Parser
 
                 if (start != end && c == Symbols.RoundBracketClose)
                 {
-                    return new StepsTimingFunction(intervals.Value, start);
+                    return new CssStepsValue(intervals.Value, start);
                 }
             }
             
             return null;
         }
 
-        private static ITimingFunction ParseCubicBezier(StringSource source)
+        private static ICssTimingFunctionValue ParseCubicBezier(StringSource source)
         {
             var p1 = source.ParseNumber();
             var c1 = source.SkipGetSkip();
@@ -84,7 +84,7 @@ namespace AngleSharp.Css.Parser
 
             if (p1.HasValue && p2.HasValue && p3.HasValue && p4.HasValue && c1 == c2 && c1 == c3 && c1 == Symbols.Comma && f == Symbols.RoundBracketClose)
             {
-                return new CubicBezierTimingFunction(p1.Value, p2.Value, p3.Value, p4.Value);
+                return new CssCubicBezierValue(p1.Value, p2.Value, p3.Value, p4.Value);
             }
             
             return null;

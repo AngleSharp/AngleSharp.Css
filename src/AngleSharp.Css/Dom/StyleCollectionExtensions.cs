@@ -23,8 +23,12 @@ namespace AngleSharp.Css.Extensions
         public static StyleCollection GetStyleCollection(this IWindow window)
         {
             var document = window.Document;
-            var device = document.Context.GetService<IRenderDevice>();
-            var stylesheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
+            var ctx = document.Context;
+            var device = ctx.GetService<IRenderDevice>();
+            var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
+            var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
+            var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
+            var stylesheets = defaultSheets.Concat(currentSheets);
             return new StyleCollection(stylesheets, device);
         }
 
@@ -92,10 +96,8 @@ namespace AngleSharp.Css.Extensions
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
-        {
-            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
-        }
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
+            rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
 
         #endregion
     }

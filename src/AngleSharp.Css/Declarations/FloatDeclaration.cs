@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Float;
 
-        public static IValueConverter Converter = Or(FloatingConverter, AssignInitial(Floating.None));
+        public static IValueConverter Converter = FloatingConverter;
+
+        public static ICssValue InitialValue = InitialValues.FloatDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.RubyOverhang;
 
-        public static IValueConverter Converter = Or(RubyOverhangModeConverter, AssignInitial(RubyOverhangMode.None));
+        public static IValueConverter Converter = RubyOverhangModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.RubyOverhangDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

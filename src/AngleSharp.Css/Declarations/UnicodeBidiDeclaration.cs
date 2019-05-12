@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.UnicodeBidi;
 
-        public static IValueConverter Converter = Or(UnicodeModeConverter, AssignInitial(UnicodeMode.Normal));
+        public static IValueConverter Converter = UnicodeModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.UnicodeBidiDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

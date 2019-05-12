@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderCollapse;
 
-        public static IValueConverter Converter = Or(BorderCollapseConverter, AssignInitial(true));
+        public static IValueConverter Converter = BorderCollapseConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderCollapseDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

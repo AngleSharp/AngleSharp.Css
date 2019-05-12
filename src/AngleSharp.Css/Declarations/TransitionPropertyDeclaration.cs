@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Transition,
         };
 
-        public static IValueConverter Converter = Or(AnimatableConverter.FromList(), None, AssignInitial(CssKeywords.All));
+        public static IValueConverter Converter = Or(AnimatableConverter.FromList(), None);
+
+        public static ICssValue InitialValue = InitialValues.TransitionPropertyDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

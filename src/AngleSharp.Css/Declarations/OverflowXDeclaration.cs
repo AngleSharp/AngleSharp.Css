@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.OverflowX;
 
-        public static IValueConverter Converter = Or(OverflowExtendedModeConverter, AssignInitial(OverflowMode.Visible));
+        public static IValueConverter Converter = OverflowExtendedModeConverter;
+
+        public static ICssValue InitialValue = InitialValues.OverflowDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

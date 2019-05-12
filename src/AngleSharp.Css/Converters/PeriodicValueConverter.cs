@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -35,7 +35,7 @@
             {
                 var values = new ICssValue[length];
                 Array.Copy(options, values, length);
-                return new Periodic<ICssValue>(values);
+                return new CssPeriodicValue(values);
             }
 
             return null;

@@ -18,6 +18,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new FlexFlowAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
         sealed class FlexFlowAggregator : IValueAggregator, IValueConverter

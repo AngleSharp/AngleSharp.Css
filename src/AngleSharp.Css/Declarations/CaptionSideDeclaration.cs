@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -7,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.CaptionSide;
 
-        public static IValueConverter Converter = Or(CaptionSideConverter, AssignInitial(true));
+        public static IValueConverter Converter = CaptionSideConverter;
+
+        public static ICssValue InitialValue = InitialValues.CaptionSideDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

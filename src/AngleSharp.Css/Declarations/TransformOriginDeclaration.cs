@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TransformOrigin;
 
-        public static IValueConverter Converter = Or(Point3Converter, AssignInitial(Point.Center));
+        public static IValueConverter Converter = OriginConverter;
+
+        public static ICssValue InitialValue = InitialValues.TransformOriginDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

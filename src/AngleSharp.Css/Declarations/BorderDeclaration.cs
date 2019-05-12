@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
     using static ValueConverters;
 
     static class BorderDeclaration
@@ -12,6 +13,8 @@ namespace AngleSharp.Css.Declarations
         public static String Name = PropertyNames.Border;
 
         public static IValueConverter Converter = new BorderAggregator();
+
+        public static ICssValue InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
@@ -22,37 +25,20 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderColor,
         };
 
-        sealed class BorderValueConverter : IValueConverter
-        {
-            private static readonly IValueConverter converter = WithAny(
-                LineWidthConverter.Option(),
-                LineStyleConverter.Option(),
-                CurrentColorConverter.Option());
-
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
-        }
-
         sealed class BorderAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new BorderValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = WithAny(
+                LineWidthConverter.Option(InitialValues.BorderWidthDecl),
+                LineStyleConverter.Option(InitialValues.BorderStyleDecl),
+                CurrentColorConverter.Option(InitialValues.BorderColorDecl));
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
-                var width = values[0];
-                var style = values[1];
-                var color = values[2];
-
-                if (width != null && style != null && color != null)
+                if (!values.OfType<CssPeriodicValue>().Any())
                 {
-                    return new CssTupleValue(new[] { width, style, color });
+                    return new CssTupleValue(values);
                 }
 
                 return null;
@@ -60,11 +46,9 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var options = value as CssTupleValue;
-
-                if (options != null)
+                if (value is CssTupleValue options)
                 {
-                    return new[] { options.Items[0], options.Items[1], options.Items[2] };
+                    return options.ToArray();
                 }
 
                 return null;

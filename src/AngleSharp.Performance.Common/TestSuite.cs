@@ -29,30 +29,21 @@
 
         public Int32 NumberOfRepeats
         {
-            get { return _repeats; }
-            set { _repeats = value; }
+            get => _repeats;
+            set => _repeats = value;
         }
 
         public Int32 NumberOfReRuns
         {
-            get { return _reruns; }
-            set { _reruns = value; }
+            get => _reruns;
+            set => _reruns = value;
         }
 
-        internal IEnumerable<ITest> Tests
-        {
-            get { return _tests; }
-        }
+        internal IEnumerable<ITest> Tests => _tests;
 
-        internal IEnumerable<ITestee> Parsers
-        {
-            get { return _parsers; }
-        }
+        internal IEnumerable<ITestee> Parsers => _parsers;
 
-        internal IOutput Console
-        {
-            get { return _output; }
-        }
+        internal IOutput Console => _output;
 
         void Warmup()
         {

@@ -14,7 +14,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundRepeat,
         };
 
-        public static IValueConverter Converter = Or(BackgroundRepeatConverter.FromList(), AssignInitial(BackgroundRepeat.Repeat));
+        public static IValueConverter Converter = BackgroundRepeatConverter.FromList();
+
+        public static ICssValue InitialValue = InitialValues.BackgroundRepeatHorizontalDecl;
 
         public static PropertyFlags Flags = PropertyFlags.None;
     }

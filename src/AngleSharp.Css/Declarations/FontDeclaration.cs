@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new FontAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -92,7 +94,7 @@ namespace AngleSharp.Css.Declarations
 
                     if (fontFamilies != null)
                     {
-                        return new FontInfo(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));
+                        return new CssFontValue(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));
                     }
                 }
 
@@ -102,7 +104,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class FontAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new FontValueConverter(), SystemFontConverter, AssignInitial());
+            private static readonly IValueConverter converter = Or(new FontValueConverter(), SystemFontConverter);
 
             public ICssValue Convert(StringSource source)
             {
@@ -121,7 +123,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (families != null && size != null || families is Constant<SystemFont>)
                 {
-                    return new FontInfo(style, variant, weight, stretch, size, height, families);
+                    return new CssFontValue(style, variant, weight, stretch, size, height, families);
                 }
 
                 return null;
@@ -129,21 +131,18 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var font = value as FontInfo;
-
-                if (font == null)
+                if (!(value is CssFontValue font))
                 {
-                    var systemFont = value as Constant<SystemFont>;
 
-                    if (systemFont == null)
+                    if (!(value is Constant<SystemFont> systemFont))
                     {
                         return null;
                     }
 
-                    return new[] { systemFont, null, null, null, null, null, null };
+                    return new ICssValue[] { systemFont, null, null, null, null, null, null };
                 }
 
-                return new[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
+                return new ICssValue[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
             }
         }
     }

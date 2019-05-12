@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -67,10 +67,5 @@
         /// Gets the category of the device.
         /// </summary>
         DeviceCategory Category { get; }
-
-        /// <summary>
-        /// Gets the associated browsing context.
-        /// </summary>
-        IBrowsingContext Context { get; }
     }
 }

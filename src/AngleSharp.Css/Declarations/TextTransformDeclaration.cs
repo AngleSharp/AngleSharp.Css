@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TextTransform;
 
-        public static IValueConverter Converter = Or(TextTransformConverter, AssignInitial(TextTransform.None));
+        public static IValueConverter Converter = TextTransformConverter;
+
+        public static ICssValue InitialValue = InitialValues.TextTransformDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

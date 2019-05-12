@@ -14,10 +14,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="rule">The rule to extend.</param>
         /// <param name="device">The device to check for support.</param>
         /// <returns>True if support is given, otherwise false.</returns>
-        public static Boolean IsValid(this ICssSupportsRule rule, IRenderDevice device)
-        {
-            return rule.Condition.Check(device);
-        }
+        public static Boolean IsValid(this ICssSupportsRule rule, IRenderDevice device) => rule.Condition.Check(device);
 
         /// <summary>
         /// Determines if the rule is valid for a given device.
@@ -25,10 +22,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="rule">The rule to extend.</param>
         /// <param name="device">The device to check for conformance.</param>
         /// <returns>True if support is given, otherwise false.</returns>
-        public static Boolean IsValid(this ICssMediaRule rule, IRenderDevice device)
-        {
-            return rule.Media.Validate(device);
-        }
+        public static Boolean IsValid(this ICssMediaRule rule, IRenderDevice device) => rule.Media.Validate(device);
 
         /// <summary>
         /// Determines if the rule is valid for a given URL.
@@ -36,9 +30,6 @@ namespace AngleSharp.Css.Dom
         /// <param name="rule">The rule to extend.</param>
         /// <param name="url">The URL to check for conformance.</param>
         /// <returns>True if the URL is matching, otherwise false.</returns>
-        public static Boolean IsValid(this ICssDocumentRule rule, Url url)
-        {
-            return rule.Conditions.Any(m => m.Matches(url));
-        }
+        public static Boolean IsValid(this ICssDocumentRule rule, Url url) => rule.Conditions.Any(m => m.Matches(url));
     }
 }

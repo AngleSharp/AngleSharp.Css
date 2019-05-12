@@ -33,7 +33,7 @@
 
         public String CssText
         {
-            get { return this.ToCss(); }
+            get => this.ToCss();
             set
             {
                 var rule = Parser.ParseRule(Owner, value);
@@ -50,7 +50,7 @@
 
         public ICssRule Parent
         {
-            get { return _parent; }
+            get => _parent;
             set
             {
                 _parent = value;
@@ -64,19 +64,13 @@
 
         public ICssStyleSheet Owner
         {
-            get { return _owner; }
-            set { _owner = value; }
+            get => _owner;
+            set => _owner = value;
         }
 
-        public CssRuleType Type
-        {
-            get { return _type; }
-        }
+        public CssRuleType Type => _type;
 
-        public ICssParser Parser
-        {
-            get { return _owner.Context.GetService<ICssParser>(); }
-        }
+        public ICssParser Parser => _owner.Context.GetService<ICssParser>();
 
         #endregion
 

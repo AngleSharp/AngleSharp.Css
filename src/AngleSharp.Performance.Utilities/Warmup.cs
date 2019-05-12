@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Performance
+namespace AngleSharp.Performance
 {
     using System;
     using System.Reflection;

@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.RubyPosition;
 
-        public static IValueConverter Converter = Or(RubyPositionConverter, AssignInitial(RubyPosition.Over));
+        public static IValueConverter Converter = RubyPositionConverter;
+
+        public static ICssValue InitialValue = InitialValues.RubyPositionDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Inherited;
     }

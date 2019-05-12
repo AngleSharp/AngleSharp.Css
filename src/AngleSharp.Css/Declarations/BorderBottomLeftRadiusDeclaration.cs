@@ -1,6 +1,6 @@
 namespace AngleSharp.Css.Declarations
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
 
@@ -13,7 +13,9 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderRadius,
         };
 
-        public static IValueConverter Converter = Or(BorderRadiusLonghandConverter, AssignInitial(Length.Zero));
+        public static IValueConverter Converter = BorderRadiusLonghandConverter;
+
+        public static ICssValue InitialValue = InitialValues.BorderRadiusDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }

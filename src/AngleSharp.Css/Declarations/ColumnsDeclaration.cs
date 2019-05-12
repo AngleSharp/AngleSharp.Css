@@ -12,6 +12,8 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new ColumnsAggregator();
 
+        public static ICssValue InitialValue = null;
+
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
         public static String[] Longhands = new[]
@@ -34,12 +36,9 @@ namespace AngleSharp.Css.Declarations
 
         sealed class ColumnsAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new ColumnsValueConverter(), AssignInitial());
+            private static readonly IValueConverter converter = new ColumnsValueConverter();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -56,9 +55,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var options = value as CssTupleValue;
-
-                if (options != null)
+                if (value is CssTupleValue options)
                 {
                     return new[]
                     {

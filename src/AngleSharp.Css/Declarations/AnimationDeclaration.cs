@@ -5,7 +5,6 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using static ValueConverters;
 
@@ -14,6 +13,8 @@ namespace AngleSharp.Css.Declarations
         public static String Name = PropertyNames.Animation;
 
         public static IValueConverter Converter = new AnimationAggregator();
+
+        public static ICssValue InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
@@ -29,32 +30,19 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.AnimationName,
         };
 
-        sealed class AnimationConverter : IValueConverter
-        {
-            private static readonly IValueConverter ListConverter = WithAny(
-                TimeConverter.Option(),
-                TransitionConverter.Option(),
-                TimeConverter.Option(),
-                PositiveOrInfiniteNumberConverter.Option(),
-                AnimationDirectionConverter.Option(),
-                AnimationFillStyleConverter.Option(),
-                PlayStateConverter.Option(),
-                IdentifierConverter.Option()).FromList();
-
-            public ICssValue Convert(StringSource source)
-            {
-                return ListConverter.Convert(source);
-            }
-        }
-
         sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = Or(new AnimationConverter(), AssignInitial());
+            private static readonly IValueConverter ListConverter = WithAny(
+                TimeConverter.Option(InitialValues.AnimationDurationDecl),
+                TransitionConverter.Option(InitialValues.AnimationTimingFunctionDecl),
+                TimeConverter.Option(InitialValues.AnimationDelayDecl),
+                PositiveOrInfiniteNumberConverter.Option(InitialValues.AnimationIterationCountDecl),
+                AnimationDirectionConverter.Option(InitialValues.AnimationDirectionDecl),
+                AnimationFillStyleConverter.Option(InitialValues.AnimationFillModeDecl),
+                PlayStateConverter.Option(InitialValues.AnimationPlayStateDecl),
+                IdentifierConverter.Option(InitialValues.AnimationNameDecl)).FromList();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => ListConverter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
@@ -77,9 +65,7 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue[] Split(ICssValue value)
             {
-                var list = value as CssListValue;
-
-                if (list != null)
+                if (value is CssListValue list)
                 {
                     return new[]
                     {

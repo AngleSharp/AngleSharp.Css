@@ -42,7 +42,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"padding-bottom: var(--foo)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--foo", variable.References[0].VariableName);
@@ -55,7 +55,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"padding-bottom: var(--my-bar, 24px)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--my-bar", variable.References[0].VariableName);
@@ -68,7 +68,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"border-top-color: var(--color, red, blue)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--color", variable.References[0].VariableName);
@@ -81,7 +81,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"background: var(--foo)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--foo", variable.References[0].VariableName);
@@ -94,7 +94,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"background: url('http://bit.ly/2FiPrRA') 0 100%/340px no-repeat, var(--primary-color);";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--primary-color", variable.References[0].VariableName);
@@ -107,7 +107,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var source = @"border: var(--width) solid var(--color, black)";
             var property = ParseDeclaration(source);
             Assert.IsNotNull(property);
-            var variable = property.RawValue as VarReferences;
+            var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
             Assert.AreEqual(2, variable.References.Length);
             Assert.AreEqual("--width", variable.References[0].VariableName);

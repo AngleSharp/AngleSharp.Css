@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class GradientParser
     {
-        private static readonly Dictionary<String, Func<StringSource, IGradient>> GradientFunctions = new Dictionary<string, Func<StringSource, IGradient>>
+        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>
         {
             { FunctionNames.LinearGradient, ParseLinearGradient },
             { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.RepeatingRadialGradient, ParseRepeatingRadialGradient },
         };
 
-        public static IGradient ParseGradient(this StringSource source)
+        public static ICssGradientFunctionValue ParseGradient(this StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (source.Current == Symbols.RoundBracketOpen)
                 {
-                    var function = default(Func<StringSource, IGradient>);
+                    var function = default(Func<StringSource, ICssGradientFunctionValue>);
 
                     if (GradientFunctions.TryGetValue(ident, out function))
                     {
@@ -39,12 +39,12 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static IGradient ParseLinearGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseLinearGradient(StringSource source)
         {
             return ParseLinearGradient(source, false);
         }
 
-        private static IGradient ParseRepeatingLinearGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRepeatingLinearGradient(StringSource source)
         {
             return ParseLinearGradient(source, true);
         }
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a linear gradient.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
         /// </summary>
-        private static IGradient ParseLinearGradient(StringSource source, Boolean repeating)
+        private static ICssGradientFunctionValue ParseLinearGradient(StringSource source, Boolean repeating)
         {
             var start = source.Index;
             var angle = ParseLinearAngle(source);
@@ -79,18 +79,18 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new LinearGradient(angle, stops, repeating);
+                return new CssLinearGradientValue(angle, stops, repeating);
             }
 
             return null;
         }
 
-        private static IGradient ParseRadialGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRadialGradient(StringSource source)
         {
             return ParseRadialGradient(source, false);
         }
 
-        private static IGradient ParseRepeatingRadialGradient(StringSource source)
+        private static ICssGradientFunctionValue ParseRepeatingRadialGradient(StringSource source)
         {
             return ParseRadialGradient(source, true);
         }
@@ -99,7 +99,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a radial gradient
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
         /// </summary>
-        private static IGradient ParseRadialGradient(StringSource source, Boolean repeating)
+        private static ICssGradientFunctionValue ParseRadialGradient(StringSource source, Boolean repeating)
         {
             var start = source.Index;
             var options = ParseRadialOptions(source);
@@ -128,17 +128,17 @@ namespace AngleSharp.Css.Parser
                 var center = options?.Center ?? Point.Center;
                 var width = options?.Width;
                 var height = options?.Height;
-                var sizeMode = options?.Size ?? RadialGradient.SizeMode.None;
+                var sizeMode = options?.Size ?? CssRadialGradientValue.SizeMode.None;
                 source.SkipCurrentAndSpaces();
-                return new RadialGradient(circle, center, width, height, sizeMode, stops, repeating);
+                return new CssRadialGradientValue(circle, center, width, height, sizeMode, stops, repeating);
             }
 
             return null;
         }
 
-        private static GradientStop[] ParseGradientStops(StringSource source)
+        private static CssGradientStopValue[] ParseGradientStops(StringSource source)
         {
-            var stops = new List<GradientStop>();
+            var stops = new List<CssGradientStopValue>();
             var current = source.Current;
 
             while (!source.IsDone)
@@ -156,14 +156,14 @@ namespace AngleSharp.Css.Parser
                 if (stop == null)
                     break;
 
-                stops.Add(stop.Value);
+                stops.Add(stop);
                 current = source.SkipSpacesAndComments();
             }
 
             return stops.ToArray();
         }
 
-        private static GradientStop? ParseGradientStop(StringSource source)
+        private static CssGradientStopValue ParseGradientStop(StringSource source)
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
@@ -171,7 +171,7 @@ namespace AngleSharp.Css.Parser
 
             if (color.HasValue)
             {
-                return new GradientStop(color.Value, position);
+                return new CssGradientStopValue(color.Value, position);
             }
 
             return null;
@@ -221,7 +221,7 @@ namespace AngleSharp.Css.Parser
             var center = Point.Center;
             var width = default(ICssValue);
             var height = default(ICssValue);
-            var size = RadialGradient.SizeMode.None;
+            var size = CssRadialGradientValue.SizeMode.None;
             var redo = false;
             var ident = source.ParseIdent();
 
@@ -239,7 +239,7 @@ namespace AngleSharp.Css.Parser
                     }
                     else
                     {
-                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                        size = ToSizeMode(source) ?? CssRadialGradientValue.SizeMode.None;
                     }
 
                     redo = true;
@@ -259,7 +259,7 @@ namespace AngleSharp.Css.Parser
                     }
                     else if (el == null && es == null)
                     {
-                        size = ToSizeMode(source) ?? RadialGradient.SizeMode.None;
+                        size = ToSizeMode(source) ?? CssRadialGradientValue.SizeMode.None;
                     }
                     else
                     {
@@ -354,14 +354,14 @@ namespace AngleSharp.Css.Parser
             public Point Center;
             public ICssValue Width;
             public ICssValue Height;
-            public RadialGradient.SizeMode Size;
+            public CssRadialGradientValue.SizeMode Size;
         }
 
-        private static RadialGradient.SizeMode? ToSizeMode(StringSource source)
+        private static CssRadialGradientValue.SizeMode? ToSizeMode(StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
-            var result = RadialGradient.SizeMode.None;
+            var result = CssRadialGradientValue.SizeMode.None;
 
             if (ident != null && Map.RadialGradientSizeModes.TryGetValue(ident, out result))
             {

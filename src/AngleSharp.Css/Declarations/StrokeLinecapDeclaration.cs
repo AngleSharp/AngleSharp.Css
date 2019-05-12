@@ -8,7 +8,9 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeLinecap;
 
-        public static IValueConverter Converter = Or(StrokeLinecapConverter, AssignInitial(StrokeLinecap.Butt));
+        public static IValueConverter Converter = StrokeLinecapConverter;
+
+        public static ICssValue InitialValue = InitialValues.StrokeLinecapDecl;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable;
     }
