@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Values
                 {
                     var layer = _layers.CssText;
 
-                    if (_color != null)
+                    if (_color != null && _color is CssInitialValue == false)
                     {
                         var sep = layer.Length > 0 ? " " : "";
                         var color = _color.CssText;

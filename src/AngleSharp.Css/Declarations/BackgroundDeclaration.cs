@@ -124,7 +124,7 @@ namespace AngleSharp.Css.Declarations
                         clip));
                 }
 
-                return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color);
+                return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color ?? new CssInitialValue(InitialValues.BackgroundColorDecl));
             }
 
             public ICssValue Merge(ICssValue[] values)
