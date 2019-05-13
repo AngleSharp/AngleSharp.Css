@@ -50,8 +50,9 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Css.sln", new NuGetRestoreSettings {
-            ToolPath = "tools/nuget.exe"
+        NuGetRestore("./src/AngleSharp.Css.sln", new NuGetRestoreSettings
+        {
+            ToolPath = "tools/nuget.exe",
         });
     });
 
@@ -59,8 +60,10 @@ Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        DotNetCoreBuild("./src/AngleSharp.Css.sln", new DotNetCoreBuildSettings() {
-           Configuration = configuration
+        ReplaceRegexInFiles("./src/Directory.Build.props", "(?<=<Version>)(.+?)(?=</Version>)", version);
+        DotNetCoreBuild("./src/AngleSharp.Css.sln", new DotNetCoreBuildSettings
+        {
+           Configuration = configuration,
         });
     });
 
@@ -70,7 +73,7 @@ Task("Run-Unit-Tests")
     {
         var settings = new DotNetCoreTestSettings
         {
-            Configuration = configuration
+            Configuration = configuration,
         };
 
         if (isRunningOnAppVeyor)
@@ -92,7 +95,7 @@ Task("Copy-Files")
         var mapping = new Dictionary<String, String>
         {
             { "net46", "net46" },
-            { "netstandard2.0", "netstandard2.0" }
+            { "netstandard2.0", "netstandard2.0" },
         };
 
         if (!isRunningOnWindows)
@@ -107,7 +110,7 @@ Task("Copy-Files")
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.Css.dll"),
-                buildDir + Directory(item.Value) + File("AngleSharp.Css.xml")
+                buildDir + Directory(item.Value) + File("AngleSharp.Css.xml"),
             }, targetDir);
         }
 
@@ -119,12 +122,8 @@ Task("Create-Package")
     .Does(() =>
     {
         var nugetExe = GetFiles("./tools/**/nuget.exe").FirstOrDefault()
-            ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null);
-
-        if (nugetExe == null)
-        {
-            throw new InvalidOperationException("Could not find nuget.exe.");
-        }
+            ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null)
+            ?? throw new InvalidOperationException("Could not find nuget.exe.");
 
         var nuspec = nugetRoot + File("AngleSharp.Css.nuspec");
 
@@ -133,7 +132,10 @@ Task("Create-Package")
             Version = version,
             OutputDirectory = nugetRoot,
             Symbols = false,
-            Properties = new Dictionary<String, String> { { "Configuration", configuration } }
+            Properties = new Dictionary<String, String>
+            {
+                { "Configuration", configuration },
+            },
         });
     });
 
@@ -154,7 +156,7 @@ Task("Publish-Package")
             NuGetPush(nupkg, new NuGetPushSettings
             {
                 Source = "https://nuget.org/api/v2/package",
-                ApiKey = apiKey
+                ApiKey = apiKey,
             });
         }
     });
@@ -173,7 +175,7 @@ Task("Publish-Release")
 
         var github = new GitHubClient(new ProductHeaderValue("AngleSharpCakeBuild"))
         {
-            Credentials = new Credentials(githubToken)
+            Credentials = new Credentials(githubToken),
         };
 
         var newRelease = github.Repository.Release;
