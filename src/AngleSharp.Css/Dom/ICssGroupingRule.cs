@@ -14,6 +14,7 @@
         /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
         [DomName("cssRules")]
+        [DomName("rules")]
         ICssRuleList Rules { get; }
 
         /// <summary>

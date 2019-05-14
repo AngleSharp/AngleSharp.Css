@@ -19,6 +19,7 @@
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
         [DomName("cssRules")]
+        [DomName("rules")]
         ICssRuleList Rules { get; }
 
         /// <summary>
@@ -32,7 +33,7 @@
         void Add(String rule);
 
         /// <summary>
-        /// Deletes a keyframe rule from the current CSSKeyframesRule. 
+        /// Deletes a keyframe rule from the current CSSKeyframesRule.
         /// </summary>
         /// <param name="key">
         /// The index of the keyframe to be deleted, expressed as a string
@@ -45,7 +46,7 @@
         /// Returns a keyframe rule corresponding to the given key.
         /// </summary>
         /// <param name="key">
-        /// A string containing an index of the keyframe to be returned, 
+        /// A string containing an index of the keyframe to be returned,
         /// resolving to a number between 0 and 1.
         /// </param>
         /// <returns>The keyframe or null.</returns>

@@ -1,3 +1,11 @@
+# 0.12.1
+
+Released on Wednesday, May 15 2019.
+
+- Binary version fix
+- Fixed indexers are missing a `DomAccessorAttribute` (#30)
+- Added `cssRules` alias: `rules` (#29)
+
 # 0.12.0
 
 Released on Sunday, May 12 2019.
