@@ -21,6 +21,7 @@
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
         [DomName("cssRules")]
+        [DomName("rules")]
         ICssRuleList Rules { get; }
 
         /// <summary>

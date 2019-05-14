@@ -21,6 +21,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="index">The 0-based index.</param>
         /// <returns>The pseudo element, if any.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         ICssPseudoElement this[Int32 index] { get; }
 
         /// <summary>

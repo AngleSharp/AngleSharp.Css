@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -16,6 +16,7 @@
         /// <param name="index">The 0-based index of the rule.</param>
         /// <returns>The CSS rule at the given index, if any.</returns>
         [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
         ICssRule this[Int32 index] { get; }
 
         /// <summary>
