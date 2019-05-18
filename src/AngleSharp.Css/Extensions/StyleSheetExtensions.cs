@@ -1,5 +1,6 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using System;
     using System.Collections.Generic;
@@ -21,6 +22,51 @@ namespace AngleSharp.Dom
         {
             sheets = sheets ?? throw new ArgumentNullException(nameof(sheets));
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
+        }
+
+        /// <summary>
+        /// Gets the styles matching the given render device.
+        /// </summary>
+        /// <param name="rules">The set of rules.</param>
+        /// <param name="device">The render device.</param>
+        /// <returns>The style rules.</returns>
+        public static IEnumerable<ICssStyleRule> GetMatchingStyles(this ICssRuleList rules, IRenderDevice device)
+        {
+            foreach (var rule in rules)
+            {
+                if (rule.Type == CssRuleType.Media)
+                {
+                    var media = (ICssMediaRule)rule;
+
+                    if (media.IsValid(device))
+                    {
+                        var subrules = media.Rules.GetMatchingStyles(device);
+
+                        foreach (var subrule in subrules)
+                        {
+                            yield return subrule;
+                        }
+                    }
+                }
+                else if (rule.Type == CssRuleType.Supports)
+                {
+                    var support = (ICssSupportsRule)rule;
+
+                    if (support.IsValid(device))
+                    {
+                        var subrules = support.Rules.GetMatchingStyles(device);
+
+                        foreach (var subrule in subrules)
+                        {
+                            yield return subrule;
+                        }
+                    }
+                }
+                else if (rule.Type == CssRuleType.Style)
+                {
+                    yield return (ICssStyleRule)rule;
+                }
+            }
         }
 
         /// <summary>

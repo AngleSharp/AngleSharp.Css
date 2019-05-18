@@ -1,4 +1,4 @@
-namespace AngleSharp.Css.Extensions
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -72,8 +72,9 @@ namespace AngleSharp.Css.Extensions
         /// </summary>
         /// <param name="styleCollection">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
+        /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element, ICssStyleDeclaration parent = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var rules = styleCollection.SortBySpecificity(element);
@@ -87,6 +88,11 @@ namespace AngleSharp.Css.Extensions
             if (element is IHtmlElement || element is ISvgElement)
             {
                 computedStyle.SetDeclarations(element.GetStyle());
+            }
+
+            if (parent != null)
+            {
+                computedStyle.UpdateDeclarations(parent);
             }
 
             return computedStyle;

@@ -1,3 +1,10 @@
+# 0.13.0
+
+(tbd)
+
+- Added `Compute` extension for `ICssStyleDeclaration`
+- Added `GetMatchingStyles` extension for `ICssRuleList`
+
 # 0.12.1
 
 Released on Wednesday, May 15 2019.

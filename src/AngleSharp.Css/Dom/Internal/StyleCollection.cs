@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Dom;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -39,7 +40,7 @@ namespace AngleSharp.Css.Dom
             {
                 if (!sheet.IsDisabled && sheet.Media.Validate(_device))
                 {
-                    var rules = GetRules(sheet.Rules);
+                    var rules = sheet.Rules.GetMatchingStyles(_device);
 
                     foreach (var rule in rules)
                     {
@@ -52,45 +53,6 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Helpers
-
-        private IEnumerable<ICssStyleRule> GetRules(ICssRuleList rules)
-        {
-            foreach (var rule in rules)
-            {
-                if (rule.Type == CssRuleType.Media)
-                {
-                    var media = (ICssMediaRule)rule;
-
-                    if (media.IsValid(_device))
-                    {
-                        var subrules = GetRules(media.Rules);
-
-                        foreach (var subrule in subrules)
-                        {
-                            yield return subrule;
-                        }
-                    }
-                }
-                else if (rule.Type == CssRuleType.Supports)
-                {
-                    var support = (ICssSupportsRule)rule;
-
-                    if (support.IsValid(_device))
-                    {
-                        var subrules = GetRules(support.Rules);
-
-                        foreach (var subrule in subrules)
-                        {
-                            yield return subrule;
-                        }
-                    }
-                }
-                else if (rule.Type == CssRuleType.Style)
-                {
-                    yield return (ICssStyleRule)rule;
-                }
-            }
-        }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
