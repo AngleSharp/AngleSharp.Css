@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BookmarkLevel;
 
-        public static IValueConverter Converter = Any;
+        public static IValueConverter Converter = PositiveIntegerConverter;
 
         public static ICssValue InitialValue = InitialValues.BookmarkLevelDecl;
 

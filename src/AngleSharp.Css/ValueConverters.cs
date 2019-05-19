@@ -235,6 +235,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter ShapeConverter = FromParser(ShapeParser.ParseShape);
 
+        /// <summary>
+        /// Creates a converter for the content function.
+        /// </summary>
+        public static readonly IValueConverter ContentConverter = FromParser(FunctionParser.ParseContent);
+
         #endregion
 
         #region Maps
@@ -519,6 +524,21 @@ namespace AngleSharp.Css
         /// Represents a converter for the FlexWrap enumeration.
         /// </summary>
         public static readonly IValueConverter FlexWrapConverter = Map.FlexWrapModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BookmarkState enumeration.
+        /// </summary>
+        public static readonly IValueConverter BookmarkStateConverter = Map.BookmarkStates.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FootnoteDisplay enumeration.
+        /// </summary>
+        public static readonly IValueConverter FootnoteDisplayConverter = Map.FootnoteDisplays.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FootnotePolicy enumeration.
+        /// </summary>
+        public static readonly IValueConverter FootnotePolicyConverter = Map.FootnotePolicies.ToConverter();
 
         #endregion
 

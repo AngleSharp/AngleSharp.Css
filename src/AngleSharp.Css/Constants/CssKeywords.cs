@@ -378,7 +378,17 @@ namespace AngleSharp.Css
         public static readonly String Stretch = "stretch";
 
         /// <summary>
-        /// The stretch keyword.
+        /// The compact keyword.
+        /// </summary>
+        public static readonly String Compact = "compact";
+
+        /// <summary>
+        /// The line keyword.
+        /// </summary>
+        public static readonly String Line = "line";
+
+        /// <summary>
+        /// The inline keyword.
         /// </summary>
         public static readonly String Inline = "inline";
 

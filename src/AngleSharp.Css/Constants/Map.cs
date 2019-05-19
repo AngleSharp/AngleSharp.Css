@@ -840,5 +840,34 @@ namespace AngleSharp.Css
             { CssKeywords.Baseline, FlexContentMode.Baseline },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
         };
+
+        /// <summary>
+        /// Contains the string-BookmarkState mapping.
+        /// </summary>
+        public static readonly Dictionary<String, BookmarkState> BookmarkStates = new Dictionary<String, BookmarkState>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Open, BookmarkState.Open },
+            { CssKeywords.Closed, BookmarkState.Closed },
+        };
+
+        /// <summary>
+        /// Contains the string-FootnotePolicy mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FootnotePolicy> FootnotePolicies = new Dictionary<String, FootnotePolicy>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, FootnotePolicy.Auto },
+            { CssKeywords.Block, FootnotePolicy.Block },
+            { CssKeywords.Line, FootnotePolicy.Line },
+        };
+
+        /// <summary>
+        /// Contains the string-FootnoteDisplay mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FootnoteDisplay> FootnoteDisplays = new Dictionary<String, FootnoteDisplay>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Block, FootnoteDisplay.Block },
+            { CssKeywords.Compact, FootnoteDisplay.Compact },
+            { CssKeywords.Inline, FootnoteDisplay.Inline },
+        };
     }
 }

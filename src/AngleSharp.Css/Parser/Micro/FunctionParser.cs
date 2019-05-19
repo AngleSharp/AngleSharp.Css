@@ -97,6 +97,19 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        public static CssContentValue ParseContent(this StringSource source)
+        {
+            var name = source.ParseCustomIdent();
+            var f = source.SkipGetSkip();
+
+            if (name != null && f == Symbols.RoundBracketClose)
+            {
+                return new CssContentValue(name);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Represents a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter

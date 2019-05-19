@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FootnoteDisplay;
 
-        public static IValueConverter Converter = Any;
+        public static IValueConverter Converter = FootnoteDisplayConverter;
 
         public static ICssValue InitialValue = InitialValues.FootnoteDisplayDecl;
 
