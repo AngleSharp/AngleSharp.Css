@@ -12,6 +12,55 @@ namespace AngleSharp.Css
         private readonly Dictionary<String, DeclarationInfo> _declarations = new Dictionary<String, DeclarationInfo>(StringComparer.OrdinalIgnoreCase)
         {
             {
+                BookmarkLabelDeclaration.Name, new DeclarationInfo(
+                    name: BookmarkLabelDeclaration.Name,
+                    converter: BookmarkLabelDeclaration.Converter,
+                    initialValue: BookmarkLabelDeclaration.InitialValue,
+                    flags: BookmarkLabelDeclaration.Flags)
+            },
+            {
+                BookmarkLevelDeclaration.Name, new DeclarationInfo(
+                    name: BookmarkLevelDeclaration.Name,
+                    converter: BookmarkLevelDeclaration.Converter,
+                    initialValue: BookmarkLevelDeclaration.InitialValue,
+                    flags: BookmarkLevelDeclaration.Flags)
+            },
+            {
+                BookmarkStateDeclaration.Name, new DeclarationInfo(
+                    name: BookmarkStateDeclaration.Name,
+                    converter: BookmarkStateDeclaration.Converter,
+                    initialValue: BookmarkStateDeclaration.InitialValue,
+                    flags: BookmarkStateDeclaration.Flags)
+            },
+            {
+                FootnoteDisplayDeclaration.Name, new DeclarationInfo(
+                    name: FootnoteDisplayDeclaration.Name,
+                    converter: FootnoteDisplayDeclaration.Converter,
+                    initialValue: FootnoteDisplayDeclaration.InitialValue,
+                    flags: FootnoteDisplayDeclaration.Flags)
+            },
+            {
+                FootnotePolicyDeclaration.Name, new DeclarationInfo(
+                    name: FootnotePolicyDeclaration.Name,
+                    converter: FootnotePolicyDeclaration.Converter,
+                    initialValue: FootnotePolicyDeclaration.InitialValue,
+                    flags: FootnotePolicyDeclaration.Flags)
+            },
+            {
+                RunningDeclaration.Name, new DeclarationInfo(
+                    name: RunningDeclaration.Name,
+                    converter: RunningDeclaration.Converter,
+                    initialValue: RunningDeclaration.InitialValue,
+                    flags: RunningDeclaration.Flags)
+            },
+            {
+                StringSetDeclaration.Name, new DeclarationInfo(
+                    name: StringSetDeclaration.Name,
+                    converter: StringSetDeclaration.Converter,
+                    initialValue: StringSetDeclaration.InitialValue,
+                    flags: StringSetDeclaration.Flags)
+            },
+            {
                 CaptionSideDeclaration.Name, new DeclarationInfo(
                     name: CaptionSideDeclaration.Name,
                     converter: CaptionSideDeclaration.Converter,

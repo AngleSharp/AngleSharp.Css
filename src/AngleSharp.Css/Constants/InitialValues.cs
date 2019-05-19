@@ -23,6 +23,13 @@ namespace AngleSharp.Css
         public static readonly ICssValue BackgroundOriginDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.PaddingBox);
         public static readonly ICssValue BackgroundClipDecl = new Constant<BoxModel>(CssKeywords.BorderBox, BoxModel.BorderBox);
         public static readonly ICssValue BackgroundAttachmentDecl = new Constant<BackgroundAttachment>(CssKeywords.Scroll, BackgroundAttachment.Scroll);
+        public static readonly ICssValue BookmarkStateDecl = new Constant<BookmarkState>(CssKeywords.Open, BookmarkState.Open);
+        public static readonly ICssValue BookmarkLabelDecl = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue BookmarkLevelDecl = new Constant<Int32>(CssKeywords.None, 0);
+        public static readonly ICssValue FootnotePolicyDecl = new Constant<FootnotePolicy>(CssKeywords.Auto, FootnotePolicy.Auto);
+        public static readonly ICssValue FootnoteDisplayDecl = new Constant<FootnoteDisplay>(CssKeywords.Block, FootnoteDisplay.Block);
+        public static readonly ICssValue RunningDecl = new Identifier(CssKeywords.None);
+        public static readonly ICssValue StringSetDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue FontStyleDecl = new Constant<FontStyle>(CssKeywords.Normal, FontStyle.Normal);
         public static readonly ICssValue FontVariantDecl = new Constant<FontVariant>(CssKeywords.Normal, FontVariant.Normal);
         public static readonly ICssValue FontWeightDecl = new Constant<FontWeight>(CssKeywords.Normal, FontWeight.Normal);

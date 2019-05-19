@@ -17,7 +17,7 @@ namespace AngleSharp.Dom
         /// <typeparam name="TRule">The type of rules to get.</typeparam>
         /// <param name="sheets">The list of stylesheets to consider.</param>
         /// <returns>The list of rules.</returns>
-        public static IEnumerable<TRule> RulesOf<TRule>(this IEnumerable<IStyleSheet> sheets)
+        public static IEnumerable<TRule> GetRules<TRule>(this IEnumerable<IStyleSheet> sheets)
             where TRule : ICssRule
         {
             sheets = sheets ?? throw new ArgumentNullException(nameof(sheets));
@@ -79,7 +79,7 @@ namespace AngleSharp.Dom
         {
             selector = selector ?? throw new ArgumentNullException(nameof(selector));
             var selectorText = selector.Text;
-            return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
+            return sheets.GetRules<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
         }
 
         /// <summary>

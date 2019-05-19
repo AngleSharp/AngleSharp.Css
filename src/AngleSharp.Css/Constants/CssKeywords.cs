@@ -1531,5 +1531,15 @@ namespace AngleSharp.Css
         /// The visiblePainted keyword.
         /// </summary>
         public static readonly String VisiblePainted = "visiblePainted";
+
+        /// <summary>
+        /// The open keyword.
+        /// </summary>
+        public static readonly String Open;
+
+        /// <summary>
+        /// The closed keyword.
+        /// </summary>
+        public static readonly String Closed;
     }
 }
