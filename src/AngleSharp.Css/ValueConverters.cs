@@ -240,6 +240,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter ContentConverter = FromParser(FunctionParser.ParseContent);
 
+        /// <summary>
+        /// Creates a converter for the running function.
+        /// </summary>
+        public static readonly IValueConverter RunningConverter = FromParser(FunctionParser.ParseRunning);
+
         #endregion
 
         #region Maps
@@ -388,7 +393,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the PositionMode enumeration.
         /// </summary>
-        public static readonly IValueConverter PositionModeConverter = Map.PositionModes.ToConverter();
+        public static readonly IValueConverter PositionModeConverter = Or(Map.PositionModes.ToConverter(), RunningConverter);
 
         /// <summary>
         /// Represents a converter for the OverflowMode enumeration.

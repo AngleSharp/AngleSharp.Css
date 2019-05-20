@@ -256,5 +256,10 @@ namespace AngleSharp.Css
         /// The content function.
         /// </summary>
         public static readonly String Content = "content";
+
+        /// <summary>
+        /// The running function.
+        /// </summary>
+        public static readonly String Running = "running";
     }
 }

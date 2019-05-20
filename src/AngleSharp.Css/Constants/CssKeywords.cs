@@ -1545,11 +1545,11 @@ namespace AngleSharp.Css
         /// <summary>
         /// The open keyword.
         /// </summary>
-        public static readonly String Open;
+        public static readonly String Open = "open";
 
         /// <summary>
         /// The closed keyword.
         /// </summary>
-        public static readonly String Closed;
+        public static readonly String Closed = "closed";
     }
 }

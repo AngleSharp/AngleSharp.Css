@@ -99,12 +99,31 @@ namespace AngleSharp.Css.Parser
 
         public static CssContentValue ParseContent(this StringSource source)
         {
-            var name = source.ParseCustomIdent();
-            var f = source.SkipGetSkip();
-
-            if (name != null && f == Symbols.RoundBracketClose)
+            if (source.IsFunction(FunctionNames.Content))
             {
-                return new CssContentValue(name);
+                var name = source.ParseCustomIdent();
+                var f = source.SkipGetSkip();
+
+                if (name != null && f == Symbols.RoundBracketClose)
+                {
+                    return new CssContentValue(name);
+                }
+            }
+
+            return null;
+        }
+
+        public static CssRunningValue ParseRunning(this StringSource source)
+        {
+            if (source.IsFunction(FunctionNames.Running))
+            {
+                var name = source.ParseCustomIdent();
+                var f = source.SkipGetSkip();
+
+                if (name != null && f == Symbols.RoundBracketClose)
+                {
+                    return new CssRunningValue(name);
+                }
             }
 
             return null;

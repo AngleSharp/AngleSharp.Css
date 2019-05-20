@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Running;
 
-        public static IValueConverter Converter = Any;
+        public static IValueConverter Converter = IdentifierConverter;
 
         public static ICssValue InitialValue = InitialValues.RunningDecl;
 
