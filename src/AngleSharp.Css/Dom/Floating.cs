@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     /// <summary>
     /// All possible values for taking an element out of its normal flow.
@@ -16,6 +16,10 @@
         /// <summary>
         /// Indicates that the element must float on the right side of its containing block.
         /// </summary>
-        Right
+        Right,
+        /// <summary>
+        /// Each footnote element is placed in the footnote area of the page.
+        /// </summary>
+        Footnote,
     }
 }

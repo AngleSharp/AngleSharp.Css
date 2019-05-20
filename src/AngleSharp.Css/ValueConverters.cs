@@ -241,6 +241,16 @@ namespace AngleSharp.Css
         public static readonly IValueConverter ContentConverter = FromParser(FunctionParser.ParseContent);
 
         /// <summary>
+        /// Creates a converter for the attr function.
+        /// </summary>
+        public static readonly IValueConverter AttrConverter = FromParser(FunctionParser.ParseAttr);
+
+        /// <summary>
+        /// Creates a converter for the counter(s) function.
+        /// </summary>
+        public static readonly IValueConverter CounterConverter = FromParser(FunctionParser.ParseCounter);
+
+        /// <summary>
         /// Creates a converter for the running function.
         /// </summary>
         public static readonly IValueConverter RunningConverter = FromParser(FunctionParser.ParseRunning);
@@ -741,6 +751,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter BackgroundRepeatsConverter = FromParser(CompoundParser.ParseBackgroundRepeat);
 
+        /// <summary>
+        /// Represents a converter for the content-list.
+        /// </summary>
+        public static readonly IValueConverter ContentListConverter = Or(StringConverter, CounterConverter, ContentConverter, AttrConverter).Many();
+
         #endregion
 
         #region Toggles
@@ -886,6 +901,9 @@ namespace AngleSharp.Css
         #endregion
 
         #region Helpers
+
+        private static IValueConverter FromParser<T>(Func<StringSource, T?> converter)
+            where T : struct, ICssValue => new StructValueConverter<T>(converter);
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);

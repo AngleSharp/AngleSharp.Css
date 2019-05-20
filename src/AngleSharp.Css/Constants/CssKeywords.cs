@@ -233,6 +233,11 @@ namespace AngleSharp.Css
         public static readonly String Right = "right";
 
         /// <summary>
+        /// The footnote keyword.
+        /// </summary>
+        public static readonly String Footnote = "footnote";
+
+        /// <summary>
         /// The both keyword.
         /// </summary>
         public static readonly String Both = "both";

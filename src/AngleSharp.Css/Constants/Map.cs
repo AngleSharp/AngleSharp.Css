@@ -522,6 +522,7 @@ namespace AngleSharp.Css
             { CssKeywords.None, Floating.None },
             { CssKeywords.Left, Floating.Left },
             { CssKeywords.Right, Floating.Right },
+            { CssKeywords.Footnote, Floating.Footnote },
         };
 
         /// <summary>

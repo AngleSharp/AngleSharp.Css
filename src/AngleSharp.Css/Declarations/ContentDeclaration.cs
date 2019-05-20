@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Declarations
                 { CssKeywords.OpenQuote, new OpenQuoteContentMode() },
                 { CssKeywords.NoOpenQuote, new NoOpenQuoteContentMode() },
                 { CssKeywords.CloseQuote, new CloseQuoteContentMode() },
-                { CssKeywords.NoCloseQuote, new NoCloseQuoteContentMode() }
+                { CssKeywords.NoCloseQuote, new NoCloseQuoteContentMode() },
             };
 
             public ICssValue Convert(StringSource source)
@@ -78,7 +78,7 @@ namespace AngleSharp.Css.Declarations
 
                         if (a != null)
                         {
-                            ms.Add(new AttributeContentMode(a));
+                            ms.Add(new AttributeContentMode(a.Attribute));
                             source.SkipSpacesAndComments();
                             continue;
                         }

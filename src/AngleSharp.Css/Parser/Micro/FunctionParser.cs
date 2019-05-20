@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Parser
         /// Represents an attribute retriever object.
         /// http://dev.w3.org/csswg/css-values/#funcdef-attr
         /// </summary>
-        public static String ParseAttr(this StringSource source)
+        public static CssAttrValue ParseAttr(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Attr))
             {
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Parser
 
                 if (content != null && f == Symbols.RoundBracketClose)
                 {
-                    return content;
+                    return new CssAttrValue(content);
                 }
             }
 
