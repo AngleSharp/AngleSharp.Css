@@ -7,15 +7,11 @@ namespace AngleSharp.Css.Parser
 
     static class PointParser
     {
-        public static ICssValue ParsePointX(this StringSource source)
-        {
-            return source.ParsePointDir(IsHorizontal);
-        }
+        public static ICssValue ParsePointX(this StringSource source) =>
+            source.ParsePointDir(IsHorizontal);
 
-        public static ICssValue ParsePointY(this StringSource source)
-        {
-            return source.ParsePointDir(IsVertical);
-        }
+        public static ICssValue ParsePointY(this StringSource source) =>
+            source.ParsePointDir(IsVertical);
 
         private static ICssValue ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
         {
@@ -167,15 +163,11 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static Boolean IsHorizontal(String str)
-        {
-            return str.Isi(CssKeywords.Left) || str.Isi(CssKeywords.Right) || str.Isi(CssKeywords.Center);
-        }
+        private static Boolean IsHorizontal(String str) =>
+            str.Isi(CssKeywords.Left) || str.Isi(CssKeywords.Right) || str.Isi(CssKeywords.Center);
 
-        private static Boolean IsVertical(String str)
-        {
-            return str.Isi(CssKeywords.Top) || str.Isi(CssKeywords.Bottom) || str.Isi(CssKeywords.Center);
-        }
+        private static Boolean IsVertical(String str) =>
+            str.Isi(CssKeywords.Top) || str.Isi(CssKeywords.Bottom) || str.Isi(CssKeywords.Center);
 
         private static Length? KeywordToLength(String keyword)
         {

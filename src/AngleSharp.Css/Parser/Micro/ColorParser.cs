@@ -45,9 +45,7 @@ namespace AngleSharp.Css.Parser
                 {
                     if (source.Current == Symbols.RoundBracketOpen)
                     {
-                        var function = default(Func<StringSource, Color?>);
-
-                        if (ColorFunctions.TryGetValue(ident, out function))
+                        if (ColorFunctions.TryGetValue(ident, out var function))
                         {
                             source.SkipCurrentAndSpaces();
                             return function.Invoke(source);
@@ -68,7 +66,6 @@ namespace AngleSharp.Css.Parser
         private static Color? Literal(StringSource source)
         {
             var current = source.Next();
-            var result = default(Color);
             var buffer = StringBuilderPool.Obtain();
 
             while (current.IsHex())
@@ -77,7 +74,7 @@ namespace AngleSharp.Css.Parser
                 current = source.Next();
             }
 
-            if (Color.TryFromHex(buffer.ToPool(), out result))
+            if (Color.TryFromHex(buffer.ToPool(), out var result))
             {
                 return result;
             }
@@ -120,9 +117,9 @@ namespace AngleSharp.Css.Parser
         {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
-            var s = ParsePercent(source);
+            var s = source.ParsePercent();
             var c2 = source.SkipGetSkip();
-            var l = ParsePercent(source);
+            var l = source.ParsePercent();
             var c3 = source.SkipGetSkip();
 
             if (h != null && s != null && l != null)
@@ -172,9 +169,9 @@ namespace AngleSharp.Css.Parser
         {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
-            var s = ParsePercent(source);
+            var s = source.ParsePercent();
             var c2 = source.SkipGetSkip();
-            var l = ParsePercent(source);
+            var l = source.ParsePercent();
             var c3 = source.SkipGetSkip();
 
             if (h != null && s != null && l != null)
@@ -199,26 +196,13 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Double? ParsePercent(StringSource source)
-        {
-            var unit = source.ParseUnit();
-
-            if (unit != null && unit.Dimension == "%")
-            {
-                return Double.Parse(unit.Value, CultureInfo.InvariantCulture) * 0.01f;
-            }
-
-            return null;
-        }
-
         private static Byte? ParseRgbComponent(StringSource source)
         {
             var unit = source.ParseUnit();
 
-            if (unit != null)
+            if (unit != null &&
+                Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
             {
-                var value = Int32.Parse(unit.Value, CultureInfo.InvariantCulture);
-
                 if (unit.Dimension == "%")
                 {
                     return (Byte)(255f / 100f * value);
@@ -236,17 +220,16 @@ namespace AngleSharp.Css.Parser
         {
             var unit = source.ParseUnit();
 
-            if (unit != null)
+            if (unit != null &&
+                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                var value = Double.Parse(unit.Value, CultureInfo.InvariantCulture);
-
                 if (unit.Dimension == "%")
                 {
-                    return value * 0.01f;
+                    return value * 0.01;
                 }
                 else if (unit.Dimension == String.Empty)
                 {
-                    return Math.Max(Math.Min(value, 1f), 0f);
+                    return Math.Max(Math.Min(value, 1.0), 0.0);
                 }
             }
 
@@ -257,13 +240,12 @@ namespace AngleSharp.Css.Parser
         {
             var unit = source.ParseUnit();
 
-            if (unit != null)
+            if (unit != null &&
+                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                var value = Double.Parse(unit.Value, CultureInfo.InvariantCulture);
                 var dim = Angle.Unit.Deg;
 
-                if (unit.Dimension == String.Empty ||
-                   (dim = Angle.GetUnit(unit.Dimension)) != Angle.Unit.None)
+                if (unit.Dimension == String.Empty || (dim = Angle.GetUnit(unit.Dimension)) != Angle.Unit.None)
                 {
                     var angle = new Angle(value, dim);
                     return angle.ToTurns();
@@ -273,12 +255,10 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Boolean Check(Char closingBracket, Char firstComma = Symbols.Comma, Char secondComma = Symbols.Comma, Char thirdComma = Symbols.Comma)
-        {
-            return closingBracket == Symbols.RoundBracketClose && 
-                firstComma == Symbols.Comma && 
-                secondComma == Symbols.Comma && 
-                thirdComma == Symbols.Comma;
-        }
+        private static Boolean Check(Char closingBracket, Char firstComma = Symbols.Comma, Char secondComma = Symbols.Comma, Char thirdComma = Symbols.Comma) =>
+            closingBracket == Symbols.RoundBracketClose &&
+            firstComma == Symbols.Comma &&
+            secondComma == Symbols.Comma &&
+            thirdComma == Symbols.Comma;
     }
 }
