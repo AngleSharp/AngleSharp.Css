@@ -4,6 +4,8 @@
 
 - Added `Compute` extension for `ICssStyleDeclaration`
 - Added `GetMatchingStyles` extension for `ICssRuleList`
+- Added `MinifyStyleFormatter`
+- Added `Prettify` and `Minify` extension methods
 
 # 0.12.1
 
