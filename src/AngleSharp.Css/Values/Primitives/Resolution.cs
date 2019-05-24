@@ -91,7 +91,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Resolution);
+            result = default;
             return false;
         }
 

@@ -137,7 +137,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Time);
+            result = default;
             return false;
         }
 

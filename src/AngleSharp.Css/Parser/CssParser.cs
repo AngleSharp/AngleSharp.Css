@@ -71,7 +71,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         /// <param name="options">The options to use.</param>
         public CssParser(CssParserOptions options)
-            : this(options, default(IBrowsingContext))
+            : this(options, default)
         {
         }
 
@@ -80,7 +80,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         /// <param name="context">The context to use.</param>
         internal CssParser(IBrowsingContext context)
-            : this(default(CssParserOptions), context)
+            : this(default, context)
         {
         }
 
@@ -282,7 +282,7 @@ namespace AngleSharp.Css.Parser
             var token = tokenizer.Get();
             var builder = new CssBuilder(_options, tokenizer, _context);
             var rule = create.Invoke(builder, token);
-            return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default(T);
+            return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default;
         }
 
         private T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
@@ -291,7 +291,7 @@ namespace AngleSharp.Css.Parser
             var token = tokenizer.Get();
             var builder = new CssBuilder(_options, tokenizer, _context);
             var pair = create.Invoke(builder, token);
-            return pair.Item2.Type == CssTokenType.EndOfFile ? pair.Item1 : default(T);
+            return pair.Item2.Type == CssTokenType.EndOfFile ? pair.Item1 : default;
         }
 
         private CssTokenizer CreateTokenizer(String sourceCode)

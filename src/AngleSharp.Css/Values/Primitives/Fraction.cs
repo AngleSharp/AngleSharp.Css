@@ -85,7 +85,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Fraction);
+            result = default;
             return false;
         }
 

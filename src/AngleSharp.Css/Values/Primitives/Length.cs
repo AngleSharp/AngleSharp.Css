@@ -236,7 +236,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Length);
+            result = default;
             return false;
         }
 

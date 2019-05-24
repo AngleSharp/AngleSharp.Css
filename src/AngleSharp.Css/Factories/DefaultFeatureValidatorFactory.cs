@@ -96,7 +96,7 @@ namespace AngleSharp.Css
         /// <returns>The feature validator.</returns>
         protected virtual IFeatureValidator CreateDefault(String name)
         {
-            return default(IFeatureValidator);
+            return default;
         }
 
         /// <summary>

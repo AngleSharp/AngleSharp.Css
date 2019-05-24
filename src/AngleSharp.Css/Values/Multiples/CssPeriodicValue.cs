@@ -90,7 +90,7 @@ namespace AngleSharp.Css.Values
         }
 
         /// <inheritdoc />
-        public T Top => _values.Length > 0 ? _values[0] : default(T);
+        public T Top => _values.Length > 0 ? _values[0] : default;
 
         /// <inheritdoc />
         public T Right => _values.Length > 1 ? _values[1] : Top;

@@ -16,7 +16,7 @@ namespace AngleSharp
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="options">Optional options for the parser.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default(CssParserOptions))
+        public static IConfiguration WithCss(this IConfiguration configuration, CssParserOptions options = default)
         {
             configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));            
             var service = new CssStylingService();
