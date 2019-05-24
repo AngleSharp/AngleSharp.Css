@@ -154,5 +154,61 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual("background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)", element.GetAttribute("style"));
             Assert.AreEqual(2, element.GetStyle().Length);
         }
+
+        [Test]
+        public void MinifyRemovesComment()
+        {
+            var sheet = ParseStyleSheet("h1 /* this is a comment */ { color: red; /*another comment*/ }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("h1{color:rgba(255, 0, 0, 1)}", result);
+        }
+
+        [Test]
+        public void MinifyRemovesEmptyStyleRule()
+        {
+            var sheet = ParseStyleSheet("h1 {  }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("", result);
+        }
+
+        [Test]
+        public void MinifyRemovesEmptyStyleRuleKeepsOtherRule()
+        {
+            var sheet = ParseStyleSheet("h1 {  } h2 { font-size:0;  }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("h2{font-size:0}", result);
+        }
+
+        [Test]
+        public void MinifyRemovesEmptyMediaRule()
+        {
+            var sheet = ParseStyleSheet("@media screen { h1 {  } }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("", result);
+        }
+
+        [Test]
+        public void MinifyDoesNotRemovesMediaRuleIfOneStyleIsInThere()
+        {
+            var sheet = ParseStyleSheet("@media screen { h1 {  } h2 { top:0} }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("@media screen{h2{top:0}}", result);
+        }
+
+        [Test]
+        public void MinifyWorksWithNestedMediaRules()
+        {
+            var sheet = ParseStyleSheet("@media screen { @media screen{h1{}}div{border-top  :  none} }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("@media screen{div{border-top:none}}", result);
+        }
+
+        [Test]
+        public void MinifyWithMultipleDeclarations()
+        {
+            var sheet = ParseStyleSheet("h1 { top:0   ; left:   2px;  border: none;  } h2 { border: 1px solid red;} h3{}");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("h1{top:0;left:2px;border:none}h2{border:1px solid rgba(255, 0, 0, 1)}", result);
+        }
     }
 }

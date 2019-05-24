@@ -9,14 +9,7 @@ namespace AngleSharp.Css.Tests
 
     static class CssConstructionFunctions
     {
-        internal static IHtmlDocument ParseDocument(String source)
-        {
-            var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var parser = context.GetService<IHtmlParser>();
-            return parser.ParseDocument(source);
-        }
-
-        internal static IHtmlDocument ParseDocument(String source, CssParserOptions options)
+        internal static IHtmlDocument ParseDocument(String source, CssParserOptions options = default)
         {
             var context = BrowsingContext.New(Configuration.Default.WithCss(options));
             var parser = context.GetService<IHtmlParser>();
@@ -35,19 +28,13 @@ namespace AngleSharp.Css.Tests
             return factory.Create(name);
         }
 
-        internal static CssStyleSheet ParseStyleSheet(String source)
+        internal static CssStyleSheet ParseStyleSheet(Stream source, CssParserOptions options = default)
         {
-            var parser = new CssParser();
+            var parser = new CssParser(options);
             return parser.ParseStyleSheet(source) as CssStyleSheet;
         }
 
-        internal static CssStyleSheet ParseStyleSheet(Stream source)
-        {
-            var parser = new CssParser();
-            return parser.ParseStyleSheet(source) as CssStyleSheet;
-        }
-
-        internal static CssStyleSheet ParseStyleSheet(String source, CssParserOptions options)
+        internal static CssStyleSheet ParseStyleSheet(String source, CssParserOptions options = default)
         {
             var parser = new CssParser(options);
             return parser.ParseStyleSheet(source) as CssStyleSheet;
