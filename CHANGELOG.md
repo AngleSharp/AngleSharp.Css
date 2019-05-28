@@ -7,6 +7,7 @@
 - Added `MinifyStyleFormatter`
 - Added `Prettify` and `Minify` extension methods
 - Fixed border-style expansion order (#34)
+- Fixed text-decoration expansion order (#35)
 
 # 0.12.1
 
