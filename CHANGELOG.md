@@ -6,6 +6,7 @@
 - Added `GetMatchingStyles` extension for `ICssRuleList`
 - Added `MinifyStyleFormatter`
 - Added `Prettify` and `Minify` extension methods
+- Fixed border-style expansion order (#34)
 
 # 0.12.1
 
