@@ -64,6 +64,7 @@ namespace AngleSharp.Dom
 
             if (!hidden.Value)
             {
+                var offset = 0;
                 var sb = StringBuilderPool.Obtain();
                 var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
                 InnerTextCollection(element, sb, requiredLineBreakCounts, element.ParentElement?.ComputeCurrentStyle());
@@ -71,7 +72,6 @@ namespace AngleSharp.Dom
                 // Remove any runs of consecutive required line break count items at the start or end of results.
                 requiredLineBreakCounts.Remove(0);
                 requiredLineBreakCounts.Remove(sb.Length);
-                var offset = 0;
 
                 // SortedDictionary would be nicer
                 foreach (var keyval in requiredLineBreakCounts.OrderBy(kv => kv.Key))
@@ -193,7 +193,10 @@ namespace AngleSharp.Dom
 
                 if (node is IText textElement)
                 {
-                    ProcessText(textElement.Data, sb, parentStyle);
+                    var lastLine = node.NextSibling is null ||
+                        String.IsNullOrEmpty(node.NextSibling.TextContent) ||
+                        node.NextSibling is IHtmlBreakRowElement;
+                    ProcessText(textElement.Data, sb, parentStyle, lastLine);
                 }
                 else if (node is IHtmlBreakRowElement)
                 {
@@ -225,14 +228,14 @@ namespace AngleSharp.Dom
                 }
                 else if (node is IHtmlParagraphElement)
                 {
-                    requiredLineBreakCounts.TryGetValue(startIndex, out int startIndexCount);
+                    requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
 
                     if (startIndexCount < 2)
                     {
                         requiredLineBreakCounts[startIndex] = 2;
                     }
 
-                    requiredLineBreakCounts.TryGetValue(sb.Length, out int endIndexCount);
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out var endIndexCount);
 
                     if (endIndexCount < 2)
                     {
@@ -255,14 +258,14 @@ namespace AngleSharp.Dom
 
                 if (isBlockLevel.Value)
                 {
-                    requiredLineBreakCounts.TryGetValue(startIndex, out int startIndexCount);
+                    requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
 
                     if (startIndexCount < 1)
                     {
                         requiredLineBreakCounts[startIndex] = 1;
                     }
 
-                    requiredLineBreakCounts.TryGetValue(sb.Length, out int endIndexCount);
+                    requiredLineBreakCounts.TryGetValue(sb.Length, out var endIndexCount);
 
                     if (endIndexCount < 1)
                     {
@@ -387,7 +390,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
+        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style, Boolean lastLine)
         {
             var startIndex = sb.Length;
             var whiteSpace = style?.GetWhiteSpace();
@@ -459,11 +462,13 @@ namespace AngleSharp.Dom
                 sb.Append(c);
             }
 
-            if (isWhiteSpace) // ended with whitespace
+            // ended with whitespace
+            if (isWhiteSpace && lastLine)
             {
                 for (var offset = sb.Length - 1; offset >= startIndex; offset--)
                 {
                     var c = sb[offset];
+
                     if (!Char.IsWhiteSpace(c) || c == Symbols.NoBreakSpace)
                     {
                         sb.Remove(offset + 1, sb.Length - 1 - offset);

@@ -80,5 +80,15 @@ namespace AngleSharp.Css.Tests.Extensions
 
             Assert.AreEqual(expected, doc.Body.GetInnerText());
         }
+
+        [Test]
+        public void SpanShouldNotHaveRemovedSpaces_Issue32()
+        {
+            var config = Configuration.Default.WithCss();
+            var document = ("<div><div>Div with <span>a span</span> in it.</div></div>").ToHtmlDocument(config);
+            var element = document.QuerySelector("div");
+
+            Assert.AreEqual("Div with a span in it.", element.GetInnerText());
+        }
     }
 }
