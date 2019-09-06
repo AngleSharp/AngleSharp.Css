@@ -1306,5 +1306,40 @@ namespace AngleSharp.Css
         /// The orientation declaration.
         /// </summary>
         public static readonly String Orientation = "orientation";
+
+        /// <summary>
+        /// The string-set declaration.
+        /// </summary>
+        public static readonly String StringSet = "string-set";
+
+        /// <summary>
+        /// The running declaration.
+        /// </summary>
+        public static readonly String Running = "running";
+
+        /// <summary>
+        /// The footnote-display declaration.
+        /// </summary>
+        public static readonly String FootnoteDisplay = "footnote-display";
+
+        /// <summary>
+        /// The footnote-policy declaration.
+        /// </summary>
+        public static readonly String FootnotePolicy = "footnote-policy";
+
+        /// <summary>
+        /// The bookmark-level declaration.
+        /// </summary>
+        public static readonly String BookmarkLevel = "bookmark-level";
+
+        /// <summary>
+        /// The bookmark-label declaration.
+        /// </summary>
+        public static readonly String BookmarkLabel = "bookmark-label";
+
+        /// <summary>
+        /// The bookmark-state declaration.
+        /// </summary>
+        public static readonly String BookmarkState = "bookmark-state";
     }
 }

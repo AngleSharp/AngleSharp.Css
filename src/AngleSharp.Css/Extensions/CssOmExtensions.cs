@@ -64,5 +64,17 @@ namespace AngleSharp.Css.Dom
             var property = rule.Style.GetProperty(propertyName);
             return property?.RawValue;
         }
+
+        /// <summary>
+        /// Computes the values with knowledge of the device.
+        /// </summary>
+        /// <param name="style">The base (raw) style.</param>
+        /// <param name="device">The device to use for the calculation.</param>
+        /// <returns>A new style declaration with the existing or computed values.</returns>
+        public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, IRenderDevice device)
+        {
+            //TODO
+            return style;
+        }
     }
 }

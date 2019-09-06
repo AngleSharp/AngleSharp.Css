@@ -235,6 +235,26 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter ShapeConverter = FromParser(ShapeParser.ParseShape);
 
+        /// <summary>
+        /// Creates a converter for the content function.
+        /// </summary>
+        public static readonly IValueConverter ContentConverter = FromParser(FunctionParser.ParseContent);
+
+        /// <summary>
+        /// Creates a converter for the attr function.
+        /// </summary>
+        public static readonly IValueConverter AttrConverter = FromParser(FunctionParser.ParseAttr);
+
+        /// <summary>
+        /// Creates a converter for the counter(s) function.
+        /// </summary>
+        public static readonly IValueConverter CounterConverter = FromParser(FunctionParser.ParseCounter);
+
+        /// <summary>
+        /// Creates a converter for the running function.
+        /// </summary>
+        public static readonly IValueConverter RunningConverter = FromParser(FunctionParser.ParseRunning);
+
         #endregion
 
         #region Maps
@@ -383,7 +403,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the PositionMode enumeration.
         /// </summary>
-        public static readonly IValueConverter PositionModeConverter = Map.PositionModes.ToConverter();
+        public static readonly IValueConverter PositionModeConverter = Or(Map.PositionModes.ToConverter(), RunningConverter);
 
         /// <summary>
         /// Represents a converter for the OverflowMode enumeration.
@@ -519,6 +539,21 @@ namespace AngleSharp.Css
         /// Represents a converter for the FlexWrap enumeration.
         /// </summary>
         public static readonly IValueConverter FlexWrapConverter = Map.FlexWrapModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BookmarkState enumeration.
+        /// </summary>
+        public static readonly IValueConverter BookmarkStateConverter = Map.BookmarkStates.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FootnoteDisplay enumeration.
+        /// </summary>
+        public static readonly IValueConverter FootnoteDisplayConverter = Map.FootnoteDisplays.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FootnotePolicy enumeration.
+        /// </summary>
+        public static readonly IValueConverter FootnotePolicyConverter = Map.FootnotePolicies.ToConverter();
 
         #endregion
 
@@ -716,6 +751,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter BackgroundRepeatsConverter = FromParser(CompoundParser.ParseBackgroundRepeat);
 
+        /// <summary>
+        /// Represents a converter for the content-list.
+        /// </summary>
+        public static readonly IValueConverter ContentListConverter = Or(StringConverter, CounterConverter, ContentConverter, AttrConverter).Many();
+
         #endregion
 
         #region Toggles
@@ -861,6 +901,9 @@ namespace AngleSharp.Css
         #endregion
 
         #region Helpers
+
+        private static IValueConverter FromParser<T>(Func<StringSource, T?> converter)
+            where T : struct, ICssValue => new StructValueConverter<T>(converter);
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);

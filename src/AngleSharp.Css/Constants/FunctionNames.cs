@@ -251,5 +251,15 @@ namespace AngleSharp.Css
         /// The hwba function.
         /// </summary>
         public static readonly String Hwba = "hwba";
+
+        /// <summary>
+        /// The content function.
+        /// </summary>
+        public static readonly String Content = "content";
+
+        /// <summary>
+        /// The running function.
+        /// </summary>
+        public static readonly String Running = "running";
     }
 }

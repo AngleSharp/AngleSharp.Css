@@ -21,8 +21,8 @@ namespace AngleSharp.Css.Declarations
 
         public static String[] Longhands = new[]
         {
-            PropertyNames.BorderRightStyle,
             PropertyNames.BorderTopStyle,
+            PropertyNames.BorderRightStyle,
             PropertyNames.BorderBottomStyle,
             PropertyNames.BorderLeftStyle,
         };

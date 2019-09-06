@@ -3485,6 +3485,54 @@ namespace AngleSharp.Css.Dom
             style.SetProperty(PropertyNames.TextDecoration, value);
 
         /// <summary>
+        /// Gets a value that indicates the style of the text decoration.
+        /// </summary>
+        [DomName("textDecorationStyle")]
+        [DomAccessor(Accessors.Getter)]
+        public static String GetTextDecorationStyle(this ICssStyleDeclaration style) =>
+            style.GetPropertyValue(PropertyNames.TextDecorationStyle);
+
+        /// <summary>
+        /// Sets a value that indicates the style of the text decoration.
+        /// </summary>
+        [DomName("textDecorationStyle")]
+        [DomAccessor(Accessors.Setter)]
+        public static void SetTextDecorationStyle(this ICssStyleDeclaration style, String value) =>
+            style.SetProperty(PropertyNames.TextDecorationStyle, value);
+
+        /// <summary>
+        /// Gets a value that indicates the line of the text decoration.
+        /// </summary>
+        [DomName("textDecorationLine")]
+        [DomAccessor(Accessors.Getter)]
+        public static String GetTextDecorationLine(this ICssStyleDeclaration style) =>
+            style.GetPropertyValue(PropertyNames.TextDecorationLine);
+
+        /// <summary>
+        /// Sets a value that indicates the line of the text decoration.
+        /// </summary>
+        [DomName("textDecorationLine")]
+        [DomAccessor(Accessors.Setter)]
+        public static void SetTextDecorationLine(this ICssStyleDeclaration style, String value) =>
+            style.SetProperty(PropertyNames.TextDecorationLine, value);
+
+        /// <summary>
+        /// Gets a value that indicates the color of the text decoration.
+        /// </summary>
+        [DomName("textDecorationColor")]
+        [DomAccessor(Accessors.Getter)]
+        public static String GetTextDecorationColor(this ICssStyleDeclaration style) =>
+            style.GetPropertyValue(PropertyNames.TextDecorationColor);
+
+        /// <summary>
+        /// Sets a value that indicates the color of the text decoration.
+        /// </summary>
+        [DomName("textDecorationColor")]
+        [DomAccessor(Accessors.Setter)]
+        public static void SetTextDecorationColor(this ICssStyleDeclaration style, String value) =>
+            style.SetProperty(PropertyNames.TextDecorationColor, value);
+
+        /// <summary>
         /// Gets the indentation of the first line of text in the
         /// object.
         /// </summary>

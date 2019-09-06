@@ -62,7 +62,7 @@ namespace AngleSharp.Css
         /// <returns>The default document function.</returns>
         protected virtual IDocumentFunction CreateDefault(String name, String url)
         {
-            return default(IDocumentFunction);
+            return default;
         }
 
         /// <summary>

@@ -1,3 +1,15 @@
+# 0.13.0
+
+Released on Friday, September 6 2019.
+
+- Added `Compute` extension for `ICssStyleDeclaration`
+- Added `GetMatchingStyles` extension for `ICssRuleList`
+- Added `MinifyStyleFormatter`
+- Added `Prettify` and `Minify` extension methods
+- Fixed border-style expansion order (#34)
+- Fixed text-decoration expansion order (#35)
+- Fixed missing whitespace in `GetInnerText()` (#32)
+
 # 0.12.1
 
 Released on Wednesday, May 15 2019.

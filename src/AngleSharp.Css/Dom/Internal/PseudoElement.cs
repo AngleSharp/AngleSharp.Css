@@ -131,6 +131,8 @@ namespace AngleSharp.Css.Dom
 
         public IElement PreviousElementSibling => _host.PreviousElementSibling;
 
+        public NodeFlags Flags => _host.Flags;
+
         #endregion
 
         #region Methods

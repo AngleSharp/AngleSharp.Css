@@ -233,6 +233,11 @@ namespace AngleSharp.Css
         public static readonly String Right = "right";
 
         /// <summary>
+        /// The footnote keyword.
+        /// </summary>
+        public static readonly String Footnote = "footnote";
+
+        /// <summary>
         /// The both keyword.
         /// </summary>
         public static readonly String Both = "both";
@@ -378,7 +383,17 @@ namespace AngleSharp.Css
         public static readonly String Stretch = "stretch";
 
         /// <summary>
-        /// The stretch keyword.
+        /// The compact keyword.
+        /// </summary>
+        public static readonly String Compact = "compact";
+
+        /// <summary>
+        /// The line keyword.
+        /// </summary>
+        public static readonly String Line = "line";
+
+        /// <summary>
+        /// The inline keyword.
         /// </summary>
         public static readonly String Inline = "inline";
 
@@ -1531,5 +1546,15 @@ namespace AngleSharp.Css
         /// The visiblePainted keyword.
         /// </summary>
         public static readonly String VisiblePainted = "visiblePainted";
+
+        /// <summary>
+        /// The open keyword.
+        /// </summary>
+        public static readonly String Open = "open";
+
+        /// <summary>
+        /// The closed keyword.
+        /// </summary>
+        public static readonly String Closed = "closed";
     }
 }

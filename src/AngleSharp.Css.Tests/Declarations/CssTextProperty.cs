@@ -1,5 +1,7 @@
 namespace AngleSharp.Css.Tests.Declarations
 {
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -193,6 +195,20 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
             Assert.AreEqual("line-through", property.Value);
+        }
+
+        [Test]
+        public void CssTextDecorationExpandCorrectly_Issue35()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body style=""text-decoration: underline dotted;""></body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var styleDeclaration = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("dotted", styleDeclaration.GetTextDecorationStyle());
+            Assert.AreEqual("underline", styleDeclaration.GetTextDecorationLine());
         }
 
         [Test]

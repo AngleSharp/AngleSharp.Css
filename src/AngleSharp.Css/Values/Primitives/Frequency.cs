@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Frequency);
+            result = default;
             return false;
         }
 

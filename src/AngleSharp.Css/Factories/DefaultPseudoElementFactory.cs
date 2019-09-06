@@ -62,7 +62,7 @@ namespace AngleSharp.Css
         /// <returns>The default pseudo element instance.</returns>
         protected virtual IPseudoElement CreateDefault(IElement host, String type)
         {
-            return default(IPseudoElement);
+            return default;
         }
 
         /// <summary>

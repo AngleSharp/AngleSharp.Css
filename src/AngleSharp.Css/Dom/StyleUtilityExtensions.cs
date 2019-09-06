@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Css.Extensions;
     using AngleSharp.Dom;
 
     /// <summary>
@@ -16,10 +15,8 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         [DomName("cascadedStyle")]
         [DomAccessor(Accessors.Getter)]
-        public static ICssStyleDeclaration GetCascadedStyle(this IPseudoElement element)
-        {
-            return element.Owner.DefaultView.GetStyleCollection().ComputeCascadedStyle(element);
-        }
+        public static ICssStyleDeclaration GetCascadedStyle(this IPseudoElement element) =>
+            element.Owner.DefaultView.GetStyleCollection().ComputeCascadedStyle(element);
 
         /// <summary>
         /// Gets a live CSS declaration block with only the default
@@ -27,10 +24,8 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         [DomName("defaultStyle")]
         [DomAccessor(Accessors.Getter)]
-        public static ICssStyleDeclaration GetDefaultStyle(this IPseudoElement element)
-        {
-            return element.Owner.DefaultView.ComputeDefaultStyle(element);
-        }
+        public static ICssStyleDeclaration GetDefaultStyle(this IPseudoElement element) =>
+            element.Owner.DefaultView.ComputeDefaultStyle(element);
 
         /// <summary>
         /// Gets a live CSS declaration block with properties
@@ -38,9 +33,7 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         [DomName("rawComputedStyle")]
         [DomAccessor(Accessors.Getter)]
-        public static ICssStyleDeclaration GetRawComputedStyle(this IPseudoElement element)
-        {
-            return element.Owner.DefaultView.ComputeRawStyle(element);
-        }
+        public static ICssStyleDeclaration GetRawComputedStyle(this IPseudoElement element) =>
+            element.Owner.DefaultView.ComputeRawStyle(element);
     }
 }

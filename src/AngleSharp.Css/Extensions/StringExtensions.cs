@@ -52,7 +52,7 @@ namespace AngleSharp.Css
                 }
             }
 
-            result = default(Double);
+            result = default;
             return null;
         }
 

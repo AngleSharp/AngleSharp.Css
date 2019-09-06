@@ -3,6 +3,7 @@ using AngleSharp.Css.Parser;
 
 namespace AngleSharp.Css.Tests.Declarations
 {
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -242,6 +243,22 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("hidden dotted none none", property.Value);
+        }
+
+        [Test]
+        public void CssBorderStyleMultipleExpandCorrectly_Issue34()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body style=""border-style: hidden double dashed;""></body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var styleDeclaration = document.Body.ComputeCurrentStyle();
+            Assert.AreEqual("hidden", styleDeclaration.GetBorderTopStyle());
+            Assert.AreEqual("double", styleDeclaration.GetBorderLeftStyle());
+            Assert.AreEqual("double", styleDeclaration.GetBorderRightStyle());
+            Assert.AreEqual("dashed", styleDeclaration.GetBorderBottomStyle());
         }
 
         [Test]

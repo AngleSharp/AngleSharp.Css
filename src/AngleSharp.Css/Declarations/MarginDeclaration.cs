@@ -29,10 +29,7 @@ namespace AngleSharp.Css.Declarations
         {
             private static readonly IValueConverter converter = AutoLengthOrPercentConverter.Periodic();
 
-            public ICssValue Convert(StringSource source)
-            {
-                return converter.Convert(source);
-            }
+            public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {

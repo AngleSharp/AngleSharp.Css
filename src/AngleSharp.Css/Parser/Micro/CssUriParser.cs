@@ -207,7 +207,7 @@ namespace AngleSharp.Css.Parser
                     {
                         ++round;
                     }
-                    else if (curly == Symbols.CurlyBracketOpen)
+                    else if (current == Symbols.CurlyBracketOpen)
                     {
                         ++curly;
                     }

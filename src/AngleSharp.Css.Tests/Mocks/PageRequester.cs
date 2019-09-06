@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Tests.Mocks
 {
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Net;
@@ -11,8 +12,21 @@ namespace AngleSharp.Css.Tests.Mocks
     sealed class PageRequester : BaseRequester
     {
         private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
-        private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Resources");
+        private readonly static String _directory = GetResourceDirectory();
         private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
+
+        private static String GetResourceDirectory()
+        {
+            var baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var path = new DirectoryInfo(baseDir);
+
+            while (!path.Name.Is("AngleSharp.Css.Tests"))
+            {
+                path = path.Parent;
+            }
+
+            return Path.Combine(path.FullName, "Resources");
+        }
 
         public override Boolean SupportsProtocol(String protocol)
         {

@@ -1,8 +1,8 @@
 namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Extensions;
     using System;
 
     /// <summary>

@@ -10,10 +10,10 @@ namespace AngleSharp.Css.Parser
         public static Double? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
-            var result = default(Double);
 
-            if (unit != null && unit.Dimension == String.Empty &&
-                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
+            if (unit != null &&
+                unit.Dimension == String.Empty &&
+                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var result))
             {
                 return result;
             }
@@ -124,13 +124,12 @@ namespace AngleSharp.Css.Parser
         public static Int32? ParseInteger(this StringSource source)
         {
             var unit = source.ParseUnit();
-            var result = default(Int32);
 
             if (unit != null && unit.Dimension == String.Empty)
             {
                 var value = unit.Value;
 
-                if (Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
+                if (Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result))
                 {
                     return result;
                 }

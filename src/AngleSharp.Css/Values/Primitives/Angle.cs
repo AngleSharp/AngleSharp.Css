@@ -164,7 +164,7 @@ namespace AngleSharp.Css.Values
                 return true;
             }
 
-            result = default(Angle);
+            result = default;
             return false;
         }
 

@@ -12,8 +12,8 @@ namespace AngleSharp.Css.Declarations
         public static IValueConverter Converter = AggregateTuple(
             WithAny(
                 ColorConverter.Option(InitialValues.TextDecorationColorDecl),
-                TextDecorationStyleConverter.Option(InitialValues.TextDecorationLineDecl),
-                TextDecorationLinesConverter.Option(InitialValues.TextDecorationStyleDecl)));
+                TextDecorationStyleConverter.Option(InitialValues.TextDecorationStyleDecl),
+                TextDecorationLinesConverter.Option(InitialValues.TextDecorationLineDecl)));
 
         public static ICssValue InitialValue = null;
 
@@ -22,8 +22,8 @@ namespace AngleSharp.Css.Declarations
         public static String[] Longhands = new[]
         {
             PropertyNames.TextDecorationColor,
-            PropertyNames.TextDecorationLine,
             PropertyNames.TextDecorationStyle,
+            PropertyNames.TextDecorationLine,
         };
     }
 }

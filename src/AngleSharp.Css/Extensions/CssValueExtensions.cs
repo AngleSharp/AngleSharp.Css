@@ -255,7 +255,7 @@ namespace AngleSharp.Css.Dom
                 return special.Value.AsEnum<T>();
             }
 
-            return default(T);
+            return default;
         }
 
         /// <summary>
