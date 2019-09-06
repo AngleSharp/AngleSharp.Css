@@ -1,6 +1,6 @@
 # 0.13.0
 
-Released on Monday, August 26 2019.
+Released on Friday, September 6 2019.
 
 - Added `Compute` extension for `ICssStyleDeclaration`
 - Added `GetMatchingStyles` extension for `ICssRuleList`
