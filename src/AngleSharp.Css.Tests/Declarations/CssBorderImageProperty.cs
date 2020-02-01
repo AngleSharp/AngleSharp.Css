@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -39,7 +39,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("linear-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1))", property.Value);
+            Assert.AreEqual("linear-gradient(0deg, rgba(255, 0, 0, 1), rgba(255, 255, 0, 1))", property.Value);
         }
 
         [Test]
