@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Values
             get
             {
                 var defaultAngle = _angle as Angle?;
-                var offset = defaultAngle.HasValue ? 0 : 1;
+                var offset = defaultAngle.HasValue ? 1 : 0;
                 var args = new String[_stops.Length + offset];
 
                 if (defaultAngle.HasValue)
@@ -80,7 +80,7 @@ namespace AngleSharp.Css.Values
                     {
                         if (angle.Value == value)
                         {
-                            args[0] = angle.Key;
+                            args[0] = angle.Value.CssText;
                             break;
                         }
                     }
