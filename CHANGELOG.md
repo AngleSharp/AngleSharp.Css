@@ -1,3 +1,10 @@
+# 0.14.0
+
+Released on Tuesday, March 31 2020.
+
+- Fixed handling of CSS gradients (#45)
+- Improved CSS string representation of gradients (#46)
+
 # 0.13.0
 
 Released on Friday, September 6 2019.
