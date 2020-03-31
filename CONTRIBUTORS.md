@@ -5,6 +5,8 @@ Thanks :heart: to all who contributed to AngleSharp.Css via issues, pull request
 AngleSharp.Css contains code written by (in order of first pull request / commit):
 
 * [Florian Rappl](https://github.com/FlorianRappl)
+* [Michał Kostrzewski](https://github.com/zeaposs)
+* [Jochen Kühner](https://github.com/jogibear9988)
 
 Without these awesome people AngleSharp.Css could not exist. Thanks to everyone for your contributions! :beers:
 
