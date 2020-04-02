@@ -70,7 +70,7 @@ namespace AngleSharp.Css.Values
         /// Returns the stored matrix.
         /// </summary>
         /// <returns>The current transformation.</returns>
-        public TransformMatrix ComputeMatrix()
+        public TransformMatrix ComputeMatrix(IRenderDimensions dimensions)
         {
             var values = _values;
 

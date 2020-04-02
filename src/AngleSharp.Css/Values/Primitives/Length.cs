@@ -203,7 +203,7 @@ namespace AngleSharp.Css.Values
                 }
                 else if (IsAbsolute && other.IsAbsolute)
                 {
-                    return ToPixel().CompareTo(other.ToPixel());
+                    return ToPixel(null).CompareTo(other.ToPixel(null));
                 }
             }
 
@@ -273,7 +273,7 @@ namespace AngleSharp.Css.Values
         /// current unit is relative, then an exception will be thrown.
         /// </summary>
         /// <returns>The number of pixels represented by the current length.</returns>
-        public Double ToPixel()
+        public Double ToPixel(IRenderDimensions dimensions)
         {
             switch (_unit)
             {
@@ -289,6 +289,7 @@ namespace AngleSharp.Css.Values
                     return _value * 50.0 * 96.0 / 127.0;
                 case Unit.Px: // 1 px = 1/96 in
                     return _value;
+                //todo implement other units and handle if dimensions is null
                 default:
                     throw new InvalidOperationException("A relative unit cannot be converted.");
             }
@@ -300,9 +301,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
         /// <returns>The value in the given unit of the current length.</returns>
-        public Double To(Unit unit)
+        public Double To(Unit unit, IRenderDimensions dimensions)
         {
-            var value = ToPixel();
+            var value = ToPixel(dimensions);
 
             switch (unit)
             {
@@ -318,6 +319,7 @@ namespace AngleSharp.Css.Values
                     return value * 127.0 / (50.0 * 96.0);
                 case Unit.Px: // 1 px = 1/96 in
                     return value;
+                //todo implement other units and handle if dimensions is null
                 default:
                     throw new InvalidOperationException("An absolute unit cannot be converted to a relative one.");
             }

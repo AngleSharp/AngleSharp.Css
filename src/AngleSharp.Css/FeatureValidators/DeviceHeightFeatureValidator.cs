@@ -13,7 +13,7 @@ namespace AngleSharp.Css.FeatureValidators
 
             if (length != null)
             {
-                var desired = length.AsPx();
+                var desired = length.AsPx(device);
                 var available = (Double)device.DeviceHeight;
 
                 if (feature.IsMaximum)

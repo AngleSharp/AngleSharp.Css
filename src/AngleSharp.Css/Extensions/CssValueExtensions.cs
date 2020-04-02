@@ -41,19 +41,19 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The resulting number.</returns>
-        public static Double AsPx(this ICssValue value)
+        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions)
         {
             if (value is Length length && length.Type != Length.Unit.None)
             {
-                return length.ToPixel();
+                return length.ToPixel(renderDimensions);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsPx();
+                return multiple[0].AsPx(renderDimensions);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsPx();
+                return special.Value.AsPx(renderDimensions);
             }
 
             return 0.0;
@@ -202,19 +202,19 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The resulting matrix.</returns>
-        public static TransformMatrix AsMatrix(this ICssValue value)
+        public static TransformMatrix AsMatrix(this ICssValue value, IRenderDimensions dimensions)
         {
             if (value is ICssTransformFunctionValue res)
             {
-                return res.ComputeMatrix();
+                return res.ComputeMatrix(dimensions);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsMatrix();
+                return multiple[0].AsMatrix(dimensions);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsMatrix();
+                return special.Value.AsMatrix(dimensions);
             }
 
             return null;
