@@ -7,7 +7,7 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class ScriptingFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var state = ScriptingStateConverter.Convert(feature.Value);
 
@@ -16,9 +16,9 @@ namespace AngleSharp.Css.FeatureValidators
                 var available = ScriptingState.None;
                 var desired = state.AsEnum<ScriptingState>();
 
-                if (device.IsScripting)
+                if (renderDevice.IsScripting)
                 {
-                    available = device.Category == DeviceCategory.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
+                    available = renderDevice.Category == DeviceCategory.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
                 }
 
                 return desired == available;

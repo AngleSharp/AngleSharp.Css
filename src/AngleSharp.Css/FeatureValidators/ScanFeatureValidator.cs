@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class ScanFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var interlace = ScanModeConverter.Convert(feature.Value);
 
             if (interlace != null)
             {
                 var desired = interlace.Is(CssKeywords.Interlace);
-                var available = device.IsInterlaced;
+                var available = renderDevice.IsInterlaced;
                 return desired == available;
             }
 

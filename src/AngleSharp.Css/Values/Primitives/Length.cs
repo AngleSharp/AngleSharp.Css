@@ -272,8 +272,10 @@ namespace AngleSharp.Css.Values
         /// Converts the length to a number of pixels, if possible. If the
         /// current unit is relative, then an exception will be thrown.
         /// </summary>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <param name="isWidth">If a relative unit is being calculated, true signifies that that unit is width, false height.</param>
         /// <returns>The number of pixels represented by the current length.</returns>
-        public Double ToPixel(IRenderDimensions dimensions)
+        public Double ToPixel(IRenderDimensions renderDimensions, Boolean isWidth = true)
         {
             switch (_unit)
             {
@@ -289,6 +291,22 @@ namespace AngleSharp.Css.Values
                     return _value * 50.0 * 96.0 / 127.0;
                 case Unit.Px: // 1 px = 1/96 in
                     return _value;
+                case Unit.Percent:
+                    return _value * 0.01 * (isWidth ? renderDimensions.RenderWidth : renderDimensions.RenderHeight);
+                case Unit.Em:
+                    return _value * renderDimensions.FontSize;
+                case Unit.Rem:
+                    // here we dont actually know the root font size but currently the only IRenderDimensions used is
+                    // the IRenderDevice meaning its all the root font size
+                    return _value * renderDimensions.FontSize;
+                case Unit.Vh:
+                    return _value * 0.01 * renderDimensions.RenderHeight;
+                case Unit.Vw:
+                    return _value * 0.01 * renderDimensions.RenderHeight;
+                case Unit.Vmax:
+                    return _value * 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
+                case Unit.Vmin:
+                    return _value * 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
                 //todo implement other units and handle if dimensions is null
                 default:
                     throw new InvalidOperationException("A relative unit cannot be converted.");
@@ -300,10 +318,12 @@ namespace AngleSharp.Css.Values
         /// or given unit is relative, then an exception will be thrown.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <param name="isWidth">If a relative unit is being calculated, true signifies that that unit is width, false height.</param>
         /// <returns>The value in the given unit of the current length.</returns>
-        public Double To(Unit unit, IRenderDimensions dimensions)
+        public Double To(Unit unit, IRenderDimensions renderDimensions, Boolean isWidth = true)
         {
-            var value = ToPixel(dimensions);
+            var value = ToPixel(renderDimensions, isWidth);
 
             switch (unit)
             {
@@ -319,6 +339,22 @@ namespace AngleSharp.Css.Values
                     return value * 127.0 / (50.0 * 96.0);
                 case Unit.Px: // 1 px = 1/96 in
                     return value;
+                case Unit.Percent:
+                    return value / (isWidth ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) * 100;
+                case Unit.Em:
+                    return value / renderDimensions.FontSize;
+                case Unit.Rem:
+                    // here we dont actually know the root font size but currently the only IRenderDimensions used is
+                    // the IRenderDevice meaning its all the root font size
+                    return value / renderDimensions.FontSize;
+                case Unit.Vh:
+                    return value / (0.01 * renderDimensions.RenderHeight);
+                case Unit.Vw:
+                    return value / ( 0.01 * renderDimensions.RenderHeight);
+                case Unit.Vmax:
+                    return value / ( 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
+                case Unit.Vmin:
+                    return value / ( 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
                 //todo implement other units and handle if dimensions is null
                 default:
                     throw new InvalidOperationException("An absolute unit cannot be converted to a relative one.");

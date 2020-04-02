@@ -91,9 +91,17 @@ namespace AngleSharp.Css
             set;
         } = 0;
 
-        //todo
-        public int RenderWidth { get; set; }
-        public int RenderHeight { get; set; }
-        public double FontSize { get; set; }
+        /// <inheritdoc />
+        public Double RenderWidth => ViewPortWidth;
+
+        /// <inheritdoc />
+        public Double RenderHeight => ViewPortHeight;
+
+        /// <inheritdoc />
+        public double FontSize
+        {
+            get;
+            set;
+        } = 16;
     }
 }

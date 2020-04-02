@@ -7,7 +7,7 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class HoverFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var hover = HoverAbilityConverter.Convert(feature.Value);
 

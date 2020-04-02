@@ -40,20 +40,22 @@ namespace AngleSharp.Css.Dom
         /// Tries to convert the value to a number of pixels.
         /// </summary>
         /// <param name="value">The value to convert.</param>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <param name="isWidth">If a relative unit is being calculated, true signifies that that unit is width, false height.</param>
         /// <returns>The resulting number.</returns>
-        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions)
+        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions, Boolean isWidth = true)
         {
             if (value is Length length && length.Type != Length.Unit.None)
             {
-                return length.ToPixel(renderDimensions);
+                return length.ToPixel(renderDimensions, isWidth);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsPx(renderDimensions);
+                return multiple[0].AsPx(renderDimensions, isWidth);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsPx(renderDimensions);
+                return special.Value.AsPx(renderDimensions, isWidth);
             }
 
             return 0.0;
@@ -201,20 +203,21 @@ namespace AngleSharp.Css.Dom
         /// Tries to convert the value to a transformation matrix.
         /// </summary>
         /// <param name="value">The value to convert.</param>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <returns>The resulting matrix.</returns>
-        public static TransformMatrix AsMatrix(this ICssValue value, IRenderDimensions dimensions)
+        public static TransformMatrix AsMatrix(this ICssValue value, IRenderDimensions renderDimensions)
         {
             if (value is ICssTransformFunctionValue res)
             {
-                return res.ComputeMatrix(dimensions);
+                return res.ComputeMatrix(renderDimensions);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsMatrix(dimensions);
+                return multiple[0].AsMatrix(renderDimensions);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsMatrix(dimensions);
+                return special.Value.AsMatrix(renderDimensions);
             }
 
             return null;

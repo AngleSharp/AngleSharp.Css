@@ -109,7 +109,7 @@ namespace AngleSharp.Css.Values
             var y = _y as Length? ?? Length.Zero;
             var z = _z as Length? ?? Length.Zero;
             var dx = x.ToPixel(renderDimensions);
-            var dy = y.ToPixel(renderDimensions);
+            var dy = y.ToPixel(renderDimensions, false);
             var dz = z.ToPixel(renderDimensions);
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
