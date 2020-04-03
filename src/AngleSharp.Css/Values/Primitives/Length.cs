@@ -302,7 +302,7 @@ namespace AngleSharp.Css.Values
                 case Unit.Vh:
                     return _value * 0.01 * renderDimensions.RenderHeight;
                 case Unit.Vw:
-                    return _value * 0.01 * renderDimensions.RenderHeight;
+                    return _value * 0.01 * renderDimensions.RenderWidth;
                 case Unit.Vmax:
                     return _value * 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
                 case Unit.Vmin:
@@ -350,7 +350,7 @@ namespace AngleSharp.Css.Values
                 case Unit.Vh:
                     return value / (0.01 * renderDimensions.RenderHeight);
                 case Unit.Vw:
-                    return value / ( 0.01 * renderDimensions.RenderHeight);
+                    return value / ( 0.01 * renderDimensions.RenderWidth);
                 case Unit.Vmax:
                     return value / ( 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
                 case Unit.Vmin:

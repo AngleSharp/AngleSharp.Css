@@ -38,55 +38,55 @@ namespace AngleSharp.Css.Tests.Values
         }
 
         [Test]
-        public void LengthToPixlesCorrectPercentWidth()
+        public void LengthToPixelsCorrectPercentWidth()
         {
             var l = new Length(50, Length.Unit.Percent);
-            var renderDevice = new DefaultRenderDevice{ ViewPortWidth = 500};
+            var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
             Assert.AreEqual(250, l.ToPixel(renderDevice, true));
         }
 
         [Test]
-        public void LengthToPixlesCorrectPercentHeight()
+        public void LengthToPixelsCorrectPercentHeight()
         {
             var l = new Length(25, Length.Unit.Percent);
-            var renderDevice = new DefaultRenderDevice{ ViewPortHeight = 600};
+            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 600};
             Assert.AreEqual(150, l.ToPixel(renderDevice, false));
         }
 
         [Test]
-        public void LengthToPixlesCorrectRem()
+        public void LengthToPixelsCorrectRem()
         {
             var l = new Length(25, Length.Unit.Rem);
-            var renderDevice = new DefaultRenderDevice{ FontSize = 10};
+            var renderDevice = new DefaultRenderDevice {FontSize = 10};
             Assert.AreEqual(250, l.ToPixel(renderDevice));
         }
 
         [Test]
-        public void LengthToPixlesCorrectEm()
+        public void LengthToPixelsCorrectEm()
         {
             var l = new Length(10, Length.Unit.Em);
-            var renderDevice = new DefaultRenderDevice{ FontSize = 10};
+            var renderDevice = new DefaultRenderDevice {FontSize = 10};
             Assert.AreEqual(100, l.ToPixel(renderDevice));
         }
 
         [Test]
-        public void LengthToPixlesCorrectVh()
+        public void LengthToPixelsCorrectVh()
         {
             var l = new Length(10, Length.Unit.Vh);
-            var renderDevice = new DefaultRenderDevice{ ViewPortHeight = 1000};
+            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
             Assert.AreEqual(100, l.ToPixel(renderDevice));
         }
 
         [Test]
-        public void LengthToPixlesCorrectVw()
+        public void LengthToPixelsCorrectVw()
         {
             var l = new Length(20, Length.Unit.Vw);
-            var renderDevice = new DefaultRenderDevice{ ViewPortHeight = 1000};
+            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
             Assert.AreEqual(200, l.ToPixel(renderDevice));
         }
 
         [Test]
-        public void LengthToPixlesCorrectVmax()
+        public void LengthToPixelsCorrectVmax()
         {
             var l = new Length(20, Length.Unit.Vmax);
             var renderDevice = new DefaultRenderDevice
@@ -98,7 +98,7 @@ namespace AngleSharp.Css.Tests.Values
         }
 
         [Test]
-        public void LengthToPixlesCorrectVmin()
+        public void LengthToPixelsCorrectVmin()
         {
             var l = new Length(20, Length.Unit.Vmin);
             var renderDevice = new DefaultRenderDevice
@@ -107,6 +107,78 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortWidth = 500
             };
             Assert.AreEqual(100, l.ToPixel(renderDevice));
+        }
+
+        [Test]
+        public void LengthToPercentCorrectWidth()
+        {
+            var l = new Length(100, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
+            Assert.AreEqual(20, l.To(Length.Unit.Percent, renderDevice, true));
+        }
+
+        [Test]
+        public void LengthToPercentCorrectHeight()
+        {
+            var l = new Length(100, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
+            Assert.AreEqual(10, l.To(Length.Unit.Percent, renderDevice, false));
+        }
+
+        [Test]
+        public void LengthToRemCorrectValue()
+        {
+            var l = new Length(100, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {FontSize = 16};
+            Assert.AreEqual(6.25d, l.To(Length.Unit.Rem, renderDevice));
+        }
+
+        [Test]
+        public void LengthToEmCorrectValue()
+        {
+            var l = new Length(1600, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {FontSize = 16};
+            Assert.AreEqual(100, l.To(Length.Unit.Em, renderDevice));
+        }
+
+        [Test]
+        public void LengthToVhCorrectValue()
+        {
+            var l = new Length(100, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
+            Assert.AreEqual(10, l.To(Length.Unit.Vh, renderDevice));
+        }
+
+        [Test]
+        public void LengthToVwCorrectValue()
+        {
+            var l = new Length(50, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
+            Assert.AreEqual(5, l.To(Length.Unit.Vw, renderDevice));
+        }
+
+        [Test]
+        public void LengthToVmaxCorrectValue()
+        {
+            var l = new Length(50, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice
+            {
+                ViewPortWidth = 1000,
+                ViewPortHeight = 500
+            };
+            Assert.AreEqual(5, l.To(Length.Unit.Vmax, renderDevice));
+        }
+
+        [Test]
+        public void LengthToVminCorrectValue()
+        {
+            var l = new Length(50, Length.Unit.Px);
+            var renderDevice = new DefaultRenderDevice
+            {
+                ViewPortWidth = 1000,
+                ViewPortHeight = 500
+            };
+            Assert.AreEqual(10, l.To(Length.Unit.Vmin, renderDevice));
         }
 
         [Test]
