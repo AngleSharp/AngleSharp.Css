@@ -1,7 +1,7 @@
-using System;
-
 namespace AngleSharp.Css
 {
+    using System;
+
     /// <summary>
     /// Represents the render settings for an element, used to calculate relative sizes (E.G. %, rem).
     /// </summary>

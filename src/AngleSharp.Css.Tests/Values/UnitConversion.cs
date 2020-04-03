@@ -1,9 +1,8 @@
-using System;
-
 namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Values;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class UnitConversionTests
