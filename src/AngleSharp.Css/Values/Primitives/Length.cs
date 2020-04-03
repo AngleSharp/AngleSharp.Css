@@ -299,7 +299,7 @@ namespace AngleSharp.Css.Values
                     return _value * renderDimensions.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
-                    // the IRenderDevice meaning its all the root font size
+                    // the IRenderDevice meaning its always the root font size
                     CheckForValidRenderDimensionsForFont(renderDimensions);
                     return _value * renderDimensions.FontSize;
                 case Unit.Vh:
@@ -355,7 +355,7 @@ namespace AngleSharp.Css.Values
                     return value / renderDimensions.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
-                    // the IRenderDevice meaning its all the root font size
+                    // the IRenderDevice meaning its always the root font size
                     CheckForValidRenderDimensionsForFont(renderDimensions);
                     return value / renderDimensions.FontSize;
                 case Unit.Vh:
