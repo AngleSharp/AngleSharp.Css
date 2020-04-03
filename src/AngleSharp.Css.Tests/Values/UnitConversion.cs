@@ -51,7 +51,7 @@ namespace AngleSharp.Css.Tests.Values
         public void LengthToPixelsEmThrowsOnInvalidRenderDimensions()
         {
             var l = new Length(50, Length.Unit.Em);
-            var renderDevice = new DefaultRenderDevice();
+            var renderDevice = new DefaultRenderDevice { FontSize = 0 };
             Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice));
             Assert.Throws<ArgumentException>(() => l.ToPixel(null));
         }
@@ -100,7 +100,7 @@ namespace AngleSharp.Css.Tests.Values
         public void LengthToPixelsCorrectVw()
         {
             var l = new Length(20, Length.Unit.Vw);
-            var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
+            var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
             Assert.AreEqual(200, l.ToPixel(renderDevice));
         }
 
