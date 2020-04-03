@@ -1,3 +1,5 @@
+using System;
+
 namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Values;
@@ -35,6 +37,24 @@ namespace AngleSharp.Css.Tests.Values
             Assert.IsTrue(r);
             Assert.AreEqual(12.2, v.Value);
             Assert.AreEqual(Length.Unit.Vw, v.Type);
+        }
+
+        [Test]
+        public void LengthToPixelsPercentThrowsOnInvalidRenderDimensions()
+        {
+            var l = new Length(50, Length.Unit.Percent);
+            var renderDevice = new DefaultRenderDevice();
+            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(null));
+        }
+
+        [Test]
+        public void LengthToPixelsEmThrowsOnInvalidRenderDimensions()
+        {
+            var l = new Length(50, Length.Unit.Em);
+            var renderDevice = new DefaultRenderDevice();
+            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(null));
         }
 
         [Test]

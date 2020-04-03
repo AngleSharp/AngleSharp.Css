@@ -292,24 +292,32 @@ namespace AngleSharp.Css.Values
                 case Unit.Px: // 1 px = 1/96 in
                     return _value;
                 case Unit.Percent:
+                    CheckForValidRenderDimensions(renderDimensions, isWidth);
                     return _value * 0.01 * (isWidth ? renderDimensions.RenderWidth : renderDimensions.RenderHeight);
                 case Unit.Em:
+                    CheckForValidRenderDimensionsForFont(renderDimensions);
                     return _value * renderDimensions.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
                     // the IRenderDevice meaning its all the root font size
+                    CheckForValidRenderDimensionsForFont(renderDimensions);
                     return _value * renderDimensions.FontSize;
                 case Unit.Vh:
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return _value * 0.01 * renderDimensions.RenderHeight;
                 case Unit.Vw:
+                    CheckForValidRenderDimensions(renderDimensions, true);
                     return _value * 0.01 * renderDimensions.RenderWidth;
                 case Unit.Vmax:
+                    CheckForValidRenderDimensions(renderDimensions, true);
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return _value * 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
                 case Unit.Vmin:
+                    CheckForValidRenderDimensions(renderDimensions, true);
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return _value * 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
-                //todo implement other units and handle if dimensions is null
                 default:
-                    throw new InvalidOperationException("A relative unit cannot be converted.");
+                    throw new InvalidOperationException("Unsupported Unit cant be converted.");
             }
         }
 
@@ -340,24 +348,48 @@ namespace AngleSharp.Css.Values
                 case Unit.Px: // 1 px = 1/96 in
                     return value;
                 case Unit.Percent:
+                    CheckForValidRenderDimensions(renderDimensions, isWidth);
                     return value / (isWidth ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) * 100;
                 case Unit.Em:
+                    CheckForValidRenderDimensionsForFont(renderDimensions);
                     return value / renderDimensions.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
                     // the IRenderDevice meaning its all the root font size
+                    CheckForValidRenderDimensionsForFont(renderDimensions);
                     return value / renderDimensions.FontSize;
                 case Unit.Vh:
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return value / (0.01 * renderDimensions.RenderHeight);
                 case Unit.Vw:
+                    CheckForValidRenderDimensions(renderDimensions, true);
                     return value / ( 0.01 * renderDimensions.RenderWidth);
                 case Unit.Vmax:
+                    CheckForValidRenderDimensions(renderDimensions, true);
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return value / ( 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
                 case Unit.Vmin:
+                    CheckForValidRenderDimensions(renderDimensions, true);
+                    CheckForValidRenderDimensions(renderDimensions, false);
                     return value / ( 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
-                //todo implement other units and handle if dimensions is null
                 default:
-                    throw new InvalidOperationException("An absolute unit cannot be converted to a relative one.");
+                    throw new InvalidOperationException("Unsupported Unit cant be converted.");
+            }
+        }
+
+        private void CheckForValidRenderDimensions(IRenderDimensions renderDimensions, bool isWidth)
+        {
+            if (renderDimensions == null || (isWidth ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) > 0)
+            {
+                throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
+            }
+        }
+
+        private void CheckForValidRenderDimensionsForFont(IRenderDimensions renderDimensions)
+        {
+            if (renderDimensions == null || renderDimensions.FontSize > 0)
+            {
+                throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
             }
         }
 
