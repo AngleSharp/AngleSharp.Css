@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// A set of useful extension methods for the Window class.
@@ -36,7 +37,27 @@ namespace AngleSharp.Dom
         [DomName("getPseudoElements")]
         public static ICssPseudoElementList GetPseudoElements(this IWindow window, IElement element, String type = null)
         {
-            throw new NotImplementedException();
+            var validTypes = new[] { "::before", "::after" };
+
+            if (type == null)
+            {
+                // Everything is fine - we take all valid types
+            }
+            else if (validTypes.Contains(type))
+            {
+                validTypes = new[] { type };
+            }
+            else
+            {
+                throw new DomException(DomError.NotSupported);
+            }
+
+            return new CssPseudoElementList(validTypes.Select(pseudoSelector =>
+            {
+                var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
+                var style = window.GetComputedStyle(pseudoElement);
+                return new CssPseudoElement(pseudoElement, pseudoSelector, style);
+            }));
         }
 
         /// <summary>
