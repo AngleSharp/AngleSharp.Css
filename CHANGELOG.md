@@ -6,6 +6,7 @@ Released on Tuesday, March 31 2020.
 - Added debugger display attribute to CSS rules (#43)
 - Fixed handling of CSS gradients (#45)
 - Improved CSS string representation of gradients (#46)
+- Fixed analysis issue with potential null selector (#52)
 - Added support for the .NET Framework 4.6.1 target
 - Added support for the .NET Framework 4.7.2 target
 
