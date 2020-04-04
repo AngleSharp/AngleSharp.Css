@@ -2,11 +2,13 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssNamespaceRule ({Prefix})")]
     sealed class CssNamespaceRule : CssRule, ICssNamespaceRule
     {
         #region Fields

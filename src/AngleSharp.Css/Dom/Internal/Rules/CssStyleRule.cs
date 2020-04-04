@@ -1,12 +1,14 @@
 namespace AngleSharp.Css.Dom
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
-	sealed class CssStyleRule : CssRule, ICssStyleRule
+    [DebuggerDisplay(null, Name = "CssStyleRule ({SelectorText})")]
+    sealed class CssStyleRule : CssRule, ICssStyleRule
     {
         #region Fields
 

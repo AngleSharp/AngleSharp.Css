@@ -1,12 +1,14 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssCharsetRule ({CharacterSet})")]
     sealed class CssCharsetRule : CssRule, ICssCharsetRule
     {
         #region Fields

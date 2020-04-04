@@ -1,12 +1,14 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssFontFaceRule ({FontFamily})")]
     sealed class CssFontFaceRule : CssDeclarationRule, ICssFontFaceRule
     {
         #region Fields
@@ -34,6 +36,8 @@
         #endregion
 
         #region Properties
+
+        internal String FontFamily => GetValue(PropertyNames.FontFamily);
 
         String ICssFontFaceRule.Family
         {

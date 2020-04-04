@@ -1,11 +1,13 @@
 namespace AngleSharp.Css.Dom
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a CSS import rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssImportRule ({Href})")]
     sealed class CssImportRule : CssRule, ICssImportRule
     {
         #region Fields

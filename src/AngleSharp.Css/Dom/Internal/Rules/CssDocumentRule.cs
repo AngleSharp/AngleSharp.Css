@@ -1,13 +1,15 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Contains the rules specified by a @document { /* ... */ } rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssDocumentRule ({ConditionText})")]
     sealed class CssDocumentRule : CssGroupingRule, ICssDocumentRule
     {
         #region Fields
