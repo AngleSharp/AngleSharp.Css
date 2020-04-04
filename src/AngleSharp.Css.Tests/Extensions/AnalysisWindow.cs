@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Tests.Extensions
     using AngleSharp.Dom;
     using NUnit.Framework;
     using System.Text;
+    using System.Threading.Tasks;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -276,6 +277,17 @@ em { font-style: italic !important; }
             var styleNormal = window.GetComputedStyle(element);
             Assert.IsNotNull(styleNormal);
             Assert.AreEqual("uppercase", styleNormal.GetTextTransform());
+        }
+
+        [Test]
+        public async Task NullSelectorStillWorks_Issue52()
+        {
+            var sheet = ParseStyleSheet("a {}");
+            var document = await sheet.Context.OpenAsync(res => res.Content("<body></body>"));
+            sheet.Add(new CssStyleRule(sheet));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var decl = sc.ComputeCascadedStyle(document.Body);
+            Assert.IsNotNull(decl);
         }
     }
 }

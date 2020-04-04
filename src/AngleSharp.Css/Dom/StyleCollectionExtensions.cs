@@ -103,7 +103,7 @@ namespace AngleSharp.Css
         #region Helpers
 
         private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
-            rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
+            rules.Where(m => m.Selector?.Match(element) ?? false).OrderBy(m => m.Selector.Specificity);
 
         #endregion
     }
