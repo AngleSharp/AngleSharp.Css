@@ -2,6 +2,7 @@
 
 Released on Tuesday, March 31 2020.
 
+- Fixed issue with empty content (#42)
 - Fixed handling of CSS gradients (#45)
 - Improved CSS string representation of gradients (#46)
 - Added support for the .NET Framework 4.6.1 target

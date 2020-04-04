@@ -132,7 +132,12 @@ namespace AngleSharp.Css.Parser
         public async Task<ICssStyleSheet> ParseStyleSheetAsync(String content, CancellationToken cancelToken)
         {
             var source = new TextSource(content);
-            await source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
+
+            if (content.Length > 0)
+            {
+                await source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
+            }
+
             return ParseStylesheet(source);
         }
 
