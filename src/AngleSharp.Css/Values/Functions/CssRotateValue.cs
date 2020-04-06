@@ -126,7 +126,7 @@ namespace AngleSharp.Css.Values
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
-        public TransformMatrix ComputeMatrix()
+        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var norm = 1.0 / Math.Sqrt(_x * _x + _y * _y + _z * _z);
             var alpha = _angle as Angle ? ?? Values.Angle.Zero;

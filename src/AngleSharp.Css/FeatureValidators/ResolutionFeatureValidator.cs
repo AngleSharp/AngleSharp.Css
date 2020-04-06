@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class ResolutionFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var res = ResolutionConverter.Convert(feature.Value);
 
             if (res != null)
             {
                 var desired = res.AsInt32();
-                var available = device.Resolution;
+                var available = renderDevice.Resolution;
 
                 if (feature.IsMaximum)
                 {

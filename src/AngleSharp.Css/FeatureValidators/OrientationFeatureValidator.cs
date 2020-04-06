@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class OrientationFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var portrait = OrientationModeConverter.Convert(feature.Value);
 
             if (portrait != null)
             {
                 var desired = portrait.Is(CssKeywords.Portrait);
-                var available = device.DeviceHeight >= device.DeviceWidth;
+                var available = renderDevice.DeviceHeight >= renderDevice.DeviceWidth;
                 return desired == available;
             }
 

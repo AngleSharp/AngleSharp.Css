@@ -5,7 +5,7 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class UnknownFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             return true;
         }

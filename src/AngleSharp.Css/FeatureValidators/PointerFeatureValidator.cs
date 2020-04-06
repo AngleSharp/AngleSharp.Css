@@ -7,7 +7,7 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class PointerFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var accuracy = PointerAccuracyConverter.Convert(feature.Value);
 

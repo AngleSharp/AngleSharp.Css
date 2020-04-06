@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class DevicePixelRatioFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var value = NaturalNumberConverter.Convert(feature.Value);
 
             if (value != null)
             {
                 var desired = value.AsDouble();
-                var available = device.Resolution / 96f;
+                var available = renderDevice.Resolution / 96f;
 
                 if (feature.IsMaximum)
                 {

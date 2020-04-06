@@ -8,7 +8,7 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class ColorIndexFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var defaultValue = new Length(1.0, Length.Unit.None);
             var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(defaultValue);
@@ -17,7 +17,7 @@ namespace AngleSharp.Css.FeatureValidators
             if (index != null)
             {
                 var desired = index.AsInt32();
-                var available = device.ColorBits;
+                var available = renderDevice.ColorBits;
 
                 if (feature.IsMaximum)
                 {

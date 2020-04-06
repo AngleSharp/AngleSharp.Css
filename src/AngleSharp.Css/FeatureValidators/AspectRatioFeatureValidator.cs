@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class AspectRatioFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var ratio = RatioConverter.Convert(feature.Value);
 
             if (ratio != null)
             {
                 var desired = ratio.AsDouble();
-                var available = device.ViewPortWidth / (Double)device.ViewPortHeight;
+                var available = renderDevice.ViewPortWidth / (Double)renderDevice.ViewPortHeight;
 
                 if (feature.IsMaximum)
                 {

@@ -54,10 +54,10 @@ namespace AngleSharp.Css.Values
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
-        public TransformMatrix ComputeMatrix()
+        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var distance = _distance as Length? ?? Length.Zero;
-            return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0 / distance.ToPixel());
+            return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0 / distance.ToPixel(renderDimensions, RenderMode.Undefined));
         }
 
         #endregion

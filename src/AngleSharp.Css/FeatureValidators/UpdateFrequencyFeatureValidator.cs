@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class UpdateFrequencyFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var frequency = UpdateFrequencyConverter.Convert(feature.Value);
 
             if (frequency != null)
             {
                 var desired = frequency.AsEnum<UpdateFrequency>();
-                var available = device.Frequency;
+                var available = renderDevice.Frequency;
 
                 if (available >= 30)
                 {
