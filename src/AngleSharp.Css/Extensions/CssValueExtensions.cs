@@ -41,21 +41,21 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
-        /// <param name="isWidth">If a relative unit is being calculated, true signifies that that unit is width, false height.</param>
+        /// <param name="mode">Signifies the axis the unit represents, use to calculate relative units where the axis matters.</param>
         /// <returns>The resulting number.</returns>
-        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions, Boolean isWidth = true)
+        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions, RenderMode mode)
         {
             if (value is Length length && length.Type != Length.Unit.None)
             {
-                return length.ToPixel(renderDimensions, isWidth);
+                return length.ToPixel(renderDimensions, mode);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsPx(renderDimensions, isWidth);
+                return multiple[0].AsPx(renderDimensions, mode);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsPx(renderDimensions, isWidth);
+                return special.Value.AsPx(renderDimensions, mode);
             }
 
             return 0.0;

@@ -43,8 +43,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(50, Length.Unit.Percent);
             var renderDevice = new DefaultRenderDevice();
-            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice));
-            Assert.Throws<ArgumentException>(() => l.ToPixel(null));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(null, RenderMode.Undefined));
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(50, Length.Unit.Em);
             var renderDevice = new DefaultRenderDevice { FontSize = 0 };
-            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice));
-            Assert.Throws<ArgumentException>(() => l.ToPixel(null));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.Throws<ArgumentException>(() => l.ToPixel(null, RenderMode.Undefined));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(50, Length.Unit.Percent);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
-            Assert.AreEqual(250, l.ToPixel(renderDevice, true));
+            Assert.AreEqual(250, l.ToPixel(renderDevice, RenderMode.Horizontal));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(25, Length.Unit.Percent);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 600};
-            Assert.AreEqual(150, l.ToPixel(renderDevice, false));
+            Assert.AreEqual(150, l.ToPixel(renderDevice, RenderMode.Vertical));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(25, Length.Unit.Rem);
             var renderDevice = new DefaultRenderDevice {FontSize = 10};
-            Assert.AreEqual(250, l.ToPixel(renderDevice));
+            Assert.AreEqual(250, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(10, Length.Unit.Em);
             var renderDevice = new DefaultRenderDevice {FontSize = 10};
-            Assert.AreEqual(100, l.ToPixel(renderDevice));
+            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(10, Length.Unit.Vh);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(100, l.ToPixel(renderDevice));
+            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(20, Length.Unit.Vw);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
-            Assert.AreEqual(200, l.ToPixel(renderDevice));
+            Assert.AreEqual(200, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortHeight = 1000,
                 ViewPortWidth = 500
             };
-            Assert.AreEqual(200, l.ToPixel(renderDevice));
+            Assert.AreEqual(200, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortHeight = 1000,
                 ViewPortWidth = 500
             };
-            Assert.AreEqual(100, l.ToPixel(renderDevice));
+            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(100, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
-            Assert.AreEqual(20, l.To(Length.Unit.Percent, renderDevice, true));
+            Assert.AreEqual(20, l.To(Length.Unit.Percent, renderDevice, RenderMode.Horizontal));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(100, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(10, l.To(Length.Unit.Percent, renderDevice, false));
+            Assert.AreEqual(10, l.To(Length.Unit.Percent, renderDevice, RenderMode.Vertical));
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(100, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {FontSize = 16};
-            Assert.AreEqual(6.25d, l.To(Length.Unit.Rem, renderDevice));
+            Assert.AreEqual(6.25d, l.To(Length.Unit.Rem, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(1600, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {FontSize = 16};
-            Assert.AreEqual(100, l.To(Length.Unit.Em, renderDevice));
+            Assert.AreEqual(100, l.To(Length.Unit.Em, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(100, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(10, l.To(Length.Unit.Vh, renderDevice));
+            Assert.AreEqual(10, l.To(Length.Unit.Vh, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new Length(50, Length.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
-            Assert.AreEqual(5, l.To(Length.Unit.Vw, renderDevice));
+            Assert.AreEqual(5, l.To(Length.Unit.Vw, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortWidth = 1000,
                 ViewPortHeight = 500
             };
-            Assert.AreEqual(5, l.To(Length.Unit.Vmax, renderDevice));
+            Assert.AreEqual(5, l.To(Length.Unit.Vmax, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortWidth = 1000,
                 ViewPortHeight = 500
             };
-            Assert.AreEqual(10, l.To(Length.Unit.Vmin, renderDevice));
+            Assert.AreEqual(10, l.To(Length.Unit.Vmin, renderDevice, RenderMode.Undefined));
         }
 
         [Test]
