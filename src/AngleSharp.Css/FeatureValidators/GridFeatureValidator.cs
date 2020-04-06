@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class GridFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var grid = BinaryConverter.Convert(feature.Value);
 
             if (grid != null)
             {
                 var desired = grid.AsBoolean();
-                var available = device.IsGrid;
+                var available = renderDevice.IsGrid;
                 return desired == available;
             }
 

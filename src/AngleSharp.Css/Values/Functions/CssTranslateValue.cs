@@ -103,14 +103,14 @@ namespace AngleSharp.Css.Values
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
-        public TransformMatrix ComputeMatrix()
+        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var x = _x as Length? ?? Length.Zero;
             var y = _y as Length? ?? Length.Zero;
             var z = _z as Length? ?? Length.Zero;
-            var dx = x.ToPixel();
-            var dy = y.ToPixel();
-            var dz = z.ToPixel();
+            var dx = x.ToPixel(renderDimensions, RenderMode.Horizontal);
+            var dy = y.ToPixel(renderDimensions, RenderMode.Vertical);
+            var dz = z.ToPixel(renderDimensions, RenderMode.Undefined);
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
 

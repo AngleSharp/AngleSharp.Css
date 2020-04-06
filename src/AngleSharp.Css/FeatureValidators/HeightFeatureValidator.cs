@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class HeightFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var length = LengthConverter.Convert(feature.Value);
 
             if (length != null)
             {
-                var desired = length.AsPx();
-                var available = (Double)device.ViewPortHeight;
+                var desired = length.AsPx(renderDevice, RenderMode.Vertical);
+                var available = (Double)renderDevice.ViewPortHeight;
 
                 if (feature.IsMaximum)
                 {
