@@ -11,11 +11,11 @@ namespace AngleSharp.Css.RenderTree
         private readonly IEnumerable<ICssStyleSheet> _defaultSheets;
         private readonly IRenderDevice _device;
 
-        public RenderTreeBuilder(IWindow window)
+        public RenderTreeBuilder(IWindow window, IRenderDevice device = null)
         {
             var ctx = window.Document.Context;
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
-            _device = ctx.GetService<IRenderDevice>();
+            _device = device ?? ctx.GetService<IRenderDevice>();
             _defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             _window = window;
         }

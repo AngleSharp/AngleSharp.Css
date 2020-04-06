@@ -3,6 +3,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Attributes;
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.RenderTree;
     using System;
     using System.Linq;
 
@@ -110,6 +111,21 @@ namespace AngleSharp.Dom
             // Replaces the relative values with absolute ones
             // --> computed
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Renders the currently available document into a render tree rooted at the returned render node.
+        /// a render tree is essentially the combination of DOM nodes with their CSSOM computed style declarations.
+        ///
+        /// In case no render device is supplied the context's default render device is chosen.
+        /// </summary>
+        /// <param name="window">The window to extend.</param>
+        /// <param name="renderDevice">The device for rendering, if any. </param>
+        /// <returns>The created render node.</returns>
+        public static IRenderNode Render(this IWindow window, IRenderDevice renderDevice = null)
+        {
+            var builder = new RenderTreeBuilder(window, renderDevice);
+            return builder.RenderDocument();
         }
     }
 }

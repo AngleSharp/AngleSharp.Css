@@ -175,10 +175,10 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
-        /// Tries to convert the value to an RGBA integer.
+        /// Tries to convert the value to a URL.
         /// </summary>
         /// <param name="value">The value to convert.</param>
-        /// <returns>The resulting number.</returns>
+        /// <returns>The resulting URL.</returns>
         public static String AsUrl(this ICssValue value)
         {
             if (value is CssUrlValue res)

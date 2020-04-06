@@ -1,7 +1,9 @@
 # 0.14.0
 
-Released on Tuesday, March 31 2020.
+Released on Tuesday, April 7 2020.
 
+- Added a way to compute relative dimensions (#3)
+- Added render tree information incl. utilities (#4)
 - Fixed issue with empty content (#42)
 - Added debugger display attribute to CSS rules (#43)
 - Fixed handling of CSS gradients (#45)

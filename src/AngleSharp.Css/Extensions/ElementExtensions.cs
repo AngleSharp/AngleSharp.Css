@@ -53,7 +53,7 @@ namespace AngleSharp.Dom
 
                 if (!String.IsNullOrEmpty(css?.GetDisplay()))
                 {
-                    hidden = css.GetDisplay() == "none";
+                    hidden = css.GetDisplay() == CssKeywords.None;
                 }
             }
 
@@ -167,12 +167,12 @@ namespace AngleSharp.Dom
             {
                 if (!String.IsNullOrEmpty(elementStyle.GetDisplay()))
                 {
-                    elementHidden = elementStyle.GetDisplay() == "none";
+                    elementHidden = elementStyle.GetDisplay() == CssKeywords.None;
                 }
 
                 if (!String.IsNullOrEmpty(elementStyle.GetVisibility()) && elementHidden != true)
                 {
-                    elementHidden = elementStyle.GetVisibility() != "visible";
+                    elementHidden = elementStyle.GetVisibility() != CssKeywords.Visible;
                 }
             }
 
@@ -202,25 +202,25 @@ namespace AngleSharp.Dom
                 {
                     sb.Append(Symbols.LineFeed);
                 }
-                else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-cell")
+                else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell)
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 
-                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == "table-cell")
+                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableCell)
                         {
                             sb.Append(Symbols.Tab);
                         }
                     }
                 }
-                else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == "table-row")
+                else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow)
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 
-                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == "table-row")
+                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableRow)
                         {
                             sb.Append(Symbols.LineFeed);
                         }
