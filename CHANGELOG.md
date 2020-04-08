@@ -1,3 +1,18 @@
+# 0.14.0
+
+Released on Tuesday, April 7 2020.
+
+- Added a way to compute relative dimensions (#3)
+- Added render tree information incl. utilities (#4)
+- Fixed issue with empty content (#42)
+- Added debugger display attribute to CSS rules (#43)
+- Fixed handling of CSS gradients (#45)
+- Improved CSS string representation of gradients (#46)
+- Exposed `IStyleCollection` for CSS info (#51)
+- Fixed analysis issue with potential null selector (#52)
+- Added support for the .NET Framework 4.6.1 target
+- Added support for the .NET Framework 4.7.2 target
+
 # 0.13.0
 
 Released on Friday, September 6 2019.

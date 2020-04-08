@@ -11,7 +11,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// A set of useful extension methods for the StyleCollection class.
     /// </summary>
-    static class StyleCollectionExtensions
+    public static class StyleCollectionExtensions
     {
         #region Methods
 
@@ -20,7 +20,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="window">The window to host the style collection.</param>
         /// <returns>The device-bound style collection.</returns>
-        public static StyleCollection GetStyleCollection(this IWindow window)
+        public static IStyleCollection GetStyleCollection(this IWindow window)
         {
             var document = window.Document;
             var ctx = document.Context;
@@ -40,7 +40,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection rules, IElement element, String pseudoSelector = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var nodes = element.GetAncestors().OfType<IElement>();
@@ -74,7 +74,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styleCollection, IElement element, ICssStyleDeclaration parent = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var rules = styleCollection.SortBySpecificity(element);
@@ -103,7 +103,7 @@ namespace AngleSharp.Css
         #region Helpers
 
         private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
-            rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
+            rules.Where(m => m.Selector?.Match(element) ?? false).OrderBy(m => m.Selector.Specificity);
 
         #endregion
     }

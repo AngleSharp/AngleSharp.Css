@@ -2,11 +2,13 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssKeyframeRule ({KeyText})")]
     sealed class CssKeyframeRule : CssRule, ICssKeyframeRule
     {
         #region Fields

@@ -40,20 +40,22 @@ namespace AngleSharp.Css.Dom
         /// Tries to convert the value to a number of pixels.
         /// </summary>
         /// <param name="value">The value to convert.</param>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <param name="mode">Signifies the axis the unit represents, use to calculate relative units where the axis matters.</param>
         /// <returns>The resulting number.</returns>
-        public static Double AsPx(this ICssValue value)
+        public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions, RenderMode mode)
         {
             if (value is Length length && length.Type != Length.Unit.None)
             {
-                return length.ToPixel();
+                return length.ToPixel(renderDimensions, mode);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsPx();
+                return multiple[0].AsPx(renderDimensions, mode);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsPx();
+                return special.Value.AsPx(renderDimensions, mode);
             }
 
             return 0.0;
@@ -175,10 +177,10 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
-        /// Tries to convert the value to an RGBA integer.
+        /// Tries to convert the value to a URL.
         /// </summary>
         /// <param name="value">The value to convert.</param>
-        /// <returns>The resulting number.</returns>
+        /// <returns>The resulting URL.</returns>
         public static String AsUrl(this ICssValue value)
         {
             if (value is CssUrlValue res)
@@ -201,20 +203,21 @@ namespace AngleSharp.Css.Dom
         /// Tries to convert the value to a transformation matrix.
         /// </summary>
         /// <param name="value">The value to convert.</param>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <returns>The resulting matrix.</returns>
-        public static TransformMatrix AsMatrix(this ICssValue value)
+        public static TransformMatrix AsMatrix(this ICssValue value, IRenderDimensions renderDimensions)
         {
             if (value is ICssTransformFunctionValue res)
             {
-                return res.ComputeMatrix();
+                return res.ComputeMatrix(renderDimensions);
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
-                return multiple[0].AsMatrix();
+                return multiple[0].AsMatrix(renderDimensions);
             }
             else if (value is ICssSpecialValue special && special.Value != null)
             {
-                return special.Value.AsMatrix();
+                return special.Value.AsMatrix(renderDimensions);
             }
 
             return null;

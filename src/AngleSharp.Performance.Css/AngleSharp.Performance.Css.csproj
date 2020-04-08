@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
-    <PackageReference Include="AngleSharp" Version="0.13.0" />
+    <PackageReference Include="AngleSharp" Version="0.14.0" />
     <PackageReference Include="ExCSS" version="2.0.6" />
   </ItemGroup>
 </Project>

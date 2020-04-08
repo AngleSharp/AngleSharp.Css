@@ -661,5 +661,16 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("url(\"" + url + "\")", property.Value);
         }
+
+        [Test]
+        public void CssBackgroundImageLinearGradientLegal()
+        {
+            var source = "background-image: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 255, 1))";
+            var property = ParseDeclaration(source);
+            Assert.IsTrue(property.HasValue);
+
+            var expected = "linear-gradient(90deg, rgba(255, 0, 0, 1), rgba(0, 0, 255, 1))";
+            Assert.AreEqual(expected, property.Value);
+        }
     }
 }

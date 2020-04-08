@@ -5,7 +5,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents the renderers setting.
     /// </summary>
-    public interface IRenderDevice
+    public interface IRenderDevice : IRenderDimensions
     {
         /// <summary>
         /// Gets the width of the viewport in pixels.

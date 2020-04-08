@@ -29,7 +29,9 @@ namespace AngleSharp.Css.Tests.Values
         [Test]
         public void BackgroundImageLinearGradientWithAngle()
         {
-            var source = "background-image: linear-gradient(135deg, red, blue)";
+            var red = Color.Red;
+            var blue = Color.Blue;
+            var source = $"background-image: linear-gradient(135deg, {red.CssText}, {blue.CssText})";
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInitial);
@@ -41,8 +43,10 @@ namespace AngleSharp.Css.Tests.Values
             Assert.IsFalse(gradient.IsRepeating);
             Assert.AreEqual(Angle.TripleHalfQuarter, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Length);
-            Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
-            Assert.AreEqual(Color.Blue, gradient.Stops.Last().Color);
+            Assert.AreEqual(red, gradient.Stops.First().Color);
+            Assert.AreEqual(blue, gradient.Stops.Last().Color);
+
+            Assert.AreEqual(source, property.CssText);
         }
 
         [Test]

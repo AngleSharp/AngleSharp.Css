@@ -1,11 +1,13 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a CSS @media rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssMediaRule ({ConditionText})")]
     sealed class CssMediaRule : CssConditionRule, ICssMediaRule
     {
         #region Fields

@@ -133,6 +133,7 @@ namespace AngleSharp.Css.Dom
 
         public NodeFlags Flags => _host.Flags;
 
+
         #endregion
 
         #region Methods

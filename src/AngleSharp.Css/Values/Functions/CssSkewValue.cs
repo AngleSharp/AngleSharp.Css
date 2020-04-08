@@ -104,7 +104,7 @@ namespace AngleSharp.Css.Values
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
-        public TransformMatrix ComputeMatrix()
+        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var a = Math.Tan((_alpha as Angle ? ?? Angle.Zero).ToRadian());
             var b = Math.Tan((_beta as Angle? ?? Angle.Zero).ToRadian());

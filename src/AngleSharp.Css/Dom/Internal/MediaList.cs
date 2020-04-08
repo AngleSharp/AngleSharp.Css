@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Dom
         public void SetMediaText(String value, Boolean throwOnError)
         {
             _media.Clear();
-            var media = MediaParser.Parse(value, ValidatorFactory);
+            var media = MediaParser.Parse(value ?? CssKeywords.All, ValidatorFactory);
 
             if (media != null)
             {

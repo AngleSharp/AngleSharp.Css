@@ -4,10 +4,7 @@ namespace AngleSharp.Css.Dom
     using System.Collections;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Represents a list of CSS stylesheets.
-    /// </summary>
-    sealed class StyleCollection : IEnumerable<ICssStyleRule>
+    sealed class StyleCollection : IStyleCollection
     {
         #region Fields
 

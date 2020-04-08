@@ -31,10 +31,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="type">The pseudo element type.</param>
         /// <param name="creator">The creator to invoke.</param>
-        public void Register(String type, Creator creator)
-        {
-            _creators.Add(type, creator);
-        }
+        public void Register(String type, Creator creator) => _creators.Add(type, creator);
 
         /// <summary>
         /// Unregisters an existing creator for the given pseudo type.
@@ -60,10 +57,7 @@ namespace AngleSharp.Css
         /// <param name="host">The hosting element.</param>
         /// <param name="type">The type of pseudo element.</param>
         /// <returns>The default pseudo element instance.</returns>
-        protected virtual IPseudoElement CreateDefault(IElement host, String type)
-        {
-            return default;
-        }
+        protected virtual IPseudoElement CreateDefault(IElement host, String type) => default;
 
         /// <summary>
         /// Creates the pseudo element instance for the given pseudo type.
@@ -73,9 +67,7 @@ namespace AngleSharp.Css
         /// <returns>The pseudo element instance.</returns>
         public IPseudoElement Create(IElement host, String type)
         {
-            var creator = default(Creator);
-
-            if (!String.IsNullOrEmpty(type) && _creators.TryGetValue(type, out creator))
+            if (!String.IsNullOrEmpty(type) && _creators.TryGetValue(type, out var creator))
             {
                 return creator(host);
             }

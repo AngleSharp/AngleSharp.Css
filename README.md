@@ -43,6 +43,16 @@ var config = Configuration.Default
 
 If no specific `IRenderDevice` (e.g., via creating an `DefaultRenderDevice` object) instance is created a default implementation will be set.
 
+Going a bit further it is possible to `Render` the current document. This render tree information can then be used to retrieve or other information, e.g.,
+
+```cs
+var tree = document.DefaultView.Render();
+var node = tree.Find(document.QuerySelector("div"));
+await node.DownloadResources();
+```
+
+The previous snippet renders the current document. Afterwards it retrieves a particular render tree node, which is related to the first found `div`. Then all (CSS introduced) resources are downloaded for the node, if visible.
+
 ## Advantages of AngleSharp.Css
 
 The core library already contains the CSS selector parser and the most basic classes and interfaces for dealing with the CSSOM. AngleSharp.Css brings the following advantages and use cases to life:
@@ -89,7 +99,7 @@ This project is supported by the [.NET Foundation](https://dotnetfoundation.org)
 
 The MIT License (MIT)
 
-Copyright (c) 2016 - 2019 AngleSharp
+Copyright (c) 2016 - 2020 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

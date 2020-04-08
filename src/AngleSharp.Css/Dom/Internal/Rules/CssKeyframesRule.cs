@@ -1,13 +1,15 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
 
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
+    [DebuggerDisplay(null, Name = "CssKeyframesRule ({Name})")]
     sealed class CssKeyframesRule : CssGroupingRule, ICssKeyframesRule
     {
         #region Fields

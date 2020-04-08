@@ -7,14 +7,14 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class DeviceWidthFeatureValidator : IFeatureValidator
     {
-        public Boolean Validate(IMediaFeature feature, IRenderDevice device)
+        public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
             var length = LengthConverter.Convert(feature.Value);
 
             if (length != null)
             {
-                var desired = length.AsPx();
-                var available = (Double)device.DeviceWidth;
+                var desired = length.AsPx(renderDevice, RenderMode.Horizontal);
+                var available = (Double)renderDevice.DeviceWidth;
 
                 if (feature.IsMaximum)
                 {
