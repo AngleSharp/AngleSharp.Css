@@ -1,3 +1,9 @@
+# 0.14.1
+
+Released on Monday, May 4 2020.
+
+- Changed StyleCollectionExtensions.ComputeDeclarations and StyleCollectionExtensions.ComputeCascadedStyle to take IEnumerable<ICssStyleRule> (#53)
+
 # 0.14.0
 
 Released on Tuesday, April 7 2020.
