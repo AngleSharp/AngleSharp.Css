@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Declarations
 
                     if (weight == null)
                     {
-                        weight = source.ParseConstant(Map.FontWeights);
+                        weight = FontWeightDeclaration.Converter.Convert(source);
                         source.SkipSpacesAndComments();
                     }
 
