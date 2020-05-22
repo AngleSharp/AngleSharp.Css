@@ -677,5 +677,17 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("italic bold 12px / 30px Georgia, serif", property.Value);
         }
+
+        [Test]
+        public void CssFontStyleNumericWeightSizeFamiliesLegal()
+        {
+            var snippet = "font: 400 12px Georgia, serif";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("400 12px Georgia, serif", property.Value);
+        }
     }
 }
