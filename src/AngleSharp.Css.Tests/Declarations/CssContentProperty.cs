@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Dom;
     using NUnit.Framework;
@@ -37,6 +37,14 @@
             var source = "a{content:'abc\\'\\'d\\'ef'}";
             var parsed = ParseStyle(source);
             Assert.AreEqual("\"abc''d'ef\"", parsed.Style.GetContent());
+        }
+
+        [Test]
+        public void CssContentWithCounter_Issue58()
+        {
+            var source = "a{content: counter(h1) \".\\00A0\"}";
+            var parsed = ParseStyle(source);
+            Assert.AreEqual("counter(h1) \". \"", parsed.Style.GetContent());
         }
     }
 }

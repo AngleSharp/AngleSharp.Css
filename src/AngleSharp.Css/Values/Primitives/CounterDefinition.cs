@@ -38,7 +38,9 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText => String.Concat(_identifier, " ", _listStyle, " ", _separator);
+        public String CssText => _separator == null ?
+            FunctionNames.Counter.CssFunction(Combine(_identifier)) :
+            FunctionNames.Counters.CssFunction(Combine(String.Concat(_identifier, " ", _separator)));
 
         /// <summary>
         /// Gets the identifier of the counter.
@@ -84,6 +86,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => CssText.GetHashCode();
+
+        #endregion
+
+        #region Helpers
+
+        private String Combine(String head) => _listStyle != CssKeywords.Decimal ? String.Concat(head, ", ", _listStyle) : head;
 
         #endregion
     }
