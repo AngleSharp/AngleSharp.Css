@@ -40,7 +40,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection rules, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IEnumerable<ICssStyleRule> rules, IElement element, String pseudoSelector = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var nodes = element.GetAncestors().OfType<IElement>();
@@ -74,7 +74,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styleCollection, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IEnumerable<ICssStyleRule> styleCollection, IElement element, ICssStyleDeclaration parent = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
             var rules = styleCollection.SortBySpecificity(element);

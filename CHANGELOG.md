@@ -1,10 +1,15 @@
-# 0.14.1
+# 0.14.2
 
 Released on Thursday, June 11 2020.
 
 - Fixed issue for representation of `counter()` and `counters()` (#58)
 - Fixed parsing of numerical font-weight in font shorthand (#57)
-- Updated `ComputeDeclarations` and `ComputeCascadedStyle` to support `IEnumerable<ICssStyleRule>` (#54)
+
+# 0.14.1
+
+Released on Monday, May 4 2020.
+
+- Updated `ComputeDeclarations` and `ComputeCascadedStyle` to support `IEnumerable<ICssStyleRule>` (#53)
 
 # 0.14.0
 
