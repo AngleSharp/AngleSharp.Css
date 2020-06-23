@@ -1721,6 +1721,13 @@ namespace AngleSharp.Css
                     longhands: GridGapDeclaration.Longhands,
                     flags: GridGapDeclaration.Flags)
             },
+            {
+                FillDeclaration.Name, new DeclarationInfo(
+                    name: FillDeclaration.Name,
+                    converter: FillDeclaration.Converter,
+                    initialValue: FillDeclaration.InitialValue,
+                    flags: FillDeclaration.Flags)
+            },
         };
 
         /// <summary>
