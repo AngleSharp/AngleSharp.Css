@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Text;
     using System;
@@ -117,7 +117,7 @@
             foreach (var declaration in declarations)
             {
                 sb.Append(sep).Append(_intendString);
-                sb.Append(declaration).Append(Symbols.Semicolon);
+                sb.Append(declaration.ToCss()).Append(Symbols.Semicolon);
             }
 
             return sb.Append(sep).Append(Symbols.CurlyBracketClose).ToPool();
