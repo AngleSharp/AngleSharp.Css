@@ -446,6 +446,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the ResizeMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter ResizeConverter = Map.ResizeModes.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the RubyAlignment enumeration.
         /// </summary>
         public static readonly IValueConverter RubyAlignmentConverter = Map.RubyAlignments.ToConverter();

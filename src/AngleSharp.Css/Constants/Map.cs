@@ -723,6 +723,19 @@ namespace AngleSharp.Css
 		};
 
         /// <summary>
+        /// Contains the string-ResizeMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ResizeMode> ResizeModes = new Dictionary<String, ResizeMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.None, ResizeMode.None },
+            { CssKeywords.Both, ResizeMode.Both },
+            { CssKeywords.Horizontal, ResizeMode.Horizontal },
+            { CssKeywords.Vertical, ResizeMode.Vertical },
+            { CssKeywords.Block, ResizeMode.Block },
+            { CssKeywords.Inline, ResizeMode.Inline },
+        };
+
+        /// <summary>
         /// Contains the string-RubyAlignment mapping.
         /// </summary>
         public static readonly Dictionary<String, RubyAlignment> RubyAlignments = new Dictionary<String, RubyAlignment>(StringComparer.OrdinalIgnoreCase)

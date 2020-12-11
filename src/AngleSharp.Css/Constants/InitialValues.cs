@@ -161,6 +161,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue RubyPositionDecl = new Constant<RubyPosition>(CssKeywords.Over, RubyPosition.Over);
         public static readonly ICssValue RubyOverhangDecl = new Constant<RubyOverhangMode>(CssKeywords.None, RubyOverhangMode.None);
         public static readonly ICssValue RubyAlignDecl = new Constant<RubyAlignment>(CssKeywords.SpaceAround, RubyAlignment.SpaceAround);
+        public static readonly ICssValue ResizeDecl = new Constant<ResizeMode>(CssKeywords.None, ResizeMode.None);
         public static readonly ICssValue QuotesDecl = new Quote("«", "»");
         public static readonly ICssValue PointerEventsDecl = new Constant<PointerEvent>(CssKeywords.Auto, PointerEvent.Auto);
         public static readonly ICssValue ContentDecl = new Constant<Object>(CssKeywords.Normal, null);

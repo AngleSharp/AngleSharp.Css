@@ -988,6 +988,11 @@ namespace AngleSharp.Css
         public static readonly String Quotes = "quotes";
 
         /// <summary>
+        /// The resize declaration.
+        /// </summary>
+        public static readonly String Resize = "resize";
+
+        /// <summary>
         /// The right declaration.
         /// </summary>
         public static readonly String Right = "right";

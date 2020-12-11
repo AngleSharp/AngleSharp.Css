@@ -1406,6 +1406,13 @@ namespace AngleSharp.Css
                     longhands: BorderDeclaration.Longhands)
             },
             {
+                ResizeDeclaration.Name, new DeclarationInfo(
+                    name: ResizeDeclaration.Name,
+                    converter: ResizeDeclaration.Converter,
+                    initialValue: ResizeDeclaration.InitialValue,
+                    flags: ResizeDeclaration.Flags)
+            },
+            {
                 RubyAlignDeclaration.Name, new DeclarationInfo(
                     name: RubyAlignDeclaration.Name,
                     converter: RubyAlignDeclaration.Converter,

@@ -13,6 +13,16 @@ namespace AngleSharp.Css
         public static readonly String Distribute = "distribute";
 
         /// <summary>
+        /// The horizontal keyword.
+        /// </summary>
+        public static readonly String Horizontal = "horizontal";
+
+        /// <summary>
+        /// The vertical keyword.
+        /// </summary>
+        public static readonly String Vertical = "vertical";
+
+        /// <summary>
         /// The clip keyword.
         /// </summary>
         public static readonly String Clip = "clip";
