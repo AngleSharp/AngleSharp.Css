@@ -614,6 +614,30 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssBackgroundNoneLegal()
+        {
+            var snippet = "background: none";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none", property.Value);
+        }
+
+        [Test]
+        public void CssBackgroundNoneColoredLegal()
+        {
+            var snippet = "background: none rgb(1, 2, 3)";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("none rgba(1, 2, 3, 1)", property.Value);
+        }
+
+        [Test]
         public void CssBackgroundWhiteImageLegal()
         {
             var snippet = "background: white url(\"pendant.png\");";
