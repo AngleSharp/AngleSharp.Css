@@ -768,5 +768,13 @@ namespace AngleSharp.Css.Tests.Declarations
             var text = rule.CssText;
             Assert.AreEqual(snippet, text);
         }
+
+        [Test]
+        public void CssGridTemplateLonghands_Issue68()
+        {
+            var snippet = "grid-template-areas: none; grid-template-columns: none; grid-template-rows: none";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual("grid-template: none", style.CssText);
+        }
     }
 }

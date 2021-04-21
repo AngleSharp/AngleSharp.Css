@@ -61,7 +61,11 @@ namespace AngleSharp.Css.Values
                 var rows = String.Empty;
                 var cols = _columns?.CssText;
 
-                if (_areas != null)
+                if (_areas is Constant<object> || _columns is Constant<object> || _rows is Constant<object>)
+                {
+                    return CssKeywords.None;
+                }
+                else if (_areas != null)
                 {
                     var areas = ((CssTupleValue)_areas).Items;
                     var rowItems = ((CssTupleValue)_rows).Items;
@@ -89,7 +93,7 @@ namespace AngleSharp.Css.Values
 
                 if (!String.IsNullOrEmpty(cols))
                 {
-                    return String.Concat(rows, " / ",cols);
+                    return String.Concat(rows, " / ", cols);
                 }
 
                 return rows;
