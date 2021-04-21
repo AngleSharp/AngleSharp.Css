@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5 + (3 + 7))");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5 + 3 + 7)", calc.CssText);
+            Assert.AreEqual("calc(5 + (3 + 7))", calc.CssText);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5 + calc(3 + 7))");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5 + 3 + 7)", calc.CssText);
+            Assert.AreEqual("calc(5 + (3 + 7))", calc.CssText);
         }
 
         [Test]

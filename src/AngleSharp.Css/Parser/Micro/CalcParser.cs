@@ -124,11 +124,13 @@ namespace AngleSharp.Css.Parser
             if (source.Current == Symbols.RoundBracketOpen)
             {
                 source.SkipCurrentAndSpaces();
-                return source.ParseExpression();
+                var content = source.ParseExpression();
+                return new CssCalcBracketExpression(content);
             }
             else if (source.IsFunction(FunctionNames.Calc))
             {
-                return source.ParseExpression();
+                var content = source.ParseExpression();
+                return new CssCalcBracketExpression(content);
             }
 
             return source.ParseAtomicExpression();
