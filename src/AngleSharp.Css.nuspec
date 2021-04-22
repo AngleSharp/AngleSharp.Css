@@ -5,13 +5,13 @@
     <version>$version$</version>
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
-    <licenseUrl>https://github.com/AngleSharp/AngleSharp.Css/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://anglesharp.github.io</projectUrl>
-    <iconUrl>https://raw.github.com/AngleSharp/AngleSharp.Css/master/logo.png</iconUrl>
+    <icon>logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extends the CSSOM from the core AngleSharp library.</description>
     <releaseNotes>https://github.com/AngleSharp/AngleSharp.Css/blob/master/CHANGELOG.md</releaseNotes>
-    <copyright>Copyright 2016-2020, AngleSharp</copyright>
+    <copyright>Copyright 2016-2021, AngleSharp</copyright>
     <tags>html html5 css css3 dom styling library anglesharp angle</tags>
     <dependencies>
       <dependency id="AngleSharp" version="0.14.0" />
