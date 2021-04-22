@@ -1,8 +1,12 @@
-# 0.14.3
+# 0.15.0
 
-Released on ?
+Released on Thursday, April 22 2021.
 
 - Added `fill` declaration (#59)
+- Fixed parsing of `background: none` (#65)
+- Fixed issues with brackets being removed for `calc` expressions (#67)
+- Fixed issue throwing in `grid-template: none` serializations (#63, #68)
+- Dropped support for the .NET Standard 1.3 target
 
 # 0.14.2
 

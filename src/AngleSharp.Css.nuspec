@@ -14,7 +14,7 @@
     <copyright>Copyright 2016-2021, AngleSharp</copyright>
     <tags>html html5 css css3 dom styling library anglesharp angle</tags>
     <dependencies>
-      <dependency id="AngleSharp" version="0.14.0" />
+      <dependency id="AngleSharp" version="0.15.0" />
     </dependencies>
   </metadata>
 </package>
