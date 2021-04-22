@@ -101,7 +101,7 @@ h1 {
         [Test]
         public void CssSheetIgnoreVendorPrefixes()
         {
-            var css = @".something { 
+            var css = @".something {
   -o-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -540,7 +540,7 @@ h1 { color: blue }");
                 Assert.AreEqual(names[i], decl.Name);
                 Assert.AreEqual(propertyName, decl.Name);
                 Assert.IsFalse(decl.IsImportant);
-                Assert.AreEqual("20px", decl.Value);   
+                Assert.AreEqual("20px", decl.Value);
             }
         }
 
@@ -859,7 +859,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.ToCss();
-            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block }", result);
+            Assert.AreEqual("@-ms-viewport{width:device-width}" + Environment.NewLine + ".dsip { display: block }", result);
         }
 
         [Test]
@@ -868,7 +868,7 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
             var result = doc.ToCss();
-            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block }", result);
+            Assert.AreEqual("@media screen and (max-width: 400px) { }" + Environment.NewLine + ".dsip { display: block }", result);
         }
 
         [Test]
@@ -882,7 +882,7 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.ToCss();
-            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block }", result);
+            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }" + Environment.NewLine + ".dsip { display: block }", result);
         }
 
         [Test]
@@ -890,10 +890,10 @@ font-weight:bold;}";
         {
             var s = ParseStyleSheet(String.Empty);
             Assert.AreEqual(0, s.Rules.Length);
-            
+
             s.Insert("a {color: blue}", 0);
             Assert.AreEqual(1, s.Rules.Length);
-            
+
             s.Insert("a *:first-child, a img {border: none}", 1);
             Assert.AreEqual(2, s.Rules.Length);
 
