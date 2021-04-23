@@ -21,18 +21,10 @@ namespace AngleSharp.Css.Parser
             var pos = source.Index;
             var ident = source.ParseIdent();
 
-            if (ident != null)
+            if (ident != null && source.Current == Symbols.RoundBracketOpen && GradientFunctions.TryGetValue(ident, out var function))
             {
-                if (source.Current == Symbols.RoundBracketOpen)
-                {
-                    var function = default(Func<StringSource, ICssGradientFunctionValue>);
-
-                    if (GradientFunctions.TryGetValue(ident, out function))
-                    {
-                        source.SkipCurrentAndSpaces();
-                        return function.Invoke(source);
-                    }
-                }
+                source.SkipCurrentAndSpaces();
+                return function.Invoke(source);
             }
 
             source.BackTo(pos);
@@ -181,38 +173,54 @@ namespace AngleSharp.Css.Parser
         {
             if (source.IsIdentifier(CssKeywords.To))
             {
-                var angle = Angle.Zero;
                 source.SkipSpacesAndComments();
-                var a = source.ParseIdent();
-                source.SkipSpacesAndComments();
-                var b = source.ParseIdent();
-                var keyword = default(String);
+                return ParseLinearAngleKeywords(source);
+            }
+            else
+            {
+                // This is for backwards compatibility. Usually only "to" syntax is supported.
+                var pos = source.Index;
+                var test = source.ParseIdent();
+                source.BackTo(pos);
 
-                if (a != null && b != null)
+                if (test != null && Map.GradientAngles.ContainsKey(test))
                 {
-                    if (a.IsOneOf(CssKeywords.Top, CssKeywords.Bottom))
-                    {
-                        var t = b;
-                        b = a;
-                        a = t;
-                    }
-
-                    keyword = String.Concat(a, " ", b);
+                    return ParseLinearAngleKeywords(source);
                 }
-                else if (a != null)
-                {
-                    keyword = a;
-                }
-
-                if (keyword != null && Map.GradientAngles.TryGetValue(keyword, out angle))
-                {
-                    return angle;
-                }
-
-                return null;
             }
 
             return source.ParseAngleOrCalc();
+        }
+
+        private static ICssValue ParseLinearAngleKeywords(StringSource source)
+        {
+            var a = source.ParseIdent();
+            source.SkipSpacesAndComments();
+            var b = source.ParseIdent();
+            var keyword = default(String);
+
+            if (a != null && b != null)
+            {
+                if (a.IsOneOf(CssKeywords.Top, CssKeywords.Bottom))
+                {
+                    var t = b;
+                    b = a;
+                    a = t;
+                }
+
+                keyword = String.Concat(a, " ", b);
+            }
+            else if (a != null)
+            {
+                keyword = a;
+            }
+
+            if (keyword != null && Map.GradientAngles.TryGetValue(keyword, out var angle))
+            {
+                return angle;
+            }
+
+            return null;
         }
         
         private static RadialOptions? ParseRadialOptions(StringSource source)

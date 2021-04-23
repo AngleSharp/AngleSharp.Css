@@ -3,6 +3,7 @@
 Released on Thursday, April 22 2021.
 
 - Added `fill` declaration (#59)
+- Added support for legacy `linear-gradient` syntax (#66)
 - Fixed parsing of `background: none` (#65)
 - Fixed issues with brackets being removed for `calc` expressions (#67)
 - Fixed issue throwing in `grid-template: none` serializations (#63, #68)
