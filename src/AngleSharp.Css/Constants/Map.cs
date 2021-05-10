@@ -887,7 +887,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-length mapping.
         /// </summary>
-        public static readonly Dictionary<String, Sizing> Sizings = new Dictionary<String, Width>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Sizing> Sizings = new Dictionary<String, Sizing>(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.FitContent, Sizing.FitContent },
             { CssKeywords.MinContent, Sizing.MinContent},
