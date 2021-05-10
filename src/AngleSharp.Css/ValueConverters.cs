@@ -612,6 +612,14 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AutoLengthOrPercentConverter = Or(
             LengthOrPercentConverter,
             Auto);
+        
+        /// <summary>
+        /// Represents a value for a width.
+        /// </summary>
+        public static readonly IValueConverter WidthConverter = Or(
+            LengthOrPercentConverter,
+            Auto,
+            Map.Sizings.ToConverter());
 
         /// <summary>
         /// Represents a length for a font size.
