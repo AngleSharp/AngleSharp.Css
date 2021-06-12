@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Tests.Mocks
 {
+    using AngleSharp.Dom;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;

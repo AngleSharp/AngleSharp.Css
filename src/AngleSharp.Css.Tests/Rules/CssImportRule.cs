@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.Tests.Rules
 {
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 

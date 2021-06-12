@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Tests.Functions
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using System.Linq;
     using static CssConstructionFunctions;
