@@ -1,3 +1,7 @@
+---
+title: "API Documentation"
+section: "AngleSharp.Css"
+---
 # API Documentation
 
 ## CSSOM - Basics
@@ -25,7 +29,7 @@ AngleSharp uses converters to parse a given source to an `ICssValue` instance. T
 
 The `ICssValue` interface is split in various interfaces with respect to their usage.
 
-![The CSSOM Value Tree](cssom-value-tree.png)
+![The CSSOM Value Tree](./cssom-value-tree.png)
 
 A converter may also implement the `IValueAggregator` interface, which indicates that the declaration behind it is actually a shorthand that can additionally merge values into a shorthand representation or split the shorthand representation into the atoms described by the shorthand.
 
