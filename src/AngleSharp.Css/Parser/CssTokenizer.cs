@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Parser
             var current = Current;
             var spaced = 0;
 
-            while (!current.IsOneOf(Symbols.EndOfFile, Symbols.Semicolon, Symbols.CurlyBracketOpen, Symbols.CurlyBracketClose))
+            while (!(current is Symbols.EndOfFile or Symbols.Semicolon or Symbols.CurlyBracketOpen or Symbols.CurlyBracketClose))
             {
                 var token = Data(current);
 
@@ -763,7 +763,7 @@ namespace AngleSharp.Css.Parser
         {
             while (true)
             {
-                if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
+                if (current is Symbols.Plus or Symbols.Minus) 
                 {
                     StringBuffer.Append(current);
                     current = GetNext();
@@ -1100,7 +1100,7 @@ namespace AngleSharp.Css.Parser
                 {
                     return NewUrl(FlushBuffer(), bad: true);
                 }
-                else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
+                else if (current is Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad();

@@ -44,7 +44,7 @@ namespace AngleSharp.Css.Dom
                         continue;
                     }
                     else if (ch < 0x80 && 
-                            !ch.IsOneOf(Symbols.Minus,Symbols.Underscore) && 
+                            !(ch is Symbols.Minus or Symbols.Underscore) && 
                             !ch.IsAlphanumericAscii())
                     {
                         sb.Append(Symbols.ReverseSolidus);
