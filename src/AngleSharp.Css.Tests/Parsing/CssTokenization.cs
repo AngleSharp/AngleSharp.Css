@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Tests.Parsing
 {
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using NUnit.Framework;
 

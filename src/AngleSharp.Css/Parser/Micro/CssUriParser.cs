@@ -137,12 +137,12 @@ namespace AngleSharp.Css.Parser
                 {
                     return End(source, buffer);
                 }
-                else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
+                else if (current is Symbols.RoundBracketClose or Symbols.EndOfFile) 
                 {
                     source.Next();
                     return new CssUrlValue(buffer.ToPool());
                 }
-                else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
+                else if (current is Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
                     return Bad(source, buffer);
                 }

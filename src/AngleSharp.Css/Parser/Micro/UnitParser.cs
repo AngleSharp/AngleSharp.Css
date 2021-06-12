@@ -289,7 +289,7 @@ namespace AngleSharp.Css.Parser
         {
             var current = source.Current;
 
-            if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
+            if (current is Symbols.Plus or Symbols.Minus)
             {
                 var next = source.Next();
 

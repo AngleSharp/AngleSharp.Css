@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
     using System;
@@ -42,7 +42,7 @@
                     current = source.SkipCssComment();
                     continue;
                 }
-                else if (current.IsOneOf(Symbols.SingleQuote, Symbols.DoubleQuote))
+                else if (current is Symbols.SingleQuote or Symbols.DoubleQuote)
                 {
                     source.ParseString();
                     current = source.Current;
