@@ -1,3 +1,7 @@
+---
+title: "Types of Values"
+section: "AngleSharp.Css"
+---
 # Types of Values
 
 For details see [CSS2 specification](https://www.w3.org/TR/CSS2/cascade.html#value-stages).

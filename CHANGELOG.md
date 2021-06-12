@@ -1,3 +1,9 @@
+# 0.15.1
+
+Release on Sunday, June 6 2021.
+
+- Extended values for the `width` declaration (#69)
+
 # 0.15.0
 
 Released on Thursday, April 22 2021.

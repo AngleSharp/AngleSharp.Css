@@ -883,5 +883,15 @@ namespace AngleSharp.Css
             { CssKeywords.Compact, FootnoteDisplay.Compact },
             { CssKeywords.Inline, FootnoteDisplay.Inline },
         };
+
+        /// <summary>
+        /// Contains the string-length mapping.
+        /// </summary>
+        public static readonly Dictionary<String, Sizing> Sizings = new Dictionary<String, Sizing>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.FitContent, Sizing.FitContent },
+            { CssKeywords.MinContent, Sizing.MinContent},
+            { CssKeywords.MaxContent, Sizing.MaxContent },
+        };
     }
 }

@@ -1566,5 +1566,10 @@ namespace AngleSharp.Css
         /// The closed keyword.
         /// </summary>
         public static readonly String Closed = "closed";
+
+        /// <summary>
+        /// The fit-content keyword.
+        /// </summary>
+        public static readonly String FitContent = "fit-content";
     }
 }
