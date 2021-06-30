@@ -202,7 +202,7 @@ namespace AngleSharp.Dom
                 {
                     sb.Append(Symbols.LineFeed);
                 }
-                else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell)
+                else if (elementStyle != null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
@@ -214,7 +214,7 @@ namespace AngleSharp.Dom
                         }
                     }
                 }
-                else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow)
+                else if (elementStyle != null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {

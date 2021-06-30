@@ -71,6 +71,7 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("<textarea>test</textarea>", "")]
         [TestCase("<script>test</noscript>", "")]
         [TestCase("<style>test</style>", "")]
+        [TestCase("<!-- comment -->Text<!-- comment --> with <!-- comment -->comments<!-- comment -->", "Text with comments")]
         public void GetInnerText(String fixture, String expected)
         {
             var defaultSheet = new CssDefaultStyleSheetProvider();
