@@ -30,6 +30,7 @@ namespace AngleSharp.Css.Parser
         public static CssReferenceValue ParseVars(this StringSource source)
         {
             var index = source.Index;
+            var start = index;
             var length = FunctionNames.Var.Length;
             var refs = default(List<Tuple<TextRange, CssVarValue>>);
 
@@ -67,6 +68,8 @@ namespace AngleSharp.Css.Parser
                 
                 break;
             }
+
+            source.BackTo(start);
 
             if (refs != null)
             {

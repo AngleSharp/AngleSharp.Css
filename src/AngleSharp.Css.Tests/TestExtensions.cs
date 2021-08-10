@@ -4,8 +4,11 @@ namespace AngleSharp.Css.Tests
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System;
+    using System.IO;
+    using System.Reflection;
 
     static class TestExtensions
     {
@@ -42,6 +45,26 @@ namespace AngleSharp.Css.Tests
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
             var htmlParser = context.GetService<IHtmlParser>();
             return htmlParser.ParseDocument(sourceCode);
+        }
+
+        private static String GetResourceDirectory()
+        {
+            var baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var path = new DirectoryInfo(baseDir);
+
+            while (!path.Name.Is("AngleSharp.Css.Tests"))
+            {
+                path = path.Parent;
+            }
+
+            return Path.Combine(path.FullName, "Resources");
+        }
+
+        public static String LoadFromResources(this String fileName)
+        {
+            var directory = GetResourceDirectory();
+            var path = Path.Combine(directory, fileName);
+            return File.ReadAllText(path);
         }
     }
 }

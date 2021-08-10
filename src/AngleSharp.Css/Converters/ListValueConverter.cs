@@ -21,7 +21,6 @@ namespace AngleSharp.Css.Converters
 
             while (!source.IsDone)
             {
-                var index = source.Index;
                 var value = _converter.Convert(source);
                 var current = source.SkipSpacesAndComments();
 

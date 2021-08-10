@@ -1,6 +1,8 @@
 namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -688,6 +690,30 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("400 12px Georgia, serif", property.Value);
+        }
+
+        [Test]
+        public void LongDataUrisShouldNotBeDisappearing_Issue76()
+        {
+            var url = "data-uri.txt".LoadFromResources();
+            var html = $@"<style>@font-face {{
+font-family: ""MyFont"";
+src: url(""{url}"") format('woff');
+font-weight: normal;
+font-style: normal;
+font-display: swap;
+}}</style>";
+
+            var parser = new HtmlParser(new HtmlParserOptions(), BrowsingContext.New(Configuration.Default.WithCss(new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidSelectors = true,
+            })));
+
+            var dom = parser.ParseDocument(html);
+            var fontFace = ((ICssStyleSheet)dom.StyleSheets[0]).Rules[0] as ICssFontFaceRule;
+            Assert.IsNotEmpty(fontFace.Source);
         }
     }
 }
