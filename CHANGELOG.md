@@ -1,3 +1,10 @@
+# 0.16.1
+
+Released on Wednesday, August 11 2021.
+
+- Fixed issue with certain letter combinations in data URIs (#76)
+- Added support for `xxx-large` keyword in `font-size` (#77)
+
 # 0.16.0
 
 Released on Sunday, June 13 2021.
