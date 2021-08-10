@@ -259,6 +259,7 @@ namespace AngleSharp.Css
             { CssKeywords.Large, new Length(1.2, Length.Unit.Em) },
             { CssKeywords.XLarge, new Length(1.5, Length.Unit.Em) },
             { CssKeywords.XxLarge, new Length(2.0, Length.Unit.Em) },
+            { CssKeywords.XxxLarge, new Length(3.0, Length.Unit.Em) },
             { CssKeywords.Larger, new Length(120.0, Length.Unit.Percent) },
             { CssKeywords.Smaller, new Length(80.0, Length.Unit.Percent) },
         };

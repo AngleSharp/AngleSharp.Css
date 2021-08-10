@@ -1178,6 +1178,11 @@ namespace AngleSharp.Css
         public static readonly String XxLarge = "xx-large";
 
         /// <summary>
+        /// The xxx-large keyword.
+        /// </summary>
+        public static readonly String XxxLarge = "xxx-large";
+
+        /// <summary>
         /// The larger keyword.
         /// </summary>
         public static readonly String Larger = "larger";

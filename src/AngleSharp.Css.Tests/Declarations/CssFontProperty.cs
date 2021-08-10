@@ -218,6 +218,18 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssFontSizeAbsoluteImportantXxxLargeLegal()
+        {
+            var snippet = "font-size : xxx-large !important";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("font-size", property.Name);
+            Assert.IsTrue(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("xxx-large", property.Value);
+        }
+
+        [Test]
         public void CssFontSizeAbsoluteMediumUppercaseLegal()
         {
             var snippet = "font-size : medium";
