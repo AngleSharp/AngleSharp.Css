@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Values
 {
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -99,7 +98,7 @@ namespace AngleSharp.Css.Values
                 else
                 {
                     var unit = _value == 0.0 ? String.Empty : UnitString;
-                    var val = _value.ToString(CultureInfo.InvariantCulture);
+                    var val = _value.CssStringify();
                     return String.Concat(val, unit);
                 }
             }

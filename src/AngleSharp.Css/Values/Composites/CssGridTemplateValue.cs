@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Values
 
                     for (var i = 0; i < rowItems.Length; i++)
                     {
-                        var area = areas[i];
+                        var area = areas.Length > i ? areas[i] : null;
                         var item = rowItems[i] as CssTupleValue;
 
                         if (item != null && area != null)

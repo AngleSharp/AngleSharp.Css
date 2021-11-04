@@ -1,3 +1,10 @@
+# 0.16.2
+
+Released on Thursday, November 4 2021.
+
+- Fixed issue with unbalanced grid areas and rows (#82)
+- Fixed small numbers to be transformed into negative exponentials (#80)
+
 # 0.16.1
 
 Released on Wednesday, August 11 2021.
