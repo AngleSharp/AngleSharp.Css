@@ -316,6 +316,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        private static Boolean IsDimension(StringSource source, Char current) =>
+            current != 'e' && current != 'E' && (current.IsNameStart() || source.IsValidEscape());
+
         private static Unit UnitRest(StringSource source, StringBuilder buffer)
         {
             var current = source.Next();
@@ -326,7 +329,7 @@ namespace AngleSharp.Css.Parser
                 {
                     buffer.Append(current);
                 }
-                else if (current.IsNameStart() || source.IsValidEscape())
+                else if (IsDimension(source, current))
                 {
                     var number = buffer.ToString();
                     return Dimension(source, number, buffer.Clear());
@@ -378,7 +381,7 @@ namespace AngleSharp.Css.Parser
                 {
                     buffer.Append(current);
                 }
-                else if (current.IsNameStart() || source.IsValidEscape())
+                else if (IsDimension(source, current))
                 {
                     var number = buffer.ToString();
                     return Dimension(source, number, buffer.Clear());
@@ -421,7 +424,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (source.IsValidEscape())
                 {
-                    current = source.Next();
+                    source.Next();
                     buffer.Append(source.ConsumeEscape());
                 }
                 else
@@ -442,6 +445,11 @@ namespace AngleSharp.Css.Parser
                 if (current.IsDigit())
                 {
                     buffer.Append(current);
+                }
+                else if (current.IsNameStart() || source.IsValidEscape())
+                {
+                    var number = buffer.ToString();
+                    return Dimension(source, number, buffer.Clear());
                 }
                 else
                 {

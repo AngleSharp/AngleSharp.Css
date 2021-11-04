@@ -1,9 +1,9 @@
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
-    using AngleSharp.Dom;
     using AngleSharp.Css.Dom.Events;
     using AngleSharp.Css.Parser.Tokens;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -807,7 +807,7 @@ namespace AngleSharp.Css.Parser
                 {
                     StringBuffer.Append(current);
                 }
-                else if (current.IsNameStart())
+                else if (current != 'e' && current != 'E' && current.IsNameStart())
                 {
                     StringBuffer.Append(current);
                     return Dimension();
@@ -871,7 +871,7 @@ namespace AngleSharp.Css.Parser
                 {
                     StringBuffer.Append(current);
                 }
-                else if (current.IsNameStart())
+                else if (current != 'e' && current != 'E' && current.IsNameStart())
                 {
                     StringBuffer.Append(current);
                     return Dimension();
@@ -948,6 +948,11 @@ namespace AngleSharp.Css.Parser
                 if (current.IsDigit())
                 {
                     StringBuffer.Append(current);
+                }
+                else if (current.IsNameStart() || IsValidEscape(current))
+                {
+                    StringBuffer.Append(current);
+                    return Dimension();
                 }
                 else
                 {

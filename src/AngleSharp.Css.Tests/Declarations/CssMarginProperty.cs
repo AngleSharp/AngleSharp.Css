@@ -31,6 +31,42 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssMarginLeftExponentialValue_Issue79()
+        {
+            var snippet = "margin-left: 1E5px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("margin-left", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100000px", property.Value);
+        }
+
+        [Test]
+        public void CssMarginLeftExponentialValueWithPlus_Issue79()
+        {
+            var snippet = "margin-left: 1E+5px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("margin-left", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("100000px", property.Value);
+        }
+
+        [Test]
+        public void CssMarginLeftExponentialValueWithMinus_Issue79()
+        {
+            var snippet = "margin-left: 1E-2px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("margin-left", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0.01px", property.Value);
+        }
+
+        [Test]
         public void CssMarginLeftInitialLegal()
         {
             var snippet = "margin-left: initial ";
