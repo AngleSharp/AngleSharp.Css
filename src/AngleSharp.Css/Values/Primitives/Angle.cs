@@ -1,8 +1,6 @@
 namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css.Dom;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents an angle object.
@@ -66,7 +64,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText => String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
+        public String CssText => String.Concat(_value.CssStringify(), UnitString);
 
         /// <summary>
         /// Gets the value of the angle.

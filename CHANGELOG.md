@@ -1,3 +1,12 @@
+# 0.16.2
+
+Released on Thursday, November 4 2021.
+
+- Fixed issue with unbalanced grid areas and rows (#82)
+- Fixed small numbers to be transformed into negative exponentials (#80)
+- Fixed issue handling exponential unit values (#79)
+- Fixed `InvalidCastException` in template merging with CSS variables (#83)
+
 # 0.16.1
 
 Released on Wednesday, August 11 2021.
