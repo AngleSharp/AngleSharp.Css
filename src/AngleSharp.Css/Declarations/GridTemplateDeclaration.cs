@@ -52,7 +52,10 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (cols != null || rows != null || areas != null)
                 {
-                    return new CssGridTemplateValue(rows, cols, areas);
+                    if (cols is not CssReferenceValue && rows is not CssReferenceValue && areas is not CssReferenceValue)
+                    {
+                        return new CssGridTemplateValue(rows, cols, areas);
+                    }
                 }
 
                 return null;

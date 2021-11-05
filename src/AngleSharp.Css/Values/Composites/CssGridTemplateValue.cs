@@ -67,20 +67,23 @@ namespace AngleSharp.Css.Values
                 }
                 else if (_areas != null)
                 {
-                    var areas = ((CssTupleValue)_areas).Items;
-                    var rowItems = ((CssTupleValue)_rows).Items;
+                    var areas = (_areas as CssTupleValue)?.Items;
+                    var rowItems = (_rows as CssTupleValue)?.Items;
                     var newRows = new List<ICssValue>();
 
-                    for (var i = 0; i < rowItems.Length; i++)
+                    if (rowItems != null && areas != null)
                     {
-                        var area = areas.Length > i ? areas[i] : null;
-                        var item = rowItems[i] as CssTupleValue;
-
-                        if (item != null && area != null)
+                        for (var i = 0; i < rowItems.Length; i++)
                         {
-                            var newItems = new List<ICssValue>(item.Items);
-                            newItems.Insert(1, area);
-                            newRows.Add(new CssTupleValue(newItems.ToArray()));
+                            var area = areas.Length > i ? areas[i] : null;
+                            var item = rowItems[i] as CssTupleValue;
+
+                            if (item != null && area != null)
+                            {
+                                var newItems = new List<ICssValue>(item.Items);
+                                newItems.Insert(1, area);
+                                newRows.Add(new CssTupleValue(newItems.ToArray()));
+                            }
                         }
                     }
 

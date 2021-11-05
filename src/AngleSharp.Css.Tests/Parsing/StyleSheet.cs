@@ -120,5 +120,35 @@ namespace AngleSharp.Css.Tests.Parsing
             var newCss = ss.ToCss(formatter);
             Assert.IsNotNull(newCss);
         }
+
+        [Test]
+        public async Task CastingException_Issue83()
+        {
+            var css = @"
+ 	.kardex-wrapper {
+		height: 100vh;
+		width: 100vw;
+		display: grid;
+		grid-template-rows: var(--header-height) 10px 1fr;
+		grid-template-columns: var(--nav-width) 1fr;
+		grid-template-areas: ""navheader header"" ""navheader content"" ""nav content"";
+	}
+
+	header {
+		grid-area: header;
+		font-family: KardexMOT-Light, sans-serif;
+		background-color: var(--kx-bg);
+		color: var(--kx-text-light);
+		display: grid;
+		grid-template-rows: var(--header-height);
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+";
+            var parser = new CssParser();
+            var formatter = new MinifyStyleFormatter();
+            var ss = await parser.ParseStyleSheetAsync(css);
+            var newCss = ss.ToCss(formatter);
+            Assert.IsNotNull(newCss);
+        }
     }
 }
