@@ -138,6 +138,13 @@ namespace AngleSharp.Css
                     flags: BoxShadowDeclaration.Flags)
             },
             {
+                BoxSizingDeclaration.Name, new DeclarationInfo(
+                    name: BoxSizingDeclaration.Name,
+                    converter: BoxSizingDeclaration.Converter,
+                    initialValue: BoxSizingDeclaration.InitialValue,
+                    flags: BoxSizingDeclaration.Flags)
+            },
+            {
                 ClearDeclaration.Name, new DeclarationInfo(
                     name: ClearDeclaration.Name,
                     converter: ClearDeclaration.Converter,
