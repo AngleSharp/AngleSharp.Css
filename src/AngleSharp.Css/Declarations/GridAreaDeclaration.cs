@@ -74,6 +74,11 @@ namespace AngleSharp.Css.Declarations
                     }
                 }
 
+                if (tuple.Items.Length > 0 && !int.TryParse(tuple.Items[0].CssText, out int _))
+                {
+                    return tuple.Items[0];
+                }
+
                 return new Constant<Object>(CssKeywords.Auto, null);
             }
         }

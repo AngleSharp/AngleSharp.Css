@@ -528,6 +528,17 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssGridAreaSingleTextValueLegal()
+        {
+            var source = "#nav-header {grid-area: navheader; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: navheader / navheader / navheader / navheader }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
         public void CssGridAutoFlowAndRepeatLegal()
         {
             var snippet = @"grid: auto-flow 300px / repeat(3, [line1 line2 line3] 200px)";
