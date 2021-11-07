@@ -124,6 +124,13 @@ namespace AngleSharp.Css
                     flags: ContentDeclaration.Flags)
             },
             {
+                ContentVisibilityDeclaration.Name, new DeclarationInfo(
+                    name: ContentVisibilityDeclaration.Name,
+                    converter: ContentVisibilityDeclaration.Converter,
+                    initialValue: ContentVisibilityDeclaration.InitialValue,
+                    flags: ContentVisibilityDeclaration.Flags)
+            },
+            {
                 BoxDecorationBreakDeclaration.Name, new DeclarationInfo(
                     name: BoxDecorationBreakDeclaration.Name,
                     converter: BoxDecorationBreakDeclaration.Converter,

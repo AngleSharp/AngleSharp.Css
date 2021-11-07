@@ -478,6 +478,11 @@ namespace AngleSharp.Css
         public static readonly String Content = "content";
 
         /// <summary>
+        /// The content-visibility declaration.
+        /// </summary>
+        public static readonly String ContentVisibility = "content-visibility";
+
+        /// <summary>
         /// The counter-increment declaration.
         /// </summary>
         public static readonly String CounterIncrement = "counter-increment";

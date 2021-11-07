@@ -165,6 +165,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue QuotesDecl = new Quote("«", "»");
         public static readonly ICssValue PointerEventsDecl = new Constant<PointerEvent>(CssKeywords.Auto, PointerEvent.Auto);
         public static readonly ICssValue ContentDecl = new Constant<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue ContentVisibilityDecl = new Constant<Visibility>(CssKeywords.Visible, Visibility.Visible);
         public static readonly ICssValue CounterIncrementDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue CounterResetDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue DisplayDecl = new Constant<DisplayMode>(CssKeywords.Inline, DisplayMode.Inline);
