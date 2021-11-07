@@ -22,6 +22,8 @@ namespace AngleSharp.Css
 
         public static IValueConverter SlashSeparated(IValueConverter converter) => new SeparatorConverter(converter, Symbols.Solidus);
 
+        public static IValueConverter SpaceSeparated(IValueConverter converter) => new SeparatorConverter(converter, Symbols.Space);
+
         /// <summary>
         /// Creates a converter for the initial keyword with the given value.
         /// </summary>
@@ -559,6 +561,22 @@ namespace AngleSharp.Css
         /// Represents a converter for the FootnotePolicy enumeration.
         /// </summary>
         public static readonly IValueConverter FootnotePolicyConverter = Map.FootnotePolicies.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ScrollSnapAlignment enumeration.
+        /// </summary>
+        public static readonly IValueConverter ScrollSnapAlignmentConverter = Map.ScrollSnapAlignments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ScrollSnapAxis enumeration.
+        /// </summary>
+        public static readonly IValueConverter ScrollSnapAxisConverter = Map.ScrollSnapAxises.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ScrollSnapStrictness enumeration.
+        /// </summary>
+        public static readonly IValueConverter ScrollSnapStrictnessConverter = Map.ScrollSnapStrictnesses.ToConverter();
+
 
         #endregion
 

@@ -205,5 +205,8 @@ namespace AngleSharp.Css
         public static readonly ICssValue Scrollbar3dLightColorDecl = Color.White;
         public static readonly ICssValue LetterSpacingDecl = Length.Normal;
         public static readonly ICssValue FontSizeAdjustDecl = new Length(1.0, Length.Unit.Em);
+        public static readonly ICssValue ScrollSnapTypeDecl = new Constant<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ScrollMarginDecl = Length.Zero;
+        public static readonly ICssValue ScrollSnapAlignDecl = new Constant<ScrollSnapAlign>(CssKeywords.None, ScrollSnapAlign.None);
     }
 }
