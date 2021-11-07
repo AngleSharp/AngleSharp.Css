@@ -528,7 +528,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal1()
+        public void CssGridAreaTextValueLegal1()
         {
             var source = "#nav-header {grid-area: aaa; }";
             var css = ParseStyleSheet(source);
@@ -540,7 +540,7 @@ namespace AngleSharp.Css.Tests.Declarations
 
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal2()
+        public void CssGridAreaTextValueLegal2()
         {
             var source = "#nav-header {grid-area: aaa / bbb; }";
             var css = ParseStyleSheet(source);
@@ -551,7 +551,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal3()
+        public void CssGridAreaTextValueLegal3()
         {
             var source = "#nav-header {grid-area: 1 / 2; }";
             var css = ParseStyleSheet(source);
@@ -562,7 +562,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal4()
+        public void CssGridAreaTextValueLegal4()
         {
             var source = "#nav-header {grid-area: aaa / 2; }";
             var css = ParseStyleSheet(source);
@@ -573,7 +573,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal5()
+        public void CssGridAreaTextValueLegal5()
         {
             var source = "#nav-header {grid-area: aaa / bbb / ccc; }";
             var css = ParseStyleSheet(source);
@@ -584,7 +584,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal6()
+        public void CssGridAreaTextValueLegal6()
         {
             var source = "#nav-header {grid-area: aaa / bbb / ccc; }";
             var css = ParseStyleSheet(source);
@@ -595,7 +595,7 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal7()
+        public void CssGridAreaTextValueLegal7()
         {
             var source = "#nav-header {grid-area: 1; }";
             var css = ParseStyleSheet(source);
@@ -606,13 +606,57 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal8()
+        public void CssGridAreaTextValueLegal8()
         {
             var source = "#nav-header {grid-area: 2 / aaa; }";
             var css = ParseStyleSheet(source);
             var text = css.Rules[0].CssText;
 
             var expected = "#nav-header { grid-area: 2 / aaa / auto / aaa }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaTextValueIllegal1()
+        {
+            var source = "#nav-header {grid-area: 2a / 3%; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaTextValueIllegal2()
+        {
+            var source = "#nav-header {grid-area: 2a; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaTextValueTrim1()
+        {
+            var source = "#nav-header {grid-area: 9999999; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: 10000 / auto / auto / auto }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaTextValueTrim2()
+        {
+            var source = "#nav-header {grid-area: 9999999 / 8888888 }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: 10000 / 10000 / auto / auto }";
             Assert.AreEqual(expected, text);
         }
 
