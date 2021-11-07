@@ -164,6 +164,14 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void MinifyMinimizesProperties()
+        {
+            var sheet = ParseStyleSheet("a { grid-area: aa / aa / aa / aa }");
+            var result = sheet.ToCss(new MinifyStyleFormatter() { MinimizePropertiesValue = true });
+            Assert.AreEqual("a{grid-area:aa}", result);
+        }
+
+        [Test]
         public void MinifyRemovesEmptyStyleRule()
         {
             var sheet = ParseStyleSheet("h1 {  }");

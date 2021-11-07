@@ -1,6 +1,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace AngleSharp.Css
         /// Gets or sets if empty (zero-length) rules should be kept.
         /// </summary>
         public Boolean ShouldKeepEmptyRules { get; set; }
+
+        /// <summary>
+        /// If the Value of the Properties hsould be minimized
+        /// </summary>
+        public Boolean MinimizePropertiesValue { get; set; }
 
         #endregion
 
@@ -68,8 +74,7 @@ namespace AngleSharp.Css
             return String.Empty;
         }
 
-        String IStyleFormatter.Declaration(String name, String value, Boolean important) =>
-            String.Concat(name, ":", String.Concat(value, important ? "!important" : String.Empty));
+        String IStyleFormatter.Declaration(String name, String value, Boolean important) => String.Concat(name, ":", String.Concat(value, important ? "!important" : String.Empty));        
 
         String IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
         {
@@ -81,7 +86,14 @@ namespace AngleSharp.Css
                 {
                     foreach (var declaration in declarations)
                     {
-                        declaration.ToCss(writer, this);
+                        if (MinimizePropertiesValue && declaration is CssProperty property)
+                        {
+                            WriteMinifiedDeclaration(property, writer);
+                        }
+                        else
+                        {
+                            declaration.ToCss(writer, this);
+                        }
                         writer.Write(Symbols.Semicolon);
                     }
 
@@ -105,6 +117,28 @@ namespace AngleSharp.Css
 
         String IStyleFormatter.Comment(String data) =>
             ShouldKeepComments ? CssStyleFormatter.Instance.Comment(data) : String.Empty;
+
+        #endregion
+
+        #region Minification
+
+        private void WriteMinifiedDeclaration(CssProperty property, StringWriter writer)
+        {
+            switch(property.Name)
+            {
+                case PropertyNames.GridArea:
+                    {
+                        var tupel = (CssTupleValue)property.RawValue;
+                        if (tupel.Count == 4 && tupel[0].CssText == tupel[1].CssText && tupel[0].CssText == tupel[2].CssText && tupel[0].CssText == tupel[3].CssText)
+                        {
+                            writer.Write(((IStyleFormatter)this).Declaration(property.Name, tupel[0].CssText, property.IsImportant));
+                            return;
+                        }
+                        break;
+                    }
+            }
+            property.ToCss(writer, this);
+        }
 
         #endregion
 
