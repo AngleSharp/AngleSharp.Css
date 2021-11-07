@@ -528,13 +528,91 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssGridAreaSingleTextValueLegal()
+        public void CssGridAreaSingleTextValueLegal1()
         {
-            var source = "#nav-header {grid-area: navheader; }";
+            var source = "#nav-header {grid-area: aaa; }";
             var css = ParseStyleSheet(source);
             var text = css.Rules[0].CssText;
 
-            var expected = "#nav-header { grid-area: navheader / navheader / navheader / navheader }";
+            var expected = "#nav-header { grid-area: aaa / aaa / aaa / aaa }";
+            Assert.AreEqual(expected, text);
+        }
+
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal2()
+        {
+            var source = "#nav-header {grid-area: aaa / bbb; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: aaa / bbb / aaa / bbb }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal3()
+        {
+            var source = "#nav-header {grid-area: 1 / 2; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: 1 / 2 / auto / auto }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal4()
+        {
+            var source = "#nav-header {grid-area: aaa / 2; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: aaa / 2 / aaa / auto }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal5()
+        {
+            var source = "#nav-header {grid-area: aaa / bbb / ccc; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: aaa / bbb / ccc / bbb }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal6()
+        {
+            var source = "#nav-header {grid-area: aaa / bbb / ccc; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: aaa / bbb / ccc / bbb }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal7()
+        {
+            var source = "#nav-header {grid-area: 1; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: 1 / auto / auto / auto }";
+            Assert.AreEqual(expected, text);
+        }
+
+        [Test]
+        public void CssGridAreaSingleTextValueLegal8()
+        {
+            var source = "#nav-header {grid-area: 2 / aaa; }";
+            var css = ParseStyleSheet(source);
+            var text = css.Rules[0].CssText;
+
+            var expected = "#nav-header { grid-area: 2 / aaa / auto / aaa }";
             Assert.AreEqual(expected, text);
         }
 

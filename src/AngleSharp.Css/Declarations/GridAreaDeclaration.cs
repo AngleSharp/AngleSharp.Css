@@ -59,24 +59,33 @@ namespace AngleSharp.Css.Declarations
                     return tuple.Items[index];
                 }
 
-                return GetItemSimple(tuple, index / 2);
+                return GetItemSimple(tuple, index);
             }
 
             private static ICssValue GetItemSimple(CssTupleValue tuple, Int32 index)
             {
-                if (tuple.Items.Length > index)
+                if (index <= 2)
                 {
-                    var nested = tuple.Items[index] as CssTupleValue;
-
-                    if (nested != null && nested.Items.Length == 3 && nested.Items[0] == null && nested.Items[1] == null)
-                    {
-                        return nested.Items[2];
+                    if (tuple.Items.Length <= index)
+                    {if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                        {
+                            return tuple.Items[0];
+                        }
                     }
                 }
-
-                if (tuple.Items.Length > 0 && !int.TryParse(tuple.Items[0].CssText, out int _))
+                else if (index == 3)
                 {
-                    return tuple.Items[0];
+                    if (tuple.Items.Length > 1)
+                    {
+                        if (!int.TryParse(tuple.Items[1].CssText, out int _))
+                        {
+                            return tuple.Items[1];
+                        }
+                    }
+                    else if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                    {
+                        return tuple.Items[0];
+                    }
                 }
 
                 return new Constant<Object>(CssKeywords.Auto, null);
