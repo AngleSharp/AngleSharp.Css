@@ -14,7 +14,7 @@
         /// The layout may change dynamically according to the
         /// usual rules of CSS, but the output device is not
         /// able to render or display changes quickly enough for
-        /// them to be percieved as a smooth animation.
+        /// them to be perceived as a smooth animation.
         /// Example: E-ink screens or severely under-powered
         /// devices.
         /// </summary>

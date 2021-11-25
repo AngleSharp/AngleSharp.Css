@@ -66,8 +66,8 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
-        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specifity.
-        /// Two rules with the same specifity are ordered according to their appearance. The more
+        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specificity.
+        /// Two rules with the same specificity are ordered according to their appearance. The more
         /// recent declaration wins. Inheritance is not taken into account.
         /// </summary>
         /// <param name="styleCollection">The style rules to apply.</param>

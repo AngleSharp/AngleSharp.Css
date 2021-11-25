@@ -33,7 +33,7 @@
         [DomName("MEDIA_RULE")]
         Media = 4,
         /// <summary>
-        /// This is for definining @font-face rule.
+        /// This is for defining @font-face rule.
         /// </summary>
         [DomName("FONT_FACE_RULE")]
         FontFace = 5,

@@ -33,12 +33,12 @@ namespace AngleSharp.Css
         public static readonly String Turn = "turn";
 
         /// <summary>
-        /// Radiants.
+        /// Radians.
         /// </summary>
         public static readonly String Rad = "rad";
 
         /// <summary>
-        /// Grads.
+        /// Gradians.
         /// </summary>
         public static readonly String Grad = "grad";
 
@@ -123,12 +123,12 @@ namespace AngleSharp.Css
         public static readonly String Pt = "pt";
 
         /// <summary>
-        /// Remainings.
+        /// Font size of the root element.
         /// </summary>
         public static readonly String Rem = "rem";
 
         /// <summary>
-        /// Pieces.
+        /// Picas.
         /// </summary>
         public static readonly String Pc = "pc";
 

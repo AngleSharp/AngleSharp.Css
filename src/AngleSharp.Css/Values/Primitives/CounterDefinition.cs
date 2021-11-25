@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Values
 
         /// <summary>
         /// Checks for equality against the given object, if
-        /// the provided object is no coutner definition the
+        /// the provided object is no counter definition the
         /// result is false.
         /// </summary>
         /// <param name="obj">The object to check against.</param>

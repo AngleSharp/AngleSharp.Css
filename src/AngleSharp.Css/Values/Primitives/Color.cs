@@ -210,7 +210,7 @@ namespace AngleSharp.Css.Values
         /// Returns the color from the given hex string if it can be converted, otherwise
         /// the color is not set.
         /// </summary>
-        /// <param name="color">The hexadecimal reresentation of the color.</param>
+        /// <param name="color">The hexadecimal representation of the color.</param>
         /// <param name="value">The color value to be created.</param>
         /// <returns>The status if the string can be converted.</returns>
         public static Boolean TryFromHex(String color, out Color value)

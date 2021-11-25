@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a CSS stylesheet from hosting stylesheet asynchronously.
         /// </summary>
         /// <param name="parser">The parser to extend.</param>
-        /// <param name="sheet">The stylesheet containg the URL reference.</param>
+        /// <param name="sheet">The stylesheet containing the URL reference.</param>
         /// <returns>The task yielding the finished stylesheet.</returns>
         public static Task<ICssStyleSheet> ParseStyleSheetAsync(this ICssParser parser, ICssStyleSheet sheet) => parser.ParseStyleSheetAsync(sheet, CancellationToken.None);
     }

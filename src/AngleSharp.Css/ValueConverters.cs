@@ -381,7 +381,7 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TextTransformConverter = Map.TextTransforms.ToConverter();
 
 		/// <summary>
-		/// Represents a converter for the TextTAligLast enumeration.
+		/// Represents a converter for the TextAlignLast enumeration.
 		/// </summary>
 		public static readonly IValueConverter TextAlignLastConverter = Map.TextAlignLasts.ToConverter();
 
