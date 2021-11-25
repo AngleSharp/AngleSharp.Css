@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Values
 
         /// <summary>
         /// Checks for equality against the given object,
-        /// if the provided object is no counter vlaue the
+        /// if the provided object is no counter value the
         /// result is false.
         /// </summary>
         /// <param name="obj">The object to check against.</param>
