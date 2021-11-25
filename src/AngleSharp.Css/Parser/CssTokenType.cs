@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     /// <summary>
-    /// An enumation of all possible tokens.
+    /// An enumeration of all possible tokens.
     /// </summary>
     enum CssTokenType : byte
     {
