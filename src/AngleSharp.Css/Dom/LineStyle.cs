@@ -38,7 +38,7 @@
         /// </summary>
         Ridge,
         /// <summary>
-        /// The outline makes the box look as though it were embeded in the canvas.
+        /// The outline makes the box look as though it were embedded in the canvas.
         /// </summary>
         Inset,
         /// <summary>
