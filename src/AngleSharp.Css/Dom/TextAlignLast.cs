@@ -8,7 +8,7 @@
 		/// <summary>
 		/// The affected line is aligned per the value of text-align, unless
 		/// text-align is justify, in which case the effect is the same as 
-		/// etting text-align-last to left.
+		/// setting text-align-last to left.
 		/// </summary>
 		Auto,
 		/// <summary>
