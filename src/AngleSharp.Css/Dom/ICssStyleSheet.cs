@@ -39,7 +39,7 @@
         /// <param name="index">
         /// The index representing the position to be inserted.
         /// </param>
-        /// <returns>The index of insertation.</returns>
+        /// <returns>The index of insertion.</returns>
         [DomName("insertRule")]
         Int32 Insert(String rule, Int32 index);
 
