@@ -11,7 +11,7 @@
     public interface ICssStyleSheet : IStyleSheet
     {
         /// <summary>
-        /// Gets the @import rule if the stylesheet was importated otherwise it
+        /// Gets the @import rule if the stylesheet was imported otherwise it
         /// returns null.
         /// </summary>
         [DomName("ownerRule")]
