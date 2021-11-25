@@ -560,6 +560,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter FootnotePolicyConverter = Map.FootnotePolicies.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the Visibility enumeration.
+        /// </summary>
+        public static readonly IValueConverter ContentVisibilityConverter = Map.Visibilities.ToConverter();
+
         #endregion
 
         #region Specific

@@ -894,5 +894,15 @@ namespace AngleSharp.Css
             { CssKeywords.MinContent, Sizing.MinContent},
             { CssKeywords.MaxContent, Sizing.MaxContent },
         };
+
+        /// <summary>
+        /// Contains the string-ContentVisibility mapping.
+        /// </summary>
+        public static readonly Dictionary<String, Visibility> ContentVisibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Visible, Visibility.Visible },
+            { CssKeywords.Hidden, Visibility.Hidden },
+            { CssKeywords.Collapse, Visibility.Collapse },
+        };
     }
 }
