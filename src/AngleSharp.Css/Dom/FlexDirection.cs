@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         Row,
         /// <summary>
-        /// Inverse direction as inine axis, i.e., from right to left.
+        /// Inverse direction as inline axis, i.e., from right to left.
         /// </summary>
         RowReverse,
         /// <summary>
