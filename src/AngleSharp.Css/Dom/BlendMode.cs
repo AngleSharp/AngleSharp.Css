@@ -67,7 +67,7 @@
         /// </summary>
         SoftLight,
         /// <summary>
-        /// Substracts the darker color to the lighter one. Black on the foreground
+        /// Subtracts the darker color to the lighter one. Black on the foreground
         /// has therefore no effect, white leads to the color of the backdrop, inverted.
         /// </summary>
         Difference,
