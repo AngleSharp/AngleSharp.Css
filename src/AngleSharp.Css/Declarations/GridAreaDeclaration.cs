@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -9,6 +10,8 @@ namespace AngleSharp.Css.Declarations
 
     static class GridAreaDeclaration
     {
+        private const int MaximumGridSize = 10000;
+        
         public static readonly String Name = PropertyNames.GridArea;
 
         public static readonly String[] Longhands = new[]
@@ -42,7 +45,7 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[]
                     {
-                        tuple.Items[0],
+                        GetItem(tuple, 0),
                         GetItem(tuple, 1),
                         GetItem(tuple, 2),
                         GetItem(tuple, 3),
@@ -56,21 +59,45 @@ namespace AngleSharp.Css.Declarations
             {
                 if (tuple.Items.Length > index)
                 {
+                    if (int.TryParse(tuple.Items[index].CssText, out int value))
+                    {
+                        if (value > MaximumGridSize)
+                        {
+                            return new Constant<Object>(MaximumGridSize.ToString(), null);
+                        }
+                    }
                     return tuple.Items[index];
                 }
 
-                return GetItemSimple(tuple, index / 2);
+                return GetItemSimple(tuple, index);
             }
 
             private static ICssValue GetItemSimple(CssTupleValue tuple, Int32 index)
             {
-                if (tuple.Items.Length > index)
+                var val = UnitParser.ParseUnit(new StringSource(tuple.Items[0].CssText));
+                if (index <= 2)
                 {
-                    var nested = tuple.Items[index] as CssTupleValue;
-
-                    if (nested != null && nested.Items.Length == 3 && nested.Items[0] == null && nested.Items[1] == null)
+                    if (tuple.Items.Length <= index)
                     {
-                        return nested.Items[2];
+                       
+                        if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                        {
+                            return tuple.Items[0];
+                        }
+                    }
+                }
+                else if (index == 3)
+                {
+                    if (tuple.Items.Length > 1)
+                    {
+                        if (!int.TryParse(tuple.Items[1].CssText, out int _))
+                        {
+                            return tuple.Items[1];
+                        }
+                    }
+                    else if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                    {
+                        return tuple.Items[0];
                     }
                 }
 
