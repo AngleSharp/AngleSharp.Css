@@ -1,3 +1,9 @@
+# 0.16.3
+
+Released on Wednesday, January 5 2022.
+
+- Fixed issue with `text-shadow` missing the color part (#97)
+
 # 0.16.2
 
 Released on Thursday, November 4 2021.

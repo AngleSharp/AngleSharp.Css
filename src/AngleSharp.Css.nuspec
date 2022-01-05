@@ -11,10 +11,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extends the CSSOM from the core AngleSharp library.</description>
     <releaseNotes>https://github.com/AngleSharp/AngleSharp.Css/blob/master/CHANGELOG.md</releaseNotes>
-    <copyright>Copyright 2016-2021, AngleSharp</copyright>
+    <copyright>Copyright 2016-2022, AngleSharp</copyright>
     <tags>html html5 css css3 dom styling library anglesharp angle</tags>
     <dependencies>
-      <dependency id="AngleSharp" version="0.16.0" />
+      <dependency id="AngleSharp" version="0.16.1" />
     </dependencies>
   </metadata>
 </package>
