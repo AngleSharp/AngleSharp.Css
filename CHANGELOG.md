@@ -3,6 +3,7 @@
 Released on Wednesday, January 5 2022.
 
 - Fixed issue with `text-shadow` missing the color part (#97)
+- Fixed support for `IsToleratingInvalidSelectors` parser option (#98)
 - Added `Color.UseHex` to change color output format (#96)
 
 # 0.16.2

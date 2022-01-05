@@ -1,5 +1,7 @@
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css;
+    using AngleSharp.Dom;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -45,6 +47,11 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
+        internal void SetInvalidSelector(String selectorText)
+        {
+            _selector = new InvalidSelector(selectorText);
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssStyleRule)rule;
@@ -59,5 +66,29 @@ namespace AngleSharp.Css.Dom
         }
 
         #endregion
-	}
+
+        #region Selector
+
+        class InvalidSelector : ISelector
+        {
+            private readonly String _text;
+
+            public InvalidSelector(String text)
+            {
+                _text = text;
+            }
+
+            public String Text => _text;
+
+            public Priority Specificity => Priority.Zero;
+
+            public void Accept(ISelectorVisitor visitor)
+            {
+            }
+
+            public Boolean Match(IElement element, IElement scope) => false;
+        }
+
+        #endregion
+    }
 }

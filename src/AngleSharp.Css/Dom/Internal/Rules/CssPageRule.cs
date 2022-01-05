@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Dom
         public String SelectorText
         {
             get => _selector?.Text;
-            set { _selector = ParseSelector(value); ; }
+            set { _selector = ParseSelector(value); }
         }
 
         public ISelector Selector => _selector;

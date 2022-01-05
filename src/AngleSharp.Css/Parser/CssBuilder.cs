@@ -307,7 +307,14 @@ namespace AngleSharp.Css.Parser
         public CssStyleRule CreateStyle(CssStyleRule rule, CssToken current)
         {
             CollectTrivia(ref current);
-            rule.SelectorText = GetArgument(ref current);
+            var selectorText = GetArgument(ref current);
+
+            rule.SelectorText = selectorText;
+
+            if (rule.Selector is null && _options.IsToleratingInvalidSelectors)
+            {
+                rule.SetInvalidSelector(selectorText);
+            }
 
             if (current.Type != CssTokenType.CurlyBracketOpen)
             {
