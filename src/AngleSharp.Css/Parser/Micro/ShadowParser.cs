@@ -67,7 +67,7 @@ namespace AngleSharp.Css.Parser
                     offsetY,
                     blurRadius,
                     spreadRadius,
-                    color ?? Color.Black);
+                    color);
             }
 
             source.BackTo(start);

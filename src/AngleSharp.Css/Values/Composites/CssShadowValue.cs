@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _offsetY;
         private readonly ICssValue _blurRadius;
         private readonly ICssValue _spreadRadius;
-        private readonly Color _color;
+        private readonly Color? _color;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Values
         /// <param name="blurRadius">The blur radius of the shadow.</param>
         /// <param name="spreadRadius">The spread radius of the shadow.</param>
         /// <param name="color">The color of the shadow.</param>
-        public CssShadowValue(Boolean inset, ICssValue offsetX, ICssValue offsetY, ICssValue blurRadius, ICssValue spreadRadius, Color color)
+        public CssShadowValue(Boolean inset, ICssValue offsetX, ICssValue offsetY, ICssValue blurRadius, ICssValue spreadRadius, Color? color)
         {
             _inset = inset;
             _offsetX = offsetX;
@@ -72,9 +72,9 @@ namespace AngleSharp.Css.Values
                     parts.Add(_spreadRadius.CssText);
                 }
 
-                if (_color != Color.Black)
+                if (_color.HasValue)
                 {
-                    parts.Add(_color.CssText);
+                    parts.Add(_color.Value.CssText);
                 }
 
                 return String.Join(" ", parts);
@@ -84,7 +84,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the color of the shadow.
         /// </summary>
-        public Color Color => _color;
+        public Color Color => _color ?? Color.Black;
 
         /// <summary>
         /// Gets the horizontal offset.

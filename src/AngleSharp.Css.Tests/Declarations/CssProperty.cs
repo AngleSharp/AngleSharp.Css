@@ -335,7 +335,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 5px 5px", property.Value);
+            Assert.AreEqual("10px 5px 5px rgba(0, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -407,7 +407,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("5px 4px", property.Value);
+            Assert.AreEqual("5px 4px rgba(0, 0, 0, 1)", property.Value);
         }
 
         [Test]
@@ -419,7 +419,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("5px 4px 2px", property.Value);
+            Assert.AreEqual("5px 4px 2px rgba(0, 0, 0, 1)", property.Value);
         }
 
         [Test]
