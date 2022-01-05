@@ -374,6 +374,13 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
+        /// Gets or sets if hex codes should be used for serialization.
+        /// This will not be applied in case of transparent colors, i.e.,
+        /// when alpha is not 1.
+        /// </summary>
+        public static Boolean UseHex { get; set; }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
@@ -387,6 +394,10 @@ namespace AngleSharp.Css.Values
                 else if (Equals(Color.InvertedColor))
                 {
                     return CssKeywords.Invert;
+                }
+                else if (_alpha == 255 && UseHex)
+                {
+                    return $"#{_red.ToString("X2", CultureInfo.InvariantCulture)}{_green.ToString("X2", CultureInfo.InvariantCulture)}{_blue.ToString("X2", CultureInfo.InvariantCulture)}";
                 }
                 else
                 {
