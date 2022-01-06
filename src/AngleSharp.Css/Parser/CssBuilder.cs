@@ -271,7 +271,15 @@ namespace AngleSharp.Css.Parser
         private CssPageRule CreatePage(CssPageRule rule, CssToken current)
         {
             current = NextToken();
-            rule.SelectorText = GetArgument(ref current);
+            var selectorText = GetArgument(ref current);
+
+            rule.SelectorText = selectorText;
+
+            if (rule.Selector is null && _options.IsToleratingInvalidSelectors)
+            {
+                rule.SetInvalidSelector(selectorText);
+            }
+            
             CollectTrivia(ref current);
 
             if (current.Type != CssTokenType.CurlyBracketOpen)

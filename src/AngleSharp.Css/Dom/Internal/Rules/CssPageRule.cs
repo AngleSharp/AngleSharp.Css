@@ -45,6 +45,11 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
+        internal void SetInvalidSelector(String selectorText)
+        {
+            _selector = new InvalidSelector(selectorText);
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssPageRule)rule;
@@ -56,6 +61,30 @@ namespace AngleSharp.Css.Dom
         {
             var rules = formatter.BlockRules(_style);
             writer.Write(formatter.Rule(RuleNames.Page, SelectorText, rules));
+        }
+
+        #endregion
+
+        #region Selector
+
+        class InvalidSelector : ISelector
+        {
+            private readonly String _text;
+
+            public InvalidSelector(String text)
+            {
+                _text = text;
+            }
+
+            public String Text => _text;
+
+            public Priority Specificity => Priority.Zero;
+
+            public void Accept(ISelectorVisitor visitor)
+            {
+            }
+
+            public Boolean Match(IElement element, IElement scope) => false;
         }
 
         #endregion
