@@ -1,3 +1,8 @@
+# 0.16.4
+Released on ?, February ? 2022.
+
+- Fixed issue with wrong AngleSharp version used for build (#103)
+
 # 0.16.3
 
 Released on Wednesday, January 5 2022.
