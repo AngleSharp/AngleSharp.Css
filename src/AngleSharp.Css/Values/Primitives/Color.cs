@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    struct Color : IEquatable<Color>, IComparable<Color>, ICssPrimitiveValue
+    public struct Color : IEquatable<Color>, IComparable<Color>, ICssPrimitiveValue
     {
         #region Basic colors
 
@@ -337,7 +337,7 @@ namespace AngleSharp.Css.Values
             var green = 0.0;
             var blue = 0.0;
 
-            if (ratio < 1.0) 
+            if (ratio < 1.0)
             {
                 w *= ratio;
                 b *= ratio;
@@ -354,7 +354,7 @@ namespace AngleSharp.Css.Values
             var v = 1.0 - b;
             var n = w + f * (v - w);
 
-            switch (p) 
+            switch (p)
             {
                 default:
                 case 6:
