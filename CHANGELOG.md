@@ -1,5 +1,13 @@
+# 0.17.0
+
+Released on Tuesday, May 31 2022.
+
+- Dropped .NET Framework 4.6
+- Updated to use AngleSharp 0.17
+
 # 0.16.4
-Released on ?, February ? 2022.
+
+Released on Tuesday, February 15 2022.
 
 - Fixed issue with wrong AngleSharp version used for build (#103)
 

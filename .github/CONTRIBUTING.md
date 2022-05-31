@@ -64,7 +64,7 @@ There are a couple of rules, which are definitely not standard, but highly recom
 
 1. If no issue already exists for the work you'll be doing, create one to document the problem(s) being solved and self-assign.
 2. Otherwise please let us know that you are working on the problem. Regular status updates (e.g. "still in progress", "no time anymore", "practically done", "pull request issued") are highly welcome.
-3. Create a new branch—please don't work in the `master` branch directly. It is reserved for releases. We recommend naming the branch to match the issue being addressed (`feature/#777` or `issue-777`).
+3. Create a new branch—please don't work in the `main` branch directly. It is reserved for releases. We recommend naming the branch to match the issue being addressed (`feature/#777` or `issue-777`).
 4. Add failing tests for the change you want to make. Tests are crucial and should be taken from W3C (or other specification).
 5. Fix stuff. Always go from edge case to edge case.
 6. All tests should pass now. Also your new implementation should not break existing tests.
@@ -73,7 +73,7 @@ There are a couple of rules, which are definitely not standard, but highly recom
 
 Just to illustrate the git workflow for AngleSharp a little bit more we've added the following graphs.
 
-Initially, AngleSharp starts at the `master` branch. This branch should contain the latest stable (or released) version.
+Initially, AngleSharp starts at the `main` branch. This branch should contain the latest stable (or released) version.
 
 Here we now created a new branch called `devel`. This is the development branch.
 
@@ -101,7 +101,7 @@ git push
 Finally, we may have all the features that are needed to release a new version of AngleSharp. Here we tag the release. For instance for the 1.0 release we use `v1.0`.
 
 ```sh
-git checkout master
+git checkout main
 git merge devel
 git tag v1.0
 ```
@@ -128,7 +128,7 @@ To sync manually:
 
 ```sh
 git remote add gitbase git@github.com:AngleSharp/AngleSharp.GitBase.git
-git pull gitbase master
+git pull gitbase main
 ```
 
 ### Versioning

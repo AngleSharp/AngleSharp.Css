@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp.Xml" Version="0.16.0" />
+    <PackageReference Include="AngleSharp.Xml" Version="0.17.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="1.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
   </ItemGroup>
 </Project>

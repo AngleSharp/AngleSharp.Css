@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/AngleSharp/AngleSharp.Css/master/header.png)
+![logo](https://raw.githubusercontent.com/AngleSharp/AngleSharp.Css/main/header.png)
 
 # AngleSharp.Css
 
