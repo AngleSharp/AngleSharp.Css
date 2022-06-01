@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Parser
 
     static class TimingFunctionParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new Dictionary<String, Func<StringSource, ICssTimingFunctionValue>>
+        private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new Dictionary<String, Func<StringSource, ICssTimingFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Steps, ParseSteps },
             { FunctionNames.CubicBezier, ParseCubicBezier },
@@ -67,7 +67,7 @@ namespace AngleSharp.Css.Parser
                     return new CssStepsValue(intervals.Value, start);
                 }
             }
-            
+
             return null;
         }
 
@@ -86,7 +86,7 @@ namespace AngleSharp.Css.Parser
             {
                 return new CssCubicBezierValue(p1.Value, p2.Value, p3.Value, p4.Value);
             }
-            
+
             return null;
         }
     }

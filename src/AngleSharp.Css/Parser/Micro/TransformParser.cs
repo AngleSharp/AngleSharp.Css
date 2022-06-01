@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class TransformParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ICssTransformFunctionValue>> TransformFunctions = new Dictionary<String, Func<StringSource, ICssTransformFunctionValue>>
+        private static readonly Dictionary<String, Func<StringSource, ICssTransformFunctionValue>> TransformFunctions = new Dictionary<String, Func<StringSource, ICssTransformFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Skew, ParseSkew2d },
             { FunctionNames.SkewX, ParseSkewX },

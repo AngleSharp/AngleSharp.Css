@@ -4,6 +4,7 @@ Released on Tuesday, May 31 2022.
 
 - Dropped .NET Framework 4.6
 - Updated to use AngleSharp 0.17
+- Fixed casing issue with color, timing, and gradient functions (#109)
 
 # 0.16.4
 

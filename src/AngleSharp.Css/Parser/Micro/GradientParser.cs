@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Parser
 
     static class GradientParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>
+        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.LinearGradient, ParseLinearGradient },
             { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
@@ -168,7 +168,7 @@ namespace AngleSharp.Css.Parser
 
             return null;
         }
-        
+
         private static ICssValue ParseLinearAngle(StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.To))
@@ -222,7 +222,7 @@ namespace AngleSharp.Css.Parser
 
             return null;
         }
-        
+
         private static RadialOptions? ParseRadialOptions(StringSource source)
         {
             var circle = false;
