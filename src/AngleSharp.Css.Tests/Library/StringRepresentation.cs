@@ -1,9 +1,11 @@
 namespace AngleSharp.Css.Tests.Library
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using NUnit.Framework;
     using System.IO;
+    using static CssConstructionFunctions;
 
     [TestFixture]
     public class StringRepresentationTests
@@ -40,6 +42,36 @@ namespace AngleSharp.Css.Tests.Library
             var text = color.CssText;
             Color.UseHex = false;
             Assert.AreEqual("rgba(65, 12, 48, 0.04)", text);
+        }
+
+        [Test]
+        public void ShorthandPaddingInheritPropertiesShouldBeIncluded_Issue100()
+        {
+            var html = @"<style>#x div { padding: inherit }</style>";
+            var dom = ParseDocument(html);
+            var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
+            var css = styleSheet.ToCss();
+            Assert.AreEqual("#x div { padding: inherit }", css);
+        }
+
+        [Test]
+        public void ShorthandMarginInheritPropertiesShouldBeIncluded_Issue100()
+        {
+            var html = @"<style>#x div { margin: inherit }</style>";
+            var dom = ParseDocument(html);
+            var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
+            var css = styleSheet.ToCss();
+            Assert.AreEqual("#x div { margin: inherit }", css);
+        }
+
+        [Test]
+        public void ShorthandBorderInheritPropertiesShouldBeIncluded_Issue100()
+        {
+            var html = @"<style>#x div { border: inherit }</style>";
+            var dom = ParseDocument(html);
+            var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
+            var css = styleSheet.ToCss();
+            Assert.AreEqual("#x div { border: inherit }", css);
         }
     }
 }

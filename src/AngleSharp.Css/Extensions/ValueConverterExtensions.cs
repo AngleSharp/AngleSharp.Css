@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using static ValueConverters;
 
     /// <summary>
     /// Essential extensions for using the value converters.
@@ -61,7 +62,7 @@ namespace AngleSharp.Css.Converters
         }
 
         public static IValueConverter Option(this IValueConverter converter, ICssValue defaultValue) =>
-            new OptionValueConverter(converter, defaultValue);
+            Or(new OptionValueConverter(converter, defaultValue), AssignInitial(defaultValue));
 
         public static String Join<T>(this IEnumerable<T> values, String separator)
             where T : ICssValue
