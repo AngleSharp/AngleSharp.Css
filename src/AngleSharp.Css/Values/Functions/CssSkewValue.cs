@@ -76,7 +76,7 @@ namespace AngleSharp.Css.Values
                     {
                         args = _beta.CssText;
                     }
-                    else if (_beta != null)
+                    else if (_beta != null && _beta.CssText != "0rad")
                     {
                         args = String.Concat(args, ", ", _beta.CssText);
                     }

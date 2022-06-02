@@ -462,6 +462,18 @@
         }
 
         [Test]
+        public void CssTransformSkewLegal_Issue101()
+        {
+            var snippet = "transform:  skew(20deg) ";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("transform", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("skew(20deg)", property.Value);
+        }
+
+        [Test]
         public void CssTransformMultipleLegal()
         {
             var snippet = "transform:  translate(50%, 50%) rotate(45deg) scale(1.5)";

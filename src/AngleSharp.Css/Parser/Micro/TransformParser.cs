@@ -62,17 +62,26 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssSkewValue ParseSkew2d(StringSource source)
         {
-            var x = source.ParseAngleOrCalc();
+            ICssValue x = source.ParseAngleOrCalc();
+            ICssValue y = Angle.Zero;
             var c = source.SkipGetSkip();
-            var y = source.ParseAngleOrCalc();
-            var f = source.SkipGetSkip();
 
-            if (x != null && y != null && c == Symbols.Comma && f == Symbols.RoundBracketClose)
+            if (x == null)
             {
-                return new CssSkewValue(x, y);
+                return null;
             }
 
-            return null;
+            if (c == Symbols.Comma) {
+                y = source.ParseAngleOrCalc();
+                c = source.SkipGetSkip();
+            }
+
+            if (c != Symbols.RoundBracketClose)
+            {
+                return null;
+            }
+
+            return new CssSkewValue(x, y);
         }
 
         /// <summary>
