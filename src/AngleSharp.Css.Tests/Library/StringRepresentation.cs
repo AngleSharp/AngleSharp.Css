@@ -73,5 +73,15 @@ namespace AngleSharp.Css.Tests.Library
             var css = styleSheet.ToCss();
             Assert.AreEqual("#x div { border: inherit }", css);
         }
+
+        [Test]
+        public void ConicGradientNotParsedCorrectly_Issue101()
+        {
+            var html = @"<style>div { background: conic-gradient(red, yellow, green); }</style>";
+            var dom = ParseDocument(html);
+            var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
+            var css = styleSheet.ToCss();
+            Assert.AreEqual("div { background: conic-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1), rgba(0, 128, 0, 1)) }", css);
+        }
     }
 }

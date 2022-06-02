@@ -88,6 +88,11 @@ namespace AngleSharp.Css
         public static readonly String RadialGradient = "radial-gradient";
 
         /// <summary>
+        /// The conic-gradient function.
+        /// </summary>
+        public static readonly String ConicGradient = "conic-gradient";
+
+        /// <summary>
         /// The repeating-linear-gradient function.
         /// </summary>
         public static readonly String RepeatingLinearGradient = "repeating-linear-gradient";
@@ -96,6 +101,11 @@ namespace AngleSharp.Css
         /// The repeating-radial-gradient function.
         /// </summary>
         public static readonly String RepeatingRadialGradient = "repeating-radial-gradient";
+
+        /// <summary>
+        /// The repeating-conic-gradient function.
+        /// </summary>
+        public static readonly String RepeatingConicGradient = "repeating-conic-gradient";
 
         /// <summary>
         /// The image function.

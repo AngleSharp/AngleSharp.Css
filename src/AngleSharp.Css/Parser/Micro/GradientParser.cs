@@ -14,6 +14,8 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
             { FunctionNames.RadialGradient, ParseRadialGradient },
             { FunctionNames.RepeatingRadialGradient, ParseRepeatingRadialGradient },
+            { FunctionNames.ConicGradient, ParseConicGradient },
+            { FunctionNames.RepeatingConicGradient, ParseRepeatingConicGradient },
         };
 
         public static ICssGradientFunctionValue ParseGradient(this StringSource source)
@@ -123,6 +125,74 @@ namespace AngleSharp.Css.Parser
                 var sizeMode = options?.Size ?? CssRadialGradientValue.SizeMode.None;
                 source.SkipCurrentAndSpaces();
                 return new CssRadialGradientValue(circle, center, width, height, sizeMode, stops, repeating);
+            }
+
+            return null;
+        }
+
+        private static ICssGradientFunctionValue ParseConicGradient(StringSource source)
+        {
+            return ParseConicGradient(source, false);
+        }
+
+        private static ICssGradientFunctionValue ParseRepeatingConicGradient(StringSource source)
+        {
+            return ParseConicGradient(source, true);
+        }
+
+        /// <summary>
+        /// Parses a conic gradient.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/conic-gradient
+        /// </summary>
+        private static ICssGradientFunctionValue ParseConicGradient(StringSource source, Boolean repeating)
+        {
+            ICssValue angle = null;
+            ICssValue center = null;
+
+            source.SkipSpacesAndComments();
+
+            if (source.IsIdentifier(CssKeywords.From))
+            {
+                source.SkipSpacesAndComments();
+                angle = source.ParseAngleOrCalc();
+
+                if (angle == null)
+                {
+                    return null;
+                }
+
+                source.SkipSpacesAndComments();
+            }
+
+            if (source.IsIdentifier(CssKeywords.At))
+            {
+                source.SkipSpacesAndComments();
+                center = source.ParsePoint();
+
+                if (center == null)
+                {
+                    return null;
+                }
+            }
+
+            if (angle != null || center != null)
+            {
+                var current = source.SkipSpacesAndComments();
+
+                if (current != Symbols.Comma)
+                {
+                    return null;
+                }
+
+                source.SkipCurrentAndSpaces();
+            }
+
+            var stops = ParseGradientStops(source);
+
+            if (stops != null && source.Current == Symbols.RoundBracketClose)
+            {
+                source.SkipCurrentAndSpaces();
+                return new CssConicGradientValue(angle, center, stops, repeating);
             }
 
             return null;
