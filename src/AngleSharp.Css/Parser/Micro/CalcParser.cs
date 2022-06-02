@@ -6,8 +6,14 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Globalization;
 
-    static class CalcParser
+    /// <summary>
+    /// Represents extensions to for calc values.
+    /// </summary>
+    public static class CalcParser
     {
+        /// <summary>
+        /// Parses a calc value, if any.
+        /// </summary>
         public static CssCalcValue ParseCalc(this StringSource source)
         {
             var pos = source.Index;

@@ -69,10 +69,15 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    sealed class CssTupleValue : CssTupleValue<ICssValue>
+    public sealed class CssTupleValue : CssTupleValue<ICssValue>
     {
         #region ctor
-        
+
+        /// <summary>
+        /// Creates a new tuple instance.
+        /// </summary>
+        /// <param name="items">The items to contain.</param>
+        /// <param name="separator">The separator for display purposes.</param>
         public CssTupleValue(ICssValue[] items = null, String separator = null)
             : base(items, separator)
         {

@@ -5,15 +5,21 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class MediumParser
+    /// <summary>
+    /// Represents extensions to for medium (media type) values.
+    /// </summary>
+    public static class MediumParser
     {
-        public static CssMedium Parse(String str, IFeatureValidatorFactory factory)
+        internal static CssMedium Parse(String str, IFeatureValidatorFactory factory)
         {
             var source = new StringSource(str);
             var result = source.ParseMedium(factory);
             return source.IsDone ? result : null;
         }
 
+        /// <summary>
+        /// Parses a medium value.
+        /// </summary>
         public static CssMedium ParseMedium(this StringSource source, IFeatureValidatorFactory factory)
         {
             source.SkipSpacesAndComments();

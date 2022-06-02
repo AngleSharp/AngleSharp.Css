@@ -7,9 +7,12 @@ namespace AngleSharp.Css.Parser
     using System.Globalization;
     using System.Text;
 
-    static class UnitParser
+    /// <summary>
+    /// Represents extensions to for unit values.
+    /// </summary>
+    public static class UnitParser
     {
-        public static Unit ParseUnit(this StringSource source)
+        internal static Unit ParseUnit(this StringSource source)
         {
             var pos = source.Index;
             var result = UnitStart(source);
@@ -22,6 +25,9 @@ namespace AngleSharp.Css.Parser
             return result;
         }
 
+        /// <summary>
+        /// Parses an auto length value.
+        /// </summary>
         public static ICssValue ParseAutoLength(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Auto))
@@ -32,6 +38,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a length value.
+        /// </summary>
         public static Length? ParseNormalLength(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Normal))
@@ -42,20 +51,32 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a border width value.
+        /// </summary>
         public static ICssValue ParseBorderWidth(this StringSource source) =>
             source.ParseLengthOrCalc() ??
             source.ParsePercentOrNumber() ??
             source.ParseAutoLength();
 
+        /// <summary>
+        /// Parses a line width value.
+        /// </summary>
         public static ICssValue ParseLineWidth(this StringSource source) =>
             source.ParseLengthOrCalc() ??
             source.ParseConstant(Map.BorderWidths);
 
+        /// <summary>
+        /// Parses a line height value.
+        /// </summary>
         public static ICssValue ParseLineHeight(this StringSource source) =>
             source.ParseLengthOrCalc() ??
             source.ParsePercentOrNumber() ??
             source.ParseNormalLength();
 
+        /// <summary>
+        /// Parses a percent (double) value.
+        /// </summary>
         public static Double? ParsePercent(this StringSource source)
         {
             var pos = source.Index;
@@ -71,6 +92,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a percent or number value.
+        /// </summary>
         public static Length? ParsePercentOrNumber(this StringSource source)
         {
             var pos = source.Index;
@@ -92,6 +116,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses an angle value.
+        /// </summary>
         public static Angle? ParseAngle(this StringSource source)
         {
             var pos = source.Index;
@@ -113,9 +140,15 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses an angle or calc value.
+        /// </summary>
         public static ICssValue ParseAngleOrCalc(this StringSource source) =>
             source.ParseAngle().OrCalc(source);
 
+        /// <summary>
+        /// Parses a frequency value.
+        /// </summary>
         public static Frequency? ParseFrequency(this StringSource source)
         {
             var pos = source.Index;
@@ -137,10 +170,16 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a font size value.
+        /// </summary>
         public static ICssValue ParseFontSize(this StringSource source) =>
             source.ParseDistanceOrCalc() ??
             source.ParseConstant(Map.FontSizes);
 
+        /// <summary>
+        /// Parses a track breadth value.
+        /// </summary>
         public static ICssValue ParseTrackBreadth(this StringSource source, Boolean flexible = true)
         {
             var pos = source.Index;
@@ -186,6 +225,9 @@ namespace AngleSharp.Css.Parser
             return source.ParseCalc();
         }
 
+        /// <summary>
+        /// Parses a distance value.
+        /// </summary>
         public static Length? ParseDistance(this StringSource source)
         {
             var pos = source.Index;
@@ -200,9 +242,15 @@ namespace AngleSharp.Css.Parser
             return length;
         }
 
+        /// <summary>
+        /// Parses a distance or calc value.
+        /// </summary>
         public static ICssValue ParseDistanceOrCalc(this StringSource source) =>
             source.ParseDistance().OrCalc(source);
 
+        /// <summary>
+        /// Parses a length value.
+        /// </summary>
         public static Length? ParseLength(this StringSource source)
         {
             var pos = source.Index;
@@ -218,9 +266,15 @@ namespace AngleSharp.Css.Parser
             return length;
         }
 
+        /// <summary>
+        /// Parses a length or calc value.
+        /// </summary>
         public static ICssValue ParseLengthOrCalc(this StringSource source) =>
             source.ParseLength().OrCalc(source);
 
+        /// <summary>
+        /// Parses a resolution value.
+        /// </summary>
         public static Resolution? ParseResolution(this StringSource source)
         {
             var pos = source.Index;
@@ -242,6 +296,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a time value.
+        /// </summary>
         public static Time? ParseTime(this StringSource source)
         {
             var pos = source.Index;
@@ -263,10 +320,10 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        public static ICssValue ParseTimeOrCalc(this StringSource source)
-        {
-            return source.ParseTime().OrCalc(source);
-        }
+        /// <summary>
+        /// Parses a time or calc value.
+        /// </summary>
+        public static ICssValue ParseTimeOrCalc(this StringSource source) => source.ParseTime().OrCalc(source);
 
         private static Length? GetLength(Unit test)
         {

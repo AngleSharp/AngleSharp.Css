@@ -4,8 +4,14 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
 
-    static class ShadowParser
+    /// <summary>
+    /// Represents extensions to for shadow values.
+    /// </summary>
+    public static class ShadowParser
     {
+        /// <summary>
+        /// Parses the CSS shadow value.
+        /// </summary>
         public static CssShadowValue ParseShadow(this StringSource source)
         {
             var start = source.Index;

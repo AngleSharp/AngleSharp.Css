@@ -6,7 +6,10 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class TransformParser
+    /// <summary>
+    /// Represents extensions to for transform values.
+    /// </summary>
+    public static class TransformParser
     {
         private static readonly Dictionary<String, Func<StringSource, ICssTransformFunctionValue>> TransformFunctions = new Dictionary<String, Func<StringSource, ICssTransformFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
@@ -33,6 +36,9 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Perspective, ParsePerspective },
         };
 
+        /// <summary>
+        /// Parses a transform value.
+        /// </summary>
         public static ICssTransformFunctionValue ParseTransform(this StringSource source)
         {
             var pos = source.Index;

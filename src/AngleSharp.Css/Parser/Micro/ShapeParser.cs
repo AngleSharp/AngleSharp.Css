@@ -4,8 +4,14 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
 
-    static class ShapeParser
+    /// <summary>
+    /// Represents extensions to for shape values.
+    /// </summary>
+    public static class ShapeParser
     {
+        /// <summary>
+        /// Parses the shape value.
+        /// </summary>
         public static CssShapeValue ParseShape(this StringSource source)
         {
             var pos = source.Index;

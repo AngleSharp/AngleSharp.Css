@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// Represents an URL object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    sealed class CssUrlValue : ICssImageValue, ICssFunctionValue
+    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue
     {
         #region Fields
 

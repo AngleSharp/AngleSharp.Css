@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    sealed class CssGradientStopValue : ICssCompositeValue
+    public sealed class CssGradientStopValue : ICssCompositeValue
     {
         #region Fields
 

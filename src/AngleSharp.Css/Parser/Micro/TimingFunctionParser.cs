@@ -5,7 +5,10 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class TimingFunctionParser
+    /// <summary>
+    /// Represents extensions to for timing values.
+    /// </summary>
+    public static class TimingFunctionParser
     {
         private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new Dictionary<String, Func<StringSource, ICssTimingFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
@@ -13,6 +16,9 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.CubicBezier, ParseCubicBezier },
         };
 
+        /// <summary>
+        /// Parses the timing value.
+        /// </summary>
         public static ICssTimingFunctionValue ParseTimingFunction(this StringSource source)
         {
             var pos = source.Index;

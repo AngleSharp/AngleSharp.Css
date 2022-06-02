@@ -5,10 +5,13 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class FunctionParser
+    /// <summary>
+    /// Represents extensions to for general CSS functions.
+    /// </summary>
+    public static class FunctionParser
     {
         /// <summary>
-        /// Represents an attribute retriever object.
+        /// Parses a CSS attr value.
         /// http://dev.w3.org/csswg/css-values/#funcdef-attr
         /// </summary>
         public static CssAttrValue ParseAttr(this StringSource source)
@@ -27,6 +30,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a CSS variable reference value.
+        /// </summary>
         public static CssReferenceValue ParseVars(this StringSource source)
         {
             var index = source.Index;
@@ -79,6 +85,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a CSS var (variable) value.
+        /// </summary>
         public static CssVarValue ParseVar(this StringSource source)
         {
             var name = source.ParseCustomIdent();
@@ -100,6 +109,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a CSS content value.
+        /// </summary>
         public static CssContentValue ParseContent(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Content))
@@ -116,6 +128,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a CSS running value.
+        /// </summary>
         public static CssRunningValue ParseRunning(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Running))
@@ -133,7 +148,7 @@ namespace AngleSharp.Css.Parser
         }
 
         /// <summary>
-        /// Represents a counter object.
+        /// Parses a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
         /// </summary>
         public static CounterDefinition? ParseCounter(this StringSource source)

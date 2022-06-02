@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS running function call.
     /// </summary>
-    sealed class CssRunningValue : ICssFunctionValue
+    public sealed class CssRunningValue : ICssFunctionValue
     {
         #region Fields
 

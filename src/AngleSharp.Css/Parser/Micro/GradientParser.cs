@@ -6,7 +6,10 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class GradientParser
+    /// <summary>
+    /// Represents extensions to for gradient values.
+    /// </summary>
+    public static class GradientParser
     {
         private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>(StringComparer.OrdinalIgnoreCase)
         {
@@ -18,6 +21,9 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.RepeatingConicGradient, ParseRepeatingConicGradient },
         };
 
+        /// <summary>
+        /// Parses a CSS gradient value.
+        /// </summary>
         public static ICssGradientFunctionValue ParseGradient(this StringSource source)
         {
             var pos = source.Index;
@@ -426,12 +432,34 @@ namespace AngleSharp.Css.Parser
             };
         }
 
+        /// <summary>
+        /// Contains the radial options.
+        /// </summary>
         public struct RadialOptions
         {
+            /// <summary>
+            /// Gets or sets if its a circle.
+            /// </summary>
             public Boolean Circle;
+
+            /// <summary>
+            /// Gets or sets the center of the gradient.
+            /// </summary>
             public Point Center;
+
+            /// <summary>
+            /// Gets or sets the width of the gradient.
+            /// </summary>
             public ICssValue Width;
+
+            /// <summary>
+            /// Gets or sets the height of the gradient.
+            /// </summary>
             public ICssValue Height;
+
+            /// <summary>
+            /// Gets or sets the size of the gradient.
+            /// </summary>
             public CssRadialGradientValue.SizeMode Size;
         }
 

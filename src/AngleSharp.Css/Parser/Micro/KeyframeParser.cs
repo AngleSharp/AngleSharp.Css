@@ -5,15 +5,21 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class KeyframeParser
+    /// <summary>
+    /// Represents extensions to for keyframe values.
+    /// </summary>
+    public static class KeyframeParser
     {
-        public static IKeyframeSelector Parse(String str)
+        internal static IKeyframeSelector Parse(String str)
         {
             var source = new StringSource(str);
             var result = source.ParseKeyframeSelector();
             return source.IsDone ? result : null;
         }
 
+        /// <summary>
+        /// Parses the keyframe selector.
+        /// </summary>
         public static IKeyframeSelector ParseKeyframeSelector(this StringSource source)
         {
             var stops = new List<Double>();

@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Dom
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : ICssMedium
+    public sealed class CssMedium : ICssMedium
     {
         #region Fields
 
@@ -23,11 +23,24 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new CSS medium.
+        /// </summary>
+        /// <param name="type">The type of the media rule.</param>
+        /// <param name="inverse">Specifies if it should be inverted.</param>
+        /// <param name="exclusive">Specifies if the rule is exclusive.</param>
         public CssMedium(String type, Boolean inverse, Boolean exclusive)
             : this(type, inverse, exclusive, Enumerable.Empty<IMediaFeature>())
         {
         }
 
+        /// <summary>
+        /// Creates a new CSS medium.
+        /// </summary>
+        /// <param name="type">The type of the media rule.</param>
+        /// <param name="inverse">Specifies if it should be inverted.</param>
+        /// <param name="exclusive">Specifies if the rule is exclusive.</param>
+        /// <param name="features">The features of the medium.</param>
         public CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features)
         {
             _features = new List<IMediaFeature>(features);
@@ -40,20 +53,36 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
+        /// <summary>
+        /// Gets the feature demands (constraints) of the medium.
+        /// </summary>
         public IEnumerable<IMediaFeature> Features => _features;
 
+        /// <summary>
+        /// Gets the type of the medium.
+        /// </summary>
         public String Type => _type;
 
+        /// <summary>
+        /// Gets if the medium is exclusive to other media.
+        /// </summary>
         public Boolean IsExclusive => _exclusive;
 
+        /// <summary>
+        /// Gets if the medium should be inverted.
+        /// </summary>
         public Boolean IsInverse => _inverse;
 
+        /// <summary>
+        /// Gets the constraints - i.e., the stringified features.
+        /// </summary>
         public String Constraints => String.Join(" and ", Features.Select(m => m.ToCss()));
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc />
         public override Boolean Equals(Object obj)
         {
             var other = obj as CssMedium;
@@ -80,8 +109,12 @@ namespace AngleSharp.Css.Dom
             return false;
         }
 
+        /// <inheritdoc />
         public override Int32 GetHashCode() => base.GetHashCode();
 
+        /// <summary>
+        /// Writes the medium as CSS.
+        /// </summary>
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var offset = 0;

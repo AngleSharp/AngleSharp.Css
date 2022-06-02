@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
 
@@ -7,7 +7,7 @@
     /// </summary>
     [DomName("CSSRule")]
     public enum CssRuleType : byte
-    {  
+    {
         /// <summary>
         /// The rule is not known and cannot be used.
         /// </summary>
@@ -86,6 +86,6 @@
         /// Creating a CSS region with @region.
         /// </summary>
         [DomName("REGION_STYLE_RULE")]
-        RegionStyle = 16
+        RegionStyle = 16,
     }
 }

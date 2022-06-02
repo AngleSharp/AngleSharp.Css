@@ -116,6 +116,16 @@ namespace AngleSharp.Css.Parser
                 var rule = new CssDocumentRule(sheet);
                 return CreateDocument(rule, token);
             }
+            else if (token.Data.Is(RuleNames.CounterStyle))
+            {
+                var rule = new CssCounterStyleRule(sheet);
+                return CreateCounterStyle(rule, token);
+            }
+            else if (token.Data.Is(RuleNames.FontFeatureValues))
+            {
+                var rule = new CssFontFeatureValuesRule(sheet);
+                return CreateFontFeatureValues(rule, token);
+            }
             else if (_options.IsIncludingUnknownRules)
             {
                 return CreateUnknownAtRule(sheet, token);
@@ -279,7 +289,7 @@ namespace AngleSharp.Css.Parser
             {
                 rule.SetInvalidSelector(selectorText);
             }
-            
+
             CollectTrivia(ref current);
 
             if (current.Type != CssTokenType.CurlyBracketOpen)
@@ -309,6 +319,19 @@ namespace AngleSharp.Css.Parser
                 return rule;
             }
 
+            return null;
+        }
+
+        private CssFontFeatureValuesRule CreateFontFeatureValues(CssFontFeatureValuesRule rule, CssToken current)
+        {
+            CollectTrivia(ref current);
+            //rule.FamilyName =
+            return null;
+        }
+
+        private CssCounterStyleRule CreateCounterStyle(CssCounterStyleRule rule, CssToken current)
+        {
+            CollectTrivia(ref current);
             return null;
         }
 
@@ -556,7 +579,7 @@ namespace AngleSharp.Css.Parser
                 {
                     scopes--;
                 }
-                
+
                 if (scopes <= 0 && (current.Is(CssTokenType.CurlyBracketClose, CssTokenType.Semicolon)))
                 {
                     break;

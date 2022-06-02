@@ -3,8 +3,14 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
 
-    static class StringSourceExtensions
+    /// <summary>
+    /// Extensions to simplify parsing efforts using a StringSource instance.
+    /// </summary>
+    public static class StringSourceExtensions
     {
+        /// <summary>
+        /// Gets the substring starting at the given string.
+        /// </summary>
         public static String Substring(this StringSource source, Int32 startIndex)
         {
             if (startIndex == 0 && source.IsDone)
@@ -19,6 +25,10 @@ namespace AngleSharp.Css.Parser
             return String.Empty;
         }
 
+        /// <summary>
+        /// Takes a string out until a round bracket is closed.
+        /// Considers newly opened round brackets to keep it balanced.
+        /// </summary>
         public static String TakeUntilClosed(this StringSource source)
         {
             var start = source.Index;
@@ -73,6 +83,9 @@ namespace AngleSharp.Css.Parser
             return content;
         }
 
+        /// <summary>
+        /// Skips spaces and comments, as well as one non-space token that will be obtained.
+        /// </summary>
         public static Char SkipGetSkip(this StringSource source)
         {
             var c = source.SkipSpacesAndComments();
@@ -80,6 +93,9 @@ namespace AngleSharp.Css.Parser
             return c;
         }
 
+        /// <summary>
+        /// Skips all spaces and comments.
+        /// </summary>
         public static Char SkipSpacesAndComments(this StringSource source)
         {
             while (true)
@@ -97,12 +113,18 @@ namespace AngleSharp.Css.Parser
             }
         }
 
+        /// <summary>
+        /// Skips the current character, as well as spaces and comments.
+        /// </summary>
         public static Char SkipCurrentAndSpaces(this StringSource source)
         {
             source.Next();
             return source.SkipSpacesAndComments();
         }
 
+        /// <summary>
+        /// Goes back in the source until the given index is reached.
+        /// </summary>
         public static Char BackTo(this StringSource source, Int32 index)
         {
             var diff = source.Index - index;
@@ -117,6 +139,9 @@ namespace AngleSharp.Css.Parser
             return current;
         }
 
+        /// <summary>
+        /// Goes forward in the source until the given index is reached.
+        /// </summary>
         public static Char NextTo(this StringSource source, Int32 index)
         {
             var diff = index - source.Index;

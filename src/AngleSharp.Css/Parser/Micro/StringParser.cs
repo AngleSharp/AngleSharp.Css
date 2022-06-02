@@ -3,10 +3,13 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
 
-    static class StringParser
+    /// <summary>
+    /// Represents extensions to for string values.
+    /// </summary>
+    public static class StringParser
     {
         /// <summary>
-        /// Represents a string object.
+        /// Parses a string object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
         /// </summary>
         public static String ParseString(this StringSource source)

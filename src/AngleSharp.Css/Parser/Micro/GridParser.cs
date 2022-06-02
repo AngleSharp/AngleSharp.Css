@@ -6,8 +6,14 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class GridParser
+    /// <summary>
+    /// Represents extensions to for grid values.
+    /// </summary>
+    public static class GridParser
     {
+        /// <summary>
+        /// Parses a grid template value.
+        /// </summary>
         public static ICssValue ParseGridTemplate(this StringSource source)
         {
             var pos = source.Index;
@@ -100,6 +106,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a grid line name value.
+        /// </summary>
         public static LineNames? ParseLineNames(this StringSource source)
         {
             var pos = source.Index;
@@ -133,6 +142,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a grid fixed size value.
+        /// </summary>
         public static ICssValue ParseFixedSize(this StringSource source)
         {
             var length = source.ParseDistanceOrCalc();
@@ -169,6 +181,9 @@ namespace AngleSharp.Css.Parser
             return length;
         }
 
+        /// <summary>
+        /// Parses a grid track size value.
+        /// </summary>
         public static ICssValue ParseTrackSize(this StringSource source)
         {
             var length = source.ParseTrackBreadth();
@@ -217,20 +232,20 @@ namespace AngleSharp.Css.Parser
             return length;
         }
 
-        public static ICssValue ParseFixedRepeat(this StringSource source)
-        {
-            return source.ParseRepeat(ParseIntegerCount, ParseFixedRepeatValue);
-        }
+        /// <summary>
+        /// Parses a grid fixed repeat value.
+        /// </summary>
+        public static ICssValue ParseFixedRepeat(this StringSource source) => source.ParseRepeat(ParseIntegerCount, ParseFixedRepeatValue);
 
-        public static ICssValue ParseAutoRepeat(this StringSource source)
-        {
-            return source.ParseRepeat(ParseAutoCount, ParseFixedRepeatValue);
-        }
+        /// <summary>
+        /// Parses a grid auto repeat value.
+        /// </summary>
+        public static ICssValue ParseAutoRepeat(this StringSource source) => source.ParseRepeat(ParseAutoCount, ParseFixedRepeatValue);
 
-        public static ICssValue ParseTrackRepeat(this StringSource source)
-        {
-            return source.ParseRepeat(ParseIntegerCount, ParseTrackRepeatValue);
-        }
+        /// <summary>
+        /// Parses a grid track repeat value.
+        /// </summary>
+        public static ICssValue ParseTrackRepeat(this StringSource source) => source.ParseRepeat(ParseIntegerCount, ParseTrackRepeatValue);
 
         private static ICssValue ParseAutoCount(this StringSource source)
         {
@@ -292,26 +307,23 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static ICssValue ParseFixedRepeatValue(this StringSource source)
-        {
-            return source.ParseRepeatValue(ParseFixedSize);
-        }
+        private static ICssValue ParseFixedRepeatValue(this StringSource source) => source.ParseRepeatValue(ParseFixedSize);
 
-        private static ICssValue ParseTrackRepeatValue(this StringSource source)
-        {
-            return source.ParseRepeatValue(ParseTrackSize);
-        }
+        private static ICssValue ParseTrackRepeatValue(this StringSource source) => source.ParseRepeatValue(ParseTrackSize);
 
-        public static ICssValue ParseTrackList(this StringSource source)
-        {
-            return source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
-        }
+        /// <summary>
+        /// Parses a track list value.
+        /// </summary>
+        public static ICssValue ParseTrackList(this StringSource source) => source.ParseRepeatValue(s => s.ParseTrackSize() ?? s.ParseTrackRepeat());
 
-        public static ICssValue ParseExplicitTrackList(this StringSource source)
-        {
-            return source.ParseRepeatValue(s => s.ParseTrackSize());
-        }
+        /// <summary>
+        /// Parses an explicit track list value.
+        /// </summary>
+        public static ICssValue ParseExplicitTrackList(this StringSource source) => source.ParseRepeatValue(s => s.ParseTrackSize());
 
+        /// <summary>
+        /// Parses an auto track list value.
+        /// </summary>
         public static ICssValue ParseAutoTrackList(this StringSource source)
         {
             var values = new List<ICssValue>();

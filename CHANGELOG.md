@@ -4,9 +4,12 @@ Released on Tuesday, May 31 2022.
 
 - Dropped .NET Framework 4.6
 - Updated to use AngleSharp 0.17
+- Updated micro parser API to be public (#111)
 - Fixed casing issue with color, timing, and gradient functions (#109)
 - Fixed parsing of `skew` (#101)
 - Fixed shorthand properties using `inherit` being omitted (#100)
+- Added support for `@counter-style` (#102)
+- Added support for `@font-feature-values` (#102)
 - Added support for `conic-gradient` (#101)
 
 # 0.16.4

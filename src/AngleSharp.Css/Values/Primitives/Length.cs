@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    struct Length : IEquatable<Length>, IComparable<Length>, ICssPrimitiveValue
+    public struct Length : IEquatable<Length>, IComparable<Length>, ICssPrimitiveValue
     {
         #region Basic lengths
 

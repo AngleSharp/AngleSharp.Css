@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS image repeat definition.
     /// </summary>
-    sealed class CssImageRepeatsValue : ICssCompositeValue
+    public sealed class CssImageRepeatsValue : ICssCompositeValue
     {
         private readonly ICssValue _horizontal;
         private readonly ICssValue _vertical;

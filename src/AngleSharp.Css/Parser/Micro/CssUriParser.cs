@@ -5,8 +5,14 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Text;
 
-    static class CssUriParser
+    /// <summary>
+    /// Represents extensions to for URI values.
+    /// </summary>
+    public static class CssUriParser
     {
+        /// <summary>
+        /// Parse a CSS url() value.
+        /// </summary>
         public static CssUrlValue ParseUri(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Url))

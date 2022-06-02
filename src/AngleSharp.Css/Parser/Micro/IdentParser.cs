@@ -7,14 +7,23 @@ namespace AngleSharp.Css.Parser
     using System.Collections.Generic;
     using System.Text;
 
-    static class IdentParser
+    /// <summary>
+    /// Represents extensions to for identifier values.
+    /// </summary>
+    public static class IdentParser
     {
+        /// <summary>
+        /// Parses a normalized CSS identifier value.
+        /// </summary>
         public static String ParseNormalizedIdent(this StringSource source)
         {
             var result = source.ParseIdent();
             return result != null ? result.ToLowerInvariant() : result;
         }
 
+        /// <summary>
+        /// Parses a custom CSS identifier value.
+        /// </summary>
         public static String ParseCustomIdent(this StringSource source)
         {
             var current = source.Current;
@@ -29,6 +38,9 @@ namespace AngleSharp.Css.Parser
             return Start(source, current, buffer);
         }
 
+        /// <summary>
+        /// Parses a CSS identifier value.
+        /// </summary>
         public static String ParseIdent(this StringSource source)
         {
             var current = source.Current;
@@ -36,6 +48,9 @@ namespace AngleSharp.Css.Parser
             return Start(source, current, buffer);
         }
 
+        /// <summary>
+        /// Parses a CSS constant value from a given dictionary.
+        /// </summary>
         public static ICssValue ParseConstant<T>(this StringSource source, IDictionary<String, T> values)
             where T : struct
         {
@@ -51,6 +66,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a CSS static value from a given dictionary.
+        /// </summary>
         public static Constant<T>? ParseStatic<T>(this StringSource source, IDictionary<String, T> values)
         {
             var ident = source.ParseIdent();
@@ -63,6 +81,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Checks if a CSS function with the given name is at the current position.
+        /// </summary>
         public static Boolean IsFunction(this StringSource source, String name)
         {
             var rest = source.Content.Length - source.Index;
@@ -104,6 +125,9 @@ namespace AngleSharp.Css.Parser
             return false;
         }
 
+        /// <summary>
+        /// Checks if the provided identifier is available at the current position.
+        /// </summary>
         public static Boolean IsIdentifier(this StringSource source, String identifier)
         {
             var pos = source.Index;
@@ -118,6 +142,9 @@ namespace AngleSharp.Css.Parser
             return false;
         }
 
+        /// <summary>
+        /// Parses the font family at the current position.
+        /// </summary>
         public static ICssValue ParseFontFamily(this StringSource source)
         {
             var str = source.ParseString();
@@ -137,6 +164,9 @@ namespace AngleSharp.Css.Parser
             return new Label(str);
         }
 
+        /// <summary>
+        /// Parses the font families at the current position.
+        /// </summary>
         public static ICssValue[] ParseFontFamilies(this StringSource source)
         {
             var family = source.ParseFontFamily();
@@ -166,6 +196,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the string literal value.
+        /// </summary>
         public static String ParseLiteral(this StringSource source)
         {
             var content = StringBuilderPool.Obtain();
@@ -190,6 +223,9 @@ namespace AngleSharp.Css.Parser
             return result.Length > 0 ? result : null;
         }
 
+        /// <summary>
+        /// Parses the CSS identifier value - from the animatable list.
+        /// </summary>
         public static String ParseAnimatableIdent(this StringSource source)
         {
             var pos = source.Index;

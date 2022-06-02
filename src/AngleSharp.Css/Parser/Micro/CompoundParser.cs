@@ -6,8 +6,14 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class CompoundParser
+    /// <summary>
+    /// Represents extensions to for general CSS compount values.
+    /// </summary>
+    public static class CompoundParser
     {
+        /// <summary>
+        /// Parse for a CSS quote value.
+        /// </summary>
         public static CssTupleValue ParseQuotes(this StringSource source)
         {
             var quotes = new List<ICssValue>();
@@ -30,6 +36,9 @@ namespace AngleSharp.Css.Parser
             return new CssTupleValue(quotes.ToArray());
         }
 
+        /// <summary>
+        /// Parse for a CSS border image slice.
+        /// </summary>
         public static CssBorderImageSliceValue ParseBorderImageSlice(this StringSource source)
         {
             var lengths = new Length[4];
@@ -73,6 +82,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parse for a CSS background repeat.
+        /// </summary>
         public static CssImageRepeatsValue ParseBackgroundRepeat(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
@@ -106,6 +118,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parse for a CSS image source.
+        /// </summary>
         public static ICssImageValue ParseImageSource(this StringSource source)
         {
             var url = source.ParseUri();
@@ -118,6 +133,9 @@ namespace AngleSharp.Css.Parser
             return url;
         }
 
+        /// <summary>
+        /// Parse for a generic periodic [u, y, d, x] value.
+        /// </summary>
         public static CssPeriodicValue<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T> converter)
             where T : ICssValue
         {

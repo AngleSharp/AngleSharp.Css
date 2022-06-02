@@ -5,9 +5,12 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
 
-    static class ConditionParser
+    /// <summary>
+    /// Represents extensions to for CSS condition values.
+    /// </summary>
+    public static class ConditionParser
     {
-        public static IConditionFunction Parse(String str, IBrowsingContext context)
+        internal static IConditionFunction Parse(String str, IBrowsingContext context)
         {
             var source = new StringSource(str);
             source.SkipSpacesAndComments();
@@ -15,6 +18,9 @@ namespace AngleSharp.Css.Parser
             return source.IsDone ? result : null;
         }
 
+        /// <summary>
+        /// Parse a CSS condition function using the current browsing context.
+        /// </summary>
         public static IConditionFunction ParseConditionFunction(this StringSource source, IBrowsingContext context) =>
             source.Condition(context);
 

@@ -56,5 +56,15 @@
         /// The @page rule.
         /// </summary>
         public static readonly String Page = "@page";
+
+        /// <summary>
+        /// The @counter-style rule.
+        /// </summary>
+        public static readonly String CounterStyle = "@counter-style";
+
+        /// <summary>
+        /// The @font-feature-values rule.
+        /// </summary>
+        public static readonly String FontFeatureValues = "@font-feature-values";
     }
 }

@@ -5,8 +5,14 @@ namespace AngleSharp.Css.Parser
     using System.Globalization;
     using System.Linq;
 
-    static class NumberParser
+    /// <summary>
+    /// Represents extensions to for number values.
+    /// </summary>
+    public static class NumberParser
     {
+        /// <summary>
+        /// Parses the number (double) value.
+        /// </summary>
         public static Double? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
@@ -21,6 +27,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the ratio (double) value.
+        /// </summary>
         public static Double? ParseRatio(this StringSource source)
         {
             var pos = source.Index;
@@ -37,6 +46,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the integer (double) value.
+        /// </summary>
         public static Double? ParseNaturalNumber(this StringSource source)
         {
             var pos = source.Index;
@@ -51,6 +63,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the natural number (double) value.
+        /// </summary>
         public static Double? ParseGreaterOrEqualOneNumber(this StringSource source)
         {
             var pos = source.Index;
@@ -65,6 +80,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the natural integer (int) value.
+        /// </summary>
         public static Int32? ParseNaturalInteger(this StringSource source)
         {
             var pos = source.Index;
@@ -79,6 +97,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the positive integer (int) value.
+        /// </summary>
         public static Int32? ParsePositiveInteger(this StringSource source)
         {
             var pos = source.Index;
@@ -93,6 +114,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the weight (int) value.
+        /// </summary>
         public static Int32? ParseWeightInteger(this StringSource source)
         {
             var pos = source.Index;
@@ -107,6 +131,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the binary (int) value.
+        /// </summary>
         public static Int32? ParseBinary(this StringSource source)
         {
             var pos = source.Index;
@@ -121,6 +148,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses the integer (int) value.
+        /// </summary>
         public static Int32? ParseInteger(this StringSource source)
         {
             var unit = source.ParseUnit();

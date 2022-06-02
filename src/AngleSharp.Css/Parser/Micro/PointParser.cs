@@ -5,14 +5,26 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
 
-    static class PointParser
+    /// <summary>
+    /// Represents extensions to for point values.
+    /// </summary>
+    public static class PointParser
     {
+        /// <summary>
+        /// Parses a point's x value.
+        /// </summary>
         public static ICssValue ParsePointX(this StringSource source) =>
             source.ParsePointDir(IsHorizontal);
 
+        /// <summary>
+        /// Parses a point's y value.
+        /// </summary>
         public static ICssValue ParsePointY(this StringSource source) =>
             source.ParsePointDir(IsVertical);
 
+        /// <summary>
+        /// Parses a point's direction value.
+        /// </summary>
         private static ICssValue ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
         {
             var pos = source.Index;
@@ -37,6 +49,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a point's origin value.
+        /// </summary>
         public static CssOriginValue ParseOrigin(this StringSource source)
         {
             var pt = source.ParsePoint();
@@ -51,6 +66,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a point value.
+        /// </summary>
         public static Point? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
@@ -132,6 +150,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        /// <summary>
+        /// Parses a size value.
+        /// </summary>
         public static CssBackgroundSizeValue ParseSize(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Cover))

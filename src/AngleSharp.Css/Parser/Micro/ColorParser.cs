@@ -6,6 +6,9 @@ namespace AngleSharp.Css.Parser
     using System.Collections.Generic;
     using System.Globalization;
 
+    /// <summary>
+    /// Represents extensions to for color values.
+    /// </summary>
     static class ColorParser
     {
         private static readonly Dictionary<String, Func<StringSource, Color?>> ColorFunctions = new Dictionary<String, Func<StringSource, Color?>>(StringComparer.OrdinalIgnoreCase)
@@ -19,6 +22,9 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Hwba, ParseHwba },
         };
 
+        /// <summary>
+        /// Parses a color value, if any.
+        /// </summary>
         public static Color? ParseColor(this StringSource source)
         {
             var pos = source.Index;
@@ -32,6 +38,9 @@ namespace AngleSharp.Css.Parser
             return result;
         }
 
+        /// <summary>
+        /// Parses a the current color value, if any.
+        /// </summary>
         public static Color? ParseCurrentColor(this StringSource source) =>
             source.IsIdentifier(CssKeywords.CurrentColor) ? Color.CurrentColor : ColorParser.ParseColor(source);
 

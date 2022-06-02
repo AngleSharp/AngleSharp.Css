@@ -1,19 +1,25 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 
-    static class DocumentFunctionParser
+    /// <summary>
+    /// Represents extensions to for CSS document functions.
+    /// </summary>
+    public static class DocumentFunctionParser
     {
-        public static IEnumerable<IDocumentFunction> Parse(String str, IDocumentFunctionFactory factory)
+        internal static IEnumerable<IDocumentFunction> Parse(String str, IDocumentFunctionFactory factory)
         {
             var source = new StringSource(str);
             var result = source.ParseDocumentFunctions(factory);
             return source.IsDone ? result : null;
         }
 
+        /// <summary>
+        /// Parse a list of contained CSS document functions.
+        /// </summary>
         public static IEnumerable<IDocumentFunction> ParseDocumentFunctions(this StringSource source, IDocumentFunctionFactory factory)
         {
             var functions = new List<IDocumentFunction>();
