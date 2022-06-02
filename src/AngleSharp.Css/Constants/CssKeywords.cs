@@ -1576,5 +1576,25 @@ namespace AngleSharp.Css
         /// The fit-content keyword.
         /// </summary>
         public static readonly String FitContent = "fit-content";
+
+        /// <summary>
+        /// The x keyword.
+        /// </summary>
+        public static readonly String X = "x";
+
+        /// <summary>
+        /// The y keyword.
+        /// </summary>
+        public static readonly String Y = "y";
+
+        /// <summary>
+        /// The proximity keyword.
+        /// </summary>
+        public static readonly String Proximity = "proximity";
+
+        /// <summary>
+        /// The mandatory keyword.
+        /// </summary>
+        public static readonly String Mandatory = "mandatory";
     }
 }

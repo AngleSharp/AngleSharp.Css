@@ -11,6 +11,7 @@ Released on Tuesday, May 31 2022.
 - Added support for `@counter-style` (#102)
 - Added support for `@font-feature-values` (#102)
 - Added support for `conic-gradient` (#101)
+- Added support for `scroll-snap-type` declaration (#91)
 
 # 0.16.4
 

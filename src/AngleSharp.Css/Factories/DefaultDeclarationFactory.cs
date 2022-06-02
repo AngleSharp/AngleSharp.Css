@@ -1749,6 +1749,13 @@ namespace AngleSharp.Css
                     initialValue: FillDeclaration.InitialValue,
                     flags: FillDeclaration.Flags)
             },
+            {
+                ScrollSnapTypeDeclaration.Name, new DeclarationInfo(
+                    name: ScrollSnapTypeDeclaration.Name,
+                    converter: ScrollSnapTypeDeclaration.Converter,
+                    initialValue: ScrollSnapTypeDeclaration.InitialValue,
+                    flags: ScrollSnapTypeDeclaration.Flags)
+            },
         };
 
         /// <summary>

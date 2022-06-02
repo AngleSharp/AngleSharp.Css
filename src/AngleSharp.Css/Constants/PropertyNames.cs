@@ -1058,6 +1058,21 @@ namespace AngleSharp.Css
         public static readonly String ScrollbarTrackColor = "scrollbar-track-color";
 
         /// <summary>
+        /// The scroll-snap-type declaration.
+        /// </summary>
+        public static readonly String ScrollSnapType = "scroll-snap-type";
+
+        /// <summary>
+        /// The scroll-margin declaration.
+        /// </summary>
+        public static readonly String ScrollMargin = "scroll-margin";
+
+        /// <summary>
+        /// The scroll-snap-align declaration.
+        /// </summary>
+        public static readonly String ScrollSnapAlign = "scroll-snap-aling";
+
+        /// <summary>
         /// The stroke declaration.
         /// </summary>
         public static readonly String Stroke = "stroke";

@@ -904,5 +904,37 @@ namespace AngleSharp.Css
             { CssKeywords.Hidden, Visibility.Hidden },
             { CssKeywords.Collapse, Visibility.Collapse },
         };
+
+        /// <summary>
+        /// Contains the scroll-snap-axis mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ScrollSnapAxis> ScrollSnapAxises = new Dictionary<String, ScrollSnapAxis>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.X, ScrollSnapAxis.X },
+            { CssKeywords.Y, ScrollSnapAxis.Y },
+            { CssKeywords.Block, ScrollSnapAxis.Block },
+            { CssKeywords.Inline, ScrollSnapAxis.Inline },
+            { CssKeywords.Both, ScrollSnapAxis.Both },
+        };
+
+        /// <summary>
+        /// Contains the scroll-snap-strictness mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ScrollSnapStrictness> ScrollSnapStrictnesses = new Dictionary<String, ScrollSnapStrictness>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Proximity, ScrollSnapStrictness.Proximity},
+            { CssKeywords.Mandatory, ScrollSnapStrictness.Mandatory },
+        };
+
+        /// <summary>
+        /// Contains the scroll-snap-align mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ScrollSnapAlign> ScrollSnapAlignments = new Dictionary<String, ScrollSnapAlign>(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.None, ScrollSnapAlign.None },
+            { CssKeywords.Start, ScrollSnapAlign.Start},
+            { CssKeywords.End, ScrollSnapAlign.End },
+            { CssKeywords.Center, ScrollSnapAlign.Center },
+        };
     }
 }
