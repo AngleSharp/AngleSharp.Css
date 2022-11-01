@@ -83,5 +83,27 @@ namespace AngleSharp.Css.Tests.Library
             var css = styleSheet.ToCss();
             Assert.AreEqual("div { background: conic-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1), rgba(0, 128, 0, 1)) }", css);
         }
+
+        [Test]
+        public void EscapePropertyNames_CustomProperty_Issue120()
+        {
+            var css = @".class { --\/\%\$\!: value }";
+            var styleSheet = ParseStyleSheet(css);
+
+            var generatedCss = styleSheet.ToCss();
+
+            Assert.AreEqual(css, generatedCss);
+        }
+
+        [Test]
+        public void EscapePropertyNames_UnknownDeclaration_Issue120()
+        {
+            var css = @".class { \/\%\$\!: value }";
+            var styleSheet = ParseStyleSheet(css, new CssParserOptions{ IsIncludingUnknownDeclarations = true });
+
+            var generatedCss = styleSheet.ToCss();
+
+            Assert.AreEqual(css, generatedCss);
+        }
     }
 }

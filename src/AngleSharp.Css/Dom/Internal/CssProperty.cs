@@ -86,7 +86,7 @@ namespace AngleSharp.Css.Dom
 
         #region String Representation
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Declaration(Name, Value, IsImportant));
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Declaration(CssUtilities.Escape(Name), Value, IsImportant));
 
         #endregion
     }
