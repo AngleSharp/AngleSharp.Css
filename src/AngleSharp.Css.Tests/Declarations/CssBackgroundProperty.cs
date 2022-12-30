@@ -7,6 +7,30 @@ namespace AngleSharp.Css.Tests.Declarations
     public class CssBackgroundPropertyTests
     {
         [Test]
+        public void CssBackgroundSizeCoverCenterTest()
+        {
+            var snippet = "background-size : center / cover";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("center / cover", property.Value);
+        }
+
+        [Test]
+        public void CssBackgroundSizeCenterCoverTest()
+        {
+            var snippet = "background-size : cover / center";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background-size", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("cover / center", property.Value);
+        }
+
+        [Test]
         public void CssBackgroundAttachmentScrollLegal()
         {
             var snippet = "background-attachment : scroll";

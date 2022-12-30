@@ -35,6 +35,11 @@ namespace AngleSharp.Css.Converters
                 source.SkipCurrentAndSpaces();
                 return source.ParseVar();
             }
+            else if (source.Content.IndexOf("/") != -1 && (ident.Isi(CssKeywords.Center) || ident.Isi(CssKeywords.Cover)))
+            {
+                source.NextTo(source.Content.Length + 1);
+                return new Constant<string>(source.Content, source.Content);
+            }
             
             return null;
         }
