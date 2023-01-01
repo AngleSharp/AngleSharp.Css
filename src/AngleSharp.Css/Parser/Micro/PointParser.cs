@@ -155,7 +155,12 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssBackgroundSizeValue ParseSize(this StringSource source)
         {
-            if (source.IsIdentifier(CssKeywords.Cover))
+            if (source.Content.IndexOf("/") != -1 && (source.Content.Contains("cover") || source.Content.Contains("center")))
+            {
+                source.NextTo(source.Content.Length + 1);
+                return new CssBackgroundSizeValue(source.Content);
+            }
+            else if (source.IsIdentifier(CssKeywords.Cover))
             {
                 return CssBackgroundSizeValue.Cover;
             }
@@ -179,7 +184,7 @@ namespace AngleSharp.Css.Parser
                 {
                     source.IsIdentifier(CssKeywords.Auto);
                 }
-                
+
                 return new CssBackgroundSizeValue(w ?? Length.Auto, h ?? Length.Auto);
             }
         }

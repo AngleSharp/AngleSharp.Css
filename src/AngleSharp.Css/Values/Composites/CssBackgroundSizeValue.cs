@@ -13,6 +13,7 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _width;
         private readonly ICssValue _height;
         private readonly ValueMode _mode;
+        private readonly string _cssText;
 
         /// <summary>
         /// Used to declare cover background size.
@@ -23,6 +24,11 @@ namespace AngleSharp.Css.Values
         /// Used to declare contain background size.
         /// </summary>
         public static readonly CssBackgroundSizeValue Contain = new CssBackgroundSizeValue(ValueMode.Contain);
+
+        /// <summary>
+        /// Used to declare contain background size.
+        /// </summary>
+        public static readonly CssBackgroundSizeValue Text = new CssBackgroundSizeValue(ValueMode.Text);
 
         #endregion
 
@@ -45,6 +51,11 @@ namespace AngleSharp.Css.Values
             _width = width;
             _height = height;
             _mode = ValueMode.Explicit;
+        }
+
+        public CssBackgroundSizeValue(string value) : this(ValueMode.Text)
+        {
+            _cssText = value;
         }
 
         #endregion
@@ -76,6 +87,10 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.Contain;
                 }
+                else if (Equals(Text))
+                {
+                    return _cssText;
+                }
                 else if (_height.Equals(Length.Auto))
                 {
                     return _width.CssText;
@@ -94,8 +109,14 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other background size.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundSizeValue other) =>
-            _mode == other._mode && _height == other._height && _width == other._width;
+        public Boolean Equals(CssBackgroundSizeValue other)
+        {
+            if (_mode == ValueMode.Text && other._mode == ValueMode.Text)
+            {
+                return true;
+            }
+            return _mode == other._mode && _height == other._height && _width == other._width;
+        }
 
         #endregion
 
@@ -105,7 +126,8 @@ namespace AngleSharp.Css.Values
         {
             Explicit,
             Cover,
-            Contain
+            Contain,
+            Text,
         }
 
         #endregion
