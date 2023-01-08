@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
@@ -155,12 +157,20 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssBackgroundSizeValue ParseSize(this StringSource source)
         {
-            if (source.Content.IndexOf("/") != -1 && (source.Content.Contains("cover") || source.Content.Contains("center")))
+            if (source.Content.IndexOf("/") != -1)
             {
-                source.NextTo(source.Content.Length + 1);
-                return new CssBackgroundSizeValue(source.Content);
+                var opts = RegexOptions.Singleline | RegexOptions.IgnoreCase;
+                var match1 = Regex.Match(source.Content, RegExPatterns.center_cover_pattern, opts);
+                var match2 = Regex.Match(source.Content, RegExPatterns.cover_center_pattern, opts);
+
+                if (match1.Success || match2.Success)
+                {
+                    source.NextTo(source.Content.Length + 1);
+                    return new CssBackgroundSizeValue(source.Content);
+                }
             }
-            else if (source.IsIdentifier(CssKeywords.Cover))
+
+            if (source.IsIdentifier(CssKeywords.Cover))
             {
                 return CssBackgroundSizeValue.Cover;
             }
