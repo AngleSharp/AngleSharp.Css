@@ -324,15 +324,34 @@ namespace AngleSharp.Css.Parser
 
         private CssFontFeatureValuesRule CreateFontFeatureValues(CssFontFeatureValuesRule rule, CssToken current)
         {
-            CollectTrivia(ref current);
-            //rule.FamilyName =
+            var token = NextToken();
+            CollectTrivia(ref token);
+            rule.FamilyName = GetArgument(ref token);
+
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                JumpToRuleEnd(ref token);
+                return rule;
+            }
+
+            SkipDeclarations(token);
             return null;
         }
 
         private CssCounterStyleRule CreateCounterStyle(CssCounterStyleRule rule, CssToken current)
         {
-            CollectTrivia(ref current);
-            return null;
+            var token = NextToken();
+            CollectTrivia(ref token);
+            rule.StyleName = GetArgument(ref token);
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
+                SkipDeclarations(token);
+                return null;
+            }
+
+            FillDeclarations(rule);
+            return rule;
         }
 
         public CssStyleRule CreateStyle(CssStyleRule rule, CssToken current)

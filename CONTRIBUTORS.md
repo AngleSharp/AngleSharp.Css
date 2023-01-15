@@ -10,6 +10,12 @@ AngleSharp.Css contains code written by (in order of first pull request / commit
 * [Tom Hazell](https://github.com/The-Nutty)
 * [Michael Ganss](https://github.com/mganss)
 * [Gérald Barré](https://github.com/meziantou)
+* [Shesh](https://github.com/sheshnathverma)
+* [Martin Welsch](https://github.com/MartinWelsch)
+* [Jason Nelson](https://github.com/iamcarbon)
+* [Bastian Buchholz](https://github.com/campersau)
+* [Fraaankes](https://github.com/Fraaankes)
+* [Eric Mutta](https://github.com/ericmutta)
 
 Without these awesome people AngleSharp.Css could not exist. Thanks to everyone for your contributions! :beers:
 

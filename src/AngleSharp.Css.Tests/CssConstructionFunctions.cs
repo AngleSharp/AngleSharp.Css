@@ -96,5 +96,19 @@ namespace AngleSharp.Css.Tests
             var feature = new MediaFeature(name, value);
             return device => validator.Validate(feature, device);
         }
+
+        internal static CssFontFeatureValuesRule ParseFontFeatureValuesRule(String source)
+        {
+            ICssParser parser = new CssParser();
+            var sheet = parser.ParseStyleSheet(String.Empty);
+            return parser.ParseRule(sheet, source) as CssFontFeatureValuesRule;
+        }
+
+        internal static CssCounterStyleRule ParseCounterStyleRule(String source)
+        {
+            ICssParser parser = new CssParser();
+            var sheet = parser.ParseStyleSheet(String.Empty);
+            return parser.ParseRule(sheet, source) as CssCounterStyleRule;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 Released on Sunday, January 15 2023.
 
+- Updated build system to use NUKE instead of CAKE
 - Dropped .NET Framework 4.6
 - Updated to use AngleSharp 0.17
 - Updated micro parser API to be public (#111)
