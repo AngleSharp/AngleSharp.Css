@@ -214,7 +214,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (unit.Dimension == "%")
                 {
-                    return (Byte)(255f / 100f * value);
+                    return (Byte)((255f * value) / 100f);
                 }
                 else if (unit.Dimension == String.Empty)
                 {
