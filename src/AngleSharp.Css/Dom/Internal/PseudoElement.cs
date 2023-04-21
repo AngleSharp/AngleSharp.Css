@@ -8,14 +8,14 @@ namespace AngleSharp.Css.Dom
     /// <summary>
     /// A wrapper around an element to extend the DOM.
     /// </summary>
-    sealed class PseudoElement : IElement, IPseudoElement
+    internal sealed class PseudoElement : IElement, IPseudoElement
     {
         #region Fields
 
         private readonly IElement _host;
         private readonly String _name;
 
-        #endregion
+        #endregion Fields
 
         #region ctor
 
@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Dom
             _name = name;
         }
 
-        #endregion
+        #endregion ctor
 
         #region Properties
 
@@ -48,6 +48,12 @@ namespace AngleSharp.Css.Dom
         public String LocalName => _host.LocalName;
 
         public String NamespaceUri => _host.NamespaceUri;
+
+        /// <summary>
+        /// Gets the given namespace URI of this element.
+        /// This one will not be resolved via its parent, but only yields the provided namespace, if any.
+        /// </summary>
+        public string GivenNamespaceUri { get; }
 
         public INamedNodeMap Attributes => _host.Attributes;
 
@@ -133,8 +139,7 @@ namespace AngleSharp.Css.Dom
 
         public NodeFlags Flags => _host.Flags;
 
-
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -342,6 +347,6 @@ namespace AngleSharp.Css.Dom
             return _host.Closest(selectors);
         }
 
-        #endregion
+        #endregion Methods
     }
 }
