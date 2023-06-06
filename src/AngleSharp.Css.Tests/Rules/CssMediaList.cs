@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Rules
+namespace AngleSharp.Css.Tests.Rules
 {
     using AngleSharp.Css.Dom;
     using NUnit.Framework;
@@ -187,7 +187,7 @@
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
             var media = sheet.Rules[0] as ICssMediaRule;
-            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual("", media.ConditionText);
             Assert.AreEqual(1, media.Rules.Length);
         }
 
@@ -392,6 +392,54 @@ h1 { color: green }";
             Assert.AreEqual(media[0], list[0]);
             Assert.AreEqual(media[2], list[1]);
             Assert.AreEqual(String.Concat(media[0], ", ", media[2]), list.MediaText);
+        }
+
+        [Test]
+        public void ReplacesInvalidPartsCommaWithNotAll()
+        {
+            var source = @"@media (example, all,), speech {
+    h1 { color: green }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = (CssMediaRule)sheet.Rules[0];
+            Assert.AreEqual("not all, speech", media.Media.MediaText);
+            var list = media.Media;
+            Assert.AreEqual(2, list.Length);
+            Assert.AreEqual(1, media.Rules.Length);
+        }
+
+        [Test]
+        public void ReplacesInvalidPartsAmpersandWithNotAll()
+        {
+            var source = @"@media test&, speech {
+    h1 { color: green }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = (CssMediaRule)sheet.Rules[0];
+            Assert.AreEqual("not all, speech", media.Media.MediaText);
+            var list = media.Media;
+            Assert.AreEqual(2, list.Length);
+            Assert.AreEqual(1, media.Rules.Length);
+        }
+
+        [Test]
+        public void ReplacesUnclosedParansWithNotAll()
+        {
+            var source = @"@media  (example, speech {
+    h1 { color: green }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = (CssMediaRule)sheet.Rules[0];
+            Assert.AreEqual("not all", media.Media.MediaText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.Rules.Length);
         }
     }
 }

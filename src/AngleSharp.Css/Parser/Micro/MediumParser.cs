@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Parser
         public static CssMedium ParseMedium(this StringSource source, IFeatureValidatorFactory factory)
         {
             source.SkipSpacesAndComments();
-            var ident = source.ParseIdent();
+            var ident = source.ParseMediumIdent();
             var inverse = false;
             var exclusive = false;
             var type = String.Empty;
@@ -34,13 +34,13 @@ namespace AngleSharp.Css.Parser
                 {
                     inverse = true;
                     source.SkipSpacesAndComments();
-                    ident = source.ParseIdent();
+                    ident = source.ParseMediumIdent();
                 }
                 else if (ident.Isi(CssKeywords.Only))
                 {
                     exclusive = true;
                     source.SkipSpacesAndComments();
-                    ident = source.ParseIdent();
+                    ident = source.ParseMediumIdent();
                 }
             }
 
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Parser
                 type = ident;
                 source.SkipSpacesAndComments();
                 var position = source.Index;
-                ident = source.ParseIdent();
+                ident = source.ParseMediumIdent();
 
                 if (ident == null || !ident.Isi(CssKeywords.And))
                 {
@@ -81,7 +81,7 @@ namespace AngleSharp.Css.Parser
                 features.Add(feature);
                 source.SkipCurrentAndSpaces();
                 var position = source.Index;
-                ident = source.ParseIdent();
+                ident = source.ParseMediumIdent();
 
                 if (ident == null || !ident.Isi(CssKeywords.And))
                 {
@@ -96,9 +96,23 @@ namespace AngleSharp.Css.Parser
             return new CssMedium(type, inverse, exclusive, features);
         }
 
+        private static String ParseMediumIdent(this StringSource source)
+        {
+            var ident = source.ParseIdent();
+            var current = source.Current;
+
+            while (current == '&' || current == '#' || current == ';' || current == '-')
+            {
+                ident = null;
+                current = source.Next();
+            }
+
+            return ident;
+        }
+
         private static IMediaFeature ParseFeature(StringSource source)
         {
-            var name = source.ParseIdent();
+            var name = source.ParseMediumIdent();
             var value = default(String);
 
             if (name != null)

@@ -37,14 +37,7 @@ namespace AngleSharp.Css.Parser
                     source.SkipCurrentAndSpaces();
                 }
 
-                var medium = source.ParseMedium(factory);
-
-                if (medium == null)
-                {
-                    return null;
-                }
-
-                media.Add(medium);
+                media.Add(source.ParseMedium(factory));
                 current = source.SkipSpacesAndComments();
             }
 

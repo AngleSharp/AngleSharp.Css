@@ -53,6 +53,8 @@ namespace AngleSharp.Css.Dom
 
         public ITokenList ClassList => _host.ClassList;
 
+        public String GivenNamespaceUri => _host.GivenNamespaceUri;
+
         public String ClassName
         {
             get => _host.ClassName;
