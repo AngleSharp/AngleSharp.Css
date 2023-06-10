@@ -7,7 +7,6 @@ namespace AngleSharp.Css.Dom
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Represents a list of media elements.

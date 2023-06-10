@@ -14,13 +14,17 @@
         private readonly Boolean _min;
         private readonly Boolean _max;
         private readonly String _name;
-        private readonly String _value;
+        private readonly ICssValue _value;
 
         #endregion
 
         #region ctor
 
-        internal MediaFeature(String name, String value)
+        internal MediaFeature(String name)
+            : this(name, null)
+        {}
+
+        internal MediaFeature(String name, ICssValue value)
         {
             _name = name;
             _value = value;
@@ -38,7 +42,7 @@
 
         public Boolean IsMaximum => _max;
 
-        public String Value => _value;
+        public String Value => _value?.CssText ?? String.Empty;
 
         public Boolean HasValue => _value != null;
 
@@ -54,7 +58,7 @@
             if (_value != null)
             {
                 writer.Write(": ");
-                writer.Write(_value);
+                writer.Write(Value);
             }
 
             writer.Write(Symbols.RoundBracketClose);

@@ -18,6 +18,7 @@ namespace AngleSharp.Css.Dom
         private readonly String _type;
         private readonly Boolean _exclusive;
         private readonly Boolean _inverse;
+        private readonly String _connector;
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="inverse">Specifies if it should be inverted.</param>
         /// <param name="exclusive">Specifies if the rule is exclusive.</param>
         public CssMedium(String type, Boolean inverse, Boolean exclusive)
-            : this(type, inverse, exclusive, Enumerable.Empty<IMediaFeature>())
+            : this(type, inverse, exclusive, Enumerable.Empty<IMediaFeature>(), "and")
         {
         }
 
@@ -41,12 +42,14 @@ namespace AngleSharp.Css.Dom
         /// <param name="inverse">Specifies if it should be inverted.</param>
         /// <param name="exclusive">Specifies if the rule is exclusive.</param>
         /// <param name="features">The features of the medium.</param>
-        public CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features)
+        /// <param name="connector">The connector of the features ("and" or "or").</param>
+        public CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features, String connector)
         {
             _features = new List<IMediaFeature>(features);
             _type = type;
             _inverse = inverse;
             _exclusive = exclusive;
+            _connector = connector;
         }
 
         #endregion
@@ -64,6 +67,11 @@ namespace AngleSharp.Css.Dom
         public String Type => _type;
 
         /// <summary>
+        /// Gets the connector of the contained features.
+        /// </summary>
+        public String Connector => _connector;
+
+        /// <summary>
         /// Gets if the medium is exclusive to other media.
         /// </summary>
         public Boolean IsExclusive => _exclusive;
@@ -76,7 +84,7 @@ namespace AngleSharp.Css.Dom
         /// <summary>
         /// Gets the constraints - i.e., the stringified features.
         /// </summary>
-        public String Constraints => String.Join(" and ", Features.Select(m => m.ToCss()));
+        public String Constraints => String.Join($" {_connector} ", Features.Select(m => m.ToCss()));
 
         #endregion
 
@@ -87,10 +95,11 @@ namespace AngleSharp.Css.Dom
         {
             var other = obj as CssMedium;
 
-            if (other != null && 
-                other.IsExclusive == IsExclusive && 
-                other.IsInverse == IsInverse && 
-                other.Type.Is(Type) && 
+            if (other != null &&
+                other.IsExclusive == IsExclusive &&
+                other.IsInverse == IsInverse &&
+                other.Type.Is(Type) &&
+                other.Connector.Is(Connector) &&
                 other.Features.Count() == Features.Count())
             {
                 foreach (var feature in other.Features)
@@ -143,7 +152,9 @@ namespace AngleSharp.Css.Dom
 
             for (var i = offset; i < _features.Count; i++)
             {
-                writer.Write(" and ");
+                writer.Write(' ');
+                writer.Write(_connector);
+                writer.Write(' ');
                 _features[i].ToCss(writer, formatter);
             }
         }
