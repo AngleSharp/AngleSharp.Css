@@ -7,6 +7,7 @@ Released on tbd.
 - Fixed issue with appended EOF character in `CssText` (#123)
 - Fixed missing semicolon in `@page` rule (#135)
 - Fixed integer serialization of keyframe stops (#128)
+- Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
 
 # 0.17.0
 

@@ -909,5 +909,21 @@ namespace AngleSharp.Css.Tests.Declarations
             var style = ParseDeclarations(snippet);
             Assert.AreEqual("grid-template: none", style.CssText);
         }
+
+        [Test]
+        public void CssGridPreservesParts_Issue137()
+        {
+            var snippet = "grid: 10px / 80px";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual("grid: 10px / 80px", style.CssText);
+        }
+
+        [Test]
+        public void CssGridGapPreservesParts_Issue137()
+        {
+            var snippet = "grid-gap: 10px 80px";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual("grid-gap: 10px 80px", style.CssText);
+        }
     }
 }
