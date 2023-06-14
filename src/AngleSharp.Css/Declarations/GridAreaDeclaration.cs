@@ -37,7 +37,16 @@ namespace AngleSharp.Css.Declarations
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 
-            public ICssValue Merge(ICssValue[] values) => new CssTupleValue(values, seperator);
+            public ICssValue Merge(ICssValue[] values)
+            {
+                // Make single value if all resolve to the same text
+                if (values.Length == 4 && values[0]?.CssText == values[1]?.CssText && values[0]?.CssText == values[2]?.CssText && values[0]?.CssText == values[3]?.CssText)
+                {
+                    return values[0];
+                }
+
+                return new CssTupleValue(values, seperator);
+            }
 
             public ICssValue[] Split(ICssValue value)
             {
@@ -75,12 +84,13 @@ namespace AngleSharp.Css.Declarations
             private static ICssValue GetItemSimple(CssTupleValue tuple, Int32 index)
             {
                 var val = UnitParser.ParseUnit(new StringSource(tuple.Items[0].CssText));
+
                 if (index <= 2)
                 {
                     if (tuple.Items.Length <= index)
                     {
                        
-                        if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                        if (!Int32.TryParse(tuple.Items[0].CssText, out var _))
                         {
                             return tuple.Items[0];
                         }
@@ -90,12 +100,12 @@ namespace AngleSharp.Css.Declarations
                 {
                     if (tuple.Items.Length > 1)
                     {
-                        if (!int.TryParse(tuple.Items[1].CssText, out int _))
+                        if (!Int32.TryParse(tuple.Items[1].CssText, out var _))
                         {
                             return tuple.Items[1];
                         }
                     }
-                    else if (!int.TryParse(tuple.Items[0].CssText, out int _))
+                    else if (!Int32.TryParse(tuple.Items[0].CssText, out var _))
                     {
                         return tuple.Items[0];
                     }

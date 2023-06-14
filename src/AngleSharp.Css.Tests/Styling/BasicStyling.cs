@@ -210,5 +210,13 @@ namespace AngleSharp.Css.Tests.Styling
             var result = sheet.ToCss(new MinifyStyleFormatter());
             Assert.AreEqual("h1{top:0;left:2px;border:none}h2{border:1px solid rgba(255, 0, 0, 1)}", result);
         }
+
+        [Test]
+        public void MinifyMinimizesProperties_Issue89()
+        {
+            var sheet = ParseStyleSheet("a { grid-area: aa / aa / aa / aa }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("a{grid-area:aa}", result);
+        }
     }
 }

@@ -8,6 +8,7 @@ Released on tbd.
 - Fixed missing semicolon in `@page` rule (#135)
 - Fixed integer serialization of keyframe stops (#128)
 - Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
+- Added further compactification of CSS tuples (#89, #93)
 
 # 0.17.0
 

@@ -534,7 +534,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var css = ParseStyleSheet(source);
             var text = css.Rules[0].CssText;
 
-            var expected = "#nav-header { grid-area: aaa / aaa / aaa / aaa }";
+            var expected = "#nav-header { grid-area: aaa }";
             Assert.AreEqual(expected, text);
         }
 
