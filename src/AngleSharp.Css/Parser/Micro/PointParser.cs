@@ -167,7 +167,7 @@ namespace AngleSharp.Css.Parser
             {
                 var w = source.ParseDistanceOrCalc();
 
-                if (w == null && !source.IsIdentifier(CssKeywords.Auto))
+                if (w is null && !source.IsIdentifier(CssKeywords.Auto))
                 {
                     return null;
                 }
@@ -175,7 +175,7 @@ namespace AngleSharp.Css.Parser
                 source.SkipSpacesAndComments();
                 var h = source.ParseDistanceOrCalc();
 
-                if (h == null)
+                if (h is null)
                 {
                     source.IsIdentifier(CssKeywords.Auto);
                 }

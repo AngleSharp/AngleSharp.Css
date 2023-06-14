@@ -30,8 +30,8 @@ namespace AngleSharp.Css.Values
 
         private CssBackgroundSizeValue(ValueMode mode)
         {
-            _width = Length.Zero;
-            _height = Length.Zero;
+            _width = Length.Auto;
+            _height = Length.Auto;
             _mode = mode;
         }
 
@@ -94,18 +94,29 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other background size.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundSizeValue other) =>
-            _mode == other._mode && _height == other._height && _width == other._width;
+        public Boolean Equals(CssBackgroundSizeValue other) => _mode == other._mode && _height == other._height && _width == other._width;
 
         #endregion
 
         #region Value Mode
 
+        /// <summary>
+        /// Represents the value modes for the vertical and horizontal axis.
+        /// </summary>
         private enum ValueMode
         {
+            /// <summary>
+            /// The size is explicitly specified.
+            /// </summary>
             Explicit,
+            /// <summary>
+            /// The size should cover the axis.
+            /// </summary>
             Cover,
-            Contain
+            /// <summary>
+            /// The size should contain the axis.
+            /// </summary>
+            Contain,
         }
 
         #endregion
