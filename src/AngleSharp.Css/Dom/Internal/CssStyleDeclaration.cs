@@ -134,7 +134,7 @@ namespace AngleSharp.Css.Dom
                         TryCreateShorthand(name, serialized, usedProperties, force) :
                         longhands.Where(m => m.Name == name).FirstOrDefault();
 
-                    if (property != null)
+                    if (property?.Value is not null)
                     {
                         usedProperties.Add(name);
                         count = count + 1;
@@ -318,8 +318,18 @@ namespace AngleSharp.Css.Dom
         private ICssProperty GetPropertyShorthand(String name) =>
             TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
 
-        private ICssProperty CreateProperty(String propertyName) =>
-            GetProperty(propertyName) ?? _context.CreateProperty(propertyName);
+        private ICssProperty CreateProperty(String propertyName)
+        {
+            var newProperty = _context.CreateProperty(propertyName);
+            var existing = GetProperty(propertyName);
+
+            if (existing is not null)
+            {
+                newProperty.RawValue = existing.RawValue;
+            }
+
+            return newProperty;
+        }
 
         private void SetProperty(ICssProperty property)
         {

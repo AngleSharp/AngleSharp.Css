@@ -1,3 +1,10 @@
+# 1.0.0
+
+Released on tbd.
+
+- Updated to use AngleSharp 1.0
+- Fixed issue when updating shorthands with invalid values (#129)
+
 # 0.17.0
 
 Released on Sunday, January 15 2023.

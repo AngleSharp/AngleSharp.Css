@@ -105,5 +105,17 @@ namespace AngleSharp.Css.Tests.Library
 
             Assert.AreEqual(css, generatedCss);
         }
+
+        [Test]
+        public void BorderWithEmptyPx_Issue129()
+        {
+            var html = "<div style=\"border-width:1px;border-right-width:px;\"></div>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss());
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("border-width: 1px", css);
+        }
     }
 }
