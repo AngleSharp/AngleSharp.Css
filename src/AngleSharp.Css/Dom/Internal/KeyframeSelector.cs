@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Dom
 
         private static void Write(TextWriter writer, Double value)
         {
-            var pc = Math.Truncate(100.0 * value);
+            var pc = 100.0 * value;
             var str = pc.ToString(CultureInfo.InvariantCulture);
             writer.Write(str);
             writer.Write(Symbols.Percent);
