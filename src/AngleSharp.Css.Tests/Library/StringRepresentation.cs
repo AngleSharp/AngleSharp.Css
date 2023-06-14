@@ -107,6 +107,40 @@ namespace AngleSharp.Css.Tests.Library
         }
 
         [Test]
+        public void CssTextShouldNotAddReplacementCharacter_Issue123()
+        {
+            var html = @"<span style=""background-image: var(--urlSpellingErrorV2,url(&quot;https://www.example.com/))"">Ipsum</span>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss(new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidSelectors = true,
+            }));
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("background-image: var(--urlSpellingErrorV2,url(\"https://www.example.com/))", css);
+        }
+
+        [Test]
+        public void CssTextShouldNotTrailingSemicolonCharacter_Issue123()
+        {
+            var html = @"<span style=""color: red;"">Ipsum</span>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss(new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidSelectors = true,
+            }));
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("color: rgba(255, 0, 0, 1)", css);
+        }
+
+        [Test]
         public void BorderWithEmptyPx_Issue129()
         {
             var html = "<div style=\"border-width:1px;border-right-width:px;\"></div>";

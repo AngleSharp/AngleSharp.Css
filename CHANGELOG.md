@@ -4,6 +4,7 @@ Released on tbd.
 
 - Updated to use AngleSharp 1.0
 - Fixed issue when updating shorthands with invalid values (#129)
+- Fixed issue with appended EOF character in `CssText` (#123)
 
 # 0.17.0
 
