@@ -395,9 +395,16 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.Invert;
                 }
-                else if (_alpha == 255 && UseHex)
+                else if (UseHex)
                 {
-                    return $"#{_red.ToString("X2", CultureInfo.InvariantCulture)}{_green.ToString("X2", CultureInfo.InvariantCulture)}{_blue.ToString("X2", CultureInfo.InvariantCulture)}";
+                    var color = $"#{_red.ToString("X2", CultureInfo.InvariantCulture)}{_green.ToString("X2", CultureInfo.InvariantCulture)}{_blue.ToString("X2", CultureInfo.InvariantCulture)}";
+
+                    if (_alpha != 255)
+                    {
+                        return $"{color}{_alpha.ToString("X2", CultureInfo.InvariantCulture)}";
+                    }
+
+                    return color;
                 }
                 else
                 {

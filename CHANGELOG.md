@@ -11,6 +11,7 @@ Released on tbd.
 - Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
 - Fixed inclusion of CSS from stylesheets (#140)
 - Added further compactification of CSS tuples (#89, #93)
+- Added support for 8-digit hex color codes (#132)
 
 # 0.17.0
 

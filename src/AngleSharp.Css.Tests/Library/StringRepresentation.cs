@@ -41,13 +41,13 @@ namespace AngleSharp.Css.Tests.Library
         }
 
         [Test]
-        public void TransparentColorDoesNotWorkWithHexOutput_Issue96()
+        public void TransparentColorWorksWithHexOutput_Issue132()
         {
             var color = new Color(65, 12, 48, 10);
             Color.UseHex = true;
             var text = color.CssText;
             Color.UseHex = false;
-            Assert.AreEqual("rgba(65, 12, 48, 0.04)", text);
+            Assert.AreEqual("#410C300A", text);
         }
 
         [Test]
