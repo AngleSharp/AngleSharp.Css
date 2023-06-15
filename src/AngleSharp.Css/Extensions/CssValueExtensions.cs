@@ -24,6 +24,10 @@ namespace AngleSharp.Css.Dom
             {
                 return fr.Value;
             }
+            else if (value is Ratio ratio)
+            {
+                return ratio.Value;
+            }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
                 return multiple[0].AsDouble();

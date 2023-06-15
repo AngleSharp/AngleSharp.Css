@@ -141,8 +141,11 @@ namespace AngleSharp.Css.Parser
 
             return source.ParseAtomicExpression();
         }
-
-        private static ICssValue ParseAtomicExpression(this StringSource source)
+        
+        /// <summary>
+        /// Parses a unit value into a ICssValue.
+        /// </summary>
+        public static ICssValue ParseAtomicExpression(this StringSource source)
         {
             var unit = source.ParseUnit();
 

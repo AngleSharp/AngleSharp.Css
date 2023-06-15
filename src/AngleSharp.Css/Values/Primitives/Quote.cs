@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS quote.
     /// </summary>
-    struct Quote : ICssPrimitiveValue, IEquatable<Quote>
+    public struct Quote : ICssPrimitiveValue, IEquatable<Quote>
     {
         #region Fields
 

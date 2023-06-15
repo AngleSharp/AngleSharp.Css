@@ -4,6 +4,8 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Tracing;
+    using System.Linq;
 
     /// <summary>
     /// Represents extensions to for media values.
@@ -31,7 +33,20 @@ namespace AngleSharp.Css.Parser
                 {
                     if (current != Symbols.Comma)
                     {
-                        return null;
+                        media[media.Count - 1] = null;
+
+                        while (!source.IsDone && current != Symbols.Comma)
+                        {
+                            if (current == Symbols.RoundBracketOpen)
+                            {
+                                source.Next();
+                                source.TakeUntilClosed();
+                            }
+
+                            current = source.Next();
+                        }
+
+                        continue;
                     }
 
                     source.SkipCurrentAndSpaces();

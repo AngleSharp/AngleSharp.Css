@@ -742,7 +742,7 @@ namespace AngleSharp.Css
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
-		public static readonly IValueConverter RatioConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseRatio));
+		public static readonly IValueConverter RatioConverter = new StructValueConverter<Ratio>(NumberParser.ParseRatio);
 
         /// <summary>
         /// Represents multiple shadow objects.

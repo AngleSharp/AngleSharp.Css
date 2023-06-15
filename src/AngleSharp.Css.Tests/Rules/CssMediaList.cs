@@ -132,7 +132,7 @@ namespace AngleSharp.Css.Tests.Rules
         }
 
         [Test]
-        public void OnlyFeatureWidthMediaList()
+        public void OnlyFeatureWidthMediaListInvalid()
         {
             var source = @"@media only (width: 640px) {
     h1 { color: green }
@@ -141,7 +141,23 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
-            Assert.AreEqual("only (width: 640px)", media.Media.MediaText);
+            Assert.AreEqual("not all", media.Media.MediaText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.Rules.Length);
+        }
+
+        [Test]
+        public void OnlyFeatureWidthScreenAndMediaList()
+        {
+            var source = @"@media only screen and (width: 640px) {
+    h1 { color: green }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = (CssMediaRule)sheet.Rules[0];
+            Assert.AreEqual("only screen and (width: 640px)", media.Media.MediaText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
             Assert.AreEqual(1, media.Rules.Length);

@@ -49,6 +49,21 @@ namespace AngleSharp.Css.Parser
         }
 
         /// <summary>
+        /// Parses a CSS identifier value.
+        /// </summary>
+        public static ICssValue ParseIdentAsValue(this StringSource source)
+        {
+            var value = source.ParseIdent();
+
+            if (value is not null)
+            {
+                return new Identifier(value);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Parses a CSS constant value from a given dictionary.
         /// </summary>
         public static ICssValue ParseConstant<T>(this StringSource source, IDictionary<String, T> values)

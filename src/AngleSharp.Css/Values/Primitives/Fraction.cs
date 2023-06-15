@@ -1,12 +1,11 @@
 namespace AngleSharp.Css.Values
 {
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a fractional value.
     /// </summary>
-    struct Fraction : IEquatable<Fraction>, IComparable<Fraction>, ICssPrimitiveValue
+    public struct Fraction : IEquatable<Fraction>, IComparable<Fraction>, ICssPrimitiveValue
     {
         #region Fields
 
