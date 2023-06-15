@@ -2,9 +2,14 @@ namespace AngleSharp.Css.Tests.Library
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System.IO;
+    using System.Threading.Tasks;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -150,6 +155,28 @@ namespace AngleSharp.Css.Tests.Library
             var css = style.ToCss();
 
             Assert.AreEqual("border-width: 1px", css);
+        }
+
+        [Test]
+        public async Task MediaListForLinkedStyleSheet_Issue133()
+        {
+            var html = "<link href=\"style.css\" rel=\"stylesheet\">";
+            var mockRequester = new MockRequester();
+            mockRequester.BuildResponse(request =>
+            {
+                if (request.Address.Path.EndsWith("style.css"))
+                {
+                    return "div#A   { color: blue;	}";
+                }
+
+                return null;
+            });
+            var config = Configuration.Default.WithCss().WithMockRequester(mockRequester);
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync((res) => res.Content(html));
+            var link = document.QuerySelector<IHtmlLinkElement>("link");
+            Assert.AreEqual("", link.Sheet.Media.MediaText);
+            Assert.IsTrue(link.Sheet.Media.Validate(new DefaultRenderDevice()));
         }
     }
 }
