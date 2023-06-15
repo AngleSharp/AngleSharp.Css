@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Linq;
@@ -73,7 +74,15 @@ namespace AngleSharp.Css.Dom
         /// <returns>A new style declaration with the existing or computed values.</returns>
         public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, IRenderDevice device)
         {
-            //TODO
+            //var prop = style.GetProperty("font-size");
+
+            //if (prop is not null && prop.RawValue is Length length)
+            //{
+            //    var px = length.ToPixel(device, RenderMode.Horizontal);
+            //    var prio = prop.IsImportant ? CssKeywords.Important : null;
+            //    style.SetProperty(prop.Name, $"{px}px", prio);
+            //}
+
             return style;
         }
     }

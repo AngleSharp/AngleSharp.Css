@@ -42,14 +42,16 @@ namespace AngleSharp.Css
         /// <returns>The style declaration containing all the declarations.</returns>
         public static ICssStyleDeclaration ComputeDeclarations(this IEnumerable<ICssStyleRule> rules, IElement element, String pseudoSelector = null)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
+            var ctx = element.Owner?.Context;
+            var device = ctx?.GetService<IRenderDevice>();
+            var computedStyle = new CssStyleDeclaration(ctx);
             var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
                 var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
 
-                if (pseudoElement != null)
+                if (pseudoElement is not null)
                 {
                     element = pseudoElement;
                 }
@@ -60,6 +62,11 @@ namespace AngleSharp.Css
             foreach (var node in nodes)
             {
                 computedStyle.UpdateDeclarations(rules.ComputeCascadedStyle(node));
+            }
+
+            if (device is not null)
+            {
+                return computedStyle.Compute(device);
             }
 
             return computedStyle;
@@ -90,7 +97,7 @@ namespace AngleSharp.Css
                 computedStyle.SetDeclarations(element.GetStyle());
             }
 
-            if (parent != null)
+            if (parent is not null)
             {
                 computedStyle.UpdateDeclarations(parent);
             }
