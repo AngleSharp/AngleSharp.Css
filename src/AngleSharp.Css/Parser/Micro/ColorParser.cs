@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
+    using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -92,6 +93,52 @@ namespace AngleSharp.Css.Parser
         }
 
         private static Color? ParseRgba(StringSource source)
+        {
+            var pos = source.Index;
+            var color = ParseRgbaLegacy(source);
+
+            if (!color.HasValue)
+            {
+                source.BackTo(pos);
+                return ParseRgbaModern(source);
+            }
+
+            return color.Value;
+        }
+
+        private static Color? ParseRgbaModern(StringSource source)
+        {
+            var r = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var g = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (r != null && g != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return Color.FromRgba(r.Value, g.Value, b.Value, a.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static Color? ParseRgbaLegacy(StringSource source)
         {
             var r = ParseRgbComponent(source);
             var c1 = source.SkipGetSkip();
@@ -205,6 +252,26 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        private static Byte? ParseRgbOrNoneComponent(StringSource source)
+        {
+            var pos = source.Index;
+            var value = ParseRgbComponent(source);
+
+            if (value.HasValue)
+            {
+                return value;
+            }
+
+            source.BackTo(pos);
+
+            if (source.IsIdentifier(CssKeywords.None))
+            {
+                return 0;
+            }
+
+            return null;
+        }
+
         private static Byte? ParseRgbComponent(StringSource source)
         {
             var unit = source.ParseUnit();
@@ -214,7 +281,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (unit.Dimension == "%")
                 {
-                    return (Byte)((255f * value) / 100f);
+                    return (Byte)Math.Round((255.0 * value) / 100.0);
                 }
                 else if (unit.Dimension == String.Empty)
                 {

@@ -13,6 +13,7 @@ Released on tbd.
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for 8-digit hex color codes (#132)
 - Added more CSSOM possibilities and helpers (#6)
+- Added parts of recent color spec update such as `rgb` with spaces (#131)
 
 # 0.17.0
 
