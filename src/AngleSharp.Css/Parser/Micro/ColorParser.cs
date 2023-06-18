@@ -21,6 +21,10 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Gray, ParseGray },
             { FunctionNames.Hwb, ParseHwba },
             { FunctionNames.Hwba, ParseHwba },
+            { FunctionNames.Lab, ParseLab },
+            { FunctionNames.Lch, ParseLch },
+            { FunctionNames.Oklab, ParseOklab},
+            { FunctionNames.Oklch, ParseOklch },
         };
 
         /// <summary>
@@ -218,6 +222,35 @@ namespace AngleSharp.Css.Parser
                 }
             }
 
+            return null;
+        }
+
+        private static Color? ParseLab(StringSource source)
+        {
+            // lab(50% 40 59.5)
+            // lab(50 % 40 59.5 / 0.5)
+            return null;
+        }
+
+        private static Color? ParseLch(StringSource source)
+        {
+            // lch(52.2% 72.2 50)
+            // lch(52.2 % 72.2 50 / 0.5)
+            return null;
+        }
+
+
+        private static Color? ParseOklab(StringSource source)
+        {
+            // oklab(59% 0.1 0.1)
+            // oklab(59 % 0.1 0.1 / 0.5)
+            return null;
+        }
+
+        private static Color? ParseOklch(StringSource source)
+        {
+            // oklch(60% 0.15 50)
+            // oklch(60 % 0.15 50 / 0.5)
             return null;
         }
 

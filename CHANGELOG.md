@@ -14,6 +14,7 @@ Released on tbd.
 - Added support for 8-digit hex color codes (#132)
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
+- Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
 
 # 0.17.0
 
