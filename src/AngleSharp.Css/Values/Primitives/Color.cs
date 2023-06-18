@@ -175,6 +175,95 @@ namespace AngleSharp.Css.Values
         public static Color FromRgb(Byte r, Byte g, Byte b) => new Color(r, g, b);
 
         /// <summary>
+        /// Returns the color that represents the given Lab values.
+        /// </summary>
+        /// <param name="l">The value for perceptual lightness [0,100].</param>
+        /// <param name="a">The value for the first axis [-100,100].</param>
+        /// <param name="b">The value for the second axis [-100,100].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color? FromLab(Double l, Double a, Double b, Double alpha)
+        {
+            var fy = (l + 16.0) / 116.0;
+            var fx = a / 500.0 + fy;
+            var fz = fy - b / 200.0;
+            var y = Grow(fy);
+            var x = Grow(fx) * (0.3457 / 0.3585);
+            var z = Grow(fz) * ((1.0 - 0.3457 - 0.3585) / 0.3585);
+            return FromXyz50(x, y, z, alpha);
+        }
+
+        private static Color? FromXyz50(Double x, Double y, Double z, Double alpha)
+        {
+            var r = x * 3.1341359569958707 - y * 1.6173863321612538 - z * 0.4906619460083532;
+            var g = x * -0.978795502912089 + y * 1.916254567259524 + z * 0.03344273116131949;
+            var b = x * 0.07195537988411677 - y * 0.2289768264158322 + z * 1.405386058324125;
+            return FromLrgb(r, g, b, alpha);
+        }
+
+        private static Color? FromLrgb(Double red, Double green, Double blue, Double alpha)
+        {
+            var r = Normalize(Project(red));
+            var g = Normalize(Project(green));
+            var b = Normalize(Project(blue));
+            var a = Normalize(alpha);
+            return new Color(r, g, b, a);
+        }
+
+        /// <summary>
+        /// Returns the color that represents the given Lch values.
+        /// </summary>
+        /// <param name="l">The value for perceptual lightness [0,100].</param>
+        /// <param name="c">The value for the axis [0,150].</param>
+        /// <param name="h">The value for the angle to the axis [0,1].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color? FromLch(Double l, Double c, Double h, Double alpha)
+        {
+            var angle = h * 2.0 * Math.PI;
+            var a = c != 0 ? c * Math.Cos(angle) : 0.0;
+            var b = c != 0 ? c * Math.Sin(angle) : 0.0;
+            return FromLab(l, a, b, alpha);
+        }
+
+        /// <summary>
+        /// Returns the color that represents the given Oklab values.
+        /// </summary>
+        /// <param name="l">The value for perceptual lightness [0,100].</param>
+        /// <param name="a">The value for the first axis [-0.4,0.4].</param>
+        /// <param name="b">The value for the second axis [-0.4,0.4].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color? FromOklab(Double l, Double a, Double b, Double alpha)
+        {
+            // normalize to 0..1
+            l *= 0.01;
+            var L = Math.Pow(l * 0.99999999845051981432 + 0.39633779217376785678 * a + 0.21580375806075880339 * b, 3);
+            var M = Math.Pow(l * 1.0000000088817607767 - 0.1055613423236563494 * a - 0.063854174771705903402 * b, 3);
+            var S = Math.Pow(l * 1.0000000546724109177 - 0.089484182094965759684 * a - 1.2914855378640917399 * b, 3);
+            var red = +4.076741661347994 * L - 3.307711590408193 * M + 0.230969928729428 * S;
+            var green = -1.2684380040921763 * L + 2.6097574006633715 * M - 0.3413193963102197 * S;
+            var blue = -0.004196086541837188 * L - 0.7034186144594493 * M + 1.7076147009309444 * S;
+            return FromLrgb(red, green, blue, alpha);
+        }
+
+        /// <summary>
+        /// Returns the color that represents the given Oklch values.
+        /// </summary>
+        /// <param name="l">The value for perceptual lightness [0,100].</param>
+        /// <param name="c">The value for the axis [0,0.4].</param>
+        /// <param name="h">The value for the angle to the axis [0,1].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color? FromOklch(Double l, Double c, Double h, Double alpha)
+        {
+            var angle = h * 2.0 * Math.PI;
+            var a = c != 0 ? c * Math.Cos(angle) : 0.0;
+            var b = c != 0 ? c * Math.Sin(angle) : 0.0;
+            return FromOklab(l, a, b, alpha);
+        }
+
+        /// <summary>
         /// Returns the color from the given hex string.
         /// </summary>
         /// <param name="color">The hex string like fff or abc123 or AA126B etc.</param>
@@ -536,6 +625,32 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Helpers
+
+        private static Double Project(Double c)
+        {
+            var abs = Math.Abs(c);
+
+            if (abs > 0.0031308)
+            {
+                var sgn = Math.Sign(c);
+
+                if (sgn == 0)
+                {
+                    sgn = 1;
+                }
+
+                return sgn * (1.055 * Math.Pow(abs, 1.0 / 2.4) - 0.055);
+            }
+
+            return c * 12.92;
+        }
+
+        private static Double Grow(Double v)
+        {
+            var k = Math.Pow(29.0, 3.0) / Math.Pow(3.0, 3.0);
+            var e = Math.Pow(6.0, 3.0) / Math.Pow(29.0, 3.0);
+            return (Math.Pow(v, 3.0) > e ? Math.Pow(v, 3.0) : (116.0 * v - 16.0) / k);
+        }
 
         private static Byte Normalize(Double value) =>
             (Byte)Math.Max(Math.Min(Math.Truncate(256.0 * value), 255.0), 0.0);

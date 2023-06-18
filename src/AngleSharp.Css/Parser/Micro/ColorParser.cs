@@ -1,7 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Values;
-    using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -227,30 +226,130 @@ namespace AngleSharp.Css.Parser
 
         private static Color? ParseLab(StringSource source)
         {
-            // lab(50% 40 59.5)
-            // lab(50 % 40 59.5 / 0.5)
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var a = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var alpha = new Nullable<Double>(1.0);
+
+            if (l != null && a != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    alpha = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return Color.FromLab(l.Value, a.Value, b.Value, alpha.Value);
+                }
+            }
+
             return null;
         }
 
         private static Color? ParseLch(StringSource source)
         {
-            // lch(52.2% 72.2 50)
-            // lch(52.2 % 72.2 50 / 0.5)
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var h = ParseAngle(source);
+            source.SkipSpacesAndComments();
+            var chr = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (l != null && c != null && h != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (chr == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    chr = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (chr == Symbols.RoundBracketClose)
+                {
+                    return Color.FromLch(l.Value, c.Value, h.Value, a.Value);
+                }
+            }
+
             return null;
         }
 
 
         private static Color? ParseOklab(StringSource source)
         {
-            // oklab(59% 0.1 0.1)
-            // oklab(59 % 0.1 0.1 / 0.5)
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var a = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var alpha = new Nullable<Double>(1.0);
+
+            if (l != null && a != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    alpha = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return Color.FromOklab(l.Value, a.Value, b.Value, alpha.Value);
+                }
+            }
+
             return null;
         }
 
         private static Color? ParseOklch(StringSource source)
         {
-            // oklch(60% 0.15 50)
-            // oklch(60 % 0.15 50 / 0.5)
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var h = ParseAngle(source);
+            source.SkipSpacesAndComments();
+            var chr = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (l != null && c != null && h != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (chr == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    chr = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (chr == Symbols.RoundBracketClose)
+                {
+                    return Color.FromOklch(l.Value, c.Value, h.Value, a.Value);
+                }
+            }
+
             return null;
         }
 
@@ -285,6 +384,31 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
+        private static Double? ParseLabComponent(StringSource source)
+        {
+            var pos = source.Index;
+            var unit = source.ParseUnit();
+
+            if (unit == null)
+            {
+                source.BackTo(pos);
+
+                if (source.IsIdentifier(CssKeywords.None))
+                {
+                    return 0;
+                }
+
+                return null;
+            }
+
+            if ((unit.Dimension == String.Empty || unit.Dimension == "%") && Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
         private static Byte? ParseRgbOrNoneComponent(StringSource source)
         {
             var pos = source.Index;
@@ -309,17 +433,19 @@ namespace AngleSharp.Css.Parser
         {
             var unit = source.ParseUnit();
 
-            if (unit != null &&
-                Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
+            if (unit == null)
             {
-                if (unit.Dimension == "%")
-                {
-                    return (Byte)Math.Round((255.0 * value) / 100.0);
-                }
-                else if (unit.Dimension == String.Empty)
-                {
-                    return (Byte)Math.Max(Math.Min(value, 255f), 0f);
-                }
+                return null;
+            }
+
+            if (unit.Dimension == String.Empty && Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var num))
+            {
+                return (Byte)Math.Max(Math.Min(num, 255f), 0f);
+            }
+
+            if (unit.Dimension == "%" && Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var val))
+            {
+                return (Byte)Math.Round((255.0 * val) / 100.0);
             }
 
             return null;
