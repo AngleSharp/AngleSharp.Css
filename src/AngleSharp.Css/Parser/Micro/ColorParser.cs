@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Parser
     /// </summary>
     static class ColorParser
     {
-        private static readonly Dictionary<String, Func<StringSource, Color?>> ColorFunctions = new Dictionary<String, Func<StringSource, Color?>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<StringSource, Color?>> ColorFunctions = new(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Rgb, ParseRgba },
             { FunctionNames.Rgba, ParseRgba },

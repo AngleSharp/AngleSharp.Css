@@ -58,6 +58,11 @@ namespace AngleSharp.Css
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The symbols function.
+        /// </summary>
+        public static readonly String Symbols = "symbols";
+
+        /// <summary>
         /// The fit-content function.
         /// </summary>
         public static readonly String FitContent = "fit-content";

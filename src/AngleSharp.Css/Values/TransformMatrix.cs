@@ -13,12 +13,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the zero matrix.
         /// </summary>
-        public static readonly TransformMatrix Zero = new TransformMatrix();
+        public static readonly TransformMatrix Zero = new();
 
         /// <summary>
         /// Gets the unity matrix.
         /// </summary>
-        public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
+        public static readonly TransformMatrix One = new(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
         private readonly Double[,] _matrix;
 

@@ -12,47 +12,47 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets a zero pixel length value.
         /// </summary>
-        public static readonly Length Zero = new Length(0.0, Unit.Px);
+        public static readonly Length Zero = new(0.0, Unit.Px);
 
         /// <summary>
         /// Gets the half relative length, i.e. 50%.
         /// </summary>
-        public static readonly Length Half = new Length(50.0, Unit.Percent);
+        public static readonly Length Half = new(50.0, Unit.Percent);
 
         /// <summary>
         /// Gets the full relative length, i.e. 100%.
         /// </summary>
-        public static readonly Length Full = new Length(100.0, Unit.Percent);
+        public static readonly Length Full = new(100.0, Unit.Percent);
 
         /// <summary>
         /// Gets a thin length value.
         /// </summary>
-        public static readonly Length Thin = new Length(1.0, Unit.Px);
+        public static readonly Length Thin = new(1.0, Unit.Px);
 
         /// <summary>
         /// Gets a medium length value.
         /// </summary>
-        public static readonly Length Medium = new Length(3.0, Unit.Px);
+        public static readonly Length Medium = new(3.0, Unit.Px);
 
         /// <summary>
         /// Gets a thick length value.
         /// </summary>
-        public static readonly Length Thick = new Length(5.0, Unit.Px);
+        public static readonly Length Thick = new(5.0, Unit.Px);
 
         /// <summary>
         /// Gets the auto value.
         /// </summary>
-        public static readonly Length Auto = new Length(Double.NaN, Unit.Vmax);
+        public static readonly Length Auto = new(Double.NaN, Unit.Vmax);
 
         /// <summary>
         /// Gets the content value.
         /// </summary>
-        public static readonly Length Content = new Length(Double.NaN, Unit.Percent);
+        public static readonly Length Content = new(Double.NaN, Unit.Percent);
 
         /// <summary>
         /// Gets the normal value.
         /// </summary>
-        public static readonly Length Normal = new Length(Double.NaN, Unit.Em);
+        public static readonly Length Normal = new(Double.NaN, Unit.Em);
 
         #endregion
 

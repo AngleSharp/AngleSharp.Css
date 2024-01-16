@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class ContentValueConverter : IValueConverter
         {
-            private static readonly Dictionary<String, IContentMode> ContentModes = new Dictionary<String, IContentMode>(StringComparer.OrdinalIgnoreCase)
+            private static readonly Dictionary<String, IContentMode> ContentModes = new(StringComparer.OrdinalIgnoreCase)
             {
                 { CssKeywords.OpenQuote, new OpenQuoteContentMode() },
                 { CssKeywords.NoOpenQuote, new NoOpenQuoteContentMode() },

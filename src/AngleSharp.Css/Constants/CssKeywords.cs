@@ -28,6 +28,26 @@ namespace AngleSharp.Css
         public static readonly String Clip = "clip";
 
         /// <summary>
+        /// The cyclic keyword.
+        /// </summary>
+        public static readonly String Cyclic = "cyclic";
+
+        /// <summary>
+        /// The numeric keyword.
+        /// </summary>
+        public static readonly String Numeric = "numeric";
+
+        /// <summary>
+        /// The alphabetic keyword.
+        /// </summary>
+        public static readonly String Alphabetic = "alphabetic";
+
+        /// <summary>
+        /// The symbolic keyword.
+        /// </summary>
+        public static readonly String Symbolic = "symbolic";
+
+        /// <summary>
         /// The legacy keyword.
         /// </summary>
         public static readonly String Legacy = "legacy";
@@ -36,6 +56,11 @@ namespace AngleSharp.Css
         /// The normal keyword.
         /// </summary>
         public static readonly String Normal = "normal";
+
+        /// <summary>
+        /// The arabic-indic keyword.
+        /// </summary>
+        public static readonly String ArabicIndic = "arabic-indic";
 
         /// <summary>
         /// The pre keyword.
@@ -96,6 +121,16 @@ namespace AngleSharp.Css
         /// The inter-character keyword.
         /// </summary>
         public static readonly String InterCharacter = "inter-character";
+
+        /// <summary>
+        /// The katakana keyword.
+        /// </summary>
+        public static readonly String Katakana = "katakana";
+
+        /// <summary>
+        /// The katakana-iroha keyword.
+        /// </summary>
+        public static readonly String KatakanaIroha = "katakana-iroha";
 
         /// <summary>
         /// The kashida keyword.
@@ -1128,14 +1163,99 @@ namespace AngleSharp.Css
         public static readonly String UpperLatin = "upper-latin";
 
         /// <summary>
+        /// The malayalam keyword.
+        /// </summary>
+        public static readonly String Malayalam = "malayalam";
+
+        /// <summary>
+        /// The myanmar keyword.
+        /// </summary>
+        public static readonly String Myanmar = "myanmar";
+
+        /// <summary>
+        /// The mongolian keyword.
+        /// </summary>
+        public static readonly String Mongolian = "mongolian";
+
+        /// <summary>
+        /// The oriya keyword.
+        /// </summary>
+        public static readonly String Oriya = "oriya";
+
+        /// <summary>
+        /// The persian keyword.
+        /// </summary>
+        public static readonly String Persian = "persian";
+
+        /// <summary>
+        /// The tamil keyword.
+        /// </summary>
+        public static readonly String Tamil = "tamil";
+
+        /// <summary>
+        /// The thai keyword.
+        /// </summary>
+        public static readonly String Thai = "thai";
+
+        /// <summary>
+        /// The telugu keyword.
+        /// </summary>
+        public static readonly String Telugu = "telugu";
+
+        /// <summary>
+        /// The lao keyword.
+        /// </summary>
+        public static readonly String Lao = "lao";
+
+        /// <summary>
+        /// The tibetan keyword.
+        /// </summary>
+        public static readonly String Tibetan = "tibetan";
+
+        /// <summary>
+        /// The trad-chinese-formal keyword.
+        /// </summary>
+        public static readonly String TradChineseFormal = "trad-chinese-formal";
+
+        /// <summary>
+        /// The trad-chinese-informal keyword.
+        /// </summary>
+        public static readonly String TradChineseInformal = "trad-chinese-informal";
+
+        /// <summary>
         /// The armenian keyword.
         /// </summary>
         public static readonly String Armenian = "armenian";
 
         /// <summary>
+        /// The lower-armenian keyword.
+        /// </summary>
+        public static readonly String LowerArmenian = "lower-armenian";
+
+        /// <summary>
+        /// The upper-armenian keyword.
+        /// </summary>
+        public static readonly String UpperArmenian = "upper-armenian";
+
+        /// <summary>
         /// The georgian keyword.
         /// </summary>
         public static readonly String Georgian = "georgian";
+
+        /// <summary>
+        /// The kannada keyword.
+        /// </summary>
+        public static readonly String Kannada = "kannada";
+
+        /// <summary>
+        /// The disclosure-open keyword.
+        /// </summary>
+        public static readonly String DisclosureOpen = "disclosure-open";
+
+        /// <summary>
+        /// The disclosure-closed keyword.
+        /// </summary>
+        public static readonly String DisclosureClosed = "disclosure-closed";
 
         /// <summary>
         /// The lower-alpha keyword.
@@ -1316,6 +1436,106 @@ namespace AngleSharp.Css
         /// The fill keyword.
         /// </summary>
         public static readonly String Fill = "fill";
+
+        /// <summary>
+        /// The cjk-decimal keyword.
+        /// </summary>
+        public static readonly String CjkDecimal = "cjk-decimal";
+
+        /// <summary>
+        /// The cjk-earthly-branch keyword.
+        /// </summary>
+        public static readonly String CjkEarthlyBranch = "cjk-earthly-branch";
+
+        /// <summary>
+        /// The cjk-heavenly-stem keyword.
+        /// </summary>
+        public static readonly String CjkHeavenlyStem = "cjk-heavenly-stem";
+
+        /// <summary>
+        /// The cjk-ideographic keyword.
+        /// </summary>
+        public static readonly String CjkIdeographic = "cjk-ideographic";
+
+        /// <summary>
+        /// The bengali keyword.
+        /// </summary>
+        public static readonly String Bengali = "bengali";
+
+        /// <summary>
+        /// The cambodian keyword.
+        /// </summary>
+        public static readonly String Cambodian = "cambodian";
+
+        /// <summary>
+        /// The devanagari keyword.
+        /// </summary>
+        public static readonly String Devanagari = "devanagari";
+
+        /// <summary>
+        /// The ethiopic-numeric keyword.
+        /// </summary>
+        public static readonly String EthiopicNumeric = "ethiopic-numeric";
+
+        /// <summary>
+        /// The gurmukhi keyword.
+        /// </summary>
+        public static readonly String Gurmukhi = "gurmukhi";
+
+        /// <summary>
+        /// The gujarati keyword.
+        /// </summary>
+        public static readonly String Gujarati = "gujarati";
+
+        /// <summary>
+        /// The hebrew keyword.
+        /// </summary>
+        public static readonly String Hebrew = "hebrew";
+
+        /// <summary>
+        /// The hiragana keyword.
+        /// </summary>
+        public static readonly String Hiragana = "hiragana"; 
+
+        /// <summary>
+        /// The hiragana-iroha keyword.
+        /// </summary>
+        public static readonly String HiraganaIroha = "hiragana-iroha";
+
+        /// <summary>
+        /// The japanese-formal keyword.
+        /// </summary>
+        public static readonly String JapaneseFormal = "japanese-formal";
+
+        /// <summary>
+        /// The japanese-informal keyword.
+        /// </summary>
+        public static readonly String JapaneseInformal = "japanese-informal";
+
+        /// <summary>
+        /// The simp-chinese-informal keyword.
+        /// </summary>
+        public static readonly String SimpChineseInformal = "simp-chinese-informal";
+
+        /// <summary>
+        /// The simp-chinese-formal keyword.
+        /// </summary>
+        public static readonly String SimpChineseFormal = "simp-chinese-formal";
+
+        /// <summary>
+        /// The korean-hangul-formal keyword.
+        /// </summary>
+        public static readonly String KoreanHangulFormal = "korean-hangul-formal";
+
+        /// <summary>
+        /// The korean-hanja-formal keyword.
+        /// </summary>
+        public static readonly String KoreanHanjaFormal = "korean-hanja-formal";
+
+        /// <summary>
+        /// The korean-hanja-informal keyword.
+        /// </summary>
+        public static readonly String KoreanHanjaInformal = "korean-hanja-informal";
 
         /// <summary>
         /// The screen keyword.

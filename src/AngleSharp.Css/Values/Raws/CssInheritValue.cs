@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the only instance.
         /// </summary>
-        public static readonly CssInheritValue Instance = new CssInheritValue();
+        public static readonly CssInheritValue Instance = new();
 
         /// <summary>
         /// Gets the referring value.

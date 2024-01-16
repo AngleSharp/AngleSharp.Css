@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the zero time.
         /// </summary>
-        public static readonly Time Zero = new Time(0.0, Unit.Ms);
+        public static readonly Time Zero = new(0.0, Unit.Ms);
 
         #endregion
 

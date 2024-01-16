@@ -306,7 +306,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static readonly HashSet<String> Animatables = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<String> Animatables = new(StringComparer.OrdinalIgnoreCase)
         {
             "backdrop-filter",
             "background",

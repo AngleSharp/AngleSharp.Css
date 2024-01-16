@@ -17,12 +17,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Used to declare cover background size.
         /// </summary>
-        public static readonly CssBackgroundSizeValue Cover = new CssBackgroundSizeValue(ValueMode.Cover);
+        public static readonly CssBackgroundSizeValue Cover = new(ValueMode.Cover);
 
         /// <summary>
         /// Used to declare contain background size.
         /// </summary>
-        public static readonly CssBackgroundSizeValue Contain = new CssBackgroundSizeValue(ValueMode.Contain);
+        public static readonly CssBackgroundSizeValue Contain = new(ValueMode.Contain);
 
         #endregion
 

@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Dom
     static class MediaListExtensions
     {
         private readonly static ConditionalWeakTable<IMediaFeature, IFeatureValidator> AssociatedValidators =
-            new ConditionalWeakTable<IMediaFeature, IFeatureValidator>();
+            new();
 
         private readonly static String[] KnownTypes =
         {

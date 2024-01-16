@@ -13,27 +13,27 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// The zero angle.
         /// </summary>
-        public static readonly Angle Zero = new Angle(0.0, Angle.Unit.Rad);
+        public static readonly Angle Zero = new(0.0, Angle.Unit.Rad);
 
         /// <summary>
         /// The 45° angle.
         /// </summary>
-        public static readonly Angle HalfQuarter = new Angle(45.0, Angle.Unit.Deg);
+        public static readonly Angle HalfQuarter = new(45.0, Angle.Unit.Deg);
 
         /// <summary>
         /// The 90° angle.
         /// </summary>
-        public static readonly Angle Quarter = new Angle(90.0, Angle.Unit.Deg);
+        public static readonly Angle Quarter = new(90.0, Angle.Unit.Deg);
 
         /// <summary>
         /// The 135° angle.
         /// </summary>
-        public static readonly Angle TripleHalfQuarter = new Angle(135.0, Angle.Unit.Deg);
+        public static readonly Angle TripleHalfQuarter = new(135.0, Angle.Unit.Deg);
 
         /// <summary>
         /// The 180° angle.
         /// </summary>
-        public static readonly Angle Half = new Angle(180.0, Angle.Unit.Deg);
+        public static readonly Angle Half = new(180.0, Angle.Unit.Deg);
 
         #endregion
 

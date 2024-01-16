@@ -137,7 +137,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions) =>
-            new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f, 0f, 0f, 0f);
+            new(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f, 0f, 0f, 0f);
 
         #endregion
     }

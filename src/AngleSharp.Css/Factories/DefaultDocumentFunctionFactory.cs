@@ -17,7 +17,7 @@ namespace AngleSharp.Css
         /// <returns>The created document function for the given url.</returns>
         public delegate IDocumentFunction Creator(String url);
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Url, str => new UrlFunction(str) },
             { FunctionNames.Domain, str => new DomainFunction(str) },

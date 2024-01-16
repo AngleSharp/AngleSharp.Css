@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultDeclarationFactory : IDeclarationFactory
     {
-        private readonly Dictionary<String, DeclarationInfo> _declarations = new Dictionary<String, DeclarationInfo>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, DeclarationInfo> _declarations = new(StringComparer.OrdinalIgnoreCase)
         {
             {
                 BookmarkLabelDeclaration.Name, new DeclarationInfo(

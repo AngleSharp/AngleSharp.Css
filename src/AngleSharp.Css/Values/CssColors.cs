@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private static readonly Dictionary<String, Color> TheColors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Color> TheColors = new(StringComparer.OrdinalIgnoreCase)
         {
             // Extended color keywords
             { "aliceblue", new Color(240, 248, 255) },

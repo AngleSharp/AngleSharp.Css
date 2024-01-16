@@ -21,27 +21,27 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// The pre-configured ease function.
         /// </summary>
-        public static readonly CssCubicBezierValue Ease = new CssCubicBezierValue(0.25, 0.1, 0.25, 1.0);
+        public static readonly CssCubicBezierValue Ease = new(0.25, 0.1, 0.25, 1.0);
 
         /// <summary>
         /// The pre-configured ease-in function.
         /// </summary>
-        public static readonly CssCubicBezierValue EaseIn = new CssCubicBezierValue(0.42, 0.0, 1.0, 1.0);
+        public static readonly CssCubicBezierValue EaseIn = new(0.42, 0.0, 1.0, 1.0);
 
         /// <summary>
         /// The pre-configured ease-out function.
         /// </summary>
-        public static readonly CssCubicBezierValue EaseOut = new CssCubicBezierValue(0.0, 0.0, 0.58, 1.0);
+        public static readonly CssCubicBezierValue EaseOut = new(0.0, 0.0, 0.58, 1.0);
 
         /// <summary>
         /// The pre-configured ease-in-out function.
         /// </summary>
-        public static readonly CssCubicBezierValue EaseInOut = new CssCubicBezierValue(0.42, 0.0, 0.58, 1.0);
+        public static readonly CssCubicBezierValue EaseInOut = new(0.42, 0.0, 0.58, 1.0);
 
         /// <summary>
         /// The pre-configured linear function.
         /// </summary>
-        public static readonly CssCubicBezierValue Linear = new CssCubicBezierValue(0.0, 0.0, 1.0, 1.0);
+        public static readonly CssCubicBezierValue Linear = new(0.0, 0.0, 1.0, 1.0);
 
         #endregion
 

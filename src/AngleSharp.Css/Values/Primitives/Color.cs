@@ -17,52 +17,52 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// The color #000000.
         /// </summary>
-        public static readonly Color Black = new Color(0, 0, 0);
+        public static readonly Color Black = new(0, 0, 0);
 
         /// <summary>
         /// The color #FFFFFF.
         /// </summary>
-        public static readonly Color White = new Color(255, 255, 255);
+        public static readonly Color White = new(255, 255, 255);
 
         /// <summary>
         /// The color #FF0000.
         /// </summary>
-        public static readonly Color Red = new Color(255, 0, 0);
+        public static readonly Color Red = new(255, 0, 0);
 
         /// <summary>
         /// The color #FF00FF.
         /// </summary>
-        public static readonly Color Magenta = new Color(255, 0, 255);
+        public static readonly Color Magenta = new(255, 0, 255);
 
         /// <summary>
         /// The color #008000.
         /// </summary>
-        public static readonly Color Green = new Color(0, 128, 0);
+        public static readonly Color Green = new(0, 128, 0);
 
         /// <summary>
         /// The color #00FF00.
         /// </summary>
-        public static readonly Color PureGreen = new Color(0, 255, 0);
+        public static readonly Color PureGreen = new(0, 255, 0);
 
         /// <summary>
         /// The color #0000FF.
         /// </summary>
-        public static readonly Color Blue = new Color(0, 0, 255);
+        public static readonly Color Blue = new(0, 0, 255);
 
         /// <summary>
         /// The color #00000000.
         /// </summary>
-        public static readonly Color Transparent = new Color(0, 0, 0, 0);
+        public static readonly Color Transparent = new(0, 0, 0, 0);
 
         /// <summary>
         /// The color #00010203.
         /// </summary>
-        public static readonly Color CurrentColor = new Color(0, 1, 2, 3);
+        public static readonly Color CurrentColor = new(0, 1, 2, 3);
 
         /// <summary>
         /// The color #30201000.
         /// </summary>
-        public static readonly Color InvertedColor = new Color(48, 32, 16, 0);
+        public static readonly Color InvertedColor = new(48, 32, 16, 0);
 
         #endregion
 
@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Values
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
         public static Color FromRgba(Byte r, Byte g, Byte b, Double a) =>
-            new Color(r, g, b, Normalize(a));
+            new(r, g, b, Normalize(a));
 
         /// <summary>
         /// Returns the color from the given primitives.
@@ -138,7 +138,7 @@ namespace AngleSharp.Css.Values
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
         public static Color FromRgba(Double r, Double g, Double b, Double a) =>
-            new Color(Normalize(r), Normalize(g), Normalize(b), Normalize(a));
+            new(Normalize(r), Normalize(g), Normalize(b), Normalize(a));
 
         /// <summary>
         /// Returns the gray color from the given value.
@@ -147,7 +147,7 @@ namespace AngleSharp.Css.Values
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
         public static Color FromGray(Byte number, Double alpha = 1.0) =>
-            new Color(number, number, number, Normalize(alpha));
+            new(number, number, number, Normalize(alpha));
 
         /// <summary>
         /// Returns the gray color from the given value.
@@ -172,7 +172,7 @@ namespace AngleSharp.Css.Values
         /// <param name="g">The value for green [0,255].</param>
         /// <param name="b">The value for blue [0,255].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgb(Byte r, Byte g, Byte b) => new Color(r, g, b);
+        public static Color FromRgb(Byte r, Byte g, Byte b) => new(r, g, b);
 
         /// <summary>
         /// Returns the color that represents the given Lab values.

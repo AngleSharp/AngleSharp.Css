@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Dom
         private readonly IBrowsingContext _context;
         private readonly List<ICssMedium> _media;
 
-        private static readonly CssMedium replacementMedium = new CssMedium(CssKeywords.All, inverse: true, exclusive: false);
+        private static readonly CssMedium replacementMedium = new(CssKeywords.All, inverse: true, exclusive: false);
 
         #endregion
 

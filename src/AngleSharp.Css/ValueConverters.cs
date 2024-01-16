@@ -126,6 +126,12 @@ namespace AngleSharp.Css
         public static readonly IValueConverter IdentifierConverter = new IdentifierValueConverter(IdentParser.ParseNormalizedIdent);
 
         /// <summary>
+        /// Represents an identifier object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/custom-ident
+        /// </summary>
+        public static readonly IValueConverter CustomIdentConverter = new IdentifierValueConverter(IdentParser.ParseCustomIdent);
+
+        /// <summary>
         /// Represents an identifier object that matches the production rules of a single transition property.
         /// http://dev.w3.org/csswg/css-transitions/#single-transition-property
         /// </summary>
@@ -227,6 +233,12 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter PointYConverter = FromParser(PointParser.ParsePointY);
 
+        /// <summary>
+        /// Represents an symbols object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/symbols
+        /// </summary>
+        public static readonly IValueConverter SymbolsConverter = FromParser(SymbolsParser.ParseSymbols);
+
         #endregion
 
         #region Functions
@@ -315,7 +327,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the ListStyle enumeration.
         /// </summary>
-        public static readonly IValueConverter ListStyleConverter = Map.ListStyles.ToConverter();
+        public static readonly IValueConverter ListStyleConverter = Or(Map.ListStyles.ToConverter(), StringConverter, SymbolsConverter, CustomIdentConverter);
+
+        /// <summary>
+        /// Represents a converter for the SymbolsType enumeration.
+        /// </summary>
+        public static readonly IValueConverter SymbolsTypeConverter = Map.SymbolsTypes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the BreakMode enumeration.

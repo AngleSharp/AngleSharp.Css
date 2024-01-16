@@ -15,7 +15,7 @@ namespace AngleSharp.Css
         /// <returns>The created media feature validator.</returns>
         public delegate IFeatureValidator Creator();
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { FeatureNames.MinWidth, () => new WidthFeatureValidator() },
             { FeatureNames.MaxWidth, () => new WidthFeatureValidator() },

@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Dom
     {
         #region Fields
 
-        private static readonly HashSet<String> ContainedProperties = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<String> ContainedProperties = new(StringComparer.OrdinalIgnoreCase)
         {
             PropertyNames.FontFamily,
             PropertyNames.Src,

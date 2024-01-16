@@ -14,7 +14,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-Whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, Whitespace> Whitespaces = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Whitespace> Whitespaces = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, Whitespace.Normal },
             { CssKeywords.Pre, Whitespace.Pre },
@@ -26,7 +26,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-Angle mapping for linear-gradients.s
         /// </summary>
-        public static readonly Dictionary<String, Angle> GradientAngles = new Dictionary<String, Angle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Angle> GradientAngles = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Left, new Angle(270.0, Angle.Unit.Deg) },
             { CssKeywords.Top, new Angle(0.0, Angle.Unit.Deg) },
@@ -41,7 +41,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-TextTransform mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, TextTransform> TextTransforms = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, TextTransform.None },
             { CssKeywords.Capitalize, TextTransform.Capitalize },
@@ -53,7 +53,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-TextAlignLast mapping.
 		/// </summary>
-		public static readonly Dictionary<String, TextAlignLast> TextAlignLasts = new Dictionary<String, TextAlignLast>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, TextAlignLast> TextAlignLasts = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Auto, TextAlignLast.Auto },
 			{ CssKeywords.Start, TextAlignLast.Start },
@@ -67,7 +67,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-TextAnchor mapping.
 		/// </summary>
-		public static readonly Dictionary<String, TextAnchor> TextAnchors = new Dictionary<String, TextAnchor>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, TextAnchor> TextAnchors = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Start, TextAnchor.Start },
 			{ CssKeywords.Middle, TextAnchor.Middle },
@@ -77,7 +77,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-TextJustify mapping.
 		/// </summary>
-		public static readonly Dictionary<String, TextJustify> TextJustifies = new Dictionary<String, TextJustify>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, TextJustify> TextJustifies = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Auto, TextJustify.Auto },
 			{ CssKeywords.Distribute, TextJustify.Distribute },
@@ -93,7 +93,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-HorizontalAlignment mapping.
 		/// </summary>
-		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Left, HorizontalAlignment.Left },
             { CssKeywords.Right, HorizontalAlignment.Right },
@@ -104,7 +104,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-VerticalAlignment mapping.
         /// </summary>
-        public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Baseline, VerticalAlignment.Baseline },
             { CssKeywords.Sub, VerticalAlignment.Sub },
@@ -119,7 +119,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-LineStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, LineStyle> LineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, LineStyle> LineStyles = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, LineStyle.None },
             { CssKeywords.Solid, LineStyle.Solid },
@@ -136,7 +136,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BoxModel mapping.
         /// </summary>
-        public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BoxModel> BoxModels = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.BorderBox, BoxModel.BorderBox },
             { CssKeywords.PaddingBox, BoxModel.PaddingBox },
@@ -146,7 +146,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-TimingFunction mapping.
         /// </summary>
-        public static readonly Dictionary<String, ICssTimingFunctionValue> TimingFunctions = new Dictionary<String, ICssTimingFunctionValue>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ICssTimingFunctionValue> TimingFunctions = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Ease, new CssCubicBezierValue(0.25, 0.1, 0.25, 1.0) },
             { CssKeywords.EaseIn, new CssCubicBezierValue(0.42, 0.0, 1.0, 1.0) },
@@ -160,7 +160,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-AnimationFillStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, AnimationFillStyle> AnimationFillStyles = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, AnimationFillStyle> AnimationFillStyles = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, AnimationFillStyle.None },
             { CssKeywords.Forwards, AnimationFillStyle.Forwards },
@@ -171,7 +171,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-AnimationDirection mapping.
         /// </summary>
-        public static readonly Dictionary<String, AnimationDirection> AnimationDirections = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, AnimationDirection> AnimationDirections = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, AnimationDirection.Normal },
             { CssKeywords.Reverse, AnimationDirection.Reverse },
@@ -182,7 +182,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-Visibility mapping.
         /// </summary>
-        public static readonly Dictionary<String, Visibility> Visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Visibility> Visibilities = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Visible, Visibility.Visible },
             { CssKeywords.Hidden, Visibility.Hidden },
@@ -192,7 +192,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-PlayState mapping.
         /// </summary>
-        public static readonly Dictionary<String, PlayState> PlayStates = new Dictionary<String, PlayState>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, PlayState> PlayStates = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Running, PlayState.Running },
             { CssKeywords.Paused, PlayState.Paused },
@@ -201,7 +201,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FontVariant mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontVariant> FontVariants = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FontVariant> FontVariants = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, FontVariant.Normal },
             { CssKeywords.SmallCaps, FontVariant.SmallCaps },
@@ -210,38 +210,90 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-DirectionMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, DirectionMode> DirectionModes = new Dictionary<String, DirectionMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, DirectionMode> DirectionModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Ltr, DirectionMode.Ltr },
             { CssKeywords.Rtl, DirectionMode.Rtl },
         };
 
         /// <summary>
+        /// Contains the string-SymbolsType mapping.
+        /// </summary>
+        public static readonly Dictionary<String, SymbolsType> SymbolsTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Cyclic, SymbolsType.Cyclic },
+            { CssKeywords.Numeric, SymbolsType.Numeric },
+            { CssKeywords.Alphabetic, SymbolsType.Alphabetic },
+            { CssKeywords.Symbolic, SymbolsType.Symbolic },
+            { CssKeywords.Fixed, SymbolsType.Fixed },
+        };
+
+        /// <summary>
         /// Contains the string-ListStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, ListStyle> ListStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ListStyle> ListStyles = new(StringComparer.OrdinalIgnoreCase)
         {
+            { CssKeywords.None, ListStyle.None },
             { CssKeywords.Disc, ListStyle.Disc },
             { CssKeywords.Circle, ListStyle.Circle },
             { CssKeywords.Square, ListStyle.Square },
             { CssKeywords.Decimal, ListStyle.Decimal },
+            { CssKeywords.CjkDecimal, ListStyle.CjkDecimal },
             { CssKeywords.DecimalLeadingZero, ListStyle.DecimalLeadingZero },
             { CssKeywords.LowerRoman, ListStyle.LowerRoman },
             { CssKeywords.UpperRoman, ListStyle.UpperRoman },
             { CssKeywords.LowerGreek, ListStyle.LowerGreek },
             { CssKeywords.LowerLatin, ListStyle.LowerLatin },
-            { CssKeywords.UpperLatin, ListStyle.UpperLatin },
-            { CssKeywords.Armenian, ListStyle.Armenian },
-            { CssKeywords.Georgian, ListStyle.Georgian },
             { CssKeywords.LowerAlpha, ListStyle.LowerLatin },
+            { CssKeywords.UpperLatin, ListStyle.UpperLatin },
             { CssKeywords.UpperAlpha, ListStyle.UpperLatin },
-            { CssKeywords.None, ListStyle.None },
+            { CssKeywords.ArabicIndic, ListStyle.ArabicIndic },
+            { CssKeywords.Armenian, ListStyle.Armenian },
+            { CssKeywords.Bengali, ListStyle.Bengali },
+            { CssKeywords.Cambodian, ListStyle.Cambodian },
+            { CssKeywords.CjkEarthlyBranch, ListStyle.CjkEarthlyBranch },
+            { CssKeywords.CjkHeavenlyStem, ListStyle.CjkHeavenlyStem },
+            { CssKeywords.CjkIdeographic, ListStyle.TradChineseInformal },
+            { CssKeywords.Devanagari, ListStyle.Devanagari },
+            { CssKeywords.EthiopicNumeric, ListStyle.EthiopicNumeric },
+            { CssKeywords.Georgian, ListStyle.Georgian },
+            { CssKeywords.Gurmukhi, ListStyle.Gurmukhi },
+            { CssKeywords.Hebrew, ListStyle.Hebrew },
+            { CssKeywords.Gujarati, ListStyle.Gujarati },
+            { CssKeywords.Hiragana, ListStyle.Hiragana },
+            { CssKeywords.HiraganaIroha, ListStyle.IrohaHiragana },
+            { CssKeywords.JapaneseFormal, ListStyle.JapaneseFormal },
+            { CssKeywords.JapaneseInformal, ListStyle.JapaneseInformal },
+            { CssKeywords.Kannada, ListStyle.Kannada },
+            { CssKeywords.KatakanaIroha, ListStyle.KatakanaIroha },
+            { CssKeywords.Katakana, ListStyle.Katakana },
+            { CssKeywords.KoreanHangulFormal, ListStyle.KoreanHangulFormal },
+            { CssKeywords.KoreanHanjaFormal, ListStyle.KoreanHanjaFormal },
+            { CssKeywords.KoreanHanjaInformal, ListStyle.KoreanHanjaInformal },
+            { CssKeywords.Lao, ListStyle.Lao },
+            { CssKeywords.UpperArmenian, ListStyle.UpperArmenian },
+            { CssKeywords.LowerArmenian, ListStyle.LowerArmenian },
+            { CssKeywords.Malayalam, ListStyle.Malayalam },
+            { CssKeywords.Mongolian, ListStyle.Mongolian },
+            { CssKeywords.Myanmar, ListStyle.Myanmar },
+            { CssKeywords.Oriya, ListStyle.Oriya },
+            { CssKeywords.Persian, ListStyle.Persian },
+            { CssKeywords.SimpChineseFormal, ListStyle.SimpChineseFormal },
+            { CssKeywords.SimpChineseInformal, ListStyle.SimpChineseInformal },
+            { CssKeywords.Tamil, ListStyle.Tamil },
+            { CssKeywords.Telugu, ListStyle.Telugu },
+            { CssKeywords.Thai, ListStyle.Thai },
+            { CssKeywords.Tibetan, ListStyle.Tibetan },
+            { CssKeywords.TradChineseFormal, ListStyle.TradChineseFormal },
+            { CssKeywords.TradChineseInformal, ListStyle.TradChineseInformal },
+            { CssKeywords.DisclosureClosed, ListStyle.DisclosureClosed },
+            { CssKeywords.DisclosureOpen, ListStyle.DisclosureOpen },
         };
 
         /// <summary>
         /// Contains the string-ListPosition mapping.
         /// </summary>
-        public static readonly Dictionary<String, ListPosition> ListPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ListPosition> ListPositions = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Inside, ListPosition.Inside },
             { CssKeywords.Outside, ListPosition.Outside },
@@ -250,7 +302,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-length mapping.
         /// </summary>
-        public static readonly Dictionary<String, Length> FontSizes = new Dictionary<String, Length>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Length> FontSizes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.XxSmall, new Length(0.6, Length.Unit.Em) },
             { CssKeywords.XSmall, new Length(0.75, Length.Unit.Em) },
@@ -267,7 +319,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-TextDecorationStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextDecorationStyle> TextDecorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, TextDecorationStyle> TextDecorationStyles = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Solid, TextDecorationStyle.Solid },
             { CssKeywords.Double, TextDecorationStyle.Double },
@@ -279,7 +331,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-TextDecorationLine mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextDecorationLine> TextDecorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, TextDecorationLine> TextDecorationLines = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Underline, TextDecorationLine.Underline },
             { CssKeywords.Overline, TextDecorationLine.Overline },
@@ -290,7 +342,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BorderRepeat mapping.
         /// </summary>
-        public static readonly Dictionary<String, BorderRepeat> BorderRepeats = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BorderRepeat> BorderRepeats = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Stretch, BorderRepeat.Stretch },
             { CssKeywords.Repeat, BorderRepeat.Repeat },
@@ -300,7 +352,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-border width mapping.
         /// </summary>
-        public static readonly Dictionary<String, Length> BorderWidths = new Dictionary<String, Length>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Length> BorderWidths = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Thin, Length.Thin },
             { CssKeywords.Medium, Length.Medium },
@@ -310,7 +362,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-font family mapping.
         /// </summary>
-        public static readonly Dictionary<String, String> FontFamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, String> FontFamilies = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Serif, "Times New Roman" },
             { CssKeywords.SansSerif, "Arial" },
@@ -322,7 +374,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BackgroundAttachment mapping.
         /// </summary>
-        public static readonly Dictionary<String, BackgroundAttachment> BackgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BackgroundAttachment> BackgroundAttachments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Fixed, BackgroundAttachment.Fixed },
             { CssKeywords.Local, BackgroundAttachment.Local },
@@ -332,7 +384,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FontStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontStyle> FontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FontStyle> FontStyles = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, FontStyle.Normal },
             { CssKeywords.Italic, FontStyle.Italic },
@@ -342,7 +394,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FontStretch mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontStretch> FontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FontStretch> FontStretches = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, FontStretch.Normal },
             { CssKeywords.UltraCondensed, FontStretch.UltraCondensed },
@@ -358,7 +410,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BreakMode (general) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> BreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BreakMode> BreakModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, BreakMode.Auto },
             { CssKeywords.Always, BreakMode.Always },
@@ -374,7 +426,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BreakMode (page) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> PageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BreakMode> PageBreakModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, BreakMode.Auto },
             { CssKeywords.Always, BreakMode.Always },
@@ -386,7 +438,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BreakMode (inside) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> BreakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BreakMode> BreakInsideModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, BreakMode.Auto },
             { CssKeywords.Avoid, BreakMode.Avoid },
@@ -398,7 +450,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BreakMode (page/inside) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> PageBreakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BreakMode> PageBreakInsideModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, BreakMode.Auto },
             { CssKeywords.Avoid, BreakMode.Avoid },
@@ -407,7 +459,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-horizontal modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Double> HorizontalModes = new Dictionary<String, Double>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Double> HorizontalModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Left, 0.0 },
             { CssKeywords.Center, 0.5 },
@@ -417,7 +469,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-vertical modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Double> VerticalModes = new Dictionary<String, Double>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Double> VerticalModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Top, 0.0 },
             { CssKeywords.Center, 0.5 },
@@ -427,7 +479,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-UnicodeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, UnicodeMode.Normal },
             { CssKeywords.Embed, UnicodeMode.Embed },
@@ -440,7 +492,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, SystemCursor> SystemCursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, SystemCursor> SystemCursors = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, SystemCursor.Auto },
             { CssKeywords.Default, SystemCursor.Default },
@@ -483,7 +535,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-PositionMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, PositionMode> PositionModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Static, PositionMode.Static },
             { CssKeywords.Relative, PositionMode.Relative },
@@ -495,7 +547,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-OverflowMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, OverflowMode> OverflowModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, OverflowMode> OverflowModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Visible, OverflowMode.Visible },
             { CssKeywords.Hidden, OverflowMode.Hidden },
@@ -506,7 +558,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the extended string-OverflowMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, OverflowMode> OverflowExtendedModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, OverflowMode> OverflowExtendedModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Visible, OverflowMode.Visible },
             { CssKeywords.Hidden, OverflowMode.Hidden },
@@ -518,7 +570,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-Floating mapping.
         /// </summary>
-        public static readonly Dictionary<String, Floating> Floatings = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Floating> Floatings = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, Floating.None },
             { CssKeywords.Left, Floating.Left },
@@ -529,7 +581,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-DisplayMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, DisplayMode> DisplayModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, DisplayMode.None },
             { CssKeywords.Inline, DisplayMode.Inline },
@@ -555,7 +607,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-ClearMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ClearMode> ClearModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, ClearMode.None },
             { CssKeywords.Left, ClearMode.Left },
@@ -566,7 +618,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BackgroundRepeat mapping.
         /// </summary>
-        public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat },
             { CssKeywords.Repeat, BackgroundRepeat.Repeat },
@@ -577,7 +629,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BlendMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, BlendMode> BlendModes = new Dictionary<String, BlendMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BlendMode> BlendModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Color, BlendMode.Color },
             { CssKeywords.ColorBurn, BlendMode.ColorBurn },
@@ -600,7 +652,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-UpdateFrequency mapping.
         /// </summary>
-        public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new Dictionary<String, UpdateFrequency>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, UpdateFrequency.None },
             { CssKeywords.Slow, UpdateFrequency.Slow },
@@ -610,7 +662,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-ScriptingState mapping.
         /// </summary>
-        public static readonly Dictionary<String, ScriptingState> ScriptingStates = new Dictionary<String, ScriptingState>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ScriptingState> ScriptingStates = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, ScriptingState.None },
             { CssKeywords.InitialOnly, ScriptingState.InitialOnly },
@@ -620,7 +672,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-PointerAccuracy mapping.
         /// </summary>
-        public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new Dictionary<String, PointerAccuracy>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, PointerAccuracy.None },
             { CssKeywords.Coarse, PointerAccuracy.Coarse },
@@ -630,7 +682,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-HoverAbility mapping.
         /// </summary>
-        public static readonly Dictionary<String, HoverAbility> HoverAbilities = new Dictionary<String, HoverAbility>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, HoverAbility> HoverAbilities = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, HoverAbility.None },
             { CssKeywords.OnDemand, HoverAbility.OnDemand },
@@ -640,7 +692,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-SizeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, CssRadialGradientValue.SizeMode> RadialGradientSizeModes = new Dictionary<String, CssRadialGradientValue.SizeMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, CssRadialGradientValue.SizeMode> RadialGradientSizeModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.ClosestSide, CssRadialGradientValue.SizeMode.ClosestSide },
             { CssKeywords.FarthestSide, CssRadialGradientValue.SizeMode.FarthestSide },
@@ -651,7 +703,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-ObjectFitting mapping.
         /// </summary>
-        public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new Dictionary<String, ObjectFitting>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, ObjectFitting.None },
             { CssKeywords.Cover, ObjectFitting.Cover },
@@ -663,7 +715,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FontWeight mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FontWeight> FontWeights = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Normal, FontWeight.Normal },
             { CssKeywords.Bold, FontWeight.Bold },
@@ -674,7 +726,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-SystemFont mapping.
         /// </summary>
-        public static readonly Dictionary<String, SystemFont> SystemFonts = new Dictionary<String, SystemFont>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, SystemFont> SystemFonts = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Caption, SystemFont.Caption },
             { CssKeywords.Icon, SystemFont.Icon },
@@ -687,7 +739,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-StrokeLinecap mapping.
 		/// </summary>
-		public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new Dictionary<String, StrokeLinecap>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Butt, StrokeLinecap.Butt },
 			{ CssKeywords.Round, StrokeLinecap.Round },
@@ -697,7 +749,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-StrokeLinejoin mapping.
 		/// </summary>
-		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new Dictionary<String, StrokeLinejoin>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Miter, StrokeLinejoin.Miter },
 			{ CssKeywords.Round, StrokeLinejoin.Round },
@@ -707,7 +759,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-WordBreak mapping.
 		/// </summary>
-		public static readonly Dictionary<String, WordBreak> WordBreaks = new Dictionary<String, WordBreak>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, WordBreak> WordBreaks = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Normal, WordBreak.Normal },
 			{ CssKeywords.BreakAll, WordBreak.BreakAll },
@@ -717,7 +769,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-WordBreak mapping.
 		/// </summary>
-		public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new Dictionary<String, OverflowWrap>(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new(StringComparer.OrdinalIgnoreCase)
 		{
 			{ CssKeywords.Normal, OverflowWrap.Normal },
 			{ CssKeywords.BreakWord, OverflowWrap.BreakWord },
@@ -726,7 +778,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-ResizeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, ResizeMode> ResizeModes = new Dictionary<String, ResizeMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ResizeMode> ResizeModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, ResizeMode.None },
             { CssKeywords.Both, ResizeMode.Both },
@@ -739,7 +791,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-RubyAlignment mapping.
         /// </summary>
-        public static readonly Dictionary<String, RubyAlignment> RubyAlignments = new Dictionary<String, RubyAlignment>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, RubyAlignment> RubyAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Center, RubyAlignment.Center },
             { CssKeywords.Start, RubyAlignment.Start },
@@ -750,7 +802,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-RubyPosition mapping.
         /// </summary>
-        public static readonly Dictionary<String, RubyPosition> RubyPositions = new Dictionary<String, RubyPosition>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, RubyPosition> RubyPositions = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.InterCharacter, RubyPosition.InterCharacter },
             { CssKeywords.Over, RubyPosition.Over },
@@ -760,7 +812,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-RubyOverhangMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, RubyOverhangMode> RubyOverhangModes = new Dictionary<String, RubyOverhangMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, RubyOverhangMode> RubyOverhangModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, RubyOverhangMode.Auto },
             { CssKeywords.End, RubyOverhangMode.End },
@@ -771,7 +823,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-PointerEvent mapping.
         /// </summary>
-        public static readonly Dictionary<String, PointerEvent> PointerEvents = new Dictionary<String, PointerEvent>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, PointerEvent> PointerEvents = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, PointerEvent.None },
             { CssKeywords.Auto, PointerEvent.Auto },
@@ -788,7 +840,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexDirection mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexDirection> FlexDirections = new Dictionary<String, FlexDirection>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexDirection> FlexDirections = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Column, FlexDirection.Column },
             { CssKeywords.ColumnReverse, FlexDirection.ColumnReverse },
@@ -799,7 +851,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexWrapMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexWrapMode> FlexWrapModes = new Dictionary<String, FlexWrapMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexWrapMode> FlexWrapModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Nowrap, FlexWrapMode.NoWrap },
             { CssKeywords.Wrap, FlexWrapMode.Wrap },
@@ -809,7 +861,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexContentMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexContentMode> JustifyContentModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexContentMode> JustifyContentModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.FlexStart, FlexContentMode.Start },
             { CssKeywords.FlexEnd, FlexContentMode.End },
@@ -821,7 +873,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexContentMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexContentMode> AlignContentModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexContentMode> AlignContentModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.FlexStart, FlexContentMode.Start },
             { CssKeywords.FlexEnd, FlexContentMode.End },
@@ -834,7 +886,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexContentMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexContentMode> AlignItemsModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexContentMode> AlignItemsModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.FlexStart, FlexContentMode.Start },
             { CssKeywords.FlexEnd, FlexContentMode.End },
@@ -846,7 +898,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FlexContentMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, FlexContentMode> AlignSelfModes = new Dictionary<String, FlexContentMode>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FlexContentMode> AlignSelfModes = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, FlexContentMode.Auto },
             { CssKeywords.FlexStart, FlexContentMode.Start },
@@ -859,7 +911,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-BookmarkState mapping.
         /// </summary>
-        public static readonly Dictionary<String, BookmarkState> BookmarkStates = new Dictionary<String, BookmarkState>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, BookmarkState> BookmarkStates = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Open, BookmarkState.Open },
             { CssKeywords.Closed, BookmarkState.Closed },
@@ -868,7 +920,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FootnotePolicy mapping.
         /// </summary>
-        public static readonly Dictionary<String, FootnotePolicy> FootnotePolicies = new Dictionary<String, FootnotePolicy>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FootnotePolicy> FootnotePolicies = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Auto, FootnotePolicy.Auto },
             { CssKeywords.Block, FootnotePolicy.Block },
@@ -878,7 +930,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-FootnoteDisplay mapping.
         /// </summary>
-        public static readonly Dictionary<String, FootnoteDisplay> FootnoteDisplays = new Dictionary<String, FootnoteDisplay>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, FootnoteDisplay> FootnoteDisplays = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Block, FootnoteDisplay.Block },
             { CssKeywords.Compact, FootnoteDisplay.Compact },
@@ -888,7 +940,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-length mapping.
         /// </summary>
-        public static readonly Dictionary<String, Sizing> Sizings = new Dictionary<String, Sizing>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Sizing> Sizings = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.FitContent, Sizing.FitContent },
             { CssKeywords.MinContent, Sizing.MinContent},
@@ -898,7 +950,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-ContentVisibility mapping.
         /// </summary>
-        public static readonly Dictionary<String, Visibility> ContentVisibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, Visibility> ContentVisibilities = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Visible, Visibility.Visible },
             { CssKeywords.Hidden, Visibility.Hidden },
@@ -908,7 +960,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the scroll-snap-axis mapping.
         /// </summary>
-        public static readonly Dictionary<String, ScrollSnapAxis> ScrollSnapAxises = new Dictionary<String, ScrollSnapAxis>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ScrollSnapAxis> ScrollSnapAxises = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.X, ScrollSnapAxis.X },
             { CssKeywords.Y, ScrollSnapAxis.Y },
@@ -920,7 +972,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the scroll-snap-strictness mapping.
         /// </summary>
-        public static readonly Dictionary<String, ScrollSnapStrictness> ScrollSnapStrictnesses = new Dictionary<String, ScrollSnapStrictness>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ScrollSnapStrictness> ScrollSnapStrictnesses = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Proximity, ScrollSnapStrictness.Proximity},
             { CssKeywords.Mandatory, ScrollSnapStrictness.Mandatory },
@@ -929,7 +981,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the scroll-snap-align mapping.
         /// </summary>
-        public static readonly Dictionary<String, ScrollSnapAlign> ScrollSnapAlignments = new Dictionary<String, ScrollSnapAlign>(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, ScrollSnapAlign> ScrollSnapAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.None, ScrollSnapAlign.None },
             { CssKeywords.Start, ScrollSnapAlign.Start},

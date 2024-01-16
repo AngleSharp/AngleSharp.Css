@@ -13,47 +13,47 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the (50%, 50%) point.
         /// </summary>
-        public static readonly Point Center = new Point(Length.Half, Length.Half);
+        public static readonly Point Center = new(Length.Half, Length.Half);
 
         /// <summary>
         /// Gets the (0, 0) point.
         /// </summary>
-        public static readonly Point LeftTop = new Point(Length.Zero, Length.Zero);
+        public static readonly Point LeftTop = new(Length.Zero, Length.Zero);
 
         /// <summary>
         /// Gets the (100%, 0) point.
         /// </summary>
-        public static readonly Point RightTop = new Point(Length.Full, Length.Zero);
+        public static readonly Point RightTop = new(Length.Full, Length.Zero);
 
         /// <summary>
         /// Gets the (100%, 100%) point.
         /// </summary>
-        public static readonly Point RightBottom = new Point(Length.Full, Length.Full);
+        public static readonly Point RightBottom = new(Length.Full, Length.Full);
 
         /// <summary>
         /// Gets the (0, 100%) point.
         /// </summary>
-        public static readonly Point LeftBottom = new Point(Length.Zero, Length.Full);
+        public static readonly Point LeftBottom = new(Length.Zero, Length.Full);
 
         /// <summary>
         /// Gets the (0, 50%) point.
         /// </summary>
-        public static readonly Point Left = new Point(Length.Zero, Length.Half);
+        public static readonly Point Left = new(Length.Zero, Length.Half);
 
         /// <summary>
         /// Gets the (100%, 50%) point.
         /// </summary>
-        public static readonly Point Right = new Point(Length.Full, Length.Half);
+        public static readonly Point Right = new(Length.Full, Length.Half);
 
         /// <summary>
         /// Gets the (50%, 100%) point.
         /// </summary>
-        public static readonly Point Bottom = new Point(Length.Half, Length.Full);
+        public static readonly Point Bottom = new(Length.Half, Length.Full);
 
         /// <summary>
         /// Gets the (50%, 0) point.
         /// </summary>
-        public static readonly Point Top = new Point(Length.Half, Length.Zero);
+        public static readonly Point Top = new(Length.Half, Length.Zero);
 
         #endregion
 

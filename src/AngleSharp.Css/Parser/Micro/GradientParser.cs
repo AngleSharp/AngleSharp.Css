@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Parser
     /// </summary>
     public static class GradientParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new Dictionary<string, Func<StringSource, ICssGradientFunctionValue>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<StringSource, ICssGradientFunctionValue>> GradientFunctions = new(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.LinearGradient, ParseLinearGradient },
             { FunctionNames.RepeatingLinearGradient, ParseRepeatingLinearGradient },
