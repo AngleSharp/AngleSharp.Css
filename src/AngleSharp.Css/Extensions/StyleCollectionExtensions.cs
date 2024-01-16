@@ -109,8 +109,26 @@ namespace AngleSharp.Css
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
-            rules.Where(m => m.Selector?.Match(element) ?? false).OrderBy(m => m.Selector.Specificity);
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
+        {
+            Tuple<ICssStyleRule, Priority> MapPriority(ICssStyleRule rule)
+            {
+                if (rule.TryMatch(element, null, out var specificity))
+                {
+                    return Tuple.Create(rule, specificity);
+                }
+
+                return null;
+            }
+
+            return rules.Select(MapPriority).Where(IsNotNull).OrderBy(GetPriority).Select(GetRule);
+        }
+
+        private static Boolean IsNotNull(Tuple<ICssStyleRule, Priority> item) => item is not null;
+
+        private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
+
+        private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
 
         #endregion
     }

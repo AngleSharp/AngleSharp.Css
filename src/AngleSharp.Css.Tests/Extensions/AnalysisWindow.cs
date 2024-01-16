@@ -2,7 +2,9 @@ namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using static CssConstructionFunctions;
@@ -284,10 +286,19 @@ em { font-style: italic !important; }
         {
             var sheet = ParseStyleSheet("a {}");
             var document = await sheet.Context.OpenAsync(res => res.Content("<body></body>"));
-            sheet.Add(new CssStyleRule(sheet));
             var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
             var decl = sc.ComputeCascadedStyle(document.Body);
             Assert.IsNotNull(decl);
+        }
+
+        [Test]
+        public async Task PriorityInMultiSelectorIsEvaluatedPerMatch()
+        {
+            var sheet = ParseStyleSheet(@"#target {color: blue} h3, #nottarget { color: purple; } ");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<h3 id='target'>Test</h3>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeCascadedStyle(document.QuerySelector("h3"));
+            Assert.AreEqual("rgba(0, 0, 255, 1)", style.GetColor());
         }
     }
 }

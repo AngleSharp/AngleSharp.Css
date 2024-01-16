@@ -3,19 +3,22 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
     [DebuggerDisplay(null, Name = "CssStyleRule ({SelectorText})")]
-    sealed class CssStyleRule : CssRule, ICssStyleRule
+    sealed class CssStyleRule : CssRule, ICssStyleRule, ISelectorVisitor
     {
         #region Fields
 
         private readonly CssStyleDeclaration _style;
         private ISelector _selector;
+        private IEnumerable<ISelector> _selectorList;
 
         #endregion
 
@@ -25,18 +28,23 @@ namespace AngleSharp.Css.Dom
             : base(owner, CssRuleType.Style)
         {
             _style = new CssStyleDeclaration(this);
+            _selectorList = null;
         }
 
         #endregion
 
         #region Properties
 
-        public ISelector Selector => _selector;
+        public ISelector Selector
+        {
+            get => _selector;
+            private set => ChangeSelector(value);
+        }
 
         public String SelectorText
         {
             get => _selector?.Text;
-            set => _selector = ParseSelector(value);
+            set => ChangeSelector(ParseSelector(value));
         }
 
         ICssStyleDeclaration ICssStyleRule.Style => _style;
@@ -55,8 +63,32 @@ namespace AngleSharp.Css.Dom
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (ICssStyleRule)rule;
-            _selector = newRule.Selector;
+            ChangeSelector(newRule.Selector);
             _style.SetDeclarations(newRule.Style);
+        }
+
+        public Boolean TryMatch(IElement element, IElement? scope, out Priority specificity)
+        {
+            if (_selectorList is not null)
+            {
+                foreach (var selector in _selectorList.OrderByDescending(m => m.Specificity))
+                {
+                    if (selector.Match(element, scope))
+                    {
+                        specificity = selector.Specificity;
+                        return true;
+                    }
+                }
+            }
+
+            if (_selector is not null && _selector.Match(element, scope))
+            {
+                specificity = _selector.Specificity;
+                return true;
+            }
+
+            specificity = default;
+            return false;
         }
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
@@ -69,7 +101,55 @@ namespace AngleSharp.Css.Dom
 
         #region Selector
 
-        class InvalidSelector : ISelector
+        private void ChangeSelector(ISelector value)
+        {
+            _selectorList = null;
+            _selector = value;
+            value?.Accept(this);
+        }
+
+        void ISelectorVisitor.Attribute(string name, string op, string value)
+        {
+        }
+
+        void ISelectorVisitor.Type(string name)
+        {
+        }
+
+        void ISelectorVisitor.Id(string value)
+        {
+        }
+
+        void ISelectorVisitor.Child(string name, int step, int offset, ISelector selector)
+        {
+        }
+
+        void ISelectorVisitor.Class(string name)
+        {
+        }
+
+        void ISelectorVisitor.PseudoClass(string name)
+        {
+        }
+
+        void ISelectorVisitor.PseudoElement(string name)
+        {
+        }
+
+        void ISelectorVisitor.List(IEnumerable<ISelector> selectors)
+        {
+            _selectorList = selectors;
+        }
+
+        void ISelectorVisitor.Combinator(IEnumerable<ISelector> selectors, IEnumerable<string> symbols)
+        {
+        }
+
+        void ISelectorVisitor.Many(IEnumerable<ISelector> selectors)
+        {
+        }
+
+        sealed class InvalidSelector : ISelector
         {
             private readonly String _text;
 

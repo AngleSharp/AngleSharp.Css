@@ -2,7 +2,7 @@
 
 Released on tbd.
 
-- Updated to use AngleSharp 1.0
+- Updated to use AngleSharp 1.0 (#150)
 - Updated media parsing to media L4 spec (#133)
 - Fixed issue when updating shorthands with invalid values (#129)
 - Fixed issue with appended EOF character in `CssText` (#123)
@@ -11,6 +11,7 @@ Released on tbd.
 - Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
 - Fixed inclusion of CSS from stylesheets (#116, #140)
 - Fixed style empty if `text-align` is `start` (#151)
+- Fixed computation of priority in CSS rules using multi selector
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for 8-digit hex color codes (#132)
 - Added more CSSOM possibilities and helpers (#6)

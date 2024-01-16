@@ -491,7 +491,7 @@ namespace AngleSharp.Css.Parser
                 token = NextToken();
                 CollectTrivia(ref token);
 
-                if (rule != null)
+                if (rule is not null)
                 {
                     sheet.Add(rule);
                 }
