@@ -10,6 +10,7 @@ Released on tbd.
 - Fixed integer serialization of keyframe stops (#128)
 - Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
 - Fixed inclusion of CSS from stylesheets (#116, #140)
+- Fixed style empty if `text-align` is `start` (#151)
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for 8-digit hex color codes (#132)
 - Added more CSSOM possibilities and helpers (#6)

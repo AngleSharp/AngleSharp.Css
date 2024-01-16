@@ -93,12 +93,16 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Contains the string-HorizontalAlignment mapping.
 		/// </summary>
-		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new(StringComparer.OrdinalIgnoreCase)
+		public static readonly Dictionary<String, TextAlign> HorizontalAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Left, HorizontalAlignment.Left },
-            { CssKeywords.Right, HorizontalAlignment.Right },
-            { CssKeywords.Center, HorizontalAlignment.Center },
-            { CssKeywords.Justify, HorizontalAlignment.Justify },
+            { CssKeywords.Left, TextAlign.Left },
+            { CssKeywords.Right, TextAlign.Right },
+            { CssKeywords.Center, TextAlign.Center },
+            { CssKeywords.Justify, TextAlign.Justify },
+            { CssKeywords.Start, TextAlign.Start },
+            { CssKeywords.End, TextAlign.End },
+            { CssKeywords.JustifyAll, TextAlign.JustifyAll },
+            { CssKeywords.MatchParent, TextAlign.MatchParent },
         };
 
         /// <summary>

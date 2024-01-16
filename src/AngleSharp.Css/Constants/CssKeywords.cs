@@ -703,6 +703,11 @@ namespace AngleSharp.Css
         public static readonly String Justify = "justify";
 
         /// <summary>
+        /// The justify-all keyword.
+        /// </summary>
+        public static readonly String JustifyAll = "justify-all";
+
+        /// <summary>
         /// The underline keyword.
         /// </summary>
         public static readonly String Underline = "underline";
@@ -1421,6 +1426,11 @@ namespace AngleSharp.Css
         /// The separate keyword.
         /// </summary>
         public static readonly String Separate = "separate";
+
+        /// <summary>
+        /// The match-parent keyword.
+        /// </summary>
+        public static readonly String MatchParent = "match-parent";
 
         /// <summary>
         /// The start keyword.
