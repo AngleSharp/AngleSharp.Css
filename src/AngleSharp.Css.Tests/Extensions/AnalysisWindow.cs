@@ -298,5 +298,15 @@ em { font-style: italic !important; }
             var style = sc.ComputeCascadedStyle(document.QuerySelector("h3"));
             Assert.AreEqual("rgba(0, 0, 255, 1)", style.GetColor());
         }
+
+        [Test]
+        public async Task ComputesAbsoluteValuesFromRelative_Issue136()
+        {
+            var sheet = ParseStyleSheet(@"p { font-size: 1.5em }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is <span>only</span> a test.</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("span"));
+            Assert.AreEqual("24px", style.GetFontSize());
+        }
     }
 }

@@ -13,6 +13,7 @@ Released on tbd.
 - Fixed style empty if `text-align` is `start` (#151)
 - Fixed computation of priority in CSS rules using multi selector
 - Fixed `GetInnerText` multi-line / text node behavior (#155) @Seyden
+- Fixed computation of relative (`em`) values to absolute (`px`) for `Length` (#136)
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for CSS nesting in style rules (#148)
 - Added support for 8-digit hex color codes (#132)

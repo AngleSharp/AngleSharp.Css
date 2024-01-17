@@ -36,14 +36,14 @@ namespace AngleSharp.Css
         /// Computes the declarations for the given element in the context of
         /// the specified styling rules.
         /// </summary>
-        /// <param name="rules">The styles to use.</param>
+        /// <param name="styles">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this IEnumerable<ICssStyleRule> rules, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
-            var device = ctx?.GetService<IRenderDevice>();
+            var device = styles.Device;
             var computedStyle = new CssStyleDeclaration(ctx);
             var nodes = element.GetAncestors().OfType<IElement>();
 
@@ -57,11 +57,11 @@ namespace AngleSharp.Css
                 }
             }
 
-            computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element));
+            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element));
 
             foreach (var node in nodes)
             {
-                computedStyle.UpdateDeclarations(rules.ComputeCascadedStyle(node));
+                computedStyle.UpdateDeclarations(styles.ComputeCascadedStyle(node));
             }
 
             if (device is not null)
@@ -77,14 +77,14 @@ namespace AngleSharp.Css
         /// Two rules with the same specificity are ordered according to their appearance. The more
         /// recent declaration wins. Inheritance is not taken into account.
         /// </summary>
-        /// <param name="styleCollection">The style rules to apply.</param>
+        /// <param name="rules">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IEnumerable<ICssStyleRule> styleCollection, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent = null)
         {
             var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
-            var rules = styleCollection.SortBySpecificity(element);
+            var rules = styles.SortBySpecificity(element);
 
             foreach (var rule in rules)
             {

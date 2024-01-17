@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS unset value.
     /// </summary>
-    struct CssUnsetValue : ICssSpecialValue
+    readonly struct CssUnsetValue : ICssSpecialValue
     {
         #region Fields
 

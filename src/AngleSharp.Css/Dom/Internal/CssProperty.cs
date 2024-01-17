@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -83,6 +84,22 @@ namespace AngleSharp.Css.Dom
         internal Boolean CanBeUnitless => (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless;
 
         internal IValueConverter Converter => _converter;
+
+        #endregion
+
+        #region Methods
+
+        public ICssProperty Compute(IRenderDevice device)
+        {
+            if (_value is Length length && length.Type != Length.Unit.Px)
+            {
+                var px = length.ToPixel(device);
+                var value = new Length(px, Length.Unit.Px);
+                return new CssProperty(_name, _converter, _flags, value, _important);
+            }
+
+            return this;
+        }
 
         #endregion
 

@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS line names definition.
     /// </summary>
-    public struct LineNames : ICssPrimitiveValue, IEquatable<LineNames>
+    public readonly struct LineNames : ICssPrimitiveValue, IEquatable<LineNames>
     {
         #region Fields
 

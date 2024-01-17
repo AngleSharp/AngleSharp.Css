@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public struct Frequency : IEquatable<Frequency>, IComparable<Frequency>, ICssPrimitiveValue
+    public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>, ICssPrimitiveValue
     {
         #region Fields
 

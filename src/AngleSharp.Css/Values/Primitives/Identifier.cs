@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS identifier value.
     /// </summary>
-    public struct Identifier : ICssPrimitiveValue, IEquatable<Identifier>
+    public readonly struct Identifier : ICssPrimitiveValue, IEquatable<Identifier>
     {
         #region Fields
 

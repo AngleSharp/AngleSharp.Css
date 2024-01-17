@@ -32,6 +32,11 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
+        public CssStyleDeclaration()
+            : this(default(IBrowsingContext))
+        {            
+        }
+
         public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();
@@ -299,6 +304,16 @@ namespace AngleSharp.Css.Dom
             {
                 RemoveProperty(propertyName);
             }
+        }
+
+        public void AddProperty(ICssProperty declaration)
+        {
+            _declarations.Add(declaration);
+        }
+
+        public void RemoveProperty(ICssProperty declaration)
+        {
+            _declarations.Remove(declaration);
         }
 
         #endregion

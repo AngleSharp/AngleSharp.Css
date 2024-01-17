@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS initial value.
     /// </summary>
-    struct CssInitialValue : ICssSpecialValue
+    readonly struct CssInitialValue : ICssSpecialValue
     {
         #region Fields
 

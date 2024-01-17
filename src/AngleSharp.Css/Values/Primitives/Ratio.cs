@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a ratio (top to bottom) value.
     /// </summary>
-    public struct Ratio : IEquatable<Ratio>, IComparable<Ratio>, ICssPrimitiveValue
+    public readonly struct Ratio : IEquatable<Ratio>, IComparable<Ratio>, ICssPrimitiveValue
     {
         #region Fields
 
