@@ -272,6 +272,14 @@ namespace AngleSharp.Css.Values
         /// current unit is relative, then an exception will be thrown.
         /// </summary>
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <returns>The number of pixels represented by the current length.</returns>
+        public Double ToPixel(IRenderDimensions renderDimensions) => ToPixel(renderDimensions, RenderMode.Horizontal);
+
+        /// <summary>
+        /// Converts the length to a number of pixels, if possible. If the
+        /// current unit is relative, then an exception will be thrown.
+        /// </summary>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <param name="mode">Signifies the axis the unit represents, use to calculate relative units where the axis matters.</param>
         /// <returns>The number of pixels represented by the current length.</returns>
         public Double ToPixel(IRenderDimensions renderDimensions, RenderMode mode)

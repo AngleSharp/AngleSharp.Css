@@ -52,6 +52,8 @@ namespace AngleSharp.Css.Dom
 
         public Boolean HasValue => _value != null;
 
+        public PropertyFlags Flags => _flags;
+
         public Boolean IsInherited => (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (HasValue && _value.CssText.Is(CssKeywords.Inherit));
 
         public Boolean CanBeInherited => (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited;
