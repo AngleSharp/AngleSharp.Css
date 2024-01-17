@@ -526,8 +526,21 @@ namespace AngleSharp.Css.Parser
 
             if (!_options.IsExcludingNesting && token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
             {
+                var factory = _context.GetService<DefaultAttributeSelectorFactory>();
                 var rule = new CssStyleRule(style.Owner);
+                var previous = factory.Unregister("&");
+                factory.Register("&", (_, _, _, _) =>
+                {
+                    rule.IsNested = true;
+                    return new ReferencedNestedSelector(style.Selector);
+                });
                 var result = CreateStyle(rule, token);
+                factory.Unregister("&");
+
+                if (previous is not null)
+                {
+                    factory.Register("&", previous);
+                }
 
                 if (result is not null)
                 {

@@ -20,6 +20,7 @@ namespace AngleSharp.Css.Dom
         private readonly CssRuleList _rules;
         private ISelector _selector;
         private IEnumerable<ISelector> _selectorList;
+        private Boolean _nested;
 
         #endregion
 
@@ -36,6 +37,12 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Properties
+
+        public Boolean IsNested
+        {
+            get => _nested;
+            set => _nested = value;
+        }
 
         public ISelector Selector
         {
@@ -85,13 +92,37 @@ namespace AngleSharp.Css.Dom
 
         public Boolean TryMatch(IElement element, IElement? scope, out Priority specificity)
         {
+            specificity = Priority.Zero;
+            scope ??= element?.Owner!.DocumentElement;
+
+            if (!_nested && Parent is CssStyleRule parent)
+            {
+                var pe = element;
+
+                do
+                {
+                    if (pe == scope)
+                    {
+                        return false;
+                    }
+
+                    pe = pe.ParentElement;
+
+                    if (pe is null)
+                    {
+                        return false;
+                    }
+                }
+                while (!parent.TryMatch(pe, scope, out specificity));
+            }
+
             if (_selectorList is not null)
             {
                 foreach (var selector in _selectorList.OrderByDescending(m => m.Specificity))
                 {
                     if (selector.Match(element, scope))
                     {
-                        specificity = selector.Specificity;
+                        specificity += selector.Specificity;
                         return true;
                     }
                 }
@@ -99,11 +130,10 @@ namespace AngleSharp.Css.Dom
 
             if (_selector is not null && _selector.Match(element, scope))
             {
-                specificity = _selector.Specificity;
+                specificity += _selector.Specificity;
                 return true;
             }
 
-            specificity = default;
             return false;
         }
 
@@ -117,7 +147,7 @@ namespace AngleSharp.Css.Dom
 
         #region Selector
 
-        private void ChangeSelector(ISelector value)
+        internal void ChangeSelector(ISelector value)
         {
             _selectorList = null;
             _selector = value;
