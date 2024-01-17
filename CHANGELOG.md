@@ -14,6 +14,7 @@ Released on tbd.
 - Fixed computation of priority in CSS rules using multi selector
 - Fixed `GetInnerText` multi-line / text node behavior (#155) @Seyden
 - Added further compactification of CSS tuples (#89, #93)
+- Added support for CSS nesting in style rules (#148)
 - Added support for 8-digit hex color codes (#132)
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)

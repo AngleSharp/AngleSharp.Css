@@ -524,6 +524,19 @@ namespace AngleSharp.Css.Parser
             CollectTrivia(ref token);
             var start = token.Position;
 
+            if (token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
+            {
+                var rule = new CssStyleRule(style.Owner);
+                var result = CreateStyle(rule, token);
+
+                if (result is not null)
+                {
+                    style.Add(result);
+                    token = NextToken();
+                    return;
+                }
+            }
+
             if (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose, CssTokenType.Colon) &&
                 token.IsNot(CssTokenType.Semicolon, CssTokenType.CurlyBracketOpen))
             {

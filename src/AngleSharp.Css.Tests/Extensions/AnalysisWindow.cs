@@ -2,9 +2,7 @@ namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
-    using AngleSharp.Html.Dom;
     using NUnit.Framework;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using static CssConstructionFunctions;

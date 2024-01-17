@@ -111,20 +111,27 @@ namespace AngleSharp.Css
 
         private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
         {
-            Tuple<ICssStyleRule, Priority> MapPriority(ICssStyleRule rule)
+            IEnumerable<Tuple<ICssStyleRule, Priority>> MapPriority(ICssStyleRule rule)
             {
                 if (rule.TryMatch(element, null, out var specificity))
                 {
-                    return Tuple.Create(rule, specificity);
-                }
+                    yield return Tuple.Create(rule, specificity);
 
-                return null;
+                    foreach (var subRule in rule.Rules)
+                    {
+                        if (subRule is ICssStyleRule style)
+                        {
+                            foreach (var item in MapPriority(style))
+                            {
+                                yield return item;
+                            }
+                        }
+                    }
+                }
             }
 
-            return rules.Select(MapPriority).Where(IsNotNull).OrderBy(GetPriority).Select(GetRule);
+            return rules.SelectMany(MapPriority).OrderBy(GetPriority).Select(GetRule);
         }
-
-        private static Boolean IsNotNull(Tuple<ICssStyleRule, Priority> item) => item is not null;
 
         private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
 

@@ -17,6 +17,7 @@ namespace AngleSharp.Css.Dom
         #region Fields
 
         private readonly CssStyleDeclaration _style;
+        private readonly CssRuleList _rules;
         private ISelector _selector;
         private IEnumerable<ISelector> _selectorList;
 
@@ -28,6 +29,7 @@ namespace AngleSharp.Css.Dom
             : base(owner, CssRuleType.Style)
         {
             _style = new CssStyleDeclaration(this);
+            _rules = new CssRuleList();
             _selectorList = null;
         }
 
@@ -51,9 +53,23 @@ namespace AngleSharp.Css.Dom
 
         public CssStyleDeclaration Style => _style;
 
+        public ICssRuleList Rules => _rules;
+
         #endregion
 
         #region Methods
+
+        public void Add(ICssRule rule)
+        {
+            _rules.Add(rule);
+            rule.SetParent(this);
+        }
+
+        public void Remove(ICssRule rule)
+        {
+            _rules.Remove(rule);
+            rule.SetParent(null);
+        }
 
         internal void SetInvalidSelector(String selectorText)
         {

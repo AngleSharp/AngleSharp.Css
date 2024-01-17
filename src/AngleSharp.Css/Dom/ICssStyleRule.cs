@@ -32,5 +32,12 @@ namespace AngleSharp.Css.Dom
         /// Gets the selector for matching elements.
         /// </summary>
         Boolean TryMatch(IElement element, IElement? scope, out Priority specificity);
+
+        /// <summary>
+        /// Gets a CSSRuleList of the CSS rules in the style sheet.
+        /// </summary>
+        [DomName("cssRules")]
+        [DomName("rules")]
+        ICssRuleList Rules { get; }
     }
 }
