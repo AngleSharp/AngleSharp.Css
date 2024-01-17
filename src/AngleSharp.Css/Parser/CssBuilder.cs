@@ -524,7 +524,7 @@ namespace AngleSharp.Css.Parser
             CollectTrivia(ref token);
             var start = token.Position;
 
-            if (token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
+            if (!_options.IsExcludingNesting && token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
             {
                 var rule = new CssStyleRule(style.Owner);
                 var result = CreateStyle(rule, token);

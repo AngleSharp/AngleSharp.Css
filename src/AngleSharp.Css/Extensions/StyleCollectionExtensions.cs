@@ -116,15 +116,15 @@ namespace AngleSharp.Css
                 if (rule.TryMatch(element, null, out var specificity))
                 {
                     yield return Tuple.Create(rule, specificity);
+                }
 
-                    foreach (var subRule in rule.Rules)
+                foreach (var subRule in rule.Rules)
+                {
+                    if (subRule is ICssStyleRule style)
                     {
-                        if (subRule is ICssStyleRule style)
+                        foreach (var item in MapPriority(style))
                         {
-                            foreach (var item in MapPriority(style))
-                            {
-                                yield return item;
-                            }
+                            yield return item;
                         }
                     }
                 }
