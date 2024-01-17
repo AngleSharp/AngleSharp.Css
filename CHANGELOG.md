@@ -16,6 +16,8 @@ Released on tbd.
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for CSS nesting in style rules (#148)
 - Added support for 8-digit hex color codes (#132)
+- Added support for `margin-block` and `margin-inline` declarations
+- Added support for `padding-block` and `padding-inline` declarations
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
