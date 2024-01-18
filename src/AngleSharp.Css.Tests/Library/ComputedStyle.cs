@@ -9,7 +9,6 @@ namespace AngleSharp.Css.Tests.Library
     public class ComputedStyleTests
     {
         [Test]
-        [Ignore("Not implemented yet")]
         public async Task TransformEmToPx_Issue136()
         {
             // .With<IRenderDevice>()
