@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public readonly struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, ICssPrimitiveValue
+    public readonly struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, ICssMetricValue
     {
         #region Fields
 
@@ -15,6 +16,15 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
+
+        /// <summary>
+        /// Creates a new resolution value.
+        /// </summary>
+        /// <param name="value">The value of the resolution in dppx.</param>
+        public Resolution(Double value)
+            : this(value, Unit.Dppx)
+        {
+        }
 
         /// <summary>
         /// Creates a new resolution value.
@@ -53,26 +63,30 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Dpcm:
-                        return UnitNames.Dpcm;
-
-                    case Unit.Dpi:
-                        return UnitNames.Dpi;
-
-                    case Unit.Dppx:
-                        return UnitNames.Dppx;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Dpcm => UnitNames.Dpcm,
+                    Unit.Dpi => UnitNames.Dpi,
+                    Unit.Dppx => UnitNames.Dppx,
+                    _ => String.Empty,
+                };
             }
         }
 
         #endregion
 
         #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Unit.Dppx)
+            {
+                var dots = ToDotsPerPixel();
+                return new Resolution(dots, Unit.Dppx);
+            }
+
+            return this;
+        }
 
         /// <summary>
         /// Tries to convert the given string to a Resolution.
@@ -101,13 +115,13 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "dpcm": return Unit.Dpcm;
-                case "dpi": return Unit.Dpi;
-                case "dppx": return Unit.Dppx;
-                default: return Unit.None;
-            }
+                "dpcm" => Unit.Dpcm,
+                "dpi" => Unit.Dpi,
+                "dppx" => Unit.Dppx,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>

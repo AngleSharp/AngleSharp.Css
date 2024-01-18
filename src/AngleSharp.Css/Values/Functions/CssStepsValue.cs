@@ -98,5 +98,14 @@ namespace AngleSharp.Css.Values
         public Boolean IsStart => _start;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
+        #endregion
     }
 }

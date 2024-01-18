@@ -60,6 +60,18 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0 / distance.ToPixel(renderDimensions, RenderMode.Undefined));
         }
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var distance = _distance.Compute(context);
+
+            if (distance != _distance)
+            {
+                return new CssPerspectiveValue(distance);
+            }
+
+            return this;
+        }
+
         #endregion
     }
 }

@@ -6,6 +6,8 @@ namespace AngleSharp.Css.Values
 
     sealed class CssBackgroundLayerValue : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssValue _image;
         private readonly ICssValue _position;
         private readonly ICssValue _size;
@@ -13,6 +15,10 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _attachment;
         private readonly ICssValue _origin;
         private readonly ICssValue _clip;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new background image layer.
@@ -27,6 +33,10 @@ namespace AngleSharp.Css.Values
             _origin = origin;
             _clip = clip;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the background image.
@@ -117,5 +127,23 @@ namespace AngleSharp.Css.Values
                 return sb.ToPool();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var image = _image.Compute(context);
+            var position = _position.Compute(context);
+            var size = _size.Compute(context);
+            var repeat = _repeat.Compute(context);
+            var attachment = _attachment.Compute(context);
+            var origin = _origin.Compute(context);
+            var clip = _clip.Compute(context);
+            return new CssBackgroundLayerValue(image, position, size, repeat, attachment, origin, clip);
+        }
+
+        #endregion
     }
 }

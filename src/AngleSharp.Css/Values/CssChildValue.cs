@@ -8,8 +8,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     class CssChildValue : ICssValue
     {
+        #region Fields
+
         private readonly ICssValue _parent;
         private readonly ICssValue _value;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a CSS child-parent container.
@@ -21,6 +27,10 @@ namespace AngleSharp.Css.Values
             _parent = parent;
             _value = value;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the value of the shorthand.
@@ -36,5 +46,18 @@ namespace AngleSharp.Css.Values
         /// Gets the text representation of the longhand.
         /// </summary>
         public String CssText => _value?.CssText ?? String.Empty;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var parent = _parent.Compute(context);
+            var value = _value?.Compute(context);
+            return new CssChildValue(parent, value);
+        }
+
+        #endregion
     }
 }

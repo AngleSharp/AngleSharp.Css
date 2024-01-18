@@ -28,5 +28,10 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => String.Concat("(", _content.CssText, ")");
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return _content.Compute(context);
+        }
     }
 }

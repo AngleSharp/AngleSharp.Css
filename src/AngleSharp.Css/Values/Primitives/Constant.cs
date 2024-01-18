@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
@@ -59,13 +60,18 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Constant<T> constant ? Equals(constant) : false;
+            obj is Constant<T> constant && Equals(constant);
 
         /// <summary>
         /// Gets the computed hash code of the constant.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
         public override Int32 GetHashCode() => _data.GetHashCode();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         #endregion
     }

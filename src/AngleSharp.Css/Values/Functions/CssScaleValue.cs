@@ -139,6 +139,11 @@ namespace AngleSharp.Css.Values
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions) =>
             new(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f, 0f, 0f, 0f);
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return new CssScaleValue(_sx, _sy, _sz);
+        }
+
         #endregion
     }
 }

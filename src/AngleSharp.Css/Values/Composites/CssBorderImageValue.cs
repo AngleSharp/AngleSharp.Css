@@ -110,5 +110,19 @@ namespace AngleSharp.Css.Values
         public ICssValue Repeat => _repeat;
 
         #endregion
+
+        #region
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var image = _image.Compute(context);
+            var slice = _slice.Compute(context);
+            var widths = _widths.Compute(context);
+            var offsets = _outsets.Compute(context);
+            var repeat = _repeat.Compute(context);
+            return new CssBorderImageValue(image, slice, widths, offsets, repeat);
+    }
+
+        #endregion
     }
 }

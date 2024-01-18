@@ -55,6 +55,12 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var items = _items.Select(v => (T)v.Compute(context)).ToArray();
+            return new CssListValue<T>(items);
+        }
+
         #endregion
     }
 

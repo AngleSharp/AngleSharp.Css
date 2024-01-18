@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a flow relative CSS value.
@@ -38,15 +39,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (index)
+                return index switch
                 {
-                    case 0:
-                        return Start;
-                    case 1:
-                        return End;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(index));
-                }
+                    0 => Start,
+                    1 => (ICssValue)End,
+                    _ => throw new ArgumentOutOfRangeException(nameof(index)),
+                };
             }
         }
 
@@ -93,6 +91,12 @@ namespace AngleSharp.Css.Values
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var values = _values.Select(v => (T)v.Compute(context)).ToArray();
+            return new CssFlowRelativeValue<T>(values);
+        }
 
         #endregion
     }

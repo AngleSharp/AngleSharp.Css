@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("1.4rem", style.GetFontSize());
+            Assert.AreEqual("22.4px", style.GetFontSize());
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("1.4rem", style.GetFontSize());
+            Assert.AreEqual("22.4px", style.GetFontSize());
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("1.4rem", style.GetFontSize());
+            Assert.AreEqual("22.4px", style.GetFontSize());
         }
 
         [Test]

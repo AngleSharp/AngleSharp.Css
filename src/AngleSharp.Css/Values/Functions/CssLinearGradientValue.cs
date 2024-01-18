@@ -113,5 +113,16 @@ namespace AngleSharp.Css.Values
         public Boolean IsRepeating => _repeating;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var angle = _angle.Compute(context);
+            var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
+            return new CssLinearGradientValue(angle, stops, _repeating);
+        }
+
+        #endregion
     }
 }

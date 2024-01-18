@@ -8,8 +8,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     sealed class CssBackgroundValue : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssValue _layers;
         private readonly ICssValue _color;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS background definition.
@@ -21,6 +27,10 @@ namespace AngleSharp.Css.Values
             _layers = layers;
             _color = color;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the used color.
@@ -56,5 +66,18 @@ namespace AngleSharp.Css.Values
                 return _color?.CssText ?? String.Empty;
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var layers = _layers.Compute(context);
+            var color = _color.Compute(context);
+            return new CssBackgroundValue(layers, color);
+        }
+
+        #endregion
     }
 }

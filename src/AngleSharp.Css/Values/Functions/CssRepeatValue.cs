@@ -60,5 +60,22 @@ namespace AngleSharp.Css.Values
         public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var count = _count.Compute(context);
+            var value = _value.Compute(context);
+
+            if (count != _count || value != _value)
+            {
+                return new CssRepeatValue(count, value);
+            }
+
+            return this;
+        }
+
+        #endregion
     }
 }

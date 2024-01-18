@@ -83,5 +83,18 @@ namespace AngleSharp.Css.Values
         public ICssValue Left => _left;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var top = _top.Compute(context);
+            var right = _right.Compute(context);
+            var bottom = _bottom.Compute(context);
+            var left = _left.Compute(context);
+            return new CssShapeValue(top, right, bottom, left);
+        }
+
+        #endregion
     }
 }

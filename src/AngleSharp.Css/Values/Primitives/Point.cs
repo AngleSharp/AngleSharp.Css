@@ -145,6 +145,23 @@ namespace AngleSharp.Css.Values
 
         #endregion
 
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var x = _x.Compute(context);
+            var y = _x.Compute(context);
+
+            if (x != _x || y != _y)
+            {
+                return new Point(x, y);
+            }
+
+            return this;
+        }
+
+        #endregion
+
         #region Equality
 
         /// <summary>

@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>, ICssPrimitiveValue
+    public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>, ICssMetricValue
     {
         #region Fields
 
@@ -15,6 +16,15 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
+
+        /// <summary>
+        /// Creates a new frequency value.
+        /// </summary>
+        /// <param name="value">The value of the frequency in Hz.</param>
+        public Frequency(Double value)
+            : this(value, Unit.Hz)
+        {
+        }
 
         /// <summary>
         /// Creates a new frequency value.
@@ -53,17 +63,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Khz:
-                        return UnitNames.Khz;
-
-                    case Unit.Hz:
-                        return UnitNames.Hz;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Khz => UnitNames.Khz,
+                    Unit.Hz => UnitNames.Hz,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -110,6 +115,17 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Unit.Hz)
+            {
+                var hz = ToHertz();
+                return new Frequency(hz, Unit.Hz);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to a Frequency.
         /// </summary>
@@ -137,12 +153,12 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "hz": return Unit.Hz;
-                case "khz": return Unit.Khz;
-                default: return Unit.None;
-            }
+                "hz" => Unit.Hz,
+                "khz" => Unit.Khz,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>

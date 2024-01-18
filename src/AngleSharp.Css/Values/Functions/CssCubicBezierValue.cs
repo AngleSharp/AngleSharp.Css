@@ -148,6 +148,11 @@ namespace AngleSharp.Css.Values
         public Boolean Equals(CssCubicBezierValue other) =>
             _x1 == other._x1 && _x2 == other._x2 && _y1 == other._y1 && _y2 == other._y2;
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -10,9 +11,15 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class CssReferenceValue : ICssRawValue
     {
+        #region Fields
+
         private readonly String _value;
         private readonly TextRange[] _ranges;
         private readonly CssVarValue[] _references;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new variable reference.
@@ -25,6 +32,10 @@ namespace AngleSharp.Css.Values
             _ranges = references.Select(m => m.Item1).ToArray();
             _references = references.Select(m => m.Item2).ToArray();
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the literal value of the shorthand.
@@ -45,5 +56,26 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => _value;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            foreach (var reference in _references)
+            {
+                var result = reference.Compute(context);
+
+                if (result is not null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

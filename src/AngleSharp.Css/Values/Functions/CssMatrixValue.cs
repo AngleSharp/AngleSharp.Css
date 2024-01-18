@@ -88,6 +88,11 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(values);
         }
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         #endregion
     }
 }

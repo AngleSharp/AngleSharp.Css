@@ -208,7 +208,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) => obj is TransformMatrix other ? Equals(other) : false;
+        public override Boolean Equals(Object obj) => obj is TransformMatrix other && Equals(other);
 
         /// <summary>
         /// Returns a hash code that defines the current length.

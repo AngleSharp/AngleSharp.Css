@@ -4,7 +4,6 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Data;
     using System.Linq;
 
     /// <summary>
@@ -55,6 +54,21 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText =>Name.CssFunction(GetArgs());
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_type == null)
+            {
+                var type = new Constant<SymbolsType>(CssKeywords.Cyclic, SymbolsType.Cyclic);
+                return new CssSymbolsValue(type, _entries);
+            }
+
+            return this;
+        }
 
         #endregion
 

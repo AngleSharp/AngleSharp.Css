@@ -154,6 +154,19 @@ namespace AngleSharp.Css.Values
 
         #endregion
 
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var center = (Point)((ICssValue)_center).Compute(context);
+            var width = _width.Compute(context);
+            var height = _height.Compute(context);
+            var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
+            return new CssRadialGradientValue(_circle, center, width, height, _sizeMode, stops, _repeating);
+        }
+
+        #endregion
+
         #region Sizes
 
         /// <summary>

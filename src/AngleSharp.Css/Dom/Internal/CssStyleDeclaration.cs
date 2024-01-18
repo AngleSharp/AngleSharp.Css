@@ -32,11 +32,6 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
-        public CssStyleDeclaration()
-            : this(default(IBrowsingContext))
-        {            
-        }
-
         public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
@@ -60,6 +61,17 @@ namespace AngleSharp.Css.Values
 
                 return h;
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var h = ((ICssValue)_horizontal).Compute(context);
+            var v = ((ICssValue)_vertical).Compute(context);
+            return new CssBorderRadiusValue((CssPeriodicValue)h, (CssPeriodicValue)v);
         }
 
         #endregion

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
@@ -53,20 +54,22 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Fr:
-                        return UnitNames.Fr;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Fr => UnitNames.Fr,
+                    _ => String.Empty,
+                };
             }
         }
 
         #endregion
 
         #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         /// <summary>
         /// Tries to convert the given string to a Fraction.
@@ -95,11 +98,11 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "fr": return Unit.Fr;
-                default: return Unit.None;
-            }
+                "fr" => Unit.Fr,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>

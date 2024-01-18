@@ -59,5 +59,16 @@ namespace AngleSharp.Css.Values
         public String CssText => IsDetermined ? String.Concat(_color.CssText, " ", _location.CssText) : _color.CssText;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var color = ((ICssValue)_color).Compute(context);
+            var location = _location?.Compute(context);
+            return new CssGradientStopValue((Color)color, location);
+        }
+
+        #endregion
     }
 }

@@ -89,5 +89,17 @@ namespace AngleSharp.Css.Values
         }
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var rows = _rows.Compute(context);
+            var columns = _columns.Compute(context);
+            var sizes = _sizes.Select(s => s.Compute(context));
+            return new CssGridValue(rows, columns, sizes, _dense);
+        }
+
+        #endregion
     }
 }

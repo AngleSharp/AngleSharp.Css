@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -595,6 +596,11 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         /// <summary>
         /// Mixes two colors using alpha compositing as described here:

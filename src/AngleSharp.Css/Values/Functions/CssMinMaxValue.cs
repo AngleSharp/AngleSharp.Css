@@ -60,5 +60,16 @@ namespace AngleSharp.Css.Values
         public String CssText => Name.CssFunction(Arguments.Join(", "));
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var min = _min.Compute(context);
+            var max = _max.Compute(context);
+            return new CssMinMaxValue(min, max);
+        }
+
+        #endregion
     }
 }

@@ -112,5 +112,19 @@ namespace AngleSharp.Css.Values
         public Boolean IsInset => _inset;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var offsetX = _offsetX.Compute(context);
+            var offsetY = _offsetY.Compute(context);
+            var blurRadius = _blurRadius.Compute(context);
+            var spreadRadius = _spreadRadius.Compute(context);
+            var color = (Color)((ICssValue)_color).Compute(context);
+            return new CssShadowValue(_inset, offsetX, offsetY, blurRadius, spreadRadius, color);
+        }
+
+        #endregion
     }
 }

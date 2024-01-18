@@ -1,6 +1,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Svg.Dom;
@@ -43,7 +44,7 @@ namespace AngleSharp.Css
         public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
-            var device = styles.Device;
+            var context = new CssComputeContext(styles.Device, ctx);
             var computedStyle = new CssStyleDeclaration(ctx);
             var nodes = element.GetAncestors().OfType<IElement>();
 
@@ -64,12 +65,7 @@ namespace AngleSharp.Css
                 computedStyle.UpdateDeclarations(styles.ComputeCascadedStyle(node));
             }
 
-            if (device is not null)
-            {
-                return computedStyle.Compute(device);
-            }
-
-            return computedStyle;
+            return computedStyle.Compute(context);
         }
 
         /// <summary>
@@ -77,13 +73,14 @@ namespace AngleSharp.Css
         /// Two rules with the same specificity are ordered according to their appearance. The more
         /// recent declaration wins. Inheritance is not taken into account.
         /// </summary>
-        /// <param name="rules">The style rules to apply.</param>
+        /// <param name="styles">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent = null)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
             var rules = styles.SortBySpecificity(element);
 
             foreach (var rule in rules)
@@ -136,6 +133,26 @@ namespace AngleSharp.Css
         private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
 
         private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
+
+        #endregion
+
+        #region Context
+
+        sealed class CssComputeContext : ICssComputeContext
+        {
+            private readonly IRenderDevice _device;
+            private readonly IBrowsingContext _context;
+
+            public CssComputeContext(IRenderDevice device, IBrowsingContext context)
+            {
+                _device = device ?? new DefaultRenderDevice();
+                _context = context;
+            }
+
+            public IRenderDevice Device => _device;
+
+            public IBrowsingContext Context => _context;
+        }
 
         #endregion
     }

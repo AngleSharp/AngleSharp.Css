@@ -111,6 +111,19 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var alpha = _alpha.Compute(context);
+            var beta = _beta.Compute(context);
+
+            if (alpha != _alpha || beta != _beta)
+            {
+                return new CssSkewValue(alpha, beta);
+            }
+
+            return this;
+        }
+
         #endregion
     }
 }

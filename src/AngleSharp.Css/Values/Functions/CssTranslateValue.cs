@@ -114,6 +114,14 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var x = _x.Compute(context);
+            var y = _y.Compute(context);
+            var z = _z.Compute(context);
+            return new CssTranslateValue(x, y, z);
+        }
+
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -43,6 +44,11 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         /// <summary>
         /// Checks the two labels for equality.
         /// </summary>
@@ -58,7 +64,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Label label ? Equals(label) : false;
+            obj is Label label && Equals(label);
 
         /// <summary>
         /// Gets the hash code of the object.

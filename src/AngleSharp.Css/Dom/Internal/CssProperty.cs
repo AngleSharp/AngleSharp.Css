@@ -89,13 +89,13 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public ICssProperty Compute(IRenderDevice device)
+        public ICssProperty Compute(ICssComputeContext context)
         {
-            if (_value is Length length && length.Type != Length.Unit.Px)
+            var computedValue = _value?.Compute(context);
+
+            if (computedValue != _value)
             {
-                var px = length.ToPixel(device);
-                var value = new Length(px, Length.Unit.Px);
-                return new CssProperty(_name, _converter, _flags, value, _important);
+                return new CssProperty(_name, _converter, _flags, computedValue, _important);
             }
 
             return this;

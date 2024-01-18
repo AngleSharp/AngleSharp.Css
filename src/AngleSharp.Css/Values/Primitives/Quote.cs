@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -51,6 +52,11 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         /// <summary>
         /// Checks the two quotes for equality.
         /// </summary>
@@ -66,7 +72,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Quote quote ? Equals(quote) : false;
+            obj is Quote quote && Equals(quote);
 
         /// <summary>
         /// Gets the hash code of the object.

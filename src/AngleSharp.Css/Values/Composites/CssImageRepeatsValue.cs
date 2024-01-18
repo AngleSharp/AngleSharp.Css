@@ -59,5 +59,12 @@ namespace AngleSharp.Css.Values
                 return String.Concat(h, " ", v);
             }
         }
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var h = _horizontal.Compute(context);
+            var v = _vertical.Compute(context);
+            return new CssImageRepeatsValue(h, v);
+        }
     }
 }

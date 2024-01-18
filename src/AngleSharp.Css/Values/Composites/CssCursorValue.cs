@@ -3,14 +3,21 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS cursor definition.
     /// </summary>
     sealed class CssCursorValue : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssValue[] _definitions;
         private readonly ICssValue _cursor;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS cursor definition.
@@ -22,6 +29,10 @@ namespace AngleSharp.Css.Values
             _definitions = definitions;
             _cursor = cursor;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the custom cursor definitions.
@@ -51,5 +62,18 @@ namespace AngleSharp.Css.Values
                 return sb.ToPool();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var cursor = _cursor.Compute(context);
+            var definitions = _definitions.Select(def => def.Compute(context)).ToArray();
+            return new CssCursorValue(definitions, cursor);
+        }
+
+        #endregion
     }
 }

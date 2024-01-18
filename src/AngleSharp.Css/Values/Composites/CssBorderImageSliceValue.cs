@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -110,6 +111,19 @@ namespace AngleSharp.Css.Values
 
                 return sb.ToPool();
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var bottom = (Length)((ICssValue)_bottom).Compute(context);
+            var left = (Length)((ICssValue)_left).Compute(context);
+            var right = (Length)((ICssValue)_right).Compute(context);
+            var top = (Length)((ICssValue)_top).Compute(context);
+            return new CssBorderImageSliceValue(top, right, bottom, left, _filled);
         }
 
         #endregion

@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public readonly struct Length : IEquatable<Length>, IComparable<Length>, ICssPrimitiveValue
+    public readonly struct Length : IEquatable<Length>, IComparable<Length>, ICssMetricValue
     {
         #region Basic lengths
 
@@ -64,6 +65,15 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
+
+        /// <summary>
+        /// Creates a new length value in px.
+        /// </summary>
+        /// <param name="value">The value of the length in px.</param>
+        public Length(Double value)
+            : this(value, Unit.Px)
+        {
+        }
 
         /// <summary>
         /// Creates a new length value.
@@ -133,25 +143,25 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Px: return UnitNames.Px;
-                    case Unit.Em: return UnitNames.Em;
-                    case Unit.Ex: return UnitNames.Ex;
-                    case Unit.Cm: return UnitNames.Cm;
-                    case Unit.Mm: return UnitNames.Mm;
-                    case Unit.In: return UnitNames.In;
-                    case Unit.Pt: return UnitNames.Pt;
-                    case Unit.Pc: return UnitNames.Pc;
-                    case Unit.Ch: return UnitNames.Ch;
-                    case Unit.Rem: return UnitNames.Rem;
-                    case Unit.Vw: return UnitNames.Vw;
-                    case Unit.Vh: return UnitNames.Vh;
-                    case Unit.Vmin: return UnitNames.Vmin;
-                    case Unit.Vmax: return UnitNames.Vmax;
-                    case Unit.Percent: return UnitNames.Percent;
-                    default: return String.Empty;
-                }
+                    Unit.Px => UnitNames.Px,
+                    Unit.Em => UnitNames.Em,
+                    Unit.Ex => UnitNames.Ex,
+                    Unit.Cm => UnitNames.Cm,
+                    Unit.Mm => UnitNames.Mm,
+                    Unit.In => UnitNames.In,
+                    Unit.Pt => UnitNames.Pt,
+                    Unit.Pc => UnitNames.Pc,
+                    Unit.Ch => UnitNames.Ch,
+                    Unit.Rem => UnitNames.Rem,
+                    Unit.Vw => UnitNames.Vw,
+                    Unit.Vh => UnitNames.Vh,
+                    Unit.Vmin => UnitNames.Vmin,
+                    Unit.Vmax => UnitNames.Vmax,
+                    Unit.Percent => UnitNames.Percent,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -213,6 +223,17 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Length.Unit.Px)
+            {
+                var px = ToPixel(context.Device);
+                return new Length(px, Length.Unit.Px);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to a Length.
         /// </summary>
@@ -246,25 +267,25 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "ch": return Unit.Ch;
-                case "cm": return Unit.Cm;
-                case "em": return Unit.Em;
-                case "ex": return Unit.Ex;
-                case "in": return Unit.In;
-                case "mm": return Unit.Mm;
-                case "pc": return Unit.Pc;
-                case "pt": return Unit.Pt;
-                case "px": return Unit.Px;
-                case "rem": return Unit.Rem;
-                case "vh": return Unit.Vh;
-                case "vmax": return Unit.Vmax;
-                case "vmin": return Unit.Vmin;
-                case "vw": return Unit.Vw;
-                case "%": return Unit.Percent;
-                default: return Unit.None;
-            }
+                "ch" => Unit.Ch,
+                "cm" => Unit.Cm,
+                "em" => Unit.Em,
+                "ex" => Unit.Ex,
+                "in" => Unit.In,
+                "mm" => Unit.Mm,
+                "pc" => Unit.Pc,
+                "pt" => Unit.Pt,
+                "px" => Unit.Px,
+                "rem" => Unit.Rem,
+                "vh" => Unit.Vh,
+                "vmax" => Unit.Vmax,
+                "vmin" => Unit.Vmin,
+                "vw" => Unit.Vw,
+                "%" => Unit.Percent,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>

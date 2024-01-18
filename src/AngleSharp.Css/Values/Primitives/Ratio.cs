@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
@@ -54,6 +55,11 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         /// <summary>
         /// Checks if the current resolution equals the given one.

@@ -89,6 +89,18 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_mode == ValueMode.Explicit)
+            {
+                var w = _width.Compute(context);
+                var h = _height.Compute(context);
+                return new CssBackgroundSizeValue(w, h);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Compares to another background size.
         /// </summary>

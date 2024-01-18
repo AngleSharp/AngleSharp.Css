@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public readonly struct Time : IEquatable<Time>, IComparable<Time>, ICssPrimitiveValue
+    public readonly struct Time : IEquatable<Time>, IComparable<Time>, ICssMetricValue
     {
         #region Basic times
 
@@ -24,6 +25,15 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region ctor
+
+        /// <summary>
+        /// Creates a new time value.
+        /// </summary>
+        /// <param name="value">The value of the time in ms.</param>
+        public Time(Double value)
+            : this(value, Unit.Ms)
+        {
+        }
 
         /// <summary>
         /// Creates a new time value.
@@ -62,17 +72,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Ms:
-                        return UnitNames.Ms;
-
-                    case Unit.S:
-                        return UnitNames.S;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Ms => UnitNames.Ms,
+                    Unit.S => UnitNames.S,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -119,6 +124,17 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Unit.Ms)
+            {
+                var ms = ToMilliseconds();
+                return new Time(ms, Unit.Ms);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to a Time.
         /// </summary>
@@ -146,12 +162,12 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "s": return Unit.S;
-                case "ms": return Unit.Ms;
-                default: return Unit.None;
-            }
+                "s" => Unit.S,
+                "ms" => Unit.Ms,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>

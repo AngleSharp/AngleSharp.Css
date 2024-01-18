@@ -40,5 +40,14 @@ namespace AngleSharp.Css.Values
         public String CssText => CssKeywords.Unset;
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
+        #endregion
     }
 }

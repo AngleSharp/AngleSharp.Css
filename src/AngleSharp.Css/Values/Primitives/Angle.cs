@@ -1,12 +1,13 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents an angle object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
     /// </summary>
-    public readonly struct Angle : IEquatable<Angle>, IComparable<Angle>, ICssPrimitiveValue
+    public readonly struct Angle : IEquatable<Angle>, IComparable<Angle>, ICssMetricValue
     {
         #region Basic angles
 
@@ -49,6 +50,15 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Creates a new angle value.
         /// </summary>
+        /// <param name="value">The value of the angle in rad.</param>
+        public Angle(Double value)
+            : this(value, Unit.Rad)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new angle value.
+        /// </summary>
         /// <param name="value">The value of the angle.</param>
         /// <param name="unit">The unit of the angle.</param>
         public Angle(Double value, Unit unit)
@@ -83,23 +93,14 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Deg:
-                        return UnitNames.Deg;
-
-                    case Unit.Grad:
-                        return UnitNames.Grad;
-
-                    case Unit.Turn:
-                        return UnitNames.Turn;
-
-                    case Unit.Rad:
-                        return UnitNames.Rad;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Deg => UnitNames.Deg,
+                    Unit.Grad => UnitNames.Grad,
+                    Unit.Turn => UnitNames.Turn,
+                    Unit.Rad => UnitNames.Rad,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -146,6 +147,17 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Unit.Rad)
+            {
+                var rad = ToRadian();
+                return new Angle(rad, Unit.Rad);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to an Angle.
         /// </summary>
@@ -173,14 +185,14 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "deg": return Unit.Deg;
-                case "grad": return Unit.Grad;
-                case "turn": return Unit.Turn;
-                case "rad": return Unit.Rad;
-                default: return Unit.None;
-            }
+                "deg" => Unit.Deg,
+                "grad" => Unit.Grad,
+                "turn" => Unit.Turn,
+                "rad" => Unit.Rad,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>
@@ -189,20 +201,13 @@ namespace AngleSharp.Css.Values
         /// <returns>The value in rad.</returns>
         public Double ToRadian()
         {
-            switch (_unit)
+            return _unit switch
             {
-                case Unit.Deg:
-                    return Math.PI / 180.0 * _value;
-
-                case Unit.Grad:
-                    return Math.PI / 200.0 * _value;
-
-                case Unit.Turn:
-                    return 2.0 * Math.PI * _value;
-
-                default:
-                    return _value;
-            }
+                Unit.Deg => Math.PI / 180.0 * _value,
+                Unit.Grad => Math.PI / 200.0 * _value,
+                Unit.Turn => 2.0 * Math.PI * _value,
+                _ => _value,
+            };
         }
 
         /// <summary>
@@ -211,20 +216,13 @@ namespace AngleSharp.Css.Values
         /// <returns>The value in turns.</returns>
         public Double ToTurns()
         {
-            switch (_unit)
+            return _unit switch
             {
-                case Unit.Deg:
-                    return _value / 360.0;
-
-                case Unit.Grad:
-                    return _value / 400.0;
-
-                case Unit.Rad:
-                    return _value / (2.0 * Math.PI);
-
-                default:
-                    return _value;
-            }
+                Unit.Deg => _value / 360.0,
+                Unit.Grad => _value / 400.0,
+                Unit.Rad => _value / (2.0 * Math.PI),
+                _ => _value,
+            };
         }
 
         /// <summary>

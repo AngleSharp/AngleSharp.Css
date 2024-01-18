@@ -93,5 +93,21 @@ namespace AngleSharp.Css.Values
         }
 
         #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Resolves the value of the referenced variable. Returns null
+        /// if the reference is invalid or cannot be resolved.
+        /// </summary>
+        /// <param name="context">The context to use for resolving the variable.</param>
+        /// <returns>The resolved value or null.</returns>
+        public ICssValue Compute(ICssComputeContext context)
+        {
+            //return _expression.Compute(context);
+            return null;
+        }
+
+        #endregion
     }
 }

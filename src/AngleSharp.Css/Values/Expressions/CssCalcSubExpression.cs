@@ -36,5 +36,20 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => String.Concat(_left.CssText, " - ", _right.CssText);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var left = _left.Compute(context);
+            var right = _right.Compute(context);
+
+            if (left is ICssMetricValue x && right is ICssMetricValue y && x.UnitString == y.UnitString)
+            {
+                var result = x.Value - y.Value;
+                return (ICssValue)Activator.CreateInstance(x.GetType(), result);
+            }
+
+            // TOOD INVALID
+            return this;
+        }
     }
 }

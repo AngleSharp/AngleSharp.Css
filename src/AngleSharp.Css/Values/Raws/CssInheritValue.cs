@@ -8,9 +8,15 @@ namespace AngleSharp.Css.Values
     /// </summary>
     sealed class CssInheritValue : ICssSpecialValue
     {
+        #region ctor
+
         private CssInheritValue()
         {
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the only instance.
@@ -26,5 +32,16 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => CssKeywords.Inherit;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
+        #endregion
     }
 }

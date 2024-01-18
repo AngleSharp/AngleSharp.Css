@@ -135,5 +135,21 @@ namespace AngleSharp.Css.Values
         }
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var fontFamilies = _fontFamilies.Compute(context);
+            var lineHeight = _lineHeight.Compute(context);
+            var size = _size.Compute(context);
+            var stretch = _stretch.Compute(context);
+            var style = _style.Compute(context);
+            var variant = _variant.Compute(context);
+            var weight = _weight.Compute(context);
+            return new CssFontValue(style, variant, weight, stretch, size, lineHeight, fontFamilies);
+        }
+
+        #endregion
     }
 }

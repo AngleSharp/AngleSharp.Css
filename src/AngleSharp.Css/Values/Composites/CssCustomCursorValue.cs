@@ -1,12 +1,19 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
     sealed class CssCustomCursorValue : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssImageValue _source;
         private readonly Point? _position;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new custom cursor value.
@@ -18,6 +25,10 @@ namespace AngleSharp.Css.Values
             _source = source;
             _position = position;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the image to display as cursor.
@@ -49,5 +60,18 @@ namespace AngleSharp.Css.Values
                 return sb.ToPool();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var source = (ICssImageValue)_source.Compute(context);
+            var position = _position.HasValue ? (Point?)((ICssValue)_position.Value).Compute(context) : null;
+            return new CssCustomCursorValue(source, position);
+        }
+
+        #endregion
     }
 }

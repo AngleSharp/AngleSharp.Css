@@ -8,9 +8,15 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public sealed class CssOriginValue : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssValue _x;
         private readonly ICssValue _y;
         private readonly ICssValue _z;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new Point3 (origin).
@@ -24,6 +30,10 @@ namespace AngleSharp.Css.Values
             _y = y;
             _z = z;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -51,5 +61,25 @@ namespace AngleSharp.Css.Values
         /// Gets the z coordinate.
         /// </summary>
         public ICssValue Z => _z;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var x = _x.Compute(context);
+            var y = _y.Compute(context);
+            var z = _z.Compute(context);
+
+            if (x != _x || y != _y || z != _z)
+            {
+                return new CssOriginValue(x, y, z);
+            }
+
+            return this;
+        }
+
+        #endregion
     }
 }

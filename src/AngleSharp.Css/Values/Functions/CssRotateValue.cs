@@ -143,6 +143,12 @@ namespace AngleSharp.Css.Values
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var angle = _angle.Compute(context);
+            return new CssRotateValue(_x, _y, _z, angle);
+        }
+
         #endregion
     }
 }
