@@ -478,11 +478,11 @@ namespace AngleSharp.Css.Parser
             if (unit != null &&
                 Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                var dim = Angle.Unit.Deg;
+                var dim = CssAngleValue.Unit.Deg;
 
-                if (unit.Dimension == String.Empty || (dim = Angle.GetUnit(unit.Dimension)) != Angle.Unit.None)
+                if (unit.Dimension == String.Empty || (dim = CssAngleValue.GetUnit(unit.Dimension)) != CssAngleValue.Unit.None)
                 {
-                    var angle = new Angle(value, dim);
+                    var angle = new CssAngleValue(value, dim);
                     return angle.ToTurns();
                 }
             }

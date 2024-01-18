@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS origin definition.
     /// </summary>
-    public sealed class CssOriginValue : ICssCompositeValue
+    public sealed class CssOriginValue : ICssCompositeValue, IEquatable<CssOriginValue>
     {
         #region Fields
 
@@ -66,6 +66,16 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssOriginValue other)
+        {
+            return _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var x = _x.Compute(context);
@@ -79,6 +89,8 @@ namespace AngleSharp.Css.Values
 
             return this;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssOriginValue value && Equals(value);
 
         #endregion
     }

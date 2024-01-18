@@ -119,19 +119,19 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses an angle value.
         /// </summary>
-        public static Angle? ParseAngle(this StringSource source)
+        public static CssAngleValue? ParseAngle(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
             if (test != null)
             {
-                var unit = Angle.GetUnit(test.Dimension);
+                var unit = CssAngleValue.GetUnit(test.Dimension);
 
-                if (unit != Angle.Unit.None &&
+                if (unit != CssAngleValue.Unit.None &&
                     Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                 {
-                    return new Angle(value, unit);
+                    return new CssAngleValue(value, unit);
                 }
 
                 source.BackTo(pos);

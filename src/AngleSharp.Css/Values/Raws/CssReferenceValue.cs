@@ -76,6 +76,8 @@ namespace AngleSharp.Css.Values
             return null;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+
         #endregion
     }
 }

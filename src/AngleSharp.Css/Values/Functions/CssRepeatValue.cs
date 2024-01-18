@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS repeat function call.
     /// </summary>
-    sealed class CssRepeatValue : ICssFunctionValue
+    sealed class CssRepeatValue : ICssFunctionValue, IEquatable<CssRepeatValue>
     {
         #region Fields
 
@@ -62,6 +62,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssRepeatValue other)
+        {
+            return _count.Equals(other._count) && _value.Equals(other._value);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRepeatValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

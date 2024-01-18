@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the number (double) value.
         /// </summary>
-        public static Double? ParseNumber(this StringSource source)
+        public static CssNumberValue? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
 
@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Parser
                 unit.Dimension == String.Empty &&
                 Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var result))
             {
-                return result;
+                return new CssNumberValue(result);
             }
 
             return null;
@@ -50,12 +50,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the integer (double) value.
         /// </summary>
-        public static Double? ParseNaturalNumber(this StringSource source)
+        public static CssNumberValue? ParseNaturalNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
 
-            if (element.HasValue && element.Value >= 0f)
+            if (element.HasValue && element.Value.Value >= 0f)
             {
                 return element;
             }
@@ -67,12 +67,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the natural number (double) value.
         /// </summary>
-        public static Double? ParseGreaterOrEqualOneNumber(this StringSource source)
+        public static CssNumberValue? ParseGreaterOrEqualOneNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
 
-            if (element.HasValue && element.Value >= 1f)
+            if (element.HasValue && element.Value.Value >= 1f)
             {
                 return element;
             }

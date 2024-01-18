@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// The shadow class for holding information about a box or text-shadow.
     /// </summary>
-    public sealed class CssShadowValue : ICssCompositeValue
+    public sealed class CssShadowValue : ICssCompositeValue, IEquatable<CssShadowValue>
     {
         #region Fields
 
@@ -114,6 +114,23 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssShadowValue other)
+        {
+            return _blurRadius.Equals(other._blurRadius) &&
+                _spreadRadius.Equals(other._spreadRadius) &&
+                _color.Equals(other._color) &&
+                _inset == other._inset &&
+                _offsetX.Equals(other._offsetX) &&
+                _offsetY.Equals(other._offsetY);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShadowValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

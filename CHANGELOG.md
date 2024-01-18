@@ -4,6 +4,7 @@ Released on tbd.
 
 - Updated to use AngleSharp 1.0 (#150)
 - Updated media parsing to media L4 spec (#133)
+- Updated naming of CSS values (e.g., `Color` to `CssColorValue`)
 - Fixed issue when updating shorthands with invalid values (#129)
 - Fixed issue with appended EOF character in `CssText` (#123)
 - Fixed missing semicolon in `@page` rule (#135)
@@ -15,6 +16,7 @@ Released on tbd.
 - Fixed `GetInnerText` multi-line / text node behavior (#155) @Seyden
 - Fixed computation of relative (`em`) values to absolute (`px`) for `Length` (#136)
 - Added further compactification of CSS tuples (#89, #93)
+- Added new value types `CssPercentageValue`, `CssNumberValue`, and `CssIntegerValue`
 - Added support for CSS nesting in style rules (#148)
 - Added resolution of CSS variable names (#62)
 - Added support for 8-digit hex color codes (#132)

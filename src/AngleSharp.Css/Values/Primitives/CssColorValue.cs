@@ -585,6 +585,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssColorValue value && Equals(value);
+
         Int32 IComparable<CssColorValue>.CompareTo(CssColorValue other) => _hashcode - other._hashcode;
 
         /// <summary>

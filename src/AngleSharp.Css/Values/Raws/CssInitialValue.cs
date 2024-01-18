@@ -43,10 +43,9 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssInitialValue o && _value.Equals(o.Value);
 
         #endregion
     }

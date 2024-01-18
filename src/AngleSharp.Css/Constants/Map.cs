@@ -26,16 +26,16 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-Angle mapping for linear-gradients.s
         /// </summary>
-        public static readonly Dictionary<String, Angle> GradientAngles = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, CssAngleValue> GradientAngles = new(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Left, new Angle(270.0, Angle.Unit.Deg) },
-            { CssKeywords.Top, new Angle(0.0, Angle.Unit.Deg) },
-            { CssKeywords.Right, new Angle(90.0, Angle.Unit.Deg) },
-            { CssKeywords.Bottom, new Angle(180.0, Angle.Unit.Deg) },
-            { CssKeywords.LeftTop, new Angle(315.0, Angle.Unit.Deg) },
-            { CssKeywords.LeftBottom, new Angle(225.0, Angle.Unit.Deg) },
-            { CssKeywords.RightTop, new Angle(45.0, Angle.Unit.Deg) },
-            { CssKeywords.RightBottom, new Angle(135.0, Angle.Unit.Deg) },
+            { CssKeywords.Left, new CssAngleValue(270.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.Top, new CssAngleValue(0.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.Right, new CssAngleValue(90.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.Bottom, new CssAngleValue(180.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.LeftTop, new CssAngleValue(315.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.LeftBottom, new CssAngleValue(225.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.RightTop, new CssAngleValue(45.0, CssAngleValue.Unit.Deg) },
+            { CssKeywords.RightBottom, new CssAngleValue(135.0, CssAngleValue.Unit.Deg) },
         };
 
         /// <summary>

@@ -4,21 +4,22 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the matrix3d transformation.
     /// </summary>
-    sealed class CssMatrixValue : ICssTransformFunctionValue
+    sealed class CssMatrixValue : ICssTransformFunctionValue, IEquatable<CssMatrixValue>
     {
         #region Fields
 
-        private readonly Double[] _values;
+        private readonly ICssValue[] _values;
 
         #endregion
 
         #region ctor
 
-        internal CssMatrixValue(Double[] values)
+        internal CssMatrixValue(ICssValue[] values)
         {
             _values = values;
         }
@@ -35,20 +36,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments
-        {
-            get
-            {
-                var args = new ICssValue[_values.Length];
-
-                for (var i = 0; i < args.Length; i++)
-                {
-                    args[i] = new CssLengthValue(_values[i], CssLengthValue.Unit.None);
-                }
-
-                return args;
-            }
-        }
+        public ICssValue[] Arguments => _values;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -60,11 +48,41 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="index">The index to look for.</param>
         /// <returns>The value.</returns>
-        public Double this[Int32 index] => _values[index];
+        public ICssValue this[Int32 index] => _values[index];
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssMatrixValue other)
+        {
+            var count = _values.Length;
+
+            if (count == other._values.Length)
+            {
+                for (var i = 0; i < count; i++)
+                {
+                    var a = _values[i];
+                    var b = other._values[i];
+
+                    if (!a.Equals(b))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssMatrixValue value && Equals(value);
 
         /// <summary>
         /// Returns the stored matrix.
@@ -72,25 +90,27 @@ namespace AngleSharp.Css.Values
         /// <returns>The current transformation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions dimensions)
         {
-            var values = _values;
+            var values = _values.Select(v => v.AsDouble()).ToList();
 
-            if (values.Length == 6)
+            if (values.Count == 6)
             {
-                values = new Double[]
-                {
-                    _values[0], _values[2], 0.0, _values[4],
-                    _values[1], _values[3], 0.0, _values[5],
-                    1.0, 0.0, 0.0, 0.0,
-                    0.0, 0.0, 0.0, 1.0
-                };
+                values.Add(1.0);
+                values.Add(0.0);
+                values.Add(0.0);
+                values.Add(0.0);
+                values.Add(0.0);
+                values.Add(0.0);
+                values.Add(0.0);
+                values.Add(1.0);
             }
 
-            return new TransformMatrix(values);
+            return new TransformMatrix(values.ToArray());
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            return this;
+            var values = _values.Select(v => v.Compute(context)).ToArray();
+            return new CssMatrixValue(values);
         }
 
         #endregion

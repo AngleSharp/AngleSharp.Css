@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS font definition.
     /// </summary>
-    sealed class CssFontValue : ICssCompositeValue
+    sealed class CssFontValue : ICssCompositeValue, IEquatable<CssFontValue>
     {
         #region Fields
 
@@ -137,6 +137,24 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssFontValue other)
+        {
+            return _lineHeight.Equals(other._lineHeight) &&
+                _size.Equals(other._size) &&
+                _weight.Equals(other._weight) &&
+                _stretch.Equals(other._stretch) &&
+                _variant.Equals(other._variant) &&
+                _style.Equals(other._style) &&
+                _fontFamilies.Equals(other._fontFamilies);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFontValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

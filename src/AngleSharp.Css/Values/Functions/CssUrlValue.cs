@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// Represents an URL object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue
+    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue, IEquatable<CssUrlValue>
     {
         #region Fields
 
@@ -54,6 +54,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssUrlValue other)
+        {
+            return _path.Equals(other._path);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUrlValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

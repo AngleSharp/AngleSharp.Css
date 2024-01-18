@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a flow relative CSS value.
     /// </summary>
-    public class CssFlowRelativeValue<T> : ICssMultipleValue
+    public class CssFlowRelativeValue<T> : ICssMultipleValue, IEquatable<CssFlowRelativeValue<T>>
         where T : ICssValue
     {
         #region Fields
@@ -84,6 +84,34 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssFlowRelativeValue<T> other)
+        {
+            var count = _values.Length;
+
+            if (count == other._values.Length)
+            {
+                for (var i = 0; i < count; i++)
+                {
+                    var a = _values[i];
+                    var b = other._values[i];
+
+                    if (!a.Equals(b))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
         {
             yield return Start;
@@ -97,6 +125,8 @@ namespace AngleSharp.Css.Values
             var values = _values.Select(v => (T)v.Compute(context)).ToArray();
             return new CssFlowRelativeValue<T>(values);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFlowRelativeValue<T> value && Equals(value);
 
         #endregion
     }

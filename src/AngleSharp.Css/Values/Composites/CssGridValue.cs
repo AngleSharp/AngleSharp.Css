@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS grid definition.
     /// </summary>
-    sealed class CssGridValue : ICssCompositeValue
+    sealed class CssGridValue : ICssCompositeValue, IEquatable<CssGridValue>
     {
         #region Fields
 
@@ -92,6 +92,37 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssGridValue other)
+        {
+            if (_rows.Equals(other._rows) && _columns.Equals(other._columns) && _dense == other._dense)
+            {
+                var l = _sizes.Length;
+
+                if (l == other._sizes.Length)
+                {
+                    for (var i = 0; i < l; i++)
+                    {
+                        var a = _sizes[i];
+                        var b = other._sizes[i];
+
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var rows = _rows.Compute(context);
@@ -99,6 +130,8 @@ namespace AngleSharp.Css.Values
             var sizes = _sizes.Select(s => s.Compute(context));
             return new CssGridValue(rows, columns, sizes, _dense);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssGridValue value && Equals(value);
 
         #endregion
     }

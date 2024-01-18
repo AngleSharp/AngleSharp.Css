@@ -228,6 +228,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFrequencyValue value && Equals(value);
+
         /// <summary>
         /// Returns a hash code that defines the current frequency.
         /// </summary>

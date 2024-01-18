@@ -8,6 +8,25 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public readonly struct CssPercentageValue : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue
     {
+        #region Basic percentages
+
+        /// <summary>
+        /// Gets a zero percentage value.
+        /// </summary>
+        public static readonly CssPercentageValue Zero = new(0.0);
+
+        /// <summary>
+        /// Gets the half relative length, i.e. 50%.
+        /// </summary>
+        public static readonly CssPercentageValue Half = new(50.0);
+
+        /// <summary>
+        /// Gets the full relative length, i.e. 100%.
+        /// </summary>
+        public static readonly CssPercentageValue Full = new(100.0);
+
+        #endregion
+
         #region Fields
 
         private readonly Double _value;
@@ -174,6 +193,8 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPercentageValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current percentage.

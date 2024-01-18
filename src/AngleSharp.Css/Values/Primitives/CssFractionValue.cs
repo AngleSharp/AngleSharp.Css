@@ -175,6 +175,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFractionValue value && Equals(value);
+
         /// <summary>
         /// Returns a hash code that defines the current fraction.
         /// </summary>

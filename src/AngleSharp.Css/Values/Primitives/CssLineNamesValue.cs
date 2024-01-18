@@ -71,6 +71,8 @@ namespace AngleSharp.Css.Values
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => CssText.GetHashCode();
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLineNamesValue value && Equals(value);
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             return this;

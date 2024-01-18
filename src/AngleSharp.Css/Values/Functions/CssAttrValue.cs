@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS attr function call.
     /// </summary>
-    public sealed class CssAttrValue : ICssFunctionValue
+    public sealed class CssAttrValue : ICssFunctionValue, IEquatable<CssAttrValue>
     {
         #region Fields
 
@@ -53,6 +53,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssAttrValue other)
+        {
+            return _attribute.Equals(other._attribute);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAttrValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

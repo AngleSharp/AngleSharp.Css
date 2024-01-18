@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS minmax function call.
     /// </summary>
-    sealed class CssMinMaxValue : ICssFunctionValue
+    sealed class CssMinMaxValue : ICssFunctionValue, IEquatable<CssMinMaxValue>
     {
         #region Fields
 
@@ -63,12 +63,24 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssMinMaxValue other)
+        {
+            return _min.Equals(other._min) && _max.Equals(other._max);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var min = _min.Compute(context);
             var max = _max.Compute(context);
             return new CssMinMaxValue(min, max);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssMinMaxValue value && Equals(value);
 
         #endregion
     }

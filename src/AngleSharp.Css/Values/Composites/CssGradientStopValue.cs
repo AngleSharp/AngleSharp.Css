@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    public sealed class CssGradientStopValue : ICssCompositeValue
+    public sealed class CssGradientStopValue : ICssCompositeValue, IEquatable<CssGradientStopValue>
     {
         #region Fields
 
@@ -62,12 +62,24 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssGradientStopValue other)
+        {
+            return _color.Equals(other._color) && _location.Equals(other._location);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var color = ((ICssValue)_color).Compute(context);
             var location = _location?.Compute(context);
             return new CssGradientStopValue((CssColorValue)color, location);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssGradientStopValue value && Equals(value);
 
         #endregion
     }

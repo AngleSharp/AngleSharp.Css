@@ -204,11 +204,11 @@ namespace AngleSharp.Css.Tests.Values
         public void AngleParseCorrectDegValue()
         {
             var s = "1.35e2deg";
-            var v = default(Angle);
-            var r = Angle.TryParse(s, out v);
+            var v = default(CssAngleValue);
+            var r = CssAngleValue.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(135f, v.Value);
-            Assert.AreEqual(Angle.Unit.Deg, v.Type);
+            Assert.AreEqual(CssAngleValue.Unit.Deg, v.Type);
         }
 
         [Test]
@@ -248,8 +248,8 @@ namespace AngleSharp.Css.Tests.Values
         public void AngleParseIncorrectValue()
         {
             var s = "123.deg";
-            var v = default(Angle);
-            var r = Angle.TryParse(s, out v);
+            var v = default(CssAngleValue);
+            var r = CssAngleValue.TryParse(s, out v);
             Assert.IsFalse(r);
         }
     }

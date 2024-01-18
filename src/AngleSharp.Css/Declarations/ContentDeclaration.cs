@@ -108,9 +108,9 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private sealed class ContentValue : ICssValue
+            private sealed class ContentValue : ICssValue, IEquatable<ContentValue>
             {
-                private ICssValue[] _modes;
+                private readonly ICssValue[] _modes;
 
                 public ContentValue(ICssValue[] modes)
                 {
@@ -124,6 +124,30 @@ namespace AngleSharp.Css.Declarations
                     var modes = _modes.Select(mode => mode.Compute(context)).ToArray();
                     return new ContentValue(modes);
                 }
+                public Boolean Equals(ContentValue other)
+                {
+                    var l = _modes.Length;
+
+                    if (l == other._modes.Length)
+                    {
+                        for (var i = 0; i < l; i++)
+                        {
+                            var a = _modes[i];
+                            var b = other._modes[i];
+
+                            if (!a.Equals(b))
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is ContentValue value && Equals(value);
             }
 
             private abstract class ContentMode : ICssValue
@@ -134,10 +158,9 @@ namespace AngleSharp.Css.Declarations
 
                 public abstract String GetCssText();
 
-                ICssValue ICssValue.Compute(ICssComputeContext context)
-                {
-                    return this;
-                }
+                ICssValue ICssValue.Compute(ICssComputeContext context) => this;
+
+                public virtual Boolean Equals(ICssValue other) => Object.ReferenceEquals(this, other);
             }
 
             /// <summary>
@@ -209,6 +232,16 @@ namespace AngleSharp.Css.Declarations
                 public override String GetCssText() => _text.CssString();
 
                 public override String Stringify(IElement element) => _text;
+
+                public override Boolean Equals(ICssValue other)
+                {
+                    if (other is TextContentMode o)
+                    {
+                        return _text.Equals(o._text);
+                    }
+
+                    return false;
+                }
             }
 
             /// <summary>
@@ -228,6 +261,16 @@ namespace AngleSharp.Css.Declarations
                 public override String GetCssText() => _counter.CssText;
 
                 public override String Stringify(IElement element) => String.Empty;
+
+                public override Boolean Equals(ICssValue other)
+                {
+                    if (other is CounterContentMode o)
+                    {
+                        return _counter.Equals(o._counter);
+                    }
+
+                    return false;
+                }
             }
 
             /// <summary>
@@ -246,6 +289,16 @@ namespace AngleSharp.Css.Declarations
                 public override String GetCssText() => FunctionNames.Attr.CssFunction(_attribute);
 
                 public override String Stringify(IElement element) => element.GetAttribute(_attribute) ?? String.Empty;
+
+                public override Boolean Equals(ICssValue other)
+                {
+                    if (other is AttributeContentMode o)
+                    {
+                        return _attribute.Equals(o._attribute);
+                    }
+
+                    return false;
+                }
             }
 
             /// <summary>
@@ -265,6 +318,16 @@ namespace AngleSharp.Css.Declarations
                 public override String GetCssText() => _url.CssText;
 
                 public override String Stringify(IElement element) => String.Empty;
+
+                public override Boolean Equals(ICssValue other)
+                {
+                    if (other is UrlContentMode o)
+                    {
+                        return _url.Equals(o._url);
+                    }
+
+                    return false;
+                }
             }
         }
     }

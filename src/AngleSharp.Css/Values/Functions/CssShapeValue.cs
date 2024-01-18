@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class CssShapeValue : ICssValue, ICssFunctionValue
+    public sealed class CssShapeValue : ICssValue, ICssFunctionValue, IEquatable<CssShapeValue>
     {
         #region Fields
 
@@ -85,6 +85,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssShapeValue other)
+        {
+            return _top.Equals(other._top) && _right.Equals(other._right) && _bottom.Equals(other._bottom) && _left.Equals(other._left);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShapeValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

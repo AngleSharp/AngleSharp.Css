@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value that was born from a shorthand.
     /// </summary>
-    class CssChildValue : ICssValue
+    sealed class CssChildValue : ICssValue, IEquatable<CssChildValue>
     {
         #region Fields
 
@@ -51,12 +51,24 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssChildValue other)
+        {
+            return _parent.Equals(other._parent) && _value.Equals(other._value);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var parent = _parent.Compute(context);
             var value = _value?.Compute(context);
             return new CssChildValue(parent, value);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssChildValue value && Equals(value);
 
         #endregion
     }

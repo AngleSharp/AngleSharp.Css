@@ -7,34 +7,34 @@ namespace AngleSharp.Css.Values
     /// Represents an angle object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
     /// </summary>
-    public readonly struct Angle : IEquatable<Angle>, IComparable<Angle>, ICssMetricValue
+    public readonly struct CssAngleValue : IEquatable<CssAngleValue>, IComparable<CssAngleValue>, ICssMetricValue
     {
         #region Basic angles
 
         /// <summary>
         /// The zero angle.
         /// </summary>
-        public static readonly Angle Zero = new(0.0, Angle.Unit.Rad);
+        public static readonly CssAngleValue Zero = new(0.0, CssAngleValue.Unit.Rad);
 
         /// <summary>
         /// The 45° angle.
         /// </summary>
-        public static readonly Angle HalfQuarter = new(45.0, Angle.Unit.Deg);
+        public static readonly CssAngleValue HalfQuarter = new(45.0, CssAngleValue.Unit.Deg);
 
         /// <summary>
         /// The 90° angle.
         /// </summary>
-        public static readonly Angle Quarter = new(90.0, Angle.Unit.Deg);
+        public static readonly CssAngleValue Quarter = new(90.0, CssAngleValue.Unit.Deg);
 
         /// <summary>
         /// The 135° angle.
         /// </summary>
-        public static readonly Angle TripleHalfQuarter = new(135.0, Angle.Unit.Deg);
+        public static readonly CssAngleValue TripleHalfQuarter = new(135.0, CssAngleValue.Unit.Deg);
 
         /// <summary>
         /// The 180° angle.
         /// </summary>
-        public static readonly Angle Half = new(180.0, Angle.Unit.Deg);
+        public static readonly CssAngleValue Half = new(180.0, CssAngleValue.Unit.Deg);
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new angle value.
         /// </summary>
         /// <param name="value">The value of the angle in rad.</param>
-        public Angle(Double value)
+        public CssAngleValue(Double value)
             : this(value, Unit.Rad)
         {
         }
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="value">The value of the angle.</param>
         /// <param name="unit">The unit of the angle.</param>
-        public Angle(Double value, Unit unit)
+        public CssAngleValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -111,7 +111,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two angles.
         /// </summary>
-        public static Boolean operator >=(Angle a, Angle b)
+        public static Boolean operator >=(CssAngleValue a, CssAngleValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == 1;
@@ -120,12 +120,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two angles.
         /// </summary>
-        public static Boolean operator >(Angle a, Angle b) => a.CompareTo(b) == 1;
+        public static Boolean operator >(CssAngleValue a, CssAngleValue b) => a.CompareTo(b) == 1;
 
         /// <summary>
         /// Compares the magnitude of two angles.
         /// </summary>
-        public static Boolean operator <=(Angle a, Angle b)
+        public static Boolean operator <=(CssAngleValue a, CssAngleValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == -1;
@@ -134,14 +134,14 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two angles.
         /// </summary>
-        public static Boolean operator <(Angle a, Angle b) => a.CompareTo(b) == -1;
+        public static Boolean operator <(CssAngleValue a, CssAngleValue b) => a.CompareTo(b) == -1;
 
         /// <summary>
         /// Compares the current angle against the given one.
         /// </summary>
         /// <param name="other">The angle to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Angle other) => ToRadian().CompareTo(other.ToRadian());
+        public Int32 CompareTo(CssAngleValue other) => ToRadian().CompareTo(other.ToRadian());
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace AngleSharp.Css.Values
             if (_unit != Unit.Rad)
             {
                 var rad = ToRadian();
-                return new Angle(rad, Unit.Rad);
+                return new CssAngleValue(rad, Unit.Rad);
             }
 
             return this;
@@ -164,13 +164,13 @@ namespace AngleSharp.Css.Values
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Angle result)
+        public static Boolean TryParse(String s, out CssAngleValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Angle(value, unit);
+                result = new CssAngleValue(value, unit);
                 return true;
             }
 
@@ -226,11 +226,26 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
+        /// Converts the contained value to degree.
+        /// </summary>
+        /// <returns>The value in degree.</returns>
+        public Double ToDegree()
+        {
+            return _unit switch
+            {
+                Unit.Turn => _value * 360.0,
+                Unit.Grad => _value * (360.0 / 400.0),
+                Unit.Rad => _value / (180.0 / Math.PI),
+                _ => _value,
+            };
+        }
+
+        /// <summary>
         /// Checks for equality with the other angle.
         /// </summary>
         /// <param name="other">The angle to compare with.</param>
         /// <returns>True if both represent the same angle in rad.</returns>
-        public Boolean Equals(Angle other) => ToRadian() == other.ToRadian();
+        public Boolean Equals(CssAngleValue other) => ToRadian() == other.ToRadian();
 
         #endregion
 
@@ -270,12 +285,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Checks for equality of two angles.
         /// </summary>
-        public static Boolean operator ==(Angle a, Angle b) => a.Equals(b);
+        public static Boolean operator ==(CssAngleValue a, CssAngleValue b) => a.Equals(b);
 
         /// <summary>
         /// Checks for inequality of two angles.
         /// </summary>
-        public static Boolean operator !=(Angle a, Angle b) => !a.Equals(b);
+        public static Boolean operator !=(CssAngleValue a, CssAngleValue b) => !a.Equals(b);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -284,7 +299,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Angle?;
+            var other = obj as CssAngleValue?;
 
             if (other != null)
             {
@@ -293,6 +308,8 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAngleValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current angle.

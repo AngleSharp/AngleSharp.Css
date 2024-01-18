@@ -73,6 +73,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
             obj is CssQuoteValue quote && Equals(quote);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssQuoteValue value && Equals(value);
 
         /// <summary>
         /// Gets the hash code of the object.

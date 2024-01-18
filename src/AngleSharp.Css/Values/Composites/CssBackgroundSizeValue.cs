@@ -89,6 +89,15 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Compares to another background size.
+        /// </summary>
+        /// <param name="other">The other background size.</param>
+        /// <returns>True if both are equivalent, otherwise false.</returns>
+        public Boolean Equals(CssBackgroundSizeValue other) => _mode == other._mode && _height.Equals(other._height) && _width.Equals(other._width);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundSizeValue value && Equals(value);
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             if (_mode == ValueMode.Explicit)
@@ -100,13 +109,6 @@ namespace AngleSharp.Css.Values
 
             return this;
         }
-
-        /// <summary>
-        /// Compares to another background size.
-        /// </summary>
-        /// <param name="other">The other background size.</param>
-        /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundSizeValue other) => _mode == other._mode && _height == other._height && _width == other._width;
 
         #endregion
 

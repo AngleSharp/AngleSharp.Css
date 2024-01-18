@@ -167,7 +167,7 @@ namespace AngleSharp.Css
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseNumber));
+        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseNumber);
 
         /// <summary>
         /// Represents a (calculated) number object.
@@ -202,7 +202,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents an number object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseNaturalNumber));
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseNaturalNumber);
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -753,7 +753,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
 		/// </summary>
-		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseGreaterOrEqualOneNumber));
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseGreaterOrEqualOneNumber);
 
 		/// <summary>
 		/// Represents a ratio object.

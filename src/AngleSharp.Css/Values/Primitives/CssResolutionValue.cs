@@ -225,6 +225,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssResolutionValue value && Equals(value);
+
         /// <summary>
         /// Returns a hash code that defines the current resolution.
         /// </summary>

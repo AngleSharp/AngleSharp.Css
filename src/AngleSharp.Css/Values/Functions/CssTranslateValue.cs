@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the translate3d transformation.
     /// </summary>
-    sealed class CssTranslateValue : ICssTransformFunctionValue
+    sealed class CssTranslateValue : ICssTransformFunctionValue, IEquatable<CssTranslateValue>
     {
         #region Fields
 
@@ -100,17 +100,26 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssTranslateValue other)
+        {
+            return _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssTranslateValue value && Equals(value);
+
+        /// <summary>
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
-            var x = _x as CssLengthValue? ?? CssLengthValue.Zero;
-            var y = _y as CssLengthValue? ?? CssLengthValue.Zero;
-            var z = _z as CssLengthValue? ?? CssLengthValue.Zero;
-            var dx = x.ToPixel(renderDimensions, RenderMode.Horizontal);
-            var dy = y.ToPixel(renderDimensions, RenderMode.Vertical);
-            var dz = z.ToPixel(renderDimensions, RenderMode.Undefined);
+            var dx = _x.AsPx(renderDimensions, RenderMode.Horizontal);
+            var dy = _y.AsPx(renderDimensions, RenderMode.Vertical);
+            var dz = _z.AsPx(renderDimensions, RenderMode.Undefined);
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
 

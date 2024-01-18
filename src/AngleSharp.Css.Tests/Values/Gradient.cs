@@ -41,10 +41,10 @@ namespace AngleSharp.Css.Tests.Values
             var gradient = value.Items[0] as CssLinearGradientValue;
             Assert.IsNotNull(gradient);
             Assert.IsFalse(gradient.IsRepeating);
-            Assert.AreEqual(Angle.TripleHalfQuarter, gradient.Angle);
+            Assert.AreEqual(CssAngleValue.TripleHalfQuarter, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Length);
-            Assert.AreEqual(red, gradient.Stops.First().Color);
-            Assert.AreEqual(blue, gradient.Stops.Last().Color);
+            Assert.AreEqual(red, gradient.Stops.OfType<CssGradientStopValue>().First().Color);
+            Assert.AreEqual(blue, gradient.Stops.OfType<CssGradientStopValue>().Last().Color);
 
             Assert.AreEqual(source, property.CssText);
         }
@@ -61,16 +61,16 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(1, value.Items.Length);
             var gradient = value.Items[0] as CssLinearGradientValue;
             Assert.IsFalse(gradient.IsRepeating);
-            Assert.AreEqual(Angle.Quarter, gradient.Angle);
+            Assert.AreEqual(CssAngleValue.Quarter, gradient.Angle);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(7, stops.Length);
-            Assert.AreEqual(CssColors.GetColor("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColors.GetColor("orange").Value, stops[1].Color);
-            Assert.AreEqual(CssColors.GetColor("yellow").Value, stops[2].Color);
-            Assert.AreEqual(CssColors.GetColor("green").Value, stops[3].Color);
-            Assert.AreEqual(CssColors.GetColor("blue").Value, stops[4].Color);
-            Assert.AreEqual(CssColors.GetColor("indigo").Value, stops[5].Color);
-            Assert.AreEqual(CssColors.GetColor("violet").Value, stops[6].Color);
+            Assert.AreEqual(CssColors.GetColor("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColors.GetColor("orange").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColors.GetColor("yellow").Value, ((CssGradientStopValue)stops[2]).Color);
+            Assert.AreEqual(CssColors.GetColor("green").Value, ((CssGradientStopValue)stops[3]).Color);
+            Assert.AreEqual(CssColors.GetColor("blue").Value, ((CssGradientStopValue)stops[4]).Color);
+            Assert.AreEqual(CssColors.GetColor("indigo").Value, ((CssGradientStopValue)stops[5]).Color);
+            Assert.AreEqual(CssColors.GetColor("violet").Value, ((CssGradientStopValue)stops[6]).Color);
         }
 
         [Test]
@@ -85,10 +85,10 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(1, value.Items.Length);
             var gradient = value.Items[0] as CssLinearGradientValue;
             Assert.IsFalse(gradient.IsRepeating);
-            Assert.AreEqual(Angle.TripleHalfQuarter, gradient.Angle);
+            Assert.AreEqual(CssAngleValue.TripleHalfQuarter, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Count());
-            Assert.AreEqual(CssColorValue.Red, gradient.Stops.First().Color);
-            Assert.AreEqual(CssColorValue.FromRgba(255, 0, 0, 0), gradient.Stops.Last().Color);
+            Assert.AreEqual(CssColorValue.Red, gradient.Stops.OfType<CssGradientStopValue>().First().Color);
+            Assert.AreEqual(CssColorValue.FromRgba(255, 0, 0, 0), gradient.Stops.OfType<CssGradientStopValue>().Last().Color);
         }
 
         [Test]
@@ -103,10 +103,10 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(1, value.Items.Length);
             var gradient = value.Items[0] as CssLinearGradientValue;
             Assert.IsFalse(gradient.IsRepeating);
-            Assert.AreEqual(Angle.Half, gradient.Angle);
+            Assert.AreEqual(CssAngleValue.Half, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Count());
-            Assert.AreEqual(CssColorValue.FromHsl(0f, 0.8f, 0.7f), gradient.Stops.First().Color);
-            Assert.AreEqual(CssColorValue.FromHex("bada55"), gradient.Stops.Last().Color);
+            Assert.AreEqual(CssColorValue.FromHsl(0f, 0.8f, 0.7f), gradient.Stops.OfType<CssGradientStopValue>().First().Color);
+            Assert.AreEqual(CssColorValue.FromHex("bada55"), gradient.Stops.OfType<CssGradientStopValue>().Last().Color);
         }
 
         [Test]
@@ -121,11 +121,11 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(1, value.Items.Length);
             var gradient = value.Items[0] as CssLinearGradientValue;
             Assert.IsFalse(gradient.IsRepeating);
-            Assert.AreEqual(Angle.Half, gradient.Angle);
+            Assert.AreEqual(CssAngleValue.Half, gradient.Angle);
             Assert.AreEqual(3, gradient.Stops.Count());
-            Assert.AreEqual(CssColors.GetColor("yellow").Value, gradient.Stops.First().Color);
-            Assert.AreEqual(CssColors.GetColor("blue").Value, gradient.Stops.Skip(1).First().Color);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 255, 0), gradient.Stops.Skip(2).First().Color);
+            Assert.AreEqual(CssColors.GetColor("yellow").Value, gradient.Stops.OfType<CssGradientStopValue>().First().Color);
+            Assert.AreEqual(CssColors.GetColor("blue").Value, gradient.Stops.OfType<CssGradientStopValue>().Skip(1).First().Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 255, 0), gradient.Stops.OfType<CssGradientStopValue>().Skip(2).First().Color);
         }
 
         [Test]
@@ -146,9 +146,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 255, 255), stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromRgba(0, 0, 255, 0), stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 255), stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 255, 255), ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromRgba(0, 0, 255, 0), ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 255), ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -169,9 +169,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromRgb(0xFF, 0xFF, 0x80), stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromRgba(204, 153, 153, 0.4f), stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromRgb(0xE6, 0xE6, 0xFF), stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0xFF, 0xFF, 0x80), ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromRgba(204, 153, 153, 0.4f), ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0xE6, 0xE6, 0xFF), ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -192,8 +192,8 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
-            Assert.AreEqual(CssColorValue.FromRgb(255, 0, 0), stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 255), stops[1].Color);
+            Assert.AreEqual(CssColorValue.FromRgb(255, 0, 0), ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 255), ((CssGradientStopValue)stops[1]).Color);
         }
 
         [Test]
@@ -216,10 +216,10 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssLengthValue.Full, gradient.MinorRadius);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(4, stops.Length);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 0), stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 0), stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromRgba(0, 0, 0, 0.3), stops[2].Color);
-            Assert.AreEqual(CssColorValue.Transparent, stops[3].Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 0), ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromRgb(0, 0, 0), ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromRgba(0, 0, 0, 0.3), ((CssGradientStopValue)stops[2]).Color);
+            Assert.AreEqual(CssColorValue.Transparent, ((CssGradientStopValue)stops[3]).Color);
         }
 
         [Test]
@@ -240,8 +240,8 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.None, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[1].Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[1]).Color);
         }
 
         [Test]
@@ -262,8 +262,8 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.None, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[1].Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[1]).Color);
         }
 
         [Test]
@@ -284,8 +284,8 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.None, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[1].Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[1]).Color);
         }
 
         [Test]
@@ -306,8 +306,8 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[1].Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[1]).Color);
         }
 
         [Test]
@@ -328,9 +328,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.ClosestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -353,9 +353,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(new CssLengthValue(30f, CssLengthValue.Unit.Px), gradient.MinorRadius);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -376,9 +376,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.ClosestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -399,9 +399,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.FarthestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -418,9 +418,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.IsTrue(gradient.IsRepeating);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("blue").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("blue").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -441,9 +441,9 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.None, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("blue").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[2].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("blue").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[2]).Color);
         }
 
         [Test]
@@ -464,11 +464,11 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssRadialGradientValue.SizeMode.ClosestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(5, stops.Length);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[1].Color);
-            Assert.AreEqual(CssColorValue.FromName("green").Value, stops[2].Color);
-            Assert.AreEqual(CssColorValue.FromName("yellow").Value, stops[3].Color);
-            Assert.AreEqual(CssColorValue.FromName("red").Value, stops[4].Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[0]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[1]).Color);
+            Assert.AreEqual(CssColorValue.FromName("green").Value, ((CssGradientStopValue)stops[2]).Color);
+            Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[3]).Color);
+            Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[4]).Color);
         }
     }
 }

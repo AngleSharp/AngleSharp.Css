@@ -166,10 +166,10 @@ namespace AngleSharp.Css.Parser
                     source.SkipSpacesAndComments();
                     return new CssTimeValue(result, CssTimeValue.GetUnit(unit.Dimension));
                 }
-                else if (Angle.GetUnit(unit.Dimension) != Angle.Unit.None)
+                else if (CssAngleValue.GetUnit(unit.Dimension) != CssAngleValue.Unit.None)
                 {
                     source.SkipSpacesAndComments();
-                    return new Angle(result, Angle.GetUnit(unit.Dimension));
+                    return new CssAngleValue(result, CssAngleValue.GetUnit(unit.Dimension));
                 }
                 else if (CssFrequencyValue.GetUnit(unit.Dimension) != CssFrequencyValue.Unit.None)
                 {

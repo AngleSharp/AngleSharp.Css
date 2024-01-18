@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a border radius value.
     /// </summary>
-    sealed class CssBorderRadiusValue : ICssCompositeValue
+    sealed class CssBorderRadiusValue : ICssCompositeValue, IEquatable<CssBorderRadiusValue>
     {
         #region Fields
 
@@ -66,6 +66,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssBorderRadiusValue other)
+        {
+            return _horizontal.Equals(other._horizontal) && _vertical.Equals(other._vertical);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBorderRadiusValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

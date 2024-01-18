@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS border image slice definition.
     /// </summary>
-    public sealed class CssBorderImageSliceValue : ICssCompositeValue
+    public sealed class CssBorderImageSliceValue : ICssCompositeValue, IEquatable<CssBorderImageSliceValue>
     {
         #region Fields
 
@@ -116,6 +116,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssBorderImageSliceValue other)
+        {
+            return _filled == other._filled && _bottom.Equals(other._bottom) && _left.Equals(other._left) && _right.Equals(other._right) && _top.Equals(other._top);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBorderImageSliceValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

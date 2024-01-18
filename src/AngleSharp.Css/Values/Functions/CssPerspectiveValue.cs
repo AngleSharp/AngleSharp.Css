@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the distance transformation.
     /// </summary>
-    sealed class CssPerspectiveValue : ICssTransformFunctionValue
+    sealed class CssPerspectiveValue : ICssTransformFunctionValue, IEquatable<CssPerspectiveValue>
     {
         #region Fields
 
@@ -49,6 +49,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssPerspectiveValue other)
+        {
+            return _distance.Equals(other._distance);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPerspectiveValue value && Equals(value);
 
         /// <summary>
         /// Computes the matrix for the given transformation.

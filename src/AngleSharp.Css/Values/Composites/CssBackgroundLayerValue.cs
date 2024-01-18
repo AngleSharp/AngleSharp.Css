@@ -4,7 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    sealed class CssBackgroundLayerValue : ICssCompositeValue
+    sealed class CssBackgroundLayerValue : ICssCompositeValue, IEquatable<CssBackgroundLayerValue>
     {
         #region Fields
 
@@ -131,6 +131,22 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssBackgroundLayerValue other)
+        {
+            return _clip.Equals(other._clip) &&
+                _repeat.Equals(other._repeat) &&
+                _attachment.Equals(other._attachment) &&
+                _origin.Equals(other._origin) &&
+                _size.Equals(other._size);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundLayerValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

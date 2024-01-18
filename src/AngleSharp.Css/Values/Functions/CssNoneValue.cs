@@ -17,10 +17,9 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

@@ -1,12 +1,12 @@
 namespace AngleSharp.Css.Dom
 {
-    using System;
     using AngleSharp.Css.Values;
+    using System;
 
     /// <summary>
     /// Represents a value of a CSS property.
     /// </summary>
-    public interface ICssValue
+    public interface ICssValue : IEquatable<ICssValue>
     {
         /// <summary>
         /// The text representation of the value.

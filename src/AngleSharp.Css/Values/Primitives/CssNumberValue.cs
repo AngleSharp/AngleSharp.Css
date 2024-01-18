@@ -8,6 +8,20 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public readonly struct CssNumberValue : IEquatable<CssNumberValue>, IComparable<CssNumberValue>, ICssMetricValue
     {
+        #region Basic lengths
+
+        /// <summary>
+        /// Gets the 0.0.
+        /// </summary>
+        public static readonly CssNumberValue Zero = new(0.0);
+
+        /// <summary>
+        /// Gets the 1.0.
+        /// </summary>
+        public static readonly CssNumberValue One = new(0.0);
+
+        #endregion
+
         #region Fields
 
         private readonly Double _value;
@@ -105,6 +119,7 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssNumberValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current number.

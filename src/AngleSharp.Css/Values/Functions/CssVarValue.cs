@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS var replacement.
     /// </summary>
-    public sealed class CssVarValue : ICssFunctionValue
+    public sealed class CssVarValue : ICssFunctionValue, IEquatable<CssVarValue>
     {
         #region Fields
 
@@ -97,6 +97,16 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssVarValue other)
+        {
+            return _defaultValue.Equals(other._defaultValue) && _variableName.Equals(other._variableName);
+        }
+
+        /// <summary>
         /// Resolves the value of the referenced variable. Returns null
         /// if the reference is invalid or cannot be resolved.
         /// </summary>
@@ -113,6 +123,8 @@ namespace AngleSharp.Css.Values
 
             return _defaultValue?.Compute(context);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssVarValue value && Equals(value);
 
         #endregion
     }

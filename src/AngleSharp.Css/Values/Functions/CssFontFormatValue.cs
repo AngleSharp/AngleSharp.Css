@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    sealed class CssFontFormatValue : ICssFunctionValue
+    sealed class CssFontFormatValue : ICssFunctionValue, IEquatable<CssFontFormatValue>
     {
         #region Fields
 
@@ -34,10 +34,16 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssFontFormatValue other) => _fontFormat.Equals(other._fontFormat);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFontFormatValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

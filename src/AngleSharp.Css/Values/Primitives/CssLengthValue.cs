@@ -547,6 +547,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLengthValue value && Equals(value);
+
         /// <summary>
         /// Returns a hash code that defines the current length.
         /// </summary>

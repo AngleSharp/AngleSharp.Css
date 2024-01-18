@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public readonly struct CssPoint2D : IEquatable<CssPoint2D>, ICssPrimitiveValue
+    public readonly struct CssPoint2D : ICssCompositeValue, IEquatable<CssPoint2D>
     {
         #region Basic values
 
@@ -147,6 +147,16 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssPoint2D other)
+        {
+            return _x.Equals(other._x) && _y.Equals(other._y);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var x = _x.Compute(context);
@@ -160,59 +170,7 @@ namespace AngleSharp.Css.Values
             return this;
         }
 
-        #endregion
-
-        #region Equality
-
-        /// <summary>
-        /// Checks the equality of the two given points.
-        /// </summary>
-        /// <param name="a">The left point.</param>
-        /// <param name="b">The right point.</param>
-        /// <returns>True if both points are equal, otherwise false.</returns>
-        public static Boolean operator ==(CssPoint2D a, CssPoint2D b) => a.Equals(b);
-
-        /// <summary>
-        /// Checks the inequality of the two given points.
-        /// </summary>
-        /// <param name="a">The left point.</param>
-        /// <param name="b">The right point.</param>
-        /// <returns>True if both points are not equal, otherwise false.</returns>
-        public static Boolean operator !=(CssPoint2D a, CssPoint2D b) => !a.Equals(b);
-
-        /// <summary>
-        /// Checks if both points are actually equal.
-        /// </summary>
-        /// <param name="other">The other point to compare to.</param>
-        /// <returns>True if both points are equal, otherwise false.</returns>
-        public Boolean Equals(CssPoint2D other) => _x.Equals(other._x) && _y.Equals(other._y);
-
-        /// <summary>
-        /// Tests if another object is equal to this object.
-        /// </summary>
-        /// <param name="obj">The object to test with.</param>
-        /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssPoint2D?;
-
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Returns a hash code that defines the current point.
-        /// </summary>
-        /// <returns>The integer value of the hashcode.</returns>
-        public override Int32 GetHashCode()
-        {
-            var hash = 17 * 37 + _x.GetHashCode();
-            return hash * 37 + _y.GetHashCode();
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPoint2D value && Equals(value);
 
         #endregion
     }

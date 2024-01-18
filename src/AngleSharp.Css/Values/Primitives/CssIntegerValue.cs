@@ -120,6 +120,8 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssIntegerValue value && Equals(value);
+
         /// <summary>
         /// Returns a hash code that defines the current integer.
         /// </summary>

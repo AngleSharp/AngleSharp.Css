@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Values
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class CssRadialGradientValue : ICssGradientFunctionValue
+    public sealed class CssRadialGradientValue : ICssGradientFunctionValue, IEquatable<CssRadialGradientValue>
     {
         #region Fields
 
-        private readonly CssGradientStopValue[] _stops;
+        private readonly ICssValue[] _stops;
         private readonly CssPoint2D _center;
         private readonly ICssValue _width;
         private readonly ICssValue _height;
@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Values
         /// <param name="sizeMode">The size mode of the ellipsoid.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, SizeMode sizeMode, CssGradientStopValue[] stops, Boolean repeating = false)
+        public CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, SizeMode sizeMode, ICssValue[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _center = center;
@@ -64,7 +64,8 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var isDefault = _center == CssPoint2D.Center && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
+                var center = CssPoint2D.Center;
+                var isDefault = _center.X == center.X && _center.Y == center.Y && !_circle && _height == null && _width == null && _sizeMode == SizeMode.None;
                 var args = new List<ICssValue>();
 
                 if (!isDefault)
@@ -145,7 +146,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets all stops.
         /// </summary>
-        public CssGradientStopValue[] Stops => _stops;
+        public ICssValue[] Stops => _stops;
 
         /// <summary>
         /// Gets if the gradient is repeating.
@@ -156,6 +157,37 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssRadialGradientValue other)
+        {
+            if (_center.Equals(other._center) && _width.Equals(other._width) && _height.Equals(other._height) && _repeating == other._repeating && _sizeMode == other._sizeMode && _circle == other._circle)
+            {
+                var count = _stops.Length;
+
+                if (count == other._stops.Length)
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var a = _stops[i];
+                        var b = other._stops[i];
+
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var center = (CssPoint2D)((ICssValue)_center).Compute(context);
@@ -164,6 +196,8 @@ namespace AngleSharp.Css.Values
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
             return new CssRadialGradientValue(_circle, center, width, height, _sizeMode, stops, _repeating);
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRadialGradientValue value && Equals(value);
 
         #endregion
 

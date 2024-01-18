@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// Represents a steps timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    sealed class CssStepsValue : ICssTimingFunctionValue
+    sealed class CssStepsValue : ICssTimingFunctionValue, IEquatable<CssStepsValue>
     {
         #region Fields
 
@@ -100,6 +100,18 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssStepsValue other)
+        {
+            return _start == other._start && _intervals == other._intervals;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStepsValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

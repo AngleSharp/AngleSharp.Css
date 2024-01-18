@@ -62,6 +62,8 @@ namespace AngleSharp.Css.Values
         public override Boolean Equals(Object obj) =>
             obj is CssConstantValue<T> constant && Equals(constant);
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssConstantValue<T> value && Equals(value);
+
         /// <summary>
         /// Gets the computed hash code of the constant.
         /// </summary>

@@ -59,6 +59,8 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssCounterValue other) => Name.Is(other.Name) && Value == other.Value;
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCounterValue value && Equals(value);
+
         /// <summary>
         /// Checks for equality against the given object,
         /// if the provided object is no counter value the

@@ -8,8 +8,14 @@ namespace AngleSharp.Css.Values
     /// </summary>
     sealed class CssCalcDivExpression : ICssCompositeValue
     {
+        #region Fields
+
         private readonly ICssValue _left;
         private readonly ICssValue _right;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new calc division expression.
@@ -21,6 +27,10 @@ namespace AngleSharp.Css.Values
             _left = left;
             _right = right;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the left operand.
@@ -37,6 +47,10 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText => String.Concat(_left.CssText, " / ", _right.CssText);
 
+        #endregion
+
+        #region Methods
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var left = _left.Compute(context);
@@ -48,8 +62,11 @@ namespace AngleSharp.Css.Values
                 return (ICssValue)Activator.CreateInstance(x.GetType(), result);
             }
 
-            // TOOD INVALID
-            return this;
+            return null;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+
+        #endregion
     }
 }

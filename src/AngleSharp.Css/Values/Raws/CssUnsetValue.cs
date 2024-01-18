@@ -48,6 +48,8 @@ namespace AngleSharp.Css.Values
             return this;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUnsetValue o && _value.Equals(o.Value);
+
         #endregion
     }
 }

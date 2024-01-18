@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Parser
         private static CssSkewValue ParseSkew2d(StringSource source)
         {
             ICssValue x = source.ParseAngleOrCalc();
-            ICssValue y = Angle.Zero;
+            ICssValue y = CssAngleValue.Zero;
             var c = source.SkipGetSkip();
 
             if (x == null)
@@ -148,7 +148,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssMatrixValue ParseMatrix(StringSource source, Int32 count)
         {
-            var numbers = new Double[count];
+            var numbers = new ICssValue[count];
             var num = source.ParseNumber();
 
             if (num.HasValue)
@@ -184,7 +184,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssRotateValue ParseRotate2d(StringSource source)
         {
-            return ParseRotate(source, Double.NaN, Double.NaN, Double.NaN);
+            return ParseRotate(source, null, null, null);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssRotateValue ParseRotateX(StringSource source)
         {
-            return ParseRotate(source, 1f, 0f, 0f);
+            return ParseRotate(source, CssNumberValue.One, null, null);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssRotateValue ParseRotateY(StringSource source)
         {
-            return ParseRotate(source, 0f, 1f, 0f);
+            return ParseRotate(source, null, CssNumberValue.One, null);
         }
 
         /// <summary>
@@ -232,21 +232,21 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static CssRotateValue ParseRotateZ(StringSource source)
         {
-            return ParseRotate(source, 0f, 0f, 1f);
+            return ParseRotate(source, null, null, CssNumberValue.One);
         }
 
         /// <summary>
         /// A broad variety of rotate transforms.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-rotate3d
         /// </summary>
-        private static CssRotateValue ParseRotate(StringSource source, Double x, Double y, Double z)
+        private static CssRotateValue ParseRotate(StringSource source, ICssValue x, ICssValue y, ICssValue z)
         {
             var angle = source.ParseAngleOrCalc();
             var f = source.SkipGetSkip();
 
             if (angle != null && f == Symbols.RoundBracketClose)
             {
-                return new CssRotateValue(x, z, y, angle);
+                return new CssRotateValue(x, y, z, angle);
             }
 
             return null;
@@ -263,7 +263,7 @@ namespace AngleSharp.Css.Parser
 
             if (x.HasValue)
             {
-                var y = default(Double?);
+                var y = default(ICssValue);
 
                 if (f == Symbols.Comma)
                 {
@@ -273,7 +273,7 @@ namespace AngleSharp.Css.Parser
 
                 if (f == Symbols.RoundBracketClose)
                 {
-                    return new CssScaleValue(x.Value, y ?? x.Value, 1.0);
+                    return new CssScaleValue(x.Value, y ?? x.Value, null);
                 }
             }
 
@@ -291,15 +291,15 @@ namespace AngleSharp.Css.Parser
 
             if (x.HasValue)
             {
-                var y = default(Double?);
-                var z = default(Double?);
+                var y = default(ICssValue);
+                var z = default(ICssValue);
 
                 if (f == Symbols.Comma)
                 {
                     y = source.ParseNumber();
                     f = source.SkipGetSkip();
 
-                    if (!y.HasValue)
+                    if (y is null)
                     {
                         return null;
                     }
@@ -331,7 +331,7 @@ namespace AngleSharp.Css.Parser
 
             if (x.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new CssScaleValue(x.Value, 1.0, 1.0);
+                return new CssScaleValue(x.Value, null, null);
             }
 
             return null;
@@ -348,7 +348,7 @@ namespace AngleSharp.Css.Parser
 
             if (y.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new CssScaleValue(1.0, y.Value, 1.0);
+                return new CssScaleValue(null, y.Value, null);
             }
 
             return null;
@@ -365,7 +365,7 @@ namespace AngleSharp.Css.Parser
 
             if (z.HasValue && f == Symbols.RoundBracketClose)
             {
-                return new CssScaleValue(1.0, 1.0, z.Value);
+                return new CssScaleValue(null, null, z.Value);
             }
 
             return null;

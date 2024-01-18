@@ -57,6 +57,8 @@ namespace AngleSharp.Css.Values
             return null;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAnyValue o && _text.Equals(o.CssText);
+
         #endregion
     }
 }

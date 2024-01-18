@@ -61,6 +61,8 @@ namespace AngleSharp.Css.Values
         public override Boolean Equals(Object obj) =>
             obj is CssIdentifierValue ident && Equals(ident);
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssIdentifierValue value && Equals(value);
+
         /// <summary>
         /// Gets the hash code of the object.
         /// </summary>

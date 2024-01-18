@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS content function call.
     /// </summary>
-    public sealed class CssContentValue : ICssFunctionValue
+    public sealed class CssContentValue : ICssFunctionValue, IEquatable<CssContentValue>
     {
         #region Fields
 
@@ -54,10 +54,16 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssContentValue other) => _type.Equals(other._type);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssContentValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

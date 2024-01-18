@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS cursor definition.
     /// </summary>
-    sealed class CssCursorValue : ICssCompositeValue
+    sealed class CssCursorValue : ICssCompositeValue, IEquatable<CssCursorValue>
     {
         #region Fields
 
@@ -66,6 +66,36 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssCursorValue other)
+        {
+            var l = _definitions.Length;
+
+            if (_cursor.Equals(other._cursor) && l == other._definitions.Length)
+            {
+                for (var i = 0; i < l; i++)
+                {
+                    var a = _definitions[i];
+                    var b = other._definitions[i];
+
+                    if (!a.Equals(b))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCursorValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

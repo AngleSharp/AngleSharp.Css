@@ -72,6 +72,8 @@ namespace AngleSharp.Css.Values
             ListStyle.Is(other.ListStyle) &&
             DefinedSeparator.Is(other.DefinedSeparator);
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCounterDefinitionValue value && Equals(value);
+
         /// <summary>
         /// Checks for equality against the given object, if
         /// the provided object is no counter definition the

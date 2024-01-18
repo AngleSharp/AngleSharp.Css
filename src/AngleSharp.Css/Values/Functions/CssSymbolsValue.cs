@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS symbols function call.
     /// </summary>
-    public sealed class CssSymbolsValue : ICssFunctionValue
+    public sealed class CssSymbolsValue : ICssFunctionValue, IEquatable<CssSymbolsValue>
     {
         #region Fields
 
@@ -58,6 +58,36 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssSymbolsValue other)
+        {
+            var l = _entries.Count;
+
+            if (_type.Equals(other._type) && l == other._entries.Count)
+            {
+                for (var i = 0; i < l; i++)
+                {
+                    var a = _entries[i];
+                    var b = other._entries[i];
+
+                    if (!a.Equals(b))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssSymbolsValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
