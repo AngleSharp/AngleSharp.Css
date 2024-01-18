@@ -40,13 +40,13 @@ namespace AngleSharp.Css.Declarations
                             break;
 
                         source.SkipCurrentAndSpaces();
-                        var position = default(Point?);
+                        var position = default(CssPoint2D?);
 
                         if (x.HasValue)
                         {
                             var xp = new Length(x.Value, Length.Unit.None);
                             var yp = new Length(y.Value, Length.Unit.None);
-                            position = new Point(xp, yp);
+                            position = new CssPoint2D(xp, yp);
                         }
 
                         definitions.Add(new CssCustomCursorValue(imageSource, position));

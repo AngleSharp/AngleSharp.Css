@@ -18,14 +18,34 @@ namespace AngleSharp.Css
         /// <returns>The CSS color representation.</returns>
         public static String CssColor(this String value)
         {
-            var color = default(Color);
-
-            if (Color.TryFromHex(value, out color))
+            if (Color.TryFromHex(value, out var color))
             {
                 return color.CssText;
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Parses the integer according to the rules.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="result">The result of parsing the string.</param>
+        /// <returns>The indicator if the string was indeed an integer.</returns>
+        public static Boolean CssInteger(this String value, out Int32 result)
+        {
+            return Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+        }
+
+        /// <summary>
+        /// Parses the number according to the rules.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="result">The result of parsing the string.</param>
+        /// <returns>The indicator if the string was indeed a number.</returns>
+        public static Boolean CssNumber(this String value, out Double result)
+        {
+            return Double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
         }
 
         /// <summary>
@@ -46,7 +66,7 @@ namespace AngleSharp.Css
                     // Intentional empty.
                 }
 
-                if (firstLetter > 0 && Double.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+                if (firstLetter > 0 && value.Substring(0, firstLetter).CssNumber(out result))
                 {
                     return value.Substring(firstLetter);
                 }

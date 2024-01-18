@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Values
             get
             {
                 var defaultAngle = _angle as Angle?;
-                var defaultPosition = _center as Point?;
+                var defaultPosition = _center as CssPoint2D?;
                 var offset = (defaultAngle.HasValue ? 1 : 0) + (defaultPosition.HasValue ? 1 : 0);
                 var args = new String[_stops.Length + offset];
 
@@ -108,7 +108,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the position of the conic gradient.
         /// </summary>
-        public ICssValue Center => _center ?? Point.Center;
+        public ICssValue Center => _center ?? CssPoint2D.Center;
 
         /// <summary>
         /// Gets all stops.

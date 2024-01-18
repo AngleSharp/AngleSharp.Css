@@ -214,7 +214,7 @@ namespace AngleSharp.Css
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
+        public static readonly IValueConverter PointConverter = new StructValueConverter<CssPoint2D>(PointParser.ParsePoint);
 
         /// <summary>
         /// Represents an origin (Point3D) object.

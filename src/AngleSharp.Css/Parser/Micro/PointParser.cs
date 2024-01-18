@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a point value.
         /// </summary>
-        public static Point? ParsePoint(this StringSource source)
+        public static CssPoint2D? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
             var x = new Length(50f, Length.Unit.Percent);
@@ -91,7 +91,7 @@ namespace AngleSharp.Css.Parser
                 {
                     x = KeywordToLength(l).Value;
                     y = KeywordToLength(r).Value;
-                    return new Point(x, y);
+                    return new CssPoint2D(x, y);
                 }
             }
             else if (l != null)
@@ -101,12 +101,12 @@ namespace AngleSharp.Css.Parser
                 if (IsHorizontal(l))
                 {
                     x = KeywordToLength(l).Value;
-                    return new Point(x, s ?? y);
+                    return new CssPoint2D(x, s ?? y);
                 }
                 else if (IsVertical(l))
                 {
                     y = KeywordToLength(l).Value;
-                    return new Point(s ?? x, y);
+                    return new CssPoint2D(s ?? x, y);
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace AngleSharp.Css.Parser
 
                 if (s != null)
                 {
-                    return new Point(f ?? x, s ?? y);
+                    return new CssPoint2D(f ?? x, s ?? y);
                 }
                 else if (f != null)
                 {
@@ -126,22 +126,22 @@ namespace AngleSharp.Css.Parser
 
                     if (r == null)
                     {
-                        return new Point(f, y);
+                        return new CssPoint2D(f, y);
                     }
                     else if (IsVertical(r))
                     {
                         y = KeywordToLength(r).Value;
-                        return new Point(f ?? x, y);
+                        return new CssPoint2D(f ?? x, y);
                     }
                     else if (IsHorizontal(r))
                     {
                         x = KeywordToLength(r).Value;
-                        return new Point(x, f ?? y);
+                        return new CssPoint2D(x, f ?? y);
                     }
                     else
                     {
                         source.BackTo(pos);
-                        return new Point(f ?? x, y);
+                        return new CssPoint2D(f ?? x, y);
                     }
                 }
             }

@@ -42,7 +42,7 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var pt = new Point(_x, _y).CssText;
+                var pt = new CssPoint2D(_x, _y).CssText;
                 return _z != null ? String.Concat(pt, " ", _z.CssText) : pt;
             }
         }

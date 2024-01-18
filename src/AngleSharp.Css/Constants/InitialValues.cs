@@ -151,11 +151,11 @@ namespace AngleSharp.Css
         public static readonly ICssValue ColumnGapDecl = new Constant<Length>(CssKeywords.Normal, Length.Normal);
         public static readonly ICssValue RowGapDecl = new Constant<Length>(CssKeywords.Normal, Length.Normal);
         public static readonly ICssValue PerspectiveDecl = new Constant<Object>(CssKeywords.None, null);
-        public static readonly ICssValue PerspectiveOriginDecl = Point.Center;
+        public static readonly ICssValue PerspectiveOriginDecl = CssPoint2D.Center;
         public static readonly ICssValue PositionDecl = new Constant<PositionMode>(CssKeywords.Inline, PositionMode.Static);
         public static readonly ICssValue TransformDecl = new Constant<Object>(CssKeywords.None, null);
         public static readonly ICssValue TransformStyleDecl = new Constant<Boolean>(CssKeywords.Flat, true);
-        public static readonly ICssValue TransformOriginDecl = Point.Center;
+        public static readonly ICssValue TransformOriginDecl = CssPoint2D.Center;
         public static readonly ICssValue TableLayoutDecl = new Constant<Boolean>(CssKeywords.Auto, false);
         public static readonly ICssValue ClearDecl = new Constant<ClearMode>(CssKeywords.None, ClearMode.None);
         public static readonly ICssValue ClipDecl = new Constant<Length>(CssKeywords.Auto, Length.Auto);
@@ -199,7 +199,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue OrphansDecl = new Length(2, Length.Unit.None);
         public static readonly ICssValue OrderDecl = new Length(0, Length.Unit.None);
         public static readonly ICssValue ObjectFitDecl = new Constant<ObjectFitting>(CssKeywords.Fill, ObjectFitting.Fill);
-        public static readonly ICssValue ObjectPositionDecl = Point.Center;
+        public static readonly ICssValue ObjectPositionDecl = CssPoint2D.Center;
         public static readonly ICssValue WhiteSpaceDecl = new Constant<Whitespace>(CssKeywords.Normal, Whitespace.Normal);
         public static readonly ICssValue ZIndexDecl = new Constant<Length>(CssKeywords.Auto, Length.Auto);
         public static readonly ICssValue WidthDecl = Length.Auto;
