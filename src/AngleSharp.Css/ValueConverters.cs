@@ -61,12 +61,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the auto keyword with no value.
         /// </summary>
-        public static IValueConverter Auto = new IdentifierValueConverter<Length>(CssKeywords.Auto, Length.Auto);
+        public static IValueConverter Auto = new IdentifierValueConverter<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
 
         /// <summary>
         /// Represents a converter for the content keyword with no value.
         /// </summary>
-        public static IValueConverter Content = new IdentifierValueConverter<Length>(CssKeywords.Content, Length.Content);
+        public static IValueConverter Content = new IdentifierValueConverter<CssLengthValue>(CssKeywords.Content, CssLengthValue.Content);
 
         /// <summary>
         /// Represents a length object with line-width additions.
@@ -84,29 +84,29 @@ namespace AngleSharp.Css
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
         /// </summary>
-        public static readonly IValueConverter OnlyLengthConverter = new StructValueConverter<Length>(UnitParser.ParseLength);
+        public static readonly IValueConverter OnlyLengthConverter = new StructValueConverter<CssLengthValue>(UnitParser.ParseLength);
 
         /// <summary>
         /// Represents a resolution object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
         /// </summary>
-        public static readonly IValueConverter OnlyResolutionConverter = new StructValueConverter<Resolution>(UnitParser.ParseResolution);
+        public static readonly IValueConverter OnlyResolutionConverter = new StructValueConverter<CssResolutionValue>(UnitParser.ParseResolution);
 
         /// <summary>
         /// Represents a time object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
         /// </summary>
-        public static readonly IValueConverter OnlyTimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
+        public static readonly IValueConverter OnlyTimeConverter = new StructValueConverter<CssTimeValue>(UnitParser.ParseTime);
 
         /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
-        public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
+        public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<CssLengthValue>(UnitParser.ParseDistance);
 
         /// <summary>
         /// Represents a string object.
         /// </summary>
-        public static readonly IValueConverter StringConverter = new StructValueConverter<Label>(FromString(StringParser.ParseString));
+        public static readonly IValueConverter StringConverter = new StructValueConverter<CssStringValue>(FromString(StringParser.ParseString));
 
         /// <summary>
         /// Represents an URL object.
@@ -141,33 +141,33 @@ namespace AngleSharp.Css
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseInteger));
+        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseInteger));
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseNaturalInteger));
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseNaturalInteger));
 
         /// <summary>
         /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
         /// </summary>
-        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseWeightInteger));
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseWeightInteger));
 
         /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParsePositiveInteger));
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParsePositiveInteger));
 
         /// <summary>
         /// Represents an integer object with 0 or 1.
         /// </summary>
-        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseBinary));
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseBinary));
 
         /// <summary>
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNumber));
+        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseNumber));
 
         /// <summary>
         /// Represents a (calculated) number object.
@@ -202,13 +202,13 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents an number object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNaturalNumber));
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseNaturalNumber));
 
         /// <summary>
         /// Represents an color object (usually hex or name).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
         /// </summary>
-        public static readonly IValueConverter ColorConverter = new StructValueConverter<Color>(ColorParser.ParseColor);
+        public static readonly IValueConverter ColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseColor);
 
         /// <summary>
         /// Represents a position object.
@@ -629,7 +629,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter OptionalLengthConverter = Or(
             LengthConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
 
         /// <summary>
         /// Represents a length (or default).
@@ -678,14 +678,14 @@ namespace AngleSharp.Css
         public static readonly IValueConverter LineHeightConverter = Or(
             LengthOrPercentConverter,
             NumberConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
         
         /// <summary>
         /// Represents a distance object or normal length.
         /// </summary>
         public static readonly IValueConverter GapConverter = Or(
             LengthOrPercentConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.
@@ -725,14 +725,14 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ColorParser.ParseCurrentColor);
+        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseCurrentColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = Or(
             CurrentColorConverter,
-            Assign(CssKeywords.Invert, Color.InvertedColor));
+            Assign(CssKeywords.Invert, CssColorValue.InvertedColor));
 
 		/// <summary>
 		/// Represents a paint object.
@@ -753,13 +753,13 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
 		/// </summary>
-		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseGreaterOrEqualOneNumber));
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<CssLengthValue>(FromNumber(NumberParser.ParseGreaterOrEqualOneNumber));
 
 		/// <summary>
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
-		public static readonly IValueConverter RatioConverter = new StructValueConverter<Ratio>(NumberParser.ParseRatio);
+		public static readonly IValueConverter RatioConverter = new StructValueConverter<CssRatioValue>(NumberParser.ParseRatio);
 
         /// <summary>
         /// Represents multiple shadow objects.
@@ -887,7 +887,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for LineName values.
         /// </summary>
-        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<LineNames>(GridParser.ParseLineNames);
+        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<CssLineNamesValue>(GridParser.ParseLineNames);
 
         /// <summary>
         /// Represents a converter for TrackSize values.
@@ -960,37 +960,37 @@ namespace AngleSharp.Css
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
 
-        private static Func<StringSource, Label?> FromString(Func<StringSource, String> converter) => source =>
+        private static Func<StringSource, CssStringValue?> FromString(Func<StringSource, String> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result != null)
             {
-                return new Label(result);
+                return new CssStringValue(result);
             }
 
             return null;
         };
 
-        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter) => source =>
+        private static Func<StringSource, CssLengthValue?> FromInteger(Func<StringSource, Int32?> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result.HasValue)
             {
-                return new Length(result.Value, Length.Unit.None);
+                return new CssLengthValue(result.Value, CssLengthValue.Unit.None);
             }
 
             return null;
         };
 
-        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter) => source =>
+        private static Func<StringSource, CssLengthValue?> FromNumber(Func<StringSource, Double?> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result.HasValue)
             {
-                return new Length(result.Value, Length.Unit.None);
+                return new CssLengthValue(result.Value, CssLengthValue.Unit.None);
             }
 
             return null;

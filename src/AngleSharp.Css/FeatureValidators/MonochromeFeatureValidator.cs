@@ -10,7 +10,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var defaultValue = new Length(1.0, Length.Unit.None);
+            var defaultValue = new CssLengthValue(1.0, CssLengthValue.Unit.None);
             var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(defaultValue);
             var index = converter.Convert(feature.Value);
 

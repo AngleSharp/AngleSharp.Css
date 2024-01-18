@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Values
                 var rows = String.Empty;
                 var cols = _columns?.CssText;
 
-                if (_areas is Constant<object> || _columns is Constant<object> || _rows is Constant<object>)
+                if (_areas is CssConstantValue<object> || _columns is CssConstantValue<object> || _rows is CssConstantValue<object>)
                 {
                     return CssKeywords.None;
                 }

@@ -146,7 +146,7 @@ namespace AngleSharp.Css.Declarations
                         img.Widths,
                     };
                 }
-                else if (value is Constant<Object> constant)
+                else if (value is CssConstantValue<Object> constant)
                 {
                     return new ICssValue[]
                     {

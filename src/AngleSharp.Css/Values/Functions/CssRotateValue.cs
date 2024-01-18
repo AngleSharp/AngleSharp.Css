@@ -73,9 +73,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public ICssValue[] Arguments => new ICssValue[]
         {
-            new Length(_x, Length.Unit.None),
-            new Length(_y, Length.Unit.None),
-            new Length(_z, Length.Unit.None),
+            new CssLengthValue(_x, CssLengthValue.Unit.None),
+            new CssLengthValue(_y, CssLengthValue.Unit.None),
+            new CssLengthValue(_z, CssLengthValue.Unit.None),
             _angle,
         };
 

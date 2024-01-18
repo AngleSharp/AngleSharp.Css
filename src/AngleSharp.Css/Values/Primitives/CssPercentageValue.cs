@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public readonly struct Percentage : IEquatable<Percentage>, IComparable<Percentage>, ICssMetricValue
+    public readonly struct CssPercentageValue : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new percentage value.
         /// </summary>
         /// <param name="value">The value of the percentage (0-100).</param>
-        public Percentage(Double value)
+        public CssPercentageValue(Double value)
             : this(value, Unit.Percent)
         {
         }
@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="value">The value of the percentage.</param>
         /// <param name="unit">The unit.</param>
-        public Percentage(Double value, Unit unit)
+        public CssPercentageValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -86,13 +86,13 @@ namespace AngleSharp.Css.Values
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Percentage result)
+        public static Boolean TryParse(String s, out CssPercentageValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Percentage(value, unit);
+                result = new CssPercentageValue(value, unit);
                 return true;
             }
 
@@ -126,7 +126,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The given percentage to check for equality.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Percentage other) => _value == other._value && _unit == other._unit;
+        public Boolean Equals(CssPercentageValue other) => _value == other._value && _unit == other._unit;
 
         #endregion
 
@@ -156,7 +156,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The percentage to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Percentage other) => _value.CompareTo(other._value);
+        public Int32 CompareTo(CssPercentageValue other) => _value.CompareTo(other._value);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -165,7 +165,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Percentage?;
+            var other = obj as CssPercentageValue?;
 
             if (other != null)
             {

@@ -4,331 +4,326 @@ namespace AngleSharp.Css.Tests.Values
     using NUnit.Framework;
 
     [TestFixture]
-    public class ColorTests
+    public class CssColorValueTests
     {
         [Test]
-        public void ColorInvalidHexDigitString()
+        public void CssColorValueInvalidHexDigitString()
         {
-            Color hc;
             var color = "BCDEFG";
-            var result = Color.TryFromHex(color, out hc);
+            var result = CssColorValue.TryFromHex(color, out var hc);
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void ColorValidFourLetterString()
+        public void CssColorValueValidFourLetterString()
         {
-            Color hc;
             var color = "abcd";
-            var result = Color.TryFromHex(color, out hc);
-            Assert.AreEqual(new Color(170, 187, 204, 221), hc);
+            var result = CssColorValue.TryFromHex(color, out var hc);
+            Assert.AreEqual(new CssColorValue(170, 187, 204, 221), hc);
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void ColorInvalidLengthString()
+        public void CssColorValueInvalidLengthString()
         {
-            Color hc;
             var color = "abcde";
-            var result = Color.TryFromHex(color, out hc);
+            var result = CssColorValue.TryFromHex(color, out var hc);
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void ColorValidLengthShortString()
+        public void CssColorValueValidLengthShortString()
         {
-            Color hc;
             var color = "fff";
-            var result = Color.TryFromHex(color, out hc);
+            var result = CssColorValue.TryFromHex(color, out var hc);
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void ColorValidLengthLongString()
+        public void CssColorValueValidLengthLongString()
         {
-            Color hc;
             var color = "fffabc";
-            var result = Color.TryFromHex(color, out hc);
+            var result = CssColorValue.TryFromHex(color, out var hc);
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void ColorWhiteShortString()
+        public void CssColorValueWhiteShortString()
         {
             var color = "fff";
-            var result = Color.FromHex(color);
-            Assert.AreEqual(Color.FromRgb(255, 255, 255), result);
+            var result = CssColorValue.FromHex(color);
+            Assert.AreEqual(CssColorValue.FromRgb(255, 255, 255), result);
         }
 
         [Test]
-        public void ColorRedShortString()
+        public void CssColorValueRedShortString()
         {
             var color = "f00";
-            var result = Color.FromHex(color);
-            Assert.AreEqual(Color.FromRgb(255, 0, 0), result);
+            var result = CssColorValue.FromHex(color);
+            Assert.AreEqual(CssColorValue.FromRgb(255, 0, 0), result);
         }
 
         [Test]
-        public void ColorFromRedName()
+        public void CssColorValueFromRedName()
         {
             var color = "red";
-            var result = Color.FromName(color);
+            var result = CssColorValue.FromName(color);
             Assert.IsTrue(result.HasValue);
-            Assert.AreEqual(Color.Red, result);
+            Assert.AreEqual(CssColorValue.Red, result);
         }
 
         [Test]
-        public void ColorFromWhiteName()
+        public void CssColorValueFromWhiteName()
         {
             var color = "white";
-            var result = Color.FromName(color);
+            var result = CssColorValue.FromName(color);
             Assert.IsTrue(result.HasValue);
-            Assert.AreEqual(Color.White, result);
+            Assert.AreEqual(CssColorValue.White, result);
         }
 
         [Test]
-        public void ColorFromUnknownName()
+        public void CssColorValueFromUnknownName()
         {
             var color = "bla";
-            var result = Color.FromName(color);
+            var result = CssColorValue.FromName(color);
             Assert.IsFalse(result.HasValue);
         }
 
         [Test]
-        public void ColorMixedLongString()
+        public void CssColorValueMixedLongString()
         {
             var color = "facc36";
-            var result = Color.FromHex(color);
-            Assert.AreEqual(Color.FromRgb(250, 204, 54), result);
+            var result = CssColorValue.FromHex(color);
+            Assert.AreEqual(CssColorValue.FromRgb(250, 204, 54), result);
         }
 
         [Test]
-        public void ColorMixedEightDigitLongStringTransparent()
+        public void CssColorValueMixedEightDigitLongStringTransparent()
         {
             var color = "facc3600";
-            var result = Color.FromHex(color);
-            Assert.AreEqual(Color.FromRgba(250, 204, 54, 0), result);
+            var result = CssColorValue.FromHex(color);
+            Assert.AreEqual(CssColorValue.FromRgba(250, 204, 54, 0), result);
         }
 
         [Test]
-        public void ColorMixedEightDigitLongStringOpaque()
+        public void CssColorValueMixedEightDigitLongStringOpaque()
         {
             var color = "facc36ff";
-            var result = Color.FromHex(color);
-            Assert.AreEqual(Color.FromRgba(250, 204, 54, 1), result);
+            var result = CssColorValue.FromHex(color);
+            Assert.AreEqual(CssColorValue.FromRgba(250, 204, 54, 1), result);
         }
 
         [Test]
-        public void ColorMixBlackOnWhite50Percent()
+        public void CssColorValueMixBlackOnWhite50Percent()
         {
-            var color1 = Color.Black;
-            var color2 = Color.White;
-            var mix = Color.Mix(0.5, color1, color2);
-            Assert.AreEqual(Color.FromRgb(127, 127, 127), mix);
+            var color1 = CssColorValue.Black;
+            var color2 = CssColorValue.White;
+            var mix = CssColorValue.Mix(0.5, color1, color2);
+            Assert.AreEqual(CssColorValue.FromRgb(127, 127, 127), mix);
         }
 
         [Test]
-        public void ColorMixRedOnWhite75Percent()
+        public void CssColorValueMixRedOnWhite75Percent()
         {
-            var color1 = Color.Red;
-            var color2 = Color.White;
-            var mix = Color.Mix(0.75, color1, color2);
-            Assert.AreEqual(Color.FromRgb(255, 63, 63), mix);
+            var color1 = CssColorValue.Red;
+            var color2 = CssColorValue.White;
+            var mix = CssColorValue.Mix(0.75, color1, color2);
+            Assert.AreEqual(CssColorValue.FromRgb(255, 63, 63), mix);
         }
 
         [Test]
-        public void ColorMixBlueOnWhite10Percent()
+        public void CssColorValueMixBlueOnWhite10Percent()
         {
-            var color1 = Color.Blue;
-            var color2 = Color.White;
-            var mix = Color.Mix(0.1, color1, color2);
-            Assert.AreEqual(Color.FromRgb(229, 229, 255), mix);
+            var color1 = CssColorValue.Blue;
+            var color2 = CssColorValue.White;
+            var mix = CssColorValue.Mix(0.1, color1, color2);
+            Assert.AreEqual(CssColorValue.FromRgb(229, 229, 255), mix);
         }
 
         [Test]
-        public void ColorMixGreenOnRed30Percent()
+        public void CssColorValueMixGreenOnRed30Percent()
         {
-            var color1 = Color.PureGreen;
-            var color2 = Color.Red;
-            var mix = Color.Mix(0.3, color1, color2);
-            Assert.AreEqual(Color.FromRgb(178, 76, 0), mix);
+            var color1 = CssColorValue.PureGreen;
+            var color2 = CssColorValue.Red;
+            var mix = CssColorValue.Mix(0.3, color1, color2);
+            Assert.AreEqual(CssColorValue.FromRgb(178, 76, 0), mix);
         }
 
         [Test]
-        public void ColorMixWhiteOnBlack20Percent()
+        public void CssColorValueMixWhiteOnBlack20Percent()
         {
-            var color1 = Color.White;
-            var color2 = Color.Black;
-            var mix = Color.Mix(0.2, color1, color2);
-            Assert.AreEqual(Color.FromRgb(51, 51, 51), mix);
+            var color1 = CssColorValue.White;
+            var color2 = CssColorValue.Black;
+            var mix = CssColorValue.Mix(0.2, color1, color2);
+            Assert.AreEqual(CssColorValue.FromRgb(51, 51, 51), mix);
         }
 
         [Test]
-        public void ColorHslBlackMixed()
+        public void CssColorValueHslBlackMixed()
         {
-            var color = Color.FromHsl(0, 1, 0);
-            Assert.AreEqual(Color.Black, color);
+            var color = CssColorValue.FromHsl(0, 1, 0);
+            Assert.AreEqual(CssColorValue.Black, color);
         }
 
         [Test]
-        public void ColorHslBlackMixed1()
+        public void CssColorValueHslBlackMixed1()
         {
-            var color = Color.FromHsl(0, 1, 0);
-            Assert.AreEqual(Color.Black, color);
+            var color = CssColorValue.FromHsl(0, 1, 0);
+            Assert.AreEqual(CssColorValue.Black, color);
         }
 
         [Test]
-        public void ColorHslBlackMixed2()
+        public void CssColorValueHslBlackMixed2()
         {
-            var color = Color.FromHsl(0.5f, 1, 0);
-            Assert.AreEqual(Color.Black, color);
+            var color = CssColorValue.FromHsl(0.5f, 1, 0);
+            Assert.AreEqual(CssColorValue.Black, color);
         }
 
         [Test]
-        public void ColorHslRedPure()
+        public void CssColorValueHslRedPure()
         {
-            var color = Color.FromHsl(0, 1, 0.5f);
-            Assert.AreEqual(Color.Red, color);
+            var color = CssColorValue.FromHsl(0, 1, 0.5f);
+            Assert.AreEqual(CssColorValue.Red, color);
         }
 
         [Test]
-        public void ColorHslGreenPure()
+        public void CssColorValueHslGreenPure()
         {
-            var color = Color.FromHsl(1f / 3f, 1, 0.5f);
-            Assert.AreEqual(Color.PureGreen, color);
+            var color = CssColorValue.FromHsl(1f / 3f, 1, 0.5f);
+            Assert.AreEqual(CssColorValue.PureGreen, color);
         }
 
         [Test]
-        public void ColorHslBluePure()
+        public void CssColorValueHslBluePure()
         {
-            var color = Color.FromHsl(2f / 3f, 1, 0.5f);
-            Assert.AreEqual(Color.Blue, color);
+            var color = CssColorValue.FromHsl(2f / 3f, 1, 0.5f);
+            Assert.AreEqual(CssColorValue.Blue, color);
         }
 
         [Test]
-        public void ColorHslBlackPure()
+        public void CssColorValueHslBlackPure()
         {
-            var color = Color.FromHsl(0, 0, 0);
-            Assert.AreEqual(Color.Black, color);
+            var color = CssColorValue.FromHsl(0, 0, 0);
+            Assert.AreEqual(CssColorValue.Black, color);
         }
 
         [Test]
-        public void ColorHslMagentaPure()
+        public void CssColorValueHslMagentaPure()
         {
-            var color = Color.FromHsl(300f / 360f, 1, 0.5f);
-            Assert.AreEqual(Color.Magenta, color);
+            var color = CssColorValue.FromHsl(300f / 360f, 1, 0.5f);
+            Assert.AreEqual(CssColorValue.Magenta, color);
         }
 
         [Test]
-        public void ColorHslYellowGreenMixed()
+        public void CssColorValueHslYellowGreenMixed()
         {
-            var color = Color.FromHsl(1f / 4f, 0.75f, 0.63f);
-            Assert.AreEqual(Color.FromRgb(161, 232, 90), color);
+            var color = CssColorValue.FromHsl(1f / 4f, 0.75f, 0.63f);
+            Assert.AreEqual(CssColorValue.FromRgb(161, 232, 90), color);
         }
 
         [Test]
-        public void ColorHslGrayBlueMixed()
+        public void CssColorValueHslGrayBlueMixed()
         {
-            var color = Color.FromHsl(210f / 360f, 0.25f, 0.25f);
-            Assert.AreEqual(Color.FromRgb(48, 64, 80), color);
+            var color = CssColorValue.FromHsl(210f / 360f, 0.25f, 0.25f);
+            Assert.AreEqual(CssColorValue.FromRgb(48, 64, 80), color);
         }
 
         [Test]
-        public void ColorFlexHexOneLetter()
+        public void CssColorValueFlexHexOneLetter()
         {
-            var color = Color.FromFlexHex("F");
-            Assert.AreEqual(Color.FromRgb(0xf, 0x0, 0x0), color);
+            var color = CssColorValue.FromFlexHex("F");
+            Assert.AreEqual(CssColorValue.FromRgb(0xf, 0x0, 0x0), color);
         }
 
         [Test]
-        public void ColorFlexHexTwoLetters()
+        public void CssColorValueFlexHexTwoLetters()
         {
-            var color = Color.FromFlexHex("0F");
-            Assert.AreEqual(Color.FromRgb(0x0, 0xf, 0x0), color);
+            var color = CssColorValue.FromFlexHex("0F");
+            Assert.AreEqual(CssColorValue.FromRgb(0x0, 0xf, 0x0), color);
         }
 
         [Test]
-        public void ColorFlexHexFourLetters()
+        public void CssColorValueFlexHexFourLetters()
         {
-            var color = Color.FromFlexHex("0F0F");
-            Assert.AreEqual(Color.FromRgb(0xf, 0xf, 0x0), color);
+            var color = CssColorValue.FromFlexHex("0F0F");
+            Assert.AreEqual(CssColorValue.FromRgb(0xf, 0xf, 0x0), color);
         }
 
         [Test]
-        public void ColorFlexHexSevenLetters()
+        public void CssColorValueFlexHexSevenLetters()
         {
-            var color = Color.FromFlexHex("0F0F0F0");
-            Assert.AreEqual(Color.FromRgb(0xf, 0xf0, 0x0), color);
+            var color = CssColorValue.FromFlexHex("0F0F0F0");
+            Assert.AreEqual(CssColorValue.FromRgb(0xf, 0xf0, 0x0), color);
         }
 
         [Test]
-        public void ColorFlexHexFifteenLetters()
+        public void CssColorValueFlexHexFifteenLetters()
         {
-            var color = Color.FromFlexHex("1234567890ABCDE");
-            Assert.AreEqual(Color.FromRgb(0x12, 0x67, 0xab), color);
+            var color = CssColorValue.FromFlexHex("1234567890ABCDE");
+            Assert.AreEqual(CssColorValue.FromRgb(0x12, 0x67, 0xab), color);
         }
 
         [Test]
-        public void ColorFlexHexExtremelyLong()
+        public void CssColorValueFlexHexExtremelyLong()
         {
-            var color = Color.FromFlexHex("1234567890ABCDE1234567890ABCDE");
-            Assert.AreEqual(Color.FromRgb(0x34, 0xcd, 0x89), color);
+            var color = CssColorValue.FromFlexHex("1234567890ABCDE1234567890ABCDE");
+            Assert.AreEqual(CssColorValue.FromRgb(0x34, 0xcd, 0x89), color);
         }
 
         [Test]
-        public void ColorFlexHexRandomString()
+        public void CssColorValueFlexHexRandomString()
         {
-            var color = Color.FromFlexHex("6db6ec49efd278cd0bc92d1e5e072d68");
-            Assert.AreEqual(Color.FromRgb(0x6e, 0xcd, 0xe0), color);
+            var color = CssColorValue.FromFlexHex("6db6ec49efd278cd0bc92d1e5e072d68");
+            Assert.AreEqual(CssColorValue.FromRgb(0x6e, 0xcd, 0xe0), color);
         }
 
         [Test]
-        public void ColorFlexHexSixLettersInvalid()
+        public void CssColorValueFlexHexSixLettersInvalid()
         {
-            var color = Color.FromFlexHex("zqbttv");
-            Assert.AreEqual(Color.FromRgb(0x0, 0xb0, 0x0), color);
+            var color = CssColorValue.FromFlexHex("zqbttv");
+            Assert.AreEqual(CssColorValue.FromRgb(0x0, 0xb0, 0x0), color);
         }
 
         [Test]
-        public void ColorFromGraySimple()
+        public void CssColorValueFromGraySimple()
         {
-            var color = Color.FromGray(25);
-            Assert.AreEqual(Color.FromRgb(25, 25, 25), color);
+            var color = CssColorValue.FromGray(25);
+            Assert.AreEqual(CssColorValue.FromRgb(25, 25, 25), color);
         }
 
         [Test]
-        public void ColorFromGrayWithAlpha()
+        public void CssColorValueFromGrayWithAlpha()
         {
-            var color = Color.FromGray(25, 0.5f);
-            Assert.AreEqual(Color.FromRgba(25, 25, 25, 0.5f), color);
+            var color = CssColorValue.FromGray(25, 0.5f);
+            Assert.AreEqual(CssColorValue.FromRgba(25, 25, 25, 0.5f), color);
         }
 
         [Test]
-        public void ColorFromGrayPercent()
+        public void CssColorValueFromGrayPercent()
         {
-            var color = Color.FromGray(0.5f, 0.5f);
-            Assert.AreEqual(Color.FromRgba(128, 128, 128, 0.5f), color);
+            var color = CssColorValue.FromGray(0.5f, 0.5f);
+            Assert.AreEqual(CssColorValue.FromRgba(128, 128, 128, 0.5f), color);
         }
 
         [Test]
-        public void ColorFromHwbRed()
+        public void CssColorValueFromHwbRed()
         {
-            var color = Color.FromHwb(0f, 0.2f, 0.2f);
-            Assert.AreEqual(Color.FromRgb(204, 51, 51), color);
+            var color = CssColorValue.FromHwb(0f, 0.2f, 0.2f);
+            Assert.AreEqual(CssColorValue.FromRgb(204, 51, 51), color);
         }
 
         [Test]
-        public void ColorFromHwbGreen()
+        public void CssColorValueFromHwbGreen()
         {
-            var color = Color.FromHwb(1f / 3f, 0.2f, 0.6f);
-            Assert.AreEqual(Color.FromRgb(51, 102, 51), color);
+            var color = CssColorValue.FromHwb(1f / 3f, 0.2f, 0.6f);
+            Assert.AreEqual(CssColorValue.FromRgb(51, 102, 51), color);
         }
 
         [Test]
-        public void ColorFromHwbMagentaTransparent()
+        public void CssColorValueFromHwbMagentaTransparent()
         {
-            var color = Color.FromHwba(5f / 6f, 0.4f, 0.2f, 0.5f);
-            Assert.AreEqual(Color.FromRgba(204, 102, 204, 0.5f), color);
+            var color = CssColorValue.FromHwba(5f / 6f, 0.4f, 0.2f, 0.5f);
+            Assert.AreEqual(CssColorValue.FromRgba(204, 102, 204, 0.5f), color);
         }
     }
 }

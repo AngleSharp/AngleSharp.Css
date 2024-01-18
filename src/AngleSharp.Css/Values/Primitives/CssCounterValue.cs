@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Sets a CSS counter.
     /// </summary>
-    public readonly struct CounterValue : ICssPrimitiveValue, IEquatable<CounterValue>
+    public readonly struct CssCounterValue : ICssPrimitiveValue, IEquatable<CssCounterValue>
     {
         #region Fields
 
@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="name">The name of the referenced counter.</param>
         /// <param name="value">The new value of the counter.</param>
-        public CounterValue(String name, Int32 value)
+        public CssCounterValue(String name, Int32 value)
         {
             _name = name;
             _value = value;
@@ -57,7 +57,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other counter to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CounterValue other) => Name.Is(other.Name) && Value == other.Value;
+        public Boolean Equals(CssCounterValue other) => Name.Is(other.Name) && Value == other.Value;
 
         /// <summary>
         /// Checks for equality against the given object,
@@ -67,7 +67,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is CounterValue cv && Equals(cv);
+            obj is CssCounterValue cv && Equals(cv);
 
         /// <summary>
         /// Gets the hash code of the object.

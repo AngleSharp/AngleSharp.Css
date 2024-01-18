@@ -4,9 +4,9 @@ namespace AngleSharp.Css.Values
     using System;
 
     /// <summary>
-    /// Represents a time value.
+    /// Represents a frequency value.
     /// </summary>
-    public readonly struct Frequency : IEquatable<Frequency>, IComparable<Frequency>, ICssMetricValue
+    public readonly struct CssFrequencyValue : IEquatable<CssFrequencyValue>, IComparable<CssFrequencyValue>, ICssMetricValue
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new frequency value.
         /// </summary>
         /// <param name="value">The value of the frequency in Hz.</param>
-        public Frequency(Double value)
+        public CssFrequencyValue(Double value)
             : this(value, Unit.Hz)
         {
         }
@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="value">The value of the frequency.</param>
         /// <param name="unit">The unit of the frequency.</param>
-        public Frequency(Double value, Unit unit)
+        public CssFrequencyValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -79,7 +79,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator >=(Frequency a, Frequency b)
+        public static Boolean operator >=(CssFrequencyValue a, CssFrequencyValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == 1;
@@ -88,12 +88,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator >(Frequency a, Frequency b) => a.CompareTo(b) == 1;
+        public static Boolean operator >(CssFrequencyValue a, CssFrequencyValue b) => a.CompareTo(b) == 1;
 
         /// <summary>
         /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator <=(Frequency a, Frequency b)
+        public static Boolean operator <=(CssFrequencyValue a, CssFrequencyValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == -1;
@@ -102,14 +102,14 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator <(Frequency a, Frequency b) => a.CompareTo(b) == -1;
+        public static Boolean operator <(CssFrequencyValue a, CssFrequencyValue b) => a.CompareTo(b) == -1;
 
         /// <summary>
         /// Compares the current frequency against the given one.
         /// </summary>
         /// <param name="other">The frequency to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Frequency other) => ToHertz().CompareTo(other.ToHertz());
+        public Int32 CompareTo(CssFrequencyValue other) => ToHertz().CompareTo(other.ToHertz());
 
         #endregion
 
@@ -120,7 +120,7 @@ namespace AngleSharp.Css.Values
             if (_unit != Unit.Hz)
             {
                 var hz = ToHertz();
-                return new Frequency(hz, Unit.Hz);
+                return new CssFrequencyValue(hz, Unit.Hz);
             }
 
             return this;
@@ -132,13 +132,13 @@ namespace AngleSharp.Css.Values
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Frequency result)
+        public static Boolean TryParse(String s, out CssFrequencyValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Frequency(value, unit);
+                result = new CssFrequencyValue(value, unit);
                 return true;
             }
 
@@ -172,7 +172,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The frequency to compare to.</param>
         /// <returns>True if both frequencies are equal, otherwise false.</returns>
-        public Boolean Equals(Frequency other) => _value == other._value && _unit == other._unit;
+        public Boolean Equals(CssFrequencyValue other) => _value == other._value && _unit == other._unit;
 
         #endregion
 
@@ -204,12 +204,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Checks for equality of two frequencies.
         /// </summary>
-        public static Boolean operator ==(Frequency a, Frequency b) => a.Equals(b);
+        public static Boolean operator ==(CssFrequencyValue a, CssFrequencyValue b) => a.Equals(b);
 
         /// <summary>
         /// Checks for inequality of two frequencies.
         /// </summary>
-        public static Boolean operator !=(Frequency a, Frequency b) => !a.Equals(b);
+        public static Boolean operator !=(CssFrequencyValue a, CssFrequencyValue b) => !a.Equals(b);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -218,7 +218,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Frequency?;
+            var other = obj as CssFrequencyValue?;
 
             if (other != null)
             {

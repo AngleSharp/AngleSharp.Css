@@ -72,7 +72,7 @@ namespace AngleSharp.Css.Declarations
                     {
                         if (value > MaximumGridSize)
                         {
-                            return new Constant<Object>(MaximumGridSize.ToString(), null);
+                            return new CssConstantValue<Object>(MaximumGridSize.ToString(), null);
                         }
                     }
                     return tuple.Items[index];
@@ -111,7 +111,7 @@ namespace AngleSharp.Css.Declarations
                     }
                 }
 
-                return new Constant<Object>(CssKeywords.Auto, null);
+                return new CssConstantValue<Object>(CssKeywords.Auto, null);
             }
         }
     }

@@ -30,8 +30,8 @@ namespace AngleSharp.Css.Values
 
         private CssBackgroundSizeValue(ValueMode mode)
         {
-            _width = Length.Auto;
-            _height = Length.Auto;
+            _width = CssLengthValue.Auto;
+            _height = CssLengthValue.Auto;
             _mode = mode;
         }
 
@@ -76,7 +76,7 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.Contain;
                 }
-                else if (_height.Equals(Length.Auto))
+                else if (_height.Equals(CssLengthValue.Auto))
                 {
                     return _width.CssText;
                 }

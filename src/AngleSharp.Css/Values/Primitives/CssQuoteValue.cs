@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS quote.
     /// </summary>
-    public readonly struct Quote : ICssPrimitiveValue, IEquatable<Quote>
+    public readonly struct CssQuoteValue : ICssPrimitiveValue, IEquatable<CssQuoteValue>
     {
         #region Fields
 
@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="open">The open quote character(s).</param>
         /// <param name="close">The close quote character(s).</param>
-        public Quote(String open, String close)
+        public CssQuoteValue(String open, String close)
         {
             _open = open;
             _close = close;
@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other quote to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Quote other) => Open.Is(other.Open) && Close.Is(other.Close);
+        public Boolean Equals(CssQuoteValue other) => Open.Is(other.Open) && Close.Is(other.Close);
 
         /// <summary>
         /// Checks for equality against the given object,
@@ -72,7 +72,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Quote quote && Equals(quote);
+            obj is CssQuoteValue quote && Equals(quote);
 
         /// <summary>
         /// Gets the hash code of the object.

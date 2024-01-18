@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments => new ICssValue[] { new Identifier(_ident) };
+        public ICssValue[] Arguments => new ICssValue[] { new CssIdentifierValue(_ident) };
 
         /// <summary>
         /// Gets the CSS text representation.

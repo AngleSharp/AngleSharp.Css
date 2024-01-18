@@ -67,7 +67,7 @@ namespace AngleSharp.Css.Declarations
                 {
                     return new[] { template.TemplateRows, template.TemplateColumns, template.TemplateAreas };
                 }
-                else if (value is Identifier)
+                else if (value is CssIdentifierValue)
                 {
                     return new[] { value, value, value };
                 }

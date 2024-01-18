@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS line names definition.
     /// </summary>
-    public readonly struct LineNames : ICssPrimitiveValue, IEquatable<LineNames>
+    public readonly struct CssLineNamesValue : ICssPrimitiveValue, IEquatable<CssLineNamesValue>
     {
         #region Fields
 
@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new line names definition.
         /// </summary>
         /// <param name="names">The names to contain.</param>
-        public LineNames(IEnumerable<String> names)
+        public CssLineNamesValue(IEnumerable<String> names)
         {
             _names = names.ToArray();
         }
@@ -51,7 +51,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other names to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(LineNames other) =>
+        public Boolean Equals(CssLineNamesValue other) =>
             Names.Length == other.Names.Length &&
             Names.Zip(other.Names, (a, b) => a.Is(b)).All(matches => matches);
 
@@ -63,7 +63,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is LineNames names && Equals(names);
+            obj is CssLineNamesValue names && Equals(names);
 
         /// <summary>
         /// Gets the hash code of the object.

@@ -4,23 +4,32 @@ namespace AngleSharp.Css.Values
     using System;
 
     /// <summary>
-    /// Represents a number value.
+    /// Represents an integer value.
     /// </summary>
-    public readonly struct Number : IEquatable<Number>, IComparable<Number>, ICssMetricValue
+    public readonly struct CssIntegerValue : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue
     {
         #region Fields
 
-        private readonly Double _value;
+        private readonly Int32 _value;
 
         #endregion
 
         #region ctor
 
         /// <summary>
-        /// Creates a new number value.
+        /// Creates a new integer value.
         /// </summary>
-        /// <param name="value">The value of the number.</param>
-        public Number(Double value)
+        /// <param name="value">The value of the integer.</param>
+        public CssIntegerValue(Double value)
+            : this((Int32)Math.Truncate(value))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new integer value.
+        /// </summary>
+        /// <param name="value">The value of the integer.</param>
+        public CssIntegerValue(Int32 value)
         {
             _value = value;
         }
@@ -32,12 +41,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText => _value.CssStringify();
+        public String CssText => _value.ToString();
 
         /// <summary>
-        /// Gets the value of the number.
+        /// Gets the value of the integer.
         /// </summary>
         public Double Value => _value;
+
+        /// <summary>
+        /// Gets the value of the integer.
+        /// </summary>
+        public Int32 IntValue => _value;
 
         /// <summary>
         /// Gets the representation of the unit as a string.
@@ -54,16 +68,16 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Tries to convert the given string to a number.
+        /// Tries to convert the given string to an integer.
         /// </summary>
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Number result)
+        public static Boolean TryParse(String s, out CssIntegerValue result)
         {
-            if (s.CssNumber(out var value))
+            if (s.CssInteger(out var value))
             {
-                result = new Number(value);
+                result = new CssIntegerValue(value);
                 return true;
             }
 
@@ -72,22 +86,22 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Checks if the current number equals the given one.
+        /// Checks if the current integer equals the given one.
         /// </summary>
-        /// <param name="other">The given number to check for equality.</param>
+        /// <param name="other">The given integer to check for equality.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Number other) => _value == other._value;
+        public Boolean Equals(CssIntegerValue other) => _value == other._value;
 
         #endregion
 
         #region Equality
 
         /// <summary>
-        /// Compares the current number against the given one.
+        /// Compares the current integer against the given one.
         /// </summary>
         /// <param name="other">The number to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Number other) => _value.CompareTo(other._value);
+        public Int32 CompareTo(CssIntegerValue other) => _value.CompareTo(other._value);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -96,7 +110,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Number?;
+            var other = obj as CssNumberValue?;
 
             if (other != null)
             {
@@ -107,7 +121,7 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Returns a hash code that defines the current number.
+        /// Returns a hash code that defines the current integer.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();

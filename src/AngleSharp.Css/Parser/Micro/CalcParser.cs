@@ -154,32 +154,32 @@ namespace AngleSharp.Css.Parser
                 if (String.IsNullOrEmpty(unit.Dimension))
                 {
                     source.SkipSpacesAndComments();
-                    return new Length(result, Length.Unit.None);
+                    return new CssLengthValue(result, CssLengthValue.Unit.None);
                 }
-                else if (Length.GetUnit(unit.Dimension) != Length.Unit.None)
+                else if (CssLengthValue.GetUnit(unit.Dimension) != CssLengthValue.Unit.None)
                 {
                     source.SkipSpacesAndComments();
-                    return new Length(result, Length.GetUnit(unit.Dimension));
+                    return new CssLengthValue(result, CssLengthValue.GetUnit(unit.Dimension));
                 }
-                else if (Time.GetUnit(unit.Dimension) != Time.Unit.None)
+                else if (CssTimeValue.GetUnit(unit.Dimension) != CssTimeValue.Unit.None)
                 {
                     source.SkipSpacesAndComments();
-                    return new Time(result, Time.GetUnit(unit.Dimension));
+                    return new CssTimeValue(result, CssTimeValue.GetUnit(unit.Dimension));
                 }
                 else if (Angle.GetUnit(unit.Dimension) != Angle.Unit.None)
                 {
                     source.SkipSpacesAndComments();
                     return new Angle(result, Angle.GetUnit(unit.Dimension));
                 }
-                else if (Frequency.GetUnit(unit.Dimension) != Frequency.Unit.None)
+                else if (CssFrequencyValue.GetUnit(unit.Dimension) != CssFrequencyValue.Unit.None)
                 {
                     source.SkipSpacesAndComments();
-                    return new Frequency(result, Frequency.GetUnit(unit.Dimension));
+                    return new CssFrequencyValue(result, CssFrequencyValue.GetUnit(unit.Dimension));
                 }
-                else if (Resolution.GetUnit(unit.Dimension) != Resolution.Unit.None)
+                else if (CssResolutionValue.GetUnit(unit.Dimension) != CssResolutionValue.Unit.None)
                 {
                     source.SkipSpacesAndComments();
-                    return new Resolution(result, Resolution.GetUnit(unit.Dimension));
+                    return new CssResolutionValue(result, CssResolutionValue.GetUnit(unit.Dimension));
                 }
             }
 

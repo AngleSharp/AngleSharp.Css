@@ -48,7 +48,7 @@ namespace AngleSharp.Css.Values
             {
                 var list = new List<ICssValue>
                 {
-                    new Identifier(_variableName),
+                    new CssIdentifierValue(_variableName),
                 };
 
                 if (_defaultValue != null)

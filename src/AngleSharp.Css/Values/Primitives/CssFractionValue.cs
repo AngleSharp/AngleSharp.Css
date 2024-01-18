@@ -4,9 +4,9 @@ namespace AngleSharp.Css.Values
     using System;
 
     /// <summary>
-    /// Represents a resolution value.
+    /// Represents a fractional value.
     /// </summary>
-    public readonly struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, ICssMetricValue
+    public readonly struct CssFractionValue : IEquatable<CssFractionValue>, IComparable<CssFractionValue>, ICssPrimitiveValue
     {
         #region Fields
 
@@ -18,20 +18,20 @@ namespace AngleSharp.Css.Values
         #region ctor
 
         /// <summary>
-        /// Creates a new resolution value.
+        /// Creates a new fractional value.
         /// </summary>
-        /// <param name="value">The value of the resolution in dppx.</param>
-        public Resolution(Double value)
-            : this(value, Unit.Dppx)
+        /// <param name="value">The value of the fraction.</param>
+        public CssFractionValue(Double value)
+            : this(value, Unit.Fr)
         {
         }
 
         /// <summary>
-        /// Creates a new resolution value.
+        /// Creates a new fractional value.
         /// </summary>
-        /// <param name="value">The value of the resolution.</param>
-        /// <param name="unit">The unit of the resolution.</param>
-        public Resolution(Double value, Unit unit)
+        /// <param name="value">The value of the fraction.</param>
+        /// <param name="unit">The unit.</param>
+        public CssFractionValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -47,7 +47,7 @@ namespace AngleSharp.Css.Values
         public String CssText => String.Concat(_value.CssStringify(), UnitString);
 
         /// <summary>
-        /// Gets the value of resolution.
+        /// Gets the value of fraction.
         /// </summary>
         public Double Value => _value;
 
@@ -65,9 +65,7 @@ namespace AngleSharp.Css.Values
             {
                 return _unit switch
                 {
-                    Unit.Dpcm => UnitNames.Dpcm,
-                    Unit.Dpi => UnitNames.Dpi,
-                    Unit.Dppx => UnitNames.Dppx,
+                    Unit.Fr => UnitNames.Fr,
                     _ => String.Empty,
                 };
             }
@@ -79,28 +77,22 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            if (_unit != Unit.Dppx)
-            {
-                var dots = ToDotsPerPixel();
-                return new Resolution(dots, Unit.Dppx);
-            }
-
             return this;
         }
 
         /// <summary>
-        /// Tries to convert the given string to a Resolution.
+        /// Tries to convert the given string to a Fraction.
         /// </summary>
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Resolution result)
+        public static Boolean TryParse(String s, out CssFractionValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Resolution(value, unit);
+                result = new CssFractionValue(value, unit);
                 return true;
             }
 
@@ -117,65 +109,31 @@ namespace AngleSharp.Css.Values
         {
             return s switch
             {
-                "dpcm" => Unit.Dpcm,
-                "dpi" => Unit.Dpi,
-                "dppx" => Unit.Dppx,
+                "fr" => Unit.Fr,
                 _ => Unit.None,
             };
         }
 
         /// <summary>
-        /// Converts the resolution to a per pixel density.
-        /// </summary>
-        /// <returns>The density in dots per pixels.</returns>
-        public Double ToDotsPerPixel()
-        {
-            if (_unit == Unit.Dpi)
-            {
-                return _value / 96.0;
-            }
-            else if (_unit == Unit.Dpcm)
-            {
-                return _value * 127.0 / (50.0 * 96.0);
-            }
-
-            return _value;
-        }
-
-        /// <summary>
-        /// Converts the resolution to the given unit.
+        /// Converts the fraction to the given unit.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
-        /// <returns>The density in the given unit.</returns>
-        public Double To(Unit unit)
-        {
-            var value = ToDotsPerPixel();
-
-            if (unit == Unit.Dpi)
-            {
-                return value * 96.0;
-            }
-            else if (unit == Unit.Dpcm)
-            {
-                return value * 50.0 * 96.0 / 127.0;
-            }
-
-            return value;
-        }
+        /// <returns>The value in the given unit.</returns>
+        public Double To(Unit unit) => _value;
 
         /// <summary>
-        /// Checks if the current resolution equals the given one.
+        /// Checks if the current frequency equals the given one.
         /// </summary>
-        /// <param name="other">The given resolution to check for equality.</param>
+        /// <param name="other">The given frequency to check for equality.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Resolution other) => _value == other._value && _unit == other._unit;
+        public Boolean Equals(CssFractionValue other) => _value == other._value && _unit == other._unit;
 
         #endregion
 
         #region Units
 
         /// <summary>
-        /// The various resolution units.
+        /// The various fractional units.
         /// </summary>
         public enum Unit : byte
         {
@@ -184,17 +142,9 @@ namespace AngleSharp.Css.Values
             /// </summary>
             None,
             /// <summary>
-            /// The value is a resolution (dots per in).
+            /// The value is a fraction.
             /// </summary>
-            Dpi,
-            /// <summary>
-            /// The value is a resolution (dots per cm).
-            /// </summary>
-            Dpcm,
-            /// <summary>
-            /// The value is a resolution (dots per px).
-            /// </summary>
-            Dppx,
+            Fr,
         }
 
         #endregion
@@ -202,11 +152,11 @@ namespace AngleSharp.Css.Values
         #region Equality
 
         /// <summary>
-        /// Compares the current resolution against the given one.
+        /// Compares the current fraction against the given one.
         /// </summary>
-        /// <param name="other">The resolution to compare to.</param>
+        /// <param name="other">The fraction to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Resolution other) => ToDotsPerPixel().CompareTo(other.ToDotsPerPixel());
+        public Int32 CompareTo(CssFractionValue other) => _value.CompareTo(other._value);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -215,7 +165,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Resolution?;
+            var other = obj as CssFractionValue?;
 
             if (other != null)
             {
@@ -226,7 +176,7 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Returns a hash code that defines the current resolution.
+        /// Returns a hash code that defines the current fraction.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();

@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Color _color;
+        private readonly CssColorValue _color;
         private readonly ICssValue _location;
 
         #endregion
@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="color">The color of the stop.</param>
         /// <param name="location">The location of the stop, if any.</param>
-        public CssGradientStopValue(Color color, ICssValue location = null)
+        public CssGradientStopValue(CssColorValue color, ICssValue location = null)
         {
             _color = color;
             _location = location;
@@ -36,7 +36,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the color of the gradient stop.
         /// </summary>
-        public Color Color => _color;
+        public CssColorValue Color => _color;
 
         /// <summary>
         /// Gets if the position is determined.
@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Values
         {
             var color = ((ICssValue)_color).Compute(context);
             var location = _location?.Compute(context);
-            return new CssGradientStopValue((Color)color, location);
+            return new CssGradientStopValue((CssColorValue)color, location);
         }
 
         #endregion

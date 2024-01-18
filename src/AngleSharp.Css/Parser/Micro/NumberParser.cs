@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the ratio (double) value.
         /// </summary>
-        public static Ratio? ParseRatio(this StringSource source)
+        public static CssRatioValue? ParseRatio(this StringSource source)
         {
             var pos = source.Index;
             var top = source.ParseNumber();
@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Parser
 
             if (top.HasValue && bottom.HasValue && c == Symbols.Solidus)
             {
-                return new Ratio(top.Value, bottom.Value);
+                return new CssRatioValue(top.Value, bottom.Value);
             }
 
             source.BackTo(pos);

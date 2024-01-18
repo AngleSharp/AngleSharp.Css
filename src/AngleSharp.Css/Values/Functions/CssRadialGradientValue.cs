@@ -135,12 +135,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the horizontal radius.
         /// </summary>
-        public ICssValue MajorRadius => _width ?? Length.Full;
+        public ICssValue MajorRadius => _width ?? CssLengthValue.Full;
 
         /// <summary>
         /// Gets the vertical radius.
         /// </summary>
-        public ICssValue MinorRadius => _height ?? Length.Full;
+        public ICssValue MinorRadius => _height ?? CssLengthValue.Full;
 
         /// <summary>
         /// Gets all stops.

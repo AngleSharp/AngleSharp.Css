@@ -218,9 +218,9 @@ namespace AngleSharp.Css.Declarations
             /// </summary>
             private sealed class CounterContentMode : ContentMode
             {
-                private readonly CounterDefinition _counter;
+                private readonly CssCounterDefinitionValue _counter;
 
-                public CounterContentMode(CounterDefinition counter)
+                public CounterContentMode(CssCounterDefinitionValue counter)
                 {
                     _counter = counter;
                 }

@@ -6,7 +6,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a ratio (top to bottom) value.
     /// </summary>
-    public readonly struct Ratio : IEquatable<Ratio>, IComparable<Ratio>, ICssPrimitiveValue
+    public readonly struct CssRatioValue : IEquatable<CssRatioValue>, IComparable<CssRatioValue>, ICssPrimitiveValue
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="top">The first number.</param>
         /// <param name="bottom">The second number.</param>
-        public Ratio(Double top, Double bottom)
+        public CssRatioValue(Double top, Double bottom)
         {
             _top = top;
             _bottom = bottom;
@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The given resolution to check for equality.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Ratio other) => Value == other.Value;
+        public Boolean Equals(CssRatioValue other) => Value == other.Value;
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The fraction to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Ratio other) => Value.CompareTo(other.Value);
+        public Int32 CompareTo(CssRatioValue other) => Value.CompareTo(other.Value);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -86,7 +86,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Ratio?;
+            var other = obj as CssRatioValue?;
 
             if (other != null)
             {

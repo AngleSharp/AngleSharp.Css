@@ -306,18 +306,18 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-length mapping.
         /// </summary>
-        public static readonly Dictionary<String, Length> FontSizes = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, CssLengthValue> FontSizes = new(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.XxSmall, new Length(0.6, Length.Unit.Em) },
-            { CssKeywords.XSmall, new Length(0.75, Length.Unit.Em) },
-            { CssKeywords.Small, new Length(8.0 / 9.0, Length.Unit.Em) },
-            { CssKeywords.Medium, new Length(1.0, Length.Unit.Em) },
-            { CssKeywords.Large, new Length(1.2, Length.Unit.Em) },
-            { CssKeywords.XLarge, new Length(1.5, Length.Unit.Em) },
-            { CssKeywords.XxLarge, new Length(2.0, Length.Unit.Em) },
-            { CssKeywords.XxxLarge, new Length(3.0, Length.Unit.Em) },
-            { CssKeywords.Larger, new Length(120.0, Length.Unit.Percent) },
-            { CssKeywords.Smaller, new Length(80.0, Length.Unit.Percent) },
+            { CssKeywords.XxSmall, new CssLengthValue(0.6, CssLengthValue.Unit.Em) },
+            { CssKeywords.XSmall, new CssLengthValue(0.75, CssLengthValue.Unit.Em) },
+            { CssKeywords.Small, new CssLengthValue(8.0 / 9.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.Medium, new CssLengthValue(1.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.Large, new CssLengthValue(1.2, CssLengthValue.Unit.Em) },
+            { CssKeywords.XLarge, new CssLengthValue(1.5, CssLengthValue.Unit.Em) },
+            { CssKeywords.XxLarge, new CssLengthValue(2.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.XxxLarge, new CssLengthValue(3.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.Larger, new CssLengthValue(120.0, CssLengthValue.Unit.Percent) },
+            { CssKeywords.Smaller, new CssLengthValue(80.0, CssLengthValue.Unit.Percent) },
         };
 
         /// <summary>
@@ -356,11 +356,11 @@ namespace AngleSharp.Css
         /// <summary>
         /// Contains the string-border width mapping.
         /// </summary>
-        public static readonly Dictionary<String, Length> BorderWidths = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<String, CssLengthValue> BorderWidths = new(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.Thin, Length.Thin },
-            { CssKeywords.Medium, Length.Medium },
-            { CssKeywords.Thick, Length.Thick },
+            { CssKeywords.Thin, CssLengthValue.Thin },
+            { CssKeywords.Medium, CssLengthValue.Medium },
+            { CssKeywords.Thick, CssLengthValue.Thick },
         };
 
         /// <summary>

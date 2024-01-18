@@ -7,7 +7,6 @@ namespace AngleSharp.Css.Tests.Library
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
-    using AngleSharp.Io;
     using NUnit.Framework;
     using System.IO;
     using System.Threading.Tasks;
@@ -33,20 +32,20 @@ namespace AngleSharp.Css.Tests.Library
         [Test]
         public void SimpleColorWorksWithHexOutput_Issue96()
         {
-            var color = new Color(65, 12, 48);
-            Color.UseHex = true;
+            var color = new CssColorValue(65, 12, 48);
+            CssColorValue.UseHex = true;
             var text = color.CssText;
-            Color.UseHex = false;
+            CssColorValue.UseHex = false;
             Assert.AreEqual("#410C30", text);
         }
 
         [Test]
         public void TransparentColorWorksWithHexOutput_Issue132()
         {
-            var color = new Color(65, 12, 48, 10);
-            Color.UseHex = true;
+            var color = new CssColorValue(65, 12, 48, 10);
+            CssColorValue.UseHex = true;
             var text = color.CssText;
-            Color.UseHex = false;
+            CssColorValue.UseHex = false;
             Assert.AreEqual("#410C300A", text);
         }
 

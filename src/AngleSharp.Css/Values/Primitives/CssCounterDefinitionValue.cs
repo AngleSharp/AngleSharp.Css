@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public readonly struct CounterDefinition : ICssPrimitiveValue, IEquatable<CounterDefinition>
+    public readonly struct CssCounterDefinitionValue : ICssPrimitiveValue, IEquatable<CssCounterDefinitionValue>
     {
         #region Fields
 
@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Values
         /// <param name="identifier">The identifier of the counter.</param>
         /// <param name="listStyle">The used list style.</param>
         /// <param name="separator">The separator of the counter.</param>
-        public CounterDefinition(String identifier, String listStyle, String separator)
+        public CssCounterDefinitionValue(String identifier, String listStyle, String separator)
         {
             _identifier = identifier;
             _listStyle = listStyle;
@@ -67,7 +67,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other counter to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CounterDefinition other) =>
+        public Boolean Equals(CssCounterDefinitionValue other) =>
             CounterIdentifier.Is(other.CounterIdentifier) &&
             ListStyle.Is(other.ListStyle) &&
             DefinedSeparator.Is(other.DefinedSeparator);
@@ -80,7 +80,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is CounterDefinition cd && Equals(cd);
+            obj is CssCounterDefinitionValue cd && Equals(cd);
 
         /// <summary>
         /// Gets the hash code of the object.

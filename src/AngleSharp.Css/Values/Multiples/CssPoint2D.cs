@@ -13,47 +13,47 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the (50%, 50%) point.
         /// </summary>
-        public static readonly CssPoint2D Center = new(Length.Half, Length.Half);
+        public static readonly CssPoint2D Center = new(CssLengthValue.Half, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (0, 0) point.
         /// </summary>
-        public static readonly CssPoint2D LeftTop = new(Length.Zero, Length.Zero);
+        public static readonly CssPoint2D LeftTop = new(CssLengthValue.Zero, CssLengthValue.Zero);
 
         /// <summary>
         /// Gets the (100%, 0) point.
         /// </summary>
-        public static readonly CssPoint2D RightTop = new(Length.Full, Length.Zero);
+        public static readonly CssPoint2D RightTop = new(CssLengthValue.Full, CssLengthValue.Zero);
 
         /// <summary>
         /// Gets the (100%, 100%) point.
         /// </summary>
-        public static readonly CssPoint2D RightBottom = new(Length.Full, Length.Full);
+        public static readonly CssPoint2D RightBottom = new(CssLengthValue.Full, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (0, 100%) point.
         /// </summary>
-        public static readonly CssPoint2D LeftBottom = new(Length.Zero, Length.Full);
+        public static readonly CssPoint2D LeftBottom = new(CssLengthValue.Zero, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (0, 50%) point.
         /// </summary>
-        public static readonly CssPoint2D Left = new(Length.Zero, Length.Half);
+        public static readonly CssPoint2D Left = new(CssLengthValue.Zero, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (100%, 50%) point.
         /// </summary>
-        public static readonly CssPoint2D Right = new(Length.Full, Length.Half);
+        public static readonly CssPoint2D Right = new(CssLengthValue.Full, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (50%, 100%) point.
         /// </summary>
-        public static readonly CssPoint2D Bottom = new(Length.Half, Length.Full);
+        public static readonly CssPoint2D Bottom = new(CssLengthValue.Half, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (50%, 0) point.
         /// </summary>
-        public static readonly CssPoint2D Top = new(Length.Half, Length.Zero);
+        public static readonly CssPoint2D Top = new(CssLengthValue.Half, CssLengthValue.Zero);
 
         #endregion
 
@@ -124,7 +124,7 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.LeftBottom;
                 }
-                else if (_y.Equals(Length.Half))
+                else if (_y.Equals(CssLengthValue.Half))
                 {
                     return _x.CssText;
                 }

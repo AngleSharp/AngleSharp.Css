@@ -32,7 +32,7 @@ namespace AngleSharp.Css.Parser
         {
             if (source.IsIdentifier(CssKeywords.Auto))
             {
-                return Length.Auto;
+                return CssLengthValue.Auto;
             }
 
             return null;
@@ -41,11 +41,11 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a length value.
         /// </summary>
-        public static Length? ParseNormalLength(this StringSource source)
+        public static CssLengthValue? ParseNormalLength(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.Normal))
             {
-                return Length.Normal;
+                return CssLengthValue.Normal;
             }
 
             return null;
@@ -95,7 +95,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a percent or number value.
         /// </summary>
-        public static Length? ParsePercentOrNumber(this StringSource source)
+        public static CssLengthValue? ParsePercentOrNumber(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
@@ -104,11 +104,11 @@ namespace AngleSharp.Css.Parser
             {
                 if (test.Dimension == "%")
                 {
-                    return new Length(value, Length.Unit.Percent);
+                    return new CssLengthValue(value, CssLengthValue.Unit.Percent);
                 }
                 else if (test.Dimension.Length == 0)
                 {
-                    return new Length(value, Length.Unit.None);
+                    return new CssLengthValue(value, CssLengthValue.Unit.None);
                 }
             }
 
@@ -149,19 +149,19 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a frequency value.
         /// </summary>
-        public static Frequency? ParseFrequency(this StringSource source)
+        public static CssFrequencyValue? ParseFrequency(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
             if (test != null)
             {
-                var unit = Frequency.GetUnit(test.Dimension);
+                var unit = CssFrequencyValue.GetUnit(test.Dimension);
 
-                if (unit != Frequency.Unit.None &&
+                if (unit != CssFrequencyValue.Unit.None &&
                     Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                 {
-                    return new Frequency(value, unit);
+                    return new CssFrequencyValue(value, unit);
                 }
 
                 source.BackTo(pos);
@@ -192,12 +192,12 @@ namespace AngleSharp.Css.Parser
             }
             else if (test != null)
             {
-                var unit = Fraction.GetUnit(test.Dimension);
+                var unit = CssFractionValue.GetUnit(test.Dimension);
 
-                if (flexible && unit != Fraction.Unit.None &&
+                if (flexible && unit != CssFractionValue.Unit.None &&
                     Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                 {
-                    return new Fraction(value, unit);
+                    return new CssFractionValue(value, unit);
                 }
             }
             else
@@ -208,15 +208,15 @@ namespace AngleSharp.Css.Parser
                 {
                     if (ident.Isi(CssKeywords.MinContent))
                     {
-                        return new Identifier(CssKeywords.MinContent);
+                        return new CssIdentifierValue(CssKeywords.MinContent);
                     }
                     else if (ident.Isi(CssKeywords.MaxContent))
                     {
-                        return new Identifier(CssKeywords.MaxContent);
+                        return new CssIdentifierValue(CssKeywords.MaxContent);
                     }
                     else if (ident.Isi(CssKeywords.Auto))
                     {
-                        return new Identifier(CssKeywords.Auto);
+                        return new CssIdentifierValue(CssKeywords.Auto);
                     }
                 }
             }
@@ -228,7 +228,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a distance value.
         /// </summary>
-        public static Length? ParseDistance(this StringSource source)
+        public static CssLengthValue? ParseDistance(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
@@ -251,13 +251,13 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a length value.
         /// </summary>
-        public static Length? ParseLength(this StringSource source)
+        public static CssLengthValue? ParseLength(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
             var length = GetLength(test);
 
-            if (!length.HasValue || length.Value.Type == Length.Unit.Percent)
+            if (!length.HasValue || length.Value.Type == CssLengthValue.Unit.Percent)
             {
                 source.BackTo(pos);
                 return null;
@@ -275,19 +275,19 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a resolution value.
         /// </summary>
-        public static Resolution? ParseResolution(this StringSource source)
+        public static CssResolutionValue? ParseResolution(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
             if (test != null)
             {
-                var unit = Resolution.GetUnit(test.Dimension);
+                var unit = CssResolutionValue.GetUnit(test.Dimension);
 
-                if (unit != Resolution.Unit.None &&
+                if (unit != CssResolutionValue.Unit.None &&
                     Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                 {
-                    return new Resolution(value, unit);
+                    return new CssResolutionValue(value, unit);
                 }
 
                 source.BackTo(pos);
@@ -299,19 +299,19 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a time value.
         /// </summary>
-        public static Time? ParseTime(this StringSource source)
+        public static CssTimeValue? ParseTime(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
             if (test != null)
             {
-                var unit = Time.GetUnit(test.Dimension);
+                var unit = CssTimeValue.GetUnit(test.Dimension);
 
-                if (unit != Time.Unit.None &&
+                if (unit != CssTimeValue.Unit.None &&
                     Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                 {
-                    return new Time(value, unit);
+                    return new CssTimeValue(value, unit);
                 }
 
                 source.BackTo(pos);
@@ -325,17 +325,17 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseTimeOrCalc(this StringSource source) => source.ParseTime().OrCalc(source);
 
-        private static Length? GetLength(Unit test)
+        private static CssLengthValue? GetLength(Unit test)
         {
             if (test != null &&
                 Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                var unit = Length.Unit.Px;
+                var unit = CssLengthValue.Unit.Px;
 
                 if ((test.Dimension == String.Empty && test.Value == "0") ||
-                    (unit = Length.GetUnit(test.Dimension)) != Length.Unit.None)
+                    (unit = CssLengthValue.GetUnit(test.Dimension)) != CssLengthValue.Unit.None)
                 {
-                    return new Length(value, unit);
+                    return new CssLengthValue(value, unit);
                 }
             }
 

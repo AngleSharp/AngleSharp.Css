@@ -11,10 +11,10 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly Length _bottom;
-        private readonly Length _left;
-        private readonly Length _right;
-        private readonly Length _top;
+        private readonly CssLengthValue _bottom;
+        private readonly CssLengthValue _left;
+        private readonly CssLengthValue _right;
+        private readonly CssLengthValue _top;
         private readonly Boolean _filled;
 
         #endregion
@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Values
         /// <param name="bottom">The bottom length.</param>
         /// <param name="left">The left length.</param>
         /// <param name="filled">True if the filled flag is enabled, otherwise false.</param>
-        public CssBorderImageSliceValue(Length top, Length right, Length bottom, Length left, Boolean filled)
+        public CssBorderImageSliceValue(CssLengthValue top, CssLengthValue right, CssLengthValue bottom, CssLengthValue left, Boolean filled)
         {
             _top = top;
             _right = right;
@@ -45,22 +45,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the bottom coordinate.
         /// </summary>
-        public Length Bottom => _bottom;
+        public CssLengthValue Bottom => _bottom;
 
         /// <summary>
         /// Gets the left coordinate.
         /// </summary>
-        public Length Left => _left;
+        public CssLengthValue Left => _left;
 
         /// <summary>
         /// Gets the top coordinate.
         /// </summary>
-        public Length Top => _top;
+        public CssLengthValue Top => _top;
 
         /// <summary>
         /// Gets the right coordinate.
         /// </summary>
-        public Length Right => _right;
+        public CssLengthValue Right => _right;
 
         /// <summary>
         /// Gets if the slice should be filled.
@@ -76,23 +76,23 @@ namespace AngleSharp.Css.Values
             {
                 var sb = StringBuilderPool.Obtain();
 
-                if (!_top.Equals(Length.Auto))
+                if (!_top.Equals(CssLengthValue.Auto))
                 {
                     sb.Append(_top.CssText);
 
-                    if (!_right.Equals(Length.Auto))
+                    if (!_right.Equals(CssLengthValue.Auto))
                     {
                         sb.Append(Symbols.Space);
                         sb.Append(_right.CssText);
                     }
 
-                    if (!_bottom.Equals(Length.Auto))
+                    if (!_bottom.Equals(CssLengthValue.Auto))
                     {
                         sb.Append(Symbols.Space);
                         sb.Append(_bottom.CssText);
                     }
 
-                    if (!_left.Equals(Length.Auto))
+                    if (!_left.Equals(CssLengthValue.Auto))
                     {
                         sb.Append(Symbols.Space);
                         sb.Append(_left.CssText);
@@ -119,10 +119,10 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var bottom = (Length)((ICssValue)_bottom).Compute(context);
-            var left = (Length)((ICssValue)_left).Compute(context);
-            var right = (Length)((ICssValue)_right).Compute(context);
-            var top = (Length)((ICssValue)_top).Compute(context);
+            var bottom = (CssLengthValue)((ICssValue)_bottom).Compute(context);
+            var left = (CssLengthValue)((ICssValue)_left).Compute(context);
+            var right = (CssLengthValue)((ICssValue)_right).Compute(context);
+            var top = (CssLengthValue)((ICssValue)_top).Compute(context);
             return new CssBorderImageSliceValue(top, right, bottom, left, _filled);
         }
 

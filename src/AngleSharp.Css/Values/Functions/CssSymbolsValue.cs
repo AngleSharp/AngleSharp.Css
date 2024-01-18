@@ -48,7 +48,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments => _entries.Select(e => new Label(e) as ICssValue).ToArray();
+        public ICssValue[] Arguments => _entries.Select(e => new CssStringValue(e) as ICssValue).ToArray();
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -63,7 +63,7 @@ namespace AngleSharp.Css.Values
         {
             if (_type == null)
             {
-                var type = new Constant<SymbolsType>(CssKeywords.Cyclic, SymbolsType.Cyclic);
+                var type = new CssConstantValue<SymbolsType>(CssKeywords.Cyclic, SymbolsType.Cyclic);
                 return new CssSymbolsValue(type, _entries);
             }
 

@@ -52,12 +52,12 @@ namespace AngleSharp.Css.Values
             {
                 var args = new List<ICssValue>
                 {
-                    new Length(_intervals, Length.Unit.None),
+                    new CssLengthValue(_intervals, CssLengthValue.Unit.None),
                 };
 
                 if (_start)
                 {
-                    args.Add(new Identifier(CssKeywords.Start));
+                    args.Add(new CssIdentifierValue(CssKeywords.Start));
                 }
 
                 return args.ToArray();

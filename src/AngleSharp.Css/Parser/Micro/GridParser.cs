@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Parser
 
             if (source.IsIdentifier(CssKeywords.None))
             {
-                return new Identifier(CssKeywords.None);
+                return new CssIdentifierValue(CssKeywords.None);
             }
 
             var rows = source.ParseTrackList() ?? source.ParseAutoTrackList();
@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Parser
                     hasValue = true;
                     source.SkipSpacesAndComments();
                     rowValues.Add(new CssTupleValue(new[] { value.Item1, value.Item3, value.Item4 }));
-                    areaValues.Add(new Label(value.Item2));
+                    areaValues.Add(new CssStringValue(value.Item2));
                 }
 
                 if (hasValue)
@@ -87,7 +87,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Tuple<LineNames?, String, ICssValue, LineNames?> ParseGridTemplateAlternative(this StringSource source)
+        private static Tuple<CssLineNamesValue?, String, ICssValue, CssLineNamesValue?> ParseGridTemplateAlternative(this StringSource source)
         {
             var namesHead = source.ParseLineNames();
             source.SkipSpacesAndComments();
@@ -109,7 +109,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a grid line name value.
         /// </summary>
-        public static LineNames? ParseLineNames(this StringSource source)
+        public static CssLineNamesValue? ParseLineNames(this StringSource source)
         {
             var pos = source.Index;
 
@@ -133,7 +133,7 @@ namespace AngleSharp.Css.Parser
                     if (current == Symbols.SquareBracketClose)
                     {
                         source.Next();
-                        return new LineNames(names);
+                        return new CssLineNamesValue(names);
                     }
                 }
             }
@@ -166,7 +166,7 @@ namespace AngleSharp.Css.Parser
                         var max = source.ParseTrackBreadth();
                         c = source.SkipSpacesAndComments();
 
-                        if (max != null && c == Symbols.RoundBracketClose && (min is Length? || max is Length?))
+                        if (max != null && c == Symbols.RoundBracketClose && (min is CssLengthValue? || max is CssLengthValue?))
                         {
                             source.Next();
                             return new CssMinMaxValue(min, max);
@@ -255,11 +255,11 @@ namespace AngleSharp.Css.Parser
             {
                 if (arg.Isi(CssKeywords.AutoFill))
                 {
-                    return new Identifier(CssKeywords.AutoFill);
+                    return new CssIdentifierValue(CssKeywords.AutoFill);
                 }
                 else if (arg.Isi(CssKeywords.AutoFit))
                 {
-                    return new Identifier(CssKeywords.AutoFit);
+                    return new CssIdentifierValue(CssKeywords.AutoFit);
                 }
             }
 
@@ -272,7 +272,7 @@ namespace AngleSharp.Css.Parser
 
             if (arg.HasValue)
             {
-                return new Length(arg.Value, Length.Unit.None);
+                return new CssLengthValue(arg.Value, CssLengthValue.Unit.None);
             }
 
             return null;

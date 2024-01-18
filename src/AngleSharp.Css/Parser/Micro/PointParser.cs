@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Parser
         private static ICssValue ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
         {
             var pos = source.Index;
-            var x = new Length(50f, Length.Unit.Percent);
+            var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var l = source.ParseIdent();
 
             if (l == null)
@@ -72,8 +72,8 @@ namespace AngleSharp.Css.Parser
         public static CssPoint2D? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
-            var x = new Length(50f, Length.Unit.Percent);
-            var y = new Length(50f, Length.Unit.Percent);
+            var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
+            var y = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var l = source.ParseIdent();
             source.SkipSpacesAndComments();
             var r = source.ParseIdent();
@@ -180,7 +180,7 @@ namespace AngleSharp.Css.Parser
                     source.IsIdentifier(CssKeywords.Auto);
                 }
                 
-                return new CssBackgroundSizeValue(w ?? Length.Auto, h ?? Length.Auto);
+                return new CssBackgroundSizeValue(w ?? CssLengthValue.Auto, h ?? CssLengthValue.Auto);
             }
         }
 
@@ -190,19 +190,19 @@ namespace AngleSharp.Css.Parser
         private static Boolean IsVertical(String str) =>
             str.Isi(CssKeywords.Top) || str.Isi(CssKeywords.Bottom) || str.Isi(CssKeywords.Center);
 
-        private static Length? KeywordToLength(String keyword)
+        private static CssLengthValue? KeywordToLength(String keyword)
         {
             if (keyword.Isi(CssKeywords.Left) || keyword.Isi(CssKeywords.Top))
             {
-                return new Length(0f, Length.Unit.Percent);
+                return new CssLengthValue(0f, CssLengthValue.Unit.Percent);
             }
             else if (keyword.Isi(CssKeywords.Right) || keyword.Isi(CssKeywords.Bottom))
             {
-                return new Length(100f, Length.Unit.Percent);
+                return new CssLengthValue(100f, CssLengthValue.Unit.Percent);
             }
             else if (keyword.Isi(CssKeywords.Center))
             {
-                return new Length(50f, Length.Unit.Percent);
+                return new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             }
 
             return null;

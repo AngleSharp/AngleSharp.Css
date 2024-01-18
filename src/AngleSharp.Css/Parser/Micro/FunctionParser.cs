@@ -168,7 +168,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
         /// </summary>
-        public static CounterDefinition? ParseCounter(this StringSource source)
+        public static CssCounterDefinitionValue? ParseCounter(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Counter))
             {
@@ -196,7 +196,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static CounterDefinition? ParseCounterStyle(StringSource source, String ident, String separator, Char f)
+        private static CssCounterDefinitionValue? ParseCounterStyle(StringSource source, String ident, String separator, Char f)
         {
             var style = CssKeywords.Decimal;
 
@@ -208,7 +208,7 @@ namespace AngleSharp.Css.Parser
 
             if (f == Symbols.RoundBracketClose)
             {
-                return new CounterDefinition(ident, style, separator);
+                return new CssCounterDefinitionValue(ident, style, separator);
             }
 
             return null;

@@ -6,14 +6,14 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public readonly struct Time : IEquatable<Time>, IComparable<Time>, ICssMetricValue
+    public readonly struct CssTimeValue : IEquatable<CssTimeValue>, IComparable<CssTimeValue>, ICssMetricValue
     {
         #region Basic times
 
         /// <summary>
         /// Gets the zero time.
         /// </summary>
-        public static readonly Time Zero = new(0.0, Unit.Ms);
+        public static readonly CssTimeValue Zero = new(0.0, Unit.Ms);
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new time value.
         /// </summary>
         /// <param name="value">The value of the time in ms.</param>
-        public Time(Double value)
+        public CssTimeValue(Double value)
             : this(value, Unit.Ms)
         {
         }
@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="value">The value of the time.</param>
         /// <param name="unit">The unit of the time.</param>
-        public Time(Double value, Unit unit)
+        public CssTimeValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -88,7 +88,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two times.
         /// </summary>
-        public static Boolean operator >=(Time a, Time b)
+        public static Boolean operator >=(CssTimeValue a, CssTimeValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == 1;
@@ -97,12 +97,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two times.
         /// </summary>
-        public static Boolean operator >(Time a, Time b) => a.CompareTo(b) == 1;
+        public static Boolean operator >(CssTimeValue a, CssTimeValue b) => a.CompareTo(b) == 1;
 
         /// <summary>
         /// Compares the magnitude of two times.
         /// </summary>
-        public static Boolean operator <=(Time a, Time b)
+        public static Boolean operator <=(CssTimeValue a, CssTimeValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == -1;
@@ -111,14 +111,14 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two times.
         /// </summary>
-        public static Boolean operator <(Time a, Time b) => a.CompareTo(b) == -1;
+        public static Boolean operator <(CssTimeValue a, CssTimeValue b) => a.CompareTo(b) == -1;
 
         /// <summary>
         /// Compares the current time against the given one.
         /// </summary>
         /// <param name="other">The time to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Time other) => ToMilliseconds().CompareTo(other.ToMilliseconds());
+        public Int32 CompareTo(CssTimeValue other) => ToMilliseconds().CompareTo(other.ToMilliseconds());
 
         #endregion
 
@@ -129,7 +129,7 @@ namespace AngleSharp.Css.Values
             if (_unit != Unit.Ms)
             {
                 var ms = ToMilliseconds();
-                return new Time(ms, Unit.Ms);
+                return new CssTimeValue(ms, Unit.Ms);
             }
 
             return this;
@@ -141,13 +141,13 @@ namespace AngleSharp.Css.Values
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Time result)
+        public static Boolean TryParse(String s, out CssTimeValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Time(value, unit);
+                result = new CssTimeValue(value, unit);
                 return true;
             }
 
@@ -181,7 +181,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The time to compare to.</param>
         /// <returns>True if both represent the same value.</returns>
-        public Boolean Equals(Time other) => ToMilliseconds() == other.ToMilliseconds();
+        public Boolean Equals(CssTimeValue other) => ToMilliseconds() == other.ToMilliseconds();
 
         #endregion
 
@@ -213,12 +213,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Checks for equality of two times.
         /// </summary>
-        public static Boolean operator ==(Time a, Time b) => a.Equals(b);
+        public static Boolean operator ==(CssTimeValue a, CssTimeValue b) => a.Equals(b);
 
         /// <summary>
         /// Checks for inequality of two times.
         /// </summary>
-        public static Boolean operator !=(Time a, Time b) => !a.Equals(b);
+        public static Boolean operator !=(CssTimeValue a, CssTimeValue b) => !a.Equals(b);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -227,7 +227,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Time?;
+            var other = obj as CssTimeValue?;
 
             if (other != null)
             {

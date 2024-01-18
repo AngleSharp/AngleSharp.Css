@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Values
 
                 for (var i = 0; i < args.Length; i++)
                 {
-                    args[i] = new Length(_values[i], Length.Unit.None);
+                    args[i] = new CssLengthValue(_values[i], CssLengthValue.Unit.None);
                 }
 
                 return args;

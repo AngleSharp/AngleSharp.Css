@@ -44,8 +44,8 @@ namespace AngleSharp.Css.Declarations
 
                         if (x.HasValue)
                         {
-                            var xp = new Length(x.Value, Length.Unit.None);
-                            var yp = new Length(y.Value, Length.Unit.None);
+                            var xp = new CssLengthValue(x.Value, CssLengthValue.Unit.None);
+                            var yp = new CssLengthValue(y.Value, CssLengthValue.Unit.None);
                             position = new CssPoint2D(xp, yp);
                         }
 

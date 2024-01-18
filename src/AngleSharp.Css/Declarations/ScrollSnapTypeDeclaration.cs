@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Declarations
     /// </summary>
     static class ScrollSnapTypeDeclaration
     {
-        private static readonly ICssValue defaultStrictness = new Constant<ScrollSnapStrictness>(CssKeywords.Proximity, ScrollSnapStrictness.Proximity);
+        private static readonly ICssValue defaultStrictness = new CssConstantValue<ScrollSnapStrictness>(CssKeywords.Proximity, ScrollSnapStrictness.Proximity);
 
         public static String Name = PropertyNames.ScrollSnapType;
 

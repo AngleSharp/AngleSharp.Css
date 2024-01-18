@@ -173,14 +173,14 @@ namespace AngleSharp.Css.Declarations
                         null, //new Identifier(CssKeywords.None),
                         grid.Columns is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
                         grid.Rows is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
-                        grid.IsDense ? new Identifier(dense) : null,
+                        grid.IsDense ? new CssIdentifierValue(dense) : null,
                         null, //Length.Zero,
                         null, //Length.Zero,
                         null, //new Identifier(CssKeywords.Normal),
                         null, //new Identifier(CssKeywords.Normal),
                     };
                 }
-                else if (value is Identifier)
+                else if (value is CssIdentifierValue)
                 {
                     return new[]
                     {

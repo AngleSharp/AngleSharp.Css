@@ -18,7 +18,7 @@ namespace AngleSharp.Css
         /// <returns>The CSS color representation.</returns>
         public static String CssColor(this String value)
         {
-            if (Color.TryFromHex(value, out var color))
+            if (CssColorValue.TryFromHex(value, out var color))
             {
                 return color.CssText;
             }

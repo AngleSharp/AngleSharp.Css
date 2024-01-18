@@ -342,7 +342,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                if (name is Identifier)
+                if (name is CssIdentifierValue)
                 {
                     var value = source.ParseMediaFeatureValue();
 
@@ -376,7 +376,7 @@ namespace AngleSharp.Css.Parser
             
             if (ident is not null)
             {
-                return new Identifier(ident);
+                return new CssIdentifierValue(ident);
             }
 
             var ratio = source.ParseRatio();

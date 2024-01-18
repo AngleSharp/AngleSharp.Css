@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Converters
 
             if (ident != null && _values.TryGetValue(ident, out mode))
             {
-                return new Constant<T>(ident.ToLowerInvariant(), mode);
+                return new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
             }
 
             source.BackTo(pos);

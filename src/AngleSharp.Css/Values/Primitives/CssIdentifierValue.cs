@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS identifier value.
     /// </summary>
-    public readonly struct Identifier : ICssPrimitiveValue, IEquatable<Identifier>
+    public readonly struct CssIdentifierValue : ICssPrimitiveValue, IEquatable<CssIdentifierValue>
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Values
         /// Creates a new CSS identifier using the text.
         /// </summary>
         /// <param name="text">The text to use as identifier.</param>
-        public Identifier(String text)
+        public CssIdentifierValue(String text)
         {
             _text = text;
         }
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other identifier to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Identifier other) => Value.Is(other.Value);
+        public Boolean Equals(CssIdentifierValue other) => Value.Is(other.Value);
 
         /// <summary>
         /// Checks for equality against the given object, if
@@ -59,7 +59,7 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Identifier ident && Equals(ident);
+            obj is CssIdentifierValue ident && Equals(ident);
 
         /// <summary>
         /// Gets the hash code of the object.
