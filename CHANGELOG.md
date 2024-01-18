@@ -16,6 +16,7 @@ Released on tbd.
 - Fixed computation of relative (`em`) values to absolute (`px`) for `Length` (#136)
 - Added further compactification of CSS tuples (#89, #93)
 - Added support for CSS nesting in style rules (#148)
+- Added resolution of CSS variable names (#62)
 - Added support for 8-digit hex color codes (#132)
 - Added support for `margin-block` and `margin-inline` declarations
 - Added support for `padding-block` and `padding-inline` declarations

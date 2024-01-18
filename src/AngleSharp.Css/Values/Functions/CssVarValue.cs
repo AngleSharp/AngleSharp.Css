@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly String _variableName;
-        private readonly String _defaultValue;
+        private readonly ICssValue _defaultValue;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="variableName">The name of the custom property.</param>
         /// <param name="defaultValue">The fallback value, if any.</param>
-        public CssVarValue(String variableName, String defaultValue = null)
+        public CssVarValue(String variableName, ICssValue defaultValue = null)
         {
             _variableName = variableName;
             _defaultValue = defaultValue;
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Values
 
                 if (_defaultValue != null)
                 {
-                    list.Add(new CssAnyValue(_defaultValue));
+                    list.Add(_defaultValue);
                 }
 
                 return list.ToArray();
@@ -68,7 +68,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the defined fallback value, if any.
         /// </summary>
-        public String DefaultValue => _defaultValue;
+        public ICssValue DefaultValue => _defaultValue;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -83,9 +83,9 @@ namespace AngleSharp.Css.Values
                     _variableName,
                 };
 
-                if (!String.IsNullOrEmpty(_defaultValue))
+                if (_defaultValue is not null)
                 {
-                    args.Add(_defaultValue);
+                    args.Add(_defaultValue.CssText);
                 }
 
                 return fn.CssFunction(String.Join(", ", args));
@@ -104,8 +104,14 @@ namespace AngleSharp.Css.Values
         /// <returns>The resolved value or null.</returns>
         public ICssValue Compute(ICssComputeContext context)
         {
-            //return _expression.Compute(context);
-            return null;
+            var value = context.Resolve(_variableName)?.Compute(context);
+
+            if (value is not null)
+            {
+                return value;
+            }
+
+            return _defaultValue?.Compute(context);
         }
 
         #endregion

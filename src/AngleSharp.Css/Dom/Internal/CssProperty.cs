@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Dom
 
         internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue value = null, Boolean important = false)
         {
-            _name = name.ToLowerInvariant();
+            _name = name.StartsWith("--") ? name : name.ToLowerInvariant();
             _converter = converter;
             _flags = flags;
             _value = value;
@@ -91,7 +91,8 @@ namespace AngleSharp.Css.Dom
 
         public ICssProperty Compute(ICssComputeContext context)
         {
-            var computedValue = _value?.Compute(context);
+            var propertyContext = new PropertyComputeContext(context, _converter);
+            var computedValue = _value?.Compute(propertyContext);
 
             if (computedValue != _value)
             {
@@ -99,6 +100,30 @@ namespace AngleSharp.Css.Dom
             }
 
             return this;
+        }
+
+        #endregion
+
+        #region Compute Context
+
+        sealed class PropertyComputeContext : ICssComputeContext
+        {
+            private readonly ICssComputeContext _parent;
+            private readonly IValueConverter _converter;
+
+            public PropertyComputeContext(ICssComputeContext parent, IValueConverter converter)
+            {
+                _parent = parent;
+                _converter = converter;
+            }
+
+            public IRenderDevice Device => _parent.Device;
+
+            public IBrowsingContext Context => _parent.Context;
+
+            public IValueConverter Converter => _converter;
+
+            public ICssValue Resolve(String name) =>_parent.Resolve(name);
         }
 
         #endregion

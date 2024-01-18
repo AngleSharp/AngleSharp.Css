@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
 
@@ -45,8 +46,15 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            //TODO INVALID
-            return this;
+            var converter = context.Converter;
+
+            if (converter is not null && converter is not AnyValueConverter)
+            {
+                var value = converter.Convert(_text);
+                return value?.Compute(context);
+            }
+
+            return null;
         }
 
         #endregion

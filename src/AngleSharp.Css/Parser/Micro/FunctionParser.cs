@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -93,20 +94,36 @@ namespace AngleSharp.Css.Parser
             var name = source.ParseCustomIdent();
             var f = source.SkipGetSkip();
 
-            if (name != null)
+            if (name is not null)
             {
                 switch (f)
                 {
                     case Symbols.RoundBracketClose:
                         return new CssVarValue(name);
                     case Symbols.Comma:
-                        var defaultValue = source.TakeUntilClosed();
-                        source.SkipCurrentAndSpaces();
+                        source.SkipSpacesAndComments();
+                        var defaultValue = ParseVarFallback(source);
                         return new CssVarValue(name, defaultValue);
                 }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Parses a CSS var (variable) fallback value.
+        /// </summary>
+        public static ICssValue ParseVarFallback(this StringSource source)
+        {
+            if (!source.IsFunction(FunctionNames.Var))
+            {
+                var content = source.TakeUntilClosed();
+                source.SkipCurrentAndSpaces();
+                return new CssAnyValue(content);
+            }
+
+            return source.ParseVar();
+
         }
 
         /// <summary>

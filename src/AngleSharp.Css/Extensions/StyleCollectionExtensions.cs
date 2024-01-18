@@ -44,8 +44,8 @@ namespace AngleSharp.Css
         public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
-            var context = new CssComputeContext(styles.Device, ctx);
             var computedStyle = new CssStyleDeclaration(ctx);
+            var context = new CssComputeContext(styles.Device, ctx, computedStyle);
             var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
@@ -142,16 +142,31 @@ namespace AngleSharp.Css
         {
             private readonly IRenderDevice _device;
             private readonly IBrowsingContext _context;
+            private readonly ICssProperties _properties;
 
-            public CssComputeContext(IRenderDevice device, IBrowsingContext context)
+            public CssComputeContext(IRenderDevice device, IBrowsingContext context, ICssProperties properties)
             {
                 _device = device ?? new DefaultRenderDevice();
                 _context = context;
+                _properties = properties;
             }
 
             public IRenderDevice Device => _device;
 
             public IBrowsingContext Context => _context;
+
+            public IValueConverter Converter => null;
+
+            public ICssValue Resolve(String name)
+            {
+                if (name.StartsWith("--"))
+                {
+                    var property = _properties.FirstOrDefault(m => m.Name.Equals(name, StringComparison.Ordinal));
+                    return property?.RawValue;
+                }
+
+                return null;
+            }
         }
 
         #endregion

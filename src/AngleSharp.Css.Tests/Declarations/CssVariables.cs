@@ -59,7 +59,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--my-bar", variable.References[0].VariableName);
-            Assert.AreEqual("24px", variable.References[0].DefaultValue);
+            Assert.AreEqual("24px", variable.References[0].DefaultValue.CssText);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(variable);
             Assert.AreEqual(1, variable.References.Length);
             Assert.AreEqual("--color", variable.References[0].VariableName);
-            Assert.AreEqual("red, blue", variable.References[0].DefaultValue);
+            Assert.AreEqual("red, blue", variable.References[0].DefaultValue.CssText);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.AreEqual("--width", variable.References[0].VariableName);
             Assert.IsNull(variable.References[0].DefaultValue);
             Assert.AreEqual("--color", variable.References[1].VariableName);
-            Assert.AreEqual("black", variable.References[1].DefaultValue);
+            Assert.AreEqual("black", variable.References[1].DefaultValue.CssText);
         }
     }
 }
