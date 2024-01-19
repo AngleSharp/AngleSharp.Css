@@ -280,6 +280,18 @@ em { font-style: italic !important; }
         }
 
         [Test]
+        public void GetCascadedValueOfTextTransformFromElementStyleWithElementApi()
+        {
+            var sourceCode = "<!doctype html><div style=\"text-transform: uppercase\"><p><span>Bold text";
+
+            var document = ParseDocument(sourceCode);
+            var element = document.QuerySelector("span");
+            var styleNormal = element.ComputeStyle();
+            Assert.IsNotNull(styleNormal);
+            Assert.AreEqual("uppercase", styleNormal.GetTextTransform());
+        }
+
+        [Test]
         public async Task NullSelectorStillWorks_Issue52()
         {
             var sheet = ParseStyleSheet("a {}");
