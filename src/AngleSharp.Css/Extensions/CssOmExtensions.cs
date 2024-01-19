@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Linq;
@@ -11,6 +12,18 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     public static class CssOmExtensions
     {
+        /// <summary>
+        /// Gets the computed style of the element.
+        /// </summary>
+        /// <param name="element">The element to compute the style for.</param>
+        /// <param name="pseudo">The optional pseudo selector to use.</param>
+        /// <returns>The computed style of the element.</returns>
+        public static ICssStyleDeclaration ComputeStyle(this IElement element, String pseudo = null)
+        {
+            var window = element?.Owner?.DefaultView;
+            return window?.GetComputedStyle(element, pseudo);
+        }
+
         /// <summary>
         /// Gets the style rule with the provided selector text.
         /// </summary>
