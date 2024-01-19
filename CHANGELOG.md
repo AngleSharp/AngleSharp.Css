@@ -1,6 +1,6 @@
 # 1.0.0
 
-Released on tbd.
+Released on Sunday, January 21 2024.
 
 - Updated to use AngleSharp 1.0 (#150)
 - Updated media parsing to media L4 spec (#133)
