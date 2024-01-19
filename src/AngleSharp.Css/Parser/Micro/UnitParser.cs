@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseBorderWidth(this StringSource source) =>
             source.ParseLengthOrCalc() ??
-            source.ParsePercentOrNumber() ??
+            source.ParsePercentOrNumberForLength() ??
             source.ParseAutoLength();
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseLineHeight(this StringSource source) =>
             source.ParseLengthOrCalc() ??
-            source.ParsePercentOrNumber() ??
+            source.ParsePercentOrNumberForLength() ??
             source.ParseNormalLength();
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a percent or number value.
         /// </summary>
-        public static CssLengthValue? ParsePercentOrNumber(this StringSource source)
+        private static CssLengthValue? ParsePercentOrNumberForLength(this StringSource source)
         {
             var pos = source.Index;
             var test = source.ParseUnit();
 
-            if (test != null && Double.TryParse(test.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+            if (test is not null && test.Value.CssNumber(out var value))
             {
                 if (test.Dimension == "%")
                 {
@@ -109,6 +109,30 @@ namespace AngleSharp.Css.Parser
                 else if (test.Dimension.Length == 0)
                 {
                     return new CssLengthValue(value, CssLengthValue.Unit.None);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        /// <summary>
+        /// Parses a percent or number value.
+        /// </summary>
+        public static CssPercentageValue? ParsePercentOrNumber(this StringSource source)
+        {
+            var pos = source.Index;
+            var test = source.ParseUnit();
+
+            if (test is not null && test.Value.CssNumber(out var value))
+            {
+                if (test.Dimension == "%")
+                {
+                    return new CssPercentageValue(value, CssPercentageValue.Unit.Percent);
+                }
+                else if (test.Dimension.Length == 0)
+                {
+                    return new CssPercentageValue(value, CssPercentageValue.Unit.None);
                 }
             }
 

@@ -34,7 +34,7 @@ namespace AngleSharp.Css
         /// <returns>The indicator if the string was indeed an integer.</returns>
         public static Boolean CssInteger(this String value, out Int32 result)
         {
-            return Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+            return Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace AngleSharp.Css
         /// <returns>The indicator if the string was indeed a number.</returns>
         public static Boolean CssNumber(this String value, out Double result)
         {
-            return Double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+            return Double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
         }
 
         /// <summary>

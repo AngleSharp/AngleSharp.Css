@@ -11,10 +11,10 @@ namespace AngleSharp.Css.Values
     {
         #region Fields
 
-        private readonly CssLengthValue _bottom;
-        private readonly CssLengthValue _left;
-        private readonly CssLengthValue _right;
-        private readonly CssLengthValue _top;
+        private readonly ICssValue _bottom;
+        private readonly ICssValue _left;
+        private readonly ICssValue _right;
+        private readonly ICssValue _top;
         private readonly Boolean _filled;
 
         #endregion
@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Values
         /// <param name="bottom">The bottom length.</param>
         /// <param name="left">The left length.</param>
         /// <param name="filled">True if the filled flag is enabled, otherwise false.</param>
-        public CssBorderImageSliceValue(CssLengthValue top, CssLengthValue right, CssLengthValue bottom, CssLengthValue left, Boolean filled)
+        public CssBorderImageSliceValue(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left, Boolean filled)
         {
             _top = top;
             _right = right;
@@ -45,22 +45,22 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the bottom coordinate.
         /// </summary>
-        public CssLengthValue Bottom => _bottom;
+        public ICssValue Bottom => _bottom;
 
         /// <summary>
         /// Gets the left coordinate.
         /// </summary>
-        public CssLengthValue Left => _left;
+        public ICssValue Left => _left;
 
         /// <summary>
         /// Gets the top coordinate.
         /// </summary>
-        public CssLengthValue Top => _top;
+        public ICssValue Top => _top;
 
         /// <summary>
         /// Gets the right coordinate.
         /// </summary>
-        public CssLengthValue Right => _right;
+        public ICssValue Right => _right;
 
         /// <summary>
         /// Gets if the slice should be filled.

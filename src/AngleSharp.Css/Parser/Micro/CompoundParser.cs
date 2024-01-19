@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssBorderImageSliceValue ParseBorderImageSlice(this StringSource source)
         {
-            var lengths = new CssLengthValue[4];
+            var lengths = new ICssValue[4];
             var filled = false;
             var completed = 0;
             var pos = 0;
