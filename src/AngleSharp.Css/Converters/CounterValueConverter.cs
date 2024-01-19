@@ -11,9 +11,9 @@ namespace AngleSharp.Css.Converters
     {
         private static readonly CssCounterValue[] NoneValue = Array.Empty<CssCounterValue>();
 
-        private readonly Int32 _defaultValue;
+        private readonly ICssValue _defaultValue;
 
-        public CounterValueConverter(Int32 defaultValue)
+        public CounterValueConverter(ICssValue defaultValue)
         {
             _defaultValue = defaultValue;
         }

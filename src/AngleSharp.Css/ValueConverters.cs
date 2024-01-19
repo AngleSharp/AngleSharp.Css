@@ -141,27 +141,27 @@ namespace AngleSharp.Css
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseInteger));
+        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseInteger);
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseNaturalInteger));
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseNaturalInteger);
 
         /// <summary>
         /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
         /// </summary>
-        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseWeightInteger));
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseWeightInteger);
 
         /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParsePositiveInteger));
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParsePositiveInteger);
 
         /// <summary>
         /// Represents an integer object with 0 or 1.
         /// </summary>
-        public static readonly IValueConverter BinaryConverter = new StructValueConverter<CssLengthValue>(FromInteger(NumberParser.ParseBinary));
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseBinary);
 
         /// <summary>
         /// Represents a number object.

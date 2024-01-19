@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the 1.0.
         /// </summary>
-        public static readonly CssNumberValue One = new(0.0);
+        public static readonly CssNumberValue One = new(1.0);
 
         #endregion
 

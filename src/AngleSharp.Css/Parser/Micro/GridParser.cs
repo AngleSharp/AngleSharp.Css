@@ -266,17 +266,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static ICssValue ParseIntegerCount(this StringSource source)
-        {
-            var arg = source.ParsePositiveInteger();
-
-            if (arg.HasValue)
-            {
-                return new CssLengthValue(arg.Value, CssLengthValue.Unit.None);
-            }
-
-            return null;
-        }
+        private static ICssValue ParseIntegerCount(StringSource source) => source.ParsePositiveInteger();
 
         private static ICssValue ParseRepeat(this StringSource source, Func<StringSource, ICssValue> parseCount, Func<StringSource, ICssValue> parseValue)
         {

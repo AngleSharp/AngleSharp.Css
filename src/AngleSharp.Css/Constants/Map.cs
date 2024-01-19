@@ -157,8 +157,8 @@ namespace AngleSharp.Css
             { CssKeywords.EaseOut, new CssCubicBezierValue(0.0, 0.0, 0.58, 1.0) },
             { CssKeywords.EaseInOut, new CssCubicBezierValue(0.42, 0.0, 0.58, 1.0) },
             { CssKeywords.Linear, new CssCubicBezierValue(0.0, 0.0, 1.0, 1.0) },
-            { CssKeywords.StepStart, new CssStepsValue(1, true) },
-            { CssKeywords.StepEnd, new CssStepsValue(1, false) },
+            { CssKeywords.StepStart, new CssStepsValue(CssIntegerValue.One, true) },
+            { CssKeywords.StepEnd, new CssStepsValue(CssIntegerValue.One, false) },
         };
 
         /// <summary>

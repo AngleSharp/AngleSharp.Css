@@ -8,6 +8,20 @@ namespace AngleSharp.Css.Values
     /// </summary>
     public readonly struct CssIntegerValue : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue
     {
+        #region Basic lengths
+
+        /// <summary>
+        /// Gets the 0.0.
+        /// </summary>
+        public static readonly CssIntegerValue Zero = new(0);
+
+        /// <summary>
+        /// Gets the 1.0.
+        /// </summary>
+        public static readonly CssIntegerValue One = new(1);
+
+        #endregion
+
         #region Fields
 
         private readonly Int32 _value;
