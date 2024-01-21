@@ -27,7 +27,7 @@ namespace AngleSharp.Css.Dom
         internal MediaList(IBrowsingContext context)
         {
             _context = context;
-            _media = new List<ICssMedium>();
+            _media = [];
         }
 
         #endregion

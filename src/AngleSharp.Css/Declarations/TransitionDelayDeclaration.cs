@@ -9,10 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TransitionDelay;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Transition,
-        };
+        ];
 
         public static IValueConverter Converter = TimeConverter.FromList();
 

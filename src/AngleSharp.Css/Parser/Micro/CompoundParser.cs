@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parse for a CSS quote value.
         /// </summary>
-        public static CssTupleValue ParseQuotes(this StringSource source)
+        public static CssTupleValue? ParseQuotes(this StringSource source)
         {
             var quotes = new List<ICssValue>();
 
@@ -33,13 +33,13 @@ namespace AngleSharp.Css.Parser
                 quotes.Add(new CssQuoteValue(open, close));
             }
 
-            return new CssTupleValue(quotes.ToArray());
+            return new CssTupleValue([.. quotes]);
         }
 
         /// <summary>
         /// Parse for a CSS border image slice.
         /// </summary>
-        public static CssBorderImageSliceValue ParseBorderImageSlice(this StringSource source)
+        public static CssBorderImageSliceValue? ParseBorderImageSlice(this StringSource source)
         {
             var lengths = new ICssValue[4];
             var filled = false;
@@ -85,7 +85,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parse for a CSS background repeat.
         /// </summary>
-        public static CssImageRepeatsValue ParseBackgroundRepeat(this StringSource source)
+        public static CssImageRepeatsValue? ParseBackgroundRepeat(this StringSource source)
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
             {
@@ -136,10 +136,9 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parse for a generic periodic [u, y, d, x] value.
         /// </summary>
-        public static CssPeriodicValue<T> ParsePeriodic<T>(this StringSource source, Func<StringSource, T> converter)
-            where T : ICssValue
+        public static CssPeriodicValue? ParsePeriodic(this StringSource source, Func<StringSource, ICssValue> converter)
         {
-            var values = new List<T>(4);
+            var values = new List<ICssValue>(4);
 
             while (values.Count < 4)
             {
@@ -152,7 +151,7 @@ namespace AngleSharp.Css.Parser
                 source.SkipSpacesAndComments();
             }
 
-            return values.Count > 0 ? new CssPeriodicValue<T>(values.ToArray()) : null;
+            return values.Count > 0 ? new CssPeriodicValue([.. values]) : null;
         }
     }
 }

@@ -17,11 +17,11 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.PaddingBlockStart,
             PropertyNames.PaddingBlockEnd,
-        };
+        ];
 
         sealed class PaddingBlockAggregator : IValueAggregator, IValueConverter
         {
@@ -36,7 +36,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (start != null && end != null)
                 {
-                    return new CssFlowRelativeValue(new[] { start, end });
+                    return new CssFlowRelativeValue([start, end]);
                 }
 
                 return null;
@@ -46,7 +46,7 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssFlowRelativeValue flowRelative)
                 {
-                    return new[] { flowRelative.Start, flowRelative.End };
+                    return [flowRelative.Start, flowRelative.End];
                 }
 
                 return null;

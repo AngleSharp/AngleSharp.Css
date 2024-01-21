@@ -6,7 +6,12 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public readonly struct CssPoint2D : ICssCompositeValue, IEquatable<CssPoint2D>
+    /// <remarks>
+    /// Creates a new Point.
+    /// </remarks>
+    /// <param name="x">The x-coordinate.</param>
+    /// <param name="y">The y-coordinate.</param>
+    public readonly struct CssPoint2D(ICssValue x, ICssValue y) : ICssCompositeValue, IEquatable<CssPoint2D>
     {
         #region Basic values
 
@@ -59,23 +64,12 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly ICssValue _x;
-        private readonly ICssValue _y;
+        private readonly ICssValue _x = x;
+        private readonly ICssValue _y = y;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new Point.
-        /// </summary>
-        /// <param name="x">The x-coordinate.</param>
-        /// <param name="y">The y-coordinate.</param>
-        public CssPoint2D(ICssValue x, ICssValue y)
-        {
-            _x = x;
-            _y = y;
-        }
 
         #endregion
 

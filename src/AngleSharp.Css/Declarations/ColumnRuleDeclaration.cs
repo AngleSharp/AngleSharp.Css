@@ -16,12 +16,12 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.ColumnRuleColor,
             PropertyNames.ColumnRuleWidth,
             PropertyNames.ColumnRuleStyle,
-        };
+        ];
 
         sealed class ColumnRuleValueConverter : IValueConverter
         {
@@ -87,12 +87,12 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue options)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         options.Items[0],
                         options.Items[1],
                         options.Items[2],
-                    };
+                    ];
                 }
 
                 return null;

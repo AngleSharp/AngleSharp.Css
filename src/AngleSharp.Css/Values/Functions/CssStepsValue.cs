@@ -10,29 +10,23 @@ namespace AngleSharp.Css.Values
     /// Represents a steps timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    sealed class CssStepsValue : ICssTimingFunctionValue, IEquatable<CssStepsValue>
+    /// <remarks>
+    /// The first parameter specifies the number of intervals in the function. 
+    /// The second parameter specifies the point at which the change of values
+    /// occur within the interval. 
+    /// </remarks>
+    /// <param name="intervals">It must be a positive integer (greater than 0).</param>
+    /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
+    sealed class CssStepsValue(ICssValue intervals, Boolean start = false) : ICssTimingFunctionValue, IEquatable<CssStepsValue>
     {
         #region Fields
 
-        private readonly ICssValue _intervals;
-        private readonly Boolean _start;
+        private readonly ICssValue _intervals = intervals;
+        private readonly Boolean _start = start;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// The first parameter specifies the number of intervals in the function. 
-        /// The second parameter specifies the point at which the change of values
-        /// occur within the interval. 
-        /// </summary>
-        /// <param name="intervals">It must be a positive integer (greater than 0).</param>
-        /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
-        public CssStepsValue(ICssValue intervals, Boolean start = false)
-        {
-            _intervals = intervals;
-            _start = start;
-        }
 
         #endregion
 
@@ -60,7 +54,7 @@ namespace AngleSharp.Css.Values
                     args.Add(new CssIdentifierValue(CssKeywords.Start));
                 }
 
-                return args.ToArray();
+                return [.. args];
             }
         }
 
@@ -105,9 +99,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssStepsValue other) => _start == other._start && _intervals.Equals(other._intervals);
+        public Boolean Equals(CssStepsValue? other) => other is not null && _start == other._start && _intervals.Equals(other._intervals);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStepsValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssStepsValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 

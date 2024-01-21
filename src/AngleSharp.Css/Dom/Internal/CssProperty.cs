@@ -106,16 +106,10 @@ namespace AngleSharp.Css.Dom
 
         #region Compute Context
 
-        sealed class PropertyComputeContext : ICssComputeContext
+        sealed class PropertyComputeContext(ICssComputeContext parent, IValueConverter converter) : ICssComputeContext
         {
-            private readonly ICssComputeContext _parent;
-            private readonly IValueConverter _converter;
-
-            public PropertyComputeContext(ICssComputeContext parent, IValueConverter converter)
-            {
-                _parent = parent;
-                _converter = converter;
-            }
+            private readonly ICssComputeContext _parent = parent;
+            private readonly IValueConverter _converter = converter;
 
             public IRenderDevice Device => _parent.Device;
 

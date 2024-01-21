@@ -7,44 +7,34 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// The shadow class for holding information about a box or text-shadow.
     /// </summary>
-    public sealed class CssShadowValue : ICssCompositeValue, IEquatable<CssShadowValue>
+    /// <remarks>
+    /// Creates a new CSS shadow.
+    /// </remarks>
+    /// <param name="inset">If the shadow is an inset.</param>
+    /// <param name="offsetX">The x-coordinate offset.</param>
+    /// <param name="offsetY">The y-coordinate offset.</param>
+    /// <param name="blurRadius">The blur radius of the shadow.</param>
+    /// <param name="spreadRadius">The spread radius of the shadow.</param>
+    /// <param name="color">The color of the shadow.</param>
+    public sealed class CssShadowValue(Boolean inset, ICssValue offsetX, ICssValue offsetY, ICssValue blurRadius, ICssValue spreadRadius, CssColorValue? color) : ICssCompositeValue, IEquatable<CssShadowValue>
     {
         #region Fields
 
-        private readonly Boolean _inset;
-        private readonly ICssValue _offsetX;
-        private readonly ICssValue _offsetY;
-        private readonly ICssValue _blurRadius;
-        private readonly ICssValue _spreadRadius;
-        private readonly CssColorValue? _color;
+        private readonly Boolean _inset = inset;
+        private readonly ICssValue _offsetX = offsetX;
+        private readonly ICssValue _offsetY = offsetY;
+        private readonly ICssValue _blurRadius = blurRadius;
+        private readonly ICssValue _spreadRadius = spreadRadius;
+        private readonly CssColorValue? _color = color;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS shadow.
-        /// </summary>
-        /// <param name="inset">If the shadow is an inset.</param>
-        /// <param name="offsetX">The x-coordinate offset.</param>
-        /// <param name="offsetY">The y-coordinate offset.</param>
-        /// <param name="blurRadius">The blur radius of the shadow.</param>
-        /// <param name="spreadRadius">The spread radius of the shadow.</param>
-        /// <param name="color">The color of the shadow.</param>
-        public CssShadowValue(Boolean inset, ICssValue offsetX, ICssValue offsetY, ICssValue blurRadius, ICssValue spreadRadius, CssColorValue? color)
-        {
-            _inset = inset;
-            _offsetX = offsetX;
-            _offsetY = offsetY;
-            _blurRadius = blurRadius;
-            _spreadRadius = spreadRadius;
-            _color = color;
-        }
 
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
@@ -120,17 +110,18 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssShadowValue other)
+        public Boolean Equals(CssShadowValue? other)
         {
-            return _blurRadius.Equals(other._blurRadius) &&
-                _spreadRadius.Equals(other._spreadRadius) &&
-                _color.Equals(other._color) &&
+            return other is not null &&
+                _blurRadius.Is(other._blurRadius) &&
+                _spreadRadius.Is(other._spreadRadius) &&
+                _color.Is(other._color) &&
                 _inset == other._inset &&
-                _offsetX.Equals(other._offsetX) &&
-                _offsetY.Equals(other._offsetY);
+                _offsetX.Is(other._offsetX) &&
+                _offsetY.Is(other._offsetY);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShadowValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssShadowValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

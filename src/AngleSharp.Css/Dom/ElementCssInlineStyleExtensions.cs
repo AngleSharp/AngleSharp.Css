@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Dom
     [DomExposed("SVGElement")]
     public static class ElementCssInlineStyleExtensions
     {
-        private static readonly ConditionalWeakTable<IElement, ICssStyleDeclaration> _styles = new();
+        private static readonly ConditionalWeakTable<IElement, ICssStyleDeclaration> _styles = [];
 
         /// <summary>
         /// Gets the style declaration of an element.

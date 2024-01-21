@@ -3,5 +3,9 @@
     <Description>Extends the CSSOM from the core AngleSharp library.</Description>
     <Product>AngleSharp.Css</Product>
     <Version>1.0.0</Version>
+    <LangVersion>latest</LangVersion>
+    <SignAssembly>true</SignAssembly>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>

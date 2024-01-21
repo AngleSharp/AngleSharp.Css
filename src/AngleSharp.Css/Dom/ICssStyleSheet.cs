@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -15,7 +15,7 @@
         /// returns null.
         /// </summary>
         [DomName("ownerRule")]
-        ICssRule OwnerRule { get; }
+        ICssRule? OwnerRule { get; }
 
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
@@ -28,7 +28,7 @@
         /// Gets the parent stylesheet for of the current sheet.
         /// </summary>
         [DomName("parentStyleSheet")]
-        ICssStyleSheet Parent { get; }
+        ICssStyleSheet? Parent { get; }
 
         /// <summary>
         /// Inserts a new style rule into the current style sheet.

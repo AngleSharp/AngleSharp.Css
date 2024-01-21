@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.PaddingTop;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Padding,
-        };
+        ];
 
         public static IValueConverter Converter = LengthOrPercentConverter;
 

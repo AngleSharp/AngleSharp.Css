@@ -4,18 +4,11 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Dom.Events;
     using System;
 
-    sealed class CssPseudoElement : ICssPseudoElement
+    sealed class CssPseudoElement(IPseudoElement host, String type, ICssStyleDeclaration style) : ICssPseudoElement
     {
-        private readonly IPseudoElement _host;
-        private readonly String _type;
-        private readonly ICssStyleDeclaration _style;
-
-        public CssPseudoElement(IPseudoElement host, String type, ICssStyleDeclaration style)
-        {
-            _host = host;
-            _type = type;
-            _style = style;
-        }
+        private readonly IPseudoElement _host = host;
+        private readonly String _type = type;
+        private readonly ICssStyleDeclaration _style = style;
 
         String ICssPseudoElement.Type => _type;
 

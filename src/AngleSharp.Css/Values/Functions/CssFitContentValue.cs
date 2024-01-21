@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS fit-content function call.
     /// </summary>
-    sealed class CssFitContentValue : ICssFunctionValue, IEquatable<CssFitContentValue>
+    /// <remarks>
+    /// Creates a new fit-content function call.
+    /// </remarks>
+    /// <param name="dim">The used dimension argument.</param>
+    sealed class CssFitContentValue(ICssValue dim) : ICssFunctionValue, IEquatable<CssFitContentValue>
     {
         #region Fields
 
-        private readonly ICssValue _dim;
+        private readonly ICssValue _dim = dim;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new fit-content function call.
-        /// </summary>
-        /// <param name="dim">The used dimension argument.</param>
-        public CssFitContentValue(ICssValue dim)
-        {
-            _dim = dim;
-        }
 
         #endregion
 

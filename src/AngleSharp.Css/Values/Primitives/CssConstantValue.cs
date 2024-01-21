@@ -6,27 +6,18 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a selected CSS enum value.
     /// </summary>
-    public readonly struct CssConstantValue<T> : ICssPrimitiveValue, IEquatable<CssConstantValue<T>>
+    /// <param name="key">The key representation.</param>
+    /// <param name="data">The associated data.</param>
+    public readonly struct CssConstantValue<T>(String key, T? data) : ICssPrimitiveValue, IEquatable<CssConstantValue<T>>
     {
         #region Fields
 
-        private readonly String _key;
-        private readonly T _data;
+        private readonly String _key = key;
+        private readonly T? _data = data;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new selected CSS enum value.
-        /// </summary>
-        /// <param name="key">The key representation.</param>
-        /// <param name="data">The associated data.</param>
-        public CssConstantValue(String key, T data)
-        {
-            _key = key;
-            _data = data;
-        }
 
         #endregion
 
@@ -35,7 +26,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the associated value.
         /// </summary>
-        public T Value => _data;
+        public T? Value => _data;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -59,21 +50,31 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
+        public override Boolean Equals(Object? obj) =>
             obj is CssConstantValue<T> constant && Equals(constant);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssConstantValue<T> value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssConstantValue<T> value && Equals(value);
 
         /// <summary>
         /// Gets the computed hash code of the constant.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
-        public override Int32 GetHashCode() => _data.GetHashCode();
+        public override Int32 GetHashCode() => _data?.GetHashCode() ?? 0;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             return this;
         }
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssConstantValue<T> left, CssConstantValue<T> right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssConstantValue<T> left, CssConstantValue<T> right) => !(left == right);
 
         #endregion
     }

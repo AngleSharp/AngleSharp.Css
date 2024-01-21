@@ -14,12 +14,12 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new BackgroundAggregator();
 
-        public static ICssValue InitialValue = null;
+        public static ICssValue? InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BackgroundImage,
             PropertyNames.BackgroundPosition,
             PropertyNames.BackgroundSize,
@@ -28,11 +28,11 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundOrigin,
             PropertyNames.BackgroundClip,
             PropertyNames.BackgroundColor,
-        };
+        ];
 
         sealed class BackgroundAggregator : IValueAggregator, IValueConverter
         {
-            public ICssValue Convert(StringSource source)
+            public ICssValue? Convert(StringSource source)
             {
                 // [ <bg-layer> , ]* <final-bg-layer>
                 // where:
@@ -177,7 +177,7 @@ namespace AngleSharp.Css.Declarations
                 return new CssBackgroundValue(new CssListValue(layers.OfType<ICssValue>().ToArray()), color ?? new CssInitialValue(InitialValues.BackgroundColorDecl));
             }
 
-            public ICssValue Merge(ICssValue[] values)
+            public ICssValue? Merge(ICssValue[] values)
             {
                 var image = GetList(values[0]);
                 var position = GetList(values[1]);
@@ -197,7 +197,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static CssListValue GetList(ICssValue value)
+            private static CssListValue? GetList(ICssValue value)
             {
                 if (value is CssListValue list)
                 {
@@ -211,12 +211,12 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Split(ICssValue value)
+            public ICssValue?[]? Split(ICssValue value)
             {
                 if (value is CssBackgroundValue background)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         CreateMultiple(background, m => m.Image, InitialValues.BackgroundImageDecl),
                         CreateMultiple(background, m => m.Position, InitialValues.BackgroundPositionDecl),
                         CreateMultiple(background, m => m.Size, InitialValues.BackgroundSizeDecl),
@@ -225,13 +225,13 @@ namespace AngleSharp.Css.Declarations
                         CreateMultiple(background, m => m.Origin, InitialValues.BackgroundOriginDecl),
                         CreateMultiple(background, m => m.Clip, InitialValues.BackgroundClipDecl),
                         background.Color,
-                    };
+                    ];
                 }
 
                 return null;
             }
             
-            private static ICssValue CreateLayers(CssListValue image, CssListValue attachment, CssListValue clip, CssListValue position, CssListValue origin, CssListValue repeat, CssListValue size)
+            private static ICssValue? CreateLayers(CssListValue? image, CssListValue? attachment, CssListValue? clip, CssListValue? position, CssListValue? origin, CssListValue? repeat, CssListValue? size)
             {
                 var count = GetCount(image, attachment, clip, position, size, repeat, origin);
 
@@ -257,7 +257,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static Int32 GetCount(params CssListValue[] lists)
+            private static Int32 GetCount(params CssListValue?[] lists)
             {
                 var count = 0;
 
@@ -269,7 +269,7 @@ namespace AngleSharp.Css.Declarations
                 return count;
             }
 
-            private static ICssValue GetValue(CssListValue container, Int32 index)
+            private static ICssValue? GetValue(CssListValue? container, Int32 index)
             {
                 if (container != null && index < container.Items.Length)
                 {
@@ -279,7 +279,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static ICssValue CreateMultiple(CssBackgroundValue background, Func<CssBackgroundLayerValue, ICssValue> getValue, ICssValue initialValue)
+            private static ICssValue? CreateMultiple(CssBackgroundValue background, Func<CssBackgroundLayerValue, ICssValue> getValue, ICssValue initialValue)
             {
                 if (background.Layers is CssListValue layers)
                 {

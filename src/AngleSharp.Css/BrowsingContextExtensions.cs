@@ -20,7 +20,7 @@ namespace AngleSharp.Css
         /// <param name="address">The address of the resource.</param>
         /// <param name="element">The hosting element.</param>
         /// <returns>The async task.</returns>
-        public static Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element) =>
+        public static Task<IStyleSheet?> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element) =>
             context.OpenStyleSheetAsync(address, element, CancellationToken.None);
 
         /// <summary>
@@ -31,21 +31,20 @@ namespace AngleSharp.Css
         /// <param name="element">The hosting element.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The async task.</returns>
-        public static async Task<IStyleSheet> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element, CancellationToken cancel)
+        public static async Task<IStyleSheet?> OpenStyleSheetAsync(this IBrowsingContext context, Url address, IElement element, CancellationToken cancel)
         {
             var loader = context.GetService<IResourceLoader>();
             var service = context.GetCssStyling();
 
-            if (loader != null && service != null)
+            if (loader is not null && service is not null)
             {
                 var request = element.CreateRequestFor(address);
                 var download = loader.FetchAsync(request);
 
-                using (var response = await download.Task.ConfigureAwait(false))
-                {
-                    var options = new StyleOptions(element?.Owner ?? context.Active) { Element = element };
-                    return await service.ParseStylesheetAsync(response, options, cancel).ConfigureAwait(false);
-                }
+                using var response = await download.Task.ConfigureAwait(false);
+                var document = element.Owner ?? context.Active ?? throw new InvalidOperationException("Could not find a related documented.");
+                var options = new StyleOptions(document) { Element = element };
+                return await service.ParseStylesheetAsync(response, options, cancel).ConfigureAwait(false);
             }
 
             return null;
@@ -57,7 +56,7 @@ namespace AngleSharp.Css
             return factory.Create(propertyName);
         }
 
-        internal static ICssProperty CreateShorthand(this IBrowsingContext context, String name, ICssValue[] longhands, Boolean important)
+        internal static ICssProperty? CreateShorthand(this IBrowsingContext context, String name, ICssValue[] longhands, Boolean important)
         {
             var factory = context.GetFactory<IDeclarationFactory>();
             var info = factory.Create(name);
@@ -79,7 +78,7 @@ namespace AngleSharp.Css
             return factory.CreateProperties(info.Longhands, values, shorthand.IsImportant);
         }
 
-        internal static CssProperty CreateProperty(this IBrowsingContext context, String propertyName)
+        internal static CssProperty? CreateProperty(this IBrowsingContext context, String propertyName)
         {
             var info = context.GetDeclarationInfo(propertyName);
 
@@ -102,7 +101,7 @@ namespace AngleSharp.Css
 
         private static ICssProperty[] CreateProperties(this IDeclarationFactory factory, String[] names, ICssValue[] values, Boolean important)
         {
-            if (values != null && values.Length == names.Length)
+            if (values.Length == names.Length)
             {
                 var properties = new ICssProperty[names.Length];
 
@@ -115,7 +114,7 @@ namespace AngleSharp.Css
                 return properties;
             }
 
-            return null;
+            return [];
         }
     }
 }

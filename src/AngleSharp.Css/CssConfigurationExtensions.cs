@@ -62,7 +62,7 @@ namespace AngleSharp
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="renderDevice">The custom device to register, if any.</param>
         /// <returns>The new instance with the render device.</returns>
-        public static IConfiguration WithRenderDevice(this IConfiguration configuration, IRenderDevice renderDevice = null) =>
+        public static IConfiguration WithRenderDevice(this IConfiguration configuration, IRenderDevice? renderDevice = null) =>
             configuration.WithOnly<IRenderDevice>(renderDevice ?? new DefaultRenderDevice());
     }
 }

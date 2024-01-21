@@ -6,25 +6,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a border radius value.
     /// </summary>
-    sealed class CssBorderRadiusValue : ICssCompositeValue, IEquatable<CssBorderRadiusValue>
+    /// <remarks>
+    /// Creates a new border radius value.
+    /// </remarks>
+    sealed class CssBorderRadiusValue(CssPeriodicValue horizontal, CssPeriodicValue vertical) : ICssCompositeValue, IEquatable<CssBorderRadiusValue>
     {
         #region Fields
 
-        private readonly CssPeriodicValue _horizontal;
-        private readonly CssPeriodicValue _vertical;
+        private readonly CssPeriodicValue _horizontal = horizontal;
+        private readonly CssPeriodicValue _vertical = vertical;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new border radius value.
-        /// </summary>
-        public CssBorderRadiusValue(CssPeriodicValue horizontal, CssPeriodicValue vertical)
-        {
-            _horizontal = horizontal;
-            _vertical = vertical;
-        }
 
         #endregion
 

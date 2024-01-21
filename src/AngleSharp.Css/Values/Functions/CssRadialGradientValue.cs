@@ -11,42 +11,31 @@ namespace AngleSharp.Css.Values
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class CssRadialGradientValue : ICssGradientFunctionValue, IEquatable<CssRadialGradientValue>
+    /// <remarks>
+    /// Creates a new radial gradient.
+    /// </remarks>
+    /// <param name="circle">Determines if the radial gradient has to be forced to a circle form.</param>
+    /// <param name="center">The center point of the gradient.</param>
+    /// <param name="width">The width of the ellipsoid.</param>
+    /// <param name="height">The height of the ellipsoid.</param>
+    /// <param name="sizeMode">The size mode of the ellipsoid.</param>
+    /// <param name="stops">A collection of stops to use.</param>
+    /// <param name="repeating">The repeating setting.</param>
+    public sealed class CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, CssRadialGradientValue.SizeMode sizeMode, ICssValue[] stops, Boolean repeating = false) : ICssGradientFunctionValue, IEquatable<CssRadialGradientValue>
     {
         #region Fields
 
-        private readonly ICssValue[] _stops;
-        private readonly CssPoint2D _center;
-        private readonly ICssValue _width;
-        private readonly ICssValue _height;
-        private readonly Boolean _repeating;
-        private readonly Boolean _circle;
-        private readonly SizeMode _sizeMode;
+        private readonly ICssValue[] _stops = stops;
+        private readonly CssPoint2D _center = center;
+        private readonly ICssValue _width = width;
+        private readonly ICssValue _height = height;
+        private readonly Boolean _repeating = repeating;
+        private readonly Boolean _circle = circle;
+        private readonly SizeMode _sizeMode = sizeMode;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new radial gradient.
-        /// </summary>
-        /// <param name="circle">Determines if the radial gradient has to be forced to a circle form.</param>
-        /// <param name="center">The center point of the gradient.</param>
-        /// <param name="width">The width of the ellipsoid.</param>
-        /// <param name="height">The height of the ellipsoid.</param>
-        /// <param name="sizeMode">The size mode of the ellipsoid.</param>
-        /// <param name="stops">A collection of stops to use.</param>
-        /// <param name="repeating">The repeating setting.</param>
-        public CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, SizeMode sizeMode, ICssValue[] stops, Boolean repeating = false)
-        {
-            _stops = stops;
-            _center = center;
-            _width = width;
-            _height = height;
-            _repeating = repeating;
-            _circle = circle;
-            _sizeMode = sizeMode;
-        }
 
         #endregion
 
@@ -109,7 +98,7 @@ namespace AngleSharp.Css.Values
                     args.Add(stop);
                 }
 
-                return args.ToArray();
+                return [.. args];
             }
         }
 

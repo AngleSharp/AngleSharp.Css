@@ -6,7 +6,12 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public readonly struct CssPercentageValue : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new percentage value.
+    /// </remarks>
+    /// <param name="value">The value of the percentage.</param>
+    /// <param name="unit">The unit.</param>
+    public readonly struct CssPercentageValue(Double value, CssPercentageValue.Unit unit) : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue
     {
         #region Basic percentages
 
@@ -29,8 +34,8 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -43,17 +48,6 @@ namespace AngleSharp.Css.Values
         public CssPercentageValue(Double value)
             : this(value, Unit.Percent)
         {
-        }
-
-        /// <summary>
-        /// Creates a new percentage value.
-        /// </summary>
-        /// <param name="value">The value of the percentage.</param>
-        /// <param name="unit">The unit.</param>
-        public CssPercentageValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -182,25 +176,28 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssPercentageValue?;
+        public override Boolean Equals(Object? obj) => obj is CssPercentageValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPercentageValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssPercentageValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current percentage.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssPercentageValue left, CssPercentageValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssPercentageValue left, CssPercentageValue right)
+        {
+            return !(left == right);
+        }
 
         #endregion
     }

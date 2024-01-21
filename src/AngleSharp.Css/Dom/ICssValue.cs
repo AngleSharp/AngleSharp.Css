@@ -18,6 +18,6 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="context">The used compute context.</param>
         /// <returns>The computed value or the original value, if already computed.</returns>
-        ICssValue Compute(ICssComputeContext context);
+        ICssValue? Compute(ICssComputeContext context);
     }
 }

@@ -19,9 +19,9 @@ namespace AngleSharp.Css.Dom
         private readonly TextSource _source;
         private readonly MediaList _media;
         private readonly CssRuleList _rules;
-        private ICssStyleSheet _parent;
-        private ICssRule _owner;
-        private IElement _element;
+        private ICssStyleSheet? _parent;
+        private ICssRule? _owner;
+        private IElement? _element;
 
         #endregion
 
@@ -32,7 +32,8 @@ namespace AngleSharp.Css.Dom
             _context = context;
             _source = source;
             _media = new MediaList(context);
-            _rules = new CssRuleList();
+            _rules = [];
+            Href = null!;
         }
 
         #endregion
@@ -41,7 +42,7 @@ namespace AngleSharp.Css.Dom
 
         public String Type => MimeTypeNames.Css;
 
-        public String Title => OwnerNode?.GetAttribute(AttributeNames.Title);
+        public String Title => OwnerNode?.GetAttribute(AttributeNames.Title)!;
 
         public IMediaList Media => _media;
 
@@ -57,11 +58,11 @@ namespace AngleSharp.Css.Dom
             set;
         }
 
-        public IElement OwnerNode => _element;
+        public IElement OwnerNode => _element!;
 
-        public ICssStyleSheet Parent => _parent;
+        public ICssStyleSheet? Parent => _parent;
 
-        public ICssRule OwnerRule => _owner;
+        public ICssRule? OwnerRule => _owner;
 
         public String Href
         {
@@ -98,7 +99,7 @@ namespace AngleSharp.Css.Dom
 
         public Int32 Insert(String ruleText, Int32 index)
         {
-            var parser = _context.GetService<ICssParser>();
+            var parser = _context.GetService<ICssParser>() ?? throw new InvalidOperationException("No parser found.");
             var rule = parser.ParseRule(this, ruleText);
             _rules.Insert(index, rule);
             rule.SetOwner(this);
@@ -119,7 +120,7 @@ namespace AngleSharp.Css.Dom
             _element = parent?.OwnerNode;
         }
 
-        public void SetOwner(IElement element)
+        public void SetOwner(IElement? element)
         {
             _owner = null;
             _parent = null;
@@ -139,7 +140,7 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            return null;
+            return null!;
         }
 
         #endregion

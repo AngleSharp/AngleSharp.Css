@@ -4,14 +4,9 @@ namespace AngleSharp.Css.Dom
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class CssPseudoElementList : ICssPseudoElementList
+    sealed class CssPseudoElementList(IEnumerable<ICssPseudoElement> elements) : ICssPseudoElementList
     {
-        private readonly ICssPseudoElement[] _elements;
-
-        public CssPseudoElementList(IEnumerable<ICssPseudoElement> elements)
-        {
-            _elements = elements.ToArray();
-        }
+        private readonly ICssPseudoElement[] _elements = elements.ToArray();
 
         public ICssPseudoElement this[Int32 index] => index >= 0 && index < _elements.Length ? _elements[index] : null;
 

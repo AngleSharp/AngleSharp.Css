@@ -14,13 +14,13 @@ namespace AngleSharp.Css.Declarations
         
         public static readonly String Name = PropertyNames.GridArea;
 
-        public static readonly String[] Longhands = new[]
-        {
+        public static readonly String[] Longhands =
+        [
             PropertyNames.GridRowStart,
             PropertyNames.GridColumnStart,
             PropertyNames.GridRowEnd,
             PropertyNames.GridColumnEnd,
-        };
+        ];
 
         public static readonly IValueConverter Converter = new GridAreaAggregator();
 
@@ -52,13 +52,13 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue tuple)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         GetItem(tuple, 0),
                         GetItem(tuple, 1),
                         GetItem(tuple, 2),
                         GetItem(tuple, 3),
-                    };
+                    ];
                 }
 
                 return null;

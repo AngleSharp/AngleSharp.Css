@@ -12,16 +12,16 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackgroundRepeat;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Background,
-        };
+        ];
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BackgroundRepeatX,
             PropertyNames.BackgroundRepeatY,
-        };
+        ];
 
         public static IValueConverter Converter = new BackgroundRepeatAggregator();
 
@@ -63,11 +63,11 @@ namespace AngleSharp.Css.Declarations
                     var repeats = list.Items.OfType<CssImageRepeatsValue>();
                     var h = repeats.Select(m => m.Horizontal).ToArray();
                     var v = repeats.Select(m => m.Vertical).ToArray();
-                    return new ICssValue[]
-                    {
+                    return
+                    [
                         new CssListValue(h),
                         new CssListValue(v),
-                    };
+                    ];
                 }
 
                 return null;

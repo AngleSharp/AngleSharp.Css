@@ -9,10 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackgroundRepeatY;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.BackgroundRepeat,
-        };
+        ];
 
         public static IValueConverter Converter = BackgroundRepeatConverter.FromList();
 

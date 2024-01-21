@@ -9,30 +9,23 @@ namespace AngleSharp.Css.Values
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    sealed class CssLinearGradientValue : ICssGradientFunctionValue, IEquatable<CssLinearGradientValue>
+    /// <remarks>
+    /// Creates a new linear gradient.
+    /// </remarks>
+    /// <param name="angle">The angle of the linear gradient.</param>
+    /// <param name="stops">The stops to use.</param>
+    /// <param name="repeating">Indicates if the gradient is repeating.</param>
+    sealed class CssLinearGradientValue(ICssValue angle, ICssValue[] stops, Boolean repeating = false) : ICssGradientFunctionValue, IEquatable<CssLinearGradientValue>
     {
         #region Fields
 
-        private readonly ICssValue[] _stops;
-        private readonly ICssValue _angle;
-        private readonly Boolean _repeating;
+        private readonly ICssValue[] _stops = stops;
+        private readonly ICssValue _angle = angle;
+        private readonly Boolean _repeating = repeating;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new linear gradient.
-        /// </summary>
-        /// <param name="angle">The angle of the linear gradient.</param>
-        /// <param name="stops">The stops to use.</param>
-        /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public CssLinearGradientValue(ICssValue angle, ICssValue[] stops, Boolean repeating = false)
-        {
-            _stops = stops;
-            _angle = angle;
-            _repeating = repeating;
-        }
 
         #endregion
 
@@ -57,7 +50,7 @@ namespace AngleSharp.Css.Values
                     args.Insert(0, _angle);
                 }
 
-                return args.ToArray();
+                return [.. args];
             }
         }
 

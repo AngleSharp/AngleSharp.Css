@@ -12,16 +12,16 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackgroundPosition;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Background,
-        };
+        ];
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BackgroundPositionX,
             PropertyNames.BackgroundPositionY,
-        };
+        ];
 
         public static IValueConverter Converter = new BackgroundPositionAggregator();
 
@@ -63,11 +63,11 @@ namespace AngleSharp.Css.Declarations
                     var points = list.Items.OfType<CssPoint2D>();
                     var x = points.Select(m => m.X).ToArray();
                     var y = points.Select(m => m.Y).ToArray();
-                    return new ICssValue[]
-                    {
+                    return
+                    [
                         new CssListValue(x),
                         new CssListValue(y),
-                    };
+                    ];
                 }
 
                 return null;

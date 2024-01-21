@@ -33,13 +33,13 @@ namespace AngleSharp.Css
         public async Task<IStyleSheet> ParseStylesheetAsync(IResponse response, StyleOptions options, CancellationToken cancel)
         {
             var context = options.Document.Context;
-            var parser = context.GetService<ICssParser>();
+            var parser = context.GetService<ICssParser>() ?? throw new InvalidOperationException("No parser found.");
             var url = response.Address?.Href;
             var source = new TextSource(response.Content);
             var sheet = new CssStyleSheet(context, source)
             {
                 IsDisabled = options.IsDisabled,
-                Href = url
+                Href = url!
             };
             sheet.SetOwner(options.Element);
             return await parser.ParseStyleSheetAsync(sheet, cancel).ConfigureAwait(false);

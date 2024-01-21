@@ -7,27 +7,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the skew transformation.
     /// </summary>
-    public sealed class CssSkewValue : ICssTransformFunctionValue, IEquatable<CssSkewValue>
+    /// <remarks>
+    /// Creates a new skew transform.
+    /// </remarks>
+    /// <param name="alpha">The alpha skewing angle.</param>
+    /// <param name="beta">The beta skewing angle.</param>
+    public sealed class CssSkewValue(ICssValue alpha, ICssValue beta) : ICssTransformFunctionValue, IEquatable<CssSkewValue>
     {
         #region Fields
 
-        private readonly ICssValue _alpha;
-        private readonly ICssValue _beta;
+        private readonly ICssValue _alpha = alpha;
+        private readonly ICssValue _beta = beta;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new skew transform.
-        /// </summary>
-        /// <param name="alpha">The alpha skewing angle.</param>
-        /// <param name="beta">The beta skewing angle.</param>
-        public CssSkewValue(ICssValue alpha, ICssValue beta)
-        {
-            _alpha = alpha;
-            _beta = beta;
-        }
 
         #endregion
 
@@ -105,12 +99,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssSkewValue other)
+        public Boolean Equals(CssSkewValue? other)
         {
-            return _alpha.Equals(other._alpha) && _beta.Equals(other._beta);
+            return other is not null && _alpha.Equals(other._alpha) && _beta.Equals(other._beta);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssSkewValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssSkewValue value && Equals(value);
 
         /// <summary>
         /// Computes the matrix for the given transformation.
@@ -123,10 +117,15 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var alpha = _alpha.Compute(context);
             var beta = _beta.Compute(context);
+
+            if (alpha is null || beta is null)
+            {
+                return null;
+            }
 
             if (alpha != _alpha || beta != _beta)
             {

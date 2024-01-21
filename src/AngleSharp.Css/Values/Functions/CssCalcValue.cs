@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS calculated value.
     /// </summary>
-    public sealed class CssCalcValue : ICssRawValue, ICssFunctionValue
+    /// <remarks>
+    /// Creates a new calc function.
+    /// </remarks>
+    /// <param name="expression">The argument to use.</param>
+    public sealed class CssCalcValue(ICssValue expression) : ICssRawValue, ICssFunctionValue
     {
         #region Fields
 
-        private readonly ICssValue _expression;
+        private readonly ICssValue _expression = expression;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new calc function.
-        /// </summary>
-        /// <param name="expression">The argument to use.</param>
-        public CssCalcValue(ICssValue expression)
-        {
-            _expression = expression;
-        }
 
         #endregion
 

@@ -10,7 +10,7 @@
     <icon>logo.png</icon>
     <readme>README.md</readme>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Extends the CSSOM from the core AngleSharp library.</description>
+    <description>Extends the CSSOM from the core AngleSharp library. It parses CSS3 and is capable of performing a headless rendering evaluating the styles.</description>
     <releaseNotes>https://github.com/AngleSharp/AngleSharp.Css/blob/main/CHANGELOG.md</releaseNotes>
     <copyright>Copyright 2016-2024, AngleSharp</copyright>
     <tags>html html5 css css3 dom styling library anglesharp angle</tags>

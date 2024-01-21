@@ -17,13 +17,13 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.PaddingTop,
             PropertyNames.PaddingRight,
             PropertyNames.PaddingBottom,
             PropertyNames.PaddingLeft,
-        };
+        ];
 
         sealed class PaddingAggregator : IValueAggregator, IValueConverter
         {
@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Declarations
 
                 if (top != null && right != null && bottom != null && left != null)
                 {
-                    return new CssPeriodicValue(new[] { top, right, bottom, left });
+                    return new CssPeriodicValue([top, right, bottom, left]);
                 }
 
                 return null;
@@ -50,7 +50,7 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssPeriodicValue period)
                 {
-                    return new[] { period.Top, period.Right, period.Bottom, period.Left };
+                    return [period.Top, period.Right, period.Bottom, period.Left];
                 }
 
                 return null;

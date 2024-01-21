@@ -14,12 +14,12 @@ namespace AngleSharp.Css.Declarations
 
         public static IValueConverter Converter = new AnimationAggregator();
 
-        public static ICssValue InitialValue = null;
+        public static ICssValue? InitialValue = null;
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.AnimationDuration,
             PropertyNames.AnimationTimingFunction,
             PropertyNames.AnimationDelay,
@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.AnimationFillMode,
             PropertyNames.AnimationPlayState,
             PropertyNames.AnimationName,
-        };
+        ];
 
         sealed class AnimationAggregator : IValueAggregator, IValueConverter
         {
@@ -42,9 +42,9 @@ namespace AngleSharp.Css.Declarations
                 PlayStateConverter.Option(InitialValues.AnimationPlayStateDecl),
                 IdentifierConverter.Option(InitialValues.AnimationNameDecl)).FromList();
 
-            public ICssValue Convert(StringSource source) => ListConverter.Convert(source);
+            public ICssValue? Convert(StringSource source) => ListConverter.Convert(source);
 
-            public ICssValue Merge(ICssValue[] values)
+            public ICssValue? Merge(ICssValue[] values)
             {
                 var duration = values[0] as CssListValue;
                 var timing = values[1] as CssListValue;
@@ -63,12 +63,12 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            public ICssValue[] Split(ICssValue value)
+            public ICssValue?[]? Split(ICssValue value)
             {
                 if (value is CssListValue list)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         CreateMultiple(list, 0),
                         CreateMultiple(list, 1),
                         CreateMultiple(list, 2),
@@ -77,13 +77,13 @@ namespace AngleSharp.Css.Declarations
                         CreateMultiple(list, 5),
                         CreateMultiple(list, 6),
                         CreateMultiple(list, 7),
-                    };
+                    ];
                 }
 
                 return null;
             }
 
-            private static ICssValue CreateMultiple(CssListValue animation, Int32 index)
+            private static ICssValue? CreateMultiple(CssListValue animation, Int32 index)
             {
                 var values = animation.Items.OfType<CssTupleValue>().Select(m => m.Items[index]);
 
@@ -95,15 +95,15 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private static ICssValue CreateValue(CssListValue duration, CssListValue timing, CssListValue delay, CssListValue iterationCount, CssListValue direction, CssListValue fillMode, CssListValue playState, CssListValue name)
+            private static ICssValue CreateValue(CssListValue? duration, CssListValue? timing, CssListValue? delay, CssListValue? iterationCount, CssListValue? direction, CssListValue? fillMode, CssListValue? playState, CssListValue? name)
             {
-                var items = (duration ?? timing ?? delay ?? iterationCount ?? direction ?? fillMode ?? playState ?? name).Items;
-                var layers = new ICssValue[items.Length];
+                var items = (duration ?? timing ?? delay ?? iterationCount ?? direction ?? fillMode ?? playState ?? name)?.Items;
+                var layers = new ICssValue[items?.Length ?? 0];
 
-                for (var i = 0; i < items.Length; i++)
+                for (var i = 0; i < layers.Length; i++)
                 {
-                    layers[i] = new CssTupleValue(new[]
-                    {
+                    layers[i] = new CssTupleValue(
+                    [
                         GetValue(duration, i),
                         GetValue(timing, i),
                         GetValue(delay, i),
@@ -112,13 +112,13 @@ namespace AngleSharp.Css.Declarations
                         GetValue(fillMode, i),
                         GetValue(playState, i),
                         GetValue(name, i),
-                    });
+                    ]);
                 }
 
                 return new CssListValue(layers);
             }
 
-            private static ICssValue GetValue(CssListValue container, Int32 index)
+            private static ICssValue? GetValue(CssListValue? container, Int32 index)
             {
                 if (container != null && index < container.Items.Length)
                 {

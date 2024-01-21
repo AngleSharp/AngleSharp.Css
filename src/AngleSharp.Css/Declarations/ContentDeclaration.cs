@@ -36,11 +36,11 @@ namespace AngleSharp.Css.Declarations
 
                 if (source.IsIdentifier(CssKeywords.Normal))
                 {
-                    modes = new ICssValue[] { new NormalContentMode() };
+                    modes = [new NormalContentMode()];
                 }
                 else if (source.IsIdentifier(CssKeywords.None))
                 {
-                    modes = new ICssValue[] { };
+                    modes = [];
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace AngleSharp.Css.Declarations
 
                     }
 
-                    modes = ms.ToArray();
+                    modes = [.. ms];
                 }
 
                 if (modes != null)
@@ -108,14 +108,9 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private sealed class ContentValue : ICssValue, IEquatable<ContentValue>
+            private sealed class ContentValue(ICssValue[] modes) : ICssValue, IEquatable<ContentValue>
             {
-                private readonly ICssValue[] _modes;
-
-                public ContentValue(ICssValue[] modes)
-                {
-                    _modes = modes;
-                }
+                private readonly ICssValue[] _modes = modes;
 
                 public String CssText => _modes.Length == 0 ? CssKeywords.None : _modes.Join(" ");
 
@@ -220,14 +215,9 @@ namespace AngleSharp.Css.Declarations
             /// <summary>
             /// Text content.
             /// </summary>
-            private sealed class TextContentMode : ContentMode
+            private sealed class TextContentMode(String text) : ContentMode
             {
-                private readonly String _text;
-
-                public TextContentMode(String text)
-                {
-                    _text = text;
-                }
+                private readonly String _text = text;
 
                 public override String GetCssText() => _text.CssString();
 
@@ -249,14 +239,9 @@ namespace AngleSharp.Css.Declarations
             /// in scope at this pseudo-element, from outermost to innermost
             /// separated by the specified string.
             /// </summary>
-            private sealed class CounterContentMode : ContentMode
+            private sealed class CounterContentMode(CssCounterDefinitionValue counter) : ContentMode
             {
-                private readonly CssCounterDefinitionValue _counter;
-
-                public CounterContentMode(CssCounterDefinitionValue counter)
-                {
-                    _counter = counter;
-                }
+                private readonly CssCounterDefinitionValue _counter = counter;
 
                 public override String GetCssText() => _counter.CssText;
 
@@ -277,14 +262,9 @@ namespace AngleSharp.Css.Declarations
             /// Returns the value of the element's attribute X as a string. If
             /// there is no attribute X, an empty string is returned.
             /// </summary>
-            private sealed class AttributeContentMode : ContentMode
+            private sealed class AttributeContentMode(String attribute) : ContentMode
             {
-                private readonly String _attribute;
-
-                public AttributeContentMode(String attribute)
-                {
-                    _attribute = attribute;
-                }
+                private readonly String _attribute = attribute;
 
                 public override String GetCssText() => FunctionNames.Attr.CssFunction(_attribute);
 
@@ -306,14 +286,9 @@ namespace AngleSharp.Css.Declarations
             /// image). If the resource or image can't be displayed, it is either
             /// ignored or some placeholder shows up.
             /// </summary>
-            private sealed class UrlContentMode : ContentMode
+            private sealed class UrlContentMode(CssUrlValue url) : ContentMode
             {
-                private readonly CssUrlValue _url;
-
-                public UrlContentMode(CssUrlValue url)
-                {
-                    _url = url;
-                }
+                private readonly CssUrlValue _url = url;
 
                 public override String GetCssText() => _url.CssText;
 

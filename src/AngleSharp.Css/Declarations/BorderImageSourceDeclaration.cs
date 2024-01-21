@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderImageSource;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.BorderImage,
-        };
+        ];
 
         public static IValueConverter Converter = OptionalImageSourceConverter;
 

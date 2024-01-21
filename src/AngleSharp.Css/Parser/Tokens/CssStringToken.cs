@@ -5,21 +5,15 @@
     /// <summary>
     /// Represents a CSS string token.
     /// </summary>
-    sealed class CssStringToken : CssToken
+    sealed class CssStringToken(String data, Boolean bad = false) : CssToken(CssTokenType.String, data)
     {
         #region Fields
 
-        private readonly Boolean _bad;
+        private readonly Boolean _bad = bad;
 
         #endregion
-
+        
         #region ctor
-
-        public CssStringToken(String data, Boolean bad = false)
-            : base(CssTokenType.String, data)
-        {
-            _bad = bad;
-        }
 
         #endregion
 

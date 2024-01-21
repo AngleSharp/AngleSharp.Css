@@ -4,22 +4,16 @@ namespace AngleSharp.Css.Dom
     using System.Collections;
     using System.Collections.Generic;
 
-    sealed class StyleCollection : IStyleCollection
+    sealed class StyleCollection(IEnumerable<ICssStyleSheet> sheets, IRenderDevice device) : IStyleCollection
     {
         #region Fields
 
-        private readonly IEnumerable<ICssStyleSheet> _sheets;
-        private readonly IRenderDevice _device;
+        private readonly IEnumerable<ICssStyleSheet> _sheets = sheets;
+        private readonly IRenderDevice _device = device;
 
         #endregion
-
+        
         #region ctor
-
-        public StyleCollection(IEnumerable<ICssStyleSheet> sheets, IRenderDevice device)
-        {
-            _sheets = sheets;
-            _device = device;
-        }
 
         #endregion
 

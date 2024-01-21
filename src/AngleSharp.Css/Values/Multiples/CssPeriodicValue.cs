@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
@@ -10,32 +11,22 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    public class CssPeriodicValue<T> : ICssMultipleValue, IEquatable<CssPeriodicValue<T>>
-        where T : ICssValue
+    /// <remarks>
+    /// Creates a new CSS periodic value container.
+    /// </remarks>
+    /// <param name="values">The items to contain.</param>
+    public class CssPeriodicValue(ICssValue[]? values = null) : ICssMultipleValue, IEquatable<CssPeriodicValue>
     {
         #region Fields
 
-        private readonly T[] _values;
-
-        #endregion
-
-        #region ctor
-
-        /// <summary>
-        /// Creates a new CSS periodic value container.
-        /// </summary>
-        /// <param name="values">The items to contain.</param>
-        public CssPeriodicValue(T[] values = null)
-        {
-            _values = values ?? Array.Empty<T>();
-        }
+        private readonly ICssValue[] _values = values ?? [];
 
         #endregion
 
         #region Properties
 
         /// <inheritdoc />
-        public ICssValue this[Int32 index]
+        public ICssValue? this[Int32 index]
         {
             get
             {
@@ -44,7 +35,7 @@ namespace AngleSharp.Css.Values
                     0 => Top,
                     1 => Right,
                     2 => Bottom,
-                    3 => (ICssValue)Left,
+                    3 => Left,
                     _ => throw new ArgumentOutOfRangeException(nameof(index)),
                 };
             }
@@ -66,19 +57,19 @@ namespace AngleSharp.Css.Values
                 if (l == 4 && parts[3].Is(parts[1]))
                 {
                     l = 3;
-                    parts = new[] { parts[0], parts[1], parts[2] };
+                    parts = [parts[0], parts[1], parts[2]];
                 }
 
                 if (l == 3 && parts[2].Is(parts[0]))
                 {
                     l = 2;
-                    parts = new[] { parts[0], parts[1] };
+                    parts = [parts[0], parts[1]];
                 }
 
                 if (l == 2 && parts[1].Is(parts[0]))
                 {
                     l = 1;
-                    parts = new[] { parts[0] };
+                    parts = [parts[0]];
                 }
 
                 return String.Join(" ", parts);
@@ -86,16 +77,16 @@ namespace AngleSharp.Css.Values
         }
 
         /// <inheritdoc />
-        public T Top => _values.Length > 0 ? _values[0] : default;
+        public ICssValue? Top => _values.Length > 0 ? _values[0] : default;
 
         /// <inheritdoc />
-        public T Right => _values.Length > 1 ? _values[1] : Top;
+        public ICssValue? Right => _values.Length > 1 ? _values[1] : Top;
 
         /// <inheritdoc />
-        public T Bottom => _values.Length > 2 ? _values[2] : Top;
+        public ICssValue? Bottom => _values.Length > 2 ? _values[2] : Top;
 
         /// <inheritdoc />
-        public T Left => _values.Length > 3 ? _values[3] : Right;
+        public ICssValue? Left => _values.Length > 3 ? _values[3] : Right;
 
         /// <inheritdoc />
         public Int32 Count => 4;
@@ -109,30 +100,33 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssPeriodicValue<T> other)
+        public Boolean Equals(CssPeriodicValue? other)
         {
-            var count = _values.Length;
-
-            if (count == other._values.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var count = _values.Length;
+
+                if (count == other._values.Length)
                 {
-                    var a = _values[i];
-                    var b = other._values[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _values[i];
+                        var b = other._values[i];
 
-                return true;
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;
         }
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
+        IEnumerator<ICssValue?> IEnumerable<ICssValue?>.GetEnumerator()
         {
             yield return Top;
             yield return Right;
@@ -142,28 +136,19 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
-            var values = _values.Select(v => (T)v.Compute(context)).ToArray();
-            return new CssPeriodicValue<T>(values);
+            var values = _values.Select(v => v.Compute(context)).NotNull().ToArray();
+
+            if (values.Length ==  _values.Length)
+            {
+                return new CssPeriodicValue(values);
+            }
+
+            return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPeriodicValue<T> value && Equals(value);
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a periodic CSS value.
-    /// </summary>
-    sealed class CssPeriodicValue : CssPeriodicValue<ICssValue>
-    {
-        #region ctor
-
-        public CssPeriodicValue(ICssValue[] values = null)
-            : base(values)
-        {
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssPeriodicValue value && Equals(value);
 
         #endregion
     }

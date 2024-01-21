@@ -7,7 +7,12 @@ namespace AngleSharp.Css.Values
     /// Represents an angle object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
     /// </summary>
-    public readonly struct CssAngleValue : IEquatable<CssAngleValue>, IComparable<CssAngleValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new angle value.
+    /// </remarks>
+    /// <param name="value">The value of the angle.</param>
+    /// <param name="unit">The unit of the angle.</param>
+    public readonly struct CssAngleValue(Double value, CssAngleValue.Unit unit) : IEquatable<CssAngleValue>, IComparable<CssAngleValue>, ICssMetricValue
     {
         #region Basic angles
 
@@ -40,8 +45,8 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -54,17 +59,6 @@ namespace AngleSharp.Css.Values
         public CssAngleValue(Double value)
             : this(value, Unit.Rad)
         {
-        }
-
-        /// <summary>
-        /// Creates a new angle value.
-        /// </summary>
-        /// <param name="value">The value of the angle.</param>
-        /// <param name="unit">The unit of the angle.</param>
-        public CssAngleValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -297,19 +291,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssAngleValue?;
+        public override Boolean Equals(Object? obj) => obj is CssAngleValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAngleValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssAngleValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current angle.

@@ -7,14 +7,10 @@
     /// <summary>
     /// Take an url prefix.
     /// </summary>
-    sealed class UrlPrefixFunction : DocumentFunction
+    sealed class UrlPrefixFunction(String url) : DocumentFunction(FunctionNames.UrlPrefix, url)
     {
-        #region ctor
 
-        public UrlPrefixFunction(String url)
-            : base(FunctionNames.UrlPrefix, url)
-        {
-        }
+        #region ctor
 
         #endregion
 

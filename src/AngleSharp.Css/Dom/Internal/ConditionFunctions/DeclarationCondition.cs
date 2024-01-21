@@ -4,18 +4,11 @@ namespace AngleSharp.Css.Dom
     using System;
     using System.IO;
 
-    sealed class DeclarationCondition : IConditionFunction
+    sealed class DeclarationCondition(IBrowsingContext context, String name, String value) : IConditionFunction
     {
-        private readonly String _name;
-        private readonly String _value;
-        private readonly IBrowsingContext _context;
-
-        public DeclarationCondition(IBrowsingContext context, String name, String value)
-        {
-            _context = context;
-            _name = name;
-            _value = value;
-        }
+        private readonly String _name = name;
+        private readonly String _value = value;
+        private readonly IBrowsingContext _context = context;
 
         public Boolean Check(IRenderDevice device)
         {

@@ -6,16 +6,11 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System.Collections.Generic;
 
-    sealed class ListValueConverter : IValueConverter
+    sealed class ListValueConverter(IValueConverter converter) : IValueConverter
     {
-        private readonly IValueConverter _converter;
+        private readonly IValueConverter _converter = converter;
 
-        public ListValueConverter(IValueConverter converter)
-        {
-            _converter = converter;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var values = new List<ICssValue>();
 
@@ -33,7 +28,7 @@ namespace AngleSharp.Css.Converters
                 values.Add(value);
             }
 
-            return values.Count > 0 ? new CssListValue(values.ToArray()) : null;
+            return values.Count > 0 ? new CssListValue([.. values]) : null;
         }
     }
 }

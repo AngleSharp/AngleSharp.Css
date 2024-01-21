@@ -7,22 +7,16 @@ namespace AngleSharp.Css.Converters
     using System;
     using System.Collections.Generic;
 
-    sealed class DictionaryValueConverter<T> : IValueConverter
+    sealed class DictionaryValueConverter<T>(IDictionary<String, T> values) : IValueConverter
     {
-        private readonly IDictionary<String, T> _values;
+        private readonly IDictionary<String, T> _values = values;
 
-        public DictionaryValueConverter(IDictionary<String, T> values)
-        {
-            _values = values;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
-            var mode = default(T);
 
-            if (ident != null && _values.TryGetValue(ident, out mode))
+            if (ident is not null && _values.TryGetValue(ident, out var mode))
             {
                 return new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
             }

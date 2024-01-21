@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the referring value.
         /// </summary>
-        public ICssValue Value => null;
+        public ICssValue? Value => null;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => Object.ReferenceEquals(this, other);
 
         #endregion
     }

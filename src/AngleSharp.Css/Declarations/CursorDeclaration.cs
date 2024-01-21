@@ -54,7 +54,7 @@ namespace AngleSharp.Css.Declarations
 
                         if (cursor != null)
                         {
-                            return new CssCursorValue(definitions.ToArray(), cursor);
+                            return new CssCursorValue([.. definitions], cursor);
                         }
 
                         break;

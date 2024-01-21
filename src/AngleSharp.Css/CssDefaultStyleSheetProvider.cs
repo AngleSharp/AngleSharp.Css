@@ -8,7 +8,7 @@ namespace AngleSharp.Css
     {
         #region Fields
 
-        private ICssStyleSheet _default;
+        private ICssStyleSheet? _default;
 
         #endregion
 

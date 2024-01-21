@@ -6,7 +6,11 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a number value.
     /// </summary>
-    public readonly struct CssNumberValue : IEquatable<CssNumberValue>, IComparable<CssNumberValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new number value.
+    /// </remarks>
+    /// <param name="value">The value of the number.</param>
+    public readonly struct CssNumberValue(Double value) : IEquatable<CssNumberValue>, IComparable<CssNumberValue>, ICssMetricValue
     {
         #region Basic lengths
 
@@ -24,20 +28,11 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Double _value;
+        private readonly Double _value = value;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new number value.
-        /// </summary>
-        /// <param name="value">The value of the number.</param>
-        public CssNumberValue(Double value)
-        {
-            _value = value;
-        }
 
         #endregion
 
@@ -108,7 +103,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
+        public override Boolean Equals(Object? obj)
         {
             var other = obj as CssNumberValue?;
 
@@ -119,13 +114,23 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssNumberValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssNumberValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current number.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssNumberValue left, CssNumberValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssNumberValue left, CssNumberValue right) => !(left == right);
 
         #endregion
     }

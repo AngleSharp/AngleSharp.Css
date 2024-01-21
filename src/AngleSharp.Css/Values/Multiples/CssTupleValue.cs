@@ -10,28 +10,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    public class CssTupleValue<T> : ICssMultipleValue, IEquatable<CssTupleValue<T>>
-        where T : ICssValue
+    /// <remarks>
+    /// Creates a new CSS tuple value.
+    /// </remarks>
+    /// <param name="items">The items to contain.</param>
+    /// <param name="separator">The custom separator, if any.</param>
+    public class CssTupleValue(ICssValue[]? items = null, String? separator = null) : ICssMultipleValue, IEquatable<CssTupleValue>
     {
         #region Fields
 
-        private readonly T[] _items;
-        private readonly String _separator;
+        private readonly ICssValue[] _items = items ?? [];
+        private readonly String _separator = separator ?? " ";
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS tuple value.
-        /// </summary>
-        /// <param name="items">The items to contain.</param>
-        /// <param name="separator">The custom separator, if any.</param>
-        public CssTupleValue(T[] items = null, String separator = null)
-        {
-            _items = items ?? Array.Empty<T>();
-            _separator = separator ?? " ";
-        }
 
         #endregion
 
@@ -41,7 +34,7 @@ namespace AngleSharp.Css.Values
         public ICssValue this[Int32 index] => _items[index];
 
         /// <inheritdoc />
-        public T[] Items => _items;
+        public ICssValue[] Items => _items;
 
         /// <inheritdoc />
         public String Separator => _separator;
@@ -63,61 +56,50 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssTupleValue<T> other)
+        public Boolean Equals(CssTupleValue? other)
         {
-            var count = _items.Length;
-
-            if (_separator.Equals(other._separator) && count == other._items.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var count = _items.Length;
+
+                if (_separator.Equals(other._separator) && count == other._items.Length)
                 {
-                    var a = _items[i];
-                    var b = other._items[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _items[i];
+                        var b = other._items[i];
 
-                return true;
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;
         }
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
+        IEnumerator<ICssValue> IEnumerable<ICssValue?>.GetEnumerator() =>
             _items.OfType<ICssValue>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
-            var items = _items.Select(v => (T)v.Compute(context)).ToArray();
-            return new CssTupleValue<T>(items, _separator);
+            var items = _items.Select(v => v.Compute(context)).NotNull().ToArray();
+
+            if (items.Length == _items.Length)
+            {
+                return new CssTupleValue(items, _separator);
+            }
+
+            return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssTupleValue<T> value && Equals(value);
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a tuple of CSS values.
-    /// </summary>
-    public sealed class CssTupleValue : CssTupleValue<ICssValue>
-    {
-        #region ctor
-
-        /// <summary>
-        /// Creates a new tuple instance.
-        /// </summary>
-        /// <param name="items">The items to contain.</param>
-        /// <param name="separator">The separator for display purposes.</param>
-        public CssTupleValue(ICssValue[] items = null, String separator = null)
-            : base(items, separator)
-        {
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssTupleValue value && Equals(value);
 
         #endregion
     }

@@ -8,27 +8,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS cursor definition.
     /// </summary>
-    sealed class CssCursorValue : ICssCompositeValue, IEquatable<CssCursorValue>
+    /// <remarks>
+    /// Creates a new CSS cursor definition.
+    /// </remarks>
+    /// <param name="definitions">The different cursor definitions.</param>
+    /// <param name="cursor">The system cursor to use.</param>
+    sealed class CssCursorValue(ICssValue[] definitions, ICssValue cursor) : ICssCompositeValue, IEquatable<CssCursorValue>
     {
         #region Fields
 
-        private readonly ICssValue[] _definitions;
-        private readonly ICssValue _cursor;
+        private readonly ICssValue[] _definitions = definitions;
+        private readonly ICssValue _cursor = cursor;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS cursor definition.
-        /// </summary>
-        /// <param name="definitions">The different cursor definitions.</param>
-        /// <param name="cursor">The system cursor to use.</param>
-        public CssCursorValue(ICssValue[] definitions, ICssValue cursor)
-        {
-            _definitions = definitions;
-            _cursor = cursor;
-        }
 
         #endregion
 

@@ -4,27 +4,20 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    sealed class CssCustomCursorValue : ICssCompositeValue, IEquatable<CssCustomCursorValue>
+    /// <summary>
+    /// Creates a new custom cursor value.
+    /// </summary>
+    /// <param name="source">The image source to display.</param>
+    /// <param name="position">The position offset, if any.</param>
+    sealed class CssCustomCursorValue(ICssImageValue source, ICssValue position) : ICssCompositeValue, IEquatable<CssCustomCursorValue>
     {
         #region Fields
 
-        private readonly ICssImageValue _source;
-        private readonly ICssValue _position;
+        private readonly ICssImageValue _source = source;
+        private readonly ICssValue _position = position;
 
         #endregion
-
         #region ctor
-
-        /// <summary>
-        /// Creates a new custom cursor value.
-        /// </summary>
-        /// <param name="source">The image source to display.</param>
-        /// <param name="position">The position offset, if any.</param>
-        public CssCustomCursorValue(ICssImageValue source, ICssValue position)
-        {
-            _source = source;
-            _position = position;
-        }
 
         #endregion
 

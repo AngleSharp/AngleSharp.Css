@@ -6,27 +6,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS background definition.
     /// </summary>
-    sealed class CssBackgroundValue : ICssCompositeValue, IEquatable<CssBackgroundValue>
+    /// <remarks>
+    /// Creates a new CSS background definition.
+    /// </remarks>
+    /// <param name="layers">The used layers.</param>
+    /// <param name="color">The set color.</param>
+    sealed class CssBackgroundValue(ICssValue? layers, ICssValue? color) : ICssCompositeValue, IEquatable<CssBackgroundValue>
     {
         #region Fields
 
-        private readonly ICssValue _layers;
-        private readonly ICssValue _color;
+        private readonly ICssValue _layers = layers;
+        private readonly ICssValue _color = color;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS background definition.
-        /// </summary>
-        /// <param name="layers">The used layers.</param>
-        /// <param name="color">The set color.</param>
-        public CssBackgroundValue(ICssValue layers, ICssValue color)
-        {
-            _layers = layers;
-            _color = color;
-        }
 
         #endregion
 

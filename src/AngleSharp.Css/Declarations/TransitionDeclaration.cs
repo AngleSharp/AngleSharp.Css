@@ -18,13 +18,13 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.TransitionProperty,
             PropertyNames.TransitionDuration,
             PropertyNames.TransitionTimingFunction,
             PropertyNames.TransitionDelay,
-        };
+        ];
 
         sealed class TransitionAggregator : IValueAggregator, IValueConverter
         {
@@ -55,13 +55,13 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssListValue list)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         CreateMultiple(list, 0),
                         CreateMultiple(list, 1),
                         CreateMultiple(list, 2),
                         CreateMultiple(list, 3),
-                    };
+                    ];
                 }
 
                 return null;
@@ -86,13 +86,13 @@ namespace AngleSharp.Css.Declarations
 
                 for (var i = 0; i < items.Length; i++)
                 {
-                    layers[i] = new CssTupleValue(new[]
-                    {
+                    layers[i] = new CssTupleValue(
+                    [
                         GetValue(animatable, i),
                         GetValue(duration, i),
                         GetValue(timing, i),
                         GetValue(delay, i),
-                    });
+                    ]);
                 }
 
                 return new CssListValue(layers);

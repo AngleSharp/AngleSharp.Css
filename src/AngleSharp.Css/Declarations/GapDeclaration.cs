@@ -10,11 +10,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.Gap;
 
-        public static readonly String[] Longhands = new[]
-        {
+        public static readonly String[] Longhands =
+        [
             PropertyNames.ColumnGap,
             PropertyNames.RowGap,
-        };
+        ];
 
         public static readonly IValueConverter Converter = new GapAggregagtor();
 
@@ -45,11 +45,11 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue list)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         list.Items[0],
                         list.Items[1],
-                    };
+                    ];
                 }
 
                 return null;

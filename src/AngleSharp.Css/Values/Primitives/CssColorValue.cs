@@ -573,19 +573,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssColorValue?;
+        public override Boolean Equals(Object? obj) => obj is CssColorValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssColorValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssColorValue value && Equals(value);
 
         Int32 IComparable<CssColorValue>.CompareTo(CssColorValue other) => _hashcode - other._hashcode;
 

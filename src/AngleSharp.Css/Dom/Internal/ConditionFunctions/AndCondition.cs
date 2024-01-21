@@ -5,14 +5,9 @@
     using System.IO;
     using System.Linq;
 
-    sealed class AndCondition : IConditionFunction
+    sealed class AndCondition(IEnumerable<IConditionFunction> conditions) : IConditionFunction
     {
-        private readonly IConditionFunction[] _conditions;
-
-        public AndCondition(IEnumerable<IConditionFunction> conditions)
-        {
-            _conditions = conditions.ToArray();
-        }
+        private readonly IConditionFunction[] _conditions = conditions.ToArray();
 
         public Boolean Check(IRenderDevice device)
         {

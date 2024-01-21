@@ -8,27 +8,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS minmax function call.
     /// </summary>
-    sealed class CssMinMaxValue : ICssFunctionValue, IEquatable<CssMinMaxValue>
+    /// <remarks>
+    /// Creates a new minmax function call.
+    /// </remarks>
+    /// <param name="min">The used lower bound.</param>
+    /// <param name="max">The used upper bound.</param>
+    sealed class CssMinMaxValue(ICssValue min, ICssValue max) : ICssFunctionValue, IEquatable<CssMinMaxValue>
     {
         #region Fields
 
-        private readonly ICssValue _min;
-        private readonly ICssValue _max;
+        private readonly ICssValue _min = min;
+        private readonly ICssValue _max = max;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new minmax function call.
-        /// </summary>
-        /// <param name="min">The used lower bound.</param>
-        /// <param name="max">The used upper bound.</param>
-        public CssMinMaxValue(ICssValue min, ICssValue max)
-        {
-            _min = min;
-            _max = max;
-        }
 
         #endregion
 

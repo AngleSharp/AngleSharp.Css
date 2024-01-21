@@ -7,23 +7,16 @@
     /// <summary>
     /// Represents an unknown CSS rule.
     /// </summary>
-    sealed class CssUnknownRule : CssRule
+    sealed class CssUnknownRule(ICssStyleSheet owner, String name, TextView content) : CssRule(owner, CssRuleType.Unknown)
     {
         #region Fields
 
-        private readonly String _name;
-        private readonly TextView _content;
+        private readonly String _name = name;
+        private readonly TextView _content = content;
 
         #endregion
-
+        
         #region ctor
-
-        public CssUnknownRule(ICssStyleSheet owner, String name, TextView content)
-            : base(owner, CssRuleType.Unknown)
-        {
-            _name = name;
-            _content = content;
-        }
 
         #endregion
 

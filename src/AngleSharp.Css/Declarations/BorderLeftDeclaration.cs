@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderLeft;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Border,
-        };
+        ];
 
         public static IValueConverter Converter = WithBorderSide(
             InitialValues.BorderLeftWidthDecl,
@@ -22,11 +22,11 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderLeftWidth,
             PropertyNames.BorderLeftStyle,
             PropertyNames.BorderLeftColor,
-        };
+        ];
     }
 }

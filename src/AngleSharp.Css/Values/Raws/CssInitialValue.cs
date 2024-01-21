@@ -6,24 +6,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS initial value.
     /// </summary>
-    readonly struct CssInitialValue : ICssSpecialValue
+    /// <remarks>
+    /// Creates a new initial value using the provided data.
+    /// </remarks>
+    /// <param name="value">The initial data.</param>
+    readonly struct CssInitialValue(ICssValue? value) : ICssSpecialValue, IEquatable<CssInitialValue>
     {
         #region Fields
 
-        private readonly ICssValue _value;
+        private readonly ICssValue? _value = value;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new initial value using the provided data.
-        /// </summary>
-        /// <param name="value">The initial data.</param>
-        public CssInitialValue(ICssValue value)
-        {
-            _value = value;
-        }
 
         #endregion
 
@@ -32,7 +27,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the initial value.
         /// </summary>
-        public ICssValue Value => _value;
+        public ICssValue? Value => _value;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -43,9 +38,19 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssInitialValue other)
+        {
+            return _value == other._value || _value is not null && other._value is not null && _value.Equals(other._value);
+        }
+
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssInitialValue o && _value.Equals(o.Value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssInitialValue o && Equals(o);
 
         #endregion
     }

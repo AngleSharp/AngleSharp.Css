@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MarginBlockStart;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.MarginBlock,
-        };
+        ];
 
         public static IValueConverter Converter = AutoLengthOrPercentConverter;
 

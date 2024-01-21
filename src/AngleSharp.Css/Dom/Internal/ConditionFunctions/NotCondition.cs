@@ -3,14 +3,9 @@
     using System;
     using System.IO;
 
-    sealed class NotCondition : IConditionFunction
+    sealed class NotCondition(IConditionFunction condition) : IConditionFunction
     {
-        private readonly IConditionFunction _content;
-
-        public NotCondition(IConditionFunction condition)
-        {
-            _content = condition;
-        }
+        private readonly IConditionFunction _content = condition;
 
         public Boolean Check(IRenderDevice device)
         {

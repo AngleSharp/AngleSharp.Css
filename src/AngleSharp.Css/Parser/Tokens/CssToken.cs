@@ -6,22 +6,16 @@ namespace AngleSharp.Css.Parser.Tokens
     /// <summary>
     /// The base class token for the CSS parser.
     /// </summary>
-    class CssToken
+    class CssToken(CssTokenType type, String data)
     {
         #region Fields
 
-        private readonly CssTokenType _type;
-        private readonly String _data;
+        private readonly CssTokenType _type = type;
+        private readonly String _data = data;
 
         #endregion
-
+        
         #region ctor
-
-        public CssToken(CssTokenType type, String data)
-        {
-            _type = type;
-            _data = data;
-        }
 
         #endregion
 

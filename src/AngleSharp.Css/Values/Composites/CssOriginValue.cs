@@ -6,30 +6,23 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS origin definition.
     /// </summary>
-    public sealed class CssOriginValue : ICssCompositeValue, IEquatable<CssOriginValue>
+    /// <remarks>
+    /// Creates a new Point3 (origin).
+    /// </remarks>
+    /// <param name="x">The x coordinate.</param>
+    /// <param name="y">The y coordinate.</param>
+    /// <param name="z">The z coordinate.</param>
+    public sealed class CssOriginValue(ICssValue x, ICssValue y, ICssValue z) : ICssCompositeValue, IEquatable<CssOriginValue>
     {
         #region Fields
 
-        private readonly ICssValue _x;
-        private readonly ICssValue _y;
-        private readonly ICssValue _z;
+        private readonly ICssValue _x = x;
+        private readonly ICssValue _y = y;
+        private readonly ICssValue _z = z;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new Point3 (origin).
-        /// </summary>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        /// <param name="z">The z coordinate.</param>
-        public CssOriginValue(ICssValue x, ICssValue y, ICssValue z)
-        {
-            _x = x;
-            _y = y;
-            _z = z;
-        }
 
         #endregion
 

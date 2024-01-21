@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS string value.
     /// </summary>
-    public readonly struct CssStringValue : ICssPrimitiveValue, IEquatable<CssStringValue>
+    /// <remarks>
+    /// Creates a new CSS string value.
+    /// </remarks>
+    /// <param name="value">The string to represent.</param>
+    public readonly struct CssStringValue(String value) : ICssPrimitiveValue, IEquatable<CssStringValue>
     {
         #region Fields
 
-        private readonly String _value;
+        private readonly String _value = value;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS string value.
-        /// </summary>
-        /// <param name="value">The string to represent.</param>
-        public CssStringValue(String value)
-        {
-            _value = value;
-        }
 
         #endregion
 
@@ -44,10 +39,7 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         /// <summary>
         /// Checks the two strings for equality.
@@ -63,16 +55,25 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
-            obj is CssStringValue str && Equals(str);
+        public override Boolean Equals(Object? obj) => obj is CssStringValue str && Equals(str);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStringValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssStringValue value && Equals(value);
 
         /// <summary>
         /// Gets the hash code of the object.
         /// </summary>
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssStringValue left, CssStringValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssStringValue left, CssStringValue right) => !(left == right);
 
         #endregion
     }

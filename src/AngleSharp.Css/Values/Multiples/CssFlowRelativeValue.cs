@@ -10,39 +10,29 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a flow relative CSS value.
     /// </summary>
-    public class CssFlowRelativeValue<T> : ICssMultipleValue, IEquatable<CssFlowRelativeValue<T>>
-        where T : ICssValue
+    /// <remarks>
+    /// Creates a new CSS flow relative value container.
+    /// </remarks>
+    /// <param name="values">The items to contain.</param>
+    public class CssFlowRelativeValue(ICssValue[]? values = null) : ICssMultipleValue, IEquatable<CssFlowRelativeValue>
     {
         #region Fields
 
-        private readonly T[] _values;
-
-        #endregion
-
-        #region ctor
-
-        /// <summary>
-        /// Creates a new CSS flow relative value container.
-        /// </summary>
-        /// <param name="values">The items to contain.</param>
-        public CssFlowRelativeValue(T[] values = null)
-        {
-            _values = values ?? Array.Empty<T>();
-        }
+        private readonly ICssValue[] _values = values ?? [];
 
         #endregion
 
         #region Properties
 
         /// <inheritdoc />
-        public ICssValue this[Int32 index]
+        public ICssValue? this[Int32 index]
         {
             get
             {
                 return index switch
                 {
                     0 => Start,
-                    1 => (ICssValue)End,
+                    1 => End,
                     _ => throw new ArgumentOutOfRangeException(nameof(index)),
                 };
             }
@@ -64,7 +54,7 @@ namespace AngleSharp.Css.Values
                 if (l == 2 && parts[1].Is(parts[0]))
                 {
                     l = 1;
-                    parts = new[] { parts[0] };
+                    parts = [parts[0]];
                 }
 
                 return String.Join(" ", parts);
@@ -72,10 +62,10 @@ namespace AngleSharp.Css.Values
         }
 
         /// <inheritdoc />
-        public T Start => _values.Length > 0 ? _values[0] : default;
+        public ICssValue? Start => _values.Length > 0 ? _values[0] : default;
 
         /// <inheritdoc />
-        public T End => _values.Length > 1 ? _values[1] : Start;
+        public ICssValue? End => _values.Length > 1 ? _values[1] : Start;
 
         /// <inheritdoc />
         public Int32 Count => 2;
@@ -89,30 +79,33 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssFlowRelativeValue<T> other)
+        public Boolean Equals(CssFlowRelativeValue? other)
         {
-            var count = _values.Length;
-
-            if (count == other._values.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var count = _values.Length;
+
+                if (count == other._values.Length)
                 {
-                    var a = _values[i];
-                    var b = other._values[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _values[i];
+                        var b = other._values[i];
 
-                return true;
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;
         }
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
+        IEnumerator<ICssValue?> IEnumerable<ICssValue?>.GetEnumerator()
         {
             yield return Start;
             yield return End;
@@ -120,28 +113,19 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
-            var values = _values.Select(v => (T)v.Compute(context)).ToArray();
-            return new CssFlowRelativeValue<T>(values);
+            var values = _values.Select(v => v.Compute(context)).NotNull().ToArray();
+
+            if (values.Length == _values.Length)
+            {
+                return new CssFlowRelativeValue(values);
+            }
+
+            return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFlowRelativeValue<T> value && Equals(value);
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a flow relative CSS value.
-    /// </summary>
-    sealed class CssFlowRelativeValue : CssFlowRelativeValue<ICssValue>
-    {
-        #region ctor
-
-        public CssFlowRelativeValue(ICssValue[] values = null)
-            : base(values)
-        {
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssFlowRelativeValue value && Equals(value);
 
         #endregion
     }

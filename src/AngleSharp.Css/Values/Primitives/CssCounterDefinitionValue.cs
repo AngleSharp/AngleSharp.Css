@@ -7,30 +7,23 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public readonly struct CssCounterDefinitionValue : ICssPrimitiveValue, IEquatable<CssCounterDefinitionValue>
+    /// <remarks>
+    /// Specifies a counter value.
+    /// </remarks>
+    /// <param name="identifier">The identifier of the counter.</param>
+    /// <param name="listStyle">The used list style.</param>
+    /// <param name="separator">The separator of the counter.</param>
+    public readonly struct CssCounterDefinitionValue(String identifier, String listStyle, String separator) : ICssPrimitiveValue, IEquatable<CssCounterDefinitionValue>
     {
         #region Fields
 
-        private readonly String _identifier;
-        private readonly String _listStyle;
-        private readonly String _separator;
+        private readonly String _identifier = identifier;
+        private readonly String _listStyle = listStyle;
+        private readonly String _separator = separator;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Specifies a counter value.
-        /// </summary>
-        /// <param name="identifier">The identifier of the counter.</param>
-        /// <param name="listStyle">The used list style.</param>
-        /// <param name="separator">The separator of the counter.</param>
-        public CssCounterDefinitionValue(String identifier, String listStyle, String separator)
-        {
-            _identifier = identifier;
-            _listStyle = listStyle;
-            _separator = separator;
-        }
 
         #endregion
 
@@ -72,7 +65,7 @@ namespace AngleSharp.Css.Values
             ListStyle.Is(other.ListStyle) &&
             DefinedSeparator.Is(other.DefinedSeparator);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCounterDefinitionValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssCounterDefinitionValue value && Equals(value);
 
         /// <summary>
         /// Checks for equality against the given object, if
@@ -81,8 +74,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
-            obj is CssCounterDefinitionValue cd && Equals(cd);
+        public override Boolean Equals(Object? obj) => obj is CssCounterDefinitionValue cd && Equals(cd);
 
         /// <summary>
         /// Gets the hash code of the object.
@@ -99,7 +91,20 @@ namespace AngleSharp.Css.Values
 
         #region Helpers
 
+        /// <summary>
+        /// Equality check.
+        /// </summary>
         private String Combine(String head) => _listStyle != CssKeywords.Decimal ? String.Concat(head, ", ", _listStyle) : head;
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssCounterDefinitionValue left, CssCounterDefinitionValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssCounterDefinitionValue left, CssCounterDefinitionValue right) => !(left == right);
 
         #endregion
     }

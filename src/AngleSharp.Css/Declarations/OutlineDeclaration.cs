@@ -19,11 +19,11 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.OutlineWidth,
             PropertyNames.OutlineStyle,
             PropertyNames.OutlineColor,
-        };
+        ];
     }
 }

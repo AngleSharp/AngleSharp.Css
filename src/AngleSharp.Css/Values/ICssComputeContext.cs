@@ -19,15 +19,15 @@ namespace AngleSharp.Css.Values
         IBrowsingContext Context { get; }
 
         /// <summary>
-        /// Gets the currently associated value converter.
+        /// Gets the currently associated value converter, if any.
         /// </summary>
-        IValueConverter Converter { get; }
+        IValueConverter? Converter { get; }
 
         /// <summary>
         /// Resolves a CSS variable by its name.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The value of the variable or null if no such variable exists.</returns>
-        ICssValue Resolve(String name);
+        ICssValue? Resolve(String name);
     }
 }

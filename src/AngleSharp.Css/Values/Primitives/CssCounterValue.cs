@@ -7,27 +7,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Sets a CSS counter.
     /// </summary>
-    public readonly struct CssCounterValue : ICssPrimitiveValue, IEquatable<CssCounterValue>
+    /// <remarks>
+    /// Specifies a counter value.
+    /// </remarks>
+    /// <param name="name">The name of the referenced counter.</param>
+    /// <param name="value">The new value of the counter.</param>
+    public readonly struct CssCounterValue(String name, ICssValue value) : ICssPrimitiveValue, IEquatable<CssCounterValue>
     {
         #region Fields
 
-        private readonly String _name;
-        private readonly ICssValue _value;
+        private readonly String _name = name;
+        private readonly ICssValue _value = value;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Specifies a counter value.
-        /// </summary>
-        /// <param name="name">The name of the referenced counter.</param>
-        /// <param name="value">The new value of the counter.</param>
-        public CssCounterValue(String name, ICssValue value)
-        {
-            _name = name;
-            _value = value;
-        }
 
         #endregion
 
@@ -59,7 +53,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssCounterValue other) => Name.Is(other.Name) && _value.Equals(other._value);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCounterValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssCounterValue value && Equals(value);
 
         /// <summary>
         /// Checks for equality against the given object,
@@ -68,8 +62,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
-            obj is CssCounterValue cv && Equals(cv);
+        public override Boolean Equals(Object? obj) => obj is CssCounterValue cv && Equals(cv);
 
         /// <summary>
         /// Gets the hash code of the object.
@@ -81,6 +74,16 @@ namespace AngleSharp.Css.Values
         {
             return this;
         }
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssCounterValue left, CssCounterValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssCounterValue left, CssCounterValue right) => !(left == right);
 
         #endregion
     }

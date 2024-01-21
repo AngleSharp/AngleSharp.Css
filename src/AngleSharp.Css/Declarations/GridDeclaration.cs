@@ -16,8 +16,8 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly ICssValue InitialValue = null;
 
-        public static readonly String[] Longhands = new[]
-        {
+        public static readonly String[] Longhands =
+        [
             PropertyNames.GridTemplateRows,
             PropertyNames.GridTemplateColumns,
             PropertyNames.GridTemplateAreas,
@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.GridColumnGap,
             PropertyNames.RowGap,
             PropertyNames.ColumnGap,
-        };
+        ];
 
         public static readonly PropertyFlags Flags = PropertyFlags.Shorthand;
 

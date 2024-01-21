@@ -7,27 +7,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS quote.
     /// </summary>
-    public readonly struct CssQuoteValue : ICssPrimitiveValue, IEquatable<CssQuoteValue>
+    /// <remarks>
+    /// Creates a new CSS quote.
+    /// </remarks>
+    /// <param name="open">The open quote character(s).</param>
+    /// <param name="close">The close quote character(s).</param>
+    public readonly struct CssQuoteValue(String open, String close) : ICssPrimitiveValue, IEquatable<CssQuoteValue>
     {
         #region Fields
 
-        private readonly String _open;
-        private readonly String _close;
+        private readonly String _open = open;
+        private readonly String _close = close;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS quote.
-        /// </summary>
-        /// <param name="open">The open quote character(s).</param>
-        /// <param name="close">The close quote character(s).</param>
-        public CssQuoteValue(String open, String close)
-        {
-            _open = open;
-            _close = close;
-        }
 
         #endregion
 
@@ -71,15 +65,25 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
-            obj is CssQuoteValue quote && Equals(quote);
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssQuoteValue value && Equals(value);
+        public override Boolean Equals(Object? obj) => obj is CssQuoteValue quote && Equals(quote);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssQuoteValue value && Equals(value);
 
         /// <summary>
         /// Gets the hash code of the object.
         /// </summary>
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => CssText.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssQuoteValue left, CssQuoteValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssQuoteValue left, CssQuoteValue right) => !(left == right);
 
         #endregion
     }

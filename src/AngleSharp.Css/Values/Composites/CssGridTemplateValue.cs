@@ -7,30 +7,22 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS grid template definition.
     /// </summary>
-    sealed class CssGridTemplateValue : ICssCompositeValue, IEquatable<CssGridTemplateValue>
+    /// <remarks>
+    /// Creates a new CSS grid template definition.
+    /// </remarks>
+    /// <param name="rows">The rows value to use.</param>
+    /// <param name="columns">The columns value to use.</param>
+    /// <param name="areas">The areas value to use.</param>
+    sealed class CssGridTemplateValue(ICssValue rows, ICssValue columns, ICssValue areas) : ICssCompositeValue, IEquatable<CssGridTemplateValue>
     {
         #region Fields
 
-        private readonly ICssValue _rows;
-        private readonly ICssValue _columns;
-        private readonly ICssValue _areas;
+        private readonly ICssValue _rows = rows;
+        private readonly ICssValue _columns = columns;
+        private readonly ICssValue _areas = areas;
 
         #endregion
-
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS grid template definition.
-        /// </summary>
-        /// <param name="rows">The rows value to use.</param>
-        /// <param name="columns">The columns value to use.</param>
-        /// <param name="areas">The areas value to use.</param>
-        public CssGridTemplateValue(ICssValue rows, ICssValue columns, ICssValue areas)
-        {
-            _rows = rows;
-            _columns = columns;
-            _areas = areas;
-        }
 
         #endregion
 
@@ -82,12 +74,12 @@ namespace AngleSharp.Css.Values
                             {
                                 var newItems = new List<ICssValue>(item.Items);
                                 newItems.Insert(1, area);
-                                newRows.Add(new CssTupleValue(newItems.ToArray()));
+                                newRows.Add(new CssTupleValue([.. newItems]));
                             }
                         }
                     }
 
-                    rows = new CssTupleValue(newRows.ToArray()).CssText;
+                    rows = new CssTupleValue([.. newRows]).CssText;
                 }
                 else if (_rows != null)
                 {
@@ -119,12 +111,18 @@ namespace AngleSharp.Css.Values
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssGridTemplateValue value && Equals(value);
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var rows = _rows.Compute(context);
             var columns = _columns.Compute(context);
             var areas = _areas.Compute(context);
-            return new CssGridTemplateValue(rows, columns, areas);
+
+            if (rows is not null && columns is not null && areas is not null)
+            {
+                return new CssGridTemplateValue(rows, columns, areas);
+            }
+
+            return null;
         }
 
         #endregion

@@ -8,11 +8,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridTemplateColumns;
 
-        public static readonly String[] Shorthands = new[]
-        {
+        public static readonly String[] Shorthands =
+        [
             PropertyNames.Grid,
             PropertyNames.GridTemplate,
-        };
+        ];
 
         public static readonly IValueConverter Converter = GridTemplateConverter;
 

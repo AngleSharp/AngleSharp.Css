@@ -6,27 +6,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a ratio (top to bottom) value.
     /// </summary>
-    public readonly struct CssRatioValue : ICssCompositeValue, IEquatable<CssRatioValue>
+    /// <remarks>
+    /// Creates a new ratio value.
+    /// </remarks>
+    /// <param name="top">The first number.</param>
+    /// <param name="bottom">The second number.</param>
+    public readonly struct CssRatioValue(ICssValue top, ICssValue bottom) : ICssCompositeValue, IEquatable<CssRatioValue>
     {
         #region Fields
 
-        private readonly ICssValue _top;
-        private readonly ICssValue _bottom;
+        private readonly ICssValue _top = top;
+        private readonly ICssValue _bottom = bottom;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new ratio value.
-        /// </summary>
-        /// <param name="top">The first number.</param>
-        /// <param name="bottom">The second number.</param>
-        public CssRatioValue(ICssValue top, ICssValue bottom)
-        {
-            _top = top;
-            _bottom = bottom;
-        }
 
         #endregion
 
@@ -58,13 +52,20 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssRatioValue other)
         {
-            return _top.Equals(other._top) && _bottom.Equals(other._bottom);
+            return _top.Is(other._top) && _bottom.Is(other._bottom);
         }
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssRatioValue value && Equals(value);
+
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var top = _top.Compute(context);
             var bottom = _bottom.Compute(context);
+
+            if (top is null || bottom is null)
+            {
+                return null;
+            }
 
             if (top != _top || bottom != _bottom)
             {
@@ -73,8 +74,6 @@ namespace AngleSharp.Css.Values
 
             return this;
         }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRatioValue value && Equals(value);
 
         #endregion
     }

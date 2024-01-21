@@ -205,7 +205,7 @@ namespace AngleSharp.Css.Parser
                     c = source.SkipSpacesAndComments();
                 }
 
-                return families.ToArray();
+                return [.. families];
             }
 
             return null;

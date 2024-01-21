@@ -6,20 +6,15 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
 
-    sealed class IdentifierValueConverter : IValueConverter
+    sealed class IdentifierValueConverter(Func<StringSource, String> check) : IValueConverter
     {
-        private readonly Func<StringSource, String> _check;
+        private readonly Func<StringSource, String> _check = check;
 
-        public IdentifierValueConverter(Func<StringSource, String> check)
-        {
-            _check = check;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var result = _check.Invoke(source);
 
-            if (result != null)
+            if (result is not null)
             {
                 return new CssIdentifierValue(result);
             }
@@ -28,18 +23,12 @@ namespace AngleSharp.Css.Converters
         }
     }
 
-    sealed class IdentifierValueConverter<T> : IValueConverter
+    sealed class IdentifierValueConverter<T>(String identifier, T result) : IValueConverter
     {
-        private readonly String _identifier;
-        private readonly T _result;
+        private readonly String _identifier = identifier;
+        private readonly T _result = result;
 
-        public IdentifierValueConverter(String identifier, T result)
-        {
-            _identifier = identifier;
-            _result = result;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             if (source.IsIdentifier(_identifier))
             {

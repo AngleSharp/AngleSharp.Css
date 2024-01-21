@@ -68,14 +68,9 @@ namespace AngleSharp.Css.Dom
 
         #region Selector
 
-        class InvalidSelector : ISelector
+        class InvalidSelector(String text) : ISelector
         {
-            private readonly String _text;
-
-            public InvalidSelector(String text)
-            {
-                _text = text;
-            }
+            private readonly String _text = text;
 
             public String Text => _text;
 

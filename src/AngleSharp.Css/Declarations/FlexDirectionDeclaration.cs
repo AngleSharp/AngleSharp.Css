@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FlexDirection;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.FlexFlow,
-        };
+        ];
 
         public static IValueConverter Converter = FlexDirectionConverter;
 

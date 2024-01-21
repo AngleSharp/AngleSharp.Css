@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Dom
 
         internal CssRuleList()
         {
-            _rules = new List<ICssRule>();
+            _rules = [];
         }
 
         #endregion

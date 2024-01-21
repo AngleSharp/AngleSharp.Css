@@ -7,27 +7,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS image repeat definition.
     /// </summary>
-    public sealed class CssImageRepeatsValue : ICssCompositeValue, IEquatable<CssImageRepeatsValue>
+    /// <remarks>
+    /// Creates a new CSS image repeat definition.
+    /// </remarks>
+    /// <param name="horizontal">The horizontal part.</param>
+    /// <param name="vertical">The vertical part.</param>
+    public sealed class CssImageRepeatsValue(ICssValue horizontal, ICssValue vertical) : ICssCompositeValue, IEquatable<CssImageRepeatsValue>
     {
         #region Fields
 
-        private readonly ICssValue _horizontal;
-        private readonly ICssValue _vertical;
+        private readonly ICssValue _horizontal = horizontal;
+        private readonly ICssValue _vertical = vertical;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS image repeat definition.
-        /// </summary>
-        /// <param name="horizontal">The horizontal part.</param>
-        /// <param name="vertical">The vertical part.</param>
-        public CssImageRepeatsValue(ICssValue horizontal, ICssValue vertical)
-        {
-            _horizontal = horizontal;
-            _vertical = vertical;
-        }
 
         #endregion
 

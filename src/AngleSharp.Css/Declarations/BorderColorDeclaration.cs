@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderColor;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Border,
-        };
+        ];
 
         public static IValueConverter Converter = AggregatePeriodic(CurrentColorConverter);
 
@@ -19,12 +19,12 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Hashless | PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderTopColor,
             PropertyNames.BorderRightColor,
             PropertyNames.BorderBottomColor,
             PropertyNames.BorderLeftColor,
-        };
+        ];
     }
 }

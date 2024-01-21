@@ -10,39 +10,33 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    public class CssRadiusValue<T> : ICssMultipleValue, IEquatable<CssRadiusValue<T>>
-        where T : ICssValue
+    /// <remarks>
+    /// Creates a new CSS radius value container.
+    /// </remarks>
+    /// <param name="values">The items to contain.</param>
+    public class CssRadiusValue(ICssValue[]? values = null) : ICssMultipleValue, IEquatable<CssRadiusValue>
     {
         #region Fields
 
-        private readonly T[] _values;
+        private readonly ICssValue[] _values = values ?? [];
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS radius value container.
-        /// </summary>
-        /// <param name="values">The items to contain.</param>
-        public CssRadiusValue(T[] values = null)
-        {
-            _values = values ?? Array.Empty<T>();
-        }
 
         #endregion
 
         #region Properties
 
         /// <inheritdoc />
-        public ICssValue this[Int32 index]
+        public ICssValue? this[Int32 index]
         {
             get
             {
                 return index switch
                 {
                     0 => Width,
-                    1 => (ICssValue)Height,
+                    1 => Height,
                     _ => throw new ArgumentOutOfRangeException(nameof(index)),
                 };
             }
@@ -64,7 +58,7 @@ namespace AngleSharp.Css.Values
                 if (l == 2 && parts[1].Is(parts[0]))
                 {
                     l = 1;
-                    parts = new[] { parts[0] };
+                    parts = [parts[0]];
                 }
 
                 return String.Join(" ", parts);
@@ -72,10 +66,10 @@ namespace AngleSharp.Css.Values
         }
 
         /// <inheritdoc />
-        public T Width => _values.Length > 0 ? _values[0] : default;
+        public ICssValue? Width => _values.Length > 0 ? _values[0] : default;
 
         /// <inheritdoc />
-        public T Height => _values.Length > 1 ? _values[1] : Width;
+        public ICssValue? Height => _values.Length > 1 ? _values[1] : Width;
 
         /// <inheritdoc />
         public Int32 Count => 2;
@@ -89,30 +83,33 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssRadiusValue<T> other)
+        public Boolean Equals(CssRadiusValue? other)
         {
-            var count = _values.Length;
-
-            if (count == other._values.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var count = _values.Length;
+
+                if (count == other._values.Length)
                 {
-                    var a = _values[i];
-                    var b = other._values[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _values[i];
+                        var b = other._values[i];
 
-                return true;
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;
         }
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
+        IEnumerator<ICssValue?> IEnumerable<ICssValue?>.GetEnumerator()
         {
             yield return Width;
             yield return Height;
@@ -120,28 +117,19 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
-            var values = _values.Select(v => (T)v.Compute(context)).ToArray();
-            return new CssRadiusValue<T>(values);
+            var values = _values.Select(v => v.Compute(context)).NotNull().ToArray();
+
+            if (values.Length == _values.Length)
+            {
+                return new CssRadiusValue(values);
+            }
+
+            return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRadiusValue<T> value && Equals(value);
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a radius (w, h) CSS value.
-    /// </summary>
-    sealed class CssRadiusValue : CssRadiusValue<ICssValue>
-    {
-        #region ctor
-
-        public CssRadiusValue(ICssValue[] values = null)
-            : base(values)
-        {
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssRadiusValue value && Equals(value);
 
         #endregion
     }

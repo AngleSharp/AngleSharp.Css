@@ -9,27 +9,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS symbols function call.
     /// </summary>
-    public sealed class CssSymbolsValue : ICssFunctionValue, IEquatable<CssSymbolsValue>
+    /// <remarks>
+    /// Creates a new sybols function call.
+    /// </remarks>
+    /// <param name="type">The used type.</param>
+    /// <param name="entries">The contained entries.</param>
+    public sealed class CssSymbolsValue(ICssValue type, List<String> entries) : ICssFunctionValue, IEquatable<CssSymbolsValue>
     {
         #region Fields
 
-        private readonly ICssValue _type;
-        private readonly List<String> _entries;
+        private readonly ICssValue _type = type;
+        private readonly List<String> _entries = entries;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new sybols function call.
-        /// </summary>
-        /// <param name="type">The used type.</param>
-        /// <param name="entries">The contained entries.</param>
-        public CssSymbolsValue(ICssValue type, List<String> entries)
-        {
-            _type = type;
-            _entries = entries;
-        }
 
         #endregion
 
@@ -64,11 +58,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssSymbolsValue other)
+        public Boolean Equals(CssSymbolsValue? other)
         {
             var l = _entries.Count;
 
-            if (_type.Equals(other._type) && l == other._entries.Count)
+            if (other is not null && _type.Equals(other._type) && l == other._entries.Count)
             {
                 for (var i = 0; i < l; i++)
                 {
@@ -87,7 +81,7 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssSymbolsValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssSymbolsValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

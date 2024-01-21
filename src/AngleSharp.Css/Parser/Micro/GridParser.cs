@@ -77,8 +77,8 @@ namespace AngleSharp.Css.Parser
                         }
                     }
 
-                    var row = new CssTupleValue(rowValues.ToArray());
-                    var area = new CssTupleValue(areaValues.ToArray());
+                    var row = new CssTupleValue([.. rowValues]);
+                    var area = new CssTupleValue([.. areaValues]);
                     return new CssGridTemplateValue(row, col, area);
                 }
             }
@@ -344,7 +344,7 @@ namespace AngleSharp.Css.Parser
                 values.Add(tail);
             }
 
-            return new CssTupleValue(values.ToArray());
+            return new CssTupleValue([.. values]);
         }
 
         private static ICssValue ParseRepeatValue(this StringSource source, Func<StringSource, ICssValue> parseTrack, Boolean hasSize = false)
@@ -376,7 +376,7 @@ namespace AngleSharp.Css.Parser
 
             if (hasSize)
             {
-                return new CssTupleValue(values.ToArray());
+                return new CssTupleValue([.. values]);
             }
 
             source.BackTo(pos);

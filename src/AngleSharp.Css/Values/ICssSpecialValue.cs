@@ -11,6 +11,6 @@ namespace AngleSharp.Css.Values
         /// Gets the underlying CSS value the special one
         /// is referring to (e.g., the initial value).
         /// </summary>
-        ICssValue Value { get; }
+        ICssValue? Value { get; }
     }
 }

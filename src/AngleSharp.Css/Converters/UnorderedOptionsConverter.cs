@@ -5,14 +5,9 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
 
-    sealed class UnorderedOptionsConverter : IValueConverter
+    sealed class UnorderedOptionsConverter(params IValueConverter[] converters) : IValueConverter
     {
-        private readonly IValueConverter[] _converters;
-
-        public UnorderedOptionsConverter(params IValueConverter[] converters)
-        {
-            _converters = converters;
-        }
+        private readonly IValueConverter[] _converters = converters;
 
         public ICssValue Convert(StringSource source)
         {

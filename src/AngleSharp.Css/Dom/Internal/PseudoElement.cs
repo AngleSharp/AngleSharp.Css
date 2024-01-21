@@ -8,22 +8,16 @@ namespace AngleSharp.Css.Dom
     /// <summary>
     /// A wrapper around an element to extend the DOM.
     /// </summary>
-    sealed class PseudoElement : IElement, IPseudoElement
+    sealed class PseudoElement(IElement host, String name) : IElement, IPseudoElement
     {
         #region Fields
 
-        private readonly IElement _host;
-        private readonly String _name;
+        private readonly IElement _host = host;
+        private readonly String _name = name;
 
         #endregion
-
+        
         #region ctor
-
-        public PseudoElement(IElement host, String name)
-        {
-            _host = host;
-            _name = name;
-        }
 
         #endregion
 

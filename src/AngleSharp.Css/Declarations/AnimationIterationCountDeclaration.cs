@@ -9,10 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.AnimationIterationCount;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Animation,
-        };
+        ];
 
         public static IValueConverter Converter = PositiveOrInfiniteNumberConverter.FromList();
 

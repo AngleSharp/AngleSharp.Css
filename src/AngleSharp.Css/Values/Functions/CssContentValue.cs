@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS content function call.
     /// </summary>
-    public sealed class CssContentValue : ICssFunctionValue, IEquatable<CssContentValue>
+    /// <remarks>
+    /// Creates a new content function call.
+    /// </remarks>
+    /// <param name="type">The used dimension argument.</param>
+    public sealed class CssContentValue(String type) : ICssFunctionValue, IEquatable<CssContentValue>
     {
         #region Fields
 
-        private readonly String _type;
+        private readonly String _type = type;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new content function call.
-        /// </summary>
-        /// <param name="type">The used dimension argument.</param>
-        public CssContentValue(String type)
-        {
-            _type = type;
-        }
 
         #endregion
 

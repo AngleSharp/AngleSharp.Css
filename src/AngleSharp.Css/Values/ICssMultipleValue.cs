@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a multiple CSS value holder.
     /// </summary>
-    public interface ICssMultipleValue : ICssValue, IEnumerable<ICssValue>
+    public interface ICssMultipleValue : ICssValue, IEnumerable<ICssValue?>
     {
         /// <summary>
         /// Gets the number of values.
@@ -19,6 +19,6 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="index">The index of the value.</param>
         /// <returns>The associated value.</returns>
-        ICssValue this[Int32 index] { get; }
+        ICssValue? this[Int32 index] { get; }
     }
 }

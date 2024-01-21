@@ -5,21 +5,15 @@
     /// <summary>
     /// Represents a CSS URL token.
     /// </summary>
-    sealed class CssUrlToken : CssToken
+    sealed class CssUrlToken(String data, Boolean bad = false) : CssToken(CssTokenType.Url, data)
     {
         #region Fields
 
-        private readonly Boolean _bad;
+        private readonly Boolean _bad = bad;
 
         #endregion
-
+        
         #region ctor
-
-        public CssUrlToken(String data, Boolean bad = false)
-            : base(CssTokenType.Url, data)
-        {
-            _bad = bad;
-        }
 
         #endregion
 

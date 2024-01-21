@@ -19,11 +19,11 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.ListStyleType,
             PropertyNames.ListStylePosition,
             PropertyNames.ListStyleImage,
-        };
+        ];
     }
 }

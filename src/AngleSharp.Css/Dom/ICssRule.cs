@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -38,12 +38,12 @@
         /// owner from the given rule.
         /// </summary>
         /// <param name="rule">The rule to use as parent.</param>
-        void SetParent(ICssRule rule);
+        void SetParent(ICssRule? rule);
 
         /// <summary>
         /// Sets the owning sheet. This implies using no parent.
         /// </summary>
         /// <param name="sheet">The owning sheet.</param>
-        void SetOwner(ICssStyleSheet sheet);
+        void SetOwner(ICssStyleSheet? sheet);
     }
 }

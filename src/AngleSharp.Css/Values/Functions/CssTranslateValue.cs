@@ -8,30 +8,23 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the translate3d transformation.
     /// </summary>
-    sealed class CssTranslateValue : ICssTransformFunctionValue, IEquatable<CssTranslateValue>
+    /// <remarks>
+    /// Creates a new translate transform.
+    /// </remarks>
+    /// <param name="x">The x shift.</param>
+    /// <param name="y">The y shift.</param>
+    /// <param name="z">The z shift.</param>
+    sealed class CssTranslateValue(ICssValue x, ICssValue y, ICssValue z) : ICssTransformFunctionValue, IEquatable<CssTranslateValue>
     {
         #region Fields
 
-        private readonly ICssValue _x;
-        private readonly ICssValue _y;
-        private readonly ICssValue _z;
+        private readonly ICssValue _x = x;
+        private readonly ICssValue _y = y;
+        private readonly ICssValue _z = z;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new translate transform.
-        /// </summary>
-        /// <param name="x">The x shift.</param>
-        /// <param name="y">The y shift.</param>
-        /// <param name="z">The z shift.</param>
-        public CssTranslateValue(ICssValue x, ICssValue y, ICssValue z)
-        {
-            _x = x;
-            _y = y;
-            _z = z;
-        }
 
         #endregion
 
@@ -104,12 +97,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssTranslateValue other)
+        public Boolean Equals(CssTranslateValue? other)
         {
-            return _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+            return other is not null && _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssTranslateValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssTranslateValue value && Equals(value);
 
         /// <summary>
         /// Computes the matrix for the given transformation.
@@ -123,12 +116,18 @@ namespace AngleSharp.Css.Values
             return new TransformMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, dx, dy, dz, 0.0, 0.0, 0.0);
         }
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var x = _x.Compute(context);
             var y = _y.Compute(context);
             var z = _z.Compute(context);
-            return new CssTranslateValue(x, y, z);
+
+            if (x is not null && y is not null && z is not null)
+            {
+                return new CssTranslateValue(x, y, z);
+            }
+
+            return null;
         }
 
         #endregion

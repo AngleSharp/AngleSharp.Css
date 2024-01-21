@@ -10,12 +10,12 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridTemplate;
 
-        public static readonly String[] Longhands = new[]
-        {
+        public static readonly String[] Longhands =
+        [
             PropertyNames.GridTemplateRows,
             PropertyNames.GridTemplateColumns,
             PropertyNames.GridTemplateAreas,
-        };
+        ];
 
         public static readonly IValueConverter Converter = new GridTemplateAggregator();
 
@@ -65,11 +65,11 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssGridTemplateValue template)
                 {
-                    return new[] { template.TemplateRows, template.TemplateColumns, template.TemplateAreas };
+                    return [template.TemplateRows, template.TemplateColumns, template.TemplateAreas];
                 }
                 else if (value is CssIdentifierValue)
                 {
-                    return new[] { value, value, value };
+                    return [value, value, value];
                 }
 
                 return null;

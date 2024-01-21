@@ -9,20 +9,15 @@ namespace AngleSharp.Css.Dom
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : IKeyframeSelector
+    sealed class KeyframeSelector(List<Double> stops) : IKeyframeSelector
     {
         #region Fields
 
-        private readonly List<Double> _stops;
+        private readonly List<Double> _stops = stops;
 
         #endregion
-
+        
         #region ctor
-
-        public KeyframeSelector(List<Double> stops)
-        {
-            _stops = stops;
-        }
 
         #endregion
 

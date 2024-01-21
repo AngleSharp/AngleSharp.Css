@@ -8,24 +8,19 @@ namespace AngleSharp.Css.Values
     /// Represents an URL object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue, IEquatable<CssUrlValue>
+    /// <remarks>
+    /// Creates a new URL reference for the given path.
+    /// </remarks>
+    /// <param name="path">The path to reference.</param>
+    public sealed class CssUrlValue(String path) : ICssImageValue, ICssFunctionValue, IEquatable<CssUrlValue>
     {
         #region Fields
 
-        private readonly String _path;
+        private readonly String _path = path;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new URL reference for the given path.
-        /// </summary>
-        /// <param name="path">The path to reference.</param>
-        public CssUrlValue(String path)
-        {
-            _path = path;
-        }
 
         #endregion
 
@@ -60,17 +55,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssUrlValue other)
-        {
-            return _path.Equals(other._path);
-        }
+        public Boolean Equals(CssUrlValue? other) => other is not null && _path.Equals(other._path);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUrlValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssUrlValue value && Equals(value);
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
-        {
-            return this;
-        }
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

@@ -3,14 +3,9 @@
     using System;
     using System.IO;
 
-    sealed class GroupCondition : IConditionFunction
+    sealed class GroupCondition(IConditionFunction condition) : IConditionFunction
     {
-        private readonly IConditionFunction _content;
-
-        public GroupCondition(IConditionFunction condition)
-        {
-            _content = condition;
-        }
+        private readonly IConditionFunction _content = condition;
 
         public Boolean Check(IRenderDevice device)
         {

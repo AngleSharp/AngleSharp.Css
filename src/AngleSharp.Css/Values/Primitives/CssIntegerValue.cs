@@ -6,7 +6,11 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an integer value.
     /// </summary>
-    public readonly struct CssIntegerValue : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new integer value.
+    /// </remarks>
+    /// <param name="value">The value of the integer.</param>
+    public readonly struct CssIntegerValue(Int32 value) : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue
     {
         #region Basic lengths
 
@@ -24,7 +28,7 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Int32 _value;
+        private readonly Int32 _value = value;
 
         #endregion
 
@@ -37,15 +41,6 @@ namespace AngleSharp.Css.Values
         public CssIntegerValue(Double value)
             : this((Int32)Math.Truncate(value))
         {
-        }
-
-        /// <summary>
-        /// Creates a new integer value.
-        /// </summary>
-        /// <param name="value">The value of the integer.</param>
-        public CssIntegerValue(Int32 value)
-        {
-            _value = value;
         }
 
         #endregion
@@ -122,25 +117,25 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssNumberValue?;
+        public override Boolean Equals(Object? obj) => obj is CssNumberValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssIntegerValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssIntegerValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current integer.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssIntegerValue left, CssIntegerValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssIntegerValue left, CssIntegerValue right) => !(left == right);
 
         #endregion
     }

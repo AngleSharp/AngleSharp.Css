@@ -6,12 +6,17 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a frequency value.
     /// </summary>
-    public readonly struct CssFrequencyValue : IEquatable<CssFrequencyValue>, IComparable<CssFrequencyValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new frequency value.
+    /// </remarks>
+    /// <param name="value">The value of the frequency.</param>
+    /// <param name="unit">The unit of the frequency.</param>
+    public readonly struct CssFrequencyValue(Double value, CssFrequencyValue.Unit unit) : IEquatable<CssFrequencyValue>, IComparable<CssFrequencyValue>, ICssMetricValue
     {
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -24,17 +29,6 @@ namespace AngleSharp.Css.Values
         public CssFrequencyValue(Double value)
             : this(value, Unit.Hz)
         {
-        }
-
-        /// <summary>
-        /// Creates a new frequency value.
-        /// </summary>
-        /// <param name="value">The value of the frequency.</param>
-        /// <param name="unit">The unit of the frequency.</param>
-        public CssFrequencyValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -216,19 +210,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssFrequencyValue?;
+        public override Boolean Equals(Object? obj) => obj is CssFrequencyValue o && Equals(o.Value);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFrequencyValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssFrequencyValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current frequency.

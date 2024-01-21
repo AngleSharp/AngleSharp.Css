@@ -1,19 +1,14 @@
-﻿namespace AngleSharp.Css.Converters
+namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Text;
 
-    sealed class OrValueConverter : IValueConverter
+    sealed class OrValueConverter(IValueConverter[] converters) : IValueConverter
     {
-        private readonly IValueConverter[] _converters;
+        private readonly IValueConverter[] _converters = converters;
 
-        public OrValueConverter(IValueConverter[] converters)
-        {
-            _converters = converters;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var start = source.Index;
 

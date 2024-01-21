@@ -3,14 +3,9 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Dom;
     using System;
 
-    internal class ReferencedNestedSelector : ISelector
+    internal class ReferencedNestedSelector(ISelector referenced) : ISelector
     {
-        private readonly ISelector _referenced;
-
-        public ReferencedNestedSelector(ISelector referenced)
-        {
-            _referenced = referenced;
-        }
+        private readonly ISelector _referenced = referenced;
 
         public String Text => "&";
 

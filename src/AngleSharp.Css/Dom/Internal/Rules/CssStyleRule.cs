@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Dom
             : base(owner, CssRuleType.Style)
         {
             _style = new CssStyleDeclaration(this);
-            _rules = new CssRuleList();
+            _rules = [];
             _selectorList = null;
         }
 
@@ -195,14 +195,9 @@ namespace AngleSharp.Css.Dom
         {
         }
 
-        sealed class InvalidSelector : ISelector
+        sealed class InvalidSelector(String text) : ISelector
         {
-            private readonly String _text;
-
-            public InvalidSelector(String text)
-            {
-                _text = text;
-            }
+            private readonly String _text = text;
 
             public String Text => _text;
 

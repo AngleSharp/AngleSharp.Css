@@ -6,12 +6,17 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public readonly struct CssResolutionValue : IEquatable<CssResolutionValue>, IComparable<CssResolutionValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new resolution value.
+    /// </remarks>
+    /// <param name="value">The value of the resolution.</param>
+    /// <param name="unit">The unit of the resolution.</param>
+    public readonly struct CssResolutionValue(Double value, CssResolutionValue.Unit unit) : IEquatable<CssResolutionValue>, IComparable<CssResolutionValue>, ICssMetricValue
     {
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -24,17 +29,6 @@ namespace AngleSharp.Css.Values
         public CssResolutionValue(Double value)
             : this(value, Unit.Dppx)
         {
-        }
-
-        /// <summary>
-        /// Creates a new resolution value.
-        /// </summary>
-        /// <param name="value">The value of the resolution.</param>
-        /// <param name="unit">The unit of the resolution.</param>
-        public CssResolutionValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -213,25 +207,25 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssResolutionValue?;
+        public override Boolean Equals(Object? obj) => obj is CssResolutionValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssResolutionValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssResolutionValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current resolution.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssResolutionValue left, CssResolutionValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssResolutionValue left, CssResolutionValue right) => !(left == right);
 
         #endregion
     }

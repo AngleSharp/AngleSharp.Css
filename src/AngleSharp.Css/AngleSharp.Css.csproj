@@ -4,10 +4,8 @@
     <RootNamespace>AngleSharp.Css</RootNamespace>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net461;net472;net6.0;net7.0;net8.0</TargetFrameworks>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/AngleSharp/AngleSharp.Css</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridRowGap;
 
-        public static readonly String[] Shorthands = new[]
-        {
+        public static readonly String[] Shorthands =
+        [
             PropertyNames.GridGap,
-        };
+        ];
 
         public static readonly IValueConverter Converter = GapConverter;
 

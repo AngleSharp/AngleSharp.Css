@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Dom
         #region ctor
 
         internal CssFontFeatureValuesRule(ICssStyleSheet owner)
-            : base(owner, CssRuleType.FontFeatureValues, RuleNames.FontFeatureValues, new HashSet<String>())
+            : base(owner, CssRuleType.FontFeatureValues, RuleNames.FontFeatureValues, [])
         {
             // character-variant, styleset, stylistic, ornaments, annotation, swash
         }

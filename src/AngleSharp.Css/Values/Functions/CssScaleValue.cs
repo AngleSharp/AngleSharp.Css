@@ -7,30 +7,23 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the scale3d transformation.
     /// </summary>
-    sealed class CssScaleValue : ICssTransformFunctionValue, IEquatable<CssScaleValue>
+    /// <remarks>
+    /// Creates a new scale transform.
+    /// </remarks>
+    /// <param name="sx">The x scaling factor.</param>
+    /// <param name="sy">The y scaling factor.</param>
+    /// <param name="sz">The z scaling factor.</param>
+    sealed class CssScaleValue(ICssValue? sx, ICssValue? sy, ICssValue? sz) : ICssTransformFunctionValue, IEquatable<CssScaleValue>
     {
         #region Fields
 
-        private readonly ICssValue _sx;
-        private readonly ICssValue _sy;
-        private readonly ICssValue _sz;
+        private readonly ICssValue? _sx = sx;
+        private readonly ICssValue? _sy = sy;
+        private readonly ICssValue? _sz = sz;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new scale transform.
-        /// </summary>
-        /// <param name="sx">The x scaling factor.</param>
-        /// <param name="sy">The y scaling factor.</param>
-        /// <param name="sz">The z scaling factor.</param>
-        public CssScaleValue(ICssValue sx, ICssValue sy, ICssValue sz)
-        {
-            _sx = sx;
-            _sy = sy;
-            _sz = sz;
-        }
 
         #endregion
 
@@ -83,29 +76,29 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                if (_sx is null && _sz is null)
+                if (_sx is null && _sz is null && _sy is not null)
                 {
                     return FunctionNames.ScaleY.CssFunction(_sy.CssText);
                 }
-                else if (_sy is null && _sz is null)
+                else if (_sy is null && _sz is null && _sx is not null)
                 {
                     return FunctionNames.ScaleX.CssFunction(_sx.CssText);
                 }
-                else if (_sx is null && _sy is null)
+                else if (_sx is null && _sy is null && _sz is not null)
                 {
                     return FunctionNames.ScaleZ.CssFunction($"{_sz.CssText}");
                 }
-                else if (_sz is null && _sx.Equals(_sy))
+                else if (_sz is null && _sx is not null && _sx.Equals(_sy))
                 {
                     return FunctionNames.Scale.CssFunction(_sx.CssText);
                 }
-                else if (_sz is null)
+                else if (_sz is null && _sx is not null && _sy is not null)
                 {
                     return FunctionNames.Scale.CssFunction($"{_sx.CssText}, {_sy.CssText}");
                 }
                 else
                 {
-                    return FunctionNames.Scale3d.CssFunction($"{_sx.CssText}, {_sy.CssText}, {_sz.CssText}");
+                    return FunctionNames.Scale3d.CssFunction($"{_sx!.CssText}, {_sy!.CssText}, {_sz!.CssText}");
                 }
             }
         }
@@ -113,17 +106,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the scaling in x-direction.
         /// </summary>
-        public ICssValue ScaleX => _sx;
+        public ICssValue? ScaleX => _sx;
 
         /// <summary>
         /// Gets the scaling in y-direction.
         /// </summary>
-        public ICssValue ScaleY => _sy;
+        public ICssValue? ScaleY => _sy;
 
         /// <summary>
         /// Gets the scaling in z-direction.
         /// </summary>
-        public ICssValue ScaleZ => _sz;
+        public ICssValue? ScaleZ => _sz;
 
         #endregion
 
@@ -134,9 +127,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssScaleValue other)
+        public Boolean Equals(CssScaleValue? other)
         {
-            return _sx.Equals(other._sx) && _sy.Equals(other._sy) && _sz.Equals(other._sz);
+            return other is not null && _sx.Equals(other._sx) && _sy.Equals(other._sy) && _sz.Equals(other._sz);
         }
 
         /// <summary>
@@ -159,7 +152,7 @@ namespace AngleSharp.Css.Values
             return new CssScaleValue(sx, sy, sz);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssScaleValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssScaleValue value && Equals(value);
 
         #endregion
     }

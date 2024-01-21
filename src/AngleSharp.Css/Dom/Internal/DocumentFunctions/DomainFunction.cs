@@ -8,21 +8,15 @@
     /// <summary>
     /// Take a domain.
     /// </summary>
-    sealed class DomainFunction : DocumentFunction
+    sealed class DomainFunction(String url) : DocumentFunction(FunctionNames.Domain, url)
     {
         #region Fields
 
-        private readonly String _subdomain;
+        private readonly String _subdomain = "." + url;
 
         #endregion
-
+        
         #region ctor
-
-        public DomainFunction(String url)
-            : base(FunctionNames.Domain, url)
-        {
-            _subdomain = "." + url;
-        }
 
         #endregion
 

@@ -104,7 +104,7 @@ namespace AngleSharp.Css.Values
                 values.Add(1.0);
             }
 
-            return new TransformMatrix(values.ToArray());
+            return new TransformMatrix([.. values]);
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

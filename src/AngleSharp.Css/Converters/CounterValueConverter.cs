@@ -4,23 +4,17 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
-    using System;
     using System.Collections.Generic;
 
-    sealed class CounterValueConverter : IValueConverter
+    sealed class CounterValueConverter(ICssValue defaultValue) : IValueConverter
     {
-        private static readonly CssCounterValue[] NoneValue = Array.Empty<CssCounterValue>();
+        private static readonly CssCounterValue[] NoneValue = [];
 
-        private readonly ICssValue _defaultValue;
+        private readonly ICssValue _defaultValue = defaultValue;
 
-        public CounterValueConverter(ICssValue defaultValue)
+        public ICssValue? Convert(StringSource source)
         {
-            _defaultValue = defaultValue;
-        }
-
-        public ICssValue Convert(StringSource source)
-        {
-            var counters = new List<CssCounterValue>();
+            var counters = new List<ICssValue>();
 
             if (!source.IsIdentifier(CssKeywords.None))
             {
@@ -39,7 +33,7 @@ namespace AngleSharp.Css.Converters
                     counters.Add(new CssCounterValue(name, value));
                 }
 
-                return new CssTupleValue<CssCounterValue>(counters.ToArray());
+                return new CssTupleValue([.. counters]);
             }
 
             return new CssConstantValue<CssCounterValue[]>(CssKeywords.None, NoneValue);

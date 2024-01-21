@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Dom
         #region ctor
 
         internal CssCounterStyleRule(ICssStyleSheet owner)
-            : base(owner, CssRuleType.CounterStyle, RuleNames.CounterStyle, new HashSet<String>())
+            : base(owner, CssRuleType.CounterStyle, RuleNames.CounterStyle, [])
         {
         }
 

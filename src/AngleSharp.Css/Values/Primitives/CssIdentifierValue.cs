@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS identifier value.
     /// </summary>
-    public readonly struct CssIdentifierValue : ICssPrimitiveValue, IEquatable<CssIdentifierValue>
+    /// <remarks>
+    /// Creates a new CSS identifier using the text.
+    /// </remarks>
+    /// <param name="text">The text to use as identifier.</param>
+    public readonly struct CssIdentifierValue(String text) : ICssPrimitiveValue, IEquatable<CssIdentifierValue>
     {
         #region Fields
 
-        private readonly String _text;
+        private readonly String _text = text;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS identifier using the text.
-        /// </summary>
-        /// <param name="text">The text to use as identifier.</param>
-        public CssIdentifierValue(String text)
-        {
-            _text = text;
-        }
 
         #endregion
 
@@ -58,10 +53,10 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
+        public override Boolean Equals(Object? obj) =>
             obj is CssIdentifierValue ident && Equals(ident);
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssIdentifierValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssIdentifierValue value && Equals(value);
 
         /// <summary>
         /// Gets the hash code of the object.
@@ -73,6 +68,16 @@ namespace AngleSharp.Css.Values
         {
             return this;
         }
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssIdentifierValue left, CssIdentifierValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssIdentifierValue left, CssIdentifierValue right) => !(left == right);
 
         #endregion
     }

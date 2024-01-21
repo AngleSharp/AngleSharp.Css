@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ColumnRuleColor;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.ColumnRule,
-        };
+        ];
 
         public static IValueConverter Converter = ColorConverter;
 

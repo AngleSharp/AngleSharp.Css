@@ -4,19 +4,11 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
 
-    sealed class StructValueConverter<T> : IValueConverter
+    sealed class StructValueConverter<T>(Func<StringSource, T?> converter) : IValueConverter
         where T : struct, ICssValue
     {
-        private readonly Func<StringSource, T?> _converter;
+        private readonly Func<StringSource, T?> _converter = converter;
 
-        public StructValueConverter(Func<StringSource, T?> converter)
-        {
-            _converter = converter;
-        }
-
-        public ICssValue Convert(StringSource source)
-        {
-            return _converter.Invoke(source);
-        }
+        public ICssValue? Convert(StringSource source) => _converter.Invoke(source);
     }
 }

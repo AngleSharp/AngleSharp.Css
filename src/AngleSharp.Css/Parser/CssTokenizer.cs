@@ -12,7 +12,11 @@ namespace AngleSharp.Css.Parser
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    sealed class CssTokenizer : BaseTokenizer
+    /// <remarks>
+    /// CSS Tokenization
+    /// </remarks>
+    /// <param name="source">The source code manager.</param>
+    sealed class CssTokenizer(TextSource source) : BaseTokenizer(source)
 	{
 		#region Fields
 
@@ -28,17 +32,8 @@ namespace AngleSharp.Css.Parser
         public event EventHandler<CssErrorEvent> Error;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// CSS Tokenization
-        /// </summary>
-        /// <param name="source">The source code manager.</param>
-        public CssTokenizer(TextSource source)
-            : base(source)
-        {
-        }
 
         #endregion
 

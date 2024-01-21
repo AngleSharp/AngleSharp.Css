@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Dom
         internal CssDocumentRule(ICssStyleSheet owner)
             : base(owner, CssRuleType.Document)
         {
-            _conditions = new DocumentFunctions();
+            _conditions = [];
         }
 
         #endregion

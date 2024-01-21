@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Dom
         internal CssDeclarationRule(ICssStyleSheet owner, CssRuleType type, String name, HashSet<String> contained)
             : base(owner, type)
         {
-            _declarations = new List<ICssProperty>();
+            _declarations = [];
             _contained = contained;
             _name = name;
         }

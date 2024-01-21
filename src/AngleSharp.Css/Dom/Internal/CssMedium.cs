@@ -10,15 +10,23 @@ namespace AngleSharp.Css.Dom
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    public sealed class CssMedium : ICssMedium
+    /// <remarks>
+    /// Creates a new CSS medium.
+    /// </remarks>
+    /// <param name="type">The type of the media rule.</param>
+    /// <param name="inverse">Specifies if it should be inverted.</param>
+    /// <param name="exclusive">Specifies if the rule is exclusive.</param>
+    /// <param name="features">The features of the medium.</param>
+    /// <param name="connector">The connector of the features ("and" or "or").</param>
+    public sealed class CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features, String connector) : ICssMedium
     {
         #region Fields
 
-        private readonly List<IMediaFeature> _features;
-        private readonly String _type;
-        private readonly Boolean _exclusive;
-        private readonly Boolean _inverse;
-        private readonly String _connector;
+        private readonly List<IMediaFeature> _features = new List<IMediaFeature>(features);
+        private readonly String _type = type;
+        private readonly Boolean _exclusive = exclusive;
+        private readonly Boolean _inverse = inverse;
+        private readonly String _connector = connector;
 
         #endregion
 
@@ -33,23 +41,6 @@ namespace AngleSharp.Css.Dom
         public CssMedium(String type, Boolean inverse, Boolean exclusive)
             : this(type, inverse, exclusive, Enumerable.Empty<IMediaFeature>(), "and")
         {
-        }
-
-        /// <summary>
-        /// Creates a new CSS medium.
-        /// </summary>
-        /// <param name="type">The type of the media rule.</param>
-        /// <param name="inverse">Specifies if it should be inverted.</param>
-        /// <param name="exclusive">Specifies if the rule is exclusive.</param>
-        /// <param name="features">The features of the medium.</param>
-        /// <param name="connector">The connector of the features ("and" or "or").</param>
-        public CssMedium(String type, Boolean inverse, Boolean exclusive, IEnumerable<IMediaFeature> features, String connector)
-        {
-            _features = new List<IMediaFeature>(features);
-            _type = type;
-            _inverse = inverse;
-            _exclusive = exclusive;
-            _connector = connector;
         }
 
         #endregion

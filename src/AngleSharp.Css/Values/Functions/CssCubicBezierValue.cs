@@ -9,14 +9,23 @@ namespace AngleSharp.Css.Values
     /// Represents a cubic-bezier timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    sealed class CssCubicBezierValue : ICssTimingFunctionValue, IEquatable<CssCubicBezierValue>
+    /// <remarks>
+    /// The four values specify points P1 and P2 of the curve as (x1, y1, x2, y2). Both
+    /// x values must be in the range [0, 1] or the definition is invalid. The y values
+    /// can exceed this range.
+    /// </remarks>
+    /// <param name="x1">The x-coordinate of P1.</param>
+    /// <param name="y1">The y-coordinate of P1.</param>
+    /// <param name="x2">The x-coordinate of P2.</param>
+    /// <param name="y2">The y-coordinate of P2.</param>
+    sealed class CssCubicBezierValue(ICssValue x1, ICssValue y1, ICssValue x2, ICssValue y2) : ICssTimingFunctionValue, IEquatable<CssCubicBezierValue>
     {
         #region Fields
 
-        private readonly ICssValue _x1;
-        private readonly ICssValue _y1;
-        private readonly ICssValue _x2;
-        private readonly ICssValue _y2;
+        private readonly ICssValue _x1 = x1;
+        private readonly ICssValue _y1 = y1;
+        private readonly ICssValue _x2 = x2;
+        private readonly ICssValue _y2 = y2;
 
         /// <summary>
         /// The pre-configured ease function.
@@ -44,25 +53,8 @@ namespace AngleSharp.Css.Values
         public static readonly CssCubicBezierValue Linear = new(0.0, 0.0, 1.0, 1.0);
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// The four values specify points P1 and P2 of the curve as (x1, y1, x2, y2). Both
-        /// x values must be in the range [0, 1] or the definition is invalid. The y values
-        /// can exceed this range.
-        /// </summary>
-        /// <param name="x1">The x-coordinate of P1.</param>
-        /// <param name="y1">The y-coordinate of P1.</param>
-        /// <param name="x2">The x-coordinate of P2.</param>
-        /// <param name="y2">The y-coordinate of P2.</param>
-        public CssCubicBezierValue(ICssValue x1, ICssValue y1, ICssValue x2, ICssValue y2)
-        {
-            _x1 = x1;
-            _y1 = y1;
-            _x2 = x2;
-            _y2 = y2;
-        }
 
         /// <summary>
         /// The four values specify points P1 and P2 of the curve as (x1, y1, x2, y2). Both

@@ -6,7 +6,12 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public readonly struct CssTimeValue : IEquatable<CssTimeValue>, IComparable<CssTimeValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new time value.
+    /// </remarks>
+    /// <param name="value">The value of the time.</param>
+    /// <param name="unit">The unit of the time.</param>
+    public readonly struct CssTimeValue(Double value, CssTimeValue.Unit unit) : IEquatable<CssTimeValue>, IComparable<CssTimeValue>, ICssMetricValue
     {
         #region Basic times
 
@@ -19,8 +24,8 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -33,17 +38,6 @@ namespace AngleSharp.Css.Values
         public CssTimeValue(Double value)
             : this(value, Unit.Ms)
         {
-        }
-
-        /// <summary>
-        /// Creates a new time value.
-        /// </summary>
-        /// <param name="value">The value of the time.</param>
-        /// <param name="unit">The unit of the time.</param>
-        public CssTimeValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -225,11 +219,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
+        public override Boolean Equals(Object? obj)
         {
             var other = obj as CssTimeValue?;
 
-            if (other != null)
+            if (other is not null)
             {
                 return Equals(other.Value);
             }
@@ -237,7 +231,7 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssTimeValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssTimeValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current time.

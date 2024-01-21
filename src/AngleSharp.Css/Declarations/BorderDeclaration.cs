@@ -18,12 +18,12 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderWidth,
             PropertyNames.BorderStyle,
             PropertyNames.BorderColor,
-        };
+        ];
 
         sealed class BorderAggregator : IValueAggregator, IValueConverter
         {
@@ -48,7 +48,7 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue options)
                 {
-                    return options.ToArray();
+                    return [.. options];
                 }
 
                 return null;

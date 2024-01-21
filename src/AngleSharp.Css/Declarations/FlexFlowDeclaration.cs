@@ -10,11 +10,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.FlexFlow;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.FlexDirection,
             PropertyNames.FlexWrap,
-        };
+        ];
 
         public static IValueConverter Converter = new FlexFlowAggregator();
 
@@ -52,11 +52,11 @@ namespace AngleSharp.Css.Declarations
 
                 if (options != null)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         options.Items[0],
                         options.Items[1],
-                    };
+                    ];
                 }
 
                 return null;

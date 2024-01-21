@@ -228,7 +228,7 @@ namespace AngleSharp.Css.Parser
                 current = source.SkipSpacesAndComments();
             }
 
-            return stops.ToArray();
+            return [.. stops];
         }
 
         private static CssGradientStopValue ParseGradientStop(StringSource source)

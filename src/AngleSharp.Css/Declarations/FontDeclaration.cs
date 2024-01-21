@@ -17,8 +17,8 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.FontFamily,
             PropertyNames.FontSize,
             PropertyNames.FontVariant,
@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.FontStretch,
             PropertyNames.FontStyle,
             PropertyNames.LineHeight,
-        };
+        ];
 
         sealed class FontValueConverter : IValueConverter
         {
@@ -139,10 +139,10 @@ namespace AngleSharp.Css.Declarations
                         return null;
                     }
 
-                    return new ICssValue[] { systemFont, null, null, null, null, null, null };
+                    return [systemFont, null, null, null, null, null, null];
                 }
 
-                return new ICssValue[] { font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight };
+                return [font.FontFamilies, font.Size, font.Variant, font.Weight, font.Stretch, font.Style, font.LineHeight];
             }
         }
     }

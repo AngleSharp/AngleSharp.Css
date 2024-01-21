@@ -18,13 +18,13 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderTopLeftRadius,
             PropertyNames.BorderTopRightRadius,
             PropertyNames.BorderBottomRightRadius,
             PropertyNames.BorderBottomLeftRadius,
-        };
+        ];
 
         sealed class BorderRadiusAggregator : IValueAggregator, IValueConverter
         {
@@ -57,8 +57,8 @@ namespace AngleSharp.Css.Declarations
 
                 if (topLeft != null && topRight != null && bottomRight != null && bottomLeft != null)
                 {
-                    var horizontal = new CssPeriodicValue(new[] { topLeft.Width, topRight.Width, bottomRight.Width, bottomLeft.Width });
-                    var vertical = new CssPeriodicValue(new[] { topLeft.Height, topRight.Height, bottomRight.Height, bottomLeft.Height });
+                    var horizontal = new CssPeriodicValue([topLeft.Width, topRight.Width, bottomRight.Width, bottomLeft.Width]);
+                    var vertical = new CssPeriodicValue([topLeft.Height, topRight.Height, bottomRight.Height, bottomLeft.Height]);
                     return new CssBorderRadiusValue(horizontal, vertical);
                 }
 
@@ -69,13 +69,13 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssBorderRadiusValue radius)
                 {
-                    return new[]
-                    {
+                    return
+                    [
                         Both(radius.Horizontal.Top, radius.Vertical.Top),
                         Both(radius.Horizontal.Right, radius.Vertical.Right),
                         Both(radius.Horizontal.Bottom, radius.Vertical.Bottom),
                         Both(radius.Horizontal.Left, radius.Vertical.Left),
-                    };
+                    ];
                 }
 
                 return null;

@@ -7,22 +7,14 @@ namespace AngleSharp.Css.Converters
     using System;
     using System.Collections.Generic;
 
-    sealed class OneOrMoreValueConverter : IValueConverter
+    sealed class OneOrMoreValueConverter(IValueConverter converter, Int32 minimum, Int32 maximum, String separator) : IValueConverter
     {
-        private readonly IValueConverter _converter;
-        private readonly Int32 _minimum;
-        private readonly Int32 _maximum;
-        private readonly String _separator;
+        private readonly IValueConverter _converter = converter;
+        private readonly Int32 _minimum = minimum;
+        private readonly Int32 _maximum = maximum;
+        private readonly String _separator = separator;
 
-        public OneOrMoreValueConverter(IValueConverter converter, Int32 minimum, Int32 maximum, String separator)
-        {
-            _converter = converter;
-            _minimum = minimum;
-            _maximum = maximum;
-            _separator = separator;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var values = new List<ICssValue>();
 
@@ -37,7 +29,7 @@ namespace AngleSharp.Css.Converters
                 values.Add(value);
             }
 
-            return values.Count >= _minimum ? new CssTupleValue(values.ToArray(), _separator) : null;
+            return values.Count >= _minimum ? new CssTupleValue([.. values], _separator) : null;
         }
     }
 }

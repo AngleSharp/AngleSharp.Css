@@ -9,29 +9,22 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS shorthand that includes var replacements.
     /// </summary>
-    public sealed class CssReferenceValue : ICssRawValue
+    /// <remarks>
+    /// Creates a new variable reference.
+    /// </remarks>
+    /// <param name="value">The value of the shorthand property.</param>
+    /// <param name="references">The included variable references.</param>
+    public sealed class CssReferenceValue(String value, IEnumerable<Tuple<TextRange, CssVarValue>> references) : ICssRawValue
     {
         #region Fields
 
-        private readonly String _value;
-        private readonly TextRange[] _ranges;
-        private readonly CssVarValue[] _references;
+        private readonly String _value = value;
+        private readonly TextRange[] _ranges = references.Select(m => m.Item1).ToArray();
+        private readonly CssVarValue[] _references = references.Select(m => m.Item2).ToArray();
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new variable reference.
-        /// </summary>
-        /// <param name="value">The value of the shorthand property.</param>
-        /// <param name="references">The included variable references.</param>
-        public CssReferenceValue(String value, IEnumerable<Tuple<TextRange, CssVarValue>> references)
-        {
-            _value = value;
-            _ranges = references.Select(m => m.Item1).ToArray();
-            _references = references.Select(m => m.Item2).ToArray();
-        }
 
         #endregion
 
@@ -61,7 +54,7 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             foreach (var reference in _references)
             {
@@ -76,7 +69,7 @@ namespace AngleSharp.Css.Values
             return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => Object.ReferenceEquals(this, other);
 
         #endregion
     }

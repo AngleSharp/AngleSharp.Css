@@ -6,27 +6,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a calc subtraction expression, i.e., a - b.
     /// </summary>
-    sealed class CssCalcSubExpression : ICssCompositeValue
+    /// <remarks>
+    /// Creates a new calc subtraction expression.
+    /// </remarks>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    sealed class CssCalcSubExpression(ICssValue left, ICssValue right) : ICssCompositeValue
     {
         #region Fields
 
-        private readonly ICssValue _left;
-        private readonly ICssValue _right;
+        private readonly ICssValue _left = left;
+        private readonly ICssValue _right = right;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new calc subtraction expression.
-        /// </summary>
-        /// <param name="left">The left operand.</param>
-        /// <param name="right">The right operand.</param>
-        public CssCalcSubExpression(ICssValue left, ICssValue right)
-        {
-            _left = left;
-            _right = right;
-        }
 
         #endregion
 

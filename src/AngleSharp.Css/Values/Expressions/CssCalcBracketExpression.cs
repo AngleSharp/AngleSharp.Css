@@ -6,24 +6,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a calc bracket expression, i.e., (2+3).
     /// </summary>
-    sealed class CssCalcBracketExpression : ICssCompositeValue
+    /// <remarks>
+    /// Creates a new calc bracket expression.
+    /// </remarks>
+    /// <param name="content">The enclosed content.</param>
+    sealed class CssCalcBracketExpression(ICssValue content) : ICssCompositeValue
     {
         #region Fields
 
-        private readonly ICssValue _content;
+        private readonly ICssValue _content = content;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new calc bracket expression.
-        /// </summary>
-        /// <param name="content">The enclosed content.</param>
-        public CssCalcBracketExpression(ICssValue content)
-        {
-            _content = content;
-        }
 
         #endregion
 

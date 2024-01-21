@@ -19,7 +19,7 @@
         internal CssGroupingRule(ICssStyleSheet owner, CssRuleType type)
             : base(owner, type)
         {
-            _rules = new CssRuleList();
+            _rules = [];
         }
 
         #endregion

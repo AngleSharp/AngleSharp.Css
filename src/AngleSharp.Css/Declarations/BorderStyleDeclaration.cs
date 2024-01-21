@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BorderStyle;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.Border,
-        };
+        ];
 
         public static IValueConverter Converter = AggregatePeriodic(LineStyleConverter);
 
@@ -19,12 +19,12 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderTopStyle,
             PropertyNames.BorderRightStyle,
             PropertyNames.BorderBottomStyle,
             PropertyNames.BorderLeftStyle,
-        };
+        ];
     }
 }

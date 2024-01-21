@@ -9,24 +9,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS line names definition.
     /// </summary>
-    public readonly struct CssLineNamesValue : ICssPrimitiveValue, IEquatable<CssLineNamesValue>
+    /// <remarks>
+    /// Creates a new line names definition.
+    /// </remarks>
+    /// <param name="names">The names to contain.</param>
+    public readonly struct CssLineNamesValue(IEnumerable<String> names) : ICssPrimitiveValue, IEquatable<CssLineNamesValue>
     {
         #region Fields
 
-        private readonly String[] _names;
+        private readonly String[] _names = names.ToArray();
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new line names definition.
-        /// </summary>
-        /// <param name="names">The names to contain.</param>
-        public CssLineNamesValue(IEnumerable<String> names)
-        {
-            _names = names.ToArray();
-        }
 
         #endregion
 
@@ -62,7 +57,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) =>
+        public override Boolean Equals(Object? obj) =>
             obj is CssLineNamesValue names && Equals(names);
 
         /// <summary>
@@ -71,12 +66,22 @@ namespace AngleSharp.Css.Values
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => CssText.GetHashCode();
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLineNamesValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssLineNamesValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             return this;
         }
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssLineNamesValue left, CssLineNamesValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssLineNamesValue left, CssLineNamesValue right) => !(left == right);
 
         #endregion
     }

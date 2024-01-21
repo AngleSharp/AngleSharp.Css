@@ -4,15 +4,10 @@
     using AngleSharp.Text;
     using System;
 
-    sealed class ClassValueConverter<T> : IValueConverter
+    sealed class ClassValueConverter<T>(Func<StringSource, T> converter) : IValueConverter
         where T : class, ICssValue
     {
-        private readonly Func<StringSource, T> _converter;
-
-        public ClassValueConverter(Func<StringSource, T> converter)
-        {
-            _converter = converter;
-        }
+        private readonly Func<StringSource, T> _converter = converter;
 
         public ICssValue Convert(StringSource source)
         {

@@ -266,18 +266,16 @@ namespace AngleSharp.Css.Parser
 
         private async Task<ICssStyleSheet> ParseChildStyleSheetAsync(IDownload download, ICssStyleSheet parent, CancellationToken cancel)
         {
-            using (var response = await download.Task.ConfigureAwait(false))
+            using var response = await download.Task.ConfigureAwait(false);
+            var url = response.Address?.Href;
+            var source = new TextSource(response.Content);
+            var sheet = new CssStyleSheet(_context, source)
             {
-                var url = response.Address?.Href;
-                var source = new TextSource(response.Content);
-                var sheet = new CssStyleSheet(_context, source)
-                {
-                    IsDisabled = false,
-                    Href = url
-                };
-                sheet.SetParent(parent);
-                return await ParseStylesheetAsync(sheet, cancel).ConfigureAwait(false);
-            }
+                IsDisabled = false,
+                Href = url
+            };
+            sheet.SetParent(parent);
+            return await ParseStylesheetAsync(sheet, cancel).ConfigureAwait(false);
         }
 
         private T Parse<T>(String source, Func<CssBuilder, CssToken, T> create)

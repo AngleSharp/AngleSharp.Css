@@ -2,11 +2,17 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public readonly struct CssLengthValue : IEquatable<CssLengthValue>, IComparable<CssLengthValue>, ICssMetricValue
+    /// <remarks>
+    /// Creates a new length value.
+    /// </remarks>
+    /// <param name="value">The value of the length.</param>
+    /// <param name="unit">The unit of the length.</param>
+    public readonly struct CssLengthValue(Double value, CssLengthValue.Unit unit) : IEquatable<CssLengthValue>, IComparable<CssLengthValue>, ICssMetricValue
     {
         #region Basic lengths
 
@@ -59,8 +65,8 @@ namespace AngleSharp.Css.Values
 
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -73,17 +79,6 @@ namespace AngleSharp.Css.Values
         public CssLengthValue(Double value)
             : this(value, Unit.Px)
         {
-        }
-
-        /// <summary>
-        /// Creates a new length value.
-        /// </summary>
-        /// <param name="value">The value of the length.</param>
-        /// <param name="unit">The unit of the length.</param>
-        public CssLengthValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -294,7 +289,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <returns>The number of pixels represented by the current length.</returns>
-        public Double ToPixel(IRenderDimensions renderDimensions) => ToPixel(renderDimensions, RenderMode.Horizontal);
+        public Double ToPixel(IRenderDimensions? renderDimensions) => ToPixel(renderDimensions, RenderMode.Horizontal);
 
         /// <summary>
         /// Converts the length to a number of pixels, if possible. If the
@@ -303,7 +298,7 @@ namespace AngleSharp.Css.Values
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <param name="mode">Signifies the axis the unit represents, use to calculate relative units where the axis matters.</param>
         /// <returns>The number of pixels represented by the current length.</returns>
-        public Double ToPixel(IRenderDimensions renderDimensions, RenderMode mode)
+        public Double ToPixel(IRenderDimensions? renderDimensions, RenderMode mode)
         {
             switch (_unit)
             {
@@ -321,29 +316,29 @@ namespace AngleSharp.Css.Values
                     return _value;
                 case Unit.Percent:
                     CheckForValidRenderDimensions(renderDimensions, mode);
-                    return _value * 0.01 * (mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight);
+                    return _value * 0.01 * (mode == RenderMode.Horizontal ? renderDimensions!.RenderWidth : renderDimensions!.RenderHeight);
                 case Unit.Em:
                     CheckForValidRenderDimensionsForFont(renderDimensions);
-                    return _value * renderDimensions.FontSize;
+                    return _value * renderDimensions!.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
                     // the IRenderDevice meaning its always the root font size
                     CheckForValidRenderDimensionsForFont(renderDimensions);
-                    return _value * renderDimensions.FontSize;
+                    return _value * renderDimensions!.FontSize;
                 case Unit.Vh:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
-                    return _value * 0.01 * renderDimensions.RenderHeight;
+                    return _value * 0.01 * renderDimensions!.RenderHeight;
                 case Unit.Vw:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
-                    return _value * 0.01 * renderDimensions.RenderWidth;
+                    return _value * 0.01 * renderDimensions!.RenderWidth;
                 case Unit.Vmax:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
-                    return _value * 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
+                    return _value * 0.01 * Math.Max(renderDimensions!.RenderHeight, renderDimensions.RenderWidth);
                 case Unit.Vmin:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
-                    return _value * 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth);
+                    return _value * 0.01 * Math.Min(renderDimensions!.RenderHeight, renderDimensions.RenderWidth);
                 default:
                     throw new InvalidOperationException("Unsupported unit cannot be converted.");
             }
@@ -357,7 +352,7 @@ namespace AngleSharp.Css.Values
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <param name="mode">Signifies the axis the unit represents, use to calculate relative units where the axis matters.</param>
         /// <returns>The value in the given unit of the current length.</returns>
-        public Double To(Unit unit, IRenderDimensions renderDimensions, RenderMode mode)
+        public Double To(Unit unit, IRenderDimensions? renderDimensions, RenderMode mode)
         {
             var value = ToPixel(renderDimensions, mode);
 
@@ -377,45 +372,45 @@ namespace AngleSharp.Css.Values
                     return value;
                 case Unit.Percent:
                     CheckForValidRenderDimensions(renderDimensions, mode);
-                    return value / (mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) * 100;
+                    return value / (mode == RenderMode.Horizontal ? renderDimensions!.RenderWidth : renderDimensions!.RenderHeight) * 100;
                 case Unit.Em:
                     CheckForValidRenderDimensionsForFont(renderDimensions);
-                    return value / renderDimensions.FontSize;
+                    return value / renderDimensions!.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
                     // the IRenderDevice meaning its always the root font size
                     CheckForValidRenderDimensionsForFont(renderDimensions);
-                    return value / renderDimensions.FontSize;
+                    return value / renderDimensions!.FontSize;
                 case Unit.Vh:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
-                    return value / (0.01 * renderDimensions.RenderHeight);
+                    return value / (0.01 * renderDimensions!.RenderHeight);
                 case Unit.Vw:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
-                    return value / ( 0.01 * renderDimensions.RenderWidth);
+                    return value / ( 0.01 * renderDimensions!.RenderWidth);
                 case Unit.Vmax:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
-                    return value / ( 0.01 * Math.Max(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
+                    return value / ( 0.01 * Math.Max(renderDimensions!.RenderHeight, renderDimensions.RenderWidth));
                 case Unit.Vmin:
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Vertical);
                     CheckForValidRenderDimensions(renderDimensions, RenderMode.Horizontal);
-                    return value / ( 0.01 * Math.Min(renderDimensions.RenderHeight, renderDimensions.RenderWidth));
+                    return value / ( 0.01 * Math.Min(renderDimensions!.RenderHeight, renderDimensions.RenderWidth));
                 default:
                     throw new InvalidOperationException("Unsupported unit cannot be converted.");
             }
         }
 
-        private void CheckForValidRenderDimensions(IRenderDimensions renderDimensions, RenderMode mode)
+        private static void CheckForValidRenderDimensions(IRenderDimensions? renderDimensions, RenderMode mode)
         {
-            if (renderDimensions == null || mode == RenderMode.Undefined || (mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) <= 0)
+            if (renderDimensions is null || mode == RenderMode.Undefined || (mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) <= 0)
             {
                 throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
             }
         }
 
-        private void CheckForValidRenderDimensionsForFont(IRenderDimensions renderDimensions)
+        private static void CheckForValidRenderDimensionsForFont(IRenderDimensions? renderDimensions)
         {
-            if (renderDimensions == null || renderDimensions.FontSize <= 0)
+            if (renderDimensions is null || renderDimensions.FontSize <= 0)
             {
                 throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
             }
@@ -535,7 +530,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
+        public override Boolean Equals(Object? obj)
         {
             var other = obj as CssLengthValue?;
 
@@ -547,7 +542,7 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLengthValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssLengthValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current length.

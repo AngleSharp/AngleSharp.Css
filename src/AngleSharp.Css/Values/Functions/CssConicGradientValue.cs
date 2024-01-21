@@ -9,33 +9,25 @@ namespace AngleSharp.Css.Values
     /// Represents a linear gradient:
     /// https://drafts.csswg.org/css-images-4/#conic-gradients
     /// </summary>
-    sealed class CssConicGradientValue : ICssGradientFunctionValue, IEquatable<CssConicGradientValue>
+    /// <remarks>
+    /// Creates a new conic gradient.
+    /// </remarks>
+    /// <param name="angle">The angle of the conic gradient.</param>
+    /// <param name="center">The center to use.</param>
+    /// <param name="stops">The stops to use.</param>
+    /// <param name="repeating">Indicates if the gradient is repeating.</param>
+    sealed class CssConicGradientValue(ICssValue angle, ICssValue center, ICssValue[] stops, Boolean repeating = false) : ICssGradientFunctionValue, IEquatable<CssConicGradientValue>
     {
         #region Fields
 
-        private readonly ICssValue[] _stops;
-        private readonly ICssValue _center;
-        private readonly ICssValue _angle;
-        private readonly Boolean _repeating;
+        private readonly ICssValue[] _stops = stops;
+        private readonly ICssValue _center = center;
+        private readonly ICssValue _angle = angle;
+        private readonly Boolean _repeating = repeating;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new conic gradient.
-        /// </summary>
-        /// <param name="angle">The angle of the conic gradient.</param>
-        /// <param name="center">The center to use.</param>
-        /// <param name="stops">The stops to use.</param>
-        /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public CssConicGradientValue(ICssValue angle, ICssValue center, ICssValue[] stops, Boolean repeating = false)
-        {
-            _stops = stops;
-            _center = center;
-            _angle = angle;
-            _repeating = repeating;
-        }
 
         #endregion
 
@@ -65,7 +57,7 @@ namespace AngleSharp.Css.Values
                     args.Insert(0, _angle);
                 }
 
-                return args.ToArray();
+                return [.. args];
             }
         }
 

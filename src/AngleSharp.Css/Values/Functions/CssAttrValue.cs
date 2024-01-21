@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS attr function call.
     /// </summary>
-    public sealed class CssAttrValue : ICssFunctionValue, IEquatable<CssAttrValue>
+    /// <remarks>
+    /// Creates a new attr function call.
+    /// </remarks>
+    /// <param name="attribute">The referenced attribute name.</param>
+    public sealed class CssAttrValue(String attribute) : ICssFunctionValue, IEquatable<CssAttrValue>
     {
         #region Fields
 
-        private readonly String _attribute;
+        private readonly String _attribute = attribute;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new attr function call.
-        /// </summary>
-        /// <param name="attribute">The referenced attribute name.</param>
-        public CssAttrValue(String attribute)
-        {
-            _attribute = attribute;
-        }
 
         #endregion
 

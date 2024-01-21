@@ -8,27 +8,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS repeat function call.
     /// </summary>
-    sealed class CssRepeatValue : ICssFunctionValue, IEquatable<CssRepeatValue>
+    /// <remarks>
+    /// Creates a new repeat function call.
+    /// </remarks>
+    /// <param name="count">The count value.</param>
+    /// <param name="value">The used value.</param>
+    sealed class CssRepeatValue(ICssValue count, ICssValue value) : ICssFunctionValue, IEquatable<CssRepeatValue>
     {
         #region Fields
 
-        private readonly ICssValue _count;
-        private readonly ICssValue _value;
+        private readonly ICssValue _count = count;
+        private readonly ICssValue _value = value;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new repeat function call.
-        /// </summary>
-        /// <param name="count">The count value.</param>
-        /// <param name="value">The used value.</param>
-        public CssRepeatValue(ICssValue count, ICssValue value)
-        {
-            _count = count;
-            _value = value;
-        }
 
         #endregion
 
@@ -68,17 +62,22 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssRepeatValue other)
+        public Boolean Equals(CssRepeatValue? other)
         {
-            return _count.Equals(other._count) && _value.Equals(other._value);
+            return other is not null && _count.Equals(other._count) && _value.Equals(other._value);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRepeatValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssRepeatValue value && Equals(value);
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var count = _count.Compute(context);
             var value = _value.Compute(context);
+
+            if (count is null || value is null)
+            {
+                return null;
+            }
 
             if (count != _count || value != _value)
             {

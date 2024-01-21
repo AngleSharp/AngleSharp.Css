@@ -17,14 +17,14 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.Shorthand;
 
-        public static String[] Longhands = new[]
-        {
+        public static String[] Longhands =
+        [
             PropertyNames.BorderImageOutset,
             PropertyNames.BorderImageRepeat,
             PropertyNames.BorderImageSlice,
             PropertyNames.BorderImageSource,
             PropertyNames.BorderImageWidth,
-        };
+        ];
 
         sealed class BorderImageValueConverter : IValueConverter
         {
@@ -103,7 +103,7 @@ namespace AngleSharp.Css.Declarations
                 }
                 else
                 {
-                    return new CssTupleValue(new[] { repeatX, repeatY });
+                    return new CssTupleValue([repeatX, repeatY]);
                 }
             }
         }
@@ -137,25 +137,25 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssBorderImageValue img)
                 {
-                    return new ICssValue[]
-                    {
+                    return
+                    [
                         img.Outsets,
                         img.Repeat,
                         img.Slice,
                         img.Image,
                         img.Widths,
-                    };
+                    ];
                 }
                 else if (value is CssConstantValue<Object> constant)
                 {
-                    return new ICssValue[]
-                    {
+                    return
+                    [
                         null,
                         null,
                         null,
                         constant,
                         null,
-                    };
+                    ];
                 }
 
                 return null;

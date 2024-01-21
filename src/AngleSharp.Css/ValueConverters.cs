@@ -1036,14 +1036,9 @@ namespace AngleSharp.Css
 
         public static IValueConverter AggregateTuple(IValueConverter converter) => new TupleAggregator(converter);
 
-        sealed class PeriodicAggregator : IValueAggregator, IValueConverter
+        sealed class PeriodicAggregator(IValueConverter converter) : IValueAggregator, IValueConverter
         {
-            private readonly IValueConverter _converter;
-
-            public PeriodicAggregator(IValueConverter converter)
-            {
-                _converter = converter.Periodic();
-            }
+            private readonly IValueConverter _converter = converter.Periodic();
 
             public ICssValue Convert(StringSource source) => _converter.Convert(source);
 
@@ -1064,27 +1059,22 @@ namespace AngleSharp.Css
             {
                 if (value is CssPeriodicValue periodic)
                 {
-                    return periodic.ToArray();
+                    return [.. periodic];
                 }
 
-                return new[]
-                {
+                return
+                [
                     value,
                     value,
                     value,
                     value,
-                };
+                ];
             }
         }
 
-        sealed class TupleAggregator : IValueAggregator, IValueConverter
+        sealed class TupleAggregator(IValueConverter converter) : IValueAggregator, IValueConverter
         {
-            private readonly IValueConverter _converter;
-
-            public TupleAggregator(IValueConverter converter)
-            {
-                _converter = converter;
-            }
+            private readonly IValueConverter _converter = converter;
 
             public ICssValue Convert(StringSource source) => _converter.Convert(source);
 
@@ -1102,7 +1092,7 @@ namespace AngleSharp.Css
             {
                 if (value is CssTupleValue options)
                 {
-                    return options.ToArray();
+                    return [.. options];
                 }
 
                 return null;

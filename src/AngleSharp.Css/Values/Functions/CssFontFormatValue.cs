@@ -5,20 +5,15 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    sealed class CssFontFormatValue : ICssFunctionValue, IEquatable<CssFontFormatValue>
+    sealed class CssFontFormatValue(String fontFormat) : ICssFunctionValue, IEquatable<CssFontFormatValue>
     {
         #region Fields
 
-        private readonly String _fontFormat;
+        private readonly String _fontFormat = fontFormat;
 
         #endregion
-
+        
         #region ctor
-
-        public CssFontFormatValue(String fontFormat)
-        {
-            _fontFormat = fontFormat;
-        }
 
         #endregion
 

@@ -7,24 +7,19 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an unknown (any) value.
     /// </summary>
-    sealed class CssAnyValue : ICssRawValue
+    /// <remarks>
+    /// Creates a new unknown value with the given literal content.
+    /// </remarks>
+    /// <param name="text">The serialized value representation..</param>
+    sealed class CssAnyValue(String text) : ICssRawValue
     {
         #region Fields
 
-        private readonly String _text;
+        private readonly String _text = text;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new unknown value with the given literal content.
-        /// </summary>
-        /// <param name="text">The serialized value representation..</param>
-        public CssAnyValue(String text)
-        {
-            _text = text;
-        }
 
         #endregion
 
@@ -44,7 +39,7 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var converter = context.Converter;
 
@@ -57,7 +52,7 @@ namespace AngleSharp.Css.Values
             return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAnyValue o && _text.Equals(o.CssText);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssAnyValue o && _text.Equals(o.CssText);
 
         #endregion
     }

@@ -5,17 +5,12 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
 
-    sealed class SeparatedEnumsConverter : IValueConverter
+    sealed class SeparatedEnumsConverter(IValueConverter[] converters, Char seperator) : IValueConverter
     {
-        private readonly IValueConverter[] _converters;
-        private readonly Char _seperator;
+        private readonly IValueConverter[] _converters = converters;
+        private readonly Char _seperator = seperator;
 
-        public SeparatedEnumsConverter(IValueConverter[] converters, Char seperator)
-        {
-            _converters = converters;
-            _seperator = seperator;
-        }
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var value = _converters[0].Convert(source);
 

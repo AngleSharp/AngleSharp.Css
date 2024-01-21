@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ColumnRuleStyle;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.ColumnRule,
-        };
+        ];
 
         public static IValueConverter Converter = LineStyleConverter;
 

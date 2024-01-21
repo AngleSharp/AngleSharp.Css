@@ -8,10 +8,10 @@ namespace AngleSharp.Css.Dom
     static class MediaListExtensions
     {
         private readonly static ConditionalWeakTable<IMediaFeature, IFeatureValidator> AssociatedValidators =
-            new();
+            [];
 
         private readonly static String[] KnownTypes =
-        {
+        [
             // Intended for non-paged computer screens.
             CssKeywords.Screen,
             // Intended for speech synthesizers.
@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Dom
             CssKeywords.Print,
             // Suitable for all devices.
             CssKeywords.All
-        };
+        ];
 
         public static void AssociateValidator(this IMediaFeature feature, IFeatureValidator validator) =>
             AssociatedValidators.Add(feature, validator);

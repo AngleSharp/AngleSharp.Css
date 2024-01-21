@@ -2,22 +2,16 @@ namespace AngleSharp.Css.Parser
 {
     using System;
 
-    sealed class Unit
+    sealed class Unit(String value, String dimension)
     {
-        public Unit(String value, String dimension)
-        {
-            Value = value;
-            Dimension = dimension;
-        }
-
         public String Value
         {
             get;
-        }
+        } = value;
 
         public String Dimension
         {
             get;
-        }
+        } = dimension;
     }
 }

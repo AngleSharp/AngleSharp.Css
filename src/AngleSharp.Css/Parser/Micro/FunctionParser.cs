@@ -64,7 +64,7 @@ namespace AngleSharp.Css.Parser
 
                         if (refs == null)
                         {
-                            refs = new List<Tuple<TextRange, CssVarValue>>();
+                            refs = [];
                         }
 
                         var e = new TextPosition(0, 0, source.Index);

@@ -10,25 +10,15 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    public class CssListValue<T> : ICssMultipleValue, IEquatable<CssListValue<T>>
-        where T : ICssValue
+    /// <remarks>
+    /// Creates a new list value.
+    /// </remarks>
+    /// <param name="items">The items to contain.</param>
+    public class CssListValue(ICssValue[]? items = null) : ICssMultipleValue, IEquatable<ICssValue>
     {
         #region Fields
 
-        private readonly T[] _items;
-
-        #endregion
-
-        #region ctor
-
-        /// <summary>
-        /// Creates a new list value.
-        /// </summary>
-        /// <param name="items">The items to contain.</param>
-        public CssListValue(T[] items = null)
-        {
-            _items = items ?? Array.Empty<T>();
-        }
+        private readonly ICssValue[] _items = items ?? [];
 
         #endregion
 
@@ -38,7 +28,7 @@ namespace AngleSharp.Css.Values
         public ICssValue this[Int32 index] => _items[index];
 
         /// <inheritdoc />
-        public T[] Items => _items;
+        public ICssValue[] Items => _items;
 
         /// <inheritdoc />
         public String CssText => _items.Join(", ");
@@ -55,56 +45,50 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssListValue<T> other)
+        public Boolean Equals(CssListValue? other)
         {
-            var count = _items.Length;
-
-            if (count == other._items.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var count = _items.Length;
+
+                if (count == other._items.Length)
                 {
-                    var a = _items[i];
-                    var b = other._items[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _items[i];
+                        var b = other._items[i];
 
-                return true;
+                        if (!a.Equals(b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;
         }
 
-        IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
+        IEnumerator<ICssValue?> IEnumerable<ICssValue?>.GetEnumerator() =>
             _items.OfType<ICssValue>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
-            var items = _items.Select(v => (T)v.Compute(context)).ToArray();
-            return new CssListValue<T>(items);
+            var items = _items.Select(v => v.Compute(context)).NotNull().ToArray();
+
+            if (items.Length == _items.Length)
+            {
+                return new CssListValue(items);
+            }
+
+            return null;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssListValue<T> value && Equals(value);
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a CSS value list.
-    /// </summary>
-    sealed class CssListValue : CssListValue<ICssValue>
-    {
-        #region ctor
-
-        public CssListValue(ICssValue[] items = null)
-            : base(items)
-        {
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssListValue value && Equals(value);
 
         #endregion
     }

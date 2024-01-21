@@ -6,27 +6,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value that was born from a shorthand.
     /// </summary>
-    sealed class CssChildValue : ICssValue, IEquatable<CssChildValue>
+    /// <remarks>
+    /// Creates a CSS child-parent container.
+    /// </remarks>
+    /// <param name="parent">The reference to the shorthand value.</param>
+    /// <param name="value">The value of the child, if any.</param>
+    sealed class CssChildValue(ICssValue parent, ICssValue value = null) : ICssValue, IEquatable<CssChildValue>
     {
         #region Fields
 
-        private readonly ICssValue _parent;
-        private readonly ICssValue _value;
+        private readonly ICssValue _parent = parent;
+        private readonly ICssValue _value = value;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a CSS child-parent container.
-        /// </summary>
-        /// <param name="parent">The reference to the shorthand value.</param>
-        /// <param name="value">The value of the child, if any.</param>
-        public CssChildValue(ICssValue parent, ICssValue value = null)
-        {
-            _parent = parent;
-            _value = value;
-        }
 
         #endregion
 

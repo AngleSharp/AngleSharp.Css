@@ -9,24 +9,17 @@ namespace AngleSharp.Css.Parser
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
     /// </summary>
-    sealed class CssBuilder
+    sealed class CssBuilder(CssParserOptions options, CssTokenizer tokenizer, IBrowsingContext context)
     {
         #region Fields
 
-        private readonly CssTokenizer _tokenizer;
-        private readonly CssParserOptions _options;
-        private readonly IBrowsingContext _context;
+        private readonly CssTokenizer _tokenizer = tokenizer;
+        private readonly CssParserOptions _options = options;
+        private readonly IBrowsingContext _context = context;
 
         #endregion
-
+        
         #region ctor
-
-        public CssBuilder(CssParserOptions options, CssTokenizer tokenizer, IBrowsingContext context)
-        {
-            _tokenizer = tokenizer;
-            _options = options;
-            _context = context;
-        }
 
         #endregion
 

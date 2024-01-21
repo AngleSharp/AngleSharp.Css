@@ -5,21 +5,15 @@
     /// <summary>
     /// Represents a CSS comment token.
     /// </summary>
-    sealed class CssCommentToken : CssToken
+    sealed class CssCommentToken(String data, Boolean bad) : CssToken(CssTokenType.Comment, data)
     {
         #region Fields
 
-        private readonly Boolean _bad;
+        private readonly Boolean _bad = bad;
 
         #endregion
-
+        
         #region ctor
-
-        public CssCommentToken(String data, Boolean bad)
-            : base(CssTokenType.Comment, data)
-        {
-            _bad = bad;
-        }
 
         #endregion
 

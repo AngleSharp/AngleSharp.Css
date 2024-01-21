@@ -10,29 +10,22 @@
     /// <summary>
     /// The event that is published in case of an CSS parse error.
     /// </summary>
-    public class CssErrorEvent : Event
+    /// <remarks>
+    /// Creates a new CssParseErrorEvent event.
+    /// </remarks>
+    /// <param name="code">The provided error code.</param>
+    /// <param name="position">The position in the source.</param>
+    /// 
+    public class CssErrorEvent(CssParseError code, TextPosition position) : Event(EventNames.Error)
     {
         #region Fields
 
-        private readonly CssParseError _code;
-        private readonly TextPosition _position;
+        private readonly CssParseError _code = code;
+        private readonly TextPosition _position = position;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CssParseErrorEvent event.
-        /// </summary>
-        /// <param name="code">The provided error code.</param>
-        /// <param name="position">The position in the source.</param>
-        /// 
-        public CssErrorEvent(CssParseError code, TextPosition position)
-            : base(EventNames.Error)
-        {
-            _code = code;
-            _position = position;
-        }
 
         #endregion
 

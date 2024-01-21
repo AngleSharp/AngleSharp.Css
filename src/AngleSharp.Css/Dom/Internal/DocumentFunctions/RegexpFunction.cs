@@ -8,21 +8,15 @@
     /// <summary>
     /// Take a regular expression.
     /// </summary>
-    sealed class RegexpFunction : DocumentFunction
+    sealed class RegexpFunction(String url) : DocumentFunction(FunctionNames.Regexp, url)
     {
         #region Fields
 
-        private readonly Regex _regex;
+        private readonly Regex _regex = new Regex(url, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
         #endregion
-
+        
         #region ctor
-
-        public RegexpFunction(String url)
-            : base(FunctionNames.Regexp, url)
-        {
-            _regex = new Regex(url, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
-        }
 
         #endregion
 

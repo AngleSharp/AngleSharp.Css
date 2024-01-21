@@ -7,36 +7,27 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS border image slice definition.
     /// </summary>
-    public sealed class CssBorderImageSliceValue : ICssCompositeValue, IEquatable<CssBorderImageSliceValue>
+    /// <remarks>
+    /// Creates a new CSS border image slice definition.
+    /// </remarks>
+    /// <param name="top">The top length.</param>
+    /// <param name="right">The right length.</param>
+    /// <param name="bottom">The bottom length.</param>
+    /// <param name="left">The left length.</param>
+    /// <param name="filled">True if the filled flag is enabled, otherwise false.</param>
+    public sealed class CssBorderImageSliceValue(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left, Boolean filled) : ICssCompositeValue, IEquatable<CssBorderImageSliceValue>
     {
         #region Fields
 
-        private readonly ICssValue _bottom;
-        private readonly ICssValue _left;
-        private readonly ICssValue _right;
-        private readonly ICssValue _top;
-        private readonly Boolean _filled;
+        private readonly ICssValue _bottom = bottom;
+        private readonly ICssValue _left = left;
+        private readonly ICssValue _right = right;
+        private readonly ICssValue _top = top;
+        private readonly Boolean _filled = filled;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS border image slice definition.
-        /// </summary>
-        /// <param name="top">The top length.</param>
-        /// <param name="right">The right length.</param>
-        /// <param name="bottom">The bottom length.</param>
-        /// <param name="left">The left length.</param>
-        /// <param name="filled">True if the filled flag is enabled, otherwise false.</param>
-        public CssBorderImageSliceValue(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left, Boolean filled)
-        {
-            _top = top;
-            _right = right;
-            _bottom = bottom;
-            _left = left;
-            _filled = filled;
-        }
 
         #endregion
 

@@ -4,35 +4,24 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
 
-    sealed class CssBackgroundLayerValue : ICssCompositeValue, IEquatable<CssBackgroundLayerValue>
+    /// <summary>
+    /// Creates a new background image layer.
+    /// </summary>
+    sealed class CssBackgroundLayerValue(ICssValue? image, ICssValue? position, ICssValue? size, ICssValue? repeat, ICssValue? attachment, ICssValue? origin, ICssValue? clip) : ICssCompositeValue, IEquatable<CssBackgroundLayerValue>
     {
         #region Fields
 
-        private readonly ICssValue _image;
-        private readonly ICssValue _position;
-        private readonly ICssValue _size;
-        private readonly ICssValue _repeat;
-        private readonly ICssValue _attachment;
-        private readonly ICssValue _origin;
-        private readonly ICssValue _clip;
+        private readonly ICssValue? _image = image;
+        private readonly ICssValue? _position = position;
+        private readonly ICssValue? _size = size;
+        private readonly ICssValue? _repeat = repeat;
+        private readonly ICssValue? _attachment = attachment;
+        private readonly ICssValue? _origin = origin;
+        private readonly ICssValue? _clip = clip;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new background image layer.
-        /// </summary>
-        public CssBackgroundLayerValue(ICssValue image, ICssValue position, ICssValue size, ICssValue repeat, ICssValue attachment, ICssValue origin, ICssValue clip)
-        {
-            _image = image;
-            _position = position;
-            _size = size;
-            _repeat = repeat;
-            _attachment = attachment;
-            _origin = origin;
-            _clip = clip;
-        }
 
         #endregion
 
@@ -41,37 +30,37 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the background image.
         /// </summary>
-        public ICssValue Image => _image;
+        public ICssValue? Image => _image;
 
         /// <summary>
         /// Gets the position of the background image.
         /// </summary>
-        public ICssValue Position => _position;
+        public ICssValue? Position => _position;
 
         /// <summary>
         /// Gets the size of the background image.
         /// </summary>
-        public ICssValue Size => _size;
+        public ICssValue? Size => _size;
 
         /// <summary>
         /// Gets the repeat mode of the background image.
         /// </summary>
-        public ICssValue Repeat => _repeat;
+        public ICssValue? Repeat => _repeat;
 
         /// <summary>
         /// Gets the mode of the background image.
         /// </summary>
-        public ICssValue Attachment => _attachment;
+        public ICssValue? Attachment => _attachment;
 
         /// <summary>
         /// Gets the origin of the background image.
         /// </summary>
-        public ICssValue Origin => _origin;
+        public ICssValue? Origin => _origin;
 
         /// <summary>
         /// Gets the clipping mode of the background image.
         /// </summary>
-        public ICssValue Clip => _clip;
+        public ICssValue? Clip => _clip;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -137,26 +126,27 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundLayerValue other)
+        public Boolean Equals(CssBackgroundLayerValue? other)
         {
-            return _clip.Equals(other._clip) &&
-                _repeat.Equals(other._repeat) &&
-                _attachment.Equals(other._attachment) &&
-                _origin.Equals(other._origin) &&
-                _size.Equals(other._size);
+            return other is not null &&
+                _clip.Is(other._clip) &&
+                _repeat.Is(other._repeat) &&
+                _attachment.Is(other._attachment) &&
+                _origin.Is(other._origin) &&
+                _size.Is(other._size);
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundLayerValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssBackgroundLayerValue value && Equals(value);
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var image = _image.Compute(context);
-            var position = _position.Compute(context);
-            var size = _size.Compute(context);
-            var repeat = _repeat.Compute(context);
-            var attachment = _attachment.Compute(context);
-            var origin = _origin.Compute(context);
-            var clip = _clip.Compute(context);
+            var image = _image?.Compute(context);
+            var position = _position?.Compute(context);
+            var size = _size?.Compute(context);
+            var repeat = _repeat?.Compute(context);
+            var attachment = _attachment?.Compute(context);
+            var origin = _origin?.Compute(context);
+            var clip = _clip?.Compute(context);
             return new CssBackgroundLayerValue(image, position, size, repeat, attachment, origin, clip);
         }
 

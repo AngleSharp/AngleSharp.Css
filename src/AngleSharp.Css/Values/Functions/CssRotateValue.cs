@@ -8,33 +8,25 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the rotate3d transformation.
     /// </summary>
-    sealed class CssRotateValue : ICssTransformFunctionValue, IEquatable<CssRotateValue>
+    /// <remarks>
+    /// Creates a new rotate transform.
+    /// </remarks>
+    /// <param name="x">The x coordinate.</param>
+    /// <param name="y">The y coordinate.</param>
+    /// <param name="z">The z coordinate.</param>
+    /// <param name="angle">The angle of rotation.</param>
+    sealed class CssRotateValue(ICssValue? x, ICssValue? y, ICssValue? z, ICssValue angle) : ICssTransformFunctionValue, IEquatable<CssRotateValue>
     {
         #region Fields
 
-        private readonly ICssValue _x;
-        private readonly ICssValue _y;
-        private readonly ICssValue _z;
-        private readonly ICssValue _angle;
+        private readonly ICssValue? _x = x;
+        private readonly ICssValue? _y = y;
+        private readonly ICssValue? _z = z;
+        private readonly ICssValue _angle = angle;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new rotate transform.
-        /// </summary>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        /// <param name="z">The z coordinate.</param>
-        /// <param name="angle">The angle of rotation.</param>
-        public CssRotateValue(ICssValue x, ICssValue y, ICssValue z, ICssValue angle)
-        {
-            _x = x;
-            _y = y;
-            _z = z;
-            _angle = angle;
-        }
 
         #endregion
 
@@ -71,13 +63,15 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments => new ICssValue[]
-        {
-            _x,
-            _y,
-            _z,
-            _angle,
-        };
+        public ICssValue[] Arguments =>
+            _x is not null && _y is not null && _z is not null ? [_x, _y, _z, _angle] :
+            _x is not null && _y is not null ? [_x, _y, _angle] :
+            _x is not null && _z is not null ? [_x, _z, _angle] :
+            _y is not null && _z is not null ?[_y, _z, _angle] :
+            _x is not null ? [_x, _angle] :
+            _y is not null ? [_y, _angle] :
+            _z is not null ? [_z, _angle] :
+            [_angle];
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -101,17 +95,17 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the value of the x-component of the rotation vector.
         /// </summary>
-        public ICssValue X => _x;
+        public ICssValue? X => _x;
 
         /// <summary>
         /// Gets the value of the y-component of the rotation vector.
         /// </summary>
-        public ICssValue Y => _y;
+        public ICssValue? Y => _y;
 
         /// <summary>
         /// Gets the value of the z-component of the rotation vector.
         /// </summary>
-        public ICssValue Z => _z;
+        public ICssValue? Z => _z;
 
         /// <summary>
         /// Gets the angle.
@@ -127,12 +121,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssRotateValue other)
+        public Boolean Equals(CssRotateValue? other)
         {
-            return _angle.Equals(other._angle) && _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+            return other is not null && _angle.Equals(other._angle) && _x == other._x && _y == other._y && _z == other._z;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRotateValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssRotateValue value && Equals(value);
 
         /// <summary>
         /// Computes the matrix for the given transformation.
@@ -141,8 +135,8 @@ namespace AngleSharp.Css.Values
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var x = _x.AsDouble();
-            var y = _x.AsDouble();
-            var z = _x.AsDouble();
+            var y = _y.AsDouble();
+            var z = _z.AsDouble();
             var norm = 1.0 / Math.Sqrt(x * x + y * y + z * z);
             var alpha = _angle.AsRad();
             var sina = Math.Sin(alpha);
@@ -158,13 +152,19 @@ namespace AngleSharp.Css.Values
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }
 
-        ICssValue ICssValue.Compute(ICssComputeContext context)
+        ICssValue? ICssValue.Compute(ICssComputeContext context)
         {
             var x = _x?.Compute(context);
             var y = _y?.Compute(context);
             var z = _z?.Compute(context);
             var angle = _angle.Compute(context);
-            return new CssRotateValue(x, y, z, angle);
+
+            if (angle is not null)
+            {
+                return new CssRotateValue(x, y, z, angle);
+            }
+
+            return null;
         }
 
         #endregion

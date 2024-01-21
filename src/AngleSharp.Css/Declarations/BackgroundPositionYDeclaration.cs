@@ -9,10 +9,10 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.BackgroundPositionY;
 
-        public static String[] Shorthands = new[]
-        {
+        public static String[] Shorthands =
+        [
             PropertyNames.BackgroundPosition,
-        };
+        ];
 
         public static IValueConverter Converter = PointYConverter.FromList();
 

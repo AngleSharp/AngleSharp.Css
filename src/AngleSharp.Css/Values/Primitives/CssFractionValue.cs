@@ -6,12 +6,17 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a fractional value.
     /// </summary>
-    public readonly struct CssFractionValue : IEquatable<CssFractionValue>, IComparable<CssFractionValue>, ICssPrimitiveValue
+    /// <remarks>
+    /// Creates a new fractional value.
+    /// </remarks>
+    /// <param name="value">The value of the fraction.</param>
+    /// <param name="unit">The unit.</param>
+    public readonly struct CssFractionValue(Double value, CssFractionValue.Unit unit) : IEquatable<CssFractionValue>, IComparable<CssFractionValue>, ICssPrimitiveValue
     {
         #region Fields
 
-        private readonly Double _value;
-        private readonly Unit _unit;
+        private readonly Double _value = value;
+        private readonly Unit _unit = unit;
 
         #endregion
 
@@ -24,17 +29,6 @@ namespace AngleSharp.Css.Values
         public CssFractionValue(Double value)
             : this(value, Unit.Fr)
         {
-        }
-
-        /// <summary>
-        /// Creates a new fractional value.
-        /// </summary>
-        /// <param name="value">The value of the fraction.</param>
-        /// <param name="unit">The unit.</param>
-        public CssFractionValue(Double value, Unit unit)
-        {
-            _value = value;
-            _unit = unit;
         }
 
         #endregion
@@ -163,25 +157,25 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            var other = obj as CssFractionValue?;
+        public override Boolean Equals(Object? obj) => obj is CssFractionValue o && Equals(o);
 
-            if (other != null)
-            {
-                return Equals(other.Value);
-            }
-
-            return false;
-        }
-
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFractionValue value && Equals(value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue? other) => other is CssFractionValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current fraction.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();
+
+        /// <summary>
+        /// Equality check.
+        /// </summary>
+        public static bool operator ==(CssFractionValue left, CssFractionValue right) => left.Equals(right);
+
+        /// <summary>
+        /// Inequality check.
+        /// </summary>
+        public static bool operator !=(CssFractionValue left, CssFractionValue right) => !(left == right);
 
         #endregion
     }

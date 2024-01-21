@@ -5,16 +5,11 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
 
-    sealed class StandardValueConverter : IValueConverter
+    sealed class StandardValueConverter(ICssValue defaultValue) : IValueConverter
     {
-        private readonly ICssValue _defaultValue;
+        private readonly ICssValue _defaultValue = defaultValue;
 
-        public StandardValueConverter(ICssValue defaultValue)
-        {
-            _defaultValue = defaultValue;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var ident = source.ParseIdent();
 

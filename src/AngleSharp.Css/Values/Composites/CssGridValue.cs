@@ -9,29 +9,21 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS grid definition.
     /// </summary>
-    sealed class CssGridValue : ICssCompositeValue, IEquatable<CssGridValue>
+    /// <remarks>
+    /// Creates a new CSS grid.
+    /// </remarks>
+    sealed class CssGridValue(ICssValue rows, ICssValue columns, IEnumerable<ICssValue> sizes, Boolean dense) : ICssCompositeValue, IEquatable<CssGridValue>
     {
         #region Fields
 
-        private readonly ICssValue _rows;
-        private readonly ICssValue _columns;
-        private readonly ICssValue[] _sizes;
-        private readonly Boolean _dense;
+        private readonly ICssValue _rows = rows;
+        private readonly ICssValue _columns = columns;
+        private readonly ICssValue[] _sizes = sizes.ToArray();
+        private readonly Boolean _dense = dense;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new CSS grid.
-        /// </summary>
-        public CssGridValue(ICssValue rows, ICssValue columns, IEnumerable<ICssValue> sizes, Boolean dense)
-        {
-            _rows = rows;
-            _columns = columns;
-            _sizes = sizes.ToArray();
-            _dense = dense;
-        }
 
         #endregion
 

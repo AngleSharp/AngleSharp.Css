@@ -13,12 +13,12 @@ namespace AngleSharp.Css.Dom
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : ICssStyleDeclaration
+    sealed class CssStyleDeclaration(IBrowsingContext context) : ICssStyleDeclaration
     {
         #region Fields
 
-        private readonly List<ICssProperty> _declarations;
-        private readonly IBrowsingContext _context;
+        private readonly List<ICssProperty> _declarations = [];
+        private readonly IBrowsingContext _context = context;
         private ICssRule _parent;
         private Boolean _updating;
 
@@ -29,14 +29,8 @@ namespace AngleSharp.Css.Dom
         public event Action<String> Changed;
 
         #endregion
-
+        
         #region ctor
-
-        public CssStyleDeclaration(IBrowsingContext context)
-        {
-            _declarations = new List<ICssProperty>();
-            _context = context;
-        }
 
         public CssStyleDeclaration(ICssRule parent)
             : this(parent.Owner?.Context)
@@ -326,7 +320,7 @@ namespace AngleSharp.Css.Dom
         #region Helpers
 
         private ICssProperty GetPropertyShorthand(String name) =>
-            TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
+            TryCreateShorthand(name, Enumerable.Empty<String>(), [], true);
 
         private ICssProperty CreateProperty(String propertyName)
         {

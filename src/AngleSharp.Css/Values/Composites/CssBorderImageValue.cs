@@ -7,36 +7,27 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS border image definition.
     /// </summary>
-    sealed class CssBorderImageValue : ICssCompositeValue, IEquatable<CssBorderImageValue>
+    /// <remarks>
+    /// Creates a new border image definition.
+    /// </remarks>
+    /// <param name="image">The image source to use.</param>
+    /// <param name="slice">The image slice portion.</param>
+    /// <param name="widths">The image width definitions.</param>
+    /// <param name="outsets">The image outset declarations.</param>
+    /// <param name="repeat">The image repeat settings.</param>
+    sealed class CssBorderImageValue(ICssValue image, ICssValue slice, ICssValue widths, ICssValue outsets, ICssValue repeat) : ICssCompositeValue, IEquatable<CssBorderImageValue>
     {
         #region Fields
 
-        private readonly ICssValue _image;
-        private readonly ICssValue _slice;
-        private readonly ICssValue _widths;
-        private readonly ICssValue _outsets;
-        private readonly ICssValue _repeat;
+        private readonly ICssValue _image = image;
+        private readonly ICssValue _slice = slice;
+        private readonly ICssValue _widths = widths;
+        private readonly ICssValue _outsets = outsets;
+        private readonly ICssValue _repeat = repeat;
 
         #endregion
-
+        
         #region ctor
-
-        /// <summary>
-        /// Creates a new border image definition.
-        /// </summary>
-        /// <param name="image">The image source to use.</param>
-        /// <param name="slice">The image slice portion.</param>
-        /// <param name="widths">The image width definitions.</param>
-        /// <param name="outsets">The image outset declarations.</param>
-        /// <param name="repeat">The image repeat settings.</param>
-        public CssBorderImageValue(ICssValue image, ICssValue slice, ICssValue widths, ICssValue outsets, ICssValue repeat)
-        {
-            _image = image;
-            _slice = slice;
-            _widths = widths;
-            _outsets = outsets;
-            _repeat = repeat;
-        }
 
         #endregion
 

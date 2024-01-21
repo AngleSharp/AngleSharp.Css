@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public static readonly TransformMatrix One = new(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
-        private readonly Double[,] _matrix;
+        private readonly Double[,] _matrix = new Double[4, 4];
 
         #endregion
 
@@ -28,7 +28,6 @@ namespace AngleSharp.Css.Values
 
         private TransformMatrix()
         {
-            _matrix = new Double[4, 4];
         }
 
         /// <summary>
@@ -180,23 +179,28 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other transformation matrix.</param>
         /// <returns>True if all elements are equal, otherwise false.</returns>
-        public Boolean Equals(TransformMatrix other)
+        public Boolean Equals(TransformMatrix? other)
         {
-            var A = _matrix;
-            var B = other._matrix;
-
-            for (var i = 0; i < 4; i++)
+            if (other is not null)
             {
-                for (var j = 0; j < 4; j++)
+                var A = _matrix;
+                var B = other._matrix;
+
+                for (var i = 0; i < 4; i++)
                 {
-                    if (A[i, j] != B[i, j])
+                    for (var j = 0; j < 4; j++)
                     {
-                        return false;
+                        if (A[i, j] != B[i, j])
+                        {
+                            return false;
+                        }
                     }
                 }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         #endregion
@@ -208,7 +212,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) => obj is TransformMatrix other && Equals(other);
+        public override Boolean Equals(Object? obj) => obj is TransformMatrix other && Equals(other);
 
         /// <summary>
         /// Returns a hash code that defines the current length.

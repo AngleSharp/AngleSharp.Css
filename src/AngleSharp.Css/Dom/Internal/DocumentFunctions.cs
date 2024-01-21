@@ -5,18 +5,13 @@ namespace AngleSharp.Css.Dom
     using System.Collections.Generic;
     using System.IO;
 
-    sealed class DocumentFunctions : IDocumentFunctions
+    sealed class DocumentFunctions(List<IDocumentFunction> functions) : IDocumentFunctions
     {
-        private readonly List<IDocumentFunction> _functions;
+        private readonly List<IDocumentFunction> _functions = functions;
 
         public DocumentFunctions()
-            : this(new List<IDocumentFunction>())
+            : this([])
         {
-        }
-
-        public DocumentFunctions(List<IDocumentFunction> functions)
-        {
-            _functions = functions;
         }
 
         public IDocumentFunction this[Int32 index] => _functions[index];

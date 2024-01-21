@@ -7,27 +7,20 @@ namespace AngleSharp.Css.Values
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    public sealed class CssGradientStopValue : ICssCompositeValue, IEquatable<CssGradientStopValue>
+    /// <remarks>
+    /// Creates a new gradient stop.
+    /// </remarks>
+    /// <param name="color">The color of the stop.</param>
+    /// <param name="location">The location of the stop, if any.</param>
+    public sealed class CssGradientStopValue(CssColorValue color, ICssValue location = null) : ICssCompositeValue, IEquatable<CssGradientStopValue>
     {
         #region Fields
 
-        private readonly CssColorValue _color;
-        private readonly ICssValue _location;
+        private readonly CssColorValue _color = color;
+        private readonly ICssValue _location = location;
 
         #endregion
-
         #region ctor
-
-        /// <summary>
-        /// Creates a new gradient stop.
-        /// </summary>
-        /// <param name="color">The color of the stop.</param>
-        /// <param name="location">The location of the stop, if any.</param>
-        public CssGradientStopValue(CssColorValue color, ICssValue location = null)
-        {
-            _color = color;
-            _location = location;
-        }
 
         #endregion
 

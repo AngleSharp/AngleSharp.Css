@@ -6,28 +6,23 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
 
-    sealed class PeriodicValueConverter : IValueConverter
+    sealed class PeriodicValueConverter(IValueConverter converter) : IValueConverter
     {
-        private readonly IValueConverter _converter;
+        private readonly IValueConverter _converter = converter;
 
-        public PeriodicValueConverter(IValueConverter converter)
-        {
-            _converter = converter;
-        }
-
-        public ICssValue Convert(StringSource source)
+        public ICssValue? Convert(StringSource source)
         {
             var options = new ICssValue[4];
             var length = 0;
 
             for (var i = 0; i < options.Length; i++)
             {
-                options[i] = _converter.Convert(source);
+                var option = _converter.Convert(source);
                 source.SkipSpacesAndComments();
 
-                if (options[length] != null)
+                if (option is not null)
                 {
-                    length++;
+                    options[length++] = option;
                 }
             }
 
