@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS origin definition.
@@ -73,14 +74,17 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssOriginValue other)
         {
-            return _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+            return other is not null
+                && EqualityComparer<ICssValue>.Default.Equals(_x, other._x)
+                && EqualityComparer<ICssValue>.Default.Equals(_y, other._y)
+                && EqualityComparer<ICssValue>.Default.Equals(_z, other._z);
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var x = _x.Compute(context);
-            var y = _y.Compute(context);
-            var z = _z.Compute(context);
+            var x = _x?.Compute(context);
+            var y = _y?.Compute(context);
+            var z = _z?.Compute(context);
 
             if (x != _x || y != _y || z != _z)
             {
