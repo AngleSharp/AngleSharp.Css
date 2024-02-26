@@ -74,10 +74,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssOriginValue other)
         {
-            return other is not null
-                && EqualityComparer<ICssValue>.Default.Equals(_x, other._x)
-                && EqualityComparer<ICssValue>.Default.Equals(_y, other._y)
-                && EqualityComparer<ICssValue>.Default.Equals(_z, other._z);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_x, other._x) && comparer.Equals(_y, other._y) && comparer.Equals(_z, other._z);
+            }
+
+            return false;
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
