@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS unset value.
@@ -48,7 +49,7 @@ namespace AngleSharp.Css.Values
             return this;
         }
 
-        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUnsetValue o && _value.Equals(o.Value);
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUnsetValue o && EqualityComparer<ICssValue>.Default.Equals(_value, o.Value);
 
         #endregion
     }

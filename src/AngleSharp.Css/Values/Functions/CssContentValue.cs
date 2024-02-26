@@ -59,7 +59,15 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssContentValue other) => _type.Equals(other._type);
+        public Boolean Equals(CssContentValue other)
+        {
+            if (other is not null)
+            {
+                return _type == other._type;
+            }
+
+            return false;
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssContentValue value && Equals(value);
 

@@ -44,7 +44,7 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
@@ -122,12 +122,18 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssShadowValue other)
         {
-            return _blurRadius.Equals(other._blurRadius) &&
-                _spreadRadius.Equals(other._spreadRadius) &&
-                _color.Equals(other._color) &&
-                _inset == other._inset &&
-                _offsetX.Equals(other._offsetX) &&
-                _offsetY.Equals(other._offsetY);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_blurRadius, other._blurRadius) &&
+                       comparer.Equals(_spreadRadius, other._spreadRadius) &&
+                       comparer.Equals(_color, other._color) &&
+                       _inset == other._inset &&
+                       comparer.Equals(_offsetX, other._offsetX) &&
+                       comparer.Equals(_offsetY, other._offsetY);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShadowValue value && Equals(value);

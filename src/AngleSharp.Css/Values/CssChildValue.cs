@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS value that was born from a shorthand.
@@ -58,7 +59,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssChildValue other)
         {
-            return _parent.Equals(other._parent) && _value.Equals(other._value);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_parent, other._parent) && comparer.Equals(_value, other._value);
+            }
+
+            return false;
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

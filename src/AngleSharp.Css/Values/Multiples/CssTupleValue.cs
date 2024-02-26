@@ -65,22 +65,26 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssTupleValue<T> other)
         {
-            var count = _items.Length;
-
-            if (_separator.Equals(other._separator) && count == other._items.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var count = _items.Length;
+
+                if (_separator == other._separator && count == other._items.Length)
                 {
-                    var a = _items[i];
-                    var b = other._items[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _items[i];
+                        var b = other._items[i];
 
-                return true;
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;

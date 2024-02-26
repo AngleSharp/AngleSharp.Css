@@ -99,24 +99,28 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssGridValue other)
         {
-            if (_rows.Equals(other._rows) && _columns.Equals(other._columns) && _dense == other._dense)
+            if (other is not null)
             {
-                var l = _sizes.Length;
-
-                if (l == other._sizes.Length)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                if (comparer.Equals(_rows, other._rows) && comparer.Equals(_columns, other._columns) && _dense == other._dense)
                 {
-                    for (var i = 0; i < l; i++)
+                    var l = _sizes.Length;
+
+                    if (l == other._sizes.Length)
                     {
-                        var a = _sizes[i];
-                        var b = other._sizes[i];
-
-                        if (!a.Equals(b))
+                        for (var i = 0; i < l; i++)
                         {
-                            return false;
-                        }
-                    }
+                            var a = _sizes[i];
+                            var b = other._sizes[i];
 
-                    return true;
+                            if (!comparer.Equals(a, b))
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
                 }
             }
 

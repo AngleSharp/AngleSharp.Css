@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS border image definition.
@@ -111,7 +112,7 @@ namespace AngleSharp.Css.Values
 
         #endregion
 
-        #region
+        #region Methods
 
         /// <summary>
         /// Checks if the current value is equal to the provided one.
@@ -120,11 +121,17 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssBorderImageValue other)
         {
-            return _image.Equals(other._image) &&
-                _slice.Equals(other._slice) &&
-                _widths.Equals(other._widths) &&
-                _outsets.Equals(other._outsets) &&
-                _repeat.Equals(other._repeat);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_image, other._image) &&
+                    comparer.Equals(_slice, other._slice) &&
+                    comparer.Equals(_widths, other._widths) &&
+                    comparer.Equals(_outsets, other._outsets) &&
+                    comparer.Equals(_repeat, other._repeat);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBorderImageValue value && Equals(value);
@@ -137,7 +144,7 @@ namespace AngleSharp.Css.Values
             var offsets = _outsets.Compute(context);
             var repeat = _repeat.Compute(context);
             return new CssBorderImageValue(image, slice, widths, offsets, repeat);
-    }
+        }
 
         #endregion
     }

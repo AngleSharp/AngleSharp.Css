@@ -111,22 +111,26 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssPeriodicValue<T> other)
         {
-            var count = _values.Length;
-
-            if (count == other._values.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < count; i++)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var count = _values.Length;
+
+                if (count == other._values.Length)
                 {
-                    var a = _values[i];
-                    var b = other._values[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < count; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _values[i];
+                        var b = other._values[i];
 
-                return true;
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;

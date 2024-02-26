@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssUrlValue other)
         {
-            return _path.Equals(other._path);
+            return other is not null && _path == other._path;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUrlValue value && Equals(value);

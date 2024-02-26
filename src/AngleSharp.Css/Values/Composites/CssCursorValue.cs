@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -74,22 +75,26 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssCursorValue other)
         {
-            var l = _definitions.Length;
-
-            if (_cursor.Equals(other._cursor) && l == other._definitions.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < l; i++)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var l = _definitions.Length;
+
+                if (comparer.Equals(_cursor, other._cursor) && l == other._definitions.Length)
                 {
-                    var a = _definitions[i];
-                    var b = other._definitions[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < l; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _definitions[i];
+                        var b = other._definitions[i];
 
-                return true;
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;

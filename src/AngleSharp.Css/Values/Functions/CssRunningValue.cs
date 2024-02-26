@@ -59,7 +59,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssRunningValue other) => _ident.Equals(other._ident);
+        public Boolean Equals(CssRunningValue other) => other is not null && _ident == other._ident;
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRunningValue value && Equals(value);
 

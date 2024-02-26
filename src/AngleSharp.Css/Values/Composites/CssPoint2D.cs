@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a point value consisting of two distances.
@@ -154,7 +155,8 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssPoint2D other)
         {
-            return _x.Equals(other._x) && _y.Equals(other._y);
+            var comparer = EqualityComparer<ICssValue>.Default;
+            return comparer.Equals(_x, other._x) && comparer.Equals(_y, other._y);
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

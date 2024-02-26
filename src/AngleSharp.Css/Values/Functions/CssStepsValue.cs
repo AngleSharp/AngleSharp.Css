@@ -105,7 +105,16 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssStepsValue other) => _start == other._start && _intervals.Equals(other._intervals);
+        public Boolean Equals(CssStepsValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return _start == other._start && comparer.Equals(_intervals, other._intervals);
+            }
+
+            return false;
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStepsValue value && Equals(value);
 

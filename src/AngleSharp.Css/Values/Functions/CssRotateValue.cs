@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the rotate3d transformation.
@@ -129,7 +130,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssRotateValue other)
         {
-            return _angle.Equals(other._angle) && _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_angle, other._angle) && comparer.Equals(_x, other._x) && comparer.Equals(_y, other._y) && comparer.Equals(_z, other._z);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRotateValue value && Equals(value);

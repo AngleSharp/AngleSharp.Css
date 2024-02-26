@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a border radius value.
@@ -74,7 +75,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssBorderRadiusValue other)
         {
-            return _horizontal.Equals(other._horizontal) && _vertical.Equals(other._vertical);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_horizontal, other._horizontal) && comparer.Equals(_vertical, other._vertical);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBorderRadiusValue value && Equals(value);

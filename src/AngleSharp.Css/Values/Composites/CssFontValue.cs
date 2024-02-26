@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS font definition.
@@ -145,13 +146,19 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssFontValue other)
         {
-            return _lineHeight.Equals(other._lineHeight) &&
-                _size.Equals(other._size) &&
-                _weight.Equals(other._weight) &&
-                _stretch.Equals(other._stretch) &&
-                _variant.Equals(other._variant) &&
-                _style.Equals(other._style) &&
-                _fontFamilies.Equals(other._fontFamilies);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_lineHeight, other._lineHeight) &&
+                    comparer.Equals(_size, other._size) &&
+                    comparer.Equals(_weight, other._weight) &&
+                    comparer.Equals(_stretch, other._stretch) &&
+                    comparer.Equals(_variant, other._variant) &&
+                    comparer.Equals(_style, other._style) &&
+                    comparer.Equals(_fontFamilies, other._fontFamilies);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFontValue value && Equals(value);

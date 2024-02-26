@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the skew transformation.
@@ -107,7 +108,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssSkewValue other)
         {
-            return _alpha.Equals(other._alpha) && _beta.Equals(other._beta);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_alpha, other._alpha) && comparer.Equals(_beta, other._beta);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssSkewValue value && Equals(value);
@@ -118,7 +125,7 @@ namespace AngleSharp.Css.Values
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
-            var a = Math.Tan((_alpha as CssAngleValue ? ?? CssAngleValue.Zero).ToRadian());
+            var a = Math.Tan((_alpha as CssAngleValue? ?? CssAngleValue.Zero).ToRadian());
             var b = Math.Tan((_beta as CssAngleValue? ?? CssAngleValue.Zero).ToRadian());
             return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         }

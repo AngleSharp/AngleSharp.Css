@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssLocalFontValue other) => _fontName.Equals(other._fontName);
+        public Boolean Equals(CssLocalFontValue other) => other is not null && _fontName == other._fontName;
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLocalFontValue value && Equals(value);
 

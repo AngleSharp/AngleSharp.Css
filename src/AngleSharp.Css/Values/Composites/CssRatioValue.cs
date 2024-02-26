@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a ratio (top to bottom) value.
@@ -58,7 +59,8 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssRatioValue other)
         {
-            return _top.Equals(other._top) && _bottom.Equals(other._bottom);
+            var comparer = EqualityComparer<ICssValue>.Default;
+            return comparer.Equals(_top, other._top) && comparer.Equals(_bottom, other._bottom);
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

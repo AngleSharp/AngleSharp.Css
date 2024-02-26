@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText =>Name.CssFunction(GetArgs());
+        public String CssText => Name.CssFunction(GetArgs());
 
         #endregion
 
@@ -66,22 +66,26 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssSymbolsValue other)
         {
-            var l = _entries.Count;
-
-            if (_type.Equals(other._type) && l == other._entries.Count)
+            if (other is not null)
             {
-                for (var i = 0; i < l; i++)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var l = _entries.Count;
+
+                if (comparer.Equals(_type, other._type) && l == other._entries.Count)
                 {
-                    var a = _entries[i];
-                    var b = other._entries[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < l; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _entries[i];
+                        var b = other._entries[i];
 
-                return true;
+                        if (a != b)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;

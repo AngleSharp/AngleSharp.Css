@@ -103,7 +103,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssVarValue other)
         {
-            return _defaultValue.Equals(other._defaultValue) && _variableName.Equals(other._variableName);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_defaultValue, other._defaultValue) && _variableName == other._variableName;
+            }
+
+            return false;
         }
 
         /// <summary>

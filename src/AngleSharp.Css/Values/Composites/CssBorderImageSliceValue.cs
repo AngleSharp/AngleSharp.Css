@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS border image slice definition.
@@ -124,7 +125,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssBorderImageSliceValue other)
         {
-            return _filled == other._filled && _bottom.Equals(other._bottom) && _left.Equals(other._left) && _right.Equals(other._right) && _top.Equals(other._top);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return _filled == other._filled && comparer.Equals(_bottom, other._bottom) && comparer.Equals(_left, other._left) && comparer.Equals(_right, other._right) && comparer.Equals(_top, other._top);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBorderImageSliceValue value && Equals(value);

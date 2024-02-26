@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a cubic-bezier timing-function object.
@@ -159,8 +160,16 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The cubic bezier to compare to.</param>
         /// <returns>True if both have the same parameters, otherwise false.</returns>
-        public Boolean Equals(CssCubicBezierValue other) =>
-            _x1.Equals(other._x1) && _x2.Equals(other._x2) && _y1.Equals(other._y1) && _y2.Equals(other._y2);
+        public Boolean Equals(CssCubicBezierValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_x1, other._x1) && comparer.Equals(_x2, other._x2) && comparer.Equals(_y1, other._y1) && comparer.Equals(_y2, other._y2);
+            }
+
+            return false;
+        }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
