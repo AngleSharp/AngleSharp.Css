@@ -377,6 +377,9 @@ namespace AngleSharp.Css.Dom
 
         private void ChangeDeclarations(IEnumerable<ICssProperty> decls, Predicate<ICssProperty> defaultSkip, Func<ICssProperty, ICssProperty, Boolean> removeExisting)
         {
+            if (decls == null)
+                return;
+
             var declarations = new List<ICssProperty>();
 
             foreach (var newdecl in decls)
