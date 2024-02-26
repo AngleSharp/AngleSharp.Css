@@ -164,24 +164,28 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssRadialGradientValue other)
         {
-            if (_center.Equals(other._center) && _width.Equals(other._width) && _height.Equals(other._height) && _repeating == other._repeating && _sizeMode == other._sizeMode && _circle == other._circle)
+            if (other is not null)
             {
-                var count = _stops.Length;
-
-                if (count == other._stops.Length)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                if (comparer.Equals(_center, other._center) && comparer.Equals(_width, other._width) && comparer.Equals(_height, other._height) && _repeating == other._repeating && _sizeMode == other._sizeMode && _circle == other._circle)
                 {
-                    for (var i = 0; i < count; i++)
+                    var count = _stops.Length;
+
+                    if (count == other._stops.Length)
                     {
-                        var a = _stops[i];
-                        var b = other._stops[i];
-
-                        if (!a.Equals(b))
+                        for (var i = 0; i < count; i++)
                         {
-                            return false;
-                        }
-                    }
+                            var a = _stops[i];
+                            var b = other._stops[i];
 
-                    return true;
+                            if (!comparer.Equals(a, b))
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
                 }
             }
 

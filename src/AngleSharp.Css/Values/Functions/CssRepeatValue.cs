@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS repeat function call.
@@ -70,7 +71,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssRepeatValue other)
         {
-            return _count.Equals(other._count) && _value.Equals(other._value);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_count, other._count) && comparer.Equals(_value, other._value);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRepeatValue value && Equals(value);

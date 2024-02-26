@@ -114,7 +114,15 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssGridTemplateValue other)
         {
-            return _areas.Equals(other._areas) && _columns.Equals(other._columns) && _rows.Equals(other._rows);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_areas, other._areas) &&
+                    comparer.Equals(_columns, other._columns) &&
+                    comparer.Equals(_rows, other._rows);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssGridTemplateValue value && Equals(value);

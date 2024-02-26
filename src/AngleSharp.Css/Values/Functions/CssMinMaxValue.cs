@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS minmax function call.
@@ -70,7 +71,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssMinMaxValue other)
         {
-            return _min.Equals(other._min) && _max.Equals(other._max);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_min, other._min) && comparer.Equals(_max, other._max);
+            }
+
+            return false;
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

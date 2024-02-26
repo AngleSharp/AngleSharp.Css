@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS fit-content function call.
@@ -59,7 +60,16 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The value to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CssFitContentValue other) => _dim.Equals(other._dim);
+        public Boolean Equals(CssFitContentValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_dim, other._dim);
+            }
+
+            return false;
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFitContentValue value && Equals(value);
 

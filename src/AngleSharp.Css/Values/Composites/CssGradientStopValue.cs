@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information can be found at the W3C:
@@ -69,7 +70,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssGradientStopValue other)
         {
-            return _color.Equals(other._color) && _location.Equals(other._location);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_color, other._color) && comparer.Equals(_location, other._location);
+            }
+
+            return false;
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

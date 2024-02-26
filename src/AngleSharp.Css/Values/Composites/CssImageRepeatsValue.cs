@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS image repeat definition.
@@ -81,7 +82,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssImageRepeatsValue other)
         {
-            return _horizontal.Equals(other._horizontal) && _vertical.Equals(other._vertical);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_horizontal, other._horizontal) && comparer.Equals(_vertical, other._vertical);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssImageRepeatsValue value && Equals(value);

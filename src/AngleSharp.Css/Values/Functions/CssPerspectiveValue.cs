@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the distance transformation.
@@ -57,7 +58,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssPerspectiveValue other)
         {
-            return _distance.Equals(other._distance);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_distance, other._distance);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPerspectiveValue value && Equals(value);

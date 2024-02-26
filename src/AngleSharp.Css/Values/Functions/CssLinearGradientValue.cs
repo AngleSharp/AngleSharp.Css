@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -123,22 +124,26 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssLinearGradientValue other)
         {
-            var l = _stops.Length;
-
-            if (_angle.Equals(other._angle) && _repeating == other._repeating && l == other._stops.Length)
+            if (other is not null)
             {
-                for (var i = 0; i < l; i++)
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var l = _stops.Length;
+
+                if (comparer.Equals(_angle, other._angle) && _repeating == other._repeating && l == other._stops.Length)
                 {
-                    var a = _stops[i];
-                    var b = other._stops[i];
-
-                    if (!a.Equals(b))
+                    for (var i = 0; i < l; i++)
                     {
-                        return false;
-                    }
-                }
+                        var a = _stops[i];
+                        var b = other._stops[i];
 
-                return true;
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             return false;

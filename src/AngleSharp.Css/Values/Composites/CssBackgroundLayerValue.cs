@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     sealed class CssBackgroundLayerValue : ICssCompositeValue, IEquatable<CssBackgroundLayerValue>
     {
@@ -139,11 +140,17 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssBackgroundLayerValue other)
         {
-            return _clip.Equals(other._clip) &&
-                _repeat.Equals(other._repeat) &&
-                _attachment.Equals(other._attachment) &&
-                _origin.Equals(other._origin) &&
-                _size.Equals(other._size);
+            if(other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_clip, other._clip) &&
+                       comparer.Equals(_repeat, other._repeat) &&
+                       comparer.Equals(_attachment, other._attachment) &&
+                       comparer.Equals(_origin, other._origin) &&
+                       comparer.Equals(_size, other._size);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundLayerValue value && Equals(value);

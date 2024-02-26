@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the scale3d transformation.
@@ -136,7 +137,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssScaleValue other)
         {
-            return _sx.Equals(other._sx) && _sy.Equals(other._sy) && _sz.Equals(other._sz);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_sx, other._sx) && comparer.Equals(_sy, other._sy) && comparer.Equals(_sz, other._sz);
+            }
+
+            return false;
         }
 
         /// <summary>

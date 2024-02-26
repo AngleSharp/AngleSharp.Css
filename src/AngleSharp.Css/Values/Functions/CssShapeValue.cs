@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS shape.
@@ -93,7 +94,13 @@ namespace AngleSharp.Css.Values
         /// <returns>True if both are equal, otherwise false.</returns>
         public Boolean Equals(CssShapeValue other)
         {
-            return _top.Equals(other._top) && _right.Equals(other._right) && _bottom.Equals(other._bottom) && _left.Equals(other._left);
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_top, other._top) && comparer.Equals(_right, other._right) && comparer.Equals(_bottom, other._bottom) && comparer.Equals(_left, other._left);
+            }
+
+            return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShapeValue value && Equals(value);

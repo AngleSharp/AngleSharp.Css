@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS background size definition.
@@ -94,7 +95,16 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other background size.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundSizeValue other) => _mode == other._mode && _height.Equals(other._height) && _width.Equals(other._width);
+        public Boolean Equals(CssBackgroundSizeValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return _mode == other._mode && comparer.Equals(_height, other._height) && comparer.Equals(_width, other._width);
+            }
+
+            return false;
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundSizeValue value && Equals(value);
 
