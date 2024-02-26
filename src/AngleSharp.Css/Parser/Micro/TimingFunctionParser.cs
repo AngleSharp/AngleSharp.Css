@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Parser
     /// </summary>
     public static class TimingFunctionParser
     {
-        private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new Dictionary<String, Func<StringSource, ICssTimingFunctionValue>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<StringSource, ICssTimingFunctionValue>> TimingFunctions = new(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Steps, ParseSteps },
             { FunctionNames.CubicBezier, ParseCubicBezier },

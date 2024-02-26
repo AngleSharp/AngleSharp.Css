@@ -121,7 +121,7 @@ namespace AngleSharp.Css.Declarations
                 var style = values[5];
                 var height = values[6];
 
-                if (families != null && size != null || families is Constant<SystemFont>)
+                if (families != null && size != null || families is CssConstantValue<SystemFont>)
                 {
                     return new CssFontValue(style, variant, weight, stretch, size, height, families);
                 }
@@ -134,7 +134,7 @@ namespace AngleSharp.Css.Declarations
                 if (!(value is CssFontValue font))
                 {
 
-                    if (!(value is Constant<SystemFont> systemFont))
+                    if (!(value is CssConstantValue<SystemFont> systemFont))
                     {
                         return null;
                     }

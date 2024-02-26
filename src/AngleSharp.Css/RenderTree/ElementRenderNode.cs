@@ -3,20 +3,27 @@ namespace AngleSharp.Css.RenderTree
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using System.Collections.Generic;
-    using System.Linq;
 
-    class ElementRenderNode : IRenderNode
+    sealed class ElementRenderNode : IRenderNode
     {
-        public INode Ref { get; set; }
+        public ElementRenderNode(IElement reference, IEnumerable<IRenderNode> children, ICssStyleDeclaration specifiedStyle, ICssStyleDeclaration computedStyle)
+        {
+            Ref = reference;
+            Children = children;
+            SpecifiedStyle = specifiedStyle;
+            ComputedStyle = computedStyle;
+        }
 
-        public IEnumerable<IRenderNode> Children { get; set; } = Enumerable.Empty<IRenderNode>();
+        public IElement Ref { get; }
 
-        public ICssStyleDeclaration SpecifiedStyle { get; set; }
+        INode IRenderNode.Ref => Ref;
 
-        public ICssStyleDeclaration ComputedStyle { get; set; }
+        public IEnumerable<IRenderNode> Children { get; }
 
-        public RenderValues UsedValue { get; set; }
+        public IRenderNode? Parent { get; set; }
 
-        public RenderValues ActualValue { get; set; }
+        public ICssStyleDeclaration SpecifiedStyle { get; }
+
+        public ICssStyleDeclaration ComputedStyle { get; }
     }
 }

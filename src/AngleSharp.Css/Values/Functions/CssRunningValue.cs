@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS running function call.
     /// </summary>
-    public sealed class CssRunningValue : ICssFunctionValue
+    public sealed class CssRunningValue : ICssFunctionValue, IEquatable<CssRunningValue>
     {
         #region Fields
 
@@ -43,12 +43,27 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the arguments.
         /// </summary>
-        public ICssValue[] Arguments => new ICssValue[] { new Identifier(_ident) };
+        public ICssValue[] Arguments => new ICssValue[] { new CssIdentifierValue(_ident) };
 
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => Name.CssFunction(_ident);
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssRunningValue other) => other is not null && _ident == other._ident;
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRunningValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

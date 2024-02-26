@@ -1,23 +1,35 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
-    sealed class CssCustomCursorValue : ICssCompositeValue
+    sealed class CssCustomCursorValue : ICssCompositeValue, IEquatable<CssCustomCursorValue>
     {
+        #region Fields
+
         private readonly ICssImageValue _source;
-        private readonly Point? _position;
+        private readonly ICssValue _position;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new custom cursor value.
         /// </summary>
         /// <param name="source">The image source to display.</param>
         /// <param name="position">The position offset, if any.</param>
-        public CssCustomCursorValue(ICssImageValue source, Point? position)
+        public CssCustomCursorValue(ICssImageValue source, ICssValue position)
         {
             _source = source;
             _position = position;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the image to display as cursor.
@@ -27,7 +39,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the positional offset, if any.
         /// </summary>
-        public Point? Position => _position;
+        public ICssValue Position => _position;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -40,14 +52,46 @@ namespace AngleSharp.Css.Values
 
                 sb.Append(_source.CssText);
 
-                if (_position.HasValue)
+                if (_position is not null)
                 {
                     sb.Append(Symbols.Space);
-                    sb.Append(_position.Value.CssText);
+                    sb.Append(_position.CssText);
                 }
 
                 return sb.ToPool();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssCustomCursorValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_position, other._position) &&
+                    comparer.Equals(_source, other._source);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCustomCursorValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var source = (ICssImageValue)_source.Compute(context);
+            var position = _position?.Compute(context);
+            return new CssCustomCursorValue(source, position);
+        }
+
+        #endregion
     }
 }

@@ -21,39 +21,36 @@ namespace AngleSharp.Css.Declarations
         {
             public ICssValue Convert(StringSource source)
             {
-                var cursor = default(ICssValue);
                 var definitions = new List<ICssValue>();
 
                 while (!source.IsDone)
                 {
                     var imageSource = source.ParseImageSource();
-                    var c = source.SkipSpacesAndComments();
+                    source.SkipSpacesAndComments();
 
                     if (imageSource != null)
                     {
                         var x = source.ParseNumber();
-                        c = source.SkipSpacesAndComments();
+                        source.SkipSpacesAndComments();
                         var y = source.ParseNumber();
-                        c = source.SkipSpacesAndComments();
+                        var c = source.SkipSpacesAndComments();
 
                         if (x.HasValue != y.HasValue || c != Symbols.Comma)
                             break;
 
                         source.SkipCurrentAndSpaces();
-                        var position = default(Point?);
+                        var position = default(CssPoint2D?);
 
                         if (x.HasValue)
                         {
-                            var xp = new Length(x.Value, Length.Unit.None);
-                            var yp = new Length(y.Value, Length.Unit.None);
-                            position = new Point(xp, yp);
+                            position = new CssPoint2D(x, y);
                         }
 
                         definitions.Add(new CssCustomCursorValue(imageSource, position));
                     }
                     else
                     {
-                        cursor = source.ParseConstant(Map.SystemCursors);
+                        var cursor = source.ParseConstant(Map.SystemCursors);
 
                         if (cursor != null)
                         {

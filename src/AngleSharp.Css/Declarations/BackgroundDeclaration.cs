@@ -102,7 +102,7 @@ namespace AngleSharp.Css.Declarations
                     }
 
                     var image = default(ICssImageValue);
-                    var position = default(Point?);
+                    var position = default(CssPoint2D?);
                     var size = default(CssBackgroundSizeValue);
                     var repeat = default(CssImageRepeatsValue);
                     var attachment = default(ICssValue);

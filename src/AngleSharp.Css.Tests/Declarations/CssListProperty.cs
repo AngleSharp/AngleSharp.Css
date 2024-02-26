@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -125,14 +125,15 @@
         }
 
         [Test]
-        public void CssListStyleTypeNumberIllegal()
+        public void CssListStyleTypeSomeValueLegal()
         {
             var snippet = "list-style-type: number ";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("number", property.Value);
         }
 
         [Test]
@@ -276,6 +277,95 @@
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("chapter 1 section 2 page 1", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleStringValue_Issue152()
+        {
+            var snippet = "list-style-type: \"-\"";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("\"-\"", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleKannada_Issue152()
+        {
+            var snippet = "list-style-type: kannada";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("kannada", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleTradChineseInformal_Issue152()
+        {
+            var snippet = "list-style-type: trad-chinese-informal;";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("trad-chinese-informal", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleGeorgian_Issue152()
+        {
+            var snippet = "list-style-type: georgian";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("georgian", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleDecimal_Issue152()
+        {
+            var snippet = "list-style-type: decimal";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("decimal", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleSquare_Issue152()
+        {
+            var snippet = "list-style-type: square";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("square", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleCircle_Issue152()
+        {
+            var snippet = "list-style-type: circle";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("circle", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleSymbolsFunction_Issue152()
+        {
+            var snippet = "list-style-type: symbols(cyclic \"*\" \"†\" \"‡\")";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("symbols(cyclic \"*\" \"†\" \"‡\")", property.Value);
+        }
+
+        [Test]
+        public void CssListStyleSymbolsFailingForWrongType_Issue152()
+        {
+            var snippet = "list-style-type: symbols(foo \"*\" \"†\" \"‡\")";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("list-style-type", property.Name);
+            Assert.IsFalse(property.HasValue);
         }
     }
 }

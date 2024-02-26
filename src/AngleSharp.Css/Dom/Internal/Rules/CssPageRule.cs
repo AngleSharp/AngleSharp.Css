@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Dom
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = formatter.BlockRules(_style);
+            var rules = _style.ToCssBlock(formatter);
             writer.Write(formatter.Rule(RuleNames.Page, SelectorText, rules));
         }
 

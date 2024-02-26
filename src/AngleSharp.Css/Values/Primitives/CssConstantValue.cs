@@ -1,11 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents a selected CSS enum value.
     /// </summary>
-    public struct Constant<T> : ICssPrimitiveValue, IEquatable<Constant<T>>
+    public readonly struct CssConstantValue<T> : ICssPrimitiveValue, IEquatable<CssConstantValue<T>>
     {
         #region Fields
 
@@ -21,7 +22,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="key">The key representation.</param>
         /// <param name="data">The associated data.</param>
-        public Constant(String key, T data)
+        public CssConstantValue(String key, T data)
         {
             _key = key;
             _data = data;
@@ -50,7 +51,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other constant to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Constant<T> other) => Object.Equals(other.Value, Value);
+        public Boolean Equals(CssConstantValue<T> other) => Object.Equals(other.Value, Value);
 
         /// <summary>
         /// Checks for equality against the given object.
@@ -59,13 +60,20 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Constant<T> constant ? Equals(constant) : false;
+            obj is CssConstantValue<T> constant && Equals(constant);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssConstantValue<T> value && Equals(value);
 
         /// <summary>
         /// Gets the computed hash code of the constant.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
         public override Int32 GetHashCode() => _data.GetHashCode();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         #endregion
     }

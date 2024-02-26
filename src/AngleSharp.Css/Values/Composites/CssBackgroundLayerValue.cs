@@ -3,9 +3,12 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
-    sealed class CssBackgroundLayerValue : ICssCompositeValue
+    sealed class CssBackgroundLayerValue : ICssCompositeValue, IEquatable<CssBackgroundLayerValue>
     {
+        #region Fields
+
         private readonly ICssValue _image;
         private readonly ICssValue _position;
         private readonly ICssValue _size;
@@ -13,6 +16,10 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _attachment;
         private readonly ICssValue _origin;
         private readonly ICssValue _clip;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new background image layer.
@@ -27,6 +34,10 @@ namespace AngleSharp.Css.Values
             _origin = origin;
             _clip = clip;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the background image.
@@ -117,5 +128,45 @@ namespace AngleSharp.Css.Values
                 return sb.ToPool();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssBackgroundLayerValue other)
+        {
+            if(other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_clip, other._clip) &&
+                       comparer.Equals(_repeat, other._repeat) &&
+                       comparer.Equals(_attachment, other._attachment) &&
+                       comparer.Equals(_origin, other._origin) &&
+                       comparer.Equals(_size, other._size);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundLayerValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var image = _image.Compute(context);
+            var position = _position.Compute(context);
+            var size = _size.Compute(context);
+            var repeat = _repeat.Compute(context);
+            var attachment = _attachment.Compute(context);
+            var origin = _origin.Compute(context);
+            var clip = _clip.Compute(context);
+            return new CssBackgroundLayerValue(image, position, size, repeat, attachment, origin, clip);
+        }
+
+        #endregion
     }
 }

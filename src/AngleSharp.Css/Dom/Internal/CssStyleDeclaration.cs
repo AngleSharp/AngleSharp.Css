@@ -134,7 +134,7 @@ namespace AngleSharp.Css.Dom
                         TryCreateShorthand(name, serialized, usedProperties, force) :
                         longhands.Where(m => m.Name == name).FirstOrDefault();
 
-                    if (property != null)
+                    if (property?.Value is not null)
                     {
                         usedProperties.Add(name);
                         count = count + 1;
@@ -175,7 +175,7 @@ namespace AngleSharp.Css.Dom
                             var usedProperties = new List<String>();
                             var shorthand = TryCreateShorthand(shorthandName, serialized, usedProperties, false);
 
-                            if (shorthand != null)
+                            if (shorthand is not null)
                             {
                                 list.Add(shorthand);
 
@@ -278,17 +278,17 @@ namespace AngleSharp.Css.Dom
             
             if (!String.IsNullOrEmpty(propertyValue))
             {
-                if (priority == null || priority.Isi(CssKeywords.Important))
+                if (priority is null || priority.Isi(CssKeywords.Important))
                 {
                     var property = CreateProperty(propertyName);
 
-                    if (property != null)
+                    if (property is not null)
                     {
                         property.Value = propertyValue;
 
-                        if (property.RawValue != null)
+                        if (property.RawValue is not null)
                         {
-                            property.IsImportant = priority != null;
+                            property.IsImportant = priority is not null;
                             SetProperty(property);
                             RaiseChanged();
                         }
@@ -299,6 +299,16 @@ namespace AngleSharp.Css.Dom
             {
                 RemoveProperty(propertyName);
             }
+        }
+
+        public void AddProperty(ICssProperty declaration)
+        {
+            _declarations.Add(declaration);
+        }
+
+        public void RemoveProperty(ICssProperty declaration)
+        {
+            _declarations.Remove(declaration);
         }
 
         #endregion
@@ -318,8 +328,18 @@ namespace AngleSharp.Css.Dom
         private ICssProperty GetPropertyShorthand(String name) =>
             TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
 
-        private ICssProperty CreateProperty(String propertyName) =>
-            GetProperty(propertyName) ?? _context.CreateProperty(propertyName);
+        private ICssProperty CreateProperty(String propertyName)
+        {
+            var newProperty = _context.CreateProperty(propertyName);
+            var existing = GetProperty(propertyName);
+
+            if (existing is not null)
+            {
+                newProperty.RawValue = existing.RawValue;
+            }
+
+            return newProperty;
+        }
 
         private void SetProperty(ICssProperty property)
         {
@@ -357,6 +377,11 @@ namespace AngleSharp.Css.Dom
 
         private void ChangeDeclarations(IEnumerable<ICssProperty> decls, Predicate<ICssProperty> defaultSkip, Func<ICssProperty, ICssProperty, Boolean> removeExisting)
         {
+            if (decls is null)
+            {
+                return;
+            }
+
             var declarations = new List<ICssProperty>();
 
             foreach (var newdecl in decls)
@@ -411,7 +436,7 @@ namespace AngleSharp.Css.Dom
         {
             var properties = _context.CreateLonghands(shorthand);
 
-            if (properties != null)
+            if (properties is not null)
             {
                 foreach (var property in properties)
                 {

@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Css.Values;
     using System;
 
     /// <summary>
@@ -57,5 +58,12 @@ namespace AngleSharp.Css.Dom
         /// Gets if the property is a shorthand.
         /// </summary>
         Boolean IsShorthand { get; }
+
+        /// <summary>
+        /// Creates a computed version of the property.
+        /// </summary>
+        /// <param name="context">The context to compute for.</param>
+        /// <returns>The computed version of the property if uncomputed, otherwise the same.</returns>
+        ICssProperty Compute(ICssComputeContext context);
     }
 }

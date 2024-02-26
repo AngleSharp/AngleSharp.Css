@@ -3,11 +3,12 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS fit-content function call.
     /// </summary>
-    sealed class CssFitContentValue : ICssFunctionValue
+    sealed class CssFitContentValue : ICssFunctionValue, IEquatable<CssFitContentValue>
     {
         #region Fields
 
@@ -49,6 +50,34 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => Name.CssFunction(_dim.CssText);
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssFitContentValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_dim, other._dim);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFitContentValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var dim = _dim.Compute(context);
+            return new CssFitContentValue(dim);
+        }
 
         #endregion
     }

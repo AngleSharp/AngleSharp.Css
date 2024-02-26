@@ -803,6 +803,36 @@ namespace AngleSharp.Css
         public static readonly String ListStyle = "list-style";
 
         /// <summary>
+        /// The margin-block declaration.
+        /// </summary>
+        public static readonly String MarginBlock = "margin-block";
+
+        /// <summary>
+        /// The margin-block-end declaration.
+        /// </summary>
+        public static readonly String MarginBlockEnd = "margin-block-end";
+
+        /// <summary>
+        /// The margin-block-start declaration.
+        /// </summary>
+        public static readonly String MarginBlockStart = "margin-block-start";
+
+        /// <summary>
+        /// The margin-inline declaration.
+        /// </summary>
+        public static readonly String MarginInline = "margin-inline";
+
+        /// <summary>
+        /// The margin-inline-end declaration.
+        /// </summary>
+        public static readonly String MarginInlineEnd = "margin-inline-end";
+
+        /// <summary>
+        /// The margin-inline-start declaration.
+        /// </summary>
+        public static readonly String MarginInlineStart = "margin-inline-start";
+
+        /// <summary>
         /// The margin-right declaration.
         /// </summary>
         public static readonly String MarginRight = "margin-right";
@@ -927,10 +957,40 @@ namespace AngleSharp.Css
 		/// </summary>
 		public static readonly String OverflowWrap = "overflow-wrap";
 
-		/// <summary>
-		/// The padding-top declaration.
-		/// </summary>
-		public static readonly String PaddingTop = "padding-top";
+        /// <summary>
+        /// The padding-block declaration.
+        /// </summary>
+        public static readonly String PaddingBlock = "padding-block";
+
+        /// <summary>
+        /// The padding-block-end declaration.
+        /// </summary>
+        public static readonly String PaddingBlockEnd = "padding-block-end";
+
+        /// <summary>
+        /// The padding-block-start declaration.
+        /// </summary>
+        public static readonly String PaddingBlockStart = "padding-block-start";
+
+        /// <summary>
+        /// The padding-inline declaration.
+        /// </summary>
+        public static readonly String PaddingInline = "padding-inline";
+
+        /// <summary>
+        /// The padding-inline-end declaration.
+        /// </summary>
+        public static readonly String PaddingInlineEnd = "padding-inline-end";
+
+        /// <summary>
+        /// The padding-inline-start declaration.
+        /// </summary>
+        public static readonly String PaddingInlineStart = "padding-inline-start";
+
+        /// <summary>
+        /// The padding-top declaration.
+        /// </summary>
+        public static readonly String PaddingTop = "padding-top";
 
         /// <summary>
         /// The padding-right declaration.

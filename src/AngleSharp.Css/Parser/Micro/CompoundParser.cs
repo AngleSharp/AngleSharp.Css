@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                quotes.Add(new Quote(open, close));
+                quotes.Add(new CssQuoteValue(open, close));
             }
 
             return new CssTupleValue(quotes.ToArray());
@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssBorderImageSliceValue ParseBorderImageSlice(this StringSource source)
         {
-            var lengths = new Length[4];
+            var lengths = new ICssValue[4];
             var filled = false;
             var completed = 0;
             var pos = 0;
@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Parser
             {
                 while (completed < 4)
                 {
-                    lengths[completed++] = Length.Auto;
+                    lengths[completed++] = CssLengthValue.Auto;
                 }
 
                 return new CssBorderImageSliceValue(lengths[0], lengths[1], lengths[2], lengths[3], filled);
@@ -89,14 +89,14 @@ namespace AngleSharp.Css.Parser
         {
             if (source.IsIdentifier(CssKeywords.RepeatX))
             {
-                var h = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
-                var v = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
+                var h = new CssConstantValue<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
+                var v = new CssConstantValue<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
                 return new CssImageRepeatsValue(h, v);
             }
             else if (source.IsIdentifier(CssKeywords.RepeatY))
             {
-                var h = new Constant<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
-                var v = new Constant<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
+                var h = new CssConstantValue<BackgroundRepeat>(CssKeywords.NoRepeat, BackgroundRepeat.NoRepeat);
+                var v = new CssConstantValue<BackgroundRepeat>(CssKeywords.Repeat, BackgroundRepeat.Repeat);
                 return new CssImageRepeatsValue(h, v);
             }
             else

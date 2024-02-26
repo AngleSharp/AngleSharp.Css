@@ -49,6 +49,21 @@ namespace AngleSharp.Css.Parser
         }
 
         /// <summary>
+        /// Parses a CSS identifier value.
+        /// </summary>
+        public static ICssValue ParseIdentAsValue(this StringSource source)
+        {
+            var value = source.ParseIdent();
+
+            if (value is not null)
+            {
+                return new CssIdentifierValue(value);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Parses a CSS constant value from a given dictionary.
         /// </summary>
         public static ICssValue ParseConstant<T>(this StringSource source, IDictionary<String, T> values)
@@ -59,7 +74,7 @@ namespace AngleSharp.Css.Parser
 
             if (ident != null && values.TryGetValue(ident, out T mode))
             {
-                return mode as ICssValue ?? new Constant<T>(ident.ToLowerInvariant(), mode);
+                return mode as ICssValue ?? new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
             }
 
             source.BackTo(pos);
@@ -69,13 +84,13 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a CSS static value from a given dictionary.
         /// </summary>
-        public static Constant<T>? ParseStatic<T>(this StringSource source, IDictionary<String, T> values)
+        public static CssConstantValue<T>? ParseStatic<T>(this StringSource source, IDictionary<String, T> values)
         {
             var ident = source.ParseIdent();
 
             if (ident != null && values.TryGetValue(ident, out T mode))
             {
-                return new Constant<T>(ident.ToLowerInvariant(), mode);
+                return new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
             }
 
             return null;
@@ -155,13 +170,13 @@ namespace AngleSharp.Css.Parser
 
                 if (literal != null)
                 {
-                    return new Identifier(literal);
+                    return new CssIdentifierValue(literal);
                 }
 
                 return null;
             }
 
-            return new Label(str);
+            return new CssStringValue(str);
         }
 
         /// <summary>
@@ -291,7 +306,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static readonly HashSet<String> Animatables = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<String> Animatables = new(StringComparer.OrdinalIgnoreCase)
         {
             "backdrop-filter",
             "background",

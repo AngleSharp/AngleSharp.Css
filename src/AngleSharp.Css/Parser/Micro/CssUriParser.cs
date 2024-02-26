@@ -19,23 +19,14 @@ namespace AngleSharp.Css.Parser
             {
                 var current = source.SkipSpacesAndComments();
 
-                switch (current)
+                return current switch
                 {
-                    case Symbols.DoubleQuote:
-                        return DoubleQuoted(source);
-
-                    case Symbols.SingleQuote:
-                        return SingleQuoted(source);
-
-                    case Symbols.RoundBracketClose:
-                        return new CssUrlValue(String.Empty);
-
-                    case Symbols.EndOfFile:
-                        return new CssUrlValue(String.Empty);
-
-                    default:
-                        return Unquoted(source);
-                }
+                    Symbols.DoubleQuote => DoubleQuoted(source),
+                    Symbols.SingleQuote => SingleQuoted(source),
+                    Symbols.RoundBracketClose => new CssUrlValue(String.Empty),
+                    Symbols.EndOfFile => new CssUrlValue(String.Empty),
+                    _ => Unquoted(source),
+                };
             }
 
             return null;

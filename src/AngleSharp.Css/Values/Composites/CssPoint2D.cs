@@ -2,58 +2,59 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public struct Point : IEquatable<Point>, ICssPrimitiveValue
+    public readonly struct CssPoint2D : ICssCompositeValue, IEquatable<CssPoint2D>
     {
         #region Basic values
 
         /// <summary>
         /// Gets the (50%, 50%) point.
         /// </summary>
-        public static readonly Point Center = new Point(Length.Half, Length.Half);
+        public static readonly CssPoint2D Center = new(CssLengthValue.Half, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (0, 0) point.
         /// </summary>
-        public static readonly Point LeftTop = new Point(Length.Zero, Length.Zero);
+        public static readonly CssPoint2D LeftTop = new(CssLengthValue.Zero, CssLengthValue.Zero);
 
         /// <summary>
         /// Gets the (100%, 0) point.
         /// </summary>
-        public static readonly Point RightTop = new Point(Length.Full, Length.Zero);
+        public static readonly CssPoint2D RightTop = new(CssLengthValue.Full, CssLengthValue.Zero);
 
         /// <summary>
         /// Gets the (100%, 100%) point.
         /// </summary>
-        public static readonly Point RightBottom = new Point(Length.Full, Length.Full);
+        public static readonly CssPoint2D RightBottom = new(CssLengthValue.Full, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (0, 100%) point.
         /// </summary>
-        public static readonly Point LeftBottom = new Point(Length.Zero, Length.Full);
+        public static readonly CssPoint2D LeftBottom = new(CssLengthValue.Zero, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (0, 50%) point.
         /// </summary>
-        public static readonly Point Left = new Point(Length.Zero, Length.Half);
+        public static readonly CssPoint2D Left = new(CssLengthValue.Zero, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (100%, 50%) point.
         /// </summary>
-        public static readonly Point Right = new Point(Length.Full, Length.Half);
+        public static readonly CssPoint2D Right = new(CssLengthValue.Full, CssLengthValue.Half);
 
         /// <summary>
         /// Gets the (50%, 100%) point.
         /// </summary>
-        public static readonly Point Bottom = new Point(Length.Half, Length.Full);
+        public static readonly CssPoint2D Bottom = new(CssLengthValue.Half, CssLengthValue.Full);
 
         /// <summary>
         /// Gets the (50%, 0) point.
         /// </summary>
-        public static readonly Point Top = new Point(Length.Half, Length.Zero);
+        public static readonly CssPoint2D Top = new(CssLengthValue.Half, CssLengthValue.Zero);
 
         #endregion
 
@@ -71,7 +72,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
-        public Point(ICssValue x, ICssValue y)
+        public CssPoint2D(ICssValue x, ICssValue y)
         {
             _x = x;
             _y = y;
@@ -124,7 +125,7 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.LeftBottom;
                 }
-                else if (_y.Equals(Length.Half))
+                else if (_y.Equals(CssLengthValue.Half))
                 {
                     return _x.CssText;
                 }
@@ -145,57 +146,33 @@ namespace AngleSharp.Css.Values
 
         #endregion
 
-        #region Equality
+        #region Methods
 
         /// <summary>
-        /// Checks the equality of the two given points.
+        /// Checks if the current value is equal to the provided one.
         /// </summary>
-        /// <param name="a">The left point.</param>
-        /// <param name="b">The right point.</param>
-        /// <returns>True if both points are equal, otherwise false.</returns>
-        public static Boolean operator ==(Point a, Point b) => a.Equals(b);
-
-        /// <summary>
-        /// Checks the inequality of the two given points.
-        /// </summary>
-        /// <param name="a">The left point.</param>
-        /// <param name="b">The right point.</param>
-        /// <returns>True if both points are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Point a, Point b) => !a.Equals(b);
-
-        /// <summary>
-        /// Checks if both points are actually equal.
-        /// </summary>
-        /// <param name="other">The other point to compare to.</param>
-        /// <returns>True if both points are equal, otherwise false.</returns>
-        public Boolean Equals(Point other) => _x.Equals(other._x) && _y.Equals(other._y);
-
-        /// <summary>
-        /// Tests if another object is equal to this object.
-        /// </summary>
-        /// <param name="obj">The object to test with.</param>
-        /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssPoint2D other)
         {
-            var other = obj as Point?;
+            var comparer = EqualityComparer<ICssValue>.Default;
+            return comparer.Equals(_x, other._x) && comparer.Equals(_y, other._y);
+        }
 
-            if (other != null)
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var x = _x.Compute(context);
+            var y = _x.Compute(context);
+
+            if (x != _x || y != _y)
             {
-                return Equals(other.Value);
+                return new CssPoint2D(x, y);
             }
 
-            return false;
+            return this;
         }
 
-        /// <summary>
-        /// Returns a hash code that defines the current point.
-        /// </summary>
-        /// <returns>The integer value of the hashcode.</returns>
-        public override Int32 GetHashCode()
-        {
-            var hash = 17 * 37 + _x.GetHashCode();
-            return hash * 37 + _y.GetHashCode();
-        }
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssPoint2D value && Equals(value);
 
         #endregion
     }

@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Converters
 
             if (result != null)
             {
-                return new Identifier(result);
+                return new CssIdentifierValue(result);
             }
 
             return null;
@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Converters
         {
             if (source.IsIdentifier(_identifier))
             {
-                return new Constant<T>(_identifier, _result);
+                return new CssConstantValue<T>(_identifier, _result);
             }
 
             return null;

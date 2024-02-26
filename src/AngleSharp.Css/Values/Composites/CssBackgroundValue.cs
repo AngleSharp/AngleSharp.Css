@@ -2,14 +2,21 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS background definition.
     /// </summary>
-    sealed class CssBackgroundValue : ICssCompositeValue
+    sealed class CssBackgroundValue : ICssCompositeValue, IEquatable<CssBackgroundValue>
     {
+        #region Fields
+
         private readonly ICssValue _layers;
         private readonly ICssValue _color;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new CSS background definition.
@@ -21,6 +28,10 @@ namespace AngleSharp.Css.Values
             _layers = layers;
             _color = color;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the used color.
@@ -56,5 +67,36 @@ namespace AngleSharp.Css.Values
                 return _color?.CssText ?? String.Empty;
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssBackgroundValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_color, other._color) && comparer.Equals(_layers, other._layers);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var layers = _layers.Compute(context);
+            var color = _color.Compute(context);
+            return new CssBackgroundValue(layers, color);
+        }
+
+        #endregion
     }
 }

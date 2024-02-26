@@ -4,12 +4,13 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class CssShapeValue : ICssValue, ICssFunctionValue
+    public sealed class CssShapeValue : ICssValue, ICssFunctionValue, IEquatable<CssShapeValue>
     {
         #region Fields
 
@@ -81,6 +82,37 @@ namespace AngleSharp.Css.Values
         /// Gets the left side.
         /// </summary>
         public ICssValue Left => _left;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssShapeValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_top, other._top) && comparer.Equals(_right, other._right) && comparer.Equals(_bottom, other._bottom) && comparer.Equals(_left, other._left);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssShapeValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var top = _top.Compute(context);
+            var right = _right.Compute(context);
+            var bottom = _bottom.Compute(context);
+            var left = _left.Compute(context);
+            return new CssShapeValue(top, right, bottom, left);
+        }
 
         #endregion
     }

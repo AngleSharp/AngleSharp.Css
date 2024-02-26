@@ -6,16 +6,17 @@
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
     <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/AngleSharp/AngleSharp.Css" />
     <projectUrl>https://anglesharp.github.io</projectUrl>
     <icon>logo.png</icon>
     <readme>README.md</readme>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extends the CSSOM from the core AngleSharp library.</description>
     <releaseNotes>https://github.com/AngleSharp/AngleSharp.Css/blob/main/CHANGELOG.md</releaseNotes>
-    <copyright>Copyright 2016-2023, AngleSharp</copyright>
+    <copyright>Copyright 2016-2024, AngleSharp</copyright>
     <tags>html html5 css css3 dom styling library anglesharp angle</tags>
     <dependencies>
-      <dependency id="AngleSharp" version="[0.17.0,0.18.0)" />
+      <dependency id="AngleSharp" version="[1.0.0,2.0.0)" />
     </dependencies>
   </metadata>
 </package>

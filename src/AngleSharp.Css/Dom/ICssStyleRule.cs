@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>
@@ -26,5 +27,17 @@
         /// Gets the selector for matching elements.
         /// </summary>
         ISelector Selector { get; }
+
+        /// <summary>
+        /// Gets the selector for matching elements.
+        /// </summary>
+        Boolean TryMatch(IElement element, IElement? scope, out Priority specificity);
+
+        /// <summary>
+        /// Gets a CSSRuleList of the CSS rules in the style sheet.
+        /// </summary>
+        [DomName("cssRules")]
+        [DomName("rules")]
+        ICssRuleList Rules { get; }
     }
 }

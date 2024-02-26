@@ -58,6 +58,11 @@ namespace AngleSharp.Css
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The symbols function.
+        /// </summary>
+        public static readonly String Symbols = "symbols";
+
+        /// <summary>
         /// The fit-content function.
         /// </summary>
         public static readonly String FitContent = "fit-content";
@@ -261,6 +266,26 @@ namespace AngleSharp.Css
         /// The hwba function.
         /// </summary>
         public static readonly String Hwba = "hwba";
+
+        /// <summary>
+        /// The LAB (Lightness, A-axis, B-axis) function.
+        /// </summary>
+        public static readonly String Lab = "lab";
+
+        /// <summary>
+        /// The LCH (Lightness, Chroma, Hue) function.
+        /// </summary>
+        public static readonly String Lch = "lch";
+
+        /// <summary>
+        /// The Oklab (Lightness, A-axis, B-axis) function.
+        /// </summary>
+        public static readonly String Oklab = "oklab";
+
+        /// <summary>
+        /// The Oklch (Lightness, Chroma, Hue) function.
+        /// </summary>
+        public static readonly String Oklch = "oklch";
 
         /// <summary>
         /// The content function.

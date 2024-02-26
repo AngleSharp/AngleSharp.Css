@@ -1,21 +1,13 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
-    /// Represents a time value.
+    /// Represents a frequency value.
     /// </summary>
-    public struct Time : IEquatable<Time>, IComparable<Time>, ICssPrimitiveValue
+    public readonly struct CssFrequencyValue : IEquatable<CssFrequencyValue>, IComparable<CssFrequencyValue>, ICssMetricValue
     {
-        #region Basic times
-
-        /// <summary>
-        /// Gets the zero time.
-        /// </summary>
-        public static readonly Time Zero = new Time(0.0, Unit.Ms);
-
-        #endregion
-
         #region Fields
 
         private readonly Double _value;
@@ -26,11 +18,20 @@ namespace AngleSharp.Css.Values
         #region ctor
 
         /// <summary>
-        /// Creates a new time value.
+        /// Creates a new frequency value.
         /// </summary>
-        /// <param name="value">The value of the time.</param>
-        /// <param name="unit">The unit of the time.</param>
-        public Time(Double value, Unit unit)
+        /// <param name="value">The value of the frequency in Hz.</param>
+        public CssFrequencyValue(Double value)
+            : this(value, Unit.Hz)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new frequency value.
+        /// </summary>
+        /// <param name="value">The value of the frequency.</param>
+        /// <param name="unit">The unit of the frequency.</param>
+        public CssFrequencyValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -46,7 +47,7 @@ namespace AngleSharp.Css.Values
         public String CssText => String.Concat(_value.CssStringify(), UnitString);
 
         /// <summary>
-        /// Gets the value of time.
+        /// Gets the value of frequency.
         /// </summary>
         public Double Value => _value;
 
@@ -62,17 +63,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Ms:
-                        return UnitNames.Ms;
-
-                    case Unit.S:
-                        return UnitNames.S;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Khz => UnitNames.Khz,
+                    Unit.Hz => UnitNames.Hz,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -81,57 +77,68 @@ namespace AngleSharp.Css.Values
         #region Comparison
 
         /// <summary>
-        /// Compares the magnitude of two times.
+        /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator >=(Time a, Time b)
+        public static Boolean operator >=(CssFrequencyValue a, CssFrequencyValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == 1;
         }
 
         /// <summary>
-        /// Compares the magnitude of two times.
+        /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator >(Time a, Time b) => a.CompareTo(b) == 1;
+        public static Boolean operator >(CssFrequencyValue a, CssFrequencyValue b) => a.CompareTo(b) == 1;
 
         /// <summary>
-        /// Compares the magnitude of two times.
+        /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator <=(Time a, Time b)
+        public static Boolean operator <=(CssFrequencyValue a, CssFrequencyValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == -1;
         }
 
         /// <summary>
-        /// Compares the magnitude of two times.
+        /// Compares the magnitude of two frequencies.
         /// </summary>
-        public static Boolean operator <(Time a, Time b) => a.CompareTo(b) == -1;
+        public static Boolean operator <(CssFrequencyValue a, CssFrequencyValue b) => a.CompareTo(b) == -1;
 
         /// <summary>
-        /// Compares the current time against the given one.
+        /// Compares the current frequency against the given one.
         /// </summary>
-        /// <param name="other">The time to compare to.</param>
+        /// <param name="other">The frequency to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Time other) => ToMilliseconds().CompareTo(other.ToMilliseconds());
+        public Int32 CompareTo(CssFrequencyValue other) => ToHertz().CompareTo(other.ToHertz());
 
         #endregion
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != Unit.Hz)
+            {
+                var hz = ToHertz();
+                return new CssFrequencyValue(hz, Unit.Hz);
+            }
+
+            return this;
+        }
+
         /// <summary>
-        /// Tries to convert the given string to a Time.
+        /// Tries to convert the given string to a Frequency.
         /// </summary>
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Time result)
+        public static Boolean TryParse(String s, out CssFrequencyValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Time(value, unit);
+                result = new CssFrequencyValue(value, unit);
                 return true;
             }
 
@@ -146,33 +153,33 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "s": return Unit.S;
-                case "ms": return Unit.Ms;
-                default: return Unit.None;
-            }
+                "hz" => Unit.Hz,
+                "khz" => Unit.Khz,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>
-        /// Converts the value to milliseconds.
+        /// Converts the value to Hz.
         /// </summary>
-        /// <returns>The number of milliseconds.</returns>
-        public Double ToMilliseconds() => _unit == Unit.S ? _value * 1000.0 : _value;
+        /// <returns>The value in Hz.</returns>
+        public Double ToHertz() => _unit == Unit.Khz ? _value * 1000.0 : _value;
 
         /// <summary>
-        /// Checks if the current time is equal to the other time.
+        /// Checks for equality with the other frequency.
         /// </summary>
-        /// <param name="other">The time to compare to.</param>
-        /// <returns>True if both represent the same value.</returns>
-        public Boolean Equals(Time other) => ToMilliseconds() == other.ToMilliseconds();
+        /// <param name="other">The frequency to compare to.</param>
+        /// <returns>True if both frequencies are equal, otherwise false.</returns>
+        public Boolean Equals(CssFrequencyValue other) => _value == other._value && _unit == other._unit;
 
         #endregion
 
         #region Units
 
         /// <summary>
-        /// An enumeration of time units.
+        /// The various frequency units.
         /// </summary>
         public enum Unit : byte
         {
@@ -181,13 +188,13 @@ namespace AngleSharp.Css.Values
             /// </summary>
             None,
             /// <summary>
-            /// The value is a time (ms).
+            /// The value is a frequency (Hz).
             /// </summary>
-            Ms,
+            Hz,
             /// <summary>
-            /// The value is a time (s).
+            /// The value is a frequency (kHz).
             /// </summary>
-            S,
+            Khz,
         }
 
         #endregion
@@ -195,14 +202,14 @@ namespace AngleSharp.Css.Values
         #region Equality
 
         /// <summary>
-        /// Checks for equality of two times.
+        /// Checks for equality of two frequencies.
         /// </summary>
-        public static Boolean operator ==(Time a, Time b) => a.Equals(b);
+        public static Boolean operator ==(CssFrequencyValue a, CssFrequencyValue b) => a.Equals(b);
 
         /// <summary>
-        /// Checks for inequality of two times.
+        /// Checks for inequality of two frequencies.
         /// </summary>
-        public static Boolean operator !=(Time a, Time b) => !a.Equals(b);
+        public static Boolean operator !=(CssFrequencyValue a, CssFrequencyValue b) => !a.Equals(b);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -211,7 +218,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Time?;
+            var other = obj as CssFrequencyValue?;
 
             if (other != null)
             {
@@ -221,8 +228,10 @@ namespace AngleSharp.Css.Values
             return false;
         }
 
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFrequencyValue value && Equals(value);
+
         /// <summary>
-        /// Returns a hash code that defines the current time.
+        /// Returns a hash code that defines the current frequency.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode() => _value.GetHashCode();

@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Parser
     /// </summary>
     static class ColorParser
     {
-        private static readonly Dictionary<String, Func<StringSource, Color?>> ColorFunctions = new Dictionary<String, Func<StringSource, Color?>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<StringSource, CssColorValue?>> ColorFunctions = new(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Rgb, ParseRgba },
             { FunctionNames.Rgba, ParseRgba },
@@ -20,12 +20,16 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Gray, ParseGray },
             { FunctionNames.Hwb, ParseHwba },
             { FunctionNames.Hwba, ParseHwba },
+            { FunctionNames.Lab, ParseLab },
+            { FunctionNames.Lch, ParseLch },
+            { FunctionNames.Oklab, ParseOklab},
+            { FunctionNames.Oklch, ParseOklch },
         };
 
         /// <summary>
         /// Parses a color value, if any.
         /// </summary>
-        public static Color? ParseColor(this StringSource source)
+        public static CssColorValue? ParseColor(this StringSource source)
         {
             var pos = source.Index;
             var result = Start(source);
@@ -41,10 +45,10 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a the current color value, if any.
         /// </summary>
-        public static Color? ParseCurrentColor(this StringSource source) =>
-            source.IsIdentifier(CssKeywords.CurrentColor) ? Color.CurrentColor : ColorParser.ParseColor(source);
+        public static CssColorValue? ParseCurrentColor(this StringSource source) =>
+            source.IsIdentifier(CssKeywords.CurrentColor) ? CssColorValue.CurrentColor : ColorParser.ParseColor(source);
 
-        private static Color? Start(StringSource source)
+        private static CssColorValue? Start(StringSource source)
         {
             if (source.Current != Symbols.Num)
             {
@@ -63,7 +67,7 @@ namespace AngleSharp.Css.Parser
                         return null;
                     }
 
-                    return Color.FromName(ident);
+                    return CssColorValue.FromName(ident);
                 }
 
                 return null;
@@ -72,7 +76,7 @@ namespace AngleSharp.Css.Parser
             return Literal(source);
         }
 
-        private static Color? Literal(StringSource source)
+        private static CssColorValue? Literal(StringSource source)
         {
             var current = source.Next();
             var buffer = StringBuilderPool.Obtain();
@@ -83,7 +87,7 @@ namespace AngleSharp.Css.Parser
                 current = source.Next();
             }
 
-            if (Color.TryFromHex(buffer.ToPool(), out var result))
+            if (CssColorValue.TryFromHex(buffer.ToPool(), out var result))
             {
                 return result;
             }
@@ -91,7 +95,53 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Color? ParseRgba(StringSource source)
+        private static CssColorValue? ParseRgba(StringSource source)
+        {
+            var pos = source.Index;
+            var color = ParseRgbaLegacy(source);
+
+            if (!color.HasValue)
+            {
+                source.BackTo(pos);
+                return ParseRgbaModern(source);
+            }
+
+            return color.Value;
+        }
+
+        private static CssColorValue? ParseRgbaModern(StringSource source)
+        {
+            var r = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var g = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseRgbOrNoneComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (r != null && g != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return CssColorValue.FromRgba(r.Value, g.Value, b.Value, a.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseRgbaLegacy(StringSource source)
         {
             var r = ParseRgbComponent(source);
             var c1 = source.SkipGetSkip();
@@ -104,7 +154,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (Check(c3, c1, c2))
                 {
-                    return Color.FromRgb(r.Value, g.Value, b.Value);
+                    return CssColorValue.FromRgb(r.Value, g.Value, b.Value);
                 }
                 else
                 {
@@ -114,7 +164,7 @@ namespace AngleSharp.Css.Parser
 
                     if (a != null && Check(f, c1, c2, c3))
                     {
-                        return Color.FromRgba(r.Value, g.Value, b.Value, a.Value);
+                        return CssColorValue.FromRgba(r.Value, g.Value, b.Value, a.Value);
                     }
                 }
             }
@@ -122,7 +172,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Color? ParseHsla(StringSource source)
+        private static CssColorValue? ParseHsla(StringSource source)
         {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
@@ -135,7 +185,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (Check(c3, c1, c2))
                 {
-                    return Color.FromHsl(h.Value, s.Value, l.Value);
+                    return CssColorValue.FromHsl(h.Value, s.Value, l.Value);
                 }
                 else
                 {
@@ -144,7 +194,7 @@ namespace AngleSharp.Css.Parser
 
                     if (a != null && Check(f, c1, c2, c3))
                     {
-                        return Color.FromHsla(h.Value, s.Value, l.Value, a.Value);
+                        return CssColorValue.FromHsla(h.Value, s.Value, l.Value, a.Value);
                     }
                 }
             }
@@ -152,7 +202,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Color? ParseGray(StringSource source)
+        private static CssColorValue? ParseGray(StringSource source)
         {
             var n = ParseRgbComponent(source);
             var c = source.SkipGetSkip();
@@ -163,18 +213,147 @@ namespace AngleSharp.Css.Parser
             {
                 if (c == Symbols.RoundBracketClose)
                 {
-                    return Color.FromGray(n.Value);
+                    return CssColorValue.FromGray(n.Value);
                 }
                 else if (a != null && Check(f, c))
                 {
-                    return Color.FromGray(n.Value, a.Value);
+                    return CssColorValue.FromGray(n.Value, a.Value);
                 }
             }
 
             return null;
         }
 
-        private static Color? ParseHwba(StringSource source)
+        private static CssColorValue? ParseLab(StringSource source)
+        {
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var a = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var alpha = new Nullable<Double>(1.0);
+
+            if (l != null && a != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    alpha = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return CssColorValue.FromLab(l.Value, a.Value, b.Value, alpha.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseLch(StringSource source)
+        {
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var h = ParseAngle(source);
+            source.SkipSpacesAndComments();
+            var chr = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (l != null && c != null && h != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (chr == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    chr = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (chr == Symbols.RoundBracketClose)
+                {
+                    return CssColorValue.FromLch(l.Value, c.Value, h.Value, a.Value);
+                }
+            }
+
+            return null;
+        }
+
+
+        private static CssColorValue? ParseOklab(StringSource source)
+        {
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var a = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var b = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var alpha = new Nullable<Double>(1.0);
+
+            if (l != null && a != null && b != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    alpha = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return CssColorValue.FromOklab(l.Value, a.Value, b.Value, alpha.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseOklch(StringSource source)
+        {
+            var l = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var c = ParseLabComponent(source);
+            source.SkipSpacesAndComments();
+            var h = ParseAngle(source);
+            source.SkipSpacesAndComments();
+            var chr = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (l != null && c != null && h != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (chr == Symbols.Solidus)
+                {
+                    a = ParseAlpha(source);
+                    source.SkipSpacesAndComments();
+                    chr = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (chr == Symbols.RoundBracketClose)
+                {
+                    return CssColorValue.FromOklch(l.Value, c.Value, h.Value, a.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseHwba(StringSource source)
         {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
@@ -187,7 +366,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (Check(c3, c1, c2))
                 {
-                    return Color.FromHwb(h.Value, s.Value, l.Value);
+                    return CssColorValue.FromHwb(h.Value, s.Value, l.Value);
                 }
                 else
                 {
@@ -197,9 +376,54 @@ namespace AngleSharp.Css.Parser
 
                     if (a != null && Check(f, c1, c2, c3))
                     {
-                        return Color.FromHwba(h.Value, s.Value, l.Value, a.Value);
+                        return CssColorValue.FromHwba(h.Value, s.Value, l.Value, a.Value);
                     }
                 }
+            }
+
+            return null;
+        }
+
+        private static Double? ParseLabComponent(StringSource source)
+        {
+            var pos = source.Index;
+            var unit = source.ParseUnit();
+
+            if (unit == null)
+            {
+                source.BackTo(pos);
+
+                if (source.IsIdentifier(CssKeywords.None))
+                {
+                    return 0;
+                }
+
+                return null;
+            }
+
+            if ((unit.Dimension == String.Empty || unit.Dimension == "%") && Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+        private static Byte? ParseRgbOrNoneComponent(StringSource source)
+        {
+            var pos = source.Index;
+            var value = ParseRgbComponent(source);
+
+            if (value.HasValue)
+            {
+                return value;
+            }
+
+            source.BackTo(pos);
+
+            if (source.IsIdentifier(CssKeywords.None))
+            {
+                return 0;
             }
 
             return null;
@@ -209,17 +433,19 @@ namespace AngleSharp.Css.Parser
         {
             var unit = source.ParseUnit();
 
-            if (unit != null &&
-                Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
+            if (unit == null)
             {
-                if (unit.Dimension == "%")
-                {
-                    return (Byte)(255f / 100f * value);
-                }
-                else if (unit.Dimension == String.Empty)
-                {
-                    return (Byte)Math.Max(Math.Min(value, 255f), 0f);
-                }
+                return null;
+            }
+
+            if (unit.Dimension == String.Empty && Int32.TryParse(unit.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var num))
+            {
+                return (Byte)Math.Max(Math.Min(num, 255f), 0f);
+            }
+
+            if (unit.Dimension == "%" && Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var val))
+            {
+                return (Byte)Math.Round((255.0 * val) / 100.0);
             }
 
             return null;
@@ -252,11 +478,11 @@ namespace AngleSharp.Css.Parser
             if (unit != null &&
                 Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                var dim = Angle.Unit.Deg;
+                var dim = CssAngleValue.Unit.Deg;
 
-                if (unit.Dimension == String.Empty || (dim = Angle.GetUnit(unit.Dimension)) != Angle.Unit.None)
+                if (unit.Dimension == String.Empty || (dim = CssAngleValue.GetUnit(unit.Dimension)) != CssAngleValue.Unit.None)
                 {
-                    var angle = new Angle(value, dim);
+                    var angle = new CssAngleValue(value, dim);
                     return angle.ToTurns();
                 }
             }

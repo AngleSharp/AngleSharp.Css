@@ -11,7 +11,7 @@ namespace AngleSharp.Css.FeatureValidators
         {
             var ratio = RatioConverter.Convert(feature.Value);
 
-            if (ratio != null)
+            if (ratio is not null)
             {
                 var desired = ratio.AsDouble();
                 var available = renderDevice.DeviceWidth / (Double)renderDevice.DeviceHeight;

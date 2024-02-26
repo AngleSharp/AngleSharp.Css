@@ -1,6 +1,8 @@
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Linq;
@@ -10,6 +12,18 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     public static class CssOmExtensions
     {
+        /// <summary>
+        /// Gets the computed style of the element.
+        /// </summary>
+        /// <param name="element">The element to compute the style for.</param>
+        /// <param name="pseudo">The optional pseudo selector to use.</param>
+        /// <returns>The computed style of the element.</returns>
+        public static ICssStyleDeclaration ComputeStyle(this IElement element, String pseudo = null)
+        {
+            var window = element?.Owner?.DefaultView;
+            return window?.GetComputedStyle(element, pseudo);
+        }
+
         /// <summary>
         /// Gets the style rule with the provided selector text.
         /// </summary>
@@ -66,15 +80,21 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
-        /// Computes the values with knowledge of the device.
+        /// Computes the declarations using the given compute context.
         /// </summary>
         /// <param name="style">The base (raw) style.</param>
-        /// <param name="device">The device to use for the calculation.</param>
+        /// <param name="context">The context to use for the calculation.</param>
         /// <returns>A new style declaration with the existing or computed values.</returns>
-        public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, IRenderDevice device)
+        public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, ICssComputeContext context)
         {
-            //TODO
-            return style;
+            var computedStyle = new CssStyleDeclaration(context.Context);
+
+            foreach (var property in style)
+            {
+                computedStyle.AddProperty(property.Compute(context));
+            }
+
+            return computedStyle;
         }
     }
 }

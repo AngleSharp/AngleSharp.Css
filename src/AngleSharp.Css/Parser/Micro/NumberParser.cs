@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -13,7 +14,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the number (double) value.
         /// </summary>
-        public static Double? ParseNumber(this StringSource source)
+        public static CssNumberValue? ParseNumber(this StringSource source)
         {
             var unit = source.ParseUnit();
 
@@ -21,7 +22,7 @@ namespace AngleSharp.Css.Parser
                 unit.Dimension == String.Empty &&
                 Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var result))
             {
-                return result;
+                return new CssNumberValue(result);
             }
 
             return null;
@@ -30,7 +31,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the ratio (double) value.
         /// </summary>
-        public static Double? ParseRatio(this StringSource source)
+        public static CssRatioValue? ParseRatio(this StringSource source)
         {
             var pos = source.Index;
             var top = source.ParseNumber();
@@ -39,7 +40,7 @@ namespace AngleSharp.Css.Parser
 
             if (top.HasValue && bottom.HasValue && c == Symbols.Solidus)
             {
-                return top.Value / bottom.Value;
+                return new CssRatioValue(top.Value, bottom.Value);
             }
 
             source.BackTo(pos);
@@ -49,12 +50,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the integer (double) value.
         /// </summary>
-        public static Double? ParseNaturalNumber(this StringSource source)
+        public static CssNumberValue? ParseNaturalNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
 
-            if (element.HasValue && element.Value >= 0f)
+            if (element.HasValue && element.Value.Value >= 0f)
             {
                 return element;
             }
@@ -66,12 +67,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the natural number (double) value.
         /// </summary>
-        public static Double? ParseGreaterOrEqualOneNumber(this StringSource source)
+        public static CssNumberValue? ParseGreaterOrEqualOneNumber(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseNumber();
 
-            if (element.HasValue && element.Value >= 1f)
+            if (element.HasValue && element.Value.Value >= 1f)
             {
                 return element;
             }
@@ -83,12 +84,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the natural integer (int) value.
         /// </summary>
-        public static Int32? ParseNaturalInteger(this StringSource source)
+        public static CssIntegerValue? ParseNaturalInteger(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseInteger();
 
-            if (element.HasValue && element.Value >= 0)
+            if (element.HasValue && element.Value.IntValue >= 0)
             {
                 return element;
             }
@@ -100,12 +101,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the positive integer (int) value.
         /// </summary>
-        public static Int32? ParsePositiveInteger(this StringSource source)
+        public static CssIntegerValue? ParsePositiveInteger(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseInteger();
 
-            if (element.HasValue && element.Value > 0)
+            if (element.HasValue && element.Value.IntValue > 0)
             {
                 return element;
             }
@@ -117,12 +118,12 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the weight (int) value.
         /// </summary>
-        public static Int32? ParseWeightInteger(this StringSource source)
+        public static CssIntegerValue? ParseWeightInteger(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParsePositiveInteger();
 
-            if (element.HasValue && IsWeight(element.Value))
+            if (element.HasValue && IsWeight(element.Value.IntValue))
             {
                 return element;
             }
@@ -134,14 +135,19 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the binary (int) value.
         /// </summary>
-        public static Int32? ParseBinary(this StringSource source)
+        public static CssIntegerValue? ParseBinary(this StringSource source)
         {
             var pos = source.Index;
             var element = source.ParseInteger();
 
-            if (element.HasValue && (element.Value == 0 || element.Value == 1))
+            if (element.HasValue)
             {
-                return element;
+                var val = element.Value.IntValue;
+
+                if (val == 0 || val == 1)
+                {
+                    return element;
+                }
             }
 
             source.BackTo(pos);
@@ -151,7 +157,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the integer (int) value.
         /// </summary>
-        public static Int32? ParseInteger(this StringSource source)
+        public static CssIntegerValue? ParseInteger(this StringSource source)
         {
             var unit = source.ParseUnit();
 
@@ -161,7 +167,7 @@ namespace AngleSharp.Css.Parser
 
                 if (Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result))
                 {
-                    return result;
+                    return new CssIntegerValue(result);
                 }
 
                 var negative = value.StartsWith("-");
@@ -169,7 +175,7 @@ namespace AngleSharp.Css.Parser
 
                 if (allNumbers)
                 {
-                    return negative ? Int32.MinValue : Int32.MaxValue;
+                    return new CssIntegerValue(negative ? Int32.MinValue : Int32.MaxValue);
                 }
             }
 

@@ -1,6 +1,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Svg.Dom;
@@ -36,33 +37,35 @@ namespace AngleSharp.Css
         /// Computes the declarations for the given element in the context of
         /// the specified styling rules.
         /// </summary>
-        /// <param name="rules">The styles to use.</param>
+        /// <param name="styles">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this IEnumerable<ICssStyleRule> rules, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
+            var context = new CssComputeContext(styles.Device, ctx, computedStyle);
             var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
                 var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
 
-                if (pseudoElement != null)
+                if (pseudoElement is not null)
                 {
                     element = pseudoElement;
                 }
             }
 
-            computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element));
+            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element));
 
             foreach (var node in nodes)
             {
-                computedStyle.UpdateDeclarations(rules.ComputeCascadedStyle(node));
+                computedStyle.UpdateDeclarations(styles.ComputeCascadedStyle(node));
             }
 
-            return computedStyle;
+            return computedStyle.Compute(context);
         }
 
         /// <summary>
@@ -70,14 +73,15 @@ namespace AngleSharp.Css
         /// Two rules with the same specificity are ordered according to their appearance. The more
         /// recent declaration wins. Inheritance is not taken into account.
         /// </summary>
-        /// <param name="styleCollection">The style rules to apply.</param>
+        /// <param name="styles">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IEnumerable<ICssStyleRule> styleCollection, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent = null)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
-            var rules = styleCollection.SortBySpecificity(element);
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
+            var rules = styles.SortBySpecificity(element);
 
             foreach (var rule in rules)
             {
@@ -90,7 +94,7 @@ namespace AngleSharp.Css
                 computedStyle.SetDeclarations(element.GetStyle());
             }
 
-            if (parent != null)
+            if (parent is not null)
             {
                 computedStyle.UpdateDeclarations(parent);
             }
@@ -102,8 +106,68 @@ namespace AngleSharp.Css
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
-            rules.Where(m => m.Selector?.Match(element) ?? false).OrderBy(m => m.Selector.Specificity);
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
+        {
+            IEnumerable<Tuple<ICssStyleRule, Priority>> MapPriority(ICssStyleRule rule)
+            {
+                if (rule.TryMatch(element, null, out var specificity))
+                {
+                    yield return Tuple.Create(rule, specificity);
+                }
+
+                foreach (var subRule in rule.Rules)
+                {
+                    if (subRule is ICssStyleRule style)
+                    {
+                        foreach (var item in MapPriority(style))
+                        {
+                            yield return item;
+                        }
+                    }
+                }
+            }
+
+            return rules.SelectMany(MapPriority).OrderBy(GetPriority).Select(GetRule);
+        }
+
+        private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
+
+        private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
+
+        #endregion
+
+        #region Context
+
+        sealed class CssComputeContext : ICssComputeContext
+        {
+            private readonly IRenderDevice _device;
+            private readonly IBrowsingContext _context;
+            private readonly ICssProperties _properties;
+
+            public CssComputeContext(IRenderDevice device, IBrowsingContext context, ICssProperties properties)
+            {
+                _device = device ?? new DefaultRenderDevice();
+                _context = context;
+                _properties = properties;
+            }
+
+            public IRenderDevice Device => _device;
+
+            public IBrowsingContext Context => _context;
+
+            public IValueConverter Converter => null;
+
+            public ICssValue Resolve(String name)
+            {
+                if (name.StartsWith("--"))
+                {
+                    var property = _properties.FirstOrDefault(m => m.Name.Equals(name, StringComparison.Ordinal));
+                    return property?.RawValue;
+                }
+
+                return null;
+            }
+        }
 
         #endregion
     }

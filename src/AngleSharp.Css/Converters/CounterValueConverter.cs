@@ -9,18 +9,18 @@ namespace AngleSharp.Css.Converters
 
     sealed class CounterValueConverter : IValueConverter
     {
-        private static readonly CounterValue[] NoneValue = Array.Empty<CounterValue>();
+        private static readonly CssCounterValue[] NoneValue = Array.Empty<CssCounterValue>();
 
-        private readonly Int32 _defaultValue;
+        private readonly ICssValue _defaultValue;
 
-        public CounterValueConverter(Int32 defaultValue)
+        public CounterValueConverter(ICssValue defaultValue)
         {
             _defaultValue = defaultValue;
         }
 
         public ICssValue Convert(StringSource source)
         {
-            var counters = new List<CounterValue>();
+            var counters = new List<CssCounterValue>();
 
             if (!source.IsIdentifier(CssKeywords.None))
             {
@@ -36,13 +36,13 @@ namespace AngleSharp.Css.Converters
                         return null;
                     }
 
-                    counters.Add(new CounterValue(name, value));
+                    counters.Add(new CssCounterValue(name, value));
                 }
 
-                return new CssTupleValue<CounterValue>(counters.ToArray());
+                return new CssTupleValue<CssCounterValue>(counters.ToArray());
             }
 
-            return new Constant<CounterValue[]>(CssKeywords.None, NoneValue);
+            return new CssConstantValue<CssCounterValue[]>(CssKeywords.None, NoneValue);
         }
     }
 }

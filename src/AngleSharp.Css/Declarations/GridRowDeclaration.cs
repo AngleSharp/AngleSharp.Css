@@ -70,7 +70,7 @@ namespace AngleSharp.Css.Declarations
                     }
                 }
 
-                return new Constant<Object>(CssKeywords.Auto, null);
+                return new CssConstantValue<Object>(CssKeywords.Auto, null);
             }
         }
     }

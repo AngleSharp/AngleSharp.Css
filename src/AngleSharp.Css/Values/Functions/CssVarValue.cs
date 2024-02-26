@@ -8,12 +8,12 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS var replacement.
     /// </summary>
-    public sealed class CssVarValue : ICssFunctionValue
+    public sealed class CssVarValue : ICssFunctionValue, IEquatable<CssVarValue>
     {
         #region Fields
 
         private readonly String _variableName;
-        private readonly String _defaultValue;
+        private readonly ICssValue _defaultValue;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="variableName">The name of the custom property.</param>
         /// <param name="defaultValue">The fallback value, if any.</param>
-        public CssVarValue(String variableName, String defaultValue = null)
+        public CssVarValue(String variableName, ICssValue defaultValue = null)
         {
             _variableName = variableName;
             _defaultValue = defaultValue;
@@ -48,12 +48,12 @@ namespace AngleSharp.Css.Values
             {
                 var list = new List<ICssValue>
                 {
-                    new Identifier(_variableName),
+                    new CssIdentifierValue(_variableName),
                 };
 
                 if (_defaultValue != null)
                 {
-                    list.Add(new CssAnyValue(_defaultValue));
+                    list.Add(_defaultValue);
                 }
 
                 return list.ToArray();
@@ -68,7 +68,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the defined fallback value, if any.
         /// </summary>
-        public String DefaultValue => _defaultValue;
+        public ICssValue DefaultValue => _defaultValue;
 
         /// <summary>
         /// Gets the CSS text representation.
@@ -83,14 +83,54 @@ namespace AngleSharp.Css.Values
                     _variableName,
                 };
 
-                if (!String.IsNullOrEmpty(_defaultValue))
+                if (_defaultValue is not null)
                 {
-                    args.Add(_defaultValue);
+                    args.Add(_defaultValue.CssText);
                 }
 
                 return fn.CssFunction(String.Join(", ", args));
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssVarValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_defaultValue, other._defaultValue) && _variableName == other._variableName;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Resolves the value of the referenced variable. Returns null
+        /// if the reference is invalid or cannot be resolved.
+        /// </summary>
+        /// <param name="context">The context to use for resolving the variable.</param>
+        /// <returns>The resolved value or null.</returns>
+        public ICssValue Compute(ICssComputeContext context)
+        {
+            var value = context.Resolve(_variableName)?.Compute(context);
+
+            if (value is not null)
+            {
+                return value;
+            }
+
+            return _defaultValue?.Compute(context);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssVarValue value && Equals(value);
 
         #endregion
     }

@@ -491,7 +491,7 @@ namespace AngleSharp.Css.Parser
                 token = NextToken();
                 CollectTrivia(ref token);
 
-                if (rule != null)
+                if (rule is not null)
                 {
                     sheet.Add(rule);
                 }
@@ -523,6 +523,32 @@ namespace AngleSharp.Css.Parser
         {
             CollectTrivia(ref token);
             var start = token.Position;
+
+            if (!_options.IsExcludingNesting && token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
+            {
+                var factory = _context.GetService<DefaultAttributeSelectorFactory>();
+                var rule = new CssStyleRule(style.Owner);
+                var previous = factory.Unregister("&");
+                factory.Register("&", (_, _, _, _) =>
+                {
+                    rule.IsNested = true;
+                    return new ReferencedNestedSelector(style.Selector);
+                });
+                var result = CreateStyle(rule, token);
+                factory.Unregister("&");
+
+                if (previous is not null)
+                {
+                    factory.Register("&", previous);
+                }
+
+                if (result is not null)
+                {
+                    style.Add(result);
+                    token = NextToken();
+                    return;
+                }
+            }
 
             if (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose, CssTokenType.Colon) &&
                 token.IsNot(CssTokenType.Semicolon, CssTokenType.CurlyBracketOpen))

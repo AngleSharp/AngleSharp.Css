@@ -2,11 +2,12 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS initial value.
     /// </summary>
-    struct CssInitialValue : ICssSpecialValue
+    readonly struct CssInitialValue : ICssSpecialValue
     {
         #region Fields
 
@@ -38,6 +39,14 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => CssKeywords.Initial;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssInitialValue o && EqualityComparer<ICssValue>.Default.Equals(_value, o.Value);
 
         #endregion
     }

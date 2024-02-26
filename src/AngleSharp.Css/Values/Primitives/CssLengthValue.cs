@@ -1,58 +1,59 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public struct Length : IEquatable<Length>, IComparable<Length>, ICssPrimitiveValue
+    public readonly struct CssLengthValue : IEquatable<CssLengthValue>, IComparable<CssLengthValue>, ICssMetricValue
     {
         #region Basic lengths
 
         /// <summary>
         /// Gets a zero pixel length value.
         /// </summary>
-        public static readonly Length Zero = new Length(0.0, Unit.Px);
+        public static readonly CssLengthValue Zero = new(0.0, Unit.Px);
 
         /// <summary>
         /// Gets the half relative length, i.e. 50%.
         /// </summary>
-        public static readonly Length Half = new Length(50.0, Unit.Percent);
+        public static readonly CssLengthValue Half = new(50.0, Unit.Percent);
 
         /// <summary>
         /// Gets the full relative length, i.e. 100%.
         /// </summary>
-        public static readonly Length Full = new Length(100.0, Unit.Percent);
+        public static readonly CssLengthValue Full = new(100.0, Unit.Percent);
 
         /// <summary>
         /// Gets a thin length value.
         /// </summary>
-        public static readonly Length Thin = new Length(1.0, Unit.Px);
+        public static readonly CssLengthValue Thin = new(1.0, Unit.Px);
 
         /// <summary>
         /// Gets a medium length value.
         /// </summary>
-        public static readonly Length Medium = new Length(3.0, Unit.Px);
+        public static readonly CssLengthValue Medium = new(3.0, Unit.Px);
 
         /// <summary>
         /// Gets a thick length value.
         /// </summary>
-        public static readonly Length Thick = new Length(5.0, Unit.Px);
+        public static readonly CssLengthValue Thick = new(5.0, Unit.Px);
 
         /// <summary>
         /// Gets the auto value.
         /// </summary>
-        public static readonly Length Auto = new Length(Double.NaN, Unit.Vmax);
+        public static readonly CssLengthValue Auto = new(Double.NaN, Unit.Vmax);
 
         /// <summary>
         /// Gets the content value.
         /// </summary>
-        public static readonly Length Content = new Length(Double.NaN, Unit.Percent);
+        public static readonly CssLengthValue Content = new(Double.NaN, Unit.Percent);
 
         /// <summary>
         /// Gets the normal value.
         /// </summary>
-        public static readonly Length Normal = new Length(Double.NaN, Unit.Em);
+        public static readonly CssLengthValue Normal = new(Double.NaN, Unit.Em);
 
         #endregion
 
@@ -66,11 +67,20 @@ namespace AngleSharp.Css.Values
         #region ctor
 
         /// <summary>
+        /// Creates a new length value in px.
+        /// </summary>
+        /// <param name="value">The value of the length in px.</param>
+        public CssLengthValue(Double value)
+            : this(value, Unit.Px)
+        {
+        }
+
+        /// <summary>
         /// Creates a new length value.
         /// </summary>
         /// <param name="value">The value of the length.</param>
         /// <param name="unit">The unit of the length.</param>
-        public Length(Double value, Unit unit)
+        public CssLengthValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -133,25 +143,25 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Px: return UnitNames.Px;
-                    case Unit.Em: return UnitNames.Em;
-                    case Unit.Ex: return UnitNames.Ex;
-                    case Unit.Cm: return UnitNames.Cm;
-                    case Unit.Mm: return UnitNames.Mm;
-                    case Unit.In: return UnitNames.In;
-                    case Unit.Pt: return UnitNames.Pt;
-                    case Unit.Pc: return UnitNames.Pc;
-                    case Unit.Ch: return UnitNames.Ch;
-                    case Unit.Rem: return UnitNames.Rem;
-                    case Unit.Vw: return UnitNames.Vw;
-                    case Unit.Vh: return UnitNames.Vh;
-                    case Unit.Vmin: return UnitNames.Vmin;
-                    case Unit.Vmax: return UnitNames.Vmax;
-                    case Unit.Percent: return UnitNames.Percent;
-                    default: return String.Empty;
-                }
+                    Unit.Px => UnitNames.Px,
+                    Unit.Em => UnitNames.Em,
+                    Unit.Ex => UnitNames.Ex,
+                    Unit.Cm => UnitNames.Cm,
+                    Unit.Mm => UnitNames.Mm,
+                    Unit.In => UnitNames.In,
+                    Unit.Pt => UnitNames.Pt,
+                    Unit.Pc => UnitNames.Pc,
+                    Unit.Ch => UnitNames.Ch,
+                    Unit.Rem => UnitNames.Rem,
+                    Unit.Vw => UnitNames.Vw,
+                    Unit.Vh => UnitNames.Vh,
+                    Unit.Vmin => UnitNames.Vmin,
+                    Unit.Vmax => UnitNames.Vmax,
+                    Unit.Percent => UnitNames.Percent,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -162,7 +172,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two lengths.
         /// </summary>
-        public static Boolean operator >=(Length a, Length b)
+        public static Boolean operator >=(CssLengthValue a, CssLengthValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == 1;
@@ -171,12 +181,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two lengths.
         /// </summary>
-        public static Boolean operator >(Length a, Length b) => a.CompareTo(b) == 1;
+        public static Boolean operator >(CssLengthValue a, CssLengthValue b) => a.CompareTo(b) == 1;
 
         /// <summary>
         /// Compares the magnitude of two lengths.
         /// </summary>
-        public static Boolean operator <=(Length a, Length b)
+        public static Boolean operator <=(CssLengthValue a, CssLengthValue b)
         {
             var result = a.CompareTo(b);
             return result == 0 || result == -1;
@@ -185,14 +195,14 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Compares the magnitude of two lengths.
         /// </summary>
-        public static Boolean operator <(Length a, Length b) => a.CompareTo(b) == -1;
+        public static Boolean operator <(CssLengthValue a, CssLengthValue b) => a.CompareTo(b) == -1;
 
         /// <summary>
         /// Compares the current length against the given one.
         /// </summary>
         /// <param name="other">The length to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Length other)
+        public Int32 CompareTo(CssLengthValue other)
         {
             if (_value != 0f || other._value != 0f)
             {
@@ -213,25 +223,36 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_unit != CssLengthValue.Unit.Px)
+            {
+                var px = ToPixel(context.Device);
+                return new CssLengthValue(px, CssLengthValue.Unit.Px);
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to a Length.
         /// </summary>
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Length result)
+        public static Boolean TryParse(String s, out CssLengthValue result)
         {
             var unitString = s.CssUnit(out double value);
             var unit = GetUnit(unitString);
 
             if (unit != Unit.None)
             {
-                result = new Length(value, unit);
+                result = new CssLengthValue(value, unit);
                 return true;
             }
             else if (value == 0.0)
             {
-                result = Length.Zero;
+                result = CssLengthValue.Zero;
                 return true;
             }
 
@@ -246,26 +267,34 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "ch": return Unit.Ch;
-                case "cm": return Unit.Cm;
-                case "em": return Unit.Em;
-                case "ex": return Unit.Ex;
-                case "in": return Unit.In;
-                case "mm": return Unit.Mm;
-                case "pc": return Unit.Pc;
-                case "pt": return Unit.Pt;
-                case "px": return Unit.Px;
-                case "rem": return Unit.Rem;
-                case "vh": return Unit.Vh;
-                case "vmax": return Unit.Vmax;
-                case "vmin": return Unit.Vmin;
-                case "vw": return Unit.Vw;
-                case "%": return Unit.Percent;
-                default: return Unit.None;
-            }
+                "ch" => Unit.Ch,
+                "cm" => Unit.Cm,
+                "em" => Unit.Em,
+                "ex" => Unit.Ex,
+                "in" => Unit.In,
+                "mm" => Unit.Mm,
+                "pc" => Unit.Pc,
+                "pt" => Unit.Pt,
+                "px" => Unit.Px,
+                "rem" => Unit.Rem,
+                "vh" => Unit.Vh,
+                "vmax" => Unit.Vmax,
+                "vmin" => Unit.Vmin,
+                "vw" => Unit.Vw,
+                "%" => Unit.Percent,
+                _ => Unit.None,
+            };
         }
+
+        /// <summary>
+        /// Converts the length to a number of pixels, if possible. If the
+        /// current unit is relative, then an exception will be thrown.
+        /// </summary>
+        /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
+        /// <returns>The number of pixels represented by the current length.</returns>
+        public Double ToPixel(IRenderDimensions renderDimensions) => ToPixel(renderDimensions, RenderMode.Horizontal);
 
         /// <summary>
         /// Converts the length to a number of pixels, if possible. If the
@@ -482,7 +511,7 @@ namespace AngleSharp.Css.Values
         /// <param name="a">The left length.</param>
         /// <param name="b">The right length.</param>
         /// <returns>True if both lengths are equal, otherwise false.</returns>
-        public static Boolean operator ==(Length a, Length b) => a.Equals(b);
+        public static Boolean operator ==(CssLengthValue a, CssLengthValue b) => a.Equals(b);
 
         /// <summary>
         /// Checks the inequality of the two given lengths.
@@ -490,14 +519,14 @@ namespace AngleSharp.Css.Values
         /// <param name="a">The left length.</param>
         /// <param name="b">The right length.</param>
         /// <returns>True if both lengths are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Length a, Length b) => !a.Equals(b);
+        public static Boolean operator !=(CssLengthValue a, CssLengthValue b) => !a.Equals(b);
 
         /// <summary>
         /// Checks if both lengths are actually equal.
         /// </summary>
         /// <param name="other">The other length to compare to.</param>
         /// <returns>True if both lengths are equal, otherwise false.</returns>
-        public Boolean Equals(Length other) =>
+        public Boolean Equals(CssLengthValue other) =>
             (_value == other._value || (Double.IsNaN(_value) && Double.IsNaN(other._value))) &&
             (_value == 0.0 || _unit == other._unit);
 
@@ -508,7 +537,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Length?;
+            var other = obj as CssLengthValue?;
 
             if (other != null)
             {
@@ -517,6 +546,8 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssLengthValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current length.

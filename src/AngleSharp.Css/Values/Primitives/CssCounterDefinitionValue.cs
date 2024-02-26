@@ -1,12 +1,13 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public struct CounterDefinition : ICssPrimitiveValue, IEquatable<CounterDefinition>
+    public readonly struct CssCounterDefinitionValue : ICssPrimitiveValue, IEquatable<CssCounterDefinitionValue>
     {
         #region Fields
 
@@ -24,7 +25,7 @@ namespace AngleSharp.Css.Values
         /// <param name="identifier">The identifier of the counter.</param>
         /// <param name="listStyle">The used list style.</param>
         /// <param name="separator">The separator of the counter.</param>
-        public CounterDefinition(String identifier, String listStyle, String separator)
+        public CssCounterDefinitionValue(String identifier, String listStyle, String separator)
         {
             _identifier = identifier;
             _listStyle = listStyle;
@@ -66,10 +67,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other counter to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(CounterDefinition other) =>
+        public Boolean Equals(CssCounterDefinitionValue other) =>
             CounterIdentifier.Is(other.CounterIdentifier) &&
             ListStyle.Is(other.ListStyle) &&
             DefinedSeparator.Is(other.DefinedSeparator);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssCounterDefinitionValue value && Equals(value);
 
         /// <summary>
         /// Checks for equality against the given object, if
@@ -79,13 +82,18 @@ namespace AngleSharp.Css.Values
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is CounterDefinition cd ? Equals(cd) : false;
+            obj is CssCounterDefinitionValue cd && Equals(cd);
 
         /// <summary>
         /// Gets the hash code of the object.
         /// </summary>
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => CssText.GetHashCode();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
 
         #endregion
 

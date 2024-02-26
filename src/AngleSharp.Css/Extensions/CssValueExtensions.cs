@@ -16,13 +16,41 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Double AsDouble(this ICssValue value)
         {
-            if (value is Length length && length.Type == Length.Unit.None)
+            if (value is null)
             {
-                return length.Value;
+                return 0.0;
             }
-            else if (value is Fraction fr)
+            else if (value is CssLengthValue l && l.Type == CssLengthValue.Unit.None)
+            {
+                return l.Value;
+            }
+            else if (value is CssTimeValue t && t.Type == CssTimeValue.Unit.None)
+            {
+                return t.Value;
+            }
+            else if (value is CssFrequencyValue f && f.Type == CssFrequencyValue.Unit.None)
+            {
+                return f.Value;
+            }
+            else if (value is CssNumberValue n)
+            {
+                return n.Value;
+            }
+            else if (value is CssIntegerValue i)
+            {
+                return i.Value;
+            }
+            else if (value is CssPercentageValue p)
+            {
+                return p.Value;
+            }
+            else if (value is CssFractionValue fr)
             {
                 return fr.Value;
+            }
+            else if (value is CssRatioValue r)
+            {
+                return r.Top.AsDouble() / r.Bottom.AsDouble();
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
@@ -45,7 +73,11 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Double AsPx(this ICssValue value, IRenderDimensions renderDimensions, RenderMode mode)
         {
-            if (value is Length length && length.Type != Length.Unit.None)
+            if (value is null)
+            {
+                return 0.0;
+            }
+            else if (value is CssLengthValue length && length.Type != CssLengthValue.Unit.None)
             {
                 return length.ToPixel(renderDimensions, mode);
             }
@@ -68,7 +100,11 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Double AsMs(this ICssValue value)
         {
-            if (value is Time time && time.Type != Time.Unit.None)
+            if (value is null)
+            {
+                return 0.0;
+            }
+            else if (value is CssTimeValue time && time.Type != CssTimeValue.Unit.None)
             {
                 return time.ToMilliseconds();
             }
@@ -91,7 +127,11 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Double AsHz(this ICssValue value)
         {
-            if (value is Frequency freq && freq.Type != Frequency.Unit.None)
+            if (value is null)
+            {
+                return 0.0;
+            }
+            else if (value is CssFrequencyValue freq && freq.Type != CssFrequencyValue.Unit.None)
             {
                 return freq.ToHertz();
             }
@@ -114,9 +154,13 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Double AsDeg(this ICssValue value)
         {
-            if (value is Angle angle && angle.Type != Angle.Unit.None)
+            if (value is null)
             {
-                return angle.Value;
+                return 0.0;
+            }
+            else if (value is CssAngleValue angle && angle.Type != CssAngleValue.Unit.None)
+            {
+                return angle.ToDegree();
             }
             else if (value is ICssMultipleValue multiple && multiple.Count == 1)
             {
@@ -131,13 +175,44 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
+        /// Tries to convert the value to a number of degrees.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The resulting number.</returns>
+        public static Double AsRad(this ICssValue value)
+        {
+            if (value is null)
+            {
+                return 0.0;
+            }
+            else if (value is CssAngleValue angle && angle.Type != CssAngleValue.Unit.None)
+            {
+                return angle.ToRadian();
+            }
+            else if (value is ICssMultipleValue multiple && multiple.Count == 1)
+            {
+                return multiple[0].AsRad();
+            }
+            else if (value is ICssSpecialValue special && special.Value != null)
+            {
+                return special.Value.AsRad();
+            }
+
+            return 0.0;
+        }
+
+        /// <summary>
         /// Tries to convert the value to a number of dots per inch.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The resulting number.</returns>
         public static Double AsDpi(this ICssValue value)
         {
-            if (value is Resolution res && res.Type != Resolution.Unit.None)
+            if (value is null)
+            {
+                return 0.0;
+            }
+            else if (value is CssResolutionValue res && res.Type != CssResolutionValue.Unit.None)
             {
                 return res.ToDotsPerPixel();
             }
@@ -160,7 +235,7 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting number.</returns>
         public static Int32 AsRgba(this ICssValue value)
         {
-            if (value is Color res)
+            if (value is CssColorValue res)
             {
                 return res.Value;
             }
@@ -173,7 +248,7 @@ namespace AngleSharp.Css.Dom
                 return special.Value.AsRgba();
             }
 
-            return Color.Black.Value;
+            return CssColorValue.Black.Value;
         }
 
         /// <summary>
@@ -245,7 +320,7 @@ namespace AngleSharp.Css.Dom
         public static T AsEnum<T>(this ICssValue value)
             where T : struct, IComparable
         {
-            if (value is Constant<T> constant)
+            if (value is CssConstantValue<T> constant)
             {
                 return constant.Value;
             }
@@ -269,11 +344,11 @@ namespace AngleSharp.Css.Dom
         /// <returns>True if the keyword was matched, false otherwise.</returns>
         public static Boolean Is(this ICssValue value, String keyword)
         {
-            if (value is Identifier ident && ident.Value.Isi(keyword))
+            if (value is CssIdentifierValue ident && ident.Value.Isi(keyword))
             {
                 return true;
             }
-            else if (value?.GetType() == typeof(Constant<>) && value.CssText.Isi(keyword))
+            else if (value?.GetType() == typeof(CssConstantValue<>) && value.CssText.Isi(keyword))
             {
                 return true;
             }

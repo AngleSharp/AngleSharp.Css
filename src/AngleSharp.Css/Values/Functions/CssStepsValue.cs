@@ -10,11 +10,11 @@ namespace AngleSharp.Css.Values
     /// Represents a steps timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    sealed class CssStepsValue : ICssTimingFunctionValue
+    sealed class CssStepsValue : ICssTimingFunctionValue, IEquatable<CssStepsValue>
     {
         #region Fields
 
-        private readonly Int32 _intervals;
+        private readonly ICssValue _intervals;
         private readonly Boolean _start;
 
         #endregion
@@ -28,9 +28,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="intervals">It must be a positive integer (greater than 0).</param>
         /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
-        public CssStepsValue(Int32 intervals, Boolean start = false)
+        public CssStepsValue(ICssValue intervals, Boolean start = false)
         {
-            _intervals = Math.Max(1, intervals);
+            _intervals = intervals;
             _start = start;
         }
 
@@ -52,12 +52,12 @@ namespace AngleSharp.Css.Values
             {
                 var args = new List<ICssValue>
                 {
-                    new Length(_intervals, Length.Unit.None),
+                    _intervals
                 };
 
                 if (_start)
                 {
-                    args.Add(new Identifier(CssKeywords.Start));
+                    args.Add(new CssIdentifierValue(CssKeywords.Start));
                 }
 
                 return args.ToArray();
@@ -71,9 +71,8 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                if (_intervals != 1)
+                if (!_intervals.Equals(CssIntegerValue.One))
                 {
-                    var fn = FunctionNames.Steps;
                     return Name.CssFunction(Arguments.Join(", "));
                 }
                 else if (_start)
@@ -90,12 +89,36 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the numbers of intervals.
         /// </summary>
-        public Int32 Intervals => _intervals;
+        public ICssValue Intervals => _intervals;
 
         /// <summary>
         /// Gets if the steps should occur in the beginning.
         /// </summary>
         public Boolean IsStart => _start;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssStepsValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return _start == other._start && comparer.Equals(_intervals, other._intervals);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStepsValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 
         #endregion
     }

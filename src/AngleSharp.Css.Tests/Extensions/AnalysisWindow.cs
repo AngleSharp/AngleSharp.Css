@@ -280,14 +280,133 @@ em { font-style: italic !important; }
         }
 
         [Test]
+        public void GetCascadedValueOfTextTransformFromElementStyleWithElementApi()
+        {
+            var sourceCode = "<!doctype html><div style=\"text-transform: uppercase\"><p><span>Bold text";
+
+            var document = ParseDocument(sourceCode);
+            var element = document.QuerySelector("span");
+            var styleNormal = element.ComputeStyle();
+            Assert.IsNotNull(styleNormal);
+            Assert.AreEqual("uppercase", styleNormal.GetTextTransform());
+        }
+
+        [Test]
         public async Task NullSelectorStillWorks_Issue52()
         {
             var sheet = ParseStyleSheet("a {}");
             var document = await sheet.Context.OpenAsync(res => res.Content("<body></body>"));
-            sheet.Add(new CssStyleRule(sheet));
             var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
             var decl = sc.ComputeCascadedStyle(document.Body);
             Assert.IsNotNull(decl);
+        }
+
+        [Test]
+        public async Task PriorityInMultiSelectorIsEvaluatedPerMatch()
+        {
+            var sheet = ParseStyleSheet(@"#target {color: blue} h3, #nottarget { color: purple; } ");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<h3 id='target'>Test</h3>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeCascadedStyle(document.QuerySelector("h3"));
+            Assert.AreEqual("rgba(0, 0, 255, 1)", style.GetColor());
+        }
+
+        [Test]
+        public async Task ComputesAbsoluteValuesFromRelative_Issue136()
+        {
+            var sheet = ParseStyleSheet(@"p { font-size: 1.5em }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is <span>only</span> a test.</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("span"));
+            Assert.AreEqual("24px", style.GetFontSize());
+        }
+
+        [Test]
+        public async Task ResolvesCssVariables_Issue62()
+        {
+            var sheet = ParseStyleSheet(@"
+            :root {
+                --color: #FFFFFF;
+            }
+
+            p {
+                color: var(--color);
+            }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is a test</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("p"));
+            Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetColor());
+        }
+
+        [Test]
+        public async Task ResolvesCssVariablesWithUnusedFallback_Issue62()
+        {
+            var sheet = ParseStyleSheet(@"
+            :root {
+                --color: #FFFFFF;
+            }
+
+            p {
+                color: var(--color, green);
+            }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is a test</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("p"));
+            Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetColor());
+        }
+
+        [Test]
+        public async Task ResolvesCssVariablesWithUsedFallback_Issue62()
+        {
+            var sheet = ParseStyleSheet(@"
+            :root {}
+
+            p {
+                color: var(--color, green);
+            }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is a test</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("p"));
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+        }
+
+        [Test]
+        public async Task ResolvesCssVariablesWithUsedFallbackVarReference_Issue62()
+        {
+            var sheet = ParseStyleSheet(@"
+            :root {
+                --defaultColor: green;
+            }
+
+            p {
+                color: var(--color, var(--defaultColor));
+            }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is a test</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("p"));
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+        }
+
+        [Test]
+        public async Task ResolvesCssVariablesWithCascade_Issue62()
+        {
+            var sheet = ParseStyleSheet(@"
+            :root {
+                --color: blue;
+                --defaultColor: red;
+            }
+
+            body {
+                --color: green;
+            }
+
+            p {
+                color: var(--color, var(--defaultColor));
+            }");
+            var document = await sheet.Context.OpenAsync(res => res.Content(@"<p>This is a test</p>"));
+            var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
+            var style = sc.ComputeDeclarations(document.QuerySelector("p"));
+            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
         }
     }
 }

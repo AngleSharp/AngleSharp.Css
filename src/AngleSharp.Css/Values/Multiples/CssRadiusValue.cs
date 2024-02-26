@@ -5,11 +5,12 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a periodic CSS value.
     /// </summary>
-    public class CssRadiusValue<T> : ICssMultipleValue
+    public class CssRadiusValue<T> : ICssMultipleValue, IEquatable<CssRadiusValue<T>>
         where T : ICssValue
     {
         #region Fields
@@ -38,15 +39,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (index)
+                return index switch
                 {
-                    case 0:
-                        return Width;
-                    case 1:
-                        return Height;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(index));
-                }
+                    0 => Width,
+                    1 => (ICssValue)Height,
+                    _ => throw new ArgumentOutOfRangeException(nameof(index)),
+                };
             }
         }
 
@@ -86,6 +84,38 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssRadiusValue<T> other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var count = _values.Length;
+
+                if (count == other._values.Length)
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var a = _values[i];
+                        var b = other._values[i];
+
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator()
         {
             yield return Width;
@@ -93,6 +123,14 @@ namespace AngleSharp.Css.Values
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<ICssValue>)this).GetEnumerator();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var values = _values.Select(v => (T)v.Compute(context)).ToArray();
+            return new CssRadiusValue<T>(values);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRadiusValue<T> value && Equals(value);
 
         #endregion
     }

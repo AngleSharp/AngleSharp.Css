@@ -163,7 +163,7 @@ namespace AngleSharp.Dom
         {
             var elementHidden = new Nullable<Boolean>();
 
-            if (elementStyle != null)
+            if (elementStyle is not null)
             {
                 if (!String.IsNullOrEmpty(elementStyle.GetDisplay()))
                 {
@@ -196,13 +196,13 @@ namespace AngleSharp.Dom
                     var lastLine = node.NextSibling is null ||
                         String.IsNullOrEmpty(node.NextSibling.TextContent) ||
                         node.NextSibling is IHtmlBreakRowElement;
-                    ProcessText(textElement.Data, sb, parentStyle, lastLine);
+                    ProcessText(textElement.Data, sb, parentStyle, lastLine, requiredLineBreakCounts);
                 }
                 else if (node is IHtmlBreakRowElement)
                 {
                     sb.Append(Symbols.LineFeed);
                 }
-                else if (elementStyle != null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
+                else if (elementStyle is not null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
@@ -214,7 +214,7 @@ namespace AngleSharp.Dom
                         }
                     }
                 }
-                else if (elementStyle != null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
+                else if (elementStyle is not null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
@@ -243,7 +243,7 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (elementStyle != null)
+                if (elementStyle is not null)
                 {
                     if (IsBlockLevelDisplay(elementStyle.GetDisplay()))
                     {
@@ -297,105 +297,42 @@ namespace AngleSharp.Dom
 
         private static Boolean HasCssBox(INode node)
         {
-            switch (node.NodeName)
+            return node.NodeName switch
             {
-                case "CANVAS":
-                case "COL":
-                case "COLGROUP":
-                case "DETAILS":
-                case "FRAME":
-                case "FRAMESET":
-                case "IFRAME":
-                case "IMG":
-                case "INPUT":
-                case "LINK":
-                case "METER":
-                case "PROGRESS":
-                case "TEMPLATE":
-                case "TEXTAREA":
-                case "VIDEO":
-                case "WBR":
-                case "SCRIPT":
-                case "STYLE":
-                case "NOSCRIPT":
-                    return false;
-                default:
-                    return true;
-            }
+                "CANVAS" or "COL" or "COLGROUP" or "DETAILS" or "FRAME" or "FRAMESET" or "IFRAME" or "IMG" or "INPUT" or "LINK" or "METER" or "PROGRESS" or "TEMPLATE" or "TEXTAREA" or "VIDEO" or "WBR" or "SCRIPT" or "STYLE" or "NOSCRIPT" => false,
+                _ => true,
+            };
         }
 
         private static Boolean IsBlockLevelDisplay(String display)
         {
             // https://www.w3.org/TR/css-display-3/#display-value-summary
             // https://hg.mozilla.org/mozilla-central/file/0acceb224b7d/servo/components/layout/query.rs#l1016
-            switch (display)
+            return display switch
             {
-                case "block":
-                case "flow-root":
-                case "flex":
-                case "grid":
-                case "table":
-                case "table-caption":
-                    return true;
-                default:
-                    return false;
-            }
+                "block" or "flow-root" or "flex" or "grid" or "table" or "table-caption" => true,
+                _ => false,
+            };
         }
 
         private static Boolean IsBlockLevel(INode node)
         {
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
-            switch (node.NodeName)
+            return node.NodeName switch
             {
-                case "ADDRESS":
-                case "ARTICLE":
-                case "ASIDE":
-                case "BLOCKQUOTE":
-                case "CANVAS":
-                case "DD":
-                case "DIV":
-                case "DL":
-                case "DT":
-                case "FIELDSET":
-                case "FIGCAPTION":
-                case "FIGURE":
-                case "FOOTER":
-                case "FORM":
-                case "H1":
-                case "H2":
-                case "H3":
-                case "H4":
-                case "H5":
-                case "H6":
-                case "HEADER":
-                case "GROUP":
-                case "HR":
-                case "LI":
-                case "MAIN":
-                case "NAV":
-                case "NOSCRIPT":
-                case "OL":
-                case "OPTION":
-                case "OUTPUT":
-                case "P":
-                case "PRE":
-                case "SECTION":
-                case "TABLE":
-                case "TFOOT":
-                case "UL":
-                case "VIDEO":
-                    return true;
-                default:
-                    return false;
-            }
+                "ADDRESS" or "ARTICLE" or "ASIDE" or "BLOCKQUOTE" or "CANVAS" or "DD" or "DIV" or "DL" or "DT" or "FIELDSET" or "FIGCAPTION" or "FIGURE" or "FOOTER" or "FORM" or "H1" or "H2" or "H3" or "H4" or "H5" or "H6" or "HEADER" or "GROUP" or "HR" or "LI" or "MAIN" or "NAV" or "NOSCRIPT" or "OL" or "OPTION" or "OUTPUT" or "P" or "PRE" or "SECTION" or "TABLE" or "TFOOT" or "UL" or "VIDEO" => true,
+                _ => false,
+            };
         }
 
-        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style, Boolean lastLine)
+        private static Boolean IsWhiteSpace(Char c) => Char.IsWhiteSpace(c) && c != Symbols.NoBreakSpace;
+
+        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style, Boolean lastLine, Dictionary<Int32, Int32> requiredLineBreakCounts)
         {
             var startIndex = sb.Length;
             var whiteSpace = style?.GetWhiteSpace();
             var textTransform = style?.GetTextTransform();
-            var isWhiteSpace = startIndex > 0 ? Char.IsWhiteSpace(sb[startIndex - 1]) && sb[startIndex - 1] != Symbols.NoBreakSpace : true;
+            var isWhiteSpace = startIndex <= 0 || IsWhiteSpace(sb[startIndex - 1]) || (requiredLineBreakCounts.ContainsKey(startIndex) && IsWhiteSpace(text[0]));
 
             for (var i = 0; i < text.Length; i++)
             {

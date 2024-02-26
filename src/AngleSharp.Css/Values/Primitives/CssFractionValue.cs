@@ -1,12 +1,12 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a fractional value.
     /// </summary>
-    struct Fraction : IEquatable<Fraction>, IComparable<Fraction>, ICssPrimitiveValue
+    public readonly struct CssFractionValue : IEquatable<CssFractionValue>, IComparable<CssFractionValue>, ICssPrimitiveValue
     {
         #region Fields
 
@@ -21,8 +21,17 @@ namespace AngleSharp.Css.Values
         /// Creates a new fractional value.
         /// </summary>
         /// <param name="value">The value of the fraction.</param>
-        /// <param name="unit">The unit of the resolution.</param>
-        public Fraction(Double value, Unit unit)
+        public CssFractionValue(Double value)
+            : this(value, Unit.Fr)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new fractional value.
+        /// </summary>
+        /// <param name="value">The value of the fraction.</param>
+        /// <param name="unit">The unit.</param>
+        public CssFractionValue(Double value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -54,14 +63,11 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                switch (_unit)
+                return _unit switch
                 {
-                    case Unit.Fr:
-                        return UnitNames.Fr;
-
-                    default:
-                        return String.Empty;
-                }
+                    Unit.Fr => UnitNames.Fr,
+                    _ => String.Empty,
+                };
             }
         }
 
@@ -69,19 +75,24 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         /// <summary>
         /// Tries to convert the given string to a Fraction.
         /// </summary>
         /// <param name="s">The string to convert.</param>
         /// <param name="result">The reference to the result.</param>
         /// <returns>True if successful, otherwise false.</returns>
-        public static Boolean TryParse(String s, out Fraction result)
+        public static Boolean TryParse(String s, out CssFractionValue result)
         {
             var unit = GetUnit(s.CssUnit(out double value));
 
             if (unit != Unit.None)
             {
-                result = new Fraction(value, unit);
+                result = new CssFractionValue(value, unit);
                 return true;
             }
 
@@ -96,11 +107,11 @@ namespace AngleSharp.Css.Values
         /// <returns>A valid CSS unit or None.</returns>
         public static Unit GetUnit(String s)
         {
-            switch (s)
+            return s switch
             {
-                case "fr": return Unit.Fr;
-                default: return Unit.None;
-            }
+                "fr" => Unit.Fr,
+                _ => Unit.None,
+            };
         }
 
         /// <summary>
@@ -111,11 +122,11 @@ namespace AngleSharp.Css.Values
         public Double To(Unit unit) => _value;
 
         /// <summary>
-        /// Checks if the current resolution equals the given one.
+        /// Checks if the current frequency equals the given one.
         /// </summary>
-        /// <param name="other">The given resolution to check for equality.</param>
+        /// <param name="other">The given frequency to check for equality.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Fraction other) => _value == other._value && _unit == other._unit;
+        public Boolean Equals(CssFractionValue other) => _value == other._value && _unit == other._unit;
 
         #endregion
 
@@ -145,7 +156,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The fraction to compare to.</param>
         /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Fraction other) => _value.CompareTo(other._value);
+        public Int32 CompareTo(CssFractionValue other) => _value.CompareTo(other._value);
 
         /// <summary>
         /// Tests if another object is equal to this object.
@@ -154,7 +165,7 @@ namespace AngleSharp.Css.Values
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as Fraction?;
+            var other = obj as CssFractionValue?;
 
             if (other != null)
             {
@@ -163,6 +174,8 @@ namespace AngleSharp.Css.Values
 
             return false;
         }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFractionValue value && Equals(value);
 
         /// <summary>
         /// Returns a hash code that defines the current fraction.

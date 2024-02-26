@@ -4,10 +4,17 @@ namespace AngleSharp.Css.RenderTree
     using System.Collections.Generic;
     using System.Linq;
 
-    class TextRenderNode : IRenderNode
+    sealed class TextRenderNode : IRenderNode
     {
-        public INode Ref { get; set; }
+        public TextRenderNode(INode reference)
+        {
+            Ref = reference;
+        }
+
+        public INode Ref { get; }
 
         public IEnumerable<IRenderNode> Children => Enumerable.Empty<IRenderNode>();
+
+        public IRenderNode? Parent { get; set; }
     }
 }

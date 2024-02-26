@@ -47,7 +47,7 @@ namespace AngleSharp.Css.Declarations
 
                     for (var i = 0; i < points.Length; i++)
                     {
-                        points[i] = new Point(x.Items[i], y.Items[i]);
+                        points[i] = new CssPoint2D(x.Items[i], y.Items[i]);
                     }
 
                     return new CssListValue(points);
@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssListValue list)
                 {
-                    var points = list.Items.OfType<Point>();
+                    var points = list.Items.OfType<CssPoint2D>();
                     var x = points.Select(m => m.X).ToArray();
                     var y = points.Select(m => m.Y).ToArray();
                     return new ICssValue[]

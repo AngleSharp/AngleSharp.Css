@@ -1,3 +1,32 @@
+# 1.0.0
+
+Released on Sunday, January 21 2024.
+
+- Updated to use AngleSharp 1.0 (#150)
+- Updated media parsing to media L4 spec (#133)
+- Updated naming of CSS values (e.g., `Color` to `CssColorValue`)
+- Fixed issue when updating shorthands with invalid values (#129)
+- Fixed issue with appended EOF character in `CssText` (#123)
+- Fixed missing semicolon in `@page` rule (#135)
+- Fixed integer serialization of keyframe stops (#128)
+- Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
+- Fixed inclusion of CSS from stylesheets (#116, #140)
+- Fixed style empty if `text-align` is `start` (#151)
+- Fixed computation of priority in CSS rules using multi selector
+- Fixed `GetInnerText` multi-line / text node behavior (#155) @Seyden
+- Fixed computation of relative (`em`) values to absolute (`px`) for `Length` (#136)
+- Added further compactification of CSS tuples (#89, #93)
+- Added new value types `CssPercentageValue`, `CssNumberValue`, and `CssIntegerValue`
+- Added support for CSS nesting in style rules (#148)
+- Added resolution of CSS variable names (#62)
+- Added support for 8-digit hex color codes (#132)
+- Added support for `margin-block` and `margin-inline` declarations
+- Added support for `padding-block` and `padding-inline` declarations
+- Added more CSSOM possibilities and helpers (#6)
+- Added parts of recent color spec update such as `rgb` with spaces (#131)
+- Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
+- Added support for recent CSS `list-type` values (#152)
+
 # 0.17.0
 
 Released on Sunday, January 15 2023.

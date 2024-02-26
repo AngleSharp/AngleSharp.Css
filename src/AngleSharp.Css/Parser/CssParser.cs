@@ -203,7 +203,6 @@ namespace AngleSharp.Css.Parser
         {
             var sheet = new CssStyleSheet(_context, source);
             var tokenizer = CreateTokenizer(source);
-            var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(_options, tokenizer, _context);
             InvokeEventListener(new CssParseEvent(sheet, completed: false));
             builder.CreateRules(sheet);

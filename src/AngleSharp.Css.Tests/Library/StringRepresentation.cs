@@ -2,9 +2,14 @@ namespace AngleSharp.Css.Tests.Library
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.RenderTree;
+    using AngleSharp.Css.Tests.Mocks;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System.IO;
+    using System.Threading.Tasks;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -27,21 +32,21 @@ namespace AngleSharp.Css.Tests.Library
         [Test]
         public void SimpleColorWorksWithHexOutput_Issue96()
         {
-            var color = new Color(65, 12, 48);
-            Color.UseHex = true;
+            var color = new CssColorValue(65, 12, 48);
+            CssColorValue.UseHex = true;
             var text = color.CssText;
-            Color.UseHex = false;
+            CssColorValue.UseHex = false;
             Assert.AreEqual("#410C30", text);
         }
 
         [Test]
-        public void TransparentColorDoesNotWorkWithHexOutput_Issue96()
+        public void TransparentColorWorksWithHexOutput_Issue132()
         {
-            var color = new Color(65, 12, 48, 10);
-            Color.UseHex = true;
+            var color = new CssColorValue(65, 12, 48, 10);
+            CssColorValue.UseHex = true;
             var text = color.CssText;
-            Color.UseHex = false;
-            Assert.AreEqual("rgba(65, 12, 48, 0.04)", text);
+            CssColorValue.UseHex = false;
+            Assert.AreEqual("#410C300A", text);
         }
 
         [Test]
@@ -104,6 +109,112 @@ namespace AngleSharp.Css.Tests.Library
             var generatedCss = styleSheet.ToCss();
 
             Assert.AreEqual(css, generatedCss);
+        }
+
+        [Test]
+        public void CssTextShouldNotAddReplacementCharacter_Issue123()
+        {
+            var html = @"<span style=""background-image: var(--urlSpellingErrorV2,url(&quot;https://www.example.com/))"">Ipsum</span>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss(new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidSelectors = true,
+            }));
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("background-image: var(--urlSpellingErrorV2,url(\"https://www.example.com/))", css);
+        }
+
+        [Test]
+        public void CssTextShouldNotTrailingSemicolonCharacter_Issue123()
+        {
+            var html = @"<span style=""color: red;"">Ipsum</span>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss(new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidSelectors = true,
+            }));
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("color: rgba(255, 0, 0, 1)", css);
+        }
+
+        [Test]
+        public void BorderWithEmptyPx_Issue129()
+        {
+            var html = "<div style=\"border-width:1px;border-right-width:px;\"></div>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithCss());
+            var div = dom.Body?.FirstElementChild;
+            var style = div.GetStyle();
+            var css = style.ToCss();
+
+            Assert.AreEqual("border-width: 1px", css);
+        }
+
+        [Test]
+        public async Task MediaListForLinkedStyleSheet_Issue133()
+        {
+            var html = "<link href=\"style.css\" rel=\"stylesheet\">";
+            var mockRequester = new MockRequester();
+            mockRequester.BuildResponse(request =>
+            {
+                if (request.Address.Path.EndsWith("style.css"))
+                {
+                    return "div#A   { color: blue;	}";
+                }
+
+                return null;
+            });
+            var config = Configuration.Default.WithCss().WithMockRequester(mockRequester);
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync((res) => res.Content(html));
+            var link = document.QuerySelector<IHtmlLinkElement>("link");
+            Assert.AreEqual("", link.Sheet.Media.MediaText);
+            Assert.IsTrue(link.Sheet.Media.Validate(new DefaultRenderDevice()));
+        }
+
+        [Test]
+        public async Task ExternalCssNotConsidered_Issue140()
+        {
+            var html = @"<html>
+        <head><link href=""https://some/tested/url.css"" rel=""stylesheet""></head>
+        <body><label>HI</label></body>
+      </html>";
+            var mockRequester = new MockRequester();
+            mockRequester.BuildResponse(request =>
+            {
+                if (request.Address.Path.EndsWith("url.css"))
+                {
+                    return @"label, .test {
+  min-width: 50px;
+  border: 1px solid green;
+}";
+                }
+
+                return null;
+            });
+            var config = Configuration.Default
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    DeviceWidth = 1920,
+                    DeviceHeight = 1080,
+                })
+                .WithCss()
+                .WithMockRequester(mockRequester);
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync((res) => res.Content(html));
+            var window = document.DefaultView;
+            var tree = window.Render();
+            var label = tree.Find(document.QuerySelector("label"));
+            var minWidth = window.GetComputedStyle(label.Ref as IHtmlElement).GetMinWidth();
+
+            Assert.AreEqual("50px", minWidth);
         }
     }
 }

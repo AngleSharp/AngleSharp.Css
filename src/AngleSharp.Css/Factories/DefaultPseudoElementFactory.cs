@@ -17,7 +17,7 @@ namespace AngleSharp.Css
         /// <returns>The new pseudo element.</returns>
         public delegate IPseudoElement Creator(IElement host);
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoElementNames.Before, element => new PseudoElement(element, PseudoElementNames.Before) },
             { PseudoElementNames.After, element => new PseudoElement(element, PseudoElementNames.After) },

@@ -6,19 +6,19 @@ namespace AngleSharp.Css.Values
     /// Represents a transformation matrix value.
     /// http://dev.w3.org/csswg/css-transforms/#mathematical-description
     /// </summary>
-    public class TransformMatrix : IEquatable<TransformMatrix>
+    public sealed class TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 
         /// <summary>
         /// Gets the zero matrix.
         /// </summary>
-        public static readonly TransformMatrix Zero = new TransformMatrix();
+        public static readonly TransformMatrix Zero = new();
 
         /// <summary>
         /// Gets the unity matrix.
         /// </summary>
-        public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
+        public static readonly TransformMatrix One = new(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
         private readonly Double[,] _matrix;
 
@@ -208,7 +208,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj) => obj is TransformMatrix other ? Equals(other) : false;
+        public override Boolean Equals(Object obj) => obj is TransformMatrix other && Equals(other);
 
         /// <summary>
         /// Returns a hash code that defines the current length.

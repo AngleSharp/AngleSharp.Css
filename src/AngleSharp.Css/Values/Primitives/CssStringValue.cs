@@ -1,12 +1,13 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
 
     /// <summary>
-    /// Represents a CSS label ("string") value.
+    /// Represents a CSS string value.
     /// </summary>
-    struct Label : ICssPrimitiveValue, IEquatable<Label>
+    public readonly struct CssStringValue : ICssPrimitiveValue, IEquatable<CssStringValue>
     {
         #region Fields
 
@@ -17,10 +18,10 @@ namespace AngleSharp.Css.Values
         #region ctor
 
         /// <summary>
-        /// Creates a new CSS label value.
+        /// Creates a new CSS string value.
         /// </summary>
         /// <param name="value">The string to represent.</param>
-        public Label(String value)
+        public CssStringValue(String value)
         {
             _value = value;
         }
@@ -30,7 +31,7 @@ namespace AngleSharp.Css.Values
         #region Properties
 
         /// <summary>
-        /// Gets the label value.
+        /// Gets the string value.
         /// </summary>
         public String Value => _value;
 
@@ -43,22 +44,29 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
         /// <summary>
-        /// Checks the two labels for equality.
+        /// Checks the two strings for equality.
         /// </summary>
-        /// <param name="other">The other label to check against.</param>
+        /// <param name="other">The other string to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Label other) => Value.Is(other.Value);
+        public Boolean Equals(CssStringValue other) => Value.Is(other.Value);
 
         /// <summary>
         /// Checks for equality against the given object,
-        /// if the provided object is no label the result
+        /// if the provided object is no string the result
         /// is false.
         /// </summary>
         /// <param name="obj">The object to check against.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj) =>
-            obj is Label label ? Equals(label) : false;
+            obj is CssStringValue str && Equals(str);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStringValue value && Equals(value);
 
         /// <summary>
         /// Gets the hash code of the object.

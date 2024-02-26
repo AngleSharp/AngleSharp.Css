@@ -37,6 +37,9 @@ namespace AngleSharp.Css.Tests.Extensions
         // paragraph
         [TestCase("<p>test</p>", "test")]
         [TestCase("<p>test1</p><p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>\n<p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>\n \n <p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>a\n \n b<p>test2</p>", "test1\n\na b\n\ntest2")]
         // block-level
         [TestCase("<div>test1</div><div>test2</div><div>test3</div>", "test1\ntest2\ntest3")]
         [TestCase(@"test1<span style=""display:block"">test2</span>test3", "test1\ntest2\ntest3")]

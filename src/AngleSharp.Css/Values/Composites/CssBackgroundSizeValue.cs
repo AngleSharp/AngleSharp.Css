@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS background size definition.
@@ -17,12 +18,12 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Used to declare cover background size.
         /// </summary>
-        public static readonly CssBackgroundSizeValue Cover = new CssBackgroundSizeValue(ValueMode.Cover);
+        public static readonly CssBackgroundSizeValue Cover = new(ValueMode.Cover);
 
         /// <summary>
         /// Used to declare contain background size.
         /// </summary>
-        public static readonly CssBackgroundSizeValue Contain = new CssBackgroundSizeValue(ValueMode.Contain);
+        public static readonly CssBackgroundSizeValue Contain = new(ValueMode.Contain);
 
         #endregion
 
@@ -30,8 +31,8 @@ namespace AngleSharp.Css.Values
 
         private CssBackgroundSizeValue(ValueMode mode)
         {
-            _width = Length.Zero;
-            _height = Length.Zero;
+            _width = CssLengthValue.Auto;
+            _height = CssLengthValue.Auto;
             _mode = mode;
         }
 
@@ -76,7 +77,7 @@ namespace AngleSharp.Css.Values
                 {
                     return CssKeywords.Contain;
                 }
-                else if (_height.Equals(Length.Auto))
+                else if (_height.Equals(CssLengthValue.Auto))
                 {
                     return _width.CssText;
                 }
@@ -94,18 +95,52 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="other">The other background size.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(CssBackgroundSizeValue other) =>
-            _mode == other._mode && _height == other._height && _width == other._width;
+        public Boolean Equals(CssBackgroundSizeValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return _mode == other._mode && comparer.Equals(_height, other._height) && comparer.Equals(_width, other._width);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssBackgroundSizeValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            if (_mode == ValueMode.Explicit)
+            {
+                var w = _width.Compute(context);
+                var h = _height.Compute(context);
+                return new CssBackgroundSizeValue(w, h);
+            }
+
+            return this;
+        }
 
         #endregion
 
         #region Value Mode
 
+        /// <summary>
+        /// Represents the value modes for the vertical and horizontal axis.
+        /// </summary>
         private enum ValueMode
         {
+            /// <summary>
+            /// The size is explicitly specified.
+            /// </summary>
             Explicit,
+            /// <summary>
+            /// The size should cover the axis.
+            /// </summary>
             Cover,
-            Contain
+            /// <summary>
+            /// The size should contain the axis.
+            /// </summary>
+            Contain,
         }
 
         #endregion

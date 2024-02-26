@@ -6,6 +6,7 @@ namespace AngleSharp.Css.Dom
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Represents a list of media elements.
@@ -16,6 +17,8 @@ namespace AngleSharp.Css.Dom
 
         private readonly IBrowsingContext _context;
         private readonly List<ICssMedium> _media;
+
+        private static readonly CssMedium replacementMedium = new(CssKeywords.All, inverse: true, exclusive: false);
 
         #endregion
 
@@ -56,21 +59,15 @@ namespace AngleSharp.Css.Dom
         public void SetMediaText(String value, Boolean throwOnError)
         {
             _media.Clear();
-            var media = MediaParser.Parse(value ?? CssKeywords.All, ValidatorFactory);
+            var v = String.IsNullOrEmpty(value) ? String.Empty : value;
+            var media = MediaParser.Parse(v, ValidatorFactory) ?? Enumerable.Repeat<CssMedium>(null, 1);
 
-            if (media != null)
-            {
-                _media.AddRange(media);
-            }
-            else if (throwOnError)
+            if (throwOnError && media.Contains(null))
             {
                 throw new DomException(DomError.Syntax);
             }
 
-            if (_media.Count == 0)
-            {
-                _media.Add(new CssMedium(CssKeywords.All, inverse: true, exclusive: false));
-            }
+            _media.AddRange(media.Select(m => m ?? replacementMedium));
         }
 
         public void Add(String newMedium)

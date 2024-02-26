@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    public class CssTupleValue<T> : ICssMultipleValue
+    public class CssTupleValue<T> : ICssMultipleValue, IEquatable<CssTupleValue<T>>
         where T : ICssValue
     {
         #region Fields
@@ -58,10 +58,50 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssTupleValue<T> other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var count = _items.Length;
+
+                if (_separator == other._separator && count == other._items.Length)
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var a = _items[i];
+                        var b = other._items[i];
+
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         IEnumerator<ICssValue> IEnumerable<ICssValue>.GetEnumerator() =>
             _items.OfType<ICssValue>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var items = _items.Select(v => (T)v.Compute(context)).ToArray();
+            return new CssTupleValue<T>(items, _separator);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssTupleValue<T> value && Equals(value);
 
         #endregion
     }

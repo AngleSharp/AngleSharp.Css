@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultDeclarationFactory : IDeclarationFactory
     {
-        private readonly Dictionary<String, DeclarationInfo> _declarations = new Dictionary<String, DeclarationInfo>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, DeclarationInfo> _declarations = new(StringComparer.OrdinalIgnoreCase)
         {
             {
                 BookmarkLabelDeclaration.Name, new DeclarationInfo(
@@ -771,6 +771,38 @@ namespace AngleSharp.Css
                     shorthands: ColumnRuleColorDeclaration.Shorthands)
             },
             {
+                PaddingBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: PaddingBlockEndDeclaration.Name,
+                    converter: PaddingBlockEndDeclaration.Converter,
+                    initialValue: PaddingBlockEndDeclaration.InitialValue,
+                    flags: PaddingBlockEndDeclaration.Flags,
+                    shorthands: PaddingBlockEndDeclaration.Shorthands)
+            },
+            {
+                PaddingBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: PaddingBlockStartDeclaration.Name,
+                    converter: PaddingBlockStartDeclaration.Converter,
+                    initialValue: PaddingBlockStartDeclaration.InitialValue,
+                    flags: PaddingBlockStartDeclaration.Flags,
+                    shorthands: PaddingBlockStartDeclaration.Shorthands)
+            },
+            {
+                PaddingInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: PaddingInlineEndDeclaration.Name,
+                    converter: PaddingInlineEndDeclaration.Converter,
+                    initialValue: PaddingInlineEndDeclaration.InitialValue,
+                    flags: PaddingInlineEndDeclaration.Flags,
+                    shorthands: PaddingInlineEndDeclaration.Shorthands)
+            },
+            {
+                PaddingInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: PaddingInlineStartDeclaration.Name,
+                    converter: PaddingInlineStartDeclaration.Converter,
+                    initialValue: PaddingInlineStartDeclaration.InitialValue,
+                    flags: PaddingInlineStartDeclaration.Flags,
+                    shorthands: PaddingInlineStartDeclaration.Shorthands)
+            },
+            {
                 PaddingTopDeclaration.Name, new DeclarationInfo(
                     name: PaddingTopDeclaration.Name,
                     converter: PaddingTopDeclaration.Converter,
@@ -801,6 +833,38 @@ namespace AngleSharp.Css
                     initialValue: PaddingBottomDeclaration.InitialValue,
                     flags: PaddingBottomDeclaration.Flags,
                     shorthands: PaddingBottomDeclaration.Shorthands)
+            },
+                        {
+                MarginBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: MarginBlockEndDeclaration.Name,
+                    converter: MarginBlockEndDeclaration.Converter,
+                    initialValue: MarginBlockEndDeclaration.InitialValue,
+                    flags: MarginBlockEndDeclaration.Flags,
+                    shorthands: MarginBlockEndDeclaration.Shorthands)
+            },
+            {
+                MarginBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: MarginBlockStartDeclaration.Name,
+                    converter: MarginBlockStartDeclaration.Converter,
+                    initialValue: MarginBlockStartDeclaration.InitialValue,
+                    flags: MarginBlockStartDeclaration.Flags,
+                    shorthands: MarginBlockStartDeclaration.Shorthands)
+            },
+            {
+                MarginInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: MarginInlineEndDeclaration.Name,
+                    converter: MarginInlineEndDeclaration.Converter,
+                    initialValue: MarginInlineEndDeclaration.InitialValue,
+                    flags: MarginInlineEndDeclaration.Flags,
+                    shorthands: MarginInlineEndDeclaration.Shorthands)
+            },
+            {
+                MarginInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: MarginInlineStartDeclaration.Name,
+                    converter: MarginInlineStartDeclaration.Converter,
+                    initialValue: MarginInlineStartDeclaration.InitialValue,
+                    flags: MarginInlineStartDeclaration.Flags,
+                    shorthands: MarginInlineStartDeclaration.Shorthands)
             },
             {
                 MarginTopDeclaration.Name, new DeclarationInfo(
@@ -1325,12 +1389,44 @@ namespace AngleSharp.Css
                     longhands: PaddingDeclaration.Longhands)
             },
             {
+                PaddingBlockDeclaration.Name, new DeclarationInfo(
+                    name: PaddingBlockDeclaration.Name,
+                    converter: PaddingBlockDeclaration.Converter,
+                    initialValue: PaddingBlockDeclaration.InitialValue,
+                    flags: PaddingBlockDeclaration.Flags,
+                    longhands: PaddingBlockDeclaration.Longhands)
+            },
+            {
+                PaddingInlineDeclaration.Name, new DeclarationInfo(
+                    name: PaddingInlineDeclaration.Name,
+                    converter: PaddingInlineDeclaration.Converter,
+                    initialValue: PaddingInlineDeclaration.InitialValue,
+                    flags: PaddingInlineDeclaration.Flags,
+                    longhands: PaddingInlineDeclaration.Longhands)
+            },
+            {
                 MarginDeclaration.Name, new DeclarationInfo(
                     name: MarginDeclaration.Name,
                     converter: MarginDeclaration.Converter,
                     initialValue: MarginDeclaration.InitialValue,
                     flags: MarginDeclaration.Flags,
                     longhands: MarginDeclaration.Longhands)
+            },
+            {
+                MarginBlockDeclaration.Name, new DeclarationInfo(
+                    name: MarginBlockDeclaration.Name,
+                    converter: MarginBlockDeclaration.Converter,
+                    initialValue: MarginBlockDeclaration.InitialValue,
+                    flags: MarginBlockDeclaration.Flags,
+                    longhands: MarginBlockDeclaration.Longhands)
+            },
+            {
+                MarginInlineDeclaration.Name, new DeclarationInfo(
+                    name: MarginInlineDeclaration.Name,
+                    converter: MarginInlineDeclaration.Converter,
+                    initialValue: MarginInlineDeclaration.InitialValue,
+                    flags: MarginInlineDeclaration.Flags,
+                    longhands: MarginInlineDeclaration.Longhands)
             },
             {
                 BorderRadiusDeclaration.Name, new DeclarationInfo(

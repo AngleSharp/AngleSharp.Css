@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Parser
         private static ICssValue ParsePointDir(this StringSource source, Predicate<String> checkKeyword)
         {
             var pos = source.Index;
-            var x = new Length(50f, Length.Unit.Percent);
+            var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var l = source.ParseIdent();
 
             if (l == null)
@@ -69,11 +69,11 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a point value.
         /// </summary>
-        public static Point? ParsePoint(this StringSource source)
+        public static CssPoint2D? ParsePoint(this StringSource source)
         {
             var pos = source.Index;
-            var x = new Length(50f, Length.Unit.Percent);
-            var y = new Length(50f, Length.Unit.Percent);
+            var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
+            var y = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var l = source.ParseIdent();
             source.SkipSpacesAndComments();
             var r = source.ParseIdent();
@@ -91,7 +91,7 @@ namespace AngleSharp.Css.Parser
                 {
                     x = KeywordToLength(l).Value;
                     y = KeywordToLength(r).Value;
-                    return new Point(x, y);
+                    return new CssPoint2D(x, y);
                 }
             }
             else if (l != null)
@@ -101,12 +101,12 @@ namespace AngleSharp.Css.Parser
                 if (IsHorizontal(l))
                 {
                     x = KeywordToLength(l).Value;
-                    return new Point(x, s ?? y);
+                    return new CssPoint2D(x, s ?? y);
                 }
                 else if (IsVertical(l))
                 {
                     y = KeywordToLength(l).Value;
-                    return new Point(s ?? x, y);
+                    return new CssPoint2D(s ?? x, y);
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace AngleSharp.Css.Parser
 
                 if (s != null)
                 {
-                    return new Point(f ?? x, s ?? y);
+                    return new CssPoint2D(f ?? x, s ?? y);
                 }
                 else if (f != null)
                 {
@@ -126,22 +126,22 @@ namespace AngleSharp.Css.Parser
 
                     if (r == null)
                     {
-                        return new Point(f, y);
+                        return new CssPoint2D(f, y);
                     }
                     else if (IsVertical(r))
                     {
                         y = KeywordToLength(r).Value;
-                        return new Point(f ?? x, y);
+                        return new CssPoint2D(f ?? x, y);
                     }
                     else if (IsHorizontal(r))
                     {
                         x = KeywordToLength(r).Value;
-                        return new Point(x, f ?? y);
+                        return new CssPoint2D(x, f ?? y);
                     }
                     else
                     {
                         source.BackTo(pos);
-                        return new Point(f ?? x, y);
+                        return new CssPoint2D(f ?? x, y);
                     }
                 }
             }
@@ -167,7 +167,7 @@ namespace AngleSharp.Css.Parser
             {
                 var w = source.ParseDistanceOrCalc();
 
-                if (w == null && !source.IsIdentifier(CssKeywords.Auto))
+                if (w is null && !source.IsIdentifier(CssKeywords.Auto))
                 {
                     return null;
                 }
@@ -175,12 +175,12 @@ namespace AngleSharp.Css.Parser
                 source.SkipSpacesAndComments();
                 var h = source.ParseDistanceOrCalc();
 
-                if (h == null)
+                if (h is null)
                 {
                     source.IsIdentifier(CssKeywords.Auto);
                 }
                 
-                return new CssBackgroundSizeValue(w ?? Length.Auto, h ?? Length.Auto);
+                return new CssBackgroundSizeValue(w ?? CssLengthValue.Auto, h ?? CssLengthValue.Auto);
             }
         }
 
@@ -190,19 +190,19 @@ namespace AngleSharp.Css.Parser
         private static Boolean IsVertical(String str) =>
             str.Isi(CssKeywords.Top) || str.Isi(CssKeywords.Bottom) || str.Isi(CssKeywords.Center);
 
-        private static Length? KeywordToLength(String keyword)
+        private static CssLengthValue? KeywordToLength(String keyword)
         {
             if (keyword.Isi(CssKeywords.Left) || keyword.Isi(CssKeywords.Top))
             {
-                return new Length(0f, Length.Unit.Percent);
+                return new CssLengthValue(0f, CssLengthValue.Unit.Percent);
             }
             else if (keyword.Isi(CssKeywords.Right) || keyword.Isi(CssKeywords.Bottom))
             {
-                return new Length(100f, Length.Unit.Percent);
+                return new CssLengthValue(100f, CssLengthValue.Unit.Percent);
             }
             else if (keyword.Isi(CssKeywords.Center))
             {
-                return new Length(50f, Length.Unit.Percent);
+                return new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             }
 
             return null;

@@ -6,6 +6,7 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     static class GridDeclaration
     {
@@ -37,11 +38,11 @@ namespace AngleSharp.Css.Declarations
             {
                 var template = source.ParseGridTemplate();
 
-                if (template == null)
+                if (template is null)
                 {
                     var rows = source.ParseTrackList() ?? source.ParseAutoTrackList();
 
-                    if (rows != null)
+                    if (rows is not null)
                     {
                         if (source.SkipSpacesAndComments() == Symbols.Solidus)
                         {
@@ -153,46 +154,46 @@ namespace AngleSharp.Css.Declarations
                         gt.TemplateRows,
                         gt.TemplateColumns,
                         gt.TemplateAreas,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
+                        null, //new Identifier(CssKeywords.Auto),
+                        null, //new Identifier(CssKeywords.Auto),
+                        null, //new Identifier(CssKeywords.Row),
+                        null, //Length.Zero,
+                        null, //Length.Zero,
+                        null, //new Identifier(CssKeywords.Normal),
+                        null, //new Identifier(CssKeywords.Normal),
                     };
                 }
                 else if (value is CssGridValue grid)
                 {
-                    var dense = grid.Rows != null ? CssKeywords.Row : CssKeywords.Column;
+                    var dense = grid.Rows is not null ? CssKeywords.Row : CssKeywords.Column;
                     return new[]
                     {
                         grid.Rows,
                         grid.Columns,
-                        null,
-                        grid.Columns != null ? new CssTupleValue(grid.Sizes) : null,
-                        grid.Rows != null ? new CssTupleValue(grid.Sizes) : null,
-                        grid.IsDense ? new Identifier(dense) as ICssValue : null,
-                        null,
-                        null,
-                        null,
-                        null,
+                        null, //new Identifier(CssKeywords.None),
+                        grid.Columns is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
+                        grid.Rows is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
+                        grid.IsDense ? new CssIdentifierValue(dense) : null,
+                        null, //Length.Zero,
+                        null, //Length.Zero,
+                        null, //new Identifier(CssKeywords.Normal),
+                        null, //new Identifier(CssKeywords.Normal),
                     };
                 }
-                else if (value is Identifier)
+                else if (value is CssIdentifierValue)
                 {
                     return new[]
                     {
                         value,
                         value,
                         value,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
+                        null, //new Identifier(CssKeywords.Auto),
+                        null, //new Identifier(CssKeywords.Auto),
+                        null, //new Identifier(CssKeywords.Row),
+                        null, //Length.Zero,
+                        null, //Length.Zero,
+                        null, //new Identifier(CssKeywords.Normal),
+                        null, //new Identifier(CssKeywords.Normal),
                     };
                 }
 

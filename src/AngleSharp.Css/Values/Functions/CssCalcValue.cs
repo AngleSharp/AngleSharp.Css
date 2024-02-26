@@ -56,5 +56,13 @@ namespace AngleSharp.Css.Values
         public String CssText => Name.CssFunction(_expression.CssText);
 
         #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => _expression.Compute(context);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+
+        #endregion
     }
 }

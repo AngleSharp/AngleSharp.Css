@@ -3,17 +3,18 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
     /// Represents a linear gradient:
     /// https://drafts.csswg.org/css-images-4/#conic-gradients
     /// </summary>
-    sealed class CssConicGradientValue : ICssGradientFunctionValue
+    sealed class CssConicGradientValue : ICssGradientFunctionValue, IEquatable<CssConicGradientValue>
     {
         #region Fields
 
-        private readonly CssGradientStopValue[] _stops;
+        private readonly ICssValue[] _stops;
         private readonly ICssValue _center;
         private readonly ICssValue _angle;
         private readonly Boolean _repeating;
@@ -29,7 +30,7 @@ namespace AngleSharp.Css.Values
         /// <param name="center">The center to use.</param>
         /// <param name="stops">The stops to use.</param>
         /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public CssConicGradientValue(ICssValue angle, ICssValue center, CssGradientStopValue[] stops, Boolean repeating = false)
+        public CssConicGradientValue(ICssValue angle, ICssValue center, ICssValue[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _center = center;
@@ -76,8 +77,8 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var defaultAngle = _angle as Angle?;
-                var defaultPosition = _center as Point?;
+                var defaultAngle = _angle as CssAngleValue?;
+                var defaultPosition = _center as CssPoint2D?;
                 var offset = (defaultAngle.HasValue ? 1 : 0) + (defaultPosition.HasValue ? 1 : 0);
                 var args = new String[_stops.Length + offset];
 
@@ -103,22 +104,68 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the angle of the conic gradient.
         /// </summary>
-        public ICssValue Angle => _angle ?? Values.Angle.Half;
+        public ICssValue Angle => _angle ?? Values.CssAngleValue.Half;
 
         /// <summary>
         /// Gets the position of the conic gradient.
         /// </summary>
-        public ICssValue Center => _center ?? Point.Center;
+        public ICssValue Center => _center ?? CssPoint2D.Center;
 
         /// <summary>
         /// Gets all stops.
         /// </summary>
-        public CssGradientStopValue[] Stops => _stops;
+        public ICssValue[] Stops => _stops;
 
         /// <summary>
         /// Gets if the gradient is repeating.
         /// </summary>
         public Boolean IsRepeating => _repeating;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssConicGradientValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                var l = _stops.Length;
+
+                if (comparer.Equals(_angle, other._angle) && comparer.Equals(_center, other._center) && _repeating == other._repeating && l == other._stops.Length)
+                {
+                    for (var i = 0; i < l; i++)
+                    {
+                        var a = _stops[i];
+                        var b = other._stops[i];
+
+                        if (!comparer.Equals(a, b))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssConicGradientValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var center = _center.Compute(context);
+            var angle = _angle.Compute(context);
+            var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
+            return new CssConicGradientValue(angle, center, stops, _repeating);
+        }
 
         #endregion
     }

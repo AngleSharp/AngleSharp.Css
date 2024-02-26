@@ -70,6 +70,11 @@ namespace AngleSharp.Css.Parser
             {
                 var token = Data(current);
 
+                if (Current is Symbols.EndOfFile)
+                {
+                    Back();
+                }
+
                 if (token.Type == CssTokenType.Whitespace)
                 {
                     spaced++;

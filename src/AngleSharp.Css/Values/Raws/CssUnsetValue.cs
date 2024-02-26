@@ -2,11 +2,12 @@ namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS unset value.
     /// </summary>
-    struct CssUnsetValue : ICssSpecialValue
+    readonly struct CssUnsetValue : ICssSpecialValue
     {
         #region Fields
 
@@ -38,6 +39,17 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => CssKeywords.Unset;
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            return this;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUnsetValue o && EqualityComparer<ICssValue>.Default.Equals(_value, o.Value);
 
         #endregion
     }

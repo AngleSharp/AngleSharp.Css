@@ -3,11 +3,12 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS font definition.
     /// </summary>
-    sealed class CssFontValue : ICssCompositeValue
+    sealed class CssFontValue : ICssCompositeValue, IEquatable<CssFontValue>
     {
         #region Fields
 
@@ -132,6 +133,46 @@ namespace AngleSharp.Css.Values
                 sb.Append(_fontFamilies.CssText);
                 return sb.ToPool();
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssFontValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_lineHeight, other._lineHeight) &&
+                    comparer.Equals(_size, other._size) &&
+                    comparer.Equals(_weight, other._weight) &&
+                    comparer.Equals(_stretch, other._stretch) &&
+                    comparer.Equals(_variant, other._variant) &&
+                    comparer.Equals(_style, other._style) &&
+                    comparer.Equals(_fontFamilies, other._fontFamilies);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssFontValue value && Equals(value);
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var fontFamilies = _fontFamilies.Compute(context);
+            var lineHeight = _lineHeight.Compute(context);
+            var size = _size.Compute(context);
+            var stretch = _stretch.Compute(context);
+            var style = _style.Compute(context);
+            var variant = _variant.Compute(context);
+            var weight = _weight.Compute(context);
+            return new CssFontValue(style, variant, weight, stretch, size, lineHeight, fontFamilies);
         }
 
         #endregion

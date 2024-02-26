@@ -3,11 +3,12 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the skew transformation.
     /// </summary>
-    public sealed class CssSkewValue : ICssTransformFunctionValue
+    public sealed class CssSkewValue : ICssTransformFunctionValue, IEquatable<CssSkewValue>
     {
         #region Fields
 
@@ -101,14 +102,45 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssSkewValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_alpha, other._alpha) && comparer.Equals(_beta, other._beta);
+            }
+
+            return false;
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssSkewValue value && Equals(value);
+
+        /// <summary>
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
-            var a = Math.Tan((_alpha as Angle ? ?? Angle.Zero).ToRadian());
-            var b = Math.Tan((_beta as Angle? ?? Angle.Zero).ToRadian());
+            var a = Math.Tan((_alpha as CssAngleValue? ?? CssAngleValue.Zero).ToRadian());
+            var b = Math.Tan((_beta as CssAngleValue? ?? CssAngleValue.Zero).ToRadian());
             return new TransformMatrix(1.0, a, 0.0, b, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        }
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var alpha = _alpha.Compute(context);
+            var beta = _beta.Compute(context);
+
+            if (alpha != _alpha || beta != _beta)
+            {
+                return new CssSkewValue(alpha, beta);
+            }
+
+            return this;
         }
 
         #endregion

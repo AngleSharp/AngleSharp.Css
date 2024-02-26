@@ -8,6 +8,7 @@ namespace AngleSharp.Css.Declarations
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     static class ContentDeclaration
     {
@@ -21,7 +22,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class ContentValueConverter : IValueConverter
         {
-            private static readonly Dictionary<String, IContentMode> ContentModes = new Dictionary<String, IContentMode>(StringComparer.OrdinalIgnoreCase)
+            private static readonly Dictionary<String, ContentMode> ContentModes = new(StringComparer.OrdinalIgnoreCase)
             {
                 { CssKeywords.OpenQuote, new OpenQuoteContentMode() },
                 { CssKeywords.NoOpenQuote, new NoOpenQuoteContentMode() },
@@ -107,9 +108,9 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private sealed class ContentValue : ICssValue
+            private sealed class ContentValue : ICssValue, IEquatable<ContentValue>
             {
-                private ICssValue[] _modes;
+                private readonly ICssValue[] _modes;
 
                 public ContentValue(ICssValue[] modes)
                 {
@@ -117,86 +118,109 @@ namespace AngleSharp.Css.Declarations
                 }
 
                 public String CssText => _modes.Length == 0 ? CssKeywords.None : _modes.Join(" ");
+
+                public ICssValue Compute(ICssComputeContext context)
+                {
+                    var modes = _modes.Select(mode => mode.Compute(context)).ToArray();
+                    return new ContentValue(modes);
+                }
+                public Boolean Equals(ContentValue other)
+                {
+                    var l = _modes.Length;
+
+                    if (l == other._modes.Length)
+                    {
+                        for (var i = 0; i < l; i++)
+                        {
+                            var a = _modes[i];
+                            var b = other._modes[i];
+
+                            if (!a.Equals(b))
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is ContentValue value && Equals(value);
             }
 
-            private interface IContentMode : ICssValue
+            private abstract class ContentMode : ICssValue
             {
-                String Stringify(IElement element);
+                public String CssText => GetCssText();
+
+                public abstract String Stringify(IElement element);
+
+                public abstract String GetCssText();
+
+                ICssValue ICssValue.Compute(ICssComputeContext context) => this;
+
+                public virtual Boolean Equals(ICssValue other) => Object.ReferenceEquals(this, other);
             }
 
             /// <summary>
             /// Computes to none for the :before and :after pseudo-elements.
             /// </summary>
-            private sealed class NormalContentMode : IContentMode
+            private sealed class NormalContentMode : ContentMode
             {
-                public String CssText => CssKeywords.Normal;
+                public override String GetCssText() => CssKeywords.Normal;
 
-                public String Stringify(IElement element)
-                {
-                    return String.Empty;
-                }
+                public override String Stringify(IElement element) => String.Empty;
             }
 
             /// <summary>
             /// The value is replaced by the open quote string from the quotes
             /// property.
             /// </summary>
-            private sealed class OpenQuoteContentMode : IContentMode
+            private sealed class OpenQuoteContentMode : ContentMode
             {
-                public String CssText => CssKeywords.OpenQuote;
+                public override String GetCssText() => CssKeywords.OpenQuote;
 
-                public String Stringify(IElement element)
-                {
-                    return String.Empty;
-                }
+                public override String Stringify(IElement element) => String.Empty;
             }
 
             /// <summary>
             /// The value is replaced by the close string from the quotes
             /// property.
             /// </summary>
-            private sealed class CloseQuoteContentMode : IContentMode
+            private sealed class CloseQuoteContentMode : ContentMode
             {
-                public String CssText => CssKeywords.CloseQuote;
+                public override String GetCssText() => CssKeywords.CloseQuote;
 
-                public String Stringify(IElement element)
-                {
-                    return String.Empty;
-                }
+                public override String Stringify(IElement element) => String.Empty;
             }
 
             /// <summary>
             /// Introduces no content, but increments the level of nesting for
             /// quotes.
             /// </summary>
-            private sealed class NoOpenQuoteContentMode : IContentMode
+            private sealed class NoOpenQuoteContentMode : ContentMode
             {
-                public String CssText => CssKeywords.NoOpenQuote;
+                public override String GetCssText() => CssKeywords.NoOpenQuote;
 
-                public String Stringify(IElement element)
-                {
-                    return String.Empty;
-                }
+                public override String Stringify(IElement element) => String.Empty;
             }
 
             /// <summary>
             /// Introduces no content, but decrements the level of nesting for
             /// quotes.
             /// </summary>
-            private sealed class NoCloseQuoteContentMode : IContentMode
+            private sealed class NoCloseQuoteContentMode : ContentMode
             {
-                public String CssText => CssKeywords.NoCloseQuote;
+                public override String GetCssText() => CssKeywords.NoCloseQuote;
 
-                public String Stringify(IElement element)
-                {
-                    return String.Empty;
-                }
+                public override String Stringify(IElement element) => String.Empty;
             }
 
             /// <summary>
             /// Text content.
             /// </summary>
-            private sealed class TextContentMode : IContentMode
+            private sealed class TextContentMode : ContentMode
             {
                 private readonly String _text;
 
@@ -205,11 +229,18 @@ namespace AngleSharp.Css.Declarations
                     _text = text;
                 }
 
-                public String CssText => _text.CssString();
+                public override String GetCssText() => _text.CssString();
 
-                public String Stringify(IElement element)
+                public override String Stringify(IElement element) => _text;
+
+                public override Boolean Equals(ICssValue other)
                 {
-                    return _text;
+                    if (other is TextContentMode o)
+                    {
+                        return _text.Equals(o._text);
+                    }
+
+                    return false;
                 }
             }
 
@@ -218,20 +249,27 @@ namespace AngleSharp.Css.Declarations
             /// in scope at this pseudo-element, from outermost to innermost
             /// separated by the specified string.
             /// </summary>
-            private sealed class CounterContentMode : IContentMode
+            private sealed class CounterContentMode : ContentMode
             {
-                private readonly CounterDefinition _counter;
+                private readonly CssCounterDefinitionValue _counter;
 
-                public CounterContentMode(CounterDefinition counter)
+                public CounterContentMode(CssCounterDefinitionValue counter)
                 {
                     _counter = counter;
                 }
 
-                public String CssText => _counter.CssText;
+                public override String GetCssText() => _counter.CssText;
 
-                public String Stringify(IElement element)
+                public override String Stringify(IElement element) => String.Empty;
+
+                public override Boolean Equals(ICssValue other)
                 {
-                    return String.Empty;
+                    if (other is CounterContentMode o)
+                    {
+                        return _counter.Equals(o._counter);
+                    }
+
+                    return false;
                 }
             }
 
@@ -239,7 +277,7 @@ namespace AngleSharp.Css.Declarations
             /// Returns the value of the element's attribute X as a string. If
             /// there is no attribute X, an empty string is returned.
             /// </summary>
-            private sealed class AttributeContentMode : IContentMode
+            private sealed class AttributeContentMode : ContentMode
             {
                 private readonly String _attribute;
 
@@ -248,11 +286,18 @@ namespace AngleSharp.Css.Declarations
                     _attribute = attribute;
                 }
 
-                public String CssText => FunctionNames.Attr.CssFunction(_attribute);
+                public override String GetCssText() => FunctionNames.Attr.CssFunction(_attribute);
 
-                public String Stringify(IElement element)
+                public override String Stringify(IElement element) => element.GetAttribute(_attribute) ?? String.Empty;
+
+                public override Boolean Equals(ICssValue other)
                 {
-                    return element.GetAttribute(_attribute) ?? String.Empty;
+                    if (other is AttributeContentMode o)
+                    {
+                        return _attribute.Equals(o._attribute);
+                    }
+
+                    return false;
                 }
             }
 
@@ -261,7 +306,7 @@ namespace AngleSharp.Css.Declarations
             /// image). If the resource or image can't be displayed, it is either
             /// ignored or some placeholder shows up.
             /// </summary>
-            private sealed class UrlContentMode : IContentMode
+            private sealed class UrlContentMode : ContentMode
             {
                 private readonly CssUrlValue _url;
 
@@ -270,11 +315,18 @@ namespace AngleSharp.Css.Declarations
                     _url = url;
                 }
 
-                public String CssText => _url.CssText;
+                public override String GetCssText() => _url.CssText;
 
-                public String Stringify(IElement element)
+                public override String Stringify(IElement element) => String.Empty;
+
+                public override Boolean Equals(ICssValue other)
                 {
-                    return String.Empty;
+                    if (other is UrlContentMode o)
+                    {
+                        return _url.Equals(o._url);
+                    }
+
+                    return false;
                 }
             }
         }

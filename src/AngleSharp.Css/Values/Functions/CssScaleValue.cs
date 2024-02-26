@@ -3,18 +3,18 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the scale3d transformation.
     /// </summary>
-    sealed class CssScaleValue : ICssTransformFunctionValue
+    sealed class CssScaleValue : ICssTransformFunctionValue, IEquatable<CssScaleValue>
     {
         #region Fields
 
-        private readonly Double _sx;
-        private readonly Double _sy;
-        private readonly Double _sz;
+        private readonly ICssValue _sx;
+        private readonly ICssValue _sy;
+        private readonly ICssValue _sz;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Values
         /// <param name="sx">The x scaling factor.</param>
         /// <param name="sy">The y scaling factor.</param>
         /// <param name="sz">The z scaling factor.</param>
-        public CssScaleValue(Double sx, Double sy, Double sz)
+        public CssScaleValue(ICssValue sx, ICssValue sy, ICssValue sz)
         {
             _sx = sx;
             _sy = sy;
@@ -44,24 +44,26 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                if (_sz == 1f)
+                if (_sx is null && _sz is null)
                 {
-                    if (_sx != _sy)
-                    {
-                        if (_sx == 1f)
-                        {
-                            return FunctionNames.ScaleY;
-                        }
-                        else if (_sy == 1f)
-                        {
-                            return FunctionNames.ScaleX;
-                        }
-                    }
-
+                    return FunctionNames.ScaleY;
+                }
+                else if (_sy is null && _sz is null)
+                {
+                    return FunctionNames.ScaleX;
+                }
+                else if (_sx is null && _sy is null)
+                {
+                    return FunctionNames.ScaleX;
+                }
+                else if (_sz is null)
+                {
                     return FunctionNames.Scale;
                 }
-
-                return FunctionNames.Scale3d;
+                else
+                {
+                    return FunctionNames.Scale3d;
+                }
             }
         }
 
@@ -70,9 +72,9 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public ICssValue[] Arguments => new ICssValue[]
         {
-            new Length(_sx, Length.Unit.None),
-            new Length(_sy, Length.Unit.None),
-            new Length(_sz, Length.Unit.None),
+            _sx,
+            _sy,
+            _sz,
         };
 
         /// <summary>
@@ -82,62 +84,89 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var args = String.Empty;
-
-                if (_sz == 1.0)
+                if (_sx is null && _sz is null)
                 {
-                    if (_sx == _sy || _sy == 1.0)
-                    {
-                        args = _sx.ToString(CultureInfo.InvariantCulture);
-                    }
-                    else if (_sx == 1.0)
-                    {
-                        args = _sy.ToString(CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        args = String.Concat(
-                            _sx.ToString(CultureInfo.InvariantCulture), ", ",
-                            _sy.ToString(CultureInfo.InvariantCulture));
-                    }
+                    return FunctionNames.ScaleY.CssFunction(_sy.CssText);
                 }
-                else if (_sx != _sy || _sx != _sz)
+                else if (_sy is null && _sz is null)
                 {
-                    args = String.Concat(
-                        _sx.ToString(CultureInfo.InvariantCulture), ", ",
-                        _sy.ToString(CultureInfo.InvariantCulture), ", ",
-                        _sz.ToString(CultureInfo.InvariantCulture));
+                    return FunctionNames.ScaleX.CssFunction(_sx.CssText);
                 }
-
-                return Name.CssFunction(args);
+                else if (_sx is null && _sy is null)
+                {
+                    return FunctionNames.ScaleZ.CssFunction($"{_sz.CssText}");
+                }
+                else if (_sz is null && _sx.Equals(_sy))
+                {
+                    return FunctionNames.Scale.CssFunction(_sx.CssText);
+                }
+                else if (_sz is null)
+                {
+                    return FunctionNames.Scale.CssFunction($"{_sx.CssText}, {_sy.CssText}");
+                }
+                else
+                {
+                    return FunctionNames.Scale3d.CssFunction($"{_sx.CssText}, {_sy.CssText}, {_sz.CssText}");
+                }
             }
         }
 
         /// <summary>
         /// Gets the scaling in x-direction.
         /// </summary>
-        public Double ScaleX => _sx;
+        public ICssValue ScaleX => _sx;
 
         /// <summary>
         /// Gets the scaling in y-direction.
         /// </summary>
-        public Double ScaleY => _sy;
+        public ICssValue ScaleY => _sy;
 
         /// <summary>
         /// Gets the scaling in z-direction.
         /// </summary>
-        public Double ScaleZ => _sz;
+        public ICssValue ScaleZ => _sz;
 
         #endregion
 
         #region Methods
 
         /// <summary>
+        /// Checks if the current value is equal to the provided one.
+        /// </summary>
+        /// <param name="other">The value to check against.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(CssScaleValue other)
+        {
+            if (other is not null)
+            {
+                var comparer = EqualityComparer<ICssValue>.Default;
+                return comparer.Equals(_sx, other._sx) && comparer.Equals(_sy, other._sy) && comparer.Equals(_sz, other._sz);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Computes the matrix for the given transformation.
         /// </summary>
         /// <returns>The transformation matrix representation.</returns>
-        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions) =>
-            new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f, 0f, 0f, 0f);
+        public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
+        {
+            var sx = _sx?.AsDouble() ?? 1.0;
+            var sy = _sy?.AsDouble() ?? 1.0;
+            var sz = _sz?.AsDouble() ?? 1.0;
+            return new TransformMatrix(sx, 0f, 0f, 0f, sy, 0f, 0f, 0f, sz, 0f, 0f, 0f, 0f, 0f, 0f);
+        }
+
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var sx = _sx?.Compute(context);
+            var sy = _sy?.Compute(context);
+            var sz = _sz?.Compute(context);
+            return new CssScaleValue(sx, sy, sz);
+        }
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssScaleValue value && Equals(value);
 
         #endregion
     }
