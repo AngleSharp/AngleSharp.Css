@@ -560,6 +560,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(property.Value, "rotateX(10deg)");
         }
 
         [Test]
@@ -571,6 +572,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(property.Value, "rotateY(10deg)");
         }
 
         [Test]
@@ -582,6 +584,7 @@
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(property.Value, "rotateZ(10deg)");
         }
 
         [Test]
