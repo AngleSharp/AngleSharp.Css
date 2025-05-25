@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Values
                 }
                 else if (_x is null && _y is null && _z is not null)
                 {
-                    return FunctionNames.RotateY;
+                    return FunctionNames.RotateZ;
                 }
 
                 return FunctionNames.Rotate3d;
