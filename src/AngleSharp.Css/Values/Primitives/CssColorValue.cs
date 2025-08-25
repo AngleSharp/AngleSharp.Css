@@ -465,8 +465,6 @@ namespace AngleSharp.Css.Values
 
         /// <summary>
         /// Gets or sets if hex codes should be used for serialization.
-        /// This will not be applied in case of transparent colors, i.e.,
-        /// when alpha is not 1.
         /// </summary>
         public static Boolean UseHex { get; set; }
 
