@@ -150,5 +150,15 @@ namespace AngleSharp.Css.Tests.Parsing
             var newCss = ss.ToCss(formatter);
             Assert.IsNotNull(newCss);
         }
+
+        [Test]
+        public void OneLetterTagWithCarriageReturnDoesNotWorkAsSelector_Issue190()
+        {
+            var css = "a\r\n{\r\nheight: 100vh;\r\n}";
+            var parser = new CssParser();
+            var ss = parser.ParseStyleSheet(css);
+            Assert.AreEqual(1, ss.Rules.Length);
+            Assert.AreEqual("a", ((AngleSharp.Css.Dom.ICssStyleRule)ss.Rules[0]).SelectorText);
+        }
     }
 }
