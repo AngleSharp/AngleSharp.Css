@@ -14,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using Project = Nuke.Common.ProjectModel.Project;
@@ -99,7 +97,7 @@ class Build : NukeBuild
 
         Log.Information("Building version: {Version}", Version);
 
-        TargetProject = Solution.GetProject(SourceDirectory / TargetProjectName / $"{TargetLibName}.csproj" );
+        TargetProject = Solution.GetProject(TargetLibName);
         TargetProject.NotNull("TargetProject could not be loaded!");
 
         TargetFrameworks = TargetProject.GetTargetFrameworks();
@@ -112,7 +110,7 @@ class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(x => x.DeleteDirectory());
         });
 
     Target Restore => _ => _
@@ -152,14 +150,14 @@ class Build : NukeBuild
                 var targetDir = NugetDirectory / "lib" / item;
                 var srcDir = BuildDirectory / item;
 
-                CopyFile(srcDir / $"{TargetProjectName}.dll", targetDir / $"{TargetProjectName}.dll", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.pdb", targetDir / $"{TargetProjectName}.pdb", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.xml", targetDir / $"{TargetProjectName}.xml", FileExistsPolicy.OverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.dll").Copy(targetDir / $"{TargetProjectName}.dll", ExistsPolicy.FileOverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.pdb").Copy(targetDir / $"{TargetProjectName}.pdb", ExistsPolicy.FileOverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.xml").Copy(targetDir / $"{TargetProjectName}.xml", ExistsPolicy.FileOverwriteIfNewer);
             }
 
-            CopyFile(SourceDirectory / $"{TargetProjectName}.nuspec", NugetDirectory / $"{TargetProjectName}.nuspec", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "logo.png", NugetDirectory / "logo.png", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "README.md", NugetDirectory / "README.md", FileExistsPolicy.OverwriteIfNewer);
+            (SourceDirectory / $"{TargetProjectName}.nuspec").Copy(NugetDirectory / $"{TargetProjectName}.nuspec", ExistsPolicy.FileOverwriteIfNewer);
+            (RootDirectory / "logo.png").Copy(NugetDirectory / "logo.png", ExistsPolicy.FileOverwriteIfNewer);
+            (RootDirectory / "README.md").Copy(NugetDirectory / "README.md", ExistsPolicy.FileOverwriteIfNewer);
         });
 
     Target CreatePackage => _ => _
@@ -191,7 +189,7 @@ class Build : NukeBuild
                 throw new BuildAbortedException("Could not resolve the NuGet API key.");
             }
 
-            foreach (var nupkg in GlobFiles(NugetDirectory, "*.nupkg"))
+            foreach (var nupkg in NugetDirectory.GlobFiles("*.nupkg"))
             {
                 NuGetPush(s => s
                     .SetTargetPath(nupkg)
