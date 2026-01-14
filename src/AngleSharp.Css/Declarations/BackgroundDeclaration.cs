@@ -126,6 +126,7 @@ namespace AngleSharp.Css.Declarations
 
                             if (c == Symbols.Solidus && size == null)
                             {
+                                c = source.Next();
                                 c = source.SkipSpacesAndComments();
                                 size = source.ParseSize();
                                 c = source.SkipSpacesAndComments();
@@ -230,7 +231,7 @@ namespace AngleSharp.Css.Declarations
 
                 return null;
             }
-            
+
             private static ICssValue CreateLayers(CssListValue image, CssListValue attachment, CssListValue clip, CssListValue position, CssListValue origin, CssListValue repeat, CssListValue size)
             {
                 var count = GetCount(image, attachment, clip, position, size, repeat, origin);
