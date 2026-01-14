@@ -731,6 +731,18 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = "linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(248, 248, 248, 1), rgba(238, 238, 238, 1))";
             Assert.AreEqual(expected, property.Value);
         }
+
+        [Test]
+        public void CssBackgroundPositionSlashSizeLegal()
+        {
+            var snippet = "background: center / cover";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("center / cover", property.Value);
+        }
     }
 }
 
