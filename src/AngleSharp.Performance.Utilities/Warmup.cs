@@ -22,23 +22,29 @@ namespace AngleSharp.Performance
                     BindingFlags.Instance | BindingFlags.Static);
 
                 foreach (var ctor in ctors)
-                    JitMethod(assembly, ctor);
+                    JitMethod(ctor);
 
                 var methods = type.GetMethods(
                     BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public | 
                     BindingFlags.Instance | BindingFlags.Static);
 
                 foreach (var method in methods)
-                    JitMethod(assembly, method);
+                    JitMethod(method);
             }
         }
 
-        static void JitMethod(Assembly assembly, MethodBase method)
+        static void JitMethod(MethodBase method)
         {
             if (method.IsAbstract || method.ContainsGenericParameters)
                 return;
 
-            RuntimeHelpers.PrepareMethod(method.MethodHandle);
+            try
+            {
+                RuntimeHelpers.PrepareMethod(method.MethodHandle);
+            }
+            catch (PlatformNotSupportedException)
+            {
+            }
         }
     }
 }
