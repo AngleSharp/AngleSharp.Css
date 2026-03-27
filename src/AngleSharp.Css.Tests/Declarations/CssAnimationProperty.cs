@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-duration : 60ms";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-duration", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("60ms", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-duration"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("60ms"));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-duration : 1s  , 2s  , 3s  , 4s";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-duration", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1s, 2s, 3s, 4s", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-duration"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1s, 2s, 3s, 4s"));
         }
 
         [Test]
@@ -35,11 +35,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-delay : 0ms";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-delay", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0ms", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-delay"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0ms"));
         }
 
         [Test]
@@ -47,10 +47,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-delay : 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-delay", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-delay"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -58,11 +58,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-delay : 0s  , 0s  , 1s  , 20ms";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-delay", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0s, 0s, 1s, 20ms", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-delay"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0s, 0s, 1s, 20ms"));
         }
 
         [Test]
@@ -70,11 +70,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-name : -specific";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-name", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("-specific", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-name"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("-specific"));
         }
 
         [Test]
@@ -82,11 +82,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-name : sliding-vertically";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-name", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("sliding-vertically", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-name"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("sliding-vertically"));
         }
 
         [Test]
@@ -94,11 +94,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-name : test_05";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-name", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("test_05", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-name"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("test_05"));
         }
 
         [Test]
@@ -106,10 +106,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-name : 42";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-name", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-name"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -117,11 +117,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-name : my-animation, other-animation";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-name", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("my-animation, other-animation", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-name"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("my-animation, other-animation"));
         }
 
         [Test]
@@ -129,11 +129,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -141,11 +141,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : infinite";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("infinite", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("infinite"));
         }
 
         [Test]
@@ -153,11 +153,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : INFINITE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("infinite", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("infinite"));
         }
 
         [Test]
@@ -165,11 +165,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : 2.3";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2.3", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2.3"));
         }
 
         [Test]
@@ -177,11 +177,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : 2, 0, infinite";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2, 0, infinite", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2, 0, infinite"));
         }
 
         [Test]
@@ -189,10 +189,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-iteration-count : -1";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-iteration-count", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-iteration-count"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -200,11 +200,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : EASE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("ease", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("ease"));
         }
 
         [Test]
@@ -212,10 +212,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -223,11 +223,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : ease-IN-out";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("ease-in-out", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("ease-in-out"));
         }
 
         [Test]
@@ -235,11 +235,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : step-END";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("step-end", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("step-end"));
         }
 
         [Test]
@@ -247,11 +247,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : step-start  , LINeAr";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("step-start, linear", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("step-start, linear"));
         }
 
         [Test]
@@ -259,11 +259,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-timing-function : step-start  , cubic-bezier(0,1,1,1)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-timing-function", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-timing-function"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("step-start, cubic-bezier(0, 1, 1, 1)"));
         }
 
         [Test]
@@ -271,11 +271,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-play-state: running";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-play-state", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("running", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-play-state"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("running"));
         }
 
         [Test]
@@ -283,11 +283,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-play-state: PAUSED";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-play-state", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("paused", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-play-state"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("paused"));
         }
 
         [Test]
@@ -295,11 +295,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-play-state: paused, Running, paused";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-play-state", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("paused, running, paused", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-play-state"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("paused, running, paused"));
         }
 
         [Test]
@@ -307,11 +307,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-fill-mode: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-fill-mode"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -319,10 +319,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-fill-mode: 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-fill-mode"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -330,11 +330,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-fill-mode: backwards !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("backwards", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-fill-mode"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("backwards"));
         }
 
         [Test]
@@ -342,11 +342,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-fill-mode: FORWARDS";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("forwards", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-fill-mode"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("forwards"));
         }
 
         [Test]
@@ -354,11 +354,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-fill-mode: both , backwards ,  forwards  ,NONE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-fill-mode", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("both, backwards, forwards, none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-fill-mode"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("both, backwards, forwards, none"));
         }
 
         [Test]
@@ -366,11 +366,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-direction: normal";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-direction", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-direction"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal"));
         }
 
         [Test]
@@ -378,11 +378,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-direction  : reverse";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-direction", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("reverse", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-direction"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("reverse"));
         }
 
         [Test]
@@ -390,10 +390,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-direction  : none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-direction", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("animation-direction"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -401,11 +401,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-direction : alternate-REVERSE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-direction", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("alternate-reverse", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-direction"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("alternate-reverse"));
         }
 
         [Test]
@@ -413,11 +413,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation-direction: normal,alternate  , reverse   ,ALTERNATE-reverse !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation-direction", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal, alternate, reverse, alternate-reverse", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation-direction"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal, alternate, reverse, alternate-reverse"));
         }
 
         [Test]
@@ -425,11 +425,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : 5";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("5", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("5"));
         }
 
         [Test]
@@ -437,11 +437,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : my-animation";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("my-animation", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("my-animation"));
         }
 
         [Test]
@@ -449,11 +449,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : my-animation 2s 0.5s";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2s 0.5s my-animation", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2s 0.5s my-animation"));
         }
 
         [Test]
@@ -461,11 +461,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : my-animation  200ms 0.5s    ease";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("200ms ease 0.5s my-animation", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("200ms ease 0.5s my-animation"));
         }
 
         [Test]
@@ -473,7 +473,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : 10 20";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -481,11 +481,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : my-animation  200ms 2.5   ease-in-out";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("200ms ease-in-out 2.5 my-animation", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("200ms ease-in-out 2.5 my-animation"));
         }
 
         [Test]
@@ -493,11 +493,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "animation : my-animation 0s 10 ease,   other-animation  5 linear,yet-another 0s 1s  10 step-start !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("animation", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation, 0s step-start 1s 10 yet-another", property.Value);
+            Assert.That(property.Name, Is.EqualTo("animation"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0s ease 10 my-animation, linear 5 other-animation, 0s step-start 1s 10 yet-another"));
         }
     }
 }

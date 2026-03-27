@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Extensions
+namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -13,7 +13,7 @@
         {
             var document = ParseDocument("");
             var elements = document.QuerySelectorAll("li").Css(new { });
-            Assert.AreEqual(0, elements.Count());
+            Assert.That(elements.Count(), Is.EqualTo(0));
         }
 
         [Test]
@@ -21,7 +21,7 @@
         {
             var document = ParseDocument("");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(0, elements.Count());
+            Assert.That(elements.Count(), Is.EqualTo(0));
         }
     }
 }

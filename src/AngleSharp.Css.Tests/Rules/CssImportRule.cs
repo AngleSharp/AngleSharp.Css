@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Rules
+namespace AngleSharp.Css.Tests.Rules
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -12,8 +12,8 @@
         {
             var source = "@import url(button.css);";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("button.css", rule.Href);
-            Assert.AreEqual("", rule.Media.MediaText);
+            Assert.That(rule.Href, Is.EqualTo("button.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(""));
         }
 
         [Test]
@@ -21,8 +21,8 @@
         {
             var source = "@import url(\"button.css\");";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("button.css", rule.Href);
-            Assert.AreEqual("", rule.Media.MediaText);
+            Assert.That(rule.Href, Is.EqualTo("button.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(""));
         }
 
         [Test]
@@ -30,8 +30,8 @@
         {
             var source = "@import url('button.css');";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("button.css", rule.Href);
-            Assert.AreEqual("", rule.Media.MediaText);
+            Assert.That(rule.Href, Is.EqualTo("button.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(""));
         }
 
         [Test]
@@ -39,8 +39,8 @@
         {
             var source = "@import \"button.css\";";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("button.css", rule.Href);
-            Assert.AreEqual("", rule.Media.MediaText);
+            Assert.That(rule.Href, Is.EqualTo("button.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(""));
         }
 
         [Test]
@@ -48,8 +48,8 @@
         {
             var source = "@import 'button.css';";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("button.css", rule.Href);
-            Assert.AreEqual("", rule.Media.MediaText);
+            Assert.That(rule.Href, Is.EqualTo("button.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(""));
         }
 
         [Test]
@@ -58,9 +58,9 @@
             var media = "all";
             var source = "@import url(size/medium.css) " + media + ";";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("size/medium.css", rule.Href);
-            Assert.AreEqual(media, rule.Media.MediaText);
-            Assert.AreEqual(1, rule.Media.Length);
+            Assert.That(rule.Href, Is.EqualTo("size/medium.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(media));
+            Assert.That(rule.Media.Length, Is.EqualTo(1));
         }
 
         [Test]
@@ -69,9 +69,9 @@
             var media = "screen and (color), projection and (min-color: 256)";
             var source = "@import url(old.css) " + media + ";";
             var rule = ParseImportRule(source);
-            Assert.AreEqual("old.css", rule.Href);
-            Assert.AreEqual(media, rule.Media.MediaText);
-            Assert.AreEqual(2, rule.Media.Length);
+            Assert.That(rule.Href, Is.EqualTo("old.css"));
+            Assert.That(rule.Media.MediaText, Is.EqualTo(media));
+            Assert.That(rule.Media.Length, Is.EqualTo(2));
         }
     }
 }

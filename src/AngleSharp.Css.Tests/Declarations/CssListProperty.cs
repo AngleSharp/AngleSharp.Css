@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-position: outside ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("outside", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("outside"));
         }
 
         [Test]
@@ -23,10 +23,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-position: out-side ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("list-style-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -34,10 +34,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-position: none ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("list-style-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -45,11 +45,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-position: insiDe ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("inside", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("inside"));
         }
 
         [Test]
@@ -57,11 +57,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-image: none ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -69,11 +69,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-image: url(http://www.example.com/images/list.png)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"http://www.example.com/images/list.png\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"http://www.example.com/images/list.png\")"));
         }
 
         [Test]
@@ -81,11 +81,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: disc ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("disc", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("disc"));
         }
 
         [Test]
@@ -93,11 +93,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: lower-ALPHA ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("lower-alpha", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("lower-alpha"));
         }
 
         [Test]
@@ -105,11 +105,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: georgian ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("georgian", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("georgian"));
         }
 
         [Test]
@@ -117,11 +117,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: decimal-leading-zerO ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("decimal-leading-zero", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("decimal-leading-zero"));
         }
 
         [Test]
@@ -129,11 +129,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: number ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("number", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("number"));
         }
 
         [Test]
@@ -141,11 +141,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style: circle ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("circle", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("circle"));
         }
 
         [Test]
@@ -153,11 +153,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -165,11 +165,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style: square inside ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("square inside", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("square inside"));
         }
 
         [Test]
@@ -177,11 +177,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style: square url('image.png') inside ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("square inside url(\"image.png\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("square inside url(\"image.png\")"));
         }
 
         [Test]
@@ -189,11 +189,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset: chapter section 1 page;";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("chapter 0 section 1 page 0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("chapter 0 section 1 page 0"));
         }
 
         [Test]
@@ -201,11 +201,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset: counter-name";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("counter-name 0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("counter-name 0"));
         }
 
         [Test]
@@ -213,11 +213,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -225,10 +225,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset: 3";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -236,11 +236,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset  :  counter-name   -1";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("counter-name -1", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("counter-name -1"));
         }
 
         [Test]
@@ -248,11 +248,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-reset  :  counter1   1   counter2   4  ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-reset", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("counter1 1 counter2 4", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-reset"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("counter1 1 counter2 4"));
         }
 
         [Test]
@@ -260,11 +260,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-increment: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-increment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-increment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -272,11 +272,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "counter-increment: chapter section 2 page";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("counter-increment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("chapter 1 section 2 page 1", property.Value);
+            Assert.That(property.Name, Is.EqualTo("counter-increment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("chapter 1 section 2 page 1"));
         }
 
         [Test]
@@ -284,9 +284,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: \"-\"";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("\"-\"", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("\"-\""));
         }
 
         [Test]
@@ -294,9 +294,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: kannada";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("kannada", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("kannada"));
         }
 
         [Test]
@@ -304,9 +304,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: trad-chinese-informal;";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("trad-chinese-informal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("trad-chinese-informal"));
         }
 
         [Test]
@@ -314,9 +314,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: georgian";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("georgian", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("georgian"));
         }
 
         [Test]
@@ -324,9 +324,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: decimal";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("decimal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("decimal"));
         }
 
         [Test]
@@ -334,9 +334,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: square";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("square", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("square"));
         }
 
         [Test]
@@ -344,9 +344,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: circle";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("circle", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("circle"));
         }
 
         [Test]
@@ -354,9 +354,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: symbols(cyclic \"*\" \"†\" \"‡\")";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("symbols(cyclic \"*\" \"†\" \"‡\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("symbols(cyclic \"*\" \"†\" \"‡\")"));
         }
 
         [Test]
@@ -364,8 +364,8 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "list-style-type: symbols(foo \"*\" \"†\" \"‡\")";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("list-style-type", property.Name);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("list-style-type"));
+            Assert.That(property.HasValue, Is.False);
         }
     }
 }

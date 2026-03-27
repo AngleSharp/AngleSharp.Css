@@ -20,9 +20,9 @@ namespace AngleSharp.Css.Tests.Values
                 IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.GetStyle().Length);
-            Assert.AreEqual("background-image", div.GetStyle()[0]);
-            Assert.AreEqual("url(\"javascript:alert(1)\")", div.GetStyle().GetBackgroundImage());
+            Assert.That(div.GetStyle().Length, Is.EqualTo(1));
+            Assert.That(div.GetStyle()[0], Is.EqualTo("background-image"));
+            Assert.That(div.GetStyle().GetBackgroundImage(), Is.EqualTo("url(\"javascript:alert(1)\")"));
         }
 
         [Test]
@@ -35,9 +35,9 @@ namespace AngleSharp.Css.Tests.Values
                 IsIncludingUnknownRules = true
             });
             var div = document.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(10, div.GetStyle().Length);
+            Assert.That(div.GetStyle().Length, Is.EqualTo(10));
             div.GetStyle().RemoveProperty("background");
-            Assert.AreEqual(0, div.GetStyle().Length);
+            Assert.That(div.GetStyle().Length, Is.EqualTo(0));
         }
     }
 }

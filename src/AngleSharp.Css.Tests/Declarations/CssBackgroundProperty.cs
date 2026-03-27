@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size : cover";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("cover", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("cover"));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size : contain";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("contain", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("contain"));
         }
 
         [Test]
@@ -35,11 +35,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : scroll";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("scroll", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("scroll"));
         }
 
         [Test]
@@ -47,11 +47,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : initial";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("initial", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("initial"));
         }
 
         [Test]
@@ -59,11 +59,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : Fixed ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("fixed", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("fixed"));
         }
 
         [Test]
@@ -71,11 +71,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : fixed  ,  local ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("fixed, local", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("fixed, local"));
         }
 
         [Test]
@@ -83,11 +83,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : fixed  ,  local,scroll,scroll ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("fixed, local, scroll, scroll", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("fixed, local, scroll, scroll"));
         }
 
         [Test]
@@ -95,10 +95,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-attachment : none ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-attachment", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("background-attachment"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -106,11 +106,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-clip : Padding-Box ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-clip", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("padding-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-clip"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("padding-box"));
         }
 
         [Test]
@@ -118,11 +118,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-clip : Padding-Box, border-box ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-clip", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("padding-box, border-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-clip"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("padding-box, border-box"));
         }
 
         [Test]
@@ -130,11 +130,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-clip : content-box";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-clip", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("content-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-clip"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("content-box"));
         }
 
         [Test]
@@ -142,11 +142,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : teal";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(0, 128, 128, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(0, 128, 128, 1)"));
         }
 
         [Test]
@@ -154,11 +154,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : rgb(255  ,  255  ,  128)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(255, 255, 128, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(255, 255, 128, 1)"));
         }
 
         [Test]
@@ -166,11 +166,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(85, 78, 42, 0.75)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(85, 78, 42, 0.75)"));
         }
 
         [Test]
@@ -178,11 +178,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : Transparent";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(0, 0, 0, 0)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(0, 0, 0, 0)"));
         }
 
         [Test]
@@ -190,11 +190,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : #bbff00";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(187, 255, 0, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(187, 255, 0, 1)"));
         }
 
         [Test]
@@ -202,10 +202,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-color : #bbff00, transparent, red, #ff00ff";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("background-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -213,11 +213,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: NONE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -225,11 +225,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: url(\"img/sprites.svg?v=1bc768be1b3c\"),none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"img/sprites.svg?v=1bc768be1b3c\"), none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"img/sprites.svg?v=1bc768be1b3c\"), none"));
         }
 
         [Test]
@@ -237,11 +237,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: url(image.png)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"image.png\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"image.png\")"));
         }
 
         [Test]
@@ -249,11 +249,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: url(http://www.example.com/images/bck.png)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"http://www.example.com/images/bck.png\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"http://www.example.com/images/bck.png\")"));
         }
 
         [Test]
@@ -261,11 +261,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: url(image.png),url('bla.png')";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"image.png\"), url(\"bla.png\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"image.png\"), url(\"bla.png\")"));
         }
 
         [Test]
@@ -273,11 +273,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-image: url(image.png),none, url(foo.gif)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"image.png\"), none, url(\"foo.gif\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"image.png\"), none, url(\"foo.gif\")"));
         }
 
         [Test]
@@ -285,11 +285,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-origin: CONTENT-BOX";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-origin", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("content-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-origin"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("content-box"));
         }
 
         [Test]
@@ -297,11 +297,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-origin: CONTENT-BOX, Padding-Box";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-origin", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("content-box, padding-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-origin"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("content-box, padding-box"));
         }
 
         [Test]
@@ -309,11 +309,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-origin: border-box";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-origin", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("border-box", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-origin"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("border-box"));
         }
 
         [Test]
@@ -321,11 +321,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: top";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("top", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("top"));
         }
 
         [Test]
@@ -333,11 +333,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: 25% 75%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("25% 75%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("25% 75%"));
         }
 
         [Test]
@@ -345,11 +345,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: center 75%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("50% 75%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("50% 75%"));
         }
 
         [Test]
@@ -357,10 +357,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: right 20px bottom 20px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -368,11 +368,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: 10px 20px, center";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 20px, center", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10px 20px, center"));
         }
 
         [Test]
@@ -380,11 +380,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-position: 0 0, 0 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("left top, left top", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("left top, left top"));
         }
 
         [Test]
@@ -392,11 +392,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat-x";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat-x", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat-x"));
         }
 
         [Test]
@@ -404,11 +404,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat-y";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat-y", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat-y"));
         }
 
         [Test]
@@ -416,11 +416,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: REPEAT";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat"));
         }
 
         [Test]
@@ -428,11 +428,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: rounD";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("round", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("round"));
         }
 
         [Test]
@@ -440,11 +440,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat space";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat space", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat space"));
         }
 
         [Test]
@@ -452,10 +452,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat-x space";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -463,11 +463,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat-X, repeat-Y";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat-x, repeat-y", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat-x, repeat-y"));
         }
 
         [Test]
@@ -475,11 +475,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: space round";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("space round", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("space round"));
         }
 
         [Test]
@@ -487,10 +487,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: no-repeat repeat-x";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -498,11 +498,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-repeat: repeat repeat, no-repeat repeat";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-repeat", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("repeat, repeat-y", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-repeat"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("repeat, repeat-y"));
         }
 
         [Test]
@@ -510,11 +510,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: 2em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2em"));
         }
 
         [Test]
@@ -522,11 +522,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: 20%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("20%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("20%"));
         }
 
         [Test]
@@ -534,11 +534,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: auto auto";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("auto", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("auto"));
         }
 
         [Test]
@@ -546,11 +546,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: auto 50px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("auto 50px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("auto 50px"));
         }
 
         [Test]
@@ -558,11 +558,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: 25px 50px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("25px 50px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("25px 50px"));
         }
 
         [Test]
@@ -570,11 +570,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: 50% 50%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("50% 50%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("50% 50%"));
         }
 
         [Test]
@@ -582,11 +582,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: AUTO";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("auto", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("auto"));
         }
 
         [Test]
@@ -594,11 +594,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: cover";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("cover", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("cover"));
         }
 
         [Test]
@@ -606,11 +606,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: contain,cover";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("contain, cover", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("contain, cover"));
         }
 
         [Test]
@@ -618,11 +618,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background-size: contain,100px,auto,20%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("contain, 100px, auto, 20%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("contain, 100px, auto, 20%"));
         }
 
         [Test]
@@ -630,11 +630,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: red";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -642,11 +642,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -654,11 +654,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: none rgb(1, 2, 3)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none rgba(1, 2, 3, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none rgba(1, 2, 3, 1)"));
         }
 
         [Test]
@@ -666,11 +666,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: white url(\"pendant.png\");";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"pendant.png\") rgba(255, 255, 255, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"pendant.png\") rgba(255, 255, 255, 1)"));
         }
 
         [Test]
@@ -678,11 +678,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: url(\"topbanner.png\") #00d repeat-y fixed";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"topbanner.png\") repeat-y fixed rgba(0, 0, 221, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"topbanner.png\") repeat-y fixed rgba(0, 0, 221, 1)"));
         }
 
         [Test]
@@ -690,11 +690,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: url(\"img_tree.png\") no-repeat right top";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"img_tree.png\") right top no-repeat", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"img_tree.png\") right top no-repeat"));
         }
 
         [Test]
@@ -703,11 +703,11 @@ namespace AngleSharp.Css.Tests.Declarations
             var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
             var snippet = "background-image: url('" + url + "')";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background-image", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("url(\"" + url + "\")", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background-image"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("url(\"" + url + "\")"));
         }
 
         [Test]
@@ -715,10 +715,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = "background-image: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(0, 0, 255, 1))";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.HasValue, Is.True);
 
             var expected = "linear-gradient(90deg, rgba(255, 0, 0, 1), rgba(0, 0, 255, 1))";
-            Assert.AreEqual(expected, property.Value);
+            Assert.That(property.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -726,10 +726,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = "background-image: linear-gradient(top,#FFFFFF,#FFFFFF,#f8f8f8,#eeeeee)";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.HasValue, Is.True);
 
             var expected = "linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(248, 248, 248, 1), rgba(238, 238, 238, 1))";
-            Assert.AreEqual(expected, property.Value);
+            Assert.That(property.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -737,11 +737,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "background: center / cover";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("background", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("center / cover", property.Value);
+            Assert.That(property.Name, Is.EqualTo("background"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("center / cover"));
         }
     }
 }

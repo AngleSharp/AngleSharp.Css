@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: red";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("rgba(255, 0, 0, 1)"));
 		}
 
 		[Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: #0F0";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("rgba(0, 255, 0, 1)", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("rgba(0, 255, 0, 1)"));
 		}
 
 		[Test]
@@ -35,11 +35,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: rgba(1, 1, 1, 0)";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("rgba(1, 1, 1, 0)", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("rgba(1, 1, 1, 0)"));
 		}
 
 		[Test]
@@ -47,11 +47,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: rgb(1, 255, 100)";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("rgba(1, 255, 100, 1)", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("rgba(1, 255, 100, 1)"));
 		}
 
 		[Test]
@@ -59,11 +59,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("none", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("none"));
 		}
 
 		[Test]
@@ -71,10 +71,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: red red";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -82,11 +82,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke: url(#linear)";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("url(\"#linear\")", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("url(\"#linear\")"));
 		}
 
 
@@ -95,11 +95,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dasharray: 5 5";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dasharray", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("5 5", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dasharray"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("5 5"));
 		}
 
 		[Test]
@@ -107,11 +107,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dasharray: 5px 5em";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dasharray", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("5px 5em", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dasharray"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("5px 5em"));
 		}
 
 		[Test]
@@ -119,11 +119,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dasharray: 1px 2em 3vh 4vw 5 6";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dasharray", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("1px 2em 3vh 4vw 5 6", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dasharray"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("1px 2em 3vh 4vw 5 6"));
 		}
 
 		[Test]
@@ -131,11 +131,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dasharray: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dasharray", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("none", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dasharray"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("none"));
 		}
 
 		[Test]
@@ -143,11 +143,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dashoffset: 5px";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dashoffset", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("5px", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dashoffset"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("5px"));
 		}
 
 		[Test]
@@ -155,10 +155,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dashoffset: 5px 5px";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dashoffset", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-dashoffset"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -166,11 +166,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dashoffset: 50%";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dashoffset", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("50%", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-dashoffset"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("50%"));
 		}
 
 		[Test]
@@ -178,10 +178,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-dashoffset: 50% 25%";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-dashoffset", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-dashoffset"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -189,11 +189,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linecap: butt";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linecap", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("butt", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linecap"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("butt"));
 		}
 
 		[Test]
@@ -201,11 +201,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linecap: round";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linecap", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("round", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linecap"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("round"));
 		}
 
 		[Test]
@@ -213,11 +213,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linecap: square";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linecap", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("square", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linecap"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("square"));
 		}
 
 		[Test]
@@ -225,10 +225,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linecap: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linecap", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-linecap"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -236,11 +236,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linejoin: miter";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linejoin", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("miter", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linejoin"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("miter"));
 		}
 
 		[Test]
@@ -248,11 +248,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linejoin: round";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linejoin", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("round", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linejoin"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("round"));
 		}
 
 		[Test]
@@ -260,11 +260,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-linejoin: bevel";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linejoin", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("bevel", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-linejoin"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("bevel"));
 		}
 
 		[Test]
@@ -272,10 +272,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
 			var snippet = "stroke-linejoin: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-linejoin", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-linejoin"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -283,11 +283,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-miterlimit: 2";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-miterlimit", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("2", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-miterlimit"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("2"));
 		}
 
 		[Test]
@@ -295,10 +295,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-miterlimit: 0.5";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-miterlimit", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-miterlimit"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -306,10 +306,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-miterlimit: 2 0.5";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-miterlimit", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-miterlimit"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
 		[Test]
@@ -317,11 +317,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-opacity: 0.5";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-opacity", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("0.5", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-opacity"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("0.5"));
 		}
 
 		[Test]
@@ -329,10 +329,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-opacity: 0.5 0.5";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-opacity", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-opacity"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 		
 		[Test]
@@ -340,11 +340,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-width: 5px";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-width", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("5px", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-width"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("5px"));
 		}
 
 
@@ -353,11 +353,11 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-width: 5%";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-width", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsTrue(property.HasValue);
-			Assert.AreEqual("5%", property.Value);
+			Assert.That(property.Name, Is.EqualTo("stroke-width"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.True);
+			Assert.That(property.Value, Is.EqualTo("5%"));
 		}
 
 		[Test]
@@ -365,10 +365,10 @@ namespace AngleSharp.Css.Tests.Declarations
 		{
 			var snippet = "stroke-width: none";
 			var property = ParseDeclaration(snippet);
-			Assert.AreEqual("stroke-width", property.Name);
-			Assert.IsFalse(property.IsImportant);
-			Assert.IsFalse(property.IsInherited);
-			Assert.IsFalse(property.HasValue);
+			Assert.That(property.Name, Is.EqualTo("stroke-width"));
+			Assert.That(property.IsImportant, Is.False);
+			Assert.That(property.IsInherited, Is.False);
+			Assert.That(property.HasValue, Is.False);
 		}
 
         [Test]
@@ -376,11 +376,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "stroke-width: 3";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("stroke-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("3", property.Value);
+            Assert.That(property.Name, Is.EqualTo("stroke-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("3"));
         }
 	}
 }

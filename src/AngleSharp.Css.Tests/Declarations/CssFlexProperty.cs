@@ -11,9 +11,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-shrink : 5";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-shrink", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("5", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-shrink"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("5"));
         }
 
         [Test]
@@ -21,9 +21,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-shrink : -1";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-shrink", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("-1", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-shrink"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("-1"));
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-shrink : none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-shrink", property.Name);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("flex-shrink"));
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -40,9 +40,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-grow : 7";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-grow", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("7", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-grow"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("7"));
         }
 
         [Test]
@@ -50,9 +50,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-basis:100px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-basis", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("100px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-basis"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("100px"));
         }
 
         [Test]
@@ -60,9 +60,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex: 1 0 100%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1 0 100%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1 0 100%"));
         }
 
         [Test]
@@ -70,9 +70,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex: 10em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10em"));
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex: 1 10em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1 10em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1 10em"));
         }
 
         [Test]
@@ -90,9 +90,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex: 1 2";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1 2", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1 2"));
         }
 
         [Test]
@@ -100,9 +100,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-wrap: wrap-reverse";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-wrap", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("wrap-reverse", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-wrap"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("wrap-reverse"));
         }
 
         [Test]
@@ -110,8 +110,8 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-wrap: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-wrap", property.Name);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("flex-wrap"));
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -119,9 +119,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-direction: column-REVERSE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-direction", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("column-reverse", property.Value);
+            Assert.That(property.Name, Is.EqualTo("flex-direction"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("column-reverse"));
         }
 
         [Test]
@@ -129,8 +129,8 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "flex-direction: inverse-row";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("flex-direction", property.Name);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("flex-direction"));
+            Assert.That(property.HasValue, Is.False);
         }
     }
 }

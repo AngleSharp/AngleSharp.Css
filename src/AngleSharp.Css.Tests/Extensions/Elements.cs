@@ -19,9 +19,9 @@ namespace AngleSharp.Css.Tests.Extensions
             var divs = document.QuerySelectorAll("div");
             divs.SetStyle(style => style.SetBackground("red"));
 
-            Assert.AreEqual("rgba(255, 0, 0, 1)", divs.Skip(0).First().GetStyle().GetBackground());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", divs.Skip(1).First().GetStyle().GetBackground());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", divs.Skip(2).First().GetStyle().GetBackground());
+            Assert.That(divs.Skip(0).First().GetStyle().GetBackground(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(divs.Skip(1).First().GetStyle().GetBackground(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(divs.Skip(2).First().GetStyle().GetBackground(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -45,8 +45,8 @@ namespace AngleSharp.Css.Tests.Extensions
             var tree = document.DefaultView.Render();
             var node = tree.Find(document.QuerySelector("div"));
             await node.DownloadResources();
-            Assert.AreEqual(1, urls.Count);
-            Assert.AreEqual("https://avatars1.githubusercontent.com/u/10828168?s=200&v=4", urls[0].Href);
+            Assert.That(urls.Count, Is.EqualTo(1));
+            Assert.That(urls[0].Href, Is.EqualTo("https://avatars1.githubusercontent.com/u/10828168?s=200&v=4"));
         }
     }
 }

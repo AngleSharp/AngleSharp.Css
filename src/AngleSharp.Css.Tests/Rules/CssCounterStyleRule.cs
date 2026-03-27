@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Tests.Rules
         {
             var source = "@counter-style thumbs {\n                  system: cyclic;\n                  symbols: \"\"\\1F44D\"\";\n                  suffix: \"\" \"\";\n                }";
             var rule = ParseCounterStyleRule(source);
-            Assert.AreEqual("thumbs", rule.StyleName);
+            Assert.That(rule.StyleName, Is.EqualTo("thumbs"));
         }
     }
 }

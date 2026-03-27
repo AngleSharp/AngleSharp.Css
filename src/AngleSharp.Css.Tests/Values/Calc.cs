@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5)");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5)", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(5)"));
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5px)");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5px)", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(5px)"));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5 + 3)");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5 + 3)", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(5 + 3)"));
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5 + (3 + 7))");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5 + (3 + 7))", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(5 + (3 + 7))"));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(5 + calc(3 + 7))");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(5 + (3 + 7))", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(5 + (3 + 7))"));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = new StringSource(@"calc(50% + 3px / 2em + -1cm)");
             var calc = CalcParser.ParseCalc(source);
-            Assert.AreEqual("calc(50% + 3px / 2em + -1cm)", calc.CssText);
+            Assert.That(calc.CssText, Is.EqualTo("calc(50% + 3px / 2em + -1cm)"));
         }
 
         [Test]
@@ -61,8 +61,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = @"transform: rotate(calc(45deg *2))";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rotate(calc(45deg * 2))", property.Value);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rotate(calc(45deg * 2))"));
         }
 
         [Test]
@@ -70,8 +70,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = @"transition-duration: calc(30ms + 2s)";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("calc(30ms + 2s)", property.Value);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("calc(30ms + 2s)"));
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = @"width: calc(50% - 200px)";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("calc(50% - 200px)", property.Value);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("calc(50% - 200px)"));
         }
 
         [Test]
@@ -88,8 +88,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = @"flex-shrink: calc(20/6)";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("calc(20 / 6)", property.Value);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("calc(20 / 6)"));
         }
 
         [Test]
@@ -97,8 +97,8 @@ namespace AngleSharp.Css.Tests.Values
         {
             var source = @"column-count: calc(21  +  5 -  4  *   2)";
             var property = ParseDeclaration(source);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("calc(21 + 5 - 4 * 2)", property.Value);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("calc(21 + 5 - 4 * 2)"));
         }
     }
 }

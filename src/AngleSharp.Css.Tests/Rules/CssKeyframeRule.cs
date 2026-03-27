@@ -14,10 +14,10 @@ namespace AngleSharp.Css.Tests.Rules
     margin-left: 0px;
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0%", rule.KeyText);
-            Assert.AreEqual(1, rule.Key.Stops.Count());
-            Assert.AreEqual(1, rule.Style.Length);
-            Assert.AreEqual("margin-left", rule.Style.First().Name);
+            Assert.That(rule.KeyText, Is.EqualTo("0%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(1));
+            Assert.That(rule.Style.Length, Is.EqualTo(1));
+            Assert.That(rule.Style.First().Name, Is.EqualTo("margin-left"));
         }
 
         [Test]
@@ -28,11 +28,11 @@ namespace AngleSharp.Css.Tests.Rules
     opacity: 1;
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("50%", rule.KeyText);
-            Assert.AreEqual(1, rule.Key.Stops.Count());
-            Assert.AreEqual(2, rule.Style.Length);
-            Assert.AreEqual("margin-left", rule.Style.Skip(0).First().Name);
-            Assert.AreEqual("opacity", rule.Style.Skip(1).First().Name);
+            Assert.That(rule.KeyText, Is.EqualTo("50%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(1));
+            Assert.That(rule.Style.Length, Is.EqualTo(2));
+            Assert.That(rule.Style.Skip(0).First().Name, Is.EqualTo("margin-left"));
+            Assert.That(rule.Style.Skip(1).First().Name, Is.EqualTo("opacity"));
         }
 
         [Test]
@@ -42,10 +42,10 @@ namespace AngleSharp.Css.Tests.Rules
     margin-left: 200px;
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("100%", rule.KeyText);
-            Assert.AreEqual(1, rule.Key.Stops.Count());
-            Assert.AreEqual(1, rule.Style.Length);
-            Assert.AreEqual("margin-left", rule.Style.First().Name);
+            Assert.That(rule.KeyText, Is.EqualTo("100%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(1));
+            Assert.That(rule.Style.Length, Is.EqualTo(1));
+            Assert.That(rule.Style.First().Name, Is.EqualTo("margin-left"));
         }
 
         [Test]
@@ -57,12 +57,12 @@ namespace AngleSharp.Css.Tests.Rules
     color: red
   }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0%, 100%, 25%, 50%, 75%", rule.KeyText);
-            Assert.AreEqual(5, rule.Key.Stops.Count());
-            Assert.AreEqual(3, rule.Style.Length);
-            Assert.AreEqual("padding-top", rule.Style.Skip(0).First().Name);
-            Assert.AreEqual("padding-left", rule.Style.Skip(1).First().Name);
-            Assert.AreEqual("color", rule.Style.Skip(2).First().Name);
+            Assert.That(rule.KeyText, Is.EqualTo("0%, 100%, 25%, 50%, 75%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(5));
+            Assert.That(rule.Style.Length, Is.EqualTo(3));
+            Assert.That(rule.Style.Skip(0).First().Name, Is.EqualTo("padding-top"));
+            Assert.That(rule.Style.Skip(1).First().Name, Is.EqualTo("padding-left"));
+            Assert.That(rule.Style.Skip(2).First().Name, Is.EqualTo("color"));
         }
 
         [Test]
@@ -70,9 +70,9 @@ namespace AngleSharp.Css.Tests.Rules
         {
             var rule = ParseKeyframeRule(@"  0% { }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0%", rule.KeyText);
-            Assert.AreEqual(1, rule.Key.Stops.Count());
-            Assert.AreEqual(0, rule.Style.Length);
+            Assert.That(rule.KeyText, Is.EqualTo("0%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(1));
+            Assert.That(rule.Style.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace AngleSharp.Css.Tests.Rules
         {
             var rule = ParseKeyframeRule(@"  0.52%,   50.0%,92.82% { }");
             Assert.IsNotNull(rule);
-            Assert.AreEqual("0.52%, 50%, 92.82%", rule.KeyText);
-            Assert.AreEqual(3, rule.Key.Stops.Count());
-            Assert.AreEqual(0, rule.Style.Length);
+            Assert.That(rule.KeyText, Is.EqualTo("0.52%, 50%, 92.82%"));
+            Assert.That(rule.Key.Stops.Count(), Is.EqualTo(3));
+            Assert.That(rule.Style.Length, Is.EqualTo(0));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Values
+namespace AngleSharp.Css.Tests.Values
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -24,11 +24,11 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("div.stub p");
-            Assert.AreEqual(1, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(1));
             var selector2 = document.QuerySelectorAll("div.stub > a|*");
-            Assert.AreEqual(2, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(2));
             var selector3 = document.QuerySelectorAll("div.stub *|*:not([test='1'])");
-            Assert.AreEqual(4, selector3.Length);
+            Assert.That(selector3.Length, Is.EqualTo(4));
         }
 
         /// <summary>
@@ -47,9 +47,9 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("a|*");
-            Assert.AreEqual(2, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(2));
             var selector2 = document.QuerySelectorAll("div.stub *|*:not([test])");
-            Assert.AreEqual(2, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(2));
         }
 
         /// <summary>
@@ -72,15 +72,15 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("div.stub p");
-            Assert.AreEqual(1, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(1));
             var selector2 = document.QuerySelectorAll("div.stub > a|*, div.stub > b|*");
-            Assert.AreEqual(4, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(4));
             var selector3 = document.QuerySelectorAll("div.stub *|*:not([test~='foo'])");
-            Assert.AreEqual(6, selector3.Length);
+            Assert.That(selector3.Length, Is.EqualTo(6));
             var selector4 = document.QuerySelectorAll("div.stub *|p:not([class~='foo'])");
-            Assert.AreEqual(1, selector4.Length);
+            Assert.That(selector4.Length, Is.EqualTo(1));
             var selector5 = document.QuerySelectorAll("div.stub b|*[test~='foo2']");
-            Assert.AreEqual(1, selector5.Length);
+            Assert.That(selector5.Length, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -103,15 +103,15 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("div.stub p");
-            Assert.AreEqual(1, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(1));
             var selector2 = document.QuerySelectorAll("div.stub > a|*, div.stub > b|*");
-            Assert.AreEqual(4, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(4));
             var selector3 = document.QuerySelectorAll("div.stub *|*:not([test|='foo-bar'])");
-            Assert.AreEqual(6, selector3.Length);
+            Assert.That(selector3.Length, Is.EqualTo(6));
             var selector4 = document.QuerySelectorAll("div.stub *|p:not([lang|='en-us'])");
-            Assert.AreEqual(1, selector4.Length);
+            Assert.That(selector4.Length, Is.EqualTo(1));
             var selector5 = document.QuerySelectorAll("div.stub b|*[test|='foo2-bar']");
-            Assert.AreEqual(1, selector5.Length);
+            Assert.That(selector5.Length, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -125,9 +125,9 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("testa");
-            Assert.AreEqual(1, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(1));
             var selector2 = document.QuerySelectorAll("test|testa");
-            Assert.AreEqual(1, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -145,9 +145,9 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("p,q");
-            Assert.AreEqual(5, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(5));
             var selector2 = document.QuerySelectorAll("b|*");
-            Assert.AreEqual(3, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(3));
         }
 
         /// <summary>
@@ -165,11 +165,11 @@
             var document = ParseDocument(source);
 
             var selector1 = document.QuerySelectorAll("p,q");
-            Assert.AreEqual(5, selector1.Length);
+            Assert.That(selector1.Length, Is.EqualTo(5));
             var selector2 = document.QuerySelectorAll("b|*");
-            Assert.AreEqual(3, selector2.Length);
+            Assert.That(selector2.Length, Is.EqualTo(3));
             var selector3 = document.QuerySelectorAll("[test]");
-            Assert.AreEqual(3, selector3.Length);
+            Assert.That(selector3.Length, Is.EqualTo(3));
         }
     }
 }

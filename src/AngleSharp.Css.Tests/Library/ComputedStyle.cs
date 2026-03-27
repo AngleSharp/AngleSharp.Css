@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Tests.Library
             var span = document.QuerySelector("span");
             var fontSize = span.ComputeCurrentStyle().GetProperty("font-size");
 
-            Assert.AreEqual("24px", fontSize.Value);
+            Assert.That(fontSize.Value, Is.EqualTo("24px"));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Tests.Rules
         {
             var source = "@font-feature-values Font One {\n                    @styleset {\n                    nice-style: 12;\n                    }\n                }";
             var rule = ParseFontFeatureValuesRule(source);
-            Assert.AreEqual("Font One", rule.FamilyName);
+            Assert.That(rule.FamilyName, Is.EqualTo("Font One"));
         }
     }
 }

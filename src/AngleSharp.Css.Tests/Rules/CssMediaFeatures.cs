@@ -34,8 +34,8 @@ namespace AngleSharp.Css.Tests.Rules
             var validate = CreateValidator(FeatureNames.Width, "100px");
             var valid = validate(new DefaultRenderDevice { ViewPortWidth = 100, ViewPortHeight = 0 });
             var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 0 });
-            Assert.IsTrue(valid);
-            Assert.IsFalse(invalid);
+            Assert.That(valid, Is.True);
+            Assert.That(invalid, Is.False);
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace AngleSharp.Css.Tests.Rules
             var validate = CreateValidator(FeatureNames.MaxHeight, "100px");
             var valid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 99 });
             var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 0, ViewPortHeight = 101 });
-            Assert.IsTrue(valid);
-            Assert.IsFalse(invalid);
+            Assert.That(valid, Is.True);
+            Assert.That(invalid, Is.False);
         }
 
         [Test]
@@ -54,8 +54,8 @@ namespace AngleSharp.Css.Tests.Rules
             var validate = CreateValidator(FeatureNames.MinDeviceWidth, "100px");
             var valid = validate(new DefaultRenderDevice { DeviceWidth = 100, DeviceHeight = 0 });
             var invalid = validate(new DefaultRenderDevice { DeviceWidth = 99, DeviceHeight = 0 });
-            Assert.IsTrue(valid);
-            Assert.IsFalse(invalid);
+            Assert.That(valid, Is.True);
+            Assert.That(invalid, Is.False);
         }
 
         [Test]
@@ -64,8 +64,8 @@ namespace AngleSharp.Css.Tests.Rules
             var validate = CreateValidator(FeatureNames.AspectRatio, "1/1");
             var valid = validate(new DefaultRenderDevice { ViewPortWidth = 100, ViewPortHeight = 100 });
             var invalid = validate(new DefaultRenderDevice { ViewPortWidth = 16, ViewPortHeight = 9 });
-            Assert.IsTrue(valid);
-            Assert.IsFalse(invalid);
+            Assert.That(valid, Is.True);
+            Assert.That(invalid, Is.False);
         }
     }
 }

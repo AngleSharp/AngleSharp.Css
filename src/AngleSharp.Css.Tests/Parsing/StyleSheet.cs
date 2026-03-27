@@ -157,8 +157,8 @@ namespace AngleSharp.Css.Tests.Parsing
             var css = "a\r\n{\r\nheight: 100vh;\r\n}";
             var parser = new CssParser();
             var ss = parser.ParseStyleSheet(css);
-            Assert.AreEqual(1, ss.Rules.Length);
-            Assert.AreEqual("a", ((AngleSharp.Css.Dom.ICssStyleRule)ss.Rules[0]).SelectorText);
+            Assert.That(ss.Rules.Length, Is.EqualTo(1));
+            Assert.That(((AngleSharp.Css.Dom.ICssStyleRule)ss.Rules[0]).SelectorText, Is.EqualTo("a"));
         }
     }
 }

@@ -14,11 +14,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Gill Sans Extrabold, sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("Gill Sans Extrabold, sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("Gill Sans Extrabold, sans-serif"));
         }
 
         [Test]
@@ -26,11 +26,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: initial ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("initial", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("initial"));
         }
 
         [Test]
@@ -38,11 +38,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Courier, \"Lucida Console\", monospace ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("Courier, \"Lucida Console\", monospace", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("Courier, \"Lucida Console\", monospace"));
         }
 
         [Test]
@@ -50,11 +50,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: \"Goudy Bookletter 1911\", sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("\"Goudy Bookletter 1911\", sans-serif"));
         }
 
         [Test]
@@ -62,10 +62,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Goudy Bookletter 1911, sans-serif  ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -73,10 +73,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Red/Black, sans-serif  ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -84,10 +84,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: \"Lucida\" Grande, sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -95,10 +95,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Ahem!, sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -106,10 +106,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: test@foo, sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -117,10 +117,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: #POUND ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -128,10 +128,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-family: Hawaii 5-0 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-family", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-family"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -139,11 +139,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-variant : NORMAL";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-variant", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-variant"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal"));
         }
 
         [Test]
@@ -151,11 +151,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-variant : small-caps ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-variant", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("small-caps", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-variant"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("small-caps"));
         }
 
         [Test]
@@ -163,10 +163,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-variant : smallCaps ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-variant", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-variant"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -174,11 +174,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-style : italic";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("italic"));
         }
 
         [Test]
@@ -186,11 +186,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-style : oblique ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("oblique", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("oblique"));
         }
 
         [Test]
@@ -198,11 +198,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-style : normal !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-style", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-style"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal"));
         }
 
         [Test]
@@ -210,11 +210,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : xx-small !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("xx-small", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("xx-small"));
         }
 
         [Test]
@@ -222,11 +222,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : xxx-large !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("xxx-large", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("xxx-large"));
         }
 
         [Test]
@@ -234,11 +234,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : medium";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("medium", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("medium"));
         }
 
         [Test]
@@ -246,11 +246,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : large !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("large", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("large"));
         }
 
         [Test]
@@ -258,11 +258,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : larger ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("larger", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("larger"));
         }
 
         [Test]
@@ -270,10 +270,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : largest ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -281,11 +281,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : 120% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("120%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("120%"));
         }
 
         [Test]
@@ -293,11 +293,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : 0 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -305,11 +305,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : 3.5em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("3.5em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("3.5em"));
         }
 
         [Test]
@@ -317,10 +317,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size : 120.3 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-size"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -328,10 +328,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-weight : 100% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-weight", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-weight"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -339,11 +339,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-weight : bolder !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-weight", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("bolder", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-weight"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("bolder"));
         }
 
         [Test]
@@ -351,11 +351,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-weight : bold";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-weight", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("bold", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-weight"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("bold"));
         }
 
         [Test]
@@ -363,11 +363,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-weight : 400 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-weight", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("400", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-weight"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("400"));
         }
 
         [Test]
@@ -375,11 +375,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-stretch : NORMAL !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-stretch", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-stretch"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal"));
         }
 
         [Test]
@@ -387,11 +387,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-stretch : extra-condensed ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-stretch", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("extra-condensed", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-stretch"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("extra-condensed"));
         }
 
         [Test]
@@ -399,10 +399,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-stretch : semi expanded ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-stretch", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-stretch"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -410,11 +410,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : 12px/14px sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("12px / 14px sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("12px / 14px sans-serif"));
         }
 
         [Test]
@@ -422,11 +422,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : 80% sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("80% sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("80% sans-serif"));
         }
 
         [Test]
@@ -434,11 +434,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : bold italic large serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 1.2em serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("italic bold 1.2em serif"));
         }
 
         [Test]
@@ -446,11 +446,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : status-bar ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("status-bar", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("status-bar"));
         }
 
         [Test]
@@ -458,11 +458,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : 15px arial,sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15px arial, sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15px arial, sans-serif"));
         }
 
         [Test]
@@ -470,11 +470,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font : italic bold 12px/30px Georgia, serif";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("italic bold 12px / 30px Georgia, serif"));
         }
 
         [Test]
@@ -482,11 +482,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "letter-spacing: 3px ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("letter-spacing", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("3px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("letter-spacing"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("3px"));
         }
 
         [Test]
@@ -494,11 +494,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "letter-spacing: .3px ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("letter-spacing", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0.3px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("letter-spacing"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0.3px"));
         }
 
         [Test]
@@ -506,11 +506,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "letter-spacing: 0.3em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("letter-spacing", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0.3em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("letter-spacing"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0.3em"));
         }
 
         [Test]
@@ -518,11 +518,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "letter-spacing: normal ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("letter-spacing", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("letter-spacing"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal"));
         }
 
         [Test]
@@ -530,11 +530,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size-adjust : NONE";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size-adjust", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size-adjust"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -542,11 +542,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size-adjust : 0.5";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size-adjust", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0.5", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font-size-adjust"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0.5"));
         }
 
         [Test]
@@ -554,10 +554,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font-size-adjust : 1.1em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font-size-adjust", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("font-size-adjust"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.True);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -565,11 +565,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: 12pt/14pt sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("12pt / 14pt sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("12pt / 14pt sans-serif"));
         }
 
         [Test]
@@ -577,11 +577,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: 80% sans-serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("80% sans-serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("80% sans-serif"));
         }
 
         [Test]
@@ -589,11 +589,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: x-large/110% 'New Century Schoolbook', serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1.5em / 110% \"New Century Schoolbook\", serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1.5em / 110% \"New Century Schoolbook\", serif"));
         }
 
         [Test]
@@ -601,11 +601,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: bold italic large Palatino, serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 1.2em Palatino, serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("italic bold 1.2em Palatino, serif"));
         }
 
         [Test]
@@ -613,11 +613,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: normal small-caps 120%/120% Fantasy ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("normal small-caps 120% / 120% Fantasy", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("normal small-caps 120% / 120% Fantasy"));
         }
 
         [Test]
@@ -625,11 +625,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: condensed oblique 12pt \"Helvetica Neue\", serif ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("oblique condensed 12pt \"Helvetica Neue\", serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("oblique condensed 12pt \"Helvetica Neue\", serif"));
         }
 
         [Test]
@@ -637,11 +637,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: status-bar ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("status-bar", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("status-bar"));
         }
 
         [Test]
@@ -653,8 +653,8 @@ namespace AngleSharp.Css.Tests.Declarations
            font-weight: bold;
     }";
             var rule = ParseRule(snippet);
-            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
-            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\"); font-weight: bold }", rule.ToCss());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.FontFace));
+            Assert.That(rule.ToCss(), Is.EqualTo("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\"); font-weight: bold }"));
         }
 
         [Test]
@@ -665,8 +665,8 @@ namespace AngleSharp.Css.Tests.Declarations
             src: url(""https://example.com/FrutigerLTStd-Light.otf"") format(""opentype"");
     }";
             var rule = ParseRule(snippet);
-            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
-            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\") }", rule.ToCss());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.FontFace));
+            Assert.That(rule.ToCss(), Is.EqualTo("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\") }"));
         }
 
         [Test]
@@ -676,8 +676,8 @@ namespace AngleSharp.Css.Tests.Declarations
         font-family: FrutigerLTStd;
     }";
             var rule = ParseRule(snippet);
-            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
-            Assert.AreEqual("@font-face { font-family: FrutigerLTStd }", rule.ToCss());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.FontFace));
+            Assert.That(rule.ToCss(), Is.EqualTo("@font-face { font-family: FrutigerLTStd }"));
         }
 
         [Test]
@@ -685,11 +685,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: italic bold 12px/30px Georgia, serif";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("italic bold 12px / 30px Georgia, serif"));
         }
 
         [Test]
@@ -697,11 +697,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "font: 400 12px Georgia, serif";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("font", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("400 12px Georgia, serif", property.Value);
+            Assert.That(property.Name, Is.EqualTo("font"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("400 12px Georgia, serif"));
         }
 
         [Test]

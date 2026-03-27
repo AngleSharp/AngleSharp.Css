@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Tests.Library
             var fontFace = sheet.Rules[0] as ICssFontFaceRule;
             var src = fontFace.GetProperty("src").RawValue;
             var url = ((src as ICssMultipleValue)[0] as ICssMultipleValue)[0] as CssUrlValue;
-            Assert.AreEqual("https://example.org/some-font.ttf", url.Path);
+            Assert.That(url.Path, Is.EqualTo("https://example.org/some-font.ttf"));
         }
     }
 }

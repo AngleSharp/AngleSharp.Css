@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using NUnit.Framework;
     using static CssConstructionFunctions;
@@ -11,12 +11,12 @@
         {
             var snippet = "object-fit : none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-fit", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-fit"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -24,11 +24,11 @@
         {
             var snippet = "object-fit : scaledown";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-fit", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("object-fit"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -36,12 +36,12 @@
         {
             var snippet = "object-fit : scale-DOWN";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-fit", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("scale-down", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-fit"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("scale-down"));
         }
 
         [Test]
@@ -49,12 +49,12 @@
         {
             var snippet = "object-fit : cover";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-fit", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("cover", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-fit"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("cover"));
         }
 
         [Test]
@@ -62,12 +62,12 @@
         {
             var snippet = "object-fit : contain";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-fit", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("contain", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-fit"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("contain"));
         }
 
         [Test]
@@ -75,12 +75,12 @@
         {
             var snippet = "object-position : center";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("center", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("center"));
         }
 
         [Test]
@@ -88,11 +88,11 @@
         {
             var snippet = "object-position : top-left";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("object-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -100,12 +100,12 @@
         {
             var snippet = "object-position : top left";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("left top", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("left top"));
         }
 
         [Test]
@@ -113,12 +113,12 @@
         {
             var snippet = "object-position : 50%   50% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("center", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("center"));
         }
 
         [Test]
@@ -126,12 +126,12 @@
         {
             var snippet = "object-position : left  30px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("object-position", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsTrue(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0 30px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("object-position"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0 30px"));
         }
     }
 }

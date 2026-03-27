@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding-left: 15px ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding-left", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding-left"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15px"));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding-right: 3em!important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding-right", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("3em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding-right"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("3em"));
         }
 
         [Test]
@@ -35,11 +35,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding-top: 4% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding-top", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("4%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding-top"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("4%"));
         }
 
         [Test]
@@ -47,11 +47,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding-bottom: 0 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding-bottom", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding-bottom"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -59,11 +59,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 0 ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -71,11 +71,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 25% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("25%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("25%"));
         }
 
         [Test]
@@ -83,11 +83,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 10px 3em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 3em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10px 3em"));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: auto ";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -103,11 +103,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 10px 3em 5px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 3em 5px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10px 3em 5px"));
         }
 
         [Test]
@@ -115,11 +115,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 10px 5% 8px 2% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("padding", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 5% 8px 2%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("padding"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10px 5% 8px 2%"));
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "padding: 10px 5% 8px 2% 3px";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -137,7 +137,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".centered { padding: 2.5em 0 2em }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

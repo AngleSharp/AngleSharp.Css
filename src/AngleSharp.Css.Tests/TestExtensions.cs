@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Tests
         {
             var element = node as IElement;
 
-            Assert.AreEqual(NodeType.Element, node.NodeType);
+            Assert.That(node.NodeType, Is.EqualTo(NodeType.Element));
             Assert.IsNotNull(element);
             Assert.IsNull(element.Prefix);
 

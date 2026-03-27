@@ -36,19 +36,19 @@ namespace AngleSharp.Css.Tests.Styling
 </body>
 </html>";
             var doc = ParseDocument(source);
-            Assert.AreEqual(1, doc.StyleSheets.Length);
+            Assert.That(doc.StyleSheets.Length, Is.EqualTo(1));
             var css = doc.StyleSheets[0] as CssStyleSheet;
-            Assert.AreEqual(1, css.Rules.Length);
+            Assert.That(css.Rules.Length, Is.EqualTo(1));
             var style = css.Rules[0] as CssStyleRule;
-            Assert.AreEqual("body", style.SelectorText);
-            Assert.AreEqual(1, style.Style.Length);
+            Assert.That(style.SelectorText, Is.EqualTo("body"));
+            Assert.That(style.Style.Length, Is.EqualTo(1));
             var decl = style.Style;
             Assert.IsInstanceOf<CssStyleDeclaration>(decl);
             var rule = decl.GetProperty("background-color");
-            Assert.IsTrue(rule.IsImportant);
-            Assert.AreEqual("background-color", rule.Name);
-            Assert.AreEqual(rule.Name, decl[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", rule.Value);
+            Assert.That(rule.IsImportant, Is.True);
+            Assert.That(rule.Name, Is.EqualTo("background-color"));
+            Assert.That(decl[0], Is.EqualTo(rule.Name));
+            Assert.That(rule.Value, Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
@@ -61,8 +61,8 @@ namespace AngleSharp.Css.Tests.Styling
                 IsIncludingUnknownRules = true
             });
             var div = doc.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual("", div.GetStyle()["background-color"]);
-            Assert.AreEqual("", div.GetStyle().CssText);
+            Assert.That(div.GetStyle()["background-color"], Is.EqualTo(""));
+            Assert.That(div.GetStyle().CssText, Is.EqualTo(""));
         }
 
         [Test]
@@ -93,37 +93,37 @@ namespace AngleSharp.Css.Tests.Styling
 
             var origin = link.Sheet as ICssStyleSheet;
             Assert.IsNotNull(origin);
-            Assert.AreEqual("http://localhost/origin.css", origin.Href);
-            Assert.AreEqual(1, origin.Rules.Length);
-            Assert.AreEqual(CssRuleType.Import, origin.Rules[0].Type);
+            Assert.That(origin.Href, Is.EqualTo("http://localhost/origin.css"));
+            Assert.That(origin.Rules.Length, Is.EqualTo(1));
+            Assert.That(origin.Rules[0].Type, Is.EqualTo(CssRuleType.Import));
 
             var linked1 = (origin.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNotNull(linked1);
-            Assert.AreEqual("http://localhost/linked1.css", linked1.Href);
-            Assert.AreEqual(0, linked1.Rules.Length);
+            Assert.That(linked1.Href, Is.EqualTo("http://localhost/linked1.css"));
+            Assert.That(linked1.Rules.Length, Is.EqualTo(0));
 
             var styleSheet = style.Sheet as ICssStyleSheet;
             Assert.IsNotNull(styleSheet);
-            Assert.AreEqual(null, styleSheet.Href);
-            Assert.AreEqual(1, styleSheet.Rules.Length);
-            Assert.AreEqual(CssRuleType.Import, styleSheet.Rules[0].Type);
+            Assert.That(styleSheet.Href, Is.EqualTo(null));
+            Assert.That(styleSheet.Rules.Length, Is.EqualTo(1));
+            Assert.That(styleSheet.Rules[0].Type, Is.EqualTo(CssRuleType.Import));
 
             var linked2 = (styleSheet.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNotNull(linked2);
-            Assert.AreEqual("http://localhost/linked2.css", linked2.Href);
-            Assert.AreEqual(2, linked2.Rules.Length);
-            Assert.AreEqual(CssRuleType.Import, linked2.Rules[0].Type);
-            Assert.AreEqual(CssRuleType.Import, linked2.Rules[1].Type);
+            Assert.That(linked2.Href, Is.EqualTo("http://localhost/linked2.css"));
+            Assert.That(linked2.Rules.Length, Is.EqualTo(2));
+            Assert.That(linked2.Rules[0].Type, Is.EqualTo(CssRuleType.Import));
+            Assert.That(linked2.Rules[1].Type, Is.EqualTo(CssRuleType.Import));
 
             var linked3 = (linked2.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNotNull(linked3);
-            Assert.AreEqual("http://localhost/linked3.css", linked3.Href);
-            Assert.AreEqual(0, linked3.Rules.Length);
+            Assert.That(linked3.Href, Is.EqualTo("http://localhost/linked3.css"));
+            Assert.That(linked3.Rules.Length, Is.EqualTo(0));
 
             var linked4 = (linked2.Rules[1] as ICssImportRule).Sheet;
             Assert.IsNotNull(linked4);
-            Assert.AreEqual("http://localhost/linked4.css", linked4.Href);
-            Assert.AreEqual(0, linked4.Rules.Length);
+            Assert.That(linked4.Href, Is.EqualTo("http://localhost/linked4.css"));
+            Assert.That(linked4.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -149,14 +149,14 @@ namespace AngleSharp.Css.Tests.Styling
 
             var origin = link.Sheet as ICssStyleSheet;
             Assert.IsNotNull(origin);
-            Assert.AreEqual("http://localhost/origin.css", origin.Href);
-            Assert.AreEqual(1, origin.Rules.Length);
-            Assert.AreEqual(CssRuleType.Import, origin.Rules[0].Type);
+            Assert.That(origin.Href, Is.EqualTo("http://localhost/origin.css"));
+            Assert.That(origin.Rules.Length, Is.EqualTo(1));
+            Assert.That(origin.Rules[0].Type, Is.EqualTo(CssRuleType.Import));
 
             var linked = (origin.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNotNull(linked);
-            Assert.AreEqual("http://localhost/linked.css", linked.Href);
-            Assert.AreEqual(1, linked.Rules.Length);
+            Assert.That(linked.Href, Is.EqualTo("http://localhost/linked.css"));
+            Assert.That(linked.Rules.Length, Is.EqualTo(1));
 
             var originAborted = (linked.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNull(originAborted);
@@ -188,47 +188,47 @@ namespace AngleSharp.Css.Tests.Styling
             var doc = ParseDocument(@"<table><tr style=""display: none;"">");
 
             var dochtml0 = doc.ChildNodes[0] as IElement;
-            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml0.Attributes.Length);
-            Assert.AreEqual("html", dochtml0.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
+            Assert.That(dochtml0.ChildNodes.Length, Is.EqualTo(2));
+            Assert.That(dochtml0.Attributes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0.GetTagName(), Is.EqualTo("html"));
+            Assert.That(dochtml0.NodeType, Is.EqualTo(NodeType.Element));
 
             var dochtml0head0 = dochtml0.ChildNodes[0] as IElement;
-            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml0head0.Attributes.Length);
-            Assert.AreEqual("head", dochtml0head0.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
+            Assert.That(dochtml0head0.ChildNodes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0head0.Attributes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0head0.GetTagName(), Is.EqualTo("head"));
+            Assert.That(dochtml0head0.NodeType, Is.EqualTo(NodeType.Element));
 
             var dochtml0body1 = dochtml0.ChildNodes[1] as IElement;
-            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml0body1.Attributes.Length);
-            Assert.AreEqual("body", dochtml0body1.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
+            Assert.That(dochtml0body1.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(dochtml0body1.Attributes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0body1.GetTagName(), Is.EqualTo("body"));
+            Assert.That(dochtml0body1.NodeType, Is.EqualTo(NodeType.Element));
 
             var dochtml0body1table0 = dochtml0body1.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, dochtml0body1table0.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml0body1table0.Attributes.Length);
-            Assert.AreEqual("table", dochtml0body1table0.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
+            Assert.That(dochtml0body1table0.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(dochtml0body1table0.Attributes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0body1table0.GetTagName(), Is.EqualTo("table"));
+            Assert.That(dochtml0body1table0.NodeType, Is.EqualTo(NodeType.Element));
 
             var dochtml0body1table0tbody0 = dochtml0body1table0.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, dochtml0body1table0tbody0.ChildNodes.Length);
-            Assert.AreEqual(0, dochtml0body1table0tbody0.Attributes.Length);
-            Assert.AreEqual("tbody", dochtml0body1table0tbody0.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
+            Assert.That(dochtml0body1table0tbody0.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(dochtml0body1table0tbody0.Attributes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0body1table0tbody0.GetTagName(), Is.EqualTo("tbody"));
+            Assert.That(dochtml0body1table0tbody0.NodeType, Is.EqualTo(NodeType.Element));
 
             var dochtml0body1table0tbody0tr0 = dochtml0body1table0tbody0.ChildNodes[0] as IElement;
-            Assert.AreEqual(0, dochtml0body1table0tbody0tr0.ChildNodes.Length);
-            Assert.AreEqual(1, dochtml0body1table0tbody0tr0.Attributes.Length);
-            Assert.AreEqual("tr", dochtml0body1table0tbody0tr0.GetTagName());
-            Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0.NodeType);
+            Assert.That(dochtml0body1table0tbody0tr0.ChildNodes.Length, Is.EqualTo(0));
+            Assert.That(dochtml0body1table0tbody0tr0.Attributes.Length, Is.EqualTo(1));
+            Assert.That(dochtml0body1table0tbody0tr0.GetTagName(), Is.EqualTo("tr"));
+            Assert.That(dochtml0body1table0tbody0tr0.NodeType, Is.EqualTo(NodeType.Element));
 
             var styleAttribute = dochtml0body1table0tbody0tr0.Attributes[0];
-            Assert.AreEqual("style", styleAttribute.Name);
-            Assert.AreEqual("display: none;", styleAttribute.Value);
+            Assert.That(styleAttribute.Name, Is.EqualTo("style"));
+            Assert.That(styleAttribute.Value, Is.EqualTo("display: none;"));
 
             var style = ((IHtmlElement)dochtml0body1table0tbody0tr0).GetStyle();
-            Assert.AreEqual("none", style.GetDisplay());
+            Assert.That(style.GetDisplay(), Is.EqualTo("none"));
         }
 
         [Test]
@@ -237,41 +237,41 @@ namespace AngleSharp.Css.Tests.Styling
             var doc = ParseDocument(@"<table><tr style=""display: none;"">");
 
             var html = doc.ChildNodes[0] as IElement;
-            Assert.AreEqual(2, html.ChildNodes.Length);
-            Assert.AreEqual(0, html.Attributes.Length);
-            Assert.AreEqual("html", html.GetTagName());
-            Assert.AreEqual(NodeType.Element, html.NodeType);
+            Assert.That(html.ChildNodes.Length, Is.EqualTo(2));
+            Assert.That(html.Attributes.Length, Is.EqualTo(0));
+            Assert.That(html.GetTagName(), Is.EqualTo("html"));
+            Assert.That(html.NodeType, Is.EqualTo(NodeType.Element));
 
             var body = html.ChildNodes[1] as IElement;
-            Assert.AreEqual(1, body.ChildNodes.Length);
-            Assert.AreEqual(0, body.Attributes.Length);
-            Assert.AreEqual("body", body.GetTagName());
-            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.That(body.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(body.Attributes.Length, Is.EqualTo(0));
+            Assert.That(body.GetTagName(), Is.EqualTo("body"));
+            Assert.That(body.NodeType, Is.EqualTo(NodeType.Element));
 
             var table = body.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, table.ChildNodes.Length);
-            Assert.AreEqual(0, table.Attributes.Length);
-            Assert.AreEqual("table", table.GetTagName());
-            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.That(table.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(table.Attributes.Length, Is.EqualTo(0));
+            Assert.That(table.GetTagName(), Is.EqualTo("table"));
+            Assert.That(table.NodeType, Is.EqualTo(NodeType.Element));
 
             var tableBody = table.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, tableBody.ChildNodes.Length);
-            Assert.AreEqual(0, tableBody.Attributes.Length);
-            Assert.AreEqual("tbody", tableBody.GetTagName());
-            Assert.AreEqual(NodeType.Element, tableBody.NodeType);
+            Assert.That(tableBody.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(tableBody.Attributes.Length, Is.EqualTo(0));
+            Assert.That(tableBody.GetTagName(), Is.EqualTo("tbody"));
+            Assert.That(tableBody.NodeType, Is.EqualTo(NodeType.Element));
 
             var tableRow = tableBody.ChildNodes[0] as IElement;
-            Assert.AreEqual(0, tableRow.ChildNodes.Length);
-            Assert.AreEqual(1, tableRow.Attributes.Length);
-            Assert.AreEqual("tr", tableRow.GetTagName());
-            Assert.AreEqual(NodeType.Element, tableRow.NodeType);
+            Assert.That(tableRow.ChildNodes.Length, Is.EqualTo(0));
+            Assert.That(tableRow.Attributes.Length, Is.EqualTo(1));
+            Assert.That(tableRow.GetTagName(), Is.EqualTo("tr"));
+            Assert.That(tableRow.NodeType, Is.EqualTo(NodeType.Element));
 
             var tr = (IHtmlElement)tableRow;
             var style = tr.GetStyle();
-            Assert.AreEqual("none", style.GetDisplay());
+            Assert.That(style.GetDisplay(), Is.EqualTo("none"));
 
             style.SetDisplay("block");
-            Assert.AreEqual("block", style.GetDisplay());
+            Assert.That(style.GetDisplay(), Is.EqualTo("block"));
         }
 
         [Test]
@@ -280,40 +280,40 @@ namespace AngleSharp.Css.Tests.Styling
             var doc = ParseDocument(@"<table><tr>");
 
             var html = doc.ChildNodes[0] as IElement;
-            Assert.AreEqual(2, html.ChildNodes.Length);
-            Assert.AreEqual(0, html.Attributes.Length);
-            Assert.AreEqual("html", html.GetTagName());
-            Assert.AreEqual(NodeType.Element, html.NodeType);
+            Assert.That(html.ChildNodes.Length, Is.EqualTo(2));
+            Assert.That(html.Attributes.Length, Is.EqualTo(0));
+            Assert.That(html.GetTagName(), Is.EqualTo("html"));
+            Assert.That(html.NodeType, Is.EqualTo(NodeType.Element));
 
             var body = html.ChildNodes[1] as IElement;
-            Assert.AreEqual(1, body.ChildNodes.Length);
-            Assert.AreEqual(0, body.Attributes.Length);
-            Assert.AreEqual("body", body.GetTagName());
-            Assert.AreEqual(NodeType.Element, body.NodeType);
+            Assert.That(body.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(body.Attributes.Length, Is.EqualTo(0));
+            Assert.That(body.GetTagName(), Is.EqualTo("body"));
+            Assert.That(body.NodeType, Is.EqualTo(NodeType.Element));
 
             var table = body.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, table.ChildNodes.Length);
-            Assert.AreEqual(0, table.Attributes.Length);
-            Assert.AreEqual("table", table.GetTagName());
-            Assert.AreEqual(NodeType.Element, table.NodeType);
+            Assert.That(table.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(table.Attributes.Length, Is.EqualTo(0));
+            Assert.That(table.GetTagName(), Is.EqualTo("table"));
+            Assert.That(table.NodeType, Is.EqualTo(NodeType.Element));
 
             var tableBody = table.ChildNodes[0] as IElement;
-            Assert.AreEqual(1, tableBody.ChildNodes.Length);
-            Assert.AreEqual(0, tableBody.Attributes.Length);
-            Assert.AreEqual("tbody", tableBody.GetTagName());
-            Assert.AreEqual(NodeType.Element, tableBody.NodeType);
+            Assert.That(tableBody.ChildNodes.Length, Is.EqualTo(1));
+            Assert.That(tableBody.Attributes.Length, Is.EqualTo(0));
+            Assert.That(tableBody.GetTagName(), Is.EqualTo("tbody"));
+            Assert.That(tableBody.NodeType, Is.EqualTo(NodeType.Element));
 
             var tableRow = tableBody.ChildNodes[0] as IElement;
-            Assert.AreEqual(0, tableRow.ChildNodes.Length);
-            Assert.AreEqual(0, tableRow.Attributes.Length);
-            Assert.AreEqual("tr", tableRow.GetTagName());
-            Assert.AreEqual(NodeType.Element, tableRow.NodeType);
+            Assert.That(tableRow.ChildNodes.Length, Is.EqualTo(0));
+            Assert.That(tableRow.Attributes.Length, Is.EqualTo(0));
+            Assert.That(tableRow.GetTagName(), Is.EqualTo("tr"));
+            Assert.That(tableRow.NodeType, Is.EqualTo(NodeType.Element));
 
             var tr = (IHtmlElement)tableRow;
             var style = tr.GetStyle();
 
             style.SetDisplay("none");
-            Assert.AreEqual("none", style.GetDisplay());
+            Assert.That(style.GetDisplay(), Is.EqualTo("none"));
         }
 
         [Test]
@@ -326,7 +326,7 @@ namespace AngleSharp.Css.Tests.Styling
             // hang occurs only if this line is executed prior to setting the attribute
             // hang occurs when executing next line
             div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual("", div.GetStyle().GetBackgroundColor());
+            Assert.That(div.GetStyle().GetBackgroundColor(), Is.EqualTo(""));
         }
 
         [Test]
@@ -334,13 +334,13 @@ namespace AngleSharp.Css.Tests.Styling
         {
             var document = ParseDocument("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(1, elements.Length);
+            Assert.That(elements.Length, Is.EqualTo(1));
 
             var style = (elements[0] as IHtmlElement).GetStyle();
-            Assert.AreEqual(1, style.Length);
+            Assert.That(style.Length, Is.EqualTo(1));
 
-            Assert.AreEqual("color", style[0]);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
+            Assert.That(style[0], Is.EqualTo("color"));
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -354,15 +354,15 @@ namespace AngleSharp.Css.Tests.Styling
                 font = "10px 'Tahoma'",
                 opacity = "0.5"
             });
-            Assert.AreEqual(1, elements.Length);
+            Assert.That(elements.Length, Is.EqualTo(1));
 
             var style = (elements[0] as IHtmlElement).GetStyle();
 
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetBackgroundColor());
-            Assert.AreEqual("\"Tahoma\"", style.GetFontFamily());
-            Assert.AreEqual("10px", style.GetFontSize());
-            Assert.AreEqual("0.5", style.GetOpacity());
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(style.GetBackgroundColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
+            Assert.That(style.GetFontFamily(), Is.EqualTo("\"Tahoma\""));
+            Assert.That(style.GetFontSize(), Is.EqualTo("10px"));
+            Assert.That(style.GetOpacity(), Is.EqualTo("0.5"));
         }
 
         [Test]
@@ -370,39 +370,39 @@ namespace AngleSharp.Css.Tests.Styling
         {
             var document = ParseDocument("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(4, elements.Length);
+            Assert.That(elements.Length, Is.EqualTo(4));
 
             var style1 = (elements[0] as IHtmlElement).GetStyle();
-            Assert.AreEqual(1, style1.Length);
+            Assert.That(style1.Length, Is.EqualTo(1));
 
             var test1 = style1[0];
-            Assert.AreEqual("color", test1);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style1.GetPropertyValue(test1));
+            Assert.That(test1, Is.EqualTo("color"));
+            Assert.That(style1.GetPropertyValue(test1), Is.EqualTo("rgba(255, 0, 0, 1)"));
 
             var style2 = (elements[1] as IHtmlElement).GetStyle();
-            Assert.AreEqual(1, style2.Length);
+            Assert.That(style2.Length, Is.EqualTo(1));
 
             var test2 = style2[0];
-            Assert.AreEqual("color", test2);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style2.GetPropertyValue(test2));
+            Assert.That(test2, Is.EqualTo("color"));
+            Assert.That(style2.GetPropertyValue(test2), Is.EqualTo("rgba(255, 0, 0, 1)"));
 
             var style3 = (elements[2] as IHtmlElement).GetStyle();
-            Assert.AreEqual(1, style3.Length);
+            Assert.That(style3.Length, Is.EqualTo(1));
 
             var test3 = style3[0];
-            Assert.AreEqual("color", test3);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style3.GetPropertyValue(test3));
+            Assert.That(test3, Is.EqualTo("color"));
+            Assert.That(style3.GetPropertyValue(test3), Is.EqualTo("rgba(255, 0, 0, 1)"));
 
             var style4 = (elements[3] as IHtmlElement).GetStyle();
-            Assert.AreEqual(2, style4.Length);
+            Assert.That(style4.Length, Is.EqualTo(2));
 
             var background = style4[0];
-            Assert.AreEqual("background-color", background);
-            Assert.AreEqual("rgba(0, 0, 255, 1)", style4.GetPropertyValue(background));
+            Assert.That(background, Is.EqualTo("background-color"));
+            Assert.That(style4.GetPropertyValue(background), Is.EqualTo("rgba(0, 0, 255, 1)"));
 
             var color = style4[1];
-            Assert.AreEqual("color", color);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style4.GetPropertyValue(color));
+            Assert.That(color, Is.EqualTo("color"));
+            Assert.That(style4.GetPropertyValue(color), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -412,7 +412,7 @@ namespace AngleSharp.Css.Tests.Styling
             var div = dom.QuerySelector("div");
             var style = div.GetStyle();
 
-            Assert.AreEqual("background: left", style.CssText);
+            Assert.That(style.CssText, Is.EqualTo("background: left"));
         }
 
         [Test]
@@ -425,7 +425,7 @@ namespace AngleSharp.Css.Tests.Styling
             style.RemoveProperty("background-position-x");
             style.RemoveProperty("background-position-y");
 
-            Assert.AreEqual("background-image: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial", style.CssText);
+            Assert.That(style.CssText, Is.EqualTo("background-image: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial"));
         }
 
         [Test]
@@ -438,7 +438,7 @@ namespace AngleSharp.Css.Tests.Styling
             element.GetStyle().SetBorderWidth("1px");
             element.GetStyle().SetBorderStyle("solid");
             element.GetStyle().SetBorderColor("black");
-            Assert.AreEqual(expected, element.ToHtml());
+            Assert.That(element.ToHtml(), Is.EqualTo(expected));
         }
 
         [Test]
@@ -448,7 +448,7 @@ namespace AngleSharp.Css.Tests.Styling
             var htmlParser = browsingContext.GetService<IHtmlParser>();
             var document = htmlParser.ParseDocument("<html><body><b>Hello, World!</b></body></html>");
             var boldStyle = document.Body.FirstElementChild.ComputeCurrentStyle();
-            Assert.AreEqual("bolder", boldStyle.GetFontWeight());
+            Assert.That(boldStyle.GetFontWeight(), Is.EqualTo("bolder"));
         }
 
         [Test]
@@ -474,7 +474,7 @@ namespace AngleSharp.Css.Tests.Styling
             var htmlParser = browsingContext.GetService<IHtmlParser>();
             var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
             var style = document.Body.ComputeCurrentStyle();
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
@@ -490,7 +490,7 @@ namespace AngleSharp.Css.Tests.Styling
             var htmlParser = browsingContext.GetService<IHtmlParser>();
             var document = htmlParser.ParseDocument("<html><head><style>body { color: red } @media only screen and (min-width: 600px) { body { color: green } }</style></head><body></body></html>");
             var style = document.Body.ComputeCurrentStyle();
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
     }
 }

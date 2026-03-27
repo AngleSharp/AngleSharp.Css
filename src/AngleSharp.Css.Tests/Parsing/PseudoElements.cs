@@ -27,7 +27,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var stylesheet = document.StyleSheets.OfType<ICssStyleSheet>().First();
             var rule = stylesheet.Rules.OfType<ICssStyleRule>().First();
             var selectorText = rule.SelectorText;
-            Assert.AreEqual("p::-webkit-scrollbar-thumb", selectorText);
+            Assert.That(selectorText, Is.EqualTo("p::-webkit-scrollbar-thumb"));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Tests.Rules
             var styleSheet = document.StyleSheets.OfType<ICssStyleSheet>().First();
             var css = styleSheet.ToCss();
 
-            Assert.AreEqual("@page { margin-top: 25mm; margin-right: 25mm }", css);
+            Assert.That(css, Is.EqualTo("@page { margin-top: 25mm; margin-right: 25mm }"));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Tests.Rules
             var styleSheet = document.StyleSheets.OfType<ICssStyleSheet>().First();
             var css = styleSheet.ToCss();
 
-            Assert.AreEqual("@page { margin: 25mm }", css);
+            Assert.That(css, Is.EqualTo("@page { margin: 25mm }"));
         }
     }
 }

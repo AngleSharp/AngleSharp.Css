@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = "a{content-visibility:hidden}";
             var parsed = ParseStyle(source);
-            Assert.AreEqual("content-visibility: hidden", parsed.Style.CssText);
+            Assert.That(parsed.Style.CssText, Is.EqualTo("content-visibility: hidden"));
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = "a{content-visibility:aa}";
             var parsed = ParseStyle(source);
-            Assert.AreEqual("", parsed.Style.CssText);
+            Assert.That(parsed.Style.CssText, Is.EqualTo(""));
         }
     }
 }

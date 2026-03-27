@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-style   :  dotTED";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("dotted", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("dotted"));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-style   :  solid";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("solid", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("solid"));
         }
 
         [Test]
@@ -35,10 +35,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-style   :  no";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-style", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("outline-style"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -46,11 +46,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-color :  invert ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("invert", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("invert"));
         }
 
         [Test]
@@ -58,11 +58,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-color :  hsl(320, 80%, 50%) ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(230, 25, 162, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(230, 25, 162, 1)"));
         }
 
         [Test]
@@ -70,11 +70,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-color :  #0000FF ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(0, 0, 255, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(0, 0, 255, 1)"));
         }
 
         [Test]
@@ -82,11 +82,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-color :  red ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-color :  blau ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-color", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("outline-color"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -105,11 +105,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-width :  thin !important";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-width", property.Name);
-            Assert.IsTrue(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-width"));
+            Assert.That(property.IsImportant, Is.True);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1px"));
         }
 
         [Test]
@@ -117,10 +117,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-width :  3";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("outline-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -128,11 +128,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline-width :  0.1em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0.1em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0.1em"));
         }
 
         [Test]
@@ -140,11 +140,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  thin";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1px"));
         }
 
         [Test]
@@ -152,11 +152,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  thin   invert";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1px invert", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1px invert"));
         }
 
         [Test]
@@ -164,11 +164,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  dotted 0.3em rgb(255, 255, 255)";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0.3em dotted rgba(255, 255, 255, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0.3em dotted rgba(255, 255, 255, 1)"));
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  dotted #123456 rgb(255, 255, 255)";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -184,11 +184,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  1px solid #000";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1px solid rgba(0, 0, 0, 1)"));
         }
 
         [Test]
@@ -196,11 +196,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "outline :  solid black 1px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("outline", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1px solid rgba(0, 0, 0, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("outline"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1px solid rgba(0, 0, 0, 1)"));
         }
     }
 }

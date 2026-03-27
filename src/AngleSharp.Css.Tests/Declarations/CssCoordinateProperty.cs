@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Declarations
+namespace AngleSharp.Css.Tests.Declarations
 {
     using AngleSharp.Css.Dom;
     using NUnit.Framework;
@@ -13,11 +13,11 @@
         {
             var snippet = "height:   28% ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("28%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("28%"));
         }
 
         [Test]
@@ -25,11 +25,11 @@
         {
             var snippet = "height:   0.3em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("0.3em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("0.3em"));
         }
 
         [Test]
@@ -37,11 +37,11 @@
         {
             var snippet = "height:   144px ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("144px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("144px"));
         }
 
         [Test]
@@ -49,11 +49,11 @@
         {
             var snippet = "height: AUTO ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("auto", property.Value);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("auto"));
         }
 
         [Test]
@@ -61,11 +61,11 @@
         {
             var snippet = "width:0.5cm";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("0.5cm", property.Value);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("0.5cm"));
         }
 
         [Test]
@@ -73,11 +73,11 @@
         {
             var snippet = "width:1.5mm";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.AreEqual("1.5mm", property.Value);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.Value, Is.EqualTo("1.5mm"));
         }
 
         [Test]
@@ -85,10 +85,10 @@
         {
             var snippet = "width:1.5 meter";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsFalse(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.HasValue, Is.False);
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
             Assert.IsNotNull(property);
         }
 
@@ -97,10 +97,10 @@
         {
             var snippet = "left: 25px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("left", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("left"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -108,10 +108,10 @@
         {
             var snippet = "top:  0.7em ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("top", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("top"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -119,10 +119,10 @@
         {
             var snippet = "right:  1.5mm";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("right", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("right"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -130,10 +130,10 @@
         {
             var snippet = "bottom:  50%";
             var style = ParseDeclarations(snippet);
-            Assert.AreEqual(1, style.Length);
+            Assert.That(style.Length, Is.EqualTo(1));
             var bottom = style.Declarations.First();
-            Assert.AreEqual("bottom", bottom.Name);
-            Assert.AreEqual("50%", ((ICssStyleDeclaration)style).GetBottom());
+            Assert.That(bottom.Name, Is.EqualTo("bottom"));
+            Assert.That(((ICssStyleDeclaration)style).GetBottom(), Is.EqualTo("50%"));
         }
 
         [Test]
@@ -141,10 +141,10 @@
         {
             var snippet = "bottom:  50%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("bottom", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("bottom"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -152,10 +152,10 @@
         {
             var snippet = "height:0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -163,10 +163,10 @@
         {
             var snippet = "width  :  0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -174,10 +174,10 @@
         {
             var snippet = "width  :  20.5%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -185,9 +185,9 @@
         {
             var snippet = "width  :  3in";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
+            Assert.That(property.Name, Is.EqualTo("width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
         }
 
         [Test]
@@ -195,10 +195,10 @@
         {
             var snippet = "height  :  3deg";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.HasValue);
-            Assert.IsFalse(property.IsInherited);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.HasValue, Is.False);
+            Assert.That(property.IsInherited, Is.False);
         }
 
         [Test]
@@ -206,10 +206,10 @@
         {
             var snippet = "height  :  3dpi";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("height", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.HasValue);
-            Assert.IsFalse(property.IsInherited);
+            Assert.That(property.Name, Is.EqualTo("height"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.HasValue, Is.False);
+            Assert.That(property.IsInherited, Is.False);
         }
 
         [Test]
@@ -217,10 +217,10 @@
         {
             var snippet = "top:  1.2rem ";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("top", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("top"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -228,10 +228,10 @@
         {
             var snippet = "right:  0.5cm";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("right", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("right"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -239,10 +239,10 @@
         {
             var snippet = "bottom:  0.50%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("bottom", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("bottom"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -250,10 +250,10 @@
         {
             var snippet = "bottom:  0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("bottom", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("bottom"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -261,10 +261,10 @@
         {
             var snippet = "bottom:  20";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("bottom", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("bottom"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -272,10 +272,10 @@
         {
             var snippet = "min-height:  0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("min-height", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("min-height"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
         }
 
         [Test]
@@ -283,10 +283,10 @@
         {
             var snippet = "max-height:  auto";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("max-height", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("max-height"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -294,11 +294,11 @@
         {
             var snippet = "max-width:  none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("max-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("max-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -306,11 +306,11 @@
         {
             var snippet = "max-width:  15px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("max-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("max-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15px"));
         }
 
         [Test]
@@ -318,11 +318,11 @@
         {
             var snippet = "min-width:  15%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("min-width", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("min-width"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15%"));
         }
     }
 }

@@ -19,12 +19,12 @@ namespace AngleSharp.Css.Tests.Styling
 h1 {
  color: red;
  font-weight: bold");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
-            Assert.AreEqual("bold", h1.Style.GetFontWeight());
+            Assert.That(h1.SelectorText, Is.EqualTo("h1"));
+            Assert.That(h1.Style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(h1.Style.GetFontWeight(), Is.EqualTo("bold"));
         }
 
         [Test]
@@ -38,10 +38,10 @@ h1 {
             .dis2 { display: block; }
             ");
             var css = sheet.ToCss();
-            Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
-            Assert.AreEqual(".dis2 { display: block }", sheet.Rules[2].CssText);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(3));
+            Assert.That(sheet.Rules[0].CssText, Is.EqualTo(".dis-none { display: none }"));
+            Assert.That(sheet.Rules[1].CssText, Is.EqualTo(".dis { display: block }"));
+            Assert.That(sheet.Rules[2].CssText, Is.EqualTo(".dis2 { display: block }"));
         }
 
         [Test]
@@ -53,9 +53,9 @@ h1 {
             .dis { display: block; }
             ");
             var css = sheet.ToCss();
-            Assert.AreEqual(2, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(2));
+            Assert.That(sheet.Rules[0].CssText, Is.EqualTo(".dis-none { display: none }"));
+            Assert.That(sheet.Rules[1].CssText, Is.EqualTo(".dis { display: block }"));
         }
 
         [Test]
@@ -65,7 +65,7 @@ h1 {
             var expected = ".T1 { list-style: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
-            Assert.AreEqual(expected, cssText);
+            Assert.That(cssText, Is.EqualTo(expected));
         }
 
         [Test]
@@ -75,7 +75,7 @@ h1 {
             var expected = ".T2 { border: 1px outset }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
-            Assert.AreEqual(expected, cssText);
+            Assert.That(cssText, Is.EqualTo(expected));
         }
 
         [Test]
@@ -85,7 +85,7 @@ h1 {
             var expected = "#rule1 { border-top: none; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1) }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
-            Assert.AreEqual(expected, cssText);
+            Assert.That(cssText, Is.EqualTo(expected));
         }
 
         [Test]
@@ -95,7 +95,7 @@ h1 {
             var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") left top repeat-x }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.ToCss();
-            Assert.AreEqual(expected, cssText);
+            Assert.That(cssText, Is.EqualTo(expected));
         }
 
         [Test]
@@ -113,10 +113,10 @@ h1 {
   background: linear-gradient(red, green);
 }";
             var stylesheet = ParseStyleSheet(css);
-            Assert.AreEqual(1, stylesheet.Rules.Length);
+            Assert.That(stylesheet.Rules.Length, Is.EqualTo(1));
             var style = stylesheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual(15, style.Style.Length);
+            Assert.That(style.Style.Length, Is.EqualTo(15));
         }
 
         [Test]
@@ -124,10 +124,10 @@ h1 {
         {
             var css = @"html { font-family: sans-serif }";
             var stylesheet = ParseStyleSheet(css);
-            Assert.AreEqual(1, stylesheet.Rules.Length);
+            Assert.That(stylesheet.Rules.Length, Is.EqualTo(1));
             var rule = stylesheet.Rules[0];
             Assert.IsInstanceOf<CssStyleRule>(rule);
-            Assert.AreEqual(css, rule.CssText);
+            Assert.That(rule.CssText, Is.EqualTo(css));
         }
 
         [Test]
@@ -139,14 +139,14 @@ h1 {
         color: red;
         color: green;
       }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
-            Assert.AreEqual("", p.Style.GetFontFamily());
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
+            Assert.That(p.Style.GetFontFamily(), Is.EqualTo(""));
         }
 
         [Test]
@@ -155,11 +155,11 @@ h1 {
             var sheet = ParseStyleSheet(@"
 #something {
  content: 'hi there");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var id = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("#something", id.SelectorText);
-            Assert.AreEqual("\"hi there\"", id.Style.GetContent());
+            Assert.That(id.SelectorText, Is.EqualTo("#something"));
+            Assert.That(id.Style.GetContent(), Is.EqualTo("\"hi there\""));
         }
 
         [Test]
@@ -167,28 +167,28 @@ h1 {
         {
             var sheet = ParseStyleSheet(@"  @media screen {
     p:before { content: 'Hello");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = sheet.Rules[0] as CssMediaRule;
-            Assert.AreEqual("screen", media.Media.MediaText);
-            Assert.AreEqual(1, media.Rules.Length);
+            Assert.That(media.Media.MediaText, Is.EqualTo("screen"));
+            Assert.That(media.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(media.Rules[0]);
             var p = media.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p:before", p.SelectorText);
-            Assert.AreEqual("\"Hello\"", p.Style.GetContent());
+            Assert.That(p.SelectorText, Is.EqualTo("p:before"));
+            Assert.That(p.Style.GetContent(), Is.EqualTo("\"Hello\""));
         }
 
         [Test]
         public void CssSheetDoIgnoreUnknownPropertyByDefault()
         {
             var sheet = ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual(1, h1.Style.Length);
-            Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
+            Assert.That(h1.SelectorText, Is.EqualTo("h1"));
+            Assert.That(h1.Style.Length, Is.EqualTo(1));
+            Assert.That(h1.Style[0], Is.EqualTo("color"));
+            Assert.That(h1.Style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -198,36 +198,36 @@ h1 {
             {
                 IsIncludingUnknownDeclarations = true,
             });
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual(2, h1.Style.Length);
-            Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", h1.Style.GetColor());
-            Assert.AreEqual("rotation", h1.Style[1]);
+            Assert.That(h1.SelectorText, Is.EqualTo("h1"));
+            Assert.That(h1.Style.Length, Is.EqualTo(2));
+            Assert.That(h1.Style[0], Is.EqualTo("color"));
+            Assert.That(h1.Style.GetColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(h1.Style[1], Is.EqualTo("rotation"));
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
         {
             var sheet = ParseStyleSheet(@"p @here {color: red}");
-            Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.AreEqual(null, (sheet.Rules[0] as ICssStyleRule).SelectorText);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
+            Assert.That((sheet.Rules[0] as ICssStyleRule).SelectorText, Is.EqualTo(null));
         }
 
         [Test]
         public void CssSheetInvalidStatementAtRuleUnexpectedAtKeyword()
         {
             var sheet = ParseStyleSheet(@"@foo @bar;");
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightBrace()
         {
             var sheet = ParseStyleSheet(@"}} {{ - }}");
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -235,31 +235,31 @@ h1 {
         {
             var sheet = ParseStyleSheet(@"}} {{ - }}
 #hi { color: green; }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.NotNull(style);
-            Assert.AreEqual("#hi", style.SelectorText);
-            Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.Style.GetColor());
+            Assert.That(style.SelectorText, Is.EqualTo("#hi"));
+            Assert.That(style.Style.Length, Is.EqualTo(1));
+            Assert.That(style.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
         {
             var sheet = ParseStyleSheet(@") ( {} ) p {color: red }");
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesisWithValidQualifiedRule()
         {
             var sheet = ParseStyleSheet(@") {} p {color: green }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.NotNull(style);
-            Assert.AreEqual("p", style.SelectorText);
-            Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.Style.GetColor());
+            Assert.That(style.SelectorText, Is.EqualTo("p"));
+            Assert.That(style.Style.Length, Is.EqualTo(1));
+            Assert.That(style.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
@@ -273,139 +273,139 @@ h1 {
   h1 { color: red }
 }
 h1 { color: blue }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual(1, h1.Style.Length);
-            Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("rgba(0, 0, 255, 1)", h1.Style.GetColor());
+            Assert.That(h1.SelectorText, Is.EqualTo("h1"));
+            Assert.That(h1.Style.Length, Is.EqualTo(1));
+            Assert.That(h1.Style[0], Is.EqualTo("color"));
+            Assert.That(h1.Style.GetColor(), Is.EqualTo("rgba(0, 0, 255, 1)"));
         }
 
         [Test]
         public void CssSheetKeepValidValueFloat()
         {
             var sheet = ParseStyleSheet(@"img { float: left }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(1, img.Style.Length);
-            Assert.AreEqual("float", img.Style[0]);
-            Assert.AreEqual("left", img.Style.GetFloat());
+            Assert.That(img.SelectorText, Is.EqualTo("img"));
+            Assert.That(img.Style.Length, Is.EqualTo(1));
+            Assert.That(img.Style[0], Is.EqualTo("float"));
+            Assert.That(img.Style.GetFloat(), Is.EqualTo("left"));
         }
 
         [Test]
         public void CssSheetIgnoreInvalidValueFloat()
         {
             var sheet = ParseStyleSheet(@"img { float: left here }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
-            Assert.AreEqual("", img.Style.GetFloat());
+            Assert.That(img.SelectorText, Is.EqualTo("img"));
+            Assert.That(img.Style.Length, Is.EqualTo(0));
+            Assert.That(img.Style.GetFloat(), Is.EqualTo(""));
         }
 
         [Test]
         public void CssSheetIgnoreInvalidValueBackground()
         {
             var sheet = ParseStyleSheet(@"img { background: ""red"" }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
-            Assert.AreEqual("", img.Style.GetBackground());
+            Assert.That(img.SelectorText, Is.EqualTo("img"));
+            Assert.That(img.Style.Length, Is.EqualTo(0));
+            Assert.That(img.Style.GetBackground(), Is.EqualTo(""));
         }
 
         [Test]
         public void CssSheetIgnoreInvalidValueBorderWidth()
         {
             var sheet = ParseStyleSheet(@"img { border-width: 3 }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("img", img.SelectorText);
-            Assert.AreEqual(0, img.Style.Length);
+            Assert.That(img.SelectorText, Is.EqualTo("img"));
+            Assert.That(img.Style.Length, Is.EqualTo(0));
         }
 
         [Test]
         public void CssSheetWellformedDeclaration()
         {
             var sheet = ParseStyleSheet(@"p { color:green; }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetMalformedDeclarationMissingColon()
         {
             var sheet = ParseStyleSheet(@"p { color:green; color }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetMalformedDeclarationMissingColonWithRecovery()
         {
             var sheet = ParseStyleSheet(@"p { color:red;   color; color:green }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetMalformedDeclarationMissingValue()
         {
             var sheet = ParseStyleSheet(@"p { color:green; color: }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokens()
         {
             var sheet = ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokensWithRecovery()
         {
             var sheet = ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", p.Style.GetColor());
+            Assert.That(p.SelectorText, Is.EqualTo("p"));
+            Assert.That(p.Style.Length, Is.EqualTo(1));
+            Assert.That(p.Style[0], Is.EqualTo("color"));
+            Assert.That(p.Style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
@@ -512,16 +512,16 @@ h1 { color: blue }");
             var names = new[] { "border-top-color", "border-right-color", "border-bottom-color", "border-left-color" };
             var decls = ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
             Assert.IsNotNull(decls);
-            Assert.AreEqual(4, decls.Length);
+            Assert.That(decls.Length, Is.EqualTo(4));
 
             for (int i = 0; i < decls.Length; i++)
             {
                 var propertyName = decls[i];
                 var property = decls.GetProperty(propertyName);
-                Assert.AreEqual(names[i], property.Name);
-                Assert.AreEqual(propertyName, property.Name);
-                Assert.IsFalse(property.IsImportant);
-                Assert.AreEqual("rgba(82, 168, 236, 0.8)", property.Value);
+                Assert.That(property.Name, Is.EqualTo(names[i]));
+                Assert.That(property.Name, Is.EqualTo(propertyName));
+                Assert.That(property.IsImportant, Is.False);
+                Assert.That(property.Value, Is.EqualTo("rgba(82, 168, 236, 0.8)"));
             }
         }
 
@@ -531,16 +531,16 @@ h1 { color: blue }");
             var names = new[] { "margin-top", "margin-right", "margin-bottom", "margin-left" };
             var decls = ParseDeclarations("margin: 20px;");
             Assert.IsNotNull(decls);
-            Assert.AreEqual(4, decls.Length);
+            Assert.That(decls.Length, Is.EqualTo(4));
 
             for (int i = 0; i < decls.Length; i++)
             {
                 var propertyName = decls[i];
                 var decl = decls.GetProperty(propertyName);
-                Assert.AreEqual(names[i], decl.Name);
-                Assert.AreEqual(propertyName, decl.Name);
-                Assert.IsFalse(decl.IsImportant);
-                Assert.AreEqual("20px", decl.Value);
+                Assert.That(decl.Name, Is.EqualTo(names[i]));
+                Assert.That(decl.Name, Is.EqualTo(propertyName));
+                Assert.That(decl.IsImportant, Is.False);
+                Assert.That(decl.Value, Is.EqualTo("20px"));
             }
         }
 
@@ -548,9 +548,9 @@ h1 { color: blue }");
         public void CssSeveralFontFamily()
         {
             var prop = ParseDeclaration("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
-            Assert.AreEqual("font-family", prop.Name);
-            Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value);
+            Assert.That(prop.Name, Is.EqualTo("font-family"));
+            Assert.That(prop.IsImportant, Is.False);
+            Assert.That(prop.Value, Is.EqualTo("\"Helvetica Neue\", Helvetica, Arial, sans-serif"));
         }
 
         [Test]
@@ -558,70 +558,70 @@ h1 { color: blue }");
         {
             var decl = ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(8, decl.Length);
+            Assert.That(decl.Length, Is.EqualTo(8));
 
-            Assert.AreEqual("bold 1em / 2em monospace", decl.GetPropertyValue("font"));
+            Assert.That(decl.GetPropertyValue("font"), Is.EqualTo("bold 1em / 2em monospace"));
 
             var content = decl.GetProperty("content");
-            Assert.AreEqual("content", content.Name);
-            Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual("\" (\" attr(href) \")\"", content.Value);
+            Assert.That(content.Name, Is.EqualTo("content"));
+            Assert.That(content.IsImportant, Is.False);
+            Assert.That(content.Value, Is.EqualTo("\" (\" attr(href) \")\""));
         }
 
         [Test]
         public void CssBackgroundWebkitGradientIsInvalid()
         {
             var background = ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
-            Assert.IsFalse(background.HasValue);
+            Assert.That(background.HasValue, Is.False);
         }
 
         [Test]
         public void CssBackgroundColorRgba()
         {
             var background = ParseDeclaration("background-color: rgba(255, 123, 13, 1)");
-            Assert.AreEqual("background-color", background.Name);
-            Assert.IsFalse(background.IsImportant);
-            Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value);
+            Assert.That(background.Name, Is.EqualTo("background-color"));
+            Assert.That(background.IsImportant, Is.False);
+            Assert.That(background.Value, Is.EqualTo("rgba(255, 123, 13, 1)"));
         }
 
         [Test]
         public void CssFontWithFraction()
         {
             var font = ParseDeclaration("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
-            Assert.AreEqual("font", font.Name);
-            Assert.IsFalse(font.IsImportant);
+            Assert.That(font.Name, Is.EqualTo("font"));
+            Assert.That(font.IsImportant, Is.False);
         }
 
         [Test]
         public void CssTextShadow()
         {
             var textShadow = ParseDeclaration("text-shadow: 0 0 10px #000");
-            Assert.AreEqual("text-shadow", textShadow.Name);
-            Assert.IsFalse(textShadow.IsImportant);
+            Assert.That(textShadow.Name, Is.EqualTo("text-shadow"));
+            Assert.That(textShadow.IsImportant, Is.False);
         }
 
         [Test]
         public void CssBackgroundWithImage()
         {
             var background = ParseDeclaration("background:url(../images/ribbon.svg) no-repeat");
-            Assert.AreEqual("background", background.Name);
-            Assert.IsFalse(background.IsImportant);
+            Assert.That(background.Name, Is.EqualTo("background"));
+            Assert.That(background.IsImportant, Is.False);
         }
 
         [Test]
         public void CssContentWithCounter()
         {
             var content = ParseDeclaration("content:counter(paging, decimal-leading-zero)");
-            Assert.AreEqual("content", content.Name);
-            Assert.IsFalse(content.IsImportant);
+            Assert.That(content.Name, Is.EqualTo("content"));
+            Assert.That(content.IsImportant, Is.False);
         }
 
         [Test]
         public void CssBackgroundColorRgb()
         {
             var backgroundColor = ParseDeclaration("background-color: rgb(245, 0, 111)");
-            Assert.AreEqual("background-color", backgroundColor.Name);
-            Assert.IsFalse(backgroundColor.IsImportant);
+            Assert.That(backgroundColor.Name, Is.EqualTo("background-color"));
+            Assert.That(backgroundColor.IsImportant, Is.False);
         }
 
         [Test]
@@ -632,31 +632,31 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.IsInstanceOf<CssImportRule>(decl);
             var importRule = (CssImportRule)decl;
-            Assert.AreEqual("fonts.css", importRule.Href);
+            Assert.That(importRule.Href, Is.EqualTo("fonts.css"));
         }
 
         [Test]
         public void CssContentEscaped()
         {
             var content = ParseDeclaration("content:'\005E'");
-            Assert.AreEqual("content", content.Name);
-            Assert.IsFalse(content.IsImportant);
+            Assert.That(content.Name, Is.EqualTo("content"));
+            Assert.That(content.IsImportant, Is.False);
         }
 
         [Test]
         public void CssContentCounter()
         {
             var content = ParseDeclaration("content:counter(list)'.'");
-            Assert.AreEqual("content", content.Name);
-            Assert.IsFalse(content.IsImportant);
+            Assert.That(content.Name, Is.EqualTo("content"));
+            Assert.That(content.IsImportant, Is.False);
         }
 
         [Test]
         public void CssTransformTranslate()
         {
             var transform = ParseDeclaration("transform:translateY(-50%)");
-            Assert.AreEqual("transform", transform.Name);
-            Assert.IsFalse(transform.IsImportant);
+            Assert.That(transform.Name, Is.EqualTo("transform"));
+            Assert.That(transform.IsImportant, Is.False);
         }
 
         [Test]
@@ -666,17 +666,17 @@ h1 { color: blue }");
         box-shadow:
 			0 0 0 10px rgba(60, 61, 64, 0.6),
 			0 0 50px #3C3D40;");
-            Assert.AreEqual("box-shadow", boxShadow.Name);
-            Assert.IsFalse(boxShadow.IsImportant);
+            Assert.That(boxShadow.Name, Is.EqualTo("box-shadow"));
+            Assert.That(boxShadow.IsImportant, Is.False);
         }
 
         [Test]
         public void CssDisplayBlock()
         {
             var display = ParseDeclaration("display:block");
-            Assert.AreEqual("display", display.Name);
-            Assert.IsFalse(display.IsImportant);
-            Assert.AreEqual("block", display.Value);
+            Assert.That(display.Name, Is.EqualTo("display"));
+            Assert.That(display.IsImportant, Is.False);
+            Assert.That(display.Value, Is.EqualTo("block"));
         }
 
         [Test]
@@ -684,16 +684,16 @@ h1 { color: blue }");
         {
             var sheet = ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
             Assert.IsNotNull(sheet);
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var rule = sheet.Rules[0] as CssStyleRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(5, rule.Style.Length);
-            Assert.AreEqual(".App_Header_ .logo", rule.SelectorText);
+            Assert.That(rule.Style.Length, Is.EqualTo(5));
+            Assert.That(rule.SelectorText, Is.EqualTo(".App_Header_ .logo"));
             var decl = rule.Style as ICssStyleDeclaration;
-            Assert.AreEqual("url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\")", decl.GetBackgroundImage());
-            Assert.AreEqual("71px 28px", decl.GetBackgroundSize());
-            Assert.AreEqual("0 19px", decl.GetBackgroundPosition());
-            Assert.AreEqual("71px", decl.GetWidth());
+            Assert.That(decl.GetBackgroundImage(), Is.EqualTo("url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\")"));
+            Assert.That(decl.GetBackgroundSize(), Is.EqualTo("71px 28px"));
+            Assert.That(decl.GetBackgroundPosition(), Is.EqualTo("0 19px"));
+            Assert.That(decl.GetWidth(), Is.EqualTo("71px"));
         }
 
         [Test]
@@ -724,7 +724,7 @@ h1 { color: blue }");
             {
                 var sheet = ParseStyleSheet(memoryStream);
                 Assert.IsNotNull(sheet);
-                Assert.AreEqual(0, sheet.Rules.Length);
+                Assert.That(sheet.Rules.Length, Is.EqualTo(0));
             }
         }
 
@@ -733,7 +733,7 @@ h1 { color: blue }");
         {
             var sheet = ParseStyleSheet("U+???\0");
             Assert.IsNotNull(sheet);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -758,38 +758,38 @@ p.info span::after {
             var initialSourceCode = initialSheet.ToCss();
             var finalSheet = ParseStyleSheet(initialSourceCode);
             var finalSourceCode = finalSheet.ToCss();
-            Assert.AreEqual(initialSourceCode, finalSourceCode);
-            Assert.AreEqual(initialSheet.Rules.Length, finalSheet.Rules.Length);
+            Assert.That(finalSourceCode, Is.EqualTo(initialSourceCode));
+            Assert.That(finalSheet.Rules.Length, Is.EqualTo(initialSheet.Rules.Length));
         }
 
         [Test]
         public void CssParseSheetWithStyleMediaAndStyleRule()
         {
             var sheet = ParseStyleSheet(@".mobile,.tablet{display:none;} @media only screen and(max-width:51.875em){.tablet{display:block;}} .disp {display:block;}");
-            Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
-            Assert.AreEqual(CssRuleType.Media, sheet.Rules[1].Type);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[2].Type);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(3));
+            Assert.That(sheet.Rules[0].Type, Is.EqualTo(CssRuleType.Style));
+            Assert.That(sheet.Rules[1].Type, Is.EqualTo(CssRuleType.Media));
+            Assert.That(sheet.Rules[2].Type, Is.EqualTo(CssRuleType.Style));
         }
 
         [Test]
         public void CssParseSheetWithMediaAndTwoStyleRules()
         {
             var sheet = ParseStyleSheet(@"@media only screen and(max-width:51.875em){.tablet{display:block;}} .mobile,.tablet{display:none;} .disp {display:block;}");
-            Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[2].Type);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(3));
+            Assert.That(sheet.Rules[0].Type, Is.EqualTo(CssRuleType.Media));
+            Assert.That(sheet.Rules[1].Type, Is.EqualTo(CssRuleType.Style));
+            Assert.That(sheet.Rules[2].Type, Is.EqualTo(CssRuleType.Style));
         }
 
         [Test]
         public void CssParseSheetWithTwoStyleAndMediaRule()
         {
             var sheet = ParseStyleSheet(@".mobile,.tablet{display:none;} .disp {display:block;} @media only screen and(max-width:51.875em){.tablet{display:block;}}");
-            Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
-            Assert.AreEqual(CssRuleType.Media, sheet.Rules[2].Type);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(3));
+            Assert.That(sheet.Rules[0].Type, Is.EqualTo(CssRuleType.Style));
+            Assert.That(sheet.Rules[1].Type, Is.EqualTo(CssRuleType.Style));
+            Assert.That(sheet.Rules[2].Type, Is.EqualTo(CssRuleType.Media));
         }
 
         [Test]
@@ -797,16 +797,16 @@ p.info span::after {
         {
             var src = "@import url(import3.css); p { color : #f00; }";
             var sheet = ParseStyleSheet(src);
-            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(2));
             var import = sheet.Rules[0] as ICssImportRule;
             var style = sheet.Rules[1] as ICssStyleRule;
             Assert.IsNotNull(import);
             Assert.IsNotNull(style);
-            Assert.AreEqual(0, import.Media.Length);
-            Assert.AreEqual("", import.Media.MediaText);
-            Assert.AreEqual("import3.css", import.Href);
-            Assert.AreEqual("p", style.Selector.Text);
-            Assert.AreEqual(1, style.Style.Length);
+            Assert.That(import.Media.Length, Is.EqualTo(0));
+            Assert.That(import.Media.MediaText, Is.EqualTo(""));
+            Assert.That(import.Href, Is.EqualTo("import3.css"));
+            Assert.That(style.Selector.Text, Is.EqualTo("p"));
+            Assert.That(style.Style.Length, Is.EqualTo(1));
         }
 
         [Test]
@@ -814,11 +814,11 @@ p.info span::after {
         {
             var src = "@media only screen and (min--moz-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:3/2),only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-device-pixel-ratio:1.5){.favicon{background-image:url('../img/favicons-sprite32.png?v=1b9547cf9cee3350a5b4875951e3e552');background-size:16px 5634px}}";
             var sheet = ParseStyleSheet(src);
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var media = sheet.Rules[0] as ICssMediaRule;
             Assert.IsNotNull(media);
-            Assert.AreEqual(4, media.Media.Length);
-            Assert.AreEqual(1, media.Rules.Length);
+            Assert.That(media.Media.Length, Is.EqualTo(4));
+            Assert.That(media.Rules.Length, Is.EqualTo(1));
         }
 
         [Test]
@@ -832,11 +832,11 @@ font-family:""Cambria"",""serif"";
 color:#4F81BD;
 font-weight:bold;}";
             var sheet = ParseStyleSheet(src);
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual("span.berschrift2Zchn", style.SelectorText);
-            Assert.AreEqual(3, style.Style.Length);
+            Assert.That(style.SelectorText, Is.EqualTo("span.berschrift2Zchn"));
+            Assert.That(style.Style.Length, Is.EqualTo(3));
         }
 
         [Test]
@@ -845,7 +845,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
             var result = doc.ToCss();
-            Assert.AreEqual(".dsip { display: block }", result);
+            Assert.That(result, Is.EqualTo(".dsip { display: block }"));
         }
 
         [Test]
@@ -859,7 +859,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.ToCss();
-            Assert.AreEqual("@-ms-viewport{width:device-width}" + Environment.NewLine + ".dsip { display: block }", result);
+            Assert.That(result, Is.EqualTo("@-ms-viewport{width:device-width}" + Environment.NewLine + ".dsip { display: block }"));
         }
 
         [Test]
@@ -868,7 +868,7 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
             var result = doc.ToCss();
-            Assert.AreEqual("@media screen and (max-width: 400px) { }" + Environment.NewLine + ".dsip { display: block }", result);
+            Assert.That(result, Is.EqualTo("@media screen and (max-width: 400px) { }" + Environment.NewLine + ".dsip { display: block }"));
         }
 
         [Test]
@@ -882,26 +882,26 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.ToCss();
-            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }" + Environment.NewLine + ".dsip { display: block }", result);
+            Assert.That(result, Is.EqualTo("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }" + Environment.NewLine + ".dsip { display: block }"));
         }
 
         [Test]
         public void CssStyleSheetInsertAndDeleteShouldWork()
         {
             var s = ParseStyleSheet(String.Empty);
-            Assert.AreEqual(0, s.Rules.Length);
+            Assert.That(s.Rules.Length, Is.EqualTo(0));
 
             s.Insert("a {color: blue}", 0);
-            Assert.AreEqual(1, s.Rules.Length);
+            Assert.That(s.Rules.Length, Is.EqualTo(1));
 
             s.Insert("a *:first-child, a img {border: none}", 1);
-            Assert.AreEqual(2, s.Rules.Length);
+            Assert.That(s.Rules.Length, Is.EqualTo(2));
 
             s.RemoveAt(1);
-            Assert.AreEqual(1, s.Rules.Length);
+            Assert.That(s.Rules.Length, Is.EqualTo(1));
 
             s.RemoveAt(0);
-            Assert.AreEqual(0, s.Rules.Length);
+            Assert.That(s.Rules.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -910,19 +910,19 @@ font-weight:bold;}";
             var parser = new CssParser();
             var source = "<!-- body { font-family: Verdana } div.hidden { display: none } -->";
             var sheet = parser.ParseStyleSheet(source);
-            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            Assert.That(sheet.Rules[0].Type, Is.EqualTo(CssRuleType.Style));
             var body = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("body", body.SelectorText);
-            Assert.AreEqual(1, body.Style.Length);
-            Assert.AreEqual("Verdana", body.Style.GetFontFamily());
+            Assert.That(body.SelectorText, Is.EqualTo("body"));
+            Assert.That(body.Style.Length, Is.EqualTo(1));
+            Assert.That(body.Style.GetFontFamily(), Is.EqualTo("Verdana"));
 
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
+            Assert.That(sheet.Rules[1].Type, Is.EqualTo(CssRuleType.Style));
             var div = sheet.Rules[1] as ICssStyleRule;
-            Assert.AreEqual("div.hidden", div.SelectorText);
-            Assert.AreEqual(1, div.Style.Length);
-            Assert.AreEqual("none", div.Style.GetDisplay());
+            Assert.That(div.SelectorText, Is.EqualTo("div.hidden"));
+            Assert.That(div.Style.Length, Is.EqualTo(1));
+            Assert.That(div.Style.GetDisplay(), Is.EqualTo("none"));
         }
 
         [Test]
@@ -932,16 +932,16 @@ font-weight:bold;}";
             var source = "body { border-color: red }";
             var sheet = parser.ParseStyleSheet(source);
 
-            Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
+            Assert.That(sheet.Rules[0].Type, Is.EqualTo(CssRuleType.Style));
 
             var body = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("border-color: rgba(255, 0, 0, 1)", body.Style.CssText);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderLeftColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderRightColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+            Assert.That(body.Style.CssText, Is.EqualTo("border-color: rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderLeftColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderRightColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderTopColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderBottomColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -954,12 +954,12 @@ font-weight:bold;}";
             var body = sheet.Rules[0] as ICssStyleRule;
             body.Style.SetBorderLeftColor("blue");
             body.Style.SetBorderRightColor("blue");
-            Assert.AreEqual("border-color: rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.CssText);
-            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
-            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderLeftColor());
-            Assert.AreEqual("rgba(0, 0, 255, 1)", body.Style.GetBorderRightColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderTopColor());
-            Assert.AreEqual("rgba(255, 0, 0, 1)", body.Style.GetBorderBottomColor());
+            Assert.That(body.Style.CssText, Is.EqualTo("border-color: rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderColor(), Is.EqualTo("rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderLeftColor(), Is.EqualTo("rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderRightColor(), Is.EqualTo("rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderTopColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
+            Assert.That(body.Style.GetBorderBottomColor(), Is.EqualTo("rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -970,13 +970,13 @@ font-weight:bold;}";
             var sheet = parser.ParseStyleSheet(source);
 
             var body = sheet.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("border: 1px solid rgba(255, 0, 0, 1)", body.Style.CssText);
+            Assert.That(body.Style.CssText, Is.EqualTo("border: 1px solid rgba(255, 0, 0, 1)"));
             body.Style.SetBorderLeftColor("blue");
             body.Style.SetBorderTopWidth("medium");
-            Assert.AreEqual("border-top: 3px solid rgba(255, 0, 0, 1); border-right: 1px solid rgba(255, 0, 0, 1); border-bottom: 1px solid rgba(255, 0, 0, 1); border-left: 1px solid rgba(0, 0, 255, 1)", body.Style.CssText);
-            Assert.AreEqual("rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)", body.Style.GetBorderColor());
-            Assert.AreEqual("3px 1px 1px", body.Style.GetBorderWidth());
-            Assert.AreEqual("solid", body.Style.GetBorderStyle());
+            Assert.That(body.Style.CssText, Is.EqualTo("border-top: 3px solid rgba(255, 0, 0, 1); border-right: 1px solid rgba(255, 0, 0, 1); border-bottom: 1px solid rgba(255, 0, 0, 1); border-left: 1px solid rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderColor(), Is.EqualTo("rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(255, 0, 0, 1) rgba(0, 0, 255, 1)"));
+            Assert.That(body.Style.GetBorderWidth(), Is.EqualTo("3px 1px 1px"));
+            Assert.That(body.Style.GetBorderStyle(), Is.EqualTo("solid"));
         }
 
         [Test]
@@ -984,7 +984,7 @@ font-weight:bold;}";
         {
             var s = ParseStyleSheet(String.Empty);
             s.Insert("a {color: blue}", 0);
-            Assert.AreEqual(s, s.Rules[0].Owner);
+            Assert.That(s.Rules[0].Owner, Is.EqualTo(s));
         }
 
         [Test]
@@ -993,7 +993,7 @@ font-weight:bold;}";
             var s = ParseStyleSheet("body { background: url(http://example.com/foo.png) no-repeat }");
             var rule = s.GetStyleRuleWith("body");
             var url = rule.GetValueOf("background-image").AsUrl();
-            Assert.AreEqual("http://example.com/foo.png", url);
+            Assert.That(url, Is.EqualTo("http://example.com/foo.png"));
         }
 
         [Test]
@@ -1002,7 +1002,7 @@ font-weight:bold;}";
             var s = ParseStyleSheet("p > a { border: 1px solid red }");
             var rule = s.GetStyleRuleWith("p > a");
             var color = rule.GetValueOf("border-right-color").AsRgba();
-            Assert.AreEqual(0x00_00_ff_ff, color);
+            Assert.That(color, Is.EqualTo(0x00_00_ff_ff));
         }
 
         [Test]
@@ -1026,7 +1026,7 @@ font-weight:bold;}";
 .hwbAlpha { color: hwb(120, 10%, 50%, 0.5); }
 .hwbAngleAlpha { color: hwb(120deg, 10%, 50%, 0.5); }";
             var sheet = parser.ParseStyleSheet(source);
-            Assert.AreEqual(15, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(15));
 
             var rgbNumber = (sheet.Rules[0] as ICssStyleRule).Style.GetColor();
             var rgbPercent = (sheet.Rules[1] as ICssStyleRule).Style.GetColor();

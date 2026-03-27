@@ -13,9 +13,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "12px";
             var v = default(CssLengthValue);
             var r = CssLengthValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(12f, v.Value);
-            Assert.AreEqual(CssLengthValue.Unit.Px, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(12f));
+            Assert.That(v.Type, Is.EqualTo(CssLengthValue.Unit.Px));
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Tests.Values
             var s = "123.5";
             var v = default(CssLengthValue);
             var r = CssLengthValue.TryParse(s, out v);
-            Assert.IsFalse(r);
+            Assert.That(r, Is.False);
         }
 
         [Test]
@@ -33,9 +33,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "12.2vw";
             var v = default(CssLengthValue);
             var r = CssLengthValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(12.2, v.Value);
-            Assert.AreEqual(CssLengthValue.Unit.Vw, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(12.2));
+            Assert.That(v.Type, Is.EqualTo(CssLengthValue.Unit.Vw));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(50, CssLengthValue.Unit.Percent);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
-            Assert.AreEqual(250, l.ToPixel(renderDevice, RenderMode.Horizontal));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Horizontal), Is.EqualTo(250));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(25, CssLengthValue.Unit.Percent);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 600};
-            Assert.AreEqual(150, l.ToPixel(renderDevice, RenderMode.Vertical));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Vertical), Is.EqualTo(150));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(25, CssLengthValue.Unit.Rem);
             var renderDevice = new DefaultRenderDevice {FontSize = 10};
-            Assert.AreEqual(250, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(250));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(10, CssLengthValue.Unit.Em);
             var renderDevice = new DefaultRenderDevice {FontSize = 10};
-            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(100));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(10, CssLengthValue.Unit.Vh);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(100));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(20, CssLengthValue.Unit.Vw);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
-            Assert.AreEqual(200, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(200));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortHeight = 1000,
                 ViewPortWidth = 500
             };
-            Assert.AreEqual(200, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(200));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortHeight = 1000,
                 ViewPortWidth = 500
             };
-            Assert.AreEqual(100, l.ToPixel(renderDevice, RenderMode.Undefined));
+            Assert.That(l.ToPixel(renderDevice, RenderMode.Undefined), Is.EqualTo(100));
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(100, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 500};
-            Assert.AreEqual(20, l.To(CssLengthValue.Unit.Percent, renderDevice, RenderMode.Horizontal));
+            Assert.That(l.To(CssLengthValue.Unit.Percent, renderDevice, RenderMode.Horizontal), Is.EqualTo(20));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(100, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(10, l.To(CssLengthValue.Unit.Percent, renderDevice, RenderMode.Vertical));
+            Assert.That(l.To(CssLengthValue.Unit.Percent, renderDevice, RenderMode.Vertical), Is.EqualTo(10));
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(100, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {FontSize = 16};
-            Assert.AreEqual(6.25d, l.To(CssLengthValue.Unit.Rem, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Rem, renderDevice, RenderMode.Undefined), Is.EqualTo(6.25d));
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(1600, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {FontSize = 16};
-            Assert.AreEqual(100, l.To(CssLengthValue.Unit.Em, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Em, renderDevice, RenderMode.Undefined), Is.EqualTo(100));
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(100, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortHeight = 1000};
-            Assert.AreEqual(10, l.To(CssLengthValue.Unit.Vh, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Vh, renderDevice, RenderMode.Undefined), Is.EqualTo(10));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace AngleSharp.Css.Tests.Values
         {
             var l = new CssLengthValue(50, CssLengthValue.Unit.Px);
             var renderDevice = new DefaultRenderDevice {ViewPortWidth = 1000};
-            Assert.AreEqual(5, l.To(CssLengthValue.Unit.Vw, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Vw, renderDevice, RenderMode.Undefined), Is.EqualTo(5));
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortWidth = 1000,
                 ViewPortHeight = 500
             };
-            Assert.AreEqual(5, l.To(CssLengthValue.Unit.Vmax, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Vmax, renderDevice, RenderMode.Undefined), Is.EqualTo(5));
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace AngleSharp.Css.Tests.Values
                 ViewPortWidth = 1000,
                 ViewPortHeight = 500
             };
-            Assert.AreEqual(10, l.To(CssLengthValue.Unit.Vmin, renderDevice, RenderMode.Undefined));
+            Assert.That(l.To(CssLengthValue.Unit.Vmin, renderDevice, RenderMode.Undefined), Is.EqualTo(10));
         }
 
         [Test]
@@ -206,9 +206,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "1.35e2deg";
             var v = default(CssAngleValue);
             var r = CssAngleValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(135f, v.Value);
-            Assert.AreEqual(CssAngleValue.Unit.Deg, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(135f));
+            Assert.That(v.Type, Is.EqualTo(CssAngleValue.Unit.Deg));
         }
 
         [Test]
@@ -217,9 +217,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "-24.0dpi";
             var v = default(CssResolutionValue);
             var r = CssResolutionValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(-24f, v.Value);
-            Assert.AreEqual(CssResolutionValue.Unit.Dpi, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(-24f));
+            Assert.That(v.Type, Is.EqualTo(CssResolutionValue.Unit.Dpi));
         }
 
         [Test]
@@ -228,9 +228,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "17.123khz";
             var v = default(CssFrequencyValue);
             var r = CssFrequencyValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(17.123, v.Value);
-            Assert.AreEqual(CssFrequencyValue.Unit.Khz, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(17.123));
+            Assert.That(v.Type, Is.EqualTo(CssFrequencyValue.Unit.Khz));
         }
 
         [Test]
@@ -239,9 +239,9 @@ namespace AngleSharp.Css.Tests.Values
             var s = "0s";
             var v = default(CssTimeValue);
             var r = CssTimeValue.TryParse(s, out v);
-            Assert.IsTrue(r);
-            Assert.AreEqual(0f, v.Value);
-            Assert.AreEqual(CssTimeValue.Unit.S, v.Type);
+            Assert.That(r, Is.True);
+            Assert.That(v.Value, Is.EqualTo(0f));
+            Assert.That(v.Type, Is.EqualTo(CssTimeValue.Unit.S));
         }
 
         [Test]
@@ -250,7 +250,7 @@ namespace AngleSharp.Css.Tests.Values
             var s = "123.deg";
             var v = default(CssAngleValue);
             var r = CssAngleValue.TryParse(s, out v);
-            Assert.IsFalse(r);
+            Assert.That(r, Is.False);
         }
     }
 }

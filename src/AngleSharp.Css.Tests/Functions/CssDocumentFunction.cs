@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Functions
+namespace AngleSharp.Css.Tests.Functions
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -15,13 +15,13 @@
             var snippet = "@document url(http://www.w3.org/) { }";
             var rule = ParseRule(snippet) as ICssDocumentRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(CssRuleType.Document, rule.Type);
-            Assert.AreEqual(1, rule.Conditions.Count());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.Document));
+            Assert.That(rule.Conditions.Count(), Is.EqualTo(1));
             var condition = rule.Conditions.First();
-            Assert.AreEqual("url", condition.Name);
-            Assert.AreEqual("http://www.w3.org/", condition.Data);
-            Assert.IsFalse(condition.Matches(Url.Create("https://www.w3.org/")));
-            Assert.IsTrue(condition.Matches(Url.Create("http://www.w3.org")));
+            Assert.That(condition.Name, Is.EqualTo("url"));
+            Assert.That(condition.Data, Is.EqualTo("http://www.w3.org/"));
+            Assert.That(condition.Matches(Url.Create("https://www.w3.org/")), Is.False);
+            Assert.That(condition.Matches(Url.Create("http://www.w3.org")), Is.True);
         }
 
         [Test]
@@ -30,13 +30,13 @@
             var snippet = "@document url-prefix('http://www.w3.org/Style/') { }";
             var rule = ParseRule(snippet) as ICssDocumentRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(CssRuleType.Document, rule.Type);
-            Assert.AreEqual(1, rule.Conditions.Count());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.Document));
+            Assert.That(rule.Conditions.Count(), Is.EqualTo(1));
             var condition = rule.Conditions.First();
-            Assert.AreEqual("url-prefix", condition.Name);
-            Assert.AreEqual("http://www.w3.org/Style/", condition.Data);
-            Assert.IsFalse(condition.Matches(Url.Create("https://www.w3.org/Style/")));
-            Assert.IsTrue(condition.Matches(Url.Create("http://www.w3.org/Style/foo/bar")));
+            Assert.That(condition.Name, Is.EqualTo("url-prefix"));
+            Assert.That(condition.Data, Is.EqualTo("http://www.w3.org/Style/"));
+            Assert.That(condition.Matches(Url.Create("https://www.w3.org/Style/")), Is.False);
+            Assert.That(condition.Matches(Url.Create("http://www.w3.org/Style/foo/bar")), Is.True);
         }
 
         [Test]
@@ -45,15 +45,15 @@
             var snippet = "@document domain('mozilla.org') { }";
             var rule = ParseRule(snippet) as ICssDocumentRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(CssRuleType.Document, rule.Type);
-            Assert.AreEqual(1, rule.Conditions.Count());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.Document));
+            Assert.That(rule.Conditions.Count(), Is.EqualTo(1));
             var condition = rule.Conditions.First();
-            Assert.AreEqual("domain", condition.Name);
-            Assert.AreEqual("mozilla.org", condition.Data);
-            Assert.IsFalse(condition.Matches(Url.Create("https://www.w3.org/")));
-            Assert.IsTrue(condition.Matches(Url.Create("http://mozilla.org")));
-            Assert.IsTrue(condition.Matches(Url.Create("http://www.mozilla.org")));
-            Assert.IsTrue(condition.Matches(Url.Create("http://foo.mozilla.org")));
+            Assert.That(condition.Name, Is.EqualTo("domain"));
+            Assert.That(condition.Data, Is.EqualTo("mozilla.org"));
+            Assert.That(condition.Matches(Url.Create("https://www.w3.org/")), Is.False);
+            Assert.That(condition.Matches(Url.Create("http://mozilla.org")), Is.True);
+            Assert.That(condition.Matches(Url.Create("http://www.mozilla.org")), Is.True);
+            Assert.That(condition.Matches(Url.Create("http://foo.mozilla.org")), Is.True);
         }
 
         [Test]
@@ -62,13 +62,13 @@
             var snippet = "@document regexp(\"https:.*\") { }";
             var rule = ParseRule(snippet) as ICssDocumentRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(CssRuleType.Document, rule.Type);
-            Assert.AreEqual(1, rule.Conditions.Count());
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.Document));
+            Assert.That(rule.Conditions.Count(), Is.EqualTo(1));
             var condition = rule.Conditions.First();
-            Assert.AreEqual("regexp", condition.Name);
-            Assert.AreEqual("https:.*", condition.Data);
-            Assert.IsFalse(condition.Matches(Url.Create("http://www.w3.org")));
-            Assert.IsTrue(condition.Matches(Url.Create("https://www.w3.org/")));
+            Assert.That(condition.Name, Is.EqualTo("regexp"));
+            Assert.That(condition.Data, Is.EqualTo("https:.*"));
+            Assert.That(condition.Matches(Url.Create("http://www.w3.org")), Is.False);
+            Assert.That(condition.Matches(Url.Create("https://www.w3.org/")), Is.True);
         }
 
         [Test]
@@ -77,13 +77,13 @@
             var snippet = "@document url(http://www.w3.org/), url-prefix('http://www.w3.org/Style/'), domain('mozilla.org'), regexp(\"https:.*\") { }";
             var rule = ParseRule(snippet) as CssDocumentRule;
             Assert.IsNotNull(rule);
-            Assert.AreEqual(CssRuleType.Document, rule.Type);
-            Assert.AreEqual(4, rule.Conditions.Count());
-            Assert.IsTrue(rule.IsValid(Url.Create("https://www.w3.org/")));
-            Assert.IsTrue(rule.IsValid(Url.Create("http://www.w3.org/")));
-            Assert.IsTrue(rule.IsValid(Url.Create("http://www.w3.org/Style/bar")));
-            Assert.IsTrue(rule.IsValid(Url.Create("https://test.mozilla.org/foo")));
-            Assert.IsFalse(rule.IsValid(Url.Create("http://localhost")));
+            Assert.That(rule.Type, Is.EqualTo(CssRuleType.Document));
+            Assert.That(rule.Conditions.Count(), Is.EqualTo(4));
+            Assert.That(rule.IsValid(Url.Create("https://www.w3.org/")), Is.True);
+            Assert.That(rule.IsValid(Url.Create("http://www.w3.org/")), Is.True);
+            Assert.That(rule.IsValid(Url.Create("http://www.w3.org/Style/bar")), Is.True);
+            Assert.That(rule.IsValid(Url.Create("https://test.mozilla.org/foo")), Is.True);
+            Assert.That(rule.IsValid(Url.Create("http://localhost")), Is.False);
         }
     }
 }

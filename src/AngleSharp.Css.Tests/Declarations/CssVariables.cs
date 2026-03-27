@@ -13,15 +13,15 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = @":root { --my-variable: black; }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual(":root", style.SelectorText);
-            Assert.AreEqual(1, style.Style.Length);
+            Assert.That(style.SelectorText, Is.EqualTo(":root"));
+            Assert.That(style.Style.Length, Is.EqualTo(1));
             var propertyName = style.Style[0];
             var propertyValue = style.Style[propertyName];
-            Assert.AreEqual("--my-variable", propertyName);
-            Assert.AreEqual("black", propertyValue);
+            Assert.That(propertyName, Is.EqualTo("--my-variable"));
+            Assert.That(propertyValue, Is.EqualTo("black"));
         }
 
         [Test]
@@ -29,11 +29,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var source = @":root { --my-vari@able: black; }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual(":root", style.SelectorText);
-            Assert.AreEqual(0, style.Style.Length);
+            Assert.That(style.SelectorText, Is.EqualTo(":root"));
+            Assert.That(style.Style.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--foo", variable.References[0].VariableName);
+            Assert.That(variable.References.Length, Is.EqualTo(1));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--foo"));
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -57,9 +57,9 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--my-bar", variable.References[0].VariableName);
-            Assert.AreEqual("24px", variable.References[0].DefaultValue.CssText);
+            Assert.That(variable.References.Length, Is.EqualTo(1));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--my-bar"));
+            Assert.That(variable.References[0].DefaultValue.CssText, Is.EqualTo("24px"));
         }
 
         [Test]
@@ -70,9 +70,9 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--color", variable.References[0].VariableName);
-            Assert.AreEqual("red, blue", variable.References[0].DefaultValue.CssText);
+            Assert.That(variable.References.Length, Is.EqualTo(1));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--color"));
+            Assert.That(variable.References[0].DefaultValue.CssText, Is.EqualTo("red, blue"));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--foo", variable.References[0].VariableName);
+            Assert.That(variable.References.Length, Is.EqualTo(1));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--foo"));
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -96,8 +96,8 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(1, variable.References.Length);
-            Assert.AreEqual("--primary-color", variable.References[0].VariableName);
+            Assert.That(variable.References.Length, Is.EqualTo(1));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--primary-color"));
             Assert.IsNull(variable.References[0].DefaultValue);
         }
 
@@ -109,11 +109,11 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             var variable = property.RawValue as CssReferenceValue;
             Assert.IsNotNull(variable);
-            Assert.AreEqual(2, variable.References.Length);
-            Assert.AreEqual("--width", variable.References[0].VariableName);
+            Assert.That(variable.References.Length, Is.EqualTo(2));
+            Assert.That(variable.References[0].VariableName, Is.EqualTo("--width"));
             Assert.IsNull(variable.References[0].DefaultValue);
-            Assert.AreEqual("--color", variable.References[1].VariableName);
-            Assert.AreEqual("black", variable.References[1].DefaultValue.CssText);
+            Assert.That(variable.References[1].VariableName, Is.EqualTo("--color"));
+            Assert.That(variable.References[1].DefaultValue.CssText, Is.EqualTo("black"));
         }
     }
 }

@@ -11,11 +11,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-left-radius: 40px  40px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-left-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("40px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-left-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("40px"));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-left-radius  : 40px 20em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-left-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("40px 20em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-left-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("40px 20em"));
         }
 
         [Test]
@@ -35,11 +35,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-left-radius: 10px 5%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-left-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10px 5%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-left-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10px 5%"));
         }
 
         [Test]
@@ -47,11 +47,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-left-radius: 10%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-left-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("10%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-left-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("10%"));
         }
 
         [Test]
@@ -59,11 +59,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-right-radius: 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-right-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-right-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -71,11 +71,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-bottom-right-radius: 20px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-bottom-right-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("20px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-bottom-right-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("20px"));
         }
 
         [Test]
@@ -83,11 +83,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-top-left-radius: 3.5cm";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-top-left-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("3.5cm", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-top-left-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("3.5cm"));
         }
 
         [Test]
@@ -95,11 +95,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-top-right-radius: 15% 3.5%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-top-right-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15% 3.5%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-top-right-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15% 3.5%"));
         }
 
         [Test]
@@ -107,11 +107,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 15% 3.5%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("15% 3.5%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("15% 3.5%"));
         }
 
         [Test]
@@ -119,11 +119,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("0"));
         }
 
         [Test]
@@ -131,11 +131,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 2px 4px 3px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2px 4px 3px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2px 4px 3px"));
         }
 
         [Test]
@@ -143,11 +143,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 2px 4px 3px 0";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("2px 4px 3px 0", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("2px 4px 3px 0"));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 2px 4px 3px 0 1px";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -163,11 +163,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 1em/5em";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1em / 5em", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("1em / 5em"));
         }
 
         [Test]
@@ -175,11 +175,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px / 2px 4px";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("4px 3px 6px / 2px 4px", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("4px 3px 6px / 2px 4px"));
         }
 
         [Test]
@@ -187,11 +187,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20%";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("border-radius", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("4px 3px 6px 1em / 2px 4px 0 20%", property.Value);
+            Assert.That(property.Name, Is.EqualTo("border-radius"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("4px 3px 6px 1em / 2px 4px 0 20%"));
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20% 0";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -207,7 +207,7 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "border-radius: 4px 3px 6px 1em 0 / 2px 4px 0 20%";
             var property = ParseDeclaration(snippet);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".centered { border-radius: 5px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".centered { border-radius: 5px / 3px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".centered { border-radius: 0 0 1px 1px / 1px 3px 4px 2px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -247,7 +247,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".centered { border-radius: 0 1px 0 0 / 1px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -257,7 +257,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var expected = ".test { border-radius: 15px 0 0 15px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

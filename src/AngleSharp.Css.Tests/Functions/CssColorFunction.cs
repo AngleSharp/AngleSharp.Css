@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(0, 17, 0, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(0, 17, 0, 1)"));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(255, 122, 127, 0.8)", color);
+            Assert.That(color, Is.EqualTo("rgba(255, 122, 127, 0.8)"));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(255, 26, 128, 0.7)", color);
+            Assert.That(color, Is.EqualTo("rgba(255, 26, 128, 0.7)"));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(255, 0, 128, 0.35)", color);
+            Assert.That(color, Is.EqualTo("rgba(255, 0, 128, 0.35)"));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(125, 35, 40, 1)"));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 7, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 7, 1)"));
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 7, 0.5)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 7, 0.5)"));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(125, 35, 40, 1)"));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 7, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 7, 1)"));
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 7, 0.5)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 7, 0.5)"));
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(125, 35, 40, 1)"));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 6, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 6, 1)"));
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 6, 0.5)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 6, 0.5)"));
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(125, 35, 40, 1)"));
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 6, 1)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 6, 1)"));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace AngleSharp.Css.Tests.Functions
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
             var color = s.GetColor();
-            Assert.AreEqual("rgba(198, 93, 6, 0.5)", color);
+            Assert.That(color, Is.EqualTo("rgba(198, 93, 6, 0.5)"));
         }
     }
 }

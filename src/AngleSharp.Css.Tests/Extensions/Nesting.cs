@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("22.4px", style.GetFontSize());
+            Assert.That(style.GetFontSize(), Is.EqualTo("22.4px"));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var styleCollection = window.GetStyleCollection();
             var style = styleCollection.GetDeclarations(element);
 
-            Assert.AreEqual("1.4rem", style.GetFontSize());
+            Assert.That(style.GetFontSize(), Is.EqualTo("1.4rem"));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("22.4px", style.GetFontSize());
+            Assert.That(style.GetFontSize(), Is.EqualTo("22.4px"));
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("22.4px", style.GetFontSize());
+            Assert.That(style.GetFontSize(), Is.EqualTo("22.4px"));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector(".bar");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector("li");
             var style = window.GetComputedStyle(element);
 
-            Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
+            Assert.That(style.GetColor(), Is.EqualTo("rgba(0, 128, 0, 1)"));
         }
     }
 }

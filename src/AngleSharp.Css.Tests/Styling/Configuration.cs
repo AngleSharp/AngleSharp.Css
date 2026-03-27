@@ -34,7 +34,7 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.IsNotNull(service.Default);
             var sheet = service.Default;
             Assert.IsNotNull(sheet);
-            Assert.AreEqual(49, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(49));
         }
     }
 }

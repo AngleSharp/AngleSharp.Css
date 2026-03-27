@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Tests.Styling
         public void StyleSheetAtNamespace()
 		{
 			var sheet = ParseSheet(@"@namespace svg ""http://www.w3.org/2000/svg"";");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -33,10 +33,10 @@ namespace AngleSharp.Css.Tests.Styling
 			var sheet = ParseSheet(@"@charset
     ""UTF-8""
     ;");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
 			foreach (var rule in sheet.Rules)
-				Assert.AreEqual(@"UTF-8", ((ICssCharsetRule)rule).CharacterSet);
+				Assert.That(((ICssCharsetRule)rule).CharacterSet, Is.EqualTo(@"UTF-8"));
 		}
 
 		[Test]
@@ -45,9 +45,9 @@ namespace AngleSharp.Css.Tests.Styling
 			var sheet = ParseSheet(@"@charset ""UTF-8"";       /* Set the encoding of the style sheet to Unicode UTF-8 */
 @charset 'iso-8859-15'; /* Set the encoding of the style sheet to Latin-9 (Western European languages, with euro sign) */
 ");
-			Assert.AreEqual(2, sheet.Rules.Length);
-            Assert.AreEqual(@"UTF-8", ((ICssCharsetRule)sheet.Rules[0]).CharacterSet);
-            Assert.AreEqual(@"iso-8859-15", ((ICssCharsetRule)sheet.Rules[1]).CharacterSet);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
+            Assert.That(((ICssCharsetRule)sheet.Rules[0]).CharacterSet, Is.EqualTo(@"UTF-8"));
+            Assert.That(((ICssCharsetRule)sheet.Rules[1]).CharacterSet, Is.EqualTo(@"iso-8859-15"));
 		}
 
 		[Test]
@@ -57,13 +57,13 @@ namespace AngleSharp.Css.Tests.Styling
     margin  : auto;
     padding : 0;
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
 			foreach (var rule in sheet.Rules)
 			{
-				Assert.AreEqual(@"a", ((ICssStyleRule)rule).SelectorText);
-				Assert.AreEqual(@"auto", ((ICssStyleRule)rule).Style["margin"]);
-				Assert.AreEqual(@"0", ((ICssStyleRule)rule).Style["padding"]);
+				Assert.That(((ICssStyleRule)rule).SelectorText, Is.EqualTo(@"a"));
+				Assert.That(((ICssStyleRule)rule).Style["margin"], Is.EqualTo(@"auto"));
+				Assert.That(((ICssStyleRule)rule).Style["padding"], Is.EqualTo(@"0"));
 			}
 		}
 
@@ -109,22 +109,22 @@ namespace AngleSharp.Css.Tests.Styling
 #foo[qux=' , '] {
   foobar: 345;
 }");
-			Assert.AreEqual(5, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(5));
 
-            Assert.AreEqual(@".foo[bar=""baz,quz""]", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"123", ((ICssStyleRule)sheet.Rules[0]).Style["foobar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@".foo[bar=""baz,quz""]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["foobar"], Is.EqualTo(@"123"));
 
-            Assert.AreEqual(@".bar, #bar[baz=""qux,foo""], #qux", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"456", ((ICssStyleRule)sheet.Rules[1]).Style["foobar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@".bar, #bar[baz=""qux,foo""], #qux"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["foobar"], Is.EqualTo(@"456"));
 
-            Assert.AreEqual(@".baz[qux="",foo""], .baz[qux=""foo,""], .baz[qux=""foo,bar,baz""], .baz[qux="",foo,bar,baz,""], .baz[qux="" , foo , bar , baz , ""]", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
-            Assert.AreEqual(@"789", ((ICssStyleRule)sheet.Rules[2]).Style["foobar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).SelectorText, Is.EqualTo(@".baz[qux="",foo""], .baz[qux=""foo,""], .baz[qux=""foo,bar,baz""], .baz[qux="",foo,bar,baz,""], .baz[qux="" , foo , bar , baz , ""]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).Style["foobar"], Is.EqualTo(@"789"));
 
-            Assert.AreEqual(@".qux[foo=""bar,baz""], .qux[bar=""baz,foo""], #qux[foo=""foobar""], #qux[foo="",bar,baz, ""]", ((ICssStyleRule)sheet.Rules[3]).SelectorText);
-            Assert.AreEqual(@"012", ((ICssStyleRule)sheet.Rules[3]).Style["foobar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[3]).SelectorText, Is.EqualTo(@".qux[foo=""bar,baz""], .qux[bar=""baz,foo""], #qux[foo=""foobar""], #qux[foo="",bar,baz, ""]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[3]).Style["foobar"], Is.EqualTo(@"012"));
 
-            Assert.AreEqual(@"#foo[foo=""""], #foo[bar="" ""], #foo[bar="",""], #foo[bar="", ""], #foo[bar="" ,""], #foo[bar="" , ""], #foo[baz=""""], #foo[qux="" ""], #foo[qux="",""], #foo[qux="", ""], #foo[qux="" ,""], #foo[qux="" , ""]", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
-            Assert.AreEqual(@"345", ((ICssStyleRule)sheet.Rules[4]).Style["foobar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[4]).SelectorText, Is.EqualTo(@"#foo[foo=""""], #foo[bar="" ""], #foo[bar="",""], #foo[bar="", ""], #foo[bar="" ,""], #foo[bar="" , ""], #foo[baz=""""], #foo[qux="" ""], #foo[qux="",""], #foo[qux="", ""], #foo[qux="" ,""], #foo[qux="" , ""]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[4]).Style["foobar"], Is.EqualTo(@"345"));
 		}
 
 		[Test]
@@ -142,13 +142,13 @@ namespace AngleSharp.Css.Tests.Styling
 .foo:matches(,.bar , .baz) {
   anotherprop: anothervalue;
 }");
-            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@".foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz)", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"value", ((ICssStyleRule)sheet.Rules[0]).Style["prop"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@".foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz), .foo:matches(.bar, .baz)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["prop"], Is.EqualTo(@"value"));
 
-            Assert.AreEqual(null, ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"anothervalue", ((ICssStyleRule)sheet.Rules[1]).Style["anotherprop"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(null));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["anotherprop"], Is.EqualTo(@"anothervalue"));
 		}
 
 		[Test]
@@ -159,14 +159,14 @@ namespace AngleSharp.Css.Tests.Styling
     padding/*4815162342*/: 1px /**/ 2px /*13*/ 3px;
     border/*\**/: solid; font-family/*\**/: none\9;
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var rule = sheet.Rules[0];
 
-            Assert.AreEqual(@"a", ((ICssStyleRule)rule).SelectorText);
-            Assert.AreEqual(@"rgba(255, 0, 0, 1)", ((ICssStyleRule)rule).Style["color"]);
-            Assert.AreEqual(@"1px 2px 3px", ((ICssStyleRule)rule).Style["padding"]);
-            Assert.AreEqual(@"solid", ((ICssStyleRule)rule).Style["border"]);
-            Assert.AreEqual("none\t", ((ICssStyleRule)rule).Style["font-family"]);
+            Assert.That(((ICssStyleRule)rule).SelectorText, Is.EqualTo(@"a"));
+            Assert.That(((ICssStyleRule)rule).Style["color"], Is.EqualTo(@"rgba(255, 0, 0, 1)"));
+            Assert.That(((ICssStyleRule)rule).Style["padding"], Is.EqualTo(@"1px 2px 3px"));
+            Assert.That(((ICssStyleRule)rule).Style["border"], Is.EqualTo(@"solid"));
+            Assert.That(((ICssStyleRule)rule).Style["font-family"], Is.EqualTo("none\t"));
 		}
 
 		[Test]
@@ -179,10 +179,10 @@ foo { /*/*/
   /* something */
   bar: baz; /* http://foo.com/bar/baz.html */
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"foo", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"baz", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"foo"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["bar"], Is.EqualTo(@"baz"));
 		}
 
 		[Test]
@@ -197,10 +197,10 @@ head, /* footer, */body/*, nav */ { /* 2 */
 } /* 5 */
 
 /* 6 */");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"head, body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"'bar'", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"head, body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["foo"], Is.EqualTo(@"'bar'"));
 		}
 
 		[Test]
@@ -210,7 +210,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
     --test
     (min-width: 200px)
 ;");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -219,7 +219,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
 			var sheet = ParseSheet(@"@custom-media --narrow-window (max-width: 30em);
 @custom-media --wide-window screen and (min-width: 40em);
 ");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -234,7 +234,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
         }
 
     }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -251,14 +251,14 @@ head, /* footer, */body/*, nav */ { /* 2 */
     height: .9em;
   }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
 		public void StyleSheetEmpty()
 		{
 			var sheet = ParseSheet(@"");
-			Assert.AreEqual(0, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(0));
 		}
 
 		[Test]
@@ -318,87 +318,87 @@ li{background:orange;}
 
 /* css-parse does not yet pass this test */
 /*#\{\}{background:lime;}*/");
-			Assert.AreEqual(42, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(42));
 
-            Assert.AreEqual(@".\:\`\(", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@".\31 a2b3c", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"#\#fake-id", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
-            Assert.AreEqual(@"#---", ((ICssStyleRule)sheet.Rules[3]).SelectorText);
-            Assert.AreEqual(@"#-a-b-c-", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
-            Assert.AreEqual(@"#©", ((ICssStyleRule)sheet.Rules[5]).SelectorText);
-            Assert.AreEqual(@"html", ((ICssStyleRule)sheet.Rules[6]).SelectorText);
-            Assert.AreEqual(@"1.2em / 1.6 Arial", ((ICssStyleRule)sheet.Rules[6]).Style["font"]);
-            Assert.AreEqual(@"code", ((ICssStyleRule)sheet.Rules[7]).SelectorText);
-            Assert.AreEqual(@"Consolas", ((ICssStyleRule)sheet.Rules[7]).Style["font-family"]);
-            Assert.AreEqual(@"li code", ((ICssStyleRule)sheet.Rules[8]).SelectorText);
-            Assert.AreEqual(@"rgba(255, 255, 255, 0.5)", ((ICssStyleRule)sheet.Rules[8]).Style["background"]);
-            Assert.AreEqual(@"0.3em", ((ICssStyleRule)sheet.Rules[8]).Style["padding"]);
-            Assert.AreEqual(@"li", ((ICssStyleRule)sheet.Rules[9]).SelectorText);
-            Assert.AreEqual(@"rgba(255, 165, 0, 1)", ((ICssStyleRule)sheet.Rules[9]).Style["background"]);
-            Assert.AreEqual(@"#♥", ((ICssStyleRule)sheet.Rules[10]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[10]).Style["background"]);
-            Assert.AreEqual(@"#©", ((ICssStyleRule)sheet.Rules[11]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[11]).Style["background"]);
-            Assert.AreEqual(@"#“‘’”", ((ICssStyleRule)sheet.Rules[12]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[12]).Style["background"]);
-            Assert.AreEqual(@"#☺☃", ((ICssStyleRule)sheet.Rules[13]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[13]).Style["background"]);
-            Assert.AreEqual(@"#⌘⌥", ((ICssStyleRule)sheet.Rules[14]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[14]).Style["background"]);
-            Assert.AreEqual(@"#𝄞♪♩♫♬", ((ICssStyleRule)sheet.Rules[15]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[15]).Style["background"]);
-            Assert.AreEqual(@"#\?", ((ICssStyleRule)sheet.Rules[16]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[16]).Style["background"]);
-            Assert.AreEqual(@"#\@", ((ICssStyleRule)sheet.Rules[17]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[17]).Style["background"]);
-            Assert.AreEqual(@"#\.", ((ICssStyleRule)sheet.Rules[18]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[18]).Style["background"]);
-            Assert.AreEqual(@"#\:\)", ((ICssStyleRule)sheet.Rules[19]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[19]).Style["background"]);
-            Assert.AreEqual(@"#\:\`\(", ((ICssStyleRule)sheet.Rules[20]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[20]).Style["background"]);
-            Assert.AreEqual(@"#\31 23", ((ICssStyleRule)sheet.Rules[21]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[21]).Style["background"]);
-            Assert.AreEqual(@"#\31 a2b3c", ((ICssStyleRule)sheet.Rules[22]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[22]).Style["background"]);
-            Assert.AreEqual(@"#\<p\>", ((ICssStyleRule)sheet.Rules[23]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[23]).Style["background"]);
-            Assert.AreEqual(@"#\<\>\<\<\<\>\>\<\>", ((ICssStyleRule)sheet.Rules[24]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[24]).Style["background"]);
-            Assert.AreEqual("#\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\[\\>\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\>\\+\\<\\<\\<\\<-\\]\\>\\+\\+\\.\\>\\+\\.\\+\\+\\+\\+\\+\\+\\+\\.\\.\\+\\+\\+\\.\\>\\+\\+\\.\\<\\<\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\.\\>\\.\\+\\+\\+\\.------\\.--------\\.\\>\\+\\.\\>\\.", ((ICssStyleRule)sheet.Rules[25]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[25]).Style["background"]);
-            Assert.AreEqual(@"#\#", ((ICssStyleRule)sheet.Rules[26]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[26]).Style["background"]);
-            Assert.AreEqual(@"#\#\#", ((ICssStyleRule)sheet.Rules[27]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[27]).Style["background"]);
-            Assert.AreEqual(@"#\#\.\#\.\#", ((ICssStyleRule)sheet.Rules[28]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[28]).Style["background"]);
-            Assert.AreEqual(@"#_", ((ICssStyleRule)sheet.Rules[29]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[29]).Style["background"]);
-            Assert.AreEqual(@"#\.fake-class", ((ICssStyleRule)sheet.Rules[30]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[30]).Style["background"]);
-            Assert.AreEqual(@"#foo\.bar", ((ICssStyleRule)sheet.Rules[31]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[31]).Style["background"]);
-            Assert.AreEqual(@"#\:hover", ((ICssStyleRule)sheet.Rules[32]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[32]).Style["background"]);
-            Assert.AreEqual(@"#\:hover\:focus\:active", ((ICssStyleRule)sheet.Rules[33]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[33]).Style["background"]);
-            Assert.AreEqual(@"#\[attr\=value\]", ((ICssStyleRule)sheet.Rules[34]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[34]).Style["background"]);
-            Assert.AreEqual(@"#f\/o\/o", ((ICssStyleRule)sheet.Rules[35]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[35]).Style["background"]);
-            Assert.AreEqual(@"#f\\o\\o", ((ICssStyleRule)sheet.Rules[36]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[36]).Style["background"]);
-            Assert.AreEqual(@"#f\*o\*o", ((ICssStyleRule)sheet.Rules[37]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[37]).Style["background"]);
-            Assert.AreEqual(@"#f\!o\!o", ((ICssStyleRule)sheet.Rules[38]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[38]).Style["background"]);
-            Assert.AreEqual(@"#f\'o\'o", ((ICssStyleRule)sheet.Rules[39]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[39]).Style["background"]);
-            Assert.AreEqual(@"#f\~o\~o", ((ICssStyleRule)sheet.Rules[40]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[40]).Style["background"]);
-            Assert.AreEqual(@"#f\+o\+o", ((ICssStyleRule)sheet.Rules[41]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[41]).Style["background"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@".\:\`\("));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@".\31 a2b3c"));
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).SelectorText, Is.EqualTo(@"#\#fake-id"));
+            Assert.That(((ICssStyleRule)sheet.Rules[3]).SelectorText, Is.EqualTo(@"#---"));
+            Assert.That(((ICssStyleRule)sheet.Rules[4]).SelectorText, Is.EqualTo(@"#-a-b-c-"));
+            Assert.That(((ICssStyleRule)sheet.Rules[5]).SelectorText, Is.EqualTo(@"#©"));
+            Assert.That(((ICssStyleRule)sheet.Rules[6]).SelectorText, Is.EqualTo(@"html"));
+            Assert.That(((ICssStyleRule)sheet.Rules[6]).Style["font"], Is.EqualTo(@"1.2em / 1.6 Arial"));
+            Assert.That(((ICssStyleRule)sheet.Rules[7]).SelectorText, Is.EqualTo(@"code"));
+            Assert.That(((ICssStyleRule)sheet.Rules[7]).Style["font-family"], Is.EqualTo(@"Consolas"));
+            Assert.That(((ICssStyleRule)sheet.Rules[8]).SelectorText, Is.EqualTo(@"li code"));
+            Assert.That(((ICssStyleRule)sheet.Rules[8]).Style["background"], Is.EqualTo(@"rgba(255, 255, 255, 0.5)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[8]).Style["padding"], Is.EqualTo(@"0.3em"));
+            Assert.That(((ICssStyleRule)sheet.Rules[9]).SelectorText, Is.EqualTo(@"li"));
+            Assert.That(((ICssStyleRule)sheet.Rules[9]).Style["background"], Is.EqualTo(@"rgba(255, 165, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[10]).SelectorText, Is.EqualTo(@"#♥"));
+            Assert.That(((ICssStyleRule)sheet.Rules[10]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[11]).SelectorText, Is.EqualTo(@"#©"));
+            Assert.That(((ICssStyleRule)sheet.Rules[11]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[12]).SelectorText, Is.EqualTo(@"#“‘’”"));
+            Assert.That(((ICssStyleRule)sheet.Rules[12]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[13]).SelectorText, Is.EqualTo(@"#☺☃"));
+            Assert.That(((ICssStyleRule)sheet.Rules[13]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[14]).SelectorText, Is.EqualTo(@"#⌘⌥"));
+            Assert.That(((ICssStyleRule)sheet.Rules[14]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[15]).SelectorText, Is.EqualTo(@"#𝄞♪♩♫♬"));
+            Assert.That(((ICssStyleRule)sheet.Rules[15]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[16]).SelectorText, Is.EqualTo(@"#\?"));
+            Assert.That(((ICssStyleRule)sheet.Rules[16]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[17]).SelectorText, Is.EqualTo(@"#\@"));
+            Assert.That(((ICssStyleRule)sheet.Rules[17]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[18]).SelectorText, Is.EqualTo(@"#\."));
+            Assert.That(((ICssStyleRule)sheet.Rules[18]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[19]).SelectorText, Is.EqualTo(@"#\:\)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[19]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[20]).SelectorText, Is.EqualTo(@"#\:\`\("));
+            Assert.That(((ICssStyleRule)sheet.Rules[20]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[21]).SelectorText, Is.EqualTo(@"#\31 23"));
+            Assert.That(((ICssStyleRule)sheet.Rules[21]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[22]).SelectorText, Is.EqualTo(@"#\31 a2b3c"));
+            Assert.That(((ICssStyleRule)sheet.Rules[22]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[23]).SelectorText, Is.EqualTo(@"#\<p\>"));
+            Assert.That(((ICssStyleRule)sheet.Rules[23]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[24]).SelectorText, Is.EqualTo(@"#\<\>\<\<\<\>\>\<\>"));
+            Assert.That(((ICssStyleRule)sheet.Rules[24]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[25]).SelectorText, Is.EqualTo("#\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\[\\>\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\>\\+\\<\\<\\<\\<-\\]\\>\\+\\+\\.\\>\\+\\.\\+\\+\\+\\+\\+\\+\\+\\.\\.\\+\\+\\+\\.\\>\\+\\+\\.\\<\\<\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\.\\>\\.\\+\\+\\+\\.------\\.--------\\.\\>\\+\\.\\>\\."));
+            Assert.That(((ICssStyleRule)sheet.Rules[25]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[26]).SelectorText, Is.EqualTo(@"#\#"));
+            Assert.That(((ICssStyleRule)sheet.Rules[26]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[27]).SelectorText, Is.EqualTo(@"#\#\#"));
+            Assert.That(((ICssStyleRule)sheet.Rules[27]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[28]).SelectorText, Is.EqualTo(@"#\#\.\#\.\#"));
+            Assert.That(((ICssStyleRule)sheet.Rules[28]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[29]).SelectorText, Is.EqualTo(@"#_"));
+            Assert.That(((ICssStyleRule)sheet.Rules[29]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[30]).SelectorText, Is.EqualTo(@"#\.fake-class"));
+            Assert.That(((ICssStyleRule)sheet.Rules[30]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[31]).SelectorText, Is.EqualTo(@"#foo\.bar"));
+            Assert.That(((ICssStyleRule)sheet.Rules[31]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[32]).SelectorText, Is.EqualTo(@"#\:hover"));
+            Assert.That(((ICssStyleRule)sheet.Rules[32]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[33]).SelectorText, Is.EqualTo(@"#\:hover\:focus\:active"));
+            Assert.That(((ICssStyleRule)sheet.Rules[33]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[34]).SelectorText, Is.EqualTo(@"#\[attr\=value\]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[34]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[35]).SelectorText, Is.EqualTo(@"#f\/o\/o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[35]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[36]).SelectorText, Is.EqualTo(@"#f\\o\\o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[36]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[37]).SelectorText, Is.EqualTo(@"#f\*o\*o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[37]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[38]).SelectorText, Is.EqualTo(@"#f\!o\!o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[38]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[39]).SelectorText, Is.EqualTo(@"#f\'o\'o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[39]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[40]).SelectorText, Is.EqualTo(@"#f\~o\~o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[40]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[41]).SelectorText, Is.EqualTo(@"#f\+o\+o"));
+            Assert.That(((ICssStyleRule)sheet.Rules[41]).Style["background"], Is.EqualTo(@"rgba(0, 255, 0, 1)"));
 		}
 
 		[Test]
@@ -414,10 +414,10 @@ li{background:orange;}
 body {
   font-family: ""Bitstream Vera Serif Bold"", serif;
 }");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"""Bitstream Vera Serif Bold"", serif", ((ICssStyleRule)sheet.Rules[1]).Style["font-family"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["font-family"], Is.EqualTo(@"""Bitstream Vera Serif Bold"", serif"));
 		}
 
 		[Test]
@@ -431,10 +431,10 @@ body {
 body {
   font-family: ""Bitstream Vera Serif Bold"", serif;
 }");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"""Bitstream Vera Serif Bold"", serif", ((ICssStyleRule)sheet.Rules[1]).Style["font-family"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["font-family"], Is.EqualTo(@"""Bitstream Vera Serif Bold"", serif"));
 		}
 
 		[Test]
@@ -444,7 +444,7 @@ body {
     {
         :scope { color: white; }
     }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -455,7 +455,7 @@ body {
     display: block;
   }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -465,9 +465,9 @@ body {
     url(test.css)
     screen
     ;");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"test.css", ((ICssImportRule)sheet.Rules[0]).Href);
+            Assert.That(((ICssImportRule)sheet.Rules[0]).Href, Is.EqualTo(@"test.css"));
 		}
 
 		[Test]
@@ -480,22 +480,22 @@ body {
   @import ""common.css"" screen, projection  ;
 
   @import url('landscape.css') screen and (orientation:landscape);");
-			Assert.AreEqual(5, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(5));
 
-            Assert.AreEqual(@"fineprint.css", ((ICssImportRule)sheet.Rules[0]).Href);
-            Assert.AreEqual(@"print", ((ICssImportRule)sheet.Rules[0]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[0]).Href, Is.EqualTo(@"fineprint.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[0]).Media.MediaText, Is.EqualTo(@"print"));
 
-            Assert.AreEqual(@"bluish.css", ((ICssImportRule)sheet.Rules[1]).Href);
-            Assert.AreEqual(@"projection, tv", ((ICssImportRule)sheet.Rules[1]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[1]).Href, Is.EqualTo(@"bluish.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[1]).Media.MediaText, Is.EqualTo(@"projection, tv"));
 
-            Assert.AreEqual(@"custom.css", ((ICssImportRule)sheet.Rules[2]).Href);
-            Assert.AreEqual(@"", ((ICssImportRule)sheet.Rules[2]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[2]).Href, Is.EqualTo(@"custom.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[2]).Media.MediaText, Is.EqualTo(@""));
 
-            Assert.AreEqual(@"common.css", ((ICssImportRule)sheet.Rules[3]).Href);
-            Assert.AreEqual(@"screen, projection", ((ICssImportRule)sheet.Rules[3]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[3]).Href, Is.EqualTo(@"common.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[3]).Media.MediaText, Is.EqualTo(@"screen, projection"));
 
-            Assert.AreEqual(@"landscape.css", ((ICssImportRule)sheet.Rules[4]).Href);
-            Assert.AreEqual(@"screen and (orientation: landscape)", ((ICssImportRule)sheet.Rules[4]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[4]).Href, Is.EqualTo(@"landscape.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[4]).Media.MediaText, Is.EqualTo(@"screen and (orientation: landscape)"));
 		}
 
 		[Test]
@@ -506,22 +506,22 @@ body {
 @import 'custom.css';
 @import ""common.css"" screen, projection;
 @import url('landscape.css') screen and (orientation:landscape);");
-			Assert.AreEqual(5, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(5));
 
-            Assert.AreEqual(@"fineprint.css", ((ICssImportRule)sheet.Rules[0]).Href);
-            Assert.AreEqual(@"print", ((ICssImportRule)sheet.Rules[0]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[0]).Href, Is.EqualTo(@"fineprint.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[0]).Media.MediaText, Is.EqualTo(@"print"));
 
-            Assert.AreEqual(@"bluish.css", ((ICssImportRule)sheet.Rules[1]).Href);
-            Assert.AreEqual(@"projection, tv", ((ICssImportRule)sheet.Rules[1]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[1]).Href, Is.EqualTo(@"bluish.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[1]).Media.MediaText, Is.EqualTo(@"projection, tv"));
 
-            Assert.AreEqual(@"custom.css", ((ICssImportRule)sheet.Rules[2]).Href);
-            Assert.AreEqual(@"", ((ICssImportRule)sheet.Rules[2]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[2]).Href, Is.EqualTo(@"custom.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[2]).Media.MediaText, Is.EqualTo(@""));
 
-            Assert.AreEqual(@"common.css", ((ICssImportRule)sheet.Rules[3]).Href);
-            Assert.AreEqual(@"screen, projection", ((ICssImportRule)sheet.Rules[3]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[3]).Href, Is.EqualTo(@"common.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[3]).Media.MediaText, Is.EqualTo(@"screen, projection"));
 
-            Assert.AreEqual(@"landscape.css", ((ICssImportRule)sheet.Rules[4]).Href);
-            Assert.AreEqual(@"screen and (orientation: landscape)", ((ICssImportRule)sheet.Rules[4]).Media.MediaText);
+            Assert.That(((ICssImportRule)sheet.Rules[4]).Href, Is.EqualTo(@"landscape.css"));
+            Assert.That(((ICssImportRule)sheet.Rules[4]).Media.MediaText, Is.EqualTo(@"screen and (orientation: landscape)"));
 		}
 
 		[Test]
@@ -540,7 +540,7 @@ body {
     opacity: 1;
   }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -554,7 +554,7 @@ body {
       , 85% { left: 50px }
   100% { top: 100px; left: 100% }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -567,7 +567,7 @@ body {
         to { opacity: 0; }
     }
 ");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -579,7 +579,7 @@ body {
 to
   {
      opacity: 1;}}");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -590,7 +590,7 @@ to
   to { opacity: 1 }
 }
 ");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -609,7 +609,7 @@ to
     opacity: 1;
   }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -623,15 +623,15 @@ to
 {
     .test { width: 100px; }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
             var rule = (ICssMediaRule)sheet.Rules[0];
 
-            Assert.AreEqual(@"(min-width: 300px)", rule.Media.MediaText);
-            Assert.AreEqual(1, rule.Rules.Length);
+            Assert.That(rule.Media.MediaText, Is.EqualTo(@"(min-width: 300px)"));
+            Assert.That(rule.Rules.Length, Is.EqualTo(1));
 
             var subrule = rule.Rules[0];
-            Assert.AreEqual(@".test", ((ICssStyleRule)subrule).SelectorText);
-            Assert.AreEqual(@"100px", ((ICssStyleRule)subrule).Style["width"]);
+            Assert.That(((ICssStyleRule)subrule).SelectorText, Is.EqualTo(@".test"));
+            Assert.That(((ICssStyleRule)subrule).Style["width"], Is.EqualTo(@"100px"));
 		}
 
 		[Test]
@@ -664,45 +664,45 @@ background: #fffef0;
               border: 0.5pt solid #666;
               }
 }");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
             {
                 var rule = sheet.Rules[0];
-                Assert.AreEqual(@"screen, projection", ((ICssMediaRule)rule).Media.MediaText);
-                Assert.AreEqual(2, ((ICssMediaRule)rule).Rules.Length);
+                Assert.That(((ICssMediaRule)rule).Media.MediaText, Is.EqualTo(@"screen, projection"));
+                Assert.That(((ICssMediaRule)rule).Rules.Length, Is.EqualTo(2));
 
                 {
                     var subrule = ((ICssMediaRule)rule).Rules[0];
-                    Assert.AreEqual(@"html", ((ICssStyleRule)subrule).SelectorText);
-                    Assert.AreEqual(@"rgba(255, 254, 240, 1)", ((ICssStyleRule)subrule).Style["background"]);
-                    Assert.AreEqual(@"rgba(51, 0, 0, 1)", ((ICssStyleRule)subrule).Style["color"]);
+                    Assert.That(((ICssStyleRule)subrule).SelectorText, Is.EqualTo(@"html"));
+                    Assert.That(((ICssStyleRule)subrule).Style["background"], Is.EqualTo(@"rgba(255, 254, 240, 1)"));
+                    Assert.That(((ICssStyleRule)subrule).Style["color"], Is.EqualTo(@"rgba(51, 0, 0, 1)"));
                 }
 
                 {
                     var subrule = ((ICssMediaRule)rule).Rules[1];
-                    Assert.AreEqual(@"body", ((ICssStyleRule)subrule).SelectorText);
-                    Assert.AreEqual(@"35em", ((ICssStyleRule)subrule).Style["max-width"]);
-                    Assert.AreEqual(@"0 auto", ((ICssStyleRule)subrule).Style["margin"]);
+                    Assert.That(((ICssStyleRule)subrule).SelectorText, Is.EqualTo(@"body"));
+                    Assert.That(((ICssStyleRule)subrule).Style["max-width"], Is.EqualTo(@"35em"));
+                    Assert.That(((ICssStyleRule)subrule).Style["margin"], Is.EqualTo(@"0 auto"));
                 }
             }
 
             {
                 var rule = sheet.Rules[1];
-                Assert.AreEqual(@"print", ((ICssMediaRule)rule).Media.MediaText);
-                Assert.AreEqual(2, ((ICssMediaRule)rule).Rules.Length);
+                Assert.That(((ICssMediaRule)rule).Media.MediaText, Is.EqualTo(@"print"));
+                Assert.That(((ICssMediaRule)rule).Rules.Length, Is.EqualTo(2));
 
                 {
                     var subrule = ((ICssMediaRule)rule).Rules[0];
-                    Assert.AreEqual(@"html", ((ICssStyleRule)subrule).SelectorText);
-                    Assert.AreEqual(@"rgba(255, 255, 255, 1)", ((ICssStyleRule)subrule).Style["background"]);
-                    Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)subrule).Style["color"]);
+                    Assert.That(((ICssStyleRule)subrule).SelectorText, Is.EqualTo(@"html"));
+                    Assert.That(((ICssStyleRule)subrule).Style["background"], Is.EqualTo(@"rgba(255, 255, 255, 1)"));
+                    Assert.That(((ICssStyleRule)subrule).Style["color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
                 }
 
                 {
                     var subrule = ((ICssMediaRule)rule).Rules[1];
-                    Assert.AreEqual(@"body", ((ICssStyleRule)subrule).SelectorText);
-                    Assert.AreEqual(@"1in", ((ICssStyleRule)subrule).Style["padding"]);
-                    Assert.AreEqual(@"0.5pt solid rgba(102, 102, 102, 1)", ((ICssStyleRule)subrule).Style["border"]);
+                    Assert.That(((ICssStyleRule)subrule).SelectorText, Is.EqualTo(@"body"));
+                    Assert.That(((ICssStyleRule)subrule).Style["padding"], Is.EqualTo(@"1in"));
+                    Assert.That(((ICssStyleRule)subrule).Style["border"], Is.EqualTo(@"0.5pt solid rgba(102, 102, 102, 1)"));
                 }
             }
 		}
@@ -736,29 +736,29 @@ background: #fffef0;
     border: 0.5pt solid #666;
   }
 }");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"screen, projection", ((ICssMediaRule)sheet.Rules[0]).Media.MediaText);
-            Assert.AreEqual(2, ((ICssMediaRule)sheet.Rules[0]).Rules.Length);
+            Assert.That(((ICssMediaRule)sheet.Rules[0]).Media.MediaText, Is.EqualTo(@"screen, projection"));
+            Assert.That(((ICssMediaRule)sheet.Rules[0]).Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"html", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).SelectorText);
-            Assert.AreEqual(@"rgba(255, 254, 240, 1)", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).Style["background"]);
-            Assert.AreEqual(@"rgba(51, 0, 0, 1)", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).Style["color"]);
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).SelectorText, Is.EqualTo(@"html"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).Style["background"], Is.EqualTo(@"rgba(255, 254, 240, 1)"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[0]).Style["color"], Is.EqualTo(@"rgba(51, 0, 0, 1)"));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).SelectorText);
-            Assert.AreEqual(@"35em", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).Style["max-width"]);
-            Assert.AreEqual(@"0 auto", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).Style["margin"]);
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).Style["max-width"], Is.EqualTo(@"35em"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[0]).Rules[1]).Style["margin"], Is.EqualTo(@"0 auto"));
 
-            Assert.AreEqual(@"print", ((ICssMediaRule)sheet.Rules[1]).Media.MediaText);
-			Assert.AreEqual(2, ((ICssMediaRule)sheet.Rules[1]).Rules.Length);
+            Assert.That(((ICssMediaRule)sheet.Rules[1]).Media.MediaText, Is.EqualTo(@"print"));
+			Assert.That(((ICssMediaRule)sheet.Rules[1]).Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"html", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).SelectorText);
-            Assert.AreEqual(@"rgba(255, 255, 255, 1)", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).Style["background"]);
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).Style["color"]);
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).SelectorText, Is.EqualTo(@"html"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).Style["background"], Is.EqualTo(@"rgba(255, 255, 255, 1)"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[0]).Style["color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).SelectorText);
-            Assert.AreEqual(@"1in", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["padding"]);
-            Assert.AreEqual(@"0.5pt solid rgba(102, 102, 102, 1)", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["border"]);
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["padding"], Is.EqualTo(@"1in"));
+            Assert.That(((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["border"], Is.EqualTo(@"0.5pt solid rgba(102, 102, 102, 1)"));
 		}
 
 		[Test]
@@ -780,18 +780,18 @@ background: #fffef0;
      baz
      }
 ");
-			Assert.AreEqual(3, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(3));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"'bar'", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["foo"], Is.EqualTo(@"'bar'"));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"bar", ((ICssStyleRule)sheet.Rules[1]).Style["foo"]);
-            Assert.AreEqual(@"baz", ((ICssStyleRule)sheet.Rules[1]).Style["bar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["foo"], Is.EqualTo(@"bar"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["bar"], Is.EqualTo(@"baz"));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
-            Assert.AreEqual(@"bar", ((ICssStyleRule)sheet.Rules[2]).Style["foo"]);
-            Assert.AreEqual(@"baz", ((ICssStyleRule)sheet.Rules[2]).Style["bar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).Style["foo"], Is.EqualTo(@"bar"));
+            Assert.That(((ICssStyleRule)sheet.Rules[2]).Style["bar"], Is.EqualTo(@"baz"));
 		}
 
 		[Test]
@@ -800,7 +800,7 @@ background: #fffef0;
 			var sheet = ParseSheet(@"@namespace
     ""http://www.w3.org/1999/xhtml""
     ;");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -808,7 +808,7 @@ background: #fffef0;
 		{
 			var sheet = ParseSheet(@"@namespace ""http://www.w3.org/1999/xhtml"";
 @namespace svg ""http://www.w3.org/2000/svg"";");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -819,13 +819,13 @@ tobi loki jane {
   are: 'all';
   the-species: called ""ferrets""
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
 			foreach (var rule in sheet.Rules)
 			{
-				Assert.AreEqual(@"tobi loki jane", ((ICssStyleRule)rule).SelectorText);
-				Assert.AreEqual(@"'all'", ((ICssStyleRule)rule).Style["are"]);
-				Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)rule).Style["the-species"]);
+				Assert.That(((ICssStyleRule)rule).SelectorText, Is.EqualTo(@"tobi loki jane"));
+				Assert.That(((ICssStyleRule)rule).Style["are"], Is.EqualTo(@"'all'"));
+				Assert.That(((ICssStyleRule)rule).Style["the-species"], Is.EqualTo(@"called ""ferrets"""));
 			}
 		}
 
@@ -837,7 +837,7 @@ tobi loki jane {
     {
         color: black;
     }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -857,21 +857,21 @@ tobi loki jane {
 @page :left {
   margin-left: 5cm;
 }");
-			Assert.AreEqual(3, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(3));
 
             var page1 = sheet.Rules[0] as ICssPageRule;
             var page2 = sheet.Rules[1] as ICssPageRule;
             var page3 = sheet.Rules[2] as ICssPageRule;
 
-            Assert.AreEqual(1, page1.Style.Length);
-            Assert.AreEqual("rgba(0, 128, 0, 1)", page1.Style["color"]);
+            Assert.That(page1.Style.Length, Is.EqualTo(1));
+            Assert.That(page1.Style["color"], Is.EqualTo("rgba(0, 128, 0, 1)"));
 
-            Assert.AreEqual(2, page2.Style.Length);
-            Assert.AreEqual("16pt", page2.Style["font-size"]);
-            Assert.AreEqual("rgba(255, 0, 0, 1)", page2.Style["color"]);
+            Assert.That(page2.Style.Length, Is.EqualTo(2));
+            Assert.That(page2.Style["font-size"], Is.EqualTo("16pt"));
+            Assert.That(page2.Style["color"], Is.EqualTo("rgba(255, 0, 0, 1)"));
 
-            Assert.AreEqual(1, page3.Style.Length);
-            Assert.AreEqual("5cm", page3.Style["margin-left"]);
+            Assert.That(page3.Style.Length, Is.EqualTo(1));
+            Assert.That(page3.Style["margin-left"], Is.EqualTo("5cm"));
 		}
 
 		[Test]
@@ -883,12 +883,12 @@ tobi loki jane {
   the-species: called ""ferrets"";
   *even: 'ie crap';
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"tobi loki jane", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"'all'", ((ICssStyleRule)sheet.Rules[0]).Style["are"]);
-            Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)sheet.Rules[0]).Style["the-species"]);
-            Assert.AreEqual(@"'ie crap'", ((ICssStyleRule)sheet.Rules[0]).Style["*even"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"tobi loki jane"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["are"], Is.EqualTo(@"'all'"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["the-species"], Is.EqualTo(@"called ""ferrets"""));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["*even"], Is.EqualTo(@"'ie crap'"));
 		}
 
 		[Test]
@@ -896,10 +896,10 @@ tobi loki jane {
 		{
 			var sheet = ParseSheet(@"p[qwe=""a\"",b""] { color: red }
 ");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"p[qwe=""a\"",b""]", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"rgba(255, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"p[qwe=""a\"",b""]"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["color"], Is.EqualTo(@"rgba(255, 0, 0, 1)"));
 		}
 
 		[Test]
@@ -908,10 +908,10 @@ tobi loki jane {
 			var sheet = ParseSheet(@"body {
   background: url('some;stuff;here') 50% 50% no-repeat;
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"url(""some;stuff;here"") center no-repeat", ((ICssStyleRule)sheet.Rules[0]).Style["background"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"body"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["background"], Is.EqualTo(@"url(""some;stuff;here"") center no-repeat"));
 		}
 
 		[Test]
@@ -920,10 +920,10 @@ tobi loki jane {
 			var sheet = ParseSheet(@"foo {
   bar: 'baz';
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"foo", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"'baz'", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"foo"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["bar"], Is.EqualTo(@"'baz'"));
 		}
 
 		[Test]
@@ -938,15 +938,15 @@ loki {
   name: 'loki';
   age: 1;
 }");
-			Assert.AreEqual(2, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(2));
 
-            Assert.AreEqual(@"tobi", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"'tobi'", ((ICssStyleRule)sheet.Rules[0]).Style["name"]);
-            Assert.AreEqual(@"2", ((ICssStyleRule)sheet.Rules[0]).Style["age"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"tobi"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["name"], Is.EqualTo(@"'tobi'"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["age"], Is.EqualTo(@"2"));
 
-            Assert.AreEqual(@"loki", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
-            Assert.AreEqual(@"'loki'", ((ICssStyleRule)sheet.Rules[1]).Style["name"]);
-            Assert.AreEqual(@"1", ((ICssStyleRule)sheet.Rules[1]).Style["age"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).SelectorText, Is.EqualTo(@"loki"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["name"], Is.EqualTo(@"'loki'"));
+            Assert.That(((ICssStyleRule)sheet.Rules[1]).Style["age"], Is.EqualTo(@"1"));
 		}
 
 		[Test]
@@ -957,10 +957,10 @@ bar,
 baz {
   color: black;
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
-            Assert.AreEqual(@"foo, bar, baz", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).SelectorText, Is.EqualTo(@"foo, bar, baz"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
 		}
 
 		[Test]
@@ -971,7 +971,7 @@ baz {
     {
         .test { display: flex; }
     }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -989,7 +989,7 @@ baz {
     something: else;
   }
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -1000,14 +1000,14 @@ baz {
   //max-height: 110px;
   #height: 18px;
 }");
-			Assert.AreEqual(1, sheet.Rules.Length);
+			Assert.That(sheet.Rules.Length, Is.EqualTo(1));
 
 			foreach (var rule in sheet.Rules)
 			{
-				Assert.AreEqual(@".wtf", ((ICssStyleRule)rule).SelectorText);
-				Assert.AreEqual(@"hidden", ((ICssStyleRule)rule).Style["*overflow-x"]);
-				Assert.AreEqual(@"110px", ((ICssStyleRule)rule).Style["//max-height"]);
-				Assert.AreEqual(@"18px", ((ICssStyleRule)rule).Style["#height"]);
+				Assert.That(((ICssStyleRule)rule).SelectorText, Is.EqualTo(@".wtf"));
+				Assert.That(((ICssStyleRule)rule).Style["*overflow-x"], Is.EqualTo(@"hidden"));
+				Assert.That(((ICssStyleRule)rule).Style["//max-height"], Is.EqualTo(@"110px"));
+				Assert.That(((ICssStyleRule)rule).Style["#height"], Is.EqualTo(@"18px"));
 			}
 		}
 
@@ -1016,24 +1016,24 @@ baz {
         {
             var sheet = ParseSheet(@"h1 { background-color: \000062
 lack; }");
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["background-color"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["background-color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
         }
 
         [Test]
         public void StyleSheetUnicodeEscapeVarious()
         {
             var sheet = ParseSheet("h1 { background-color: \\000062\r\nlack; color: \\000062\tlack; border-color: \\000062\nlack; outline-color: \\000062 lack }");
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["background-color"]);
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["border-color"]);
-            Assert.AreEqual(@"rgba(0, 0, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style["outline-color"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["background-color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["border-color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["outline-color"], Is.EqualTo(@"rgba(0, 0, 0, 1)"));
         }
 
         [Test]
         public void StyleSheetUnicodeEscapeLeadingSingleCarriageReturn()
         {
             var sheet = ParseSheet("h1 { background-image: \\000075\r\nrl('foo') }");
-            Assert.AreEqual("url(\"foo\")", ((ICssStyleRule)sheet.Rules[0]).Style["background-image"]);
+            Assert.That(((ICssStyleRule)sheet.Rules[0]).Style["background-image"], Is.EqualTo("url(\"foo\")"));
         }
     }
 }

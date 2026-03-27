@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Extensions
+namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Tests.Mocks;
@@ -19,11 +19,11 @@
 
             using (var task = parser.ParseStyleSheetAsync(source))
             {
-                Assert.IsFalse(task.IsCompleted);
+                Assert.That(task.IsCompleted, Is.False);
                 var result = await task;
 
-                Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual(4, result.Rules.Length);
+                Assert.That(task.IsCompleted, Is.True);
+                Assert.That(result.Rules.Length, Is.EqualTo(4));
             }
         }
 
@@ -36,11 +36,11 @@
 
             using (var task = parser.ParseStyleSheetAsync(source))
             {
-                Assert.IsTrue(task.IsCompleted);
+                Assert.That(task.IsCompleted, Is.True);
                 var result = await task;
 
-                Assert.AreEqual(result, result);
-                Assert.AreEqual(4, result.Rules.Length);
+                Assert.That(result, Is.EqualTo(result));
+                Assert.That(result.Rules.Length, Is.EqualTo(4));
             }
         }
     }

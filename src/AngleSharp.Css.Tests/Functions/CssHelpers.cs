@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Functions
+namespace AngleSharp.Css.Tests.Functions
 {
     using AngleSharp.Css.Dom;
     using NUnit.Framework;
@@ -11,7 +11,7 @@
         {
             var str = "";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("", escaped);
+            Assert.That(escaped, Is.EqualTo(""));
         }
 
         [Test]
@@ -19,7 +19,7 @@
         {
             var str = "abc";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("abc", escaped);
+            Assert.That(escaped, Is.EqualTo("abc"));
         }
 
         [Test]
@@ -27,7 +27,7 @@
         {
             var str = "-";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("\\-", escaped);
+            Assert.That(escaped, Is.EqualTo("\\-"));
         }
 
         [Test]
@@ -35,7 +35,7 @@
         {
             var str = "-bc";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("-bc", escaped);
+            Assert.That(escaped, Is.EqualTo("-bc"));
         }
 
         [Test]
@@ -43,7 +43,7 @@
         {
             var str = "123";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("\\31 23", escaped);
+            Assert.That(escaped, Is.EqualTo("\\31 23"));
         }
 
         [Test]
@@ -51,7 +51,7 @@
         {
             var str = "1.23";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("\\31 \\.23", escaped);
+            Assert.That(escaped, Is.EqualTo("\\31 \\.23"));
         }
 
         [Test]
@@ -59,7 +59,7 @@
         {
             var str = "\0";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("\ufffd", escaped);
+            Assert.That(escaped, Is.EqualTo("\ufffd"));
         }
 
         [Test]
@@ -67,7 +67,7 @@
         {
             var str = "0";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual(@"\30 ", escaped);
+            Assert.That(escaped, Is.EqualTo(@"\30 "));
         }
 
         [Test]
@@ -75,7 +75,7 @@
         {
             var str = "--a";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual("--a", escaped);
+            Assert.That(escaped, Is.EqualTo("--a"));
         }
 
         [Test]
@@ -83,7 +83,7 @@
         {
             var str = "()[]{}";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual(@"\(\)\[\]\{\}", escaped);
+            Assert.That(escaped, Is.EqualTo(@"\(\)\[\]\{\}"));
         }
 
         [Test]
@@ -91,7 +91,7 @@
         {
             var str = ".foo#bar";
             var escaped = CssHelpers.Escape(str);
-            Assert.AreEqual(@"\.foo\#bar", escaped);
+            Assert.That(escaped, Is.EqualTo(@"\.foo\#bar"));
         }
     }
 }

@@ -20,8 +20,8 @@ namespace AngleSharp.Css.Tests.Extensions
 
             doc.Body.SetInnerText(fixture);
 
-            Assert.AreEqual(expectedInnerText, doc.Body.GetInnerText());
-            Assert.AreEqual(expectedHtml, doc.Body.InnerHtml);
+            Assert.That(doc.Body.GetInnerText(), Is.EqualTo(expectedInnerText));
+            Assert.That(doc.Body.InnerHtml, Is.EqualTo(expectedHtml));
         }
 
         // text & spaces
@@ -82,7 +82,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var config = Configuration.Default.With(defaultSheet).WithCss();
             var doc = fixture.ToHtmlDocument(config);
 
-            Assert.AreEqual(expected, doc.Body.GetInnerText());
+            Assert.That(doc.Body.GetInnerText(), Is.EqualTo(expected));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace AngleSharp.Css.Tests.Extensions
             var document = ("<div><div>Div with <span>a span</span> in it.</div></div>").ToHtmlDocument(config);
             var element = document.QuerySelector("div");
 
-            Assert.AreEqual("Div with a span in it.", element.GetInnerText());
+            Assert.That(element.GetInnerText(), Is.EqualTo("Div with a span in it."));
         }
     }
 }

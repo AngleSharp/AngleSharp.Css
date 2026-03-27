@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var text = css.Rules[0].CssText;
 
             var expected = "* { box-sizing: border-box }";
-            Assert.AreEqual(expected, text);
+            Assert.That(text, Is.EqualTo(expected));
         }
     }
 }

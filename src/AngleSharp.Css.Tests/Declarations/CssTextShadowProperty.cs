@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var div = dom.QuerySelector("div");
             var style = div.GetStyle();
             var css = style.CssText;
-            Assert.AreEqual("text-shadow: 2px 2px 2px rgba(0, 0, 0, 1)", css);
+            Assert.That(css, Is.EqualTo("text-shadow: 2px 2px 2px rgba(0, 0, 0, 1)"));
         }
     }
 }

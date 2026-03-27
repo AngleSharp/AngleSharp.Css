@@ -11,9 +11,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "fill:#AFAA96";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("fill", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("rgba(175, 170, 150, 1)", property.Value);
+            Assert.That(property.Name, Is.EqualTo("fill"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("rgba(175, 170, 150, 1)"));
         }
 
         [Test]
@@ -21,9 +21,9 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "fill:none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("fill", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("fill"));
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
     }
 }

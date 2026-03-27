@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Tests.Library
             using (var stringWriter = new StringWriter())
             {
                 document.ToCss(stringWriter, new PrettyStyleFormatter());
-                Assert.AreEqual("@media (min-width: 800px) { \n\t.ad_column {\n\t\twidth: 728px;\n\t\theight: 90px;\n\t}\n}", stringWriter.ToString());
+                Assert.That(stringWriter.ToString(), Is.EqualTo("@media (min-width: 800px) { \n\t.ad_column {\n\t\twidth: 728px;\n\t\theight: 90px;\n\t}\n}"));
             }
         }
 
@@ -36,7 +36,7 @@ namespace AngleSharp.Css.Tests.Library
             CssColorValue.UseHex = true;
             var text = color.CssText;
             CssColorValue.UseHex = false;
-            Assert.AreEqual("#410C30", text);
+            Assert.That(text, Is.EqualTo("#410C30"));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace AngleSharp.Css.Tests.Library
             CssColorValue.UseHex = true;
             var text = color.CssText;
             CssColorValue.UseHex = false;
-            Assert.AreEqual("#410C300A", text);
+            Assert.That(text, Is.EqualTo("#410C300A"));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace AngleSharp.Css.Tests.Library
             var dom = ParseDocument(html);
             var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
             var css = styleSheet.ToCss();
-            Assert.AreEqual("#x div { padding: inherit }", css);
+            Assert.That(css, Is.EqualTo("#x div { padding: inherit }"));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Tests.Library
             var dom = ParseDocument(html);
             var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
             var css = styleSheet.ToCss();
-            Assert.AreEqual("#x div { margin: inherit }", css);
+            Assert.That(css, Is.EqualTo("#x div { margin: inherit }"));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace AngleSharp.Css.Tests.Library
             var dom = ParseDocument(html);
             var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
             var css = styleSheet.ToCss();
-            Assert.AreEqual("#x div { border: inherit }", css);
+            Assert.That(css, Is.EqualTo("#x div { border: inherit }"));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace AngleSharp.Css.Tests.Library
             var dom = ParseDocument(html);
             var styleSheet = dom.StyleSheets[0] as ICssStyleSheet;
             var css = styleSheet.ToCss();
-            Assert.AreEqual("div { background: conic-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1), rgba(0, 128, 0, 1)) }", css);
+            Assert.That(css, Is.EqualTo("div { background: conic-gradient(rgba(255, 0, 0, 1), rgba(255, 255, 0, 1), rgba(0, 128, 0, 1)) }"));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace AngleSharp.Css.Tests.Library
 
             var generatedCss = styleSheet.ToCss();
 
-            Assert.AreEqual(css, generatedCss);
+            Assert.That(generatedCss, Is.EqualTo(css));
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace AngleSharp.Css.Tests.Library
 
             var generatedCss = styleSheet.ToCss();
 
-            Assert.AreEqual(css, generatedCss);
+            Assert.That(generatedCss, Is.EqualTo(css));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace AngleSharp.Css.Tests.Library
             var style = div.GetStyle();
             var css = style.ToCss();
 
-            Assert.AreEqual("background-image: var(--urlSpellingErrorV2,url(\"https://www.example.com/))", css);
+            Assert.That(css, Is.EqualTo("background-image: var(--urlSpellingErrorV2,url(\"https://www.example.com/))"));
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace AngleSharp.Css.Tests.Library
             var style = div.GetStyle();
             var css = style.ToCss();
 
-            Assert.AreEqual("color: rgba(255, 0, 0, 1)", css);
+            Assert.That(css, Is.EqualTo("color: rgba(255, 0, 0, 1)"));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace AngleSharp.Css.Tests.Library
             var style = div.GetStyle();
             var css = style.ToCss();
 
-            Assert.AreEqual("border-width: 1px", css);
+            Assert.That(css, Is.EqualTo("border-width: 1px"));
         }
 
         [Test]
@@ -175,8 +175,8 @@ namespace AngleSharp.Css.Tests.Library
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync((res) => res.Content(html));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
-            Assert.AreEqual("", link.Sheet.Media.MediaText);
-            Assert.IsTrue(link.Sheet.Media.Validate(new DefaultRenderDevice()));
+            Assert.That(link.Sheet.Media.MediaText, Is.EqualTo(""));
+            Assert.That(link.Sheet.Media.Validate(new DefaultRenderDevice()), Is.True);
         }
 
         [Test]
@@ -214,7 +214,7 @@ namespace AngleSharp.Css.Tests.Library
             var label = tree.Find(document.QuerySelector("label"));
             var minWidth = window.GetComputedStyle(label.Ref as IHtmlElement).GetMinWidth();
 
-            Assert.AreEqual("50px", minWidth);
+            Assert.That(minWidth, Is.EqualTo("50px"));
         }
     }
 }

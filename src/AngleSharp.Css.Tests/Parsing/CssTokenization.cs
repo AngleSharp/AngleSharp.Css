@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "h1 { background: blue; }";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual(CssTokenType.Ident, token.Type);
+            Assert.That(token.Type, Is.EqualTo(CssTokenType.Ident));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "@media { background: blue; }";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual(CssTokenType.AtKeyword, token.Type);
+            Assert.That(token.Type, Is.EqualTo(CssTokenType.AtKeyword));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "url(" + url + ")";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual(url, token.Data);
+            Assert.That(token.Data, Is.EqualTo(url));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "url(\"" + url + "\")";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual(url, token.Data);
+            Assert.That(token.Data, Is.EqualTo(url));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "url('" + url + "')";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual(url, token.Data);
+            Assert.That(token.Data, Is.EqualTo(url));
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "\r";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual("\n", token.Data);
+            Assert.That(token.Data, Is.EqualTo("\n"));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "\r\n";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual("\n", token.Data);
+            Assert.That(token.Data, Is.EqualTo("\n"));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace AngleSharp.Css.Tests.Parsing
             var teststring = "\n";
             var tokenizer = new CssTokenizer(new TextSource(teststring));
             var token = tokenizer.Get();
-            Assert.AreEqual("\n", token.Data);
+            Assert.That(token.Data, Is.EqualTo("\n"));
         }
     }
 }

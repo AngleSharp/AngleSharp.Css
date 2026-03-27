@@ -11,12 +11,12 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "resize: none";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("resize", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("none", property.Value);
+            Assert.That(property.Name, Is.EqualTo("resize"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("none"));
         }
 
         [Test]
@@ -24,11 +24,11 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "resize: scaledown";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("resize", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsFalse(property.HasValue);
+            Assert.That(property.Name, Is.EqualTo("resize"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.False);
         }
 
         [Test]
@@ -36,12 +36,12 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "resize : both";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("resize", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("both", property.Value);
+            Assert.That(property.Name, Is.EqualTo("resize"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("both"));
         }
 
         [Test]
@@ -49,12 +49,12 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "resize : horizontal";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("resize", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("horizontal", property.Value);
+            Assert.That(property.Name, Is.EqualTo("resize"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("horizontal"));
         }
 
         [Test]
@@ -62,12 +62,12 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var snippet = "resize : vertical";
             var property = ParseDeclaration(snippet);
-            Assert.AreEqual("resize", property.Name);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsFalse(property.IsAnimatable);
-            Assert.IsFalse(property.IsInherited);
-            Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("vertical", property.Value);
+            Assert.That(property.Name, Is.EqualTo("resize"));
+            Assert.That(property.IsImportant, Is.False);
+            Assert.That(property.IsAnimatable, Is.False);
+            Assert.That(property.IsInherited, Is.False);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo("vertical"));
         }
     }
 }
