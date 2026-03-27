@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Tests.Library
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
@@ -8,6 +9,19 @@ namespace AngleSharp.Css.Tests.Library
     [TestFixture]
     public class ComputedStyleTests
     {
+        [Test]
+        public async Task GetColorWithoutCssEngine_ShouldNotThrow()
+        {
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(req => req.Content("<div>hi</div>"));
+            var div = document.QuerySelector("div");
+            var style = div.ComputeCurrentStyle();
+
+            Assert.IsNotNull(style);
+            Assert.DoesNotThrow(() => style.GetColor());
+        }
+
         [Test]
         public async Task TransformEmToPx_Issue136()
         {

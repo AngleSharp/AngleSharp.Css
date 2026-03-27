@@ -53,13 +53,13 @@ namespace AngleSharp.Css
 
         internal static DeclarationInfo GetDeclarationInfo(this IBrowsingContext context, String propertyName)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetService<IDeclarationFactory>() ?? Factory.Declaration;
             return factory.Create(propertyName);
         }
 
         internal static ICssProperty CreateShorthand(this IBrowsingContext context, String name, ICssValue[] longhands, Boolean important)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetService<IDeclarationFactory>() ?? Factory.Declaration;
             var info = factory.Create(name);
             var value = info.Collapse(factory, longhands);
 
@@ -73,7 +73,7 @@ namespace AngleSharp.Css
 
         internal static ICssProperty[] CreateLonghands(this IBrowsingContext context, ICssProperty shorthand)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetService<IDeclarationFactory>() ?? Factory.Declaration;
             var info = factory.Create(shorthand.Name);
             var values = info.Expand(factory, shorthand.RawValue);
             return factory.CreateProperties(info.Longhands, values, shorthand.IsImportant);
