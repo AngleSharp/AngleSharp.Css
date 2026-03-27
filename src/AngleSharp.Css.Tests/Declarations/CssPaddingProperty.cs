@@ -1,5 +1,7 @@
 namespace AngleSharp.Css.Tests.Declarations
 {
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -138,6 +140,63 @@ namespace AngleSharp.Css.Tests.Declarations
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CssPaddingImportantShouldNotBeOverriddenByNonImportant()
+        {
+            var snippet = "padding: 20px !important; font-size: 20px; padding: 0";
+            var style = ParseDeclarations(snippet);
+            var padding = style.GetPropertyValue("padding");
+            Assert.AreEqual("20px", padding);
+            var paddingProp = style.GetProperty("padding");
+            Assert.IsNotNull(paddingProp);
+            Assert.IsTrue(paddingProp.IsImportant);
+            var fontSize = style.GetPropertyValue("font-size");
+            Assert.AreEqual("20px", fontSize);
+        }
+
+        [Test]
+        public void CssPaddingImportantShouldBeOverriddenByImportant()
+        {
+            var snippet = "padding: 20px !important; padding: 0 !important";
+            var style = ParseDeclarations(snippet);
+            var padding = style.GetPropertyValue("padding");
+            Assert.AreEqual("0", padding);
+            var paddingProp = style.GetProperty("padding");
+            Assert.IsNotNull(paddingProp);
+            Assert.IsTrue(paddingProp.IsImportant);
+        }
+
+        [Test]
+        public void CssPaddingNonImportantShouldBeOverriddenByNonImportant()
+        {
+            var snippet = "padding: 20px; padding: 0";
+            var style = ParseDeclarations(snippet);
+            var padding = style.GetPropertyValue("padding");
+            Assert.AreEqual("0", padding);
+        }
+
+        [Test]
+        public void CssPaddingNonImportantShouldBeOverriddenByImportant()
+        {
+            var snippet = "padding: 20px; padding: 0 !important";
+            var style = ParseDeclarations(snippet);
+            var padding = style.GetPropertyValue("padding");
+            Assert.AreEqual("0", padding);
+            var paddingProp = style.GetProperty("padding");
+            Assert.IsNotNull(paddingProp);
+            Assert.IsTrue(paddingProp.IsImportant);
+        }
+
+        [Test]
+        public void CssInlineStyleImportantPaddingShouldTakePrecedence()
+        {
+            var html = "<p style=\"padding: 20px !important; font-size: 20px; padding: 0;\">Test</p>";
+            var dom = ParseDocument(html);
+            var p = dom.QuerySelector("p");
+            var style = p.GetStyle();
+            Assert.AreEqual("padding: 20px !important; font-size: 20px", style.CssText);
         }
     }
 }
