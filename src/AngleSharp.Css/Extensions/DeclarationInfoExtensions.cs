@@ -16,12 +16,14 @@ namespace AngleSharp.Css
             var initial = true;
             var unset = true;
             var child = true;
+            var inherit = true;
 
             foreach (var longhand in longhands)
             {
                 initial = initial && longhand is CssInitialValue;
                 unset = unset && longhand is CssUnsetValue;
                 child = child && longhand is CssChildValue;
+                inherit = inherit && longhand is CssInheritValue;
             }
 
             if (initial)
@@ -31,6 +33,10 @@ namespace AngleSharp.Css
             else if (unset)
             {
                 return new CssUnsetValue(info.InitialValue);
+            }
+            else if (inherit)
+            {
+                return CssInheritValue.Instance;
             }
             else if (child)
             {
@@ -55,6 +61,19 @@ namespace AngleSharp.Css
             {
                 return longhands
                     .Select(name => new CssInitialValue(factory.Create(name)?.InitialValue))
+                    .OfType<ICssValue>()
+                    .ToArray();
+            }
+            else if (value is CssInheritValue)
+            {
+                return Enumerable
+                    .Repeat(value, longhands.Length)
+                    .ToArray();
+            }
+            else if (value is CssUnsetValue)
+            {
+                return longhands
+                    .Select(name => new CssUnsetValue(factory.Create(name)?.InitialValue))
                     .OfType<ICssValue>()
                     .ToArray();
             }

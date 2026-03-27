@@ -397,6 +397,7 @@ namespace AngleSharp.Css.Dom
                         if (removeExisting.Invoke(olddecl, newdecl))
                         {
                             _declarations.RemoveAt(i);
+                            skip = false;
                         }
                         else
                         {

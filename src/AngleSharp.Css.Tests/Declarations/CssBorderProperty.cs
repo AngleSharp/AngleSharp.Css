@@ -586,5 +586,130 @@ namespace AngleSharp.Css.Tests.Declarations
             style.SetBorderColor("black");
             Assert.AreEqual(expectedCss, style.CssText);
         }
+
+        [Test]
+        public void CssBorderInheritShouldResolveToParentValues()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+table { border: 3px solid; }
+table * { border: inherit; }
+</style></head>
+<body>
+<table><tr><td>Cell</td></tr></table>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var td = document.QuerySelector("td");
+            var style = td.ComputeCurrentStyle();
+            Assert.AreEqual("solid", style.GetBorderTopStyle());
+            Assert.AreEqual("3px", style.GetBorderTopWidth());
+        }
+
+        [Test]
+        public void CssBorderInheritShouldResolveAllSides()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+div.parent { border: 2px dashed; }
+div.child { border: inherit; }
+</style></head>
+<body>
+<div class='parent'><div class='child'>Content</div></div>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var child = document.QuerySelector("div.child");
+            var style = child.ComputeCurrentStyle();
+            Assert.AreEqual("dashed", style.GetBorderTopStyle());
+            Assert.AreEqual("dashed", style.GetBorderBottomStyle());
+            Assert.AreEqual("dashed", style.GetBorderLeftStyle());
+            Assert.AreEqual("dashed", style.GetBorderRightStyle());
+            Assert.AreEqual("2px", style.GetBorderTopWidth());
+            Assert.AreEqual("2px", style.GetBorderBottomWidth());
+        }
+
+        [Test]
+        public void CssBorderStyleInheritShouldResolveToParentValues()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+div.parent { border-style: dotted; }
+div.child { border-style: inherit; }
+</style></head>
+<body>
+<div class='parent'><div class='child'>Content</div></div>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var child = document.QuerySelector("div.child");
+            var style = child.ComputeCurrentStyle();
+            Assert.AreEqual("dotted", style.GetBorderTopStyle());
+            Assert.AreEqual("dotted", style.GetBorderRightStyle());
+        }
+
+        [Test]
+        public void CssBorderWidthInheritShouldResolveToParentValues()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+div.parent { border-width: 5px; }
+div.child { border-width: inherit; }
+</style></head>
+<body>
+<div class='parent'><div class='child'>Content</div></div>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var child = document.QuerySelector("div.child");
+            var style = child.ComputeCurrentStyle();
+            Assert.AreEqual("5px", style.GetBorderTopWidth());
+            Assert.AreEqual("5px", style.GetBorderLeftWidth());
+        }
+
+        [Test]
+        public void CssBorderInheritThroughMultipleLevels()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+div.root { border: 4px solid; }
+div.root * { border: inherit; }
+</style></head>
+<body>
+<div class='root'><div class='mid'><div class='inner'>Deep</div></div></div>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var inner = document.QuerySelector("div.inner");
+            var style = inner.ComputeCurrentStyle();
+            Assert.AreEqual("solid", style.GetBorderTopStyle());
+            Assert.AreEqual("4px", style.GetBorderTopWidth());
+        }
+
+        [Test]
+        public void CssBorderInheritWithExplicitChildOverride()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head><style>
+div.parent { border: 3px solid; }
+div.child { border: inherit; border-top-style: dotted; }
+</style></head>
+<body>
+<div class='parent'><div class='child'>Content</div></div>
+</body>
+</html>";
+            var document = source.ToHtmlDocument(Configuration.Default.WithCss());
+            var child = document.QuerySelector("div.child");
+            var style = child.ComputeCurrentStyle();
+            Assert.AreEqual("dotted", style.GetBorderTopStyle());
+            Assert.AreEqual("solid", style.GetBorderBottomStyle());
+            Assert.AreEqual("3px", style.GetBorderTopWidth());
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace AngleSharp.Css
         public DeclarationInfo(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue initialValue = null, String[] shorthands = null, String[] longhands = null)
         {
             Name = name;
-            Converter = initialValue != null ? Or(converter, AssignInitial(initialValue)) : converter;
+            Converter = initialValue != null || longhands?.Length > 0 ? Or(AssignInitial(initialValue), converter) : converter;
             Aggregator = converter as IValueAggregator;
             Flags = flags;
             InitialValue = initialValue;
