@@ -424,6 +424,11 @@ namespace AngleSharp.Css.Dom
 
                 if (declaration.Name.Is(property.Name))
                 {
+                    if (declaration.IsImportant && !property.IsImportant)
+                    {
+                        return;
+                    }
+
                     _declarations[i] = property;
                     return;
                 }
