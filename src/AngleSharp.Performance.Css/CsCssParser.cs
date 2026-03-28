@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Performance.Css
+﻿#if NET472
+namespace AngleSharp.Performance.Css
 {
     using Alba.CsCss.Style;
     using System;
@@ -24,3 +25,4 @@
         }
     }
 }
+#endif

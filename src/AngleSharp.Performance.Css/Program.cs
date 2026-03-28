@@ -16,7 +16,9 @@ namespace AngleSharp.Performance.Css
             {
                 new AngleSharpParser(),
                 new ExCssParser(),
+#if NET472
                 new CsCssParser(),
+#endif
             };
 
             var testsuite = new TestSuite(parsers, stylesheets.Tests, new Output(), new Warmup())

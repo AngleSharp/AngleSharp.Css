@@ -7,11 +7,11 @@
     {
         public String Name => "ExCSS";
 
-        public Type Library => typeof(Parser);
+        public Type Library => typeof(StylesheetParser);
 
         public void Run(String source)
         {
-            var parser = new Parser();
+            var parser = new StylesheetParser();
             parser.Parse(source);
         }
     }

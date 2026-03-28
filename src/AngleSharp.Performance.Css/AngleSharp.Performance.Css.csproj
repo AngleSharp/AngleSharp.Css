@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net472;net10.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
@@ -26,8 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
     <PackageReference Include="AngleSharp" Version="1.4.0" />
-    <PackageReference Include="ExCSS" version="2.0.6" />
+    <PackageReference Include="ExCSS" version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
   </ItemGroup>
 </Project>
