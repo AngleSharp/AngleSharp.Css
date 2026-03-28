@@ -47,9 +47,17 @@ namespace AngleSharp.Dom
                 hidden = true;
             }
 
+            // Build the style collection once and cache computed styles for the
+            // entire traversal to avoid redundant stylesheet enumeration and
+            // repeated selector matching for the same elements.
+            var document = element.Owner;
+            var window = document?.DefaultView;
+            var styleCollection = window != null ? window.GetStyleCollection() : null;
+            var styleCache = new Dictionary<IElement, ICssStyleDeclaration>();
+
             if (!hidden.HasValue)
             {
-                var css = element.ComputeCurrentStyle();
+                var css = ComputeCachedStyle(element, styleCollection, styleCache);
 
                 if (!String.IsNullOrEmpty(css?.GetDisplay()))
                 {
@@ -67,7 +75,10 @@ namespace AngleSharp.Dom
                 var offset = 0;
                 var sb = StringBuilderPool.Obtain();
                 var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
-                InnerTextCollection(element, sb, requiredLineBreakCounts, element.ParentElement?.ComputeCurrentStyle());
+                var parentStyle = element.ParentElement != null
+                    ? ComputeCachedStyle(element.ParentElement, styleCollection, styleCache)
+                    : null;
+                InnerTextCollection(element, sb, requiredLineBreakCounts, parentStyle, styleCollection, styleCache);
 
                 // Remove any runs of consecutive required line break count items at the start or end of results.
                 requiredLineBreakCounts.Remove(0);
@@ -85,6 +96,36 @@ namespace AngleSharp.Dom
             }
 
             return element.TextContent;
+        }
+
+        private static ICssStyleDeclaration ComputeCachedStyle(IElement element, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> cache)
+        {
+            if (styleCollection == null)
+            {
+                return null;
+            }
+
+            if (cache.TryGetValue(element, out var cached))
+            {
+                return cached;
+            }
+
+            ICssStyleDeclaration style;
+            var parent = element.ParentElement;
+
+            if (parent != null && cache.TryGetValue(parent, out var parentStyle))
+            {
+                // Parent already computed — use incremental computation that
+                // skips the O(depth) ancestor walk.
+                style = styleCollection.ComputeDeclarationsWithParent(element, parentStyle);
+            }
+            else
+            {
+                style = styleCollection.ComputeDeclarations(element);
+            }
+
+            cache[element] = style;
+            return style;
         }
 
         /// <summary>
@@ -149,17 +190,17 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
+        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
         {
             if (HasCssBox(node))
             {
                 var element = node as IElement;
-                var elementCss = element?.ComputeCurrentStyle();
-                ItcInCssBox(elementCss, parentStyle, node, sb, requiredLineBreakCounts);
+                var elementCss = element != null ? ComputeCachedStyle(element, styleCollection, styleCache) : null;
+                ItcInCssBox(elementCss, parentStyle, node, sb, requiredLineBreakCounts, styleCollection, styleCache);
             }
         }
 
-        private static void ItcInCssBox(ICssStyleDeclaration elementStyle, ICssStyleDeclaration parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts)
+        private static void ItcInCssBox(ICssStyleDeclaration elementStyle, ICssStyleDeclaration parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
         {
             var elementHidden = new Nullable<Boolean>();
 
@@ -188,7 +229,7 @@ namespace AngleSharp.Dom
 
                 foreach (var child in node.ChildNodes)
                 {
-                    InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle);
+                    InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle, styleCollection, styleCache);
                 }
 
                 if (node is IText textElement)
@@ -206,7 +247,7 @@ namespace AngleSharp.Dom
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
-                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                        var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
                         if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableCell)
                         {
@@ -218,7 +259,7 @@ namespace AngleSharp.Dom
                 {
                     if (node.NextSibling is IElement nextSibling)
                     {
-                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                        var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
                         if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableRow)
                         {
