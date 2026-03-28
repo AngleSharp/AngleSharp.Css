@@ -118,6 +118,31 @@ namespace AngleSharp.Css
             return computedStyle;
         }
 
+        /// <summary>
+        /// Computes the declarations for the given element using a pre-computed
+        /// parent style for inheritance, avoiding the O(depth) ancestor walk.
+        /// </summary>
+        /// <param name="styles">The styles to use.</param>
+        /// <param name="element">The element that is questioned.</param>
+        /// <param name="parentComputedStyle">The parent's already-computed style.</param>
+        /// <returns>The style declaration containing all the declarations.</returns>
+        internal static ICssStyleDeclaration ComputeDeclarationsWithParent(this IStyleCollection styles, IElement element, ICssStyleDeclaration parentComputedStyle)
+        {
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
+
+            // Element's own cascaded style (CSS rule matching + inline style).
+            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element));
+
+            // Inherit from the parent's already-computed style instead of walking
+            // all ancestors individually. The parent style already includes the
+            // full ancestor inheritance chain.
+            computedStyle.UpdateDeclarations(parentComputedStyle);
+
+            var context = new CssComputeContext(styles.Device, ctx, computedStyle);
+            return computedStyle.Compute(context);
+        }
+
         #endregion
 
         #region Helpers
