@@ -96,6 +96,36 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssFlexShorthandWithZeroPercentBasisLegal()
+        {
+            var snippet = "flex: 1 1 0%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("flex", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("1 1 0%", property.Value);
+        }
+
+        [Test]
+        public void CssFlexBasisZeroPercentLegal()
+        {
+            var snippet = "flex-basis: 0%";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("flex-basis", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0%", property.Value);
+        }
+
+        [Test]
+        public void CssFlexBasisZeroPxSerializesWithoutUnit()
+        {
+            var snippet = "flex-basis: 0px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("flex-basis", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("0", property.Value);
+        }
+
+        [Test]
         public void CssFlexWrapLegal()
         {
             var snippet = "flex-wrap: wrap-reverse";

@@ -107,7 +107,9 @@ namespace AngleSharp.Css.Values
                 }
                 else
                 {
-                    var unit = _value == 0.0 ? String.Empty : UnitString;
+                    // Per CSS spec, 0 is valid without a unit for lengths,
+                    // but 0% is a percentage (relative to context) and must keep its unit.
+                    var unit = _value == 0.0 && _unit != Unit.Percent ? String.Empty : UnitString;
                     var val = _value.CssStringify();
                     return String.Concat(val, unit);
                 }
