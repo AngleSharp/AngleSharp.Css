@@ -204,7 +204,7 @@ namespace AngleSharp.Dom
                 }
                 else if (elementStyle is not null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
                 {
-                    if (node.NextSibling is IElement nextSibling)
+                    if (((IElement)node).NextElementSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 
@@ -216,7 +216,7 @@ namespace AngleSharp.Dom
                 }
                 else if (elementStyle is not null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
                 {
-                    if (node.NextSibling is IElement nextSibling)
+                    if (((IElement)node).NextElementSibling is IElement nextSibling)
                     {
                         var nextSiblingCss = nextSibling.ComputeCurrentStyle();
 

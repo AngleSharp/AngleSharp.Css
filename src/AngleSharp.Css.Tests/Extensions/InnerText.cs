@@ -47,6 +47,7 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("test1<br>test2<br>test3", "test1\ntest2\ntest3")]
         // table
         [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>", "1\t2\n3\t4")]
+        [TestCase("<table><tr><td>1</td> <td>2</td></tr> <tr><td>3</td> <td>4</td></tr></table>", "1\t2\n3\t4")]
         [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td><table><tr><td>3</td><td>4</td></tr></table></td><td>5</td></tr></table>", "1\t2\n\n3\t4\n\t5")]
         // select
         [TestCase("<select><option>test1</option><option>test2</option></select>", "test1\ntest2")]
