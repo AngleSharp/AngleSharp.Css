@@ -3,5 +3,6 @@
     <Description>Extends the CSSOM from the core AngleSharp library.</Description>
     <Product>AngleSharp.Css</Product>
     <Version>1.0.0</Version>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

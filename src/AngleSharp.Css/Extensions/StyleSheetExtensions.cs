@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Css;

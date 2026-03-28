@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;

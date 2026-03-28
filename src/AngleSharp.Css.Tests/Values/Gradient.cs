@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Values
 {
     using AngleSharp.Css.Converters;

@@ -1,3 +1,5 @@
+#nullable enable annotations
+#nullable disable warnings
 namespace AngleSharp.Css.RenderTree
 {
     using AngleSharp.Css.Dom;

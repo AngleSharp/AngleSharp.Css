@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Library
 {
     using AngleSharp.Css.Dom;
