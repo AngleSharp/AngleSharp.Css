@@ -1,33 +1,12 @@
 namespace AngleSharp.Performance.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
+    using BenchmarkDotNet.Running;
 
     class Program
     {
-        static void Main(String[] args)
+        static void Main(string[] args)
         {
-            var samplesDir = Path.Combine(AppContext.BaseDirectory, "Samples");
-            var stylesheets = new FileTests()
-                .IncludeFromDirectory(samplesDir);
-
-            var parsers = new List<ITestee>
-            {
-                new AngleSharpParser(),
-                new ExCssParser(),
-#if NET472
-                new CsCssParser(),
-#endif
-            };
-
-            var testsuite = new TestSuite(parsers, stylesheets.Tests, new Output(), new Warmup())
-            {
-                NumberOfRepeats = 5,
-                NumberOfReRuns = 1,
-            };
-
-            testsuite.Run();
+            BenchmarkRunner.Run<CssParserBenchmarks>(args: args);
         }
     }
 }

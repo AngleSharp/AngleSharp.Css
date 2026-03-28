@@ -1,14 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net472;net10.0</TargetFrameworks>
-    <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject />
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-    <LangVersion>default</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj" />
-    <ProjectReference Include="..\AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj" />
     <ProjectReference Include="..\AngleSharp.Css\AngleSharp.Css.csproj">
       <TargetFramework>netstandard2.0</TargetFramework>
     </ProjectReference>
@@ -27,10 +19,11 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.4.0" />
-    <PackageReference Include="ExCSS" version="4.3.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageReference Include="ExCSS" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Alba.CsCss" version="1.0.1.0" />
+    <PackageReference Include="Alba.CsCss" Version="1.0.1.0" />
   </ItemGroup>
 </Project>
