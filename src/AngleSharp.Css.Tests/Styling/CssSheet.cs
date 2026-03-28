@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Converters;

@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;

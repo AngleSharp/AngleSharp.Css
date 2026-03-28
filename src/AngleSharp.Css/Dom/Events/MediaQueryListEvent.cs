@@ -1,3 +1,4 @@
+#nullable disable
 ﻿namespace AngleSharp.Css.Dom.Events
 {
     using AngleSharp.Attributes;
