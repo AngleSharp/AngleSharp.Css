@@ -79,6 +79,20 @@ The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the
 - Calculated values (i.e., `calc(20px + 50%)`)
 - Window-based declaration calculations, see `window.GetComputedStyle`
 
+## Benchmarks
+
+The `AngleSharp.Performance.Css` project uses [BenchmarkDotNet](https://benchmarkdotnet.org/) to compare CSS parsing performance across libraries. Run the benchmarks in Release mode:
+
+```bash
+dotnet run --project src/AngleSharp.Performance.Css/AngleSharp.Performance.Css.csproj -c Release --framework net10.0
+```
+
+To run a quick smoke test instead of a full benchmark:
+
+```bash
+dotnet run --project src/AngleSharp.Performance.Css/AngleSharp.Performance.Css.csproj -c Release --framework net10.0 -- --job short
+```
+
 ## Participating
 
 Participation in the project is highly welcome. For this project the same rules as for the AngleSharp core project may be applied.
