@@ -87,5 +87,24 @@ namespace AngleSharp.Css
             var argument = value.CssString();
             return Keywords.Url.CssFunction(argument);
         }
+
+        /// <summary>
+        /// Converts to lowercase, returning the original string if it is already lowercase.
+        /// Avoids allocation for the common case of already-lowercase CSS identifiers.
+        /// </summary>
+        internal static String ToLowerFast(this String value)
+        {
+            for (var i = 0; i < value.Length; i++)
+            {
+                var c = value[i];
+
+                if (c >= 'A' && c <= 'Z')
+                {
+                    return value.ToLowerInvariant();
+                }
+            }
+
+            return value;
+        }
     }
 }
