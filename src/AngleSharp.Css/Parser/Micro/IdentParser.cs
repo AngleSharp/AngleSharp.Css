@@ -19,7 +19,7 @@ namespace AngleSharp.Css.Parser
         public static String ParseNormalizedIdent(this StringSource source)
         {
             var result = source.ParseIdent();
-            return result != null ? result.ToLowerInvariant() : result;
+            return result != null ? result.ToLowerFast() : result;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AngleSharp.Css.Parser
 
             if (ident != null && values.TryGetValue(ident, out T mode))
             {
-                return mode as ICssValue ?? new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
+                return mode as ICssValue ?? new CssConstantValue<T>(ident.ToLowerFast(), mode);
             }
 
             source.BackTo(pos);
@@ -91,7 +91,7 @@ namespace AngleSharp.Css.Parser
 
             if (ident != null && values.TryGetValue(ident, out T mode))
             {
-                return new CssConstantValue<T>(ident.ToLowerInvariant(), mode);
+                return new CssConstantValue<T>(ident.ToLowerFast(), mode);
             }
 
             return null;

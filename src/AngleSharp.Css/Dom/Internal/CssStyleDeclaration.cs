@@ -19,6 +19,7 @@ namespace AngleSharp.Css.Dom
         #region Fields
 
         private readonly List<ICssProperty> _declarations;
+        private readonly Dictionary<String, Int32> _declarationIndex;
         private readonly IBrowsingContext _context;
         private ICssRule _parent;
         private Boolean _updating;
@@ -36,6 +37,7 @@ namespace AngleSharp.Css.Dom
         public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();
+            _declarationIndex = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase);
             _context = context;
         }
 
@@ -77,9 +79,9 @@ namespace AngleSharp.Css.Dom
 
         public ICssProperty GetProperty(String name)
         {
-            for (var i = 0; i < _declarations.Count; i++)
+            if (_declarationIndex.TryGetValue(name, out var index) && index < _declarations.Count)
             {
-                var declaration = _declarations[i];
+                var declaration = _declarations[index];
 
                 if (declaration.Name.Isi(name))
                 {
@@ -100,6 +102,7 @@ namespace AngleSharp.Css.Dom
             if (!_updating)
             {
                 _declarations.Clear();
+                _declarationIndex.Clear();
 
                 if (!String.IsNullOrEmpty(value))
                 {
@@ -109,6 +112,7 @@ namespace AngleSharp.Css.Dom
                     if (decl != null)
                     {
                         _declarations.AddRange(decl);
+                        RebuildIndex();
                     }
                 }
             }
@@ -304,12 +308,14 @@ namespace AngleSharp.Css.Dom
 
         public void AddProperty(ICssProperty declaration)
         {
+            _declarationIndex[declaration.Name] = _declarations.Count;
             _declarations.Add(declaration);
         }
 
         public void RemoveProperty(ICssProperty declaration)
         {
             _declarations.Remove(declaration);
+            RebuildIndex();
         }
 
         #endregion
@@ -359,14 +365,24 @@ namespace AngleSharp.Css.Dom
             var info = _context.GetDeclarationInfo(propertyName);
             var longhands = info.Longhands;
 
-            for (var i = 0; i < _declarations.Count; i++)
+            if (_declarationIndex.TryGetValue(propertyName, out var index) && index < _declarations.Count &&
+                _declarations[index].Name.Is(propertyName))
             {
-                var declaration = _declarations[i];
-
-                if (declaration.Name.Is(propertyName))
+                _declarations.RemoveAt(index);
+                RebuildIndex();
+            }
+            else
+            {
+                for (var i = 0; i < _declarations.Count; i++)
                 {
-                    _declarations.RemoveAt(i);
-                    break;
+                    var declaration = _declarations[i];
+
+                    if (declaration.Name.Is(propertyName))
+                    {
+                        _declarations.RemoveAt(i);
+                        RebuildIndex();
+                        break;
+                    }
                 }
             }
 
@@ -389,23 +405,39 @@ namespace AngleSharp.Css.Dom
             {
                 var skip = defaultSkip(newdecl);
 
-                for (var i = 0; i < _declarations.Count; i++)
+                if (_declarationIndex.TryGetValue(newdecl.Name, out var idx) && idx < _declarations.Count &&
+                    _declarations[idx].Name.Is(newdecl.Name))
                 {
-                    var olddecl = _declarations[i];
-
-                    if (olddecl.Name.Is(newdecl.Name))
+                    if (removeExisting.Invoke(_declarations[idx], newdecl))
                     {
-                        if (removeExisting.Invoke(olddecl, newdecl))
-                        {
-                            _declarations.RemoveAt(i);
-                            skip = false;
-                        }
-                        else
-                        {
-                            skip = true;
-                        }
+                        _declarations.RemoveAt(idx);
+                        skip = false;
+                    }
+                    else
+                    {
+                        skip = true;
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < _declarations.Count; i++)
+                    {
+                        var olddecl = _declarations[i];
 
-                        break;
+                        if (olddecl.Name.Is(newdecl.Name))
+                        {
+                            if (removeExisting.Invoke(olddecl, newdecl))
+                            {
+                                _declarations.RemoveAt(i);
+                                skip = false;
+                            }
+                            else
+                            {
+                                skip = true;
+                            }
+
+                            break;
+                        }
                     }
                 }
 
@@ -416,13 +448,14 @@ namespace AngleSharp.Css.Dom
             }
 
             _declarations.AddRange(declarations);
+            RebuildIndex();
         }
 
         private void SetLonghand(ICssProperty property)
         {
-            for (var i = 0; i < _declarations.Count; i++)
+            if (_declarationIndex.TryGetValue(property.Name, out var index) && index < _declarations.Count)
             {
-                var declaration = _declarations[i];
+                var declaration = _declarations[index];
 
                 if (declaration.Name.Is(property.Name))
                 {
@@ -431,11 +464,12 @@ namespace AngleSharp.Css.Dom
                         return;
                     }
 
-                    _declarations[i] = property;
+                    _declarations[index] = property;
                     return;
                 }
             }
 
+            _declarationIndex[property.Name] = _declarations.Count;
             _declarations.Add(property);
         }
 
@@ -449,6 +483,16 @@ namespace AngleSharp.Css.Dom
                 {
                     SetProperty(property);
                 }
+            }
+        }
+
+        private void RebuildIndex()
+        {
+            _declarationIndex.Clear();
+
+            for (var i = 0; i < _declarations.Count; i++)
+            {
+                _declarationIndex[_declarations[i].Name] = i;
             }
         }
 

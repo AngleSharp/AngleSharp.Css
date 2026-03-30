@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Dom
 
         internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue value = null, Boolean important = false)
         {
-            _name = name.StartsWith("--") ? name : name.ToLowerInvariant();
+            _name = name.StartsWith("--") ? name : name.ToLowerFast();
             _converter = converter;
             _flags = flags;
             _value = value;

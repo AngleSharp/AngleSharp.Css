@@ -1,11 +1,13 @@
 #nullable disable
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
@@ -13,6 +15,22 @@ namespace AngleSharp.Css.Parser
     sealed class CssBuilder
     {
         #region Fields
+
+        private static readonly Dictionary<String, Int32> AtRuleMap = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase)
+        {
+            { RuleNames.Media, 1 },
+            { RuleNames.FontFace, 2 },
+            { RuleNames.Keyframes, 3 },
+            { RuleNames.Import, 4 },
+            { RuleNames.Charset, 5 },
+            { RuleNames.Namespace, 6 },
+            { RuleNames.Page, 7 },
+            { RuleNames.Supports, 8 },
+            { RuleNames.ViewPort, 9 },
+            { RuleNames.Document, 10 },
+            { RuleNames.CounterStyle, 11 },
+            { RuleNames.FontFeatureValues, 12 },
+        };
 
         private readonly CssTokenizer _tokenizer;
         private readonly CssParserOptions _options;
@@ -67,67 +85,26 @@ namespace AngleSharp.Css.Parser
 
         private ICssRule CreateAtRule(ICssStyleSheet sheet, CssToken token)
         {
-            if (token.Data.Is(RuleNames.Media))
+            if (AtRuleMap.TryGetValue(token.Data, out var ruleId))
             {
-                var rule = new CssMediaRule(sheet);
-                return CreateMedia(rule, token);
+                switch (ruleId)
+                {
+                    case 1: return CreateMedia(new CssMediaRule(sheet), token);
+                    case 2: return CreateFontFace(new CssFontFaceRule(sheet), token);
+                    case 3: return CreateKeyframes(new CssKeyframesRule(sheet), token);
+                    case 4: return CreateImport(new CssImportRule(sheet), token);
+                    case 5: return CreateCharset(new CssCharsetRule(sheet), token);
+                    case 6: return CreateNamespace(new CssNamespaceRule(sheet), token);
+                    case 7: return CreatePage(new CssPageRule(sheet), token);
+                    case 8: return CreateSupports(new CssSupportsRule(sheet), token);
+                    case 9: return CreateViewport(new CssViewportRule(sheet), token);
+                    case 10: return CreateDocument(new CssDocumentRule(sheet), token);
+                    case 11: return CreateCounterStyle(new CssCounterStyleRule(sheet), token);
+                    case 12: return CreateFontFeatureValues(new CssFontFeatureValuesRule(sheet), token);
+                }
             }
-            else if (token.Data.Is(RuleNames.FontFace))
-            {
-                var rule = new CssFontFaceRule(sheet);
-                return CreateFontFace(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Keyframes))
-            {
-                var rule = new CssKeyframesRule(sheet);
-                return CreateKeyframes(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Import))
-            {
-                var rule = new CssImportRule(sheet);
-                return CreateImport(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Charset))
-            {
-                var rule = new CssCharsetRule(sheet);
-                return CreateCharset(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Namespace))
-            {
-                var rule = new CssNamespaceRule(sheet);
-                return CreateNamespace(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Page))
-            {
-                var rule = new CssPageRule(sheet);
-                return CreatePage(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Supports))
-            {
-                var rule = new CssSupportsRule(sheet);
-                return CreateSupports(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.ViewPort))
-            {
-                var rule = new CssViewportRule(sheet);
-                return CreateViewport(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.Document))
-            {
-                var rule = new CssDocumentRule(sheet);
-                return CreateDocument(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.CounterStyle))
-            {
-                var rule = new CssCounterStyleRule(sheet);
-                return CreateCounterStyle(rule, token);
-            }
-            else if (token.Data.Is(RuleNames.FontFeatureValues))
-            {
-                var rule = new CssFontFeatureValuesRule(sheet);
-                return CreateFontFeatureValues(rule, token);
-            }
-            else if (_options.IsIncludingUnknownRules)
+
+            if (_options.IsIncludingUnknownRules)
             {
                 return CreateUnknownAtRule(sheet, token);
             }
@@ -556,10 +533,18 @@ namespace AngleSharp.Css.Parser
             {
                 var name = token.Data;
 
-                while (token.Type == CssTokenType.Delim)
+                if (token.Type == CssTokenType.Delim)
                 {
-                    token = NextToken();
-                    name += token.Data;
+                    var sb = StringBuilderPool.Obtain();
+                    sb.Append(name);
+
+                    while (token.Type == CssTokenType.Delim)
+                    {
+                        token = NextToken();
+                        sb.Append(token.Data);
+                    }
+
+                    name = sb.ToPool();
                 }
 
                 token = NextToken();
