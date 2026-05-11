@@ -90,6 +90,76 @@ h1 {
         }
 
         [Test]
+        public void CssSheetSerializeBorderSideThenBorderAll1()
+        {
+            var cssSrc = "#rule1 { border-top: none; border: 1px solid #BBCCEB }";
+            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1) }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderSideThenBorderAll2()
+        {
+            var cssSrc = "#rule1 { border-top: none !important; border: 1px solid #BBCCEB }";
+            var expected = "#rule1 { border-top: none !important; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1) }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderSideThenBorderAll3()
+        {
+            var cssSrc = "#rule1 { border-top: none; border: 1px solid #BBCCEB !important }";
+            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1) !important }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderSideThenBorderAll4()
+        {
+            var cssSrc = "#rule1 { border-top: none !important; border: 1px solid #BBCCEB !important }";
+            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1) !important }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderAllThenBorderSide1()
+        {
+            var cssSrc = "#rule1 { border: 1px solid #BBCCEB !important; border-top: none }";
+            var expected = "#rule1 { border: 1px solid rgba(187, 204, 235, 1) !important }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderAllThenBorderSide2()
+        {
+            var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none !important }";
+            var expected = "#rule1 { border-top: none !important; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1) }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorderAllThenBorderSide3()
+        {
+            var cssSrc = "#rule1 { border: 1px solid #BBCCEB !important; border-top: none !important }";
+            var expected = "#rule1 { border-top: none !important; border-right: 1px solid rgba(187, 204, 235, 1) !important; border-bottom: 1px solid rgba(187, 204, 235, 1) !important; border-left: 1px solid rgba(187, 204, 235, 1) !important }";
+            var stylesheet = ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.ToCss();
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
         public void CssSheetSerializeBackgroundWithUrlPositionRepeatX()
         {
             var cssSrc = "#rule2 { background:url(/_static/img/bx_tile.gif) top left repeat-x; }";

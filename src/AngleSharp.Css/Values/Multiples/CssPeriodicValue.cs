@@ -61,7 +61,14 @@ namespace AngleSharp.Css.Values
 
                 for (var i = 0; i < l; i++)
                 {
-                    parts[i] = _values[i].CssText;
+                    var value = _values[i];
+
+                    if (value is null)
+                    {
+                        return String.Empty;
+                    }
+
+                    parts[i] = value.CssText;
                 }
 
                 if (l == 4 && parts[3].Is(parts[1]))
