@@ -229,5 +229,86 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsNotNull(property);
             Assert.IsTrue(property.Value.Contains("var(--col-width)"));
         }
+
+        [Test]
+        public void TransformWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"transform: var(--transform-value)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--transform-value)", property.Value);
+        }
+
+        [Test]
+        public void WidthWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"width: var(--width-value)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--width-value)", property.Value);
+        }
+
+        [Test]
+        public void HeightWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"height: var(--height-value)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--height-value)", property.Value);
+        }
+
+        [Test]
+        public void BorderRadiusWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"border-radius: var(--radius)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--radius)", property.Value);
+        }
+
+        [Test]
+        public void FontSizeWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"font-size: var(--font-size)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--font-size)", property.Value);
+        }
+
+        [Test]
+        public void FontWeightWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"font-weight: var(--font-weight)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--font-weight)", property.Value);
+        }
+
+        [Test]
+        public void OpacityWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"opacity: var(--opacity)");
+
+            Assert.IsNotNull(property);
+            Assert.AreEqual("var(--opacity)", property.Value);
+        }
+
+        [Test]
+        public void AnimationWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"animation: var(--anim-name) 2s linear");
+
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.Value.Contains("var(--anim-name)"));
+        }
+
+        [Test]
+        public void TransitionWithVariableIsPreserved()
+        {
+            var property = ParseDeclaration(@"transition: opacity var(--duration) ease-in");
+
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.Value.Contains("var(--duration)"));
+        }
     }
 }
