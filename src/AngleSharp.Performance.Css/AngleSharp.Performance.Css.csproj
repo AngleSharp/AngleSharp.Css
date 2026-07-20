@@ -3,6 +3,7 @@
     <TargetFrameworks>net472;net10.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <LangVersion>9</LangVersion>
+    <AngleSharpVersion>1.*</AngleSharpVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.5.2" />
+    <PackageReference Include="AngleSharp" Version="$(AngleSharpVersion)" />
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="ExCSS" Version="4.3.1" />
   </ItemGroup>

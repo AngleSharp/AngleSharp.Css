@@ -34,6 +34,9 @@ class Build : NukeBuild
     [Nuke.Common.Parameter("ReleaseNotesFilePath - To determine the SemanticVersion")]
     readonly AbsolutePath ReleaseNotesFilePath = RootDirectory / "CHANGELOG.md";
 
+    [Nuke.Common.Parameter("AngleSharp package version override (e.g. 1.0.0 for compatibility checks)")]
+    readonly string AngleSharpVersion;
+
     [Solution]
     readonly Solution Solution;
 
@@ -116,29 +119,58 @@ class Build : NukeBuild
     Target Restore => _ => _
         .Executes(() =>
         {
-            DotNetRestore(s => s
-                .SetProjectFile(Solution));
+            DotNetRestore(s =>
+            {
+                var settings = s.SetProjectFile(Solution);
+
+                if (!String.IsNullOrEmpty(AngleSharpVersion))
+                {
+                    settings = settings.SetProperty("AngleSharpVersion", AngleSharpVersion);
+                }
+
+                return settings;
+            });
         });
 
     Target Compile => _ => _
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .EnableNoRestore());
+            DotNetBuild(s =>
+            {
+                var settings = s
+                    .SetProjectFile(Solution)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore();
+
+                if (!String.IsNullOrEmpty(AngleSharpVersion))
+                {
+                    settings = settings.SetProperty("AngleSharpVersion", AngleSharpVersion);
+                }
+
+                return settings;
+            });
         });
 
     Target RunUnitTests => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
-            DotNetTest(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .EnableNoRestore()
-                .EnableNoBuild());
+            DotNetTest(s =>
+            {
+                var settings = s
+                    .SetProjectFile(Solution)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore()
+                    .EnableNoBuild();
+
+                if (!String.IsNullOrEmpty(AngleSharpVersion))
+                {
+                    settings = settings.SetProperty("AngleSharpVersion", AngleSharpVersion);
+                }
+
+                return settings;
+            });
         });
 
     Target CopyFiles => _ => _
