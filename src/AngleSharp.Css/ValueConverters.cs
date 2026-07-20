@@ -17,6 +17,11 @@ namespace AngleSharp.Css
         #region Misc
 
         /// <summary>
+        /// Represents a CSS variable reference.
+        /// </summary>
+        public static readonly IValueConverter VarConverter = FromParser(FunctionParser.ParseVar);
+
+        /// <summary>
         /// Creates an or converter for the given converters.
         /// </summary>
         public static IValueConverter Or(params IValueConverter[] converters) => new OrValueConverter(converters);
@@ -933,9 +938,9 @@ namespace AngleSharp.Css
 
         public static IValueConverter WithBorderSide(ICssValue lineWidth, ICssValue lineStyle, ICssValue lineColor) => AggregateTuple(
             WithAny(
-                LineWidthConverter.Option(lineWidth),
-                LineStyleConverter.Option(lineStyle),
-                CurrentColorConverter.Option(lineColor)));
+                Or(LineWidthConverter, VarConverter).Option(lineWidth),
+                Or(LineStyleConverter, VarConverter).Option(lineStyle),
+                Or(CurrentColorConverter, VarConverter).Option(lineColor)));
 
         public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 

@@ -116,5 +116,15 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.AreEqual("--color", variable.References[1].VariableName);
             Assert.AreEqual("black", variable.References[1].DefaultValue.CssText);
         }
+
+        [Test]
+        public void BorderBottomShorthandWithVariableKeepsLonghands()
+        {
+            var style = ParseDeclarations(@"border-bottom: 1px solid var(--pale-grey)");
+
+            Assert.AreEqual("1px", style.GetProperty("border-bottom-width").Value);
+            Assert.AreEqual("solid", style.GetProperty("border-bottom-style").Value);
+            Assert.AreEqual("var(--pale-grey)", style.GetProperty("border-bottom-color").Value);
+        }
     }
 }

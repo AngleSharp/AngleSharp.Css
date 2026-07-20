@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Border,
         };
 
-        public static IValueConverter Converter = AggregatePeriodic(LineStyleConverter);
+        public static IValueConverter Converter = AggregatePeriodic(Or(LineStyleConverter, VarConverter));
 
         public static ICssValue InitialValue = null;
 

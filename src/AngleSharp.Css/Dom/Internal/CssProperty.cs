@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Converters;
+    using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -49,7 +50,24 @@ namespace AngleSharp.Css.Dom
         public String Value
         {
             get => _value?.CssText ?? String.Empty;
-            set => _value = _converter.Convert(value);
+            set
+            {
+                if (IsBorderShorthand(_name) && value.IndexOf(FunctionNames.Var, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    var source = new StringSource(value);
+                    source.SkipSpacesAndComments();
+                    var parsed = _converter.Convert(source);
+                    source.SkipSpacesAndComments();
+
+                    if (parsed != null && source.IsDone)
+                    {
+                        _value = parsed;
+                        return;
+                    }
+                }
+
+                _value = _converter.Convert(value);
+            }
         }
 
         public Boolean HasValue => _value != null;
@@ -102,6 +120,20 @@ namespace AngleSharp.Css.Dom
 
             return this;
         }
+
+        #endregion
+
+        #region Helpers
+
+        private static Boolean IsBorderShorthand(String name) =>
+            name.Is(PropertyNames.Border) ||
+            name.Is(PropertyNames.BorderTop) ||
+            name.Is(PropertyNames.BorderRight) ||
+            name.Is(PropertyNames.BorderBottom) ||
+            name.Is(PropertyNames.BorderLeft) ||
+            name.Is(PropertyNames.BorderWidth) ||
+            name.Is(PropertyNames.BorderStyle) ||
+            name.Is(PropertyNames.BorderColor);
 
         #endregion
 
