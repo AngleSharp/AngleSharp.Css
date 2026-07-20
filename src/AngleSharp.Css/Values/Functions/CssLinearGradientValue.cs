@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    sealed class CssLinearGradientValue : ICssGradientFunctionValue, IEquatable<CssLinearGradientValue>
+    public sealed class CssLinearGradientValue : ICssGradientFunctionValue, IEquatable<CssLinearGradientValue>
     {
         #region Fields
 

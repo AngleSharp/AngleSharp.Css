@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS minmax function call.
     /// </summary>
-    sealed class CssMinMaxValue : ICssFunctionValue, IEquatable<CssMinMaxValue>
+    public sealed class CssMinMaxValue : ICssFunctionValue, IEquatable<CssMinMaxValue>
     {
         #region Fields
 

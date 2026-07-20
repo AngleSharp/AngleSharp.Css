@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// Represents a cubic-bezier timing-function object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
     /// </summary>
-    sealed class CssCubicBezierValue : ICssTimingFunctionValue, IEquatable<CssCubicBezierValue>
+    public sealed class CssCubicBezierValue : ICssTimingFunctionValue, IEquatable<CssCubicBezierValue>
     {
         #region Fields
 
