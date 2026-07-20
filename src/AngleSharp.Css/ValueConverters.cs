@@ -19,7 +19,18 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a CSS variable reference.
         /// </summary>
-        public static readonly IValueConverter VarConverter = FromParser(FunctionParser.ParseVar);
+        public static readonly IValueConverter VarConverter = new ClassValueConverter<CssVarValue>(source =>
+        {
+            var ident = source.ParseIdent();
+
+            if (ident.Isi(FunctionNames.Var) && source.Current == Symbols.RoundBracketOpen)
+            {
+                source.SkipCurrentAndSpaces();
+                return source.ParseVar();
+            }
+
+            return null;
+        });
 
         /// <summary>
         /// Creates an or converter for the given converters.

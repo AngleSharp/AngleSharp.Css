@@ -25,7 +25,7 @@ namespace AngleSharp.Css.Declarations
 
         sealed class GapAggregagtor : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = WithOrder(GapConverter, GapConverter);
+            private static readonly IValueConverter converter = WithOrder(Or(GapConverter, VarConverter), Or(GapConverter, VarConverter));
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

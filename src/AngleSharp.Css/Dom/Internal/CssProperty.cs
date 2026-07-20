@@ -52,14 +52,14 @@ namespace AngleSharp.Css.Dom
             get => _value?.CssText ?? String.Empty;
             set
             {
-                if (IsBorderShorthand(_name) && value.IndexOf(FunctionNames.Var, StringComparison.OrdinalIgnoreCase) >= 0)
+                if (IsShorthand && value.IndexOf(FunctionNames.Var, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     var source = new StringSource(value);
                     source.SkipSpacesAndComments();
                     var parsed = _converter.Convert(source);
                     source.SkipSpacesAndComments();
 
-                    if (parsed != null && source.IsDone)
+                    if (parsed != null && source.IsDone && parsed is not CssVarValue)
                     {
                         _value = parsed;
                         return;
@@ -120,20 +120,6 @@ namespace AngleSharp.Css.Dom
 
             return this;
         }
-
-        #endregion
-
-        #region Helpers
-
-        private static Boolean IsBorderShorthand(String name) =>
-            name.Is(PropertyNames.Border) ||
-            name.Is(PropertyNames.BorderTop) ||
-            name.Is(PropertyNames.BorderRight) ||
-            name.Is(PropertyNames.BorderBottom) ||
-            name.Is(PropertyNames.BorderLeft) ||
-            name.Is(PropertyNames.BorderWidth) ||
-            name.Is(PropertyNames.BorderStyle) ||
-            name.Is(PropertyNames.BorderColor);
 
         #endregion
 

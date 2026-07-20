@@ -93,6 +93,16 @@ namespace AngleSharp.Css.Declarations
 
                     fontFamilies = source.ParseFontFamilies();
 
+                    if (fontFamilies == null)
+                    {
+                        var variable = source.ParseVar();
+
+                        if (variable != null)
+                        {
+                            fontFamilies = new ICssValue[] { variable };
+                        }
+                    }
+
                     if (fontFamilies != null)
                     {
                         return new CssFontValue(style, variant, weight, stretch, size, lineHeight, new CssListValue(fontFamilies));

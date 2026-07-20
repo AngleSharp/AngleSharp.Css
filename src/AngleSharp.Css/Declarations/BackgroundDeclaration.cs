@@ -160,7 +160,17 @@ namespace AngleSharp.Css.Declarations
 
                         if (color == null)
                         {
-                            color = ColorParser.ParseColor(source);
+                            var parsedColor = ColorParser.ParseColor(source);
+
+                            if (parsedColor.HasValue)
+                            {
+                                color = parsedColor.Value;
+                            }
+                            else if (source.IsFunction(FunctionNames.Var))
+                            {
+                                color = source.ParseVar();
+                            }
+
                             c = source.SkipSpacesAndComments();
                         }
                     }
