@@ -21,6 +21,7 @@ namespace AngleSharp.Css.Dom
         private readonly List<ICssProperty> _declarations;
         private readonly Dictionary<String, Int32> _declarationIndex;
         private readonly IBrowsingContext _context;
+        private Dictionary<Int32, List<ICssComment>> _comments;
         private ICssRule _parent;
         private Boolean _updating;
 
@@ -103,6 +104,7 @@ namespace AngleSharp.Css.Dom
             {
                 _declarations.Clear();
                 _declarationIndex.Clear();
+                _comments?.Clear();
 
                 if (!String.IsNullOrEmpty(value))
                 {
@@ -158,6 +160,13 @@ namespace AngleSharp.Css.Dom
 
         public String ToCssBlock(IStyleFormatter formatter)
         {
+            var includeComments = formatter is ICommentPreservingFormatter commentFormatter && commentFormatter.PreserveComments;
+
+            if (includeComments && _comments != null && _comments.Count > 0)
+            {
+                return formatter.BlockDeclarations(GetDeclarationsWithComments(_declarations));
+            }
+
             var list = new List<ICssProperty>();
             var serialized = new List<String>();
             var factory = _context.GetFactory<IDeclarationFactory>();
@@ -314,8 +323,14 @@ namespace AngleSharp.Css.Dom
 
         public void RemoveProperty(ICssProperty declaration)
         {
-            _declarations.Remove(declaration);
-            RebuildIndex();
+            var index = _declarations.IndexOf(declaration);
+
+            if (index >= 0)
+            {
+                _declarations.RemoveAt(index);
+                ShiftCommentsAfterRemove(index);
+                RebuildIndex();
+            }
         }
 
         #endregion
@@ -327,6 +342,19 @@ namespace AngleSharp.Css.Dom
 
         internal void UpdateDeclarations(IEnumerable<ICssProperty> decls) =>
             ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited);
+
+        internal void AddCommentBefore(Int32 index, ICssComment comment)
+        {
+            _comments ??= new Dictionary<Int32, List<ICssComment>>();
+
+            if (!_comments.TryGetValue(index, out var list))
+            {
+                list = new List<ICssComment>();
+                _comments[index] = list;
+            }
+
+            list.Add(comment);
+        }
 
         #endregion
 
@@ -369,6 +397,7 @@ namespace AngleSharp.Css.Dom
                 _declarations[index].Name.Is(propertyName))
             {
                 _declarations.RemoveAt(index);
+                ShiftCommentsAfterRemove(index);
                 RebuildIndex();
             }
             else
@@ -380,6 +409,7 @@ namespace AngleSharp.Css.Dom
                     if (declaration.Name.Is(propertyName))
                     {
                         _declarations.RemoveAt(i);
+                        ShiftCommentsAfterRemove(i);
                         RebuildIndex();
                         break;
                     }
@@ -411,6 +441,7 @@ namespace AngleSharp.Css.Dom
                     if (removeExisting.Invoke(_declarations[idx], newdecl))
                     {
                         _declarations.RemoveAt(idx);
+                                ShiftCommentsAfterRemove(idx);
                         skip = false;
                     }
                     else
@@ -429,6 +460,7 @@ namespace AngleSharp.Css.Dom
                             if (removeExisting.Invoke(olddecl, newdecl))
                             {
                                 _declarations.RemoveAt(i);
+                                ShiftCommentsAfterRemove(i);
                                 skip = false;
                             }
                             else
@@ -448,6 +480,12 @@ namespace AngleSharp.Css.Dom
             }
 
             _declarations.AddRange(declarations);
+
+            if (declarations.Count > 0)
+            {
+                ShiftCommentsAfterInsert(_declarations.Count - declarations.Count, declarations.Count);
+            }
+
             RebuildIndex();
         }
 
@@ -494,6 +532,84 @@ namespace AngleSharp.Css.Dom
             {
                 _declarationIndex[_declarations[i].Name] = i;
             }
+        }
+
+        private IEnumerable<IStyleFormattable> GetDeclarationsWithComments(IReadOnlyList<ICssProperty> declarations)
+        {
+            for (var i = 0; i <= declarations.Count; i++)
+            {
+                if (_comments.TryGetValue(i, out var comments))
+                {
+                    foreach (var comment in comments)
+                    {
+                        yield return comment;
+                    }
+                }
+
+                if (i < declarations.Count)
+                {
+                    yield return declarations[i];
+                }
+            }
+        }
+
+        private void ShiftCommentsAfterInsert(Int32 index, Int32 step = 1)
+        {
+            if (_comments is null || _comments.Count == 0 || step <= 0)
+            {
+                return;
+            }
+
+            var shifted = new Dictionary<Int32, List<ICssComment>>();
+
+            foreach (var item in _comments)
+            {
+                var key = item.Key >= index ? item.Key + step : item.Key;
+
+                if (!shifted.TryGetValue(key, out var list))
+                {
+                    list = new List<ICssComment>();
+                    shifted[key] = list;
+                }
+
+                list.AddRange(item.Value);
+            }
+
+            _comments = shifted;
+        }
+
+        private void ShiftCommentsAfterRemove(Int32 index)
+        {
+            if (_comments is null || _comments.Count == 0)
+            {
+                return;
+            }
+
+            var shifted = new Dictionary<Int32, List<ICssComment>>();
+
+            foreach (var item in _comments)
+            {
+                var key = item.Key;
+
+                if (key == index || key == index + 1)
+                {
+                    key = index;
+                }
+                else if (key > index + 1)
+                {
+                    key -= 1;
+                }
+
+                if (!shifted.TryGetValue(key, out var list))
+                {
+                    list = new List<ICssComment>();
+                    shifted[key] = list;
+                }
+
+                list.AddRange(item.Value);
+            }
+
+            _comments = shifted;
         }
 
         private void RaiseChanged()

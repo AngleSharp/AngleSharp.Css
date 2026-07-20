@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom;
     using System;
     using System.Collections;
@@ -14,6 +15,7 @@ namespace AngleSharp.Css.Dom
         #region Fields
 
         private readonly List<ICssRule> _rules;
+        private Dictionary<Int32, List<ICssComment>>? _comments;
 
         #endregion
 
@@ -42,7 +44,11 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public void Clear() => _rules.Clear();
+        public void Clear()
+        {
+            _rules.Clear();
+            _comments?.Clear();
+        }
 
         public void RemoveAt(Int32 index)
         {
@@ -61,7 +67,13 @@ namespace AngleSharp.Css.Dom
         {
             if (rule != null)
             {
-                _rules.Remove(rule);
+                var index = _rules.IndexOf(rule);
+
+                if (index >= 0)
+                {
+                    _rules.RemoveAt(index);
+                    ShiftCommentsAfterRemove(index);
+                }
             }
         }
 
@@ -87,6 +99,8 @@ namespace AngleSharp.Css.Dom
             {
                 _rules.Insert(index, rule);
             }
+
+            ShiftCommentsAfterInsert(index);
         }
 
         public void Add(ICssRule rule)
@@ -97,7 +111,39 @@ namespace AngleSharp.Css.Dom
             }
         }
 
-        public void AddRange(IEnumerable<ICssRule> rules) => _rules.AddRange(rules);
+        public void AddRange(IEnumerable<ICssRule> rules)
+        {
+            if (rules is null)
+            {
+                return;
+            }
+
+            var oldLength = _rules.Count;
+            _rules.AddRange(rules);
+        }
+
+        internal void AddCommentBefore(Int32 index, ICssComment comment)
+        {
+            _comments ??= new Dictionary<Int32, List<ICssComment>>();
+
+            if (!_comments.TryGetValue(index, out var list))
+            {
+                list = new List<ICssComment>();
+                _comments[index] = list;
+            }
+
+            list.Add(comment);
+        }
+
+        internal IEnumerable<IStyleFormattable> GetFormattables(Boolean includeComments)
+        {
+            if (!includeComments || _comments is null || _comments.Count == 0)
+            {
+                return _rules;
+            }
+
+            return EnumerateFormattables();
+        }
 
         #endregion
 
@@ -110,6 +156,91 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Helper
+
+        private IEnumerable<IStyleFormattable> EnumerateFormattables()
+        {
+            var commentsMap = _comments;
+
+            if (commentsMap is null)
+            {
+                yield break;
+            }
+
+            for (var i = 0; i <= _rules.Count; i++)
+            {
+                if (commentsMap.TryGetValue(i, out var comments))
+                {
+                    foreach (var comment in comments)
+                    {
+                        yield return comment;
+                    }
+                }
+
+                if (i < _rules.Count)
+                {
+                    yield return _rules[i];
+                }
+            }
+        }
+
+        private void ShiftCommentsAfterInsert(Int32 index, Int32 step = 1)
+        {
+            if (_comments is null || _comments.Count == 0 || step <= 0)
+            {
+                return;
+            }
+
+            var shifted = new Dictionary<Int32, List<ICssComment>>();
+
+            foreach (var item in _comments)
+            {
+                var key = item.Key >= index ? item.Key + step : item.Key;
+
+                if (!shifted.TryGetValue(key, out var list))
+                {
+                    list = new List<ICssComment>();
+                    shifted[key] = list;
+                }
+
+                list.AddRange(item.Value);
+            }
+
+            _comments = shifted;
+        }
+
+        private void ShiftCommentsAfterRemove(Int32 index)
+        {
+            if (_comments is null || _comments.Count == 0)
+            {
+                return;
+            }
+
+            var shifted = new Dictionary<Int32, List<ICssComment>>();
+
+            foreach (var item in _comments)
+            {
+                var key = item.Key;
+
+                if (key == index || key == index + 1)
+                {
+                    key = index;
+                }
+                else if (key > index + 1)
+                {
+                    key -= 1;
+                }
+
+                if (!shifted.TryGetValue(key, out var list))
+                {
+                    list = new List<ICssComment>();
+                    shifted[key] = list;
+                }
+
+                list.AddRange(item.Value);
+            }
+
+            _comments = shifted;
+        }
 
         private static Boolean IsDeclarativeRule(ICssRule rule)
         {

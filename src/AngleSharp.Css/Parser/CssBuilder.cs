@@ -35,6 +35,9 @@ namespace AngleSharp.Css.Parser
         private readonly CssTokenizer _tokenizer;
         private readonly CssParserOptions _options;
         private readonly IBrowsingContext _context;
+        private CssRuleList _commentRuleTarget;
+        private CssStyleDeclaration _commentStyleDeclarationTarget;
+        private CssDeclarationRule _commentDeclarationRuleTarget;
 
         #endregion
 
@@ -384,6 +387,13 @@ namespace AngleSharp.Css.Parser
 
         private CssDeclarationRule FillDeclarations(CssDeclarationRule rule)
         {
+            var previousRuleTarget = _commentRuleTarget;
+            var previousStyleTarget = _commentStyleDeclarationTarget;
+            var previousDeclarationTarget = _commentDeclarationRuleTarget;
+            _commentRuleTarget = null;
+            _commentStyleDeclarationTarget = null;
+            _commentDeclarationRuleTarget = rule;
+
             var token = NextToken();
             CollectTrivia(ref token);
 
@@ -392,6 +402,10 @@ namespace AngleSharp.Css.Parser
                 CreateDeclarationWith(rule, ref token);
                 CollectTrivia(ref token);
             }
+
+            _commentRuleTarget = previousRuleTarget;
+            _commentStyleDeclarationTarget = previousStyleTarget;
+            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return rule;
         }
@@ -435,20 +449,31 @@ namespace AngleSharp.Css.Parser
 
         private Boolean FillRules(CssGroupingRule group)
         {
+            var previousRuleTarget = _commentRuleTarget;
+            var previousStyleTarget = _commentStyleDeclarationTarget;
+            var previousDeclarationTarget = _commentDeclarationRuleTarget;
+            _commentRuleTarget = group.Rules as CssRuleList;
+            _commentStyleDeclarationTarget = null;
+            _commentDeclarationRuleTarget = null;
+
             var token = NextToken();
             CollectTrivia(ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var rule = CreateRule(group.Owner, token);
-                token = NextToken();
-                CollectTrivia(ref token);
-
                 if (rule != null)
                 {
                     group.Add(rule);
                 }
+
+                token = NextToken();
+                CollectTrivia(ref token);
             }
+
+            _commentRuleTarget = previousRuleTarget;
+            _commentStyleDeclarationTarget = previousStyleTarget;
+            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return token.Type == CssTokenType.CurlyBracketClose;
         }
@@ -463,20 +488,31 @@ namespace AngleSharp.Css.Parser
         /// <returns>The found rules.</returns>
         public TextPosition CreateRules(CssStyleSheet sheet)
         {
+            var previousRuleTarget = _commentRuleTarget;
+            var previousStyleTarget = _commentStyleDeclarationTarget;
+            var previousDeclarationTarget = _commentDeclarationRuleTarget;
+            _commentRuleTarget = sheet.Rules as CssRuleList;
+            _commentStyleDeclarationTarget = null;
+            _commentDeclarationRuleTarget = null;
+
             var token = NextToken();
             CollectTrivia(ref token);
 
             while (token.Type != CssTokenType.EndOfFile)
             {
                 var rule = CreateRule(sheet, token);
-                token = NextToken();
-                CollectTrivia(ref token);
-
                 if (rule is not null)
                 {
                     sheet.Add(rule);
                 }
+
+                token = NextToken();
+                CollectTrivia(ref token);
             }
+
+            _commentRuleTarget = previousRuleTarget;
+            _commentStyleDeclarationTarget = previousStyleTarget;
+            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return token.Position;
         }
@@ -486,6 +522,13 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public CssStyleDeclaration FillDeclarations(CssStyleDeclaration style, CssToken token)
         {
+            var previousRuleTarget = _commentRuleTarget;
+            var previousStyleTarget = _commentStyleDeclarationTarget;
+            var previousDeclarationTarget = _commentDeclarationRuleTarget;
+            _commentRuleTarget = null;
+            _commentStyleDeclarationTarget = style;
+            _commentDeclarationRuleTarget = null;
+
             CollectTrivia(ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
@@ -493,6 +536,10 @@ namespace AngleSharp.Css.Parser
                 CreateDeclarationWith(style, ref token);
                 CollectTrivia(ref token);
             }
+
+            _commentRuleTarget = previousRuleTarget;
+            _commentStyleDeclarationTarget = previousStyleTarget;
+            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return style;
         }
@@ -673,18 +720,38 @@ namespace AngleSharp.Css.Parser
 
         private void CollectTrivia(ref CssToken token)
         {
-            var storeComments = false;
-
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
-                if (storeComments && token.Type == CssTokenType.Comment)
+                if (token.Type == CssTokenType.Comment)
                 {
-                    var comment = new CssComment(token.Data);
-                    //TODO What should be done with the comment?
+                    var comment = new CssComment(NormalizeCommentData(token.Data));
+
+                    if (_commentStyleDeclarationTarget is not null)
+                    {
+                        _commentStyleDeclarationTarget.AddCommentBefore(_commentStyleDeclarationTarget.Length, comment);
+                    }
+                    else if (_commentDeclarationRuleTarget is not null)
+                    {
+                        _commentDeclarationRuleTarget.AddCommentBefore(_commentDeclarationRuleTarget.Length, comment);
+                    }
+                    else
+                    {
+                        _commentRuleTarget?.AddCommentBefore(_commentRuleTarget.Length, comment);
+                    }
                 }
 
                 token = _tokenizer.Get();
             }
+        }
+
+        private static String NormalizeCommentData(String comment)
+        {
+            if (!String.IsNullOrEmpty(comment) && comment.Length >= 4 && comment.StartsWith("/*", StringComparison.Ordinal) && comment.EndsWith("*/", StringComparison.Ordinal))
+            {
+                return comment.Substring(2, comment.Length - 4);
+            }
+
+            return comment;
         }
 
         private void SkipDeclarations(CssToken token)

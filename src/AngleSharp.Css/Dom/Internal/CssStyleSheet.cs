@@ -74,7 +74,11 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Sheet(Rules));
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            var includeComments = formatter is ICommentPreservingFormatter commentFormatter && commentFormatter.PreserveComments;
+            writer.Write(formatter.Sheet(_rules.GetFormattables(includeComments)));
+        }
 
         public void Add(ICssRule rule)
         {

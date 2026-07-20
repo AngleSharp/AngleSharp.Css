@@ -179,6 +179,36 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void ToCssCanPreserveComments()
+        {
+            var source = "/* before */ h1 { color: red; /*another comment*/ }";
+            var sheet = ParseStyleSheet(source);
+
+            var result = sheet.ToCss(true);
+
+            Assert.IsTrue(result.Contains("/* before */"));
+            Assert.IsTrue(result.Contains("/*another comment*/"));
+            Assert.IsTrue(result.Contains("color: rgba(255, 0, 0, 1)"));
+        }
+
+        [Test]
+        public void ToCssCanPreserveCommentsAfterMutatingDeclarations()
+        {
+            var source = "h1 { color: red; /*keep*/ }";
+            var sheet = ParseStyleSheet(source);
+            var style = ((ICssStyleRule)sheet.Rules[0]).Style;
+
+            style.SetProperty("color", "blue");
+            style.SetProperty("display", "block");
+
+            var result = sheet.ToCss(true);
+
+            Assert.IsTrue(result.Contains("/*keep*/"));
+            Assert.IsTrue(result.Contains("color: rgba(0, 0, 255, 1)"));
+            Assert.IsTrue(result.Contains("display: block"));
+        }
+
+        [Test]
         public void MinifyRemovesEmptyStyleRule()
         {
             var sheet = ParseStyleSheet("h1 {  }");

@@ -10,7 +10,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents the an CSS3 markup formatter with minimal code.
     /// </summary>
-    public class MinifyStyleFormatter : IStyleFormatter
+    public class MinifyStyleFormatter : IStyleFormatter, ICommentPreservingFormatter
     {
         #region Properties
 
@@ -27,6 +27,8 @@ namespace AngleSharp.Css
         #endregion
 
         #region Methods
+
+        Boolean ICommentPreservingFormatter.PreserveComments => ShouldKeepComments;
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
@@ -76,16 +78,22 @@ namespace AngleSharp.Css
             if (ShouldKeepEmptyRules || declarations.OfType<ICssProperty>().Any())
             {
                 var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
+                var hasProperty = false;
 
                 using (var writer = new StringWriter(sb))
                 {
                     foreach (var declaration in declarations)
                     {
                         declaration.ToCss(writer, this);
-                        writer.Write(Symbols.Semicolon);
+
+                        if (declaration is ICssProperty)
+                        {
+                            hasProperty = true;
+                            writer.Write(Symbols.Semicolon);
+                        }
                     }
 
-                    if (sb.Length > 1)
+                    if (hasProperty && sb.Length > 1 && sb[sb.Length - 1] == Symbols.Semicolon)
                     {
                         sb.Remove(sb.Length - 1, 1);
                     }

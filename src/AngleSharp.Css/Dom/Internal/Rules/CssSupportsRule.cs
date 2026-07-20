@@ -68,7 +68,8 @@ namespace AngleSharp.Css.Dom
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = formatter.BlockRules(Rules);
+            var includeComments = formatter is ICommentPreservingFormatter commentFormatter && commentFormatter.PreserveComments;
+            var rules = formatter.BlockRules(GetFormattableRules(includeComments));
             writer.Write(formatter.Rule(RuleNames.Supports, ConditionText, rules));
         }
 
