@@ -2,7 +2,7 @@
 
 Released on Sunday, January 21 2024.
 
-- Updated to use AngleSharp 1.0 (#150)
+- Updated to use AngleSharp minimum version of 1.5 (#150)
 - Updated media parsing to media L4 spec (#133)
 - Updated naming of CSS values (e.g., `Color` to `CssColorValue`)
 - Fixed issue when updating shorthands with invalid values (#129)
