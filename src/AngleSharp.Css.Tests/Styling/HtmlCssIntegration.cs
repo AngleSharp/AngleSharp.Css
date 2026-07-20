@@ -53,6 +53,24 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void MalformedImportRuleInStyleBlockIsIgnored()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head>
+    <style type=""text/css"">@import ;</style>
+</head>
+<body></body>
+</html>";
+
+            var doc = ParseDocument(source);
+            var styleSheet = doc.StyleSheets[0] as CssStyleSheet;
+
+            Assert.IsNotNull(styleSheet);
+            Assert.AreEqual(0, styleSheet.Rules.Length);
+        }
+
+        [Test]
         public void ParsedCssCanHaveExtraWhitespace()
         {
             var source = "<div style=\"background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->\">";

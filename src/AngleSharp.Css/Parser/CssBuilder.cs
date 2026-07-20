@@ -183,17 +183,20 @@ namespace AngleSharp.Css.Parser
             var token = NextToken();
             CollectTrivia(ref token);
 
-            if (token.Is(CssTokenType.String, CssTokenType.Url))
+            if (!token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                rule.Href = token.Data;
-                token = NextToken();
-                CollectTrivia(ref token);
-                var media = GetArgument(ref token);
+                JumpToEnd(ref token);
+                return null;
+            }
 
-                if (!String.IsNullOrEmpty(media))
-                {
-                    rule.Media.SetMediaText(media, throwOnError: false);
-                }
+            rule.Href = token.Data;
+            token = NextToken();
+            CollectTrivia(ref token);
+            var media = GetArgument(ref token);
+
+            if (!String.IsNullOrEmpty(media))
+            {
+                rule.Media.SetMediaText(media, throwOnError: false);
             }
 
             CollectTrivia(ref token);
