@@ -108,6 +108,20 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void GetComputedStyleFromPlainDocumentDoesNotThrow()
+        {
+            var document = ParseDocument("<div>hi</div>");
+            var element = document.QuerySelector("div");
+
+            Assert.DoesNotThrow(() =>
+            {
+                var style = element.ComputeCurrentStyle();
+                Assert.IsNotNull(style);
+                Assert.AreEqual(String.Empty, style.GetColor());
+            });
+        }
+
+        [Test]
         public void CssStyleDeclarationEmpty()
         {
             var css = ParseDeclarations(String.Empty);

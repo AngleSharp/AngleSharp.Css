@@ -2,6 +2,7 @@
 namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
+    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Html.Dom;
     using System;
@@ -23,7 +24,20 @@ namespace AngleSharp.Dom
             element = element ?? throw new ArgumentNullException(nameof(element));
             var document = element.Owner;
             var window = document?.DefaultView;
-            return window?.GetComputedStyle(element);
+
+            if (window is null)
+            {
+                var ctx = document?.Context;
+                var device = ctx?.GetService<IRenderDevice>();
+                var defaultStyleSheetProvider = ctx?.GetServices<ICssDefaultStyleSheetProvider>() ?? Enumerable.Empty<ICssDefaultStyleSheetProvider>();
+                var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
+                var currentSheets = document?.GetStyleSheets().OfType<ICssStyleSheet>() ?? Enumerable.Empty<ICssStyleSheet>();
+                var stylesheets = defaultSheets.Concat(currentSheets);
+                var styleCollection = new StyleCollection(stylesheets, device);
+                return styleCollection.ComputeDeclarations(element);
+            }
+
+            return window.GetComputedStyle(element);
         }
 
         /// <summary>
