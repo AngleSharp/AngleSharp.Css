@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
@@ -39,7 +39,7 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="propertyName">The name of the property to get.</param>
         /// <returns>The computed or stored property model.</returns>
-        ICssProperty GetProperty(String propertyName);
+        ICssProperty? GetProperty(String propertyName);
 
         /// <summary>
         /// Returns the optional priority, "important" or null, if no priority
@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="propertyValue">The value of the property.</param>
         /// <param name="priority">The optional priority.</param>
         [DomName("setProperty")]
-        void SetProperty(String propertyName, String propertyValue, String priority = null);
+        void SetProperty(String propertyName, String propertyValue, String? priority = null);
 
         /// <summary>
         /// Removes the property with the given name and returns its value.

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Values;
@@ -257,7 +257,7 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The resulting URL.</returns>
-        public static String AsUrl(this ICssValue value)
+        public static String? AsUrl(this ICssValue value)
         {
             if (value is CssUrlValue res)
             {
@@ -281,7 +281,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="value">The value to convert.</param>
         /// <param name="renderDimensions">the render device used to calculate relative units, can be null if units are absolute.</param>
         /// <returns>The resulting matrix.</returns>
-        public static TransformMatrix AsMatrix(this ICssValue value, IRenderDimensions renderDimensions)
+        public static TransformMatrix? AsMatrix(this ICssValue value, IRenderDimensions renderDimensions)
         {
             if (value is ICssTransformFunctionValue res)
             {

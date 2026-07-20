@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
@@ -26,7 +26,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The created element or null, if not possible.</returns>
         [DomName("pseudo")]
-        public static IPseudoElement Pseudo(this IElement element, String pseudoElement)
+        public static IPseudoElement? Pseudo(this IElement element, String pseudoElement)
         {
             var factory = element.Owner?.Context.GetService<IPseudoElementFactory>();
             return factory?.Create(element, pseudoElement);
@@ -62,13 +62,13 @@ namespace AngleSharp.Dom
 
                 if (!String.IsNullOrEmpty(css?.GetDisplay()))
                 {
-                    hidden = css.GetDisplay() == CssKeywords.None;
+                    hidden = css!.GetDisplay() == CssKeywords.None;
                 }
             }
 
             if (!hidden.HasValue)
             {
-                hidden = (element as IHtmlElement)?.IsHidden;
+                hidden = (element as IHtmlElement)?.IsHidden ?? false;
             }
 
             if (!hidden.Value)
@@ -99,7 +99,7 @@ namespace AngleSharp.Dom
             return element.TextContent;
         }
 
-        private static ICssStyleDeclaration ComputeCachedStyle(IElement element, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> cache)
+        private static ICssStyleDeclaration? ComputeCachedStyle(IElement element, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> cache)
         {
             if (styleCollection == null)
             {
@@ -137,7 +137,7 @@ namespace AngleSharp.Dom
         [DomName("innerText")]
         [DomAccessor(Accessors.Setter)]
 
-        public static void SetInnerText(this IElement element, String value)
+        public static void SetInnerText(this IElement element, String? value)
         {
             if (String.IsNullOrEmpty(value))
             {
@@ -146,10 +146,10 @@ namespace AngleSharp.Dom
             else
             {
                 var document = element.Owner;
-                var fragment = document.CreateDocumentFragment();
+                var fragment = document!.CreateDocumentFragment();
                 var sb = StringBuilderPool.Obtain();
 
-                for (var i = 0; i < value.Length; i++)
+                for (var i = 0; i < value!.Length; i++)
                 {
                     var c = value[i];
 
@@ -191,7 +191,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
+        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration? parentStyle, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
         {
             if (HasCssBox(node))
             {
@@ -201,7 +201,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static void ItcInCssBox(ICssStyleDeclaration elementStyle, ICssStyleDeclaration parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, IStyleCollection styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
+        private static void ItcInCssBox(ICssStyleDeclaration? elementStyle, ICssStyleDeclaration? parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache)
         {
             var elementHidden = new Nullable<Boolean>();
 
@@ -238,7 +238,7 @@ namespace AngleSharp.Dom
                     var lastLine = node.NextSibling is null ||
                         String.IsNullOrEmpty(node.NextSibling.TextContent) ||
                         node.NextSibling is IHtmlBreakRowElement;
-                    ProcessText(textElement.Data, sb, parentStyle, lastLine, requiredLineBreakCounts);
+                    ProcessText(textElement.Data, sb, parentStyle!, lastLine, requiredLineBreakCounts);
                 }
                 else if (node is IHtmlBreakRowElement)
                 {
@@ -250,7 +250,7 @@ namespace AngleSharp.Dom
                     {
                         var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
-                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableCell)
+                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss!.GetDisplay()) || nextSiblingCss!.GetDisplay() == CssKeywords.TableCell)
                         {
                             sb.Append(Symbols.Tab);
                         }
@@ -262,7 +262,7 @@ namespace AngleSharp.Dom
                     {
                         var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
-                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableRow)
+                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss!.GetDisplay()) || nextSiblingCss!.GetDisplay() == CssKeywords.TableRow)
                         {
                             sb.Append(Symbols.LineFeed);
                         }

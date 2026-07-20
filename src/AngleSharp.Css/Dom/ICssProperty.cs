@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
@@ -20,7 +21,7 @@ namespace AngleSharp.Css.Dom
         /// <summary>
         /// Gets the value model of the property.
         /// </summary>
-        ICssValue RawValue { get; }
+        ICssValue? RawValue { get; }
 
         /// <summary>
         /// Gets or sets the value of the property.

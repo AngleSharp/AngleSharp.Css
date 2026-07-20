@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
@@ -37,7 +37,7 @@ namespace AngleSharp.Dom
         /// <param name="type">The type of pseudo elements to get, if any.</param>
         /// <returns>The list of pseudo elements matching the query.</returns>
         [DomName("getPseudoElements")]
-        public static ICssPseudoElementList GetPseudoElements(this IWindow window, IElement element, String type = null)
+        public static ICssPseudoElementList GetPseudoElements(this IWindow window, IElement element, String? type = null)
         {
             var validTypes = new[] { "::before", "::after" };
 
@@ -57,7 +57,7 @@ namespace AngleSharp.Dom
             return new CssPseudoElementList(validTypes.Select(pseudoSelector =>
             {
                 var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
-                var style = window.GetComputedStyle(pseudoElement);
+                var style = window.GetComputedStyle(pseudoElement!);
                 return new CssPseudoElement(pseudoElement, pseudoSelector, style);
             }));
         }
@@ -72,7 +72,7 @@ namespace AngleSharp.Dom
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
         [DomName("getComputedStyle")]
-        public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String pseudo = null)
+        public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
             var styleCollection = window.GetStyleCollection();
             return styleCollection.ComputeDeclarations(element, pseudo);
@@ -123,9 +123,9 @@ namespace AngleSharp.Dom
         /// <param name="window">The window to extend.</param>
         /// <param name="renderDevice">The device for rendering, if any. </param>
         /// <returns>The created render node.</returns>
-        public static IRenderNode Render(this IWindow window, IRenderDevice renderDevice = null)
+        public static IRenderNode Render(this IWindow window, IRenderDevice? renderDevice = null)
         {
-            var builder = new RenderTreeBuilder(window, renderDevice);
+            var builder = new RenderTreeBuilder(window, renderDevice ?? new DefaultRenderDevice());
             return builder.RenderDocument();
         }
     }

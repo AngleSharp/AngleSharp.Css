@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
@@ -26,7 +26,7 @@ namespace AngleSharp.Css
         {
             var document = window.Document;
             var ctx = document.Context;
-            var device = ctx.GetService<IRenderDevice>();
+            var device = ctx.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
@@ -42,7 +42,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
             var declarations = GetDeclarations(styles, element, pseudoSelector);
@@ -59,7 +59,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration GetDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration GetDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
             var computedStyle = new CssStyleDeclaration(ctx);
@@ -67,7 +67,7 @@ namespace AngleSharp.Css
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
-                var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
+                var pseudoElement = element?.Pseudo(pseudoSelector!.TrimStart(':'));
 
                 if (pseudoElement is not null)
                 {
@@ -75,7 +75,7 @@ namespace AngleSharp.Css
                 }
             }
 
-            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element));
+            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element!));
 
             foreach (var node in nodes)
             {
@@ -94,7 +94,7 @@ namespace AngleSharp.Css
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration? parent = null)
         {
             var ctx = element.Owner?.Context;
             var computedStyle = new CssStyleDeclaration(ctx);
@@ -183,10 +183,10 @@ namespace AngleSharp.Css
         sealed class CssComputeContext : ICssComputeContext
         {
             private readonly IRenderDevice _device;
-            private readonly IBrowsingContext _context;
+            private readonly IBrowsingContext? _context;
             private readonly ICssProperties _properties;
 
-            public CssComputeContext(IRenderDevice device, IBrowsingContext context, ICssProperties properties)
+            public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties)
             {
                 _device = device ?? new DefaultRenderDevice();
                 _context = context;
@@ -195,11 +195,11 @@ namespace AngleSharp.Css
 
             public IRenderDevice Device => _device;
 
-            public IBrowsingContext Context => _context;
+            public IBrowsingContext? Context => _context;
 
-            public IValueConverter Converter => null;
+            public IValueConverter? Converter => null;
 
-            public ICssValue Resolve(String name)
+            public ICssValue? Resolve(String name)
             {
                 if (name.StartsWith("--"))
                 {

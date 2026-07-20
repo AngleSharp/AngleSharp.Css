@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
@@ -9,7 +9,7 @@ namespace AngleSharp.Css
     {
         #region Fields
 
-        private ICssStyleSheet _default;
+        private ICssStyleSheet? _default;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace AngleSharp.Css
 
         #region Methods
 
-        public void SetDefault(ICssStyleSheet sheet) => _default = sheet;
+        public void SetDefault(ICssStyleSheet? sheet) => _default = sheet;
 
         public void SetDefault(String source) => SetDefault(Parse(source));
 

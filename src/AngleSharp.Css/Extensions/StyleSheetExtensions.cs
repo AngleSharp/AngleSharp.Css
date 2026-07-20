@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Css;
@@ -88,6 +88,6 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="sheet">The sheet.</param>
         /// <returns>The associated document, if any.</returns>
-        public static IDocument GetDocument(this IStyleSheet sheet) => sheet?.OwnerNode?.Owner;
+        public static IDocument? GetDocument(this IStyleSheet sheet) => sheet?.OwnerNode?.Owner;
     }
 }

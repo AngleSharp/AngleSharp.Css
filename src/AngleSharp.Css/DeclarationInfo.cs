@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
@@ -19,10 +19,10 @@ namespace AngleSharp.Css
         /// <param name="initialValue">The initial value, if any.</param>
         /// <param name="shorthands">The names of the associated shorthand declarations, if any.</param>
         /// <param name="longhands">The names of the associated longhand declarations, if any.</param>
-        public DeclarationInfo(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue initialValue = null, String[] shorthands = null, String[] longhands = null)
+        public DeclarationInfo(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue? initialValue = null, String[]? shorthands = null, String[]? longhands = null)
         {
             Name = name;
-            Converter = initialValue != null || longhands?.Length > 0 ? Or(AssignInitial(initialValue), converter) : converter;
+            Converter = initialValue is not null || longhands?.Length > 0 ? Or(AssignInitial(initialValue), converter) : converter;
             Aggregator = converter as IValueAggregator;
             Flags = flags;
             InitialValue = initialValue;
@@ -38,7 +38,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the initial value of the declaration, if any.
         /// </summary>
-        public ICssValue InitialValue { get; }
+        public ICssValue? InitialValue { get; }
 
         /// <summary>
         /// Gets the associated value converter.
@@ -48,7 +48,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the value aggregator, if any.
         /// </summary>
-        public IValueAggregator Aggregator { get; }
+        public IValueAggregator? Aggregator { get; }
 
         /// <summary>
         /// Gets the flags of the declaration.
