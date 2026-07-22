@@ -2,11 +2,21 @@
 
 We have more detailed information regarding the following subjects:
 
+## General
+
 - [Getting Started](general/01-Basics.md)
 - [Value Model](general/02-Values.md)
+- [CSSOM](general/03-CSSOM.md)
+- [Core Interfaces](general/04-Core-Interfaces.md)
+- [Extensibility](general/05-Extensibility.md)
+- [Provided Services](general/06-Provided-Services.md)
+
+## Tutorials
+
 - [API Documentation](tutorials/01-API.md)
 - [Examples](tutorials/02-Examples.md)
 - [FAQ](tutorials/03-Questions.md)
+- [Render Tree Examples](tutorials/04-Render-Tree.md)
 
 ## Recommended Reading Order
 
@@ -15,8 +25,10 @@ If you are new to AngleSharp.Css, this order gives a practical ramp-up:
 1. [Getting Started](general/01-Basics.md) for setup and first working code.
 2. [Examples](tutorials/02-Examples.md) for copy-paste recipes.
 3. [API Documentation](tutorials/01-API.md) for deeper understanding of the CSSOM model.
-4. [Value Model](general/02-Values.md) once you need to reason about specified vs. computed values.
-5. [FAQ](tutorials/03-Questions.md) for common pitfalls and output customization.
+4. [CSSOM](general/03-CSSOM.md) and [Core Interfaces](general/04-Core-Interfaces.md) once you need a deeper model understanding.
+5. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/04-Render-Tree.md) for style computation workflows.
+6. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations.
+7. [FAQ](tutorials/03-Questions.md) for common pitfalls and output customization.
 
 ## What You Can Do With AngleSharp.Css
 
