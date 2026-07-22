@@ -4,5 +4,9 @@
     <Product>AngleSharp.Css</Product>
     <Version>1.0.0</Version>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <SignAssembly>true</SignAssembly>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
