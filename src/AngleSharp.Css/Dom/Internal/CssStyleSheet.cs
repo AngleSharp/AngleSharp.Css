@@ -76,8 +76,7 @@ namespace AngleSharp.Css.Dom
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var includeComments = formatter is ICommentPreservingFormatter commentFormatter && commentFormatter.PreserveComments;
-            writer.Write(formatter.Sheet(_rules.GetFormattables(includeComments)));
+            writer.Write(formatter.Sheet(_rules.GetFormattables()));
         }
 
         public void Add(ICssRule rule)

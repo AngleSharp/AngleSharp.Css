@@ -175,7 +175,7 @@ namespace AngleSharp.Css.Parser
         public ICssStyleDeclaration? ParseDeclaration(String declarationText)
         {
             var style = new CssStyleDeclaration(_context);
-            return Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
+            return Parse(declarationText, (b, t) => b.FillDeclarations(null, style, t));
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace AngleSharp.Css.Parser
             var style = new CssStyleDeclaration(_context);
             return Parse(propertyText, (b, t) =>
             {
-                b.CreateDeclarationWith(style, ref t);
+                b.CreateDeclarationWith(null, style, ref t);
                 return Tuple.Create(style.Declarations.FirstOrDefault(), t);
             });
         }

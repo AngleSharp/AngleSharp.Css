@@ -3,10 +3,8 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Linq;
 
     /// <summary>
@@ -96,61 +94,9 @@ namespace AngleSharp.Dom
         public static String ToCss(this ICssStyleSheet sheet, Boolean preserveComments)
         {
             sheet = sheet ?? throw new ArgumentNullException(nameof(sheet));
-
-            if (preserveComments)
-            {
-                var css = ((IStyleFormattable)sheet).ToCss(CommentPreservingFormatter.Instance);
-                var source = sheet.Source?.Text;
-
-                if (!String.IsNullOrEmpty(source))
-                {
-                    var missing = StringBuilderPool.Obtain();
-
-                    foreach (var comment in ExtractComments(source))
-                    {
-                        if (css.IndexOf(comment, StringComparison.Ordinal) < 0)
-                        {
-                            missing.Append(comment);
-                        }
-                    }
-
-                    if (missing.Length > 0)
-                    {
-                        return missing.Append(css).ToPool();
-                    }
-                }
-
-                return css;
-            }
-
-            return ((IStyleFormattable)sheet).ToCss();
-        }
-
-        private static IEnumerable<String> ExtractComments(String source)
-        {
-            var index = 0;
-
-            while (index < source.Length)
-            {
-                var start = source.IndexOf("/*", index, StringComparison.Ordinal);
-
-                if (start < 0)
-                {
-                    yield break;
-                }
-
-                var end = source.IndexOf("*/", start + 2, StringComparison.Ordinal);
-
-                if (end < 0)
-                {
-                    yield return source.Substring(start);
-                    yield break;
-                }
-
-                var length = end - start + 2;
-                yield return source.Substring(start, length);
-                index = end + 2;
-            }
+            return preserveComments
+                ? ((IStyleFormattable)sheet).ToCss(CommentPreservingFormatter.Instance)
+                : ((IStyleFormattable)sheet).ToCss();
         }
 
         /// <summary>

@@ -1,11 +1,9 @@
 namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents an array like structure containing CSS rules.
@@ -15,7 +13,6 @@ namespace AngleSharp.Css.Dom
         #region Fields
 
         private readonly List<ICssRule> _rules;
-        private Dictionary<Int32, List<ICssComment>>? _comments;
 
         #endregion
 
@@ -30,15 +27,45 @@ namespace AngleSharp.Css.Dom
 
         #region Index
 
-        public ICssRule this[Int32 index] => _rules[index];
+        public ICssRule this[Int32 index] => GetRuleAt(index);
 
         #endregion
 
         #region Properties
 
-        public Boolean HasDeclarativeRules => _rules.Any(IsDeclarativeRule);
+        public Boolean HasDeclarativeRules
+        {
+            get
+            {
+                for (var i = 0; i < _rules.Count; i++)
+                {
+                    if (IsDeclarativeRule(_rules[i]))
+                    {
+                        return true;
+                    }
+                }
 
-        public Int32 Length => _rules.Count;
+                return false;
+            }
+        }
+
+        public Int32 Length
+        {
+            get
+            {
+                var count = 0;
+
+                for (var i = 0; i < _rules.Count; i++)
+                {
+                    if (!IsCommentRule(_rules[i]))
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
 
         #endregion
 
@@ -47,7 +74,6 @@ namespace AngleSharp.Css.Dom
         public void Clear()
         {
             _rules.Clear();
-            _comments?.Clear();
         }
 
         public void RemoveAt(Int32 index)
@@ -72,7 +98,6 @@ namespace AngleSharp.Css.Dom
                 if (index >= 0)
                 {
                     _rules.RemoveAt(index);
-                    ShiftCommentsAfterRemove(index);
                 }
             }
         }
@@ -91,16 +116,16 @@ namespace AngleSharp.Css.Dom
             if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
                 throw new DomException(DomError.InvalidState);
 
-            if (index == Length)
+            var actualIndex = GetActualIndex(index);
+
+            if (actualIndex == _rules.Count)
             {
                 _rules.Add(rule);
             }
             else
             {
-                _rules.Insert(index, rule);
+                _rules.Insert(actualIndex, rule);
             }
-
-            ShiftCommentsAfterInsert(index);
         }
 
         public void Add(ICssRule rule)
@@ -122,34 +147,24 @@ namespace AngleSharp.Css.Dom
             _rules.AddRange(rules);
         }
 
-        internal void AddCommentBefore(Int32 index, ICssComment comment)
-        {
-            _comments ??= new Dictionary<Int32, List<ICssComment>>();
-
-            if (!_comments.TryGetValue(index, out var list))
-            {
-                list = new List<ICssComment>();
-                _comments[index] = list;
-            }
-
-            list.Add(comment);
-        }
-
-        internal IEnumerable<IStyleFormattable> GetFormattables(Boolean includeComments)
-        {
-            if (!includeComments || _comments is null || _comments.Count == 0)
-            {
-                return _rules;
-            }
-
-            return EnumerateFormattables();
-        }
+        internal IEnumerable<IStyleFormattable> GetFormattables() => _rules;
 
         #endregion
 
         #region Implemented Interface
 
-        public IEnumerator<ICssRule> GetEnumerator() => _rules.GetEnumerator();
+        public IEnumerator<ICssRule> GetEnumerator()
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                var rule = _rules[i];
+
+                if (!IsCommentRule(rule))
+                {
+                    yield return rule;
+                }
+            }
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -157,95 +172,68 @@ namespace AngleSharp.Css.Dom
 
         #region Helper
 
-        private IEnumerable<IStyleFormattable> EnumerateFormattables()
-        {
-            var commentsMap = _comments;
-
-            if (commentsMap is null)
-            {
-                yield break;
-            }
-
-            for (var i = 0; i <= _rules.Count; i++)
-            {
-                if (commentsMap.TryGetValue(i, out var comments))
-                {
-                    foreach (var comment in comments)
-                    {
-                        yield return comment;
-                    }
-                }
-
-                if (i < _rules.Count)
-                {
-                    yield return _rules[i];
-                }
-            }
-        }
-
-        private void ShiftCommentsAfterInsert(Int32 index, Int32 step = 1)
-        {
-            if (_comments is null || _comments.Count == 0 || step <= 0)
-            {
-                return;
-            }
-
-            var shifted = new Dictionary<Int32, List<ICssComment>>();
-
-            foreach (var item in _comments)
-            {
-                var key = item.Key >= index ? item.Key + step : item.Key;
-
-                if (!shifted.TryGetValue(key, out var list))
-                {
-                    list = new List<ICssComment>();
-                    shifted[key] = list;
-                }
-
-                list.AddRange(item.Value);
-            }
-
-            _comments = shifted;
-        }
-
-        private void ShiftCommentsAfterRemove(Int32 index)
-        {
-            if (_comments is null || _comments.Count == 0)
-            {
-                return;
-            }
-
-            var shifted = new Dictionary<Int32, List<ICssComment>>();
-
-            foreach (var item in _comments)
-            {
-                var key = item.Key;
-
-                if (key == index || key == index + 1)
-                {
-                    key = index;
-                }
-                else if (key > index + 1)
-                {
-                    key -= 1;
-                }
-
-                if (!shifted.TryGetValue(key, out var list))
-                {
-                    list = new List<ICssComment>();
-                    shifted[key] = list;
-                }
-
-                list.AddRange(item.Value);
-            }
-
-            _comments = shifted;
-        }
-
         private static Boolean IsDeclarativeRule(ICssRule rule)
         {
             var type = rule.Type;
-            return type != CssRuleType.Import && type != CssRuleType.Charset && type != CssRuleType.Namespace;
+            return type != CssRuleType.Import && type != CssRuleType.Charset && type != CssRuleType.Namespace && type != CssRuleType.Comment;
+        }
+
+        private static Boolean IsCommentRule(ICssRule rule) => rule.Type == CssRuleType.Comment;
+
+        private ICssRule GetRuleAt(Int32 index)
+        {
+            if (index < 0)
+            {
+                throw new DomException(DomError.IndexSizeError);
+            }
+
+            var visible = 0;
+
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                var rule = _rules[i];
+
+                if (IsCommentRule(rule))
+                {
+                    continue;
+                }
+
+                if (visible == index)
+                {
+                    return rule;
+                }
+
+                visible++;
+            }
+
+            throw new DomException(DomError.IndexSizeError);
+        }
+
+        private Int32 GetActualIndex(Int32 visibleIndex)
+        {
+            if (visibleIndex < 0)
+            {
+                throw new DomException(DomError.IndexSizeError);
+            }
+
+            var visible = 0;
+
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                if (IsCommentRule(_rules[i]))
+                {
+                    continue;
+                }
+
+                if (visible == visibleIndex)
+                {
+                    return i;
+                }
+
+                visible++;
+            }
+
+            return visibleIndex == visible ? _rules.Count : throw new DomException(DomError.IndexSizeError);
         }
 
         #endregion

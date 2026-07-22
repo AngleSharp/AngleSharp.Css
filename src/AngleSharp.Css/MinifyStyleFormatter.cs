@@ -118,7 +118,7 @@ namespace AngleSharp.Css
 
         #region Helpers
 
-        private static Boolean IsNotEmpty(IEnumerable<IStyleFormattable> rules)
+        private Boolean IsNotEmpty(IEnumerable<IStyleFormattable> rules)
         {
             foreach (var rule in rules.OfType<ICssRule>())
             {
@@ -158,6 +158,12 @@ namespace AngleSharp.Css
                         break;
                     case CssRuleType.Keyframe:
                         if (((ICssKeyframeRule)rule).Style.Any())
+                        {
+                            return true;
+                        }
+                        break;
+                    case CssRuleType.Comment:
+                        if (ShouldKeepComments)
                         {
                             return true;
                         }

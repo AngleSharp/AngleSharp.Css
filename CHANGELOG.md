@@ -26,6 +26,7 @@ Released on Sunday, July 26 2026.
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
 - Added support for recent CSS `list-type` values (#152)
+- Added option to preserve comments in CSS stylesheet (#99)
 
 # 0.17.0
 

@@ -2,6 +2,8 @@ namespace AngleSharp.Css
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
 
     internal interface ICommentPreservingFormatter
     {
@@ -21,9 +23,35 @@ namespace AngleSharp.Css
 
         public Boolean PreserveComments => true;
 
-        public String Sheet(IEnumerable<IStyleFormattable> rules) => _inner.Sheet(rules);
+        public String Sheet(IEnumerable<IStyleFormattable> rules)
+        {
+            var sb = new StringBuilder();
 
-        public String BlockRules(IEnumerable<IStyleFormattable> rules) => _inner.BlockRules(rules);
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    rule.ToCss(writer, this);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public String BlockRules(IEnumerable<IStyleFormattable> rules)
+        {
+            var sb = new StringBuilder().Append('{');
+
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    rule.ToCss(writer, this);
+                }
+            }
+
+            return sb.Append('}').ToString();
+        }
 
         public String Declaration(String name, String value, Boolean important) => _inner.Declaration(name, value, important);
 

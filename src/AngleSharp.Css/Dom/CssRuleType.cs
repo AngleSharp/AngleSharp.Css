@@ -87,5 +87,10 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         [DomName("REGION_STYLE_RULE")]
         RegionStyle = 16,
+        /// <summary>
+        /// Represents a CSS comment node rule.
+        /// </summary>
+        [DomName("COMMENT_RULE")]
+        Comment = 32,
     }
 }

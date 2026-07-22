@@ -18,7 +18,6 @@ namespace AngleSharp.Css.Dom
         private readonly List<ICssProperty> _declarations;
         private readonly HashSet<String> _contained;
         private readonly String _name;
-        private Dictionary<Int32, List<ICssComment>> _comments;
 
         #endregion
 
@@ -63,7 +62,6 @@ namespace AngleSharp.Css.Dom
                 if (declaration.Name.Is(propertyName))
                 {
                     _declarations.RemoveAt(i);
-                    ShiftCommentsAfterRemove(i);
                     return declaration.Value;
                 }
             }
@@ -77,24 +75,8 @@ namespace AngleSharp.Css.Dom
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var includeComments = formatter is ICommentPreservingFormatter commentFormatter && commentFormatter.PreserveComments;
-            var block = !includeComments || _comments is null || _comments.Count == 0
-                ? formatter.BlockDeclarations(_declarations)
-                : formatter.BlockDeclarations(GetFormattablesWithComments());
+            var block = formatter.BlockDeclarations(_declarations);
             writer.Write(formatter.Rule(_name, null, block));
-        }
-
-        internal void AddCommentBefore(Int32 index, ICssComment comment)
-        {
-            _comments ??= new Dictionary<Int32, List<ICssComment>>();
-
-            if (!_comments.TryGetValue(index, out var list))
-            {
-                list = new List<ICssComment>();
-                _comments[index] = list;
-            }
-
-            list.Add(comment);
         }
 
         #endregion
@@ -153,86 +135,5 @@ namespace AngleSharp.Css.Dom
 
         #endregion
 
-        #region Comment Helpers
-
-        private IEnumerable<IStyleFormattable> GetFormattablesWithComments()
-        {
-            for (var i = 0; i <= _declarations.Count; i++)
-            {
-                if (_comments.TryGetValue(i, out var comments))
-                {
-                    foreach (var comment in comments)
-                    {
-                        yield return comment;
-                    }
-                }
-
-                if (i < _declarations.Count)
-                {
-                    yield return _declarations[i];
-                }
-            }
-        }
-
-        private void ShiftCommentsAfterInsert(Int32 index, Int32 step = 1)
-        {
-            if (_comments is null || _comments.Count == 0 || step <= 0)
-            {
-                return;
-            }
-
-            var shifted = new Dictionary<Int32, List<ICssComment>>();
-
-            foreach (var item in _comments)
-            {
-                var key = item.Key >= index ? item.Key + step : item.Key;
-
-                if (!shifted.TryGetValue(key, out var list))
-                {
-                    list = new List<ICssComment>();
-                    shifted[key] = list;
-                }
-
-                list.AddRange(item.Value);
-            }
-
-            _comments = shifted;
-        }
-
-        private void ShiftCommentsAfterRemove(Int32 index)
-        {
-            if (_comments is null || _comments.Count == 0)
-            {
-                return;
-            }
-
-            var shifted = new Dictionary<Int32, List<ICssComment>>();
-
-            foreach (var item in _comments)
-            {
-                var key = item.Key;
-
-                if (key == index || key == index + 1)
-                {
-                    key = index;
-                }
-                else if (key > index + 1)
-                {
-                    key -= 1;
-                }
-
-                if (!shifted.TryGetValue(key, out var list))
-                {
-                    list = new List<ICssComment>();
-                    shifted[key] = list;
-                }
-
-                list.AddRange(item.Value);
-            }
-
-            _comments = shifted;
-        }
-
-        #endregion
     }
 }

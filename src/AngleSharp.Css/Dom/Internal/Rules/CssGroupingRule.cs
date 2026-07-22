@@ -1,7 +1,6 @@
 #nullable disable
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
@@ -79,7 +78,7 @@
             rule.SetParent(null);
         }
 
-        protected IEnumerable<IStyleFormattable> GetFormattableRules(Boolean includeComments) => _rules.GetFormattables(includeComments);
+        protected IEnumerable<IStyleFormattable> GetFormattableRules() => _rules.GetFormattables();
 
         #endregion
     }

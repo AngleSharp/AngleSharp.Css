@@ -1,10 +1,8 @@
 #nullable disable
 namespace AngleSharp.Css.Parser
 {
-    using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser.Tokens;
-    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -36,8 +34,6 @@ namespace AngleSharp.Css.Parser
         private readonly CssParserOptions _options;
         private readonly IBrowsingContext _context;
         private CssRuleList _commentRuleTarget;
-        private CssStyleDeclaration _commentStyleDeclarationTarget;
-        private CssDeclarationRule _commentDeclarationRuleTarget;
 
         #endregion
 
@@ -120,7 +116,7 @@ namespace AngleSharp.Css.Parser
         private CssCharsetRule CreateCharset(CssCharsetRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type == CssTokenType.String)
             {
@@ -134,10 +130,10 @@ namespace AngleSharp.Css.Parser
         private CssDocumentRule CreateDocument(CssDocumentRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             var functions = GetArgument(ref token);
             var result = rule.SetConditionText(functions, throwOnError: false);
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -154,7 +150,7 @@ namespace AngleSharp.Css.Parser
         private CssViewportRule CreateViewport(CssViewportRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -169,7 +165,7 @@ namespace AngleSharp.Css.Parser
         private CssFontFaceRule CreateFontFace(CssFontFaceRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -184,7 +180,7 @@ namespace AngleSharp.Css.Parser
         private CssImportRule CreateImport(CssImportRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (!token.Is(CssTokenType.String, CssTokenType.Url))
             {
@@ -194,7 +190,7 @@ namespace AngleSharp.Css.Parser
 
             rule.Href = token.Data;
             token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             var media = GetArgument(ref token);
 
             if (!String.IsNullOrEmpty(media))
@@ -202,7 +198,7 @@ namespace AngleSharp.Css.Parser
                 rule.Media.SetMediaText(media, throwOnError: false);
             }
 
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             JumpToEnd(ref token);
             return rule;
         }
@@ -210,9 +206,9 @@ namespace AngleSharp.Css.Parser
         private CssKeyframesRule CreateKeyframes(CssKeyframesRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             rule.Name = GetRuleName(ref token);
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -227,10 +223,10 @@ namespace AngleSharp.Css.Parser
         private CssMediaRule CreateMedia(CssMediaRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             var media = GetArgument(ref token);
             rule.Media.SetMediaText(media, throwOnError: false);
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen))
             {
@@ -249,9 +245,9 @@ namespace AngleSharp.Css.Parser
         private CssNamespaceRule CreateNamespace(CssNamespaceRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             rule.Prefix = GetRuleName(ref token);
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type == CssTokenType.Url)
             {
@@ -274,7 +270,7 @@ namespace AngleSharp.Css.Parser
                 rule.SetInvalidSelector(selectorText);
             }
 
-            CollectTrivia(ref current);
+            CollectTrivia(rule.Owner, ref current);
 
             if (current.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -282,17 +278,17 @@ namespace AngleSharp.Css.Parser
                 return null;
             }
 
-            FillDeclarations(rule.Style, NextToken());
+            FillDeclarations(rule.Owner, rule.Style, NextToken());
             return rule;
         }
 
         private CssSupportsRule CreateSupports(CssSupportsRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             var conditions = GetArgument(ref token);
             var result = rule.SetConditionText(conditions, throwOnError: false);
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
@@ -309,7 +305,7 @@ namespace AngleSharp.Css.Parser
         private CssFontFeatureValuesRule CreateFontFeatureValues(CssFontFeatureValuesRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             rule.FamilyName = GetArgument(ref token);
 
             if (token.Type == CssTokenType.CurlyBracketOpen)
@@ -325,7 +321,7 @@ namespace AngleSharp.Css.Parser
         private CssCounterStyleRule CreateCounterStyle(CssCounterStyleRule rule, CssToken current)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
             rule.StyleName = GetArgument(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -340,7 +336,7 @@ namespace AngleSharp.Css.Parser
 
         public CssStyleRule CreateStyle(CssStyleRule rule, CssToken current)
         {
-            CollectTrivia(ref current);
+            CollectTrivia(rule.Owner, ref current);
             var selectorText = GetArgument(ref current);
 
             rule.SelectorText = selectorText;
@@ -356,29 +352,29 @@ namespace AngleSharp.Css.Parser
                 return null;
             }
 
-            FillDeclarations(rule.Style, NextToken());
+            FillDeclarations(rule.Owner, rule.Style, NextToken());
             return rule;
         }
 
         public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
-            CollectTrivia(ref current);
+            CollectTrivia(rule.Owner, ref current);
             rule.KeyText = GetArgument(ref current);
-            FillDeclarations(rule.Style, NextToken());
+            FillDeclarations(rule.Owner, rule.Style, NextToken());
             return rule;
         }
 
         private CssKeyframesRule FillKeyframeRules(CssKeyframesRule parentRule)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(parentRule.Owner, ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var rule = new CssKeyframeRule(parentRule.Owner);
                 CreateKeyframeRule(rule, token);
                 token = NextToken();
-                CollectTrivia(ref token);
+                CollectTrivia(parentRule.Owner, ref token);
                 parentRule.Add(rule);
             }
 
@@ -388,24 +384,17 @@ namespace AngleSharp.Css.Parser
         private CssDeclarationRule FillDeclarations(CssDeclarationRule rule)
         {
             var previousRuleTarget = _commentRuleTarget;
-            var previousStyleTarget = _commentStyleDeclarationTarget;
-            var previousDeclarationTarget = _commentDeclarationRuleTarget;
-            _commentRuleTarget = null;
-            _commentStyleDeclarationTarget = null;
-            _commentDeclarationRuleTarget = rule;
 
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(rule.Owner, ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                CreateDeclarationWith(rule, ref token);
-                CollectTrivia(ref token);
+                CreateDeclarationWith(rule.Owner, rule, ref token);
+                CollectTrivia(rule.Owner, ref token);
             }
 
             _commentRuleTarget = previousRuleTarget;
-            _commentStyleDeclarationTarget = previousStyleTarget;
-            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return rule;
         }
@@ -450,14 +439,10 @@ namespace AngleSharp.Css.Parser
         private Boolean FillRules(CssGroupingRule group)
         {
             var previousRuleTarget = _commentRuleTarget;
-            var previousStyleTarget = _commentStyleDeclarationTarget;
-            var previousDeclarationTarget = _commentDeclarationRuleTarget;
             _commentRuleTarget = group.Rules as CssRuleList;
-            _commentStyleDeclarationTarget = null;
-            _commentDeclarationRuleTarget = null;
 
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(group.Owner, ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
@@ -468,12 +453,10 @@ namespace AngleSharp.Css.Parser
                 }
 
                 token = NextToken();
-                CollectTrivia(ref token);
+                CollectTrivia(group.Owner, ref token);
             }
 
             _commentRuleTarget = previousRuleTarget;
-            _commentStyleDeclarationTarget = previousStyleTarget;
-            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return token.Type == CssTokenType.CurlyBracketClose;
         }
@@ -489,14 +472,10 @@ namespace AngleSharp.Css.Parser
         public TextPosition CreateRules(CssStyleSheet sheet)
         {
             var previousRuleTarget = _commentRuleTarget;
-            var previousStyleTarget = _commentStyleDeclarationTarget;
-            var previousDeclarationTarget = _commentDeclarationRuleTarget;
             _commentRuleTarget = sheet.Rules as CssRuleList;
-            _commentStyleDeclarationTarget = null;
-            _commentDeclarationRuleTarget = null;
 
             var token = NextToken();
-            CollectTrivia(ref token);
+            CollectTrivia(sheet, ref token);
 
             while (token.Type != CssTokenType.EndOfFile)
             {
@@ -507,12 +486,10 @@ namespace AngleSharp.Css.Parser
                 }
 
                 token = NextToken();
-                CollectTrivia(ref token);
+                CollectTrivia(sheet, ref token);
             }
 
             _commentRuleTarget = previousRuleTarget;
-            _commentStyleDeclarationTarget = previousStyleTarget;
-            _commentDeclarationRuleTarget = previousDeclarationTarget;
 
             return token.Position;
         }
@@ -520,36 +497,28 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Fills the given parent style with declarations given by the tokens.
         /// </summary>
-        public CssStyleDeclaration FillDeclarations(CssStyleDeclaration style, CssToken token)
+        public CssStyleDeclaration FillDeclarations(ICssStyleSheet owner, CssStyleDeclaration style, CssToken token)
         {
             var previousRuleTarget = _commentRuleTarget;
-            var previousStyleTarget = _commentStyleDeclarationTarget;
-            var previousDeclarationTarget = _commentDeclarationRuleTarget;
-            _commentRuleTarget = null;
-            _commentStyleDeclarationTarget = style;
-            _commentDeclarationRuleTarget = null;
 
-            CollectTrivia(ref token);
+            CollectTrivia(owner, ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                CreateDeclarationWith(style, ref token);
-                CollectTrivia(ref token);
+                CreateDeclarationWith(owner, style, ref token);
+                CollectTrivia(owner, ref token);
             }
 
             _commentRuleTarget = previousRuleTarget;
-            _commentStyleDeclarationTarget = previousStyleTarget;
-            _commentDeclarationRuleTarget = previousDeclarationTarget;
-
             return style;
         }
 
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        public void CreateDeclarationWith(ICssProperties properties, ref CssToken token)
+        public void CreateDeclarationWith(ICssStyleSheet owner, ICssProperties properties, ref CssToken token)
         {
-            CollectTrivia(ref token);
+            CollectTrivia(owner, ref token);
             var start = token.Position;
 
             if (!_options.IsExcludingNesting && token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
@@ -598,12 +567,12 @@ namespace AngleSharp.Css.Parser
                 }
 
                 token = NextToken();
-                CollectTrivia(ref token);
+                CollectTrivia(owner, ref token);
 
                 if (token.Type == CssTokenType.Colon)
                 {
                     token = NextToken();
-                    CollectTrivia(ref token);
+                    CollectTrivia(owner, ref token);
                     var value = CreateValue(ref token, out var important);
 
                     if (String.IsNullOrEmpty(value))
@@ -718,26 +687,14 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NextToken() => _tokenizer.Get();
 
-        private void CollectTrivia(ref CssToken token)
+        private void CollectTrivia(ICssStyleSheet owner, ref CssToken token)
         {
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
                 if (token.Type == CssTokenType.Comment)
                 {
-                    var comment = new CssComment(NormalizeCommentData(token.Data));
-
-                    if (_commentStyleDeclarationTarget is not null)
-                    {
-                        _commentStyleDeclarationTarget.AddCommentBefore(_commentStyleDeclarationTarget.Length, comment);
-                    }
-                    else if (_commentDeclarationRuleTarget is not null)
-                    {
-                        _commentDeclarationRuleTarget.AddCommentBefore(_commentDeclarationRuleTarget.Length, comment);
-                    }
-                    else
-                    {
-                        _commentRuleTarget?.AddCommentBefore(_commentRuleTarget.Length, comment);
-                    }
+                    var comment = NormalizeCommentData(token.Data);
+                    _commentRuleTarget?.Add(new CssCommentRule(owner, comment));
                 }
 
                 token = _tokenizer.Get();
@@ -746,9 +703,19 @@ namespace AngleSharp.Css.Parser
 
         private static String NormalizeCommentData(String comment)
         {
-            if (!String.IsNullOrEmpty(comment) && comment.Length >= 4 && comment.StartsWith("/*", StringComparison.Ordinal) && comment.EndsWith("*/", StringComparison.Ordinal))
+            if (!String.IsNullOrEmpty(comment) && comment.StartsWith("/*", StringComparison.Ordinal) && comment.EndsWith("*/", StringComparison.Ordinal))
             {
                 return comment.Substring(2, comment.Length - 4);
+            }
+
+            if (!String.IsNullOrEmpty(comment) && comment.StartsWith("/*", StringComparison.Ordinal))
+            {
+                return comment.Substring(2);
+            }
+
+            if (!String.IsNullOrEmpty(comment) && comment.EndsWith("*/", StringComparison.Ordinal))
+            {
+                return comment.Substring(0, comment.Length - 2);
             }
 
             return comment;
