@@ -2,6 +2,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.RenderTree;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -21,17 +22,17 @@ namespace AngleSharp.Css
         /// Generates the style collection for the given window object.
         /// </summary>
         /// <param name="window">The window to host the style collection.</param>
+        /// <param name="renderDevice">The device to get the style collection for.</param>
         /// <returns>The device-bound style collection.</returns>
-        public static IStyleCollection GetStyleCollection(this IWindow window)
+        public static IStyleCollection GetStyleCollection(this IWindow window, IRenderDevice renderDevice)
         {
             var document = window.Document;
             var ctx = document.Context;
-            var device = ctx.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
             var stylesheets = defaultSheets.Concat(currentSheets);
-            return new StyleCollection(stylesheets, device);
+            return new StyleCollection(stylesheets, renderDevice);
         }
 
         /// <summary>
@@ -75,28 +76,42 @@ namespace AngleSharp.Css
                 }
             }
 
-            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element!));
+            computedStyle.SetDeclarations(styles.ComputeExplicitStyle(element!));
 
             foreach (var node in nodes)
             {
-                computedStyle.UpdateDeclarations(styles.ComputeCascadedStyle(node));
+                computedStyle.UpdateDeclarations(styles.ComputeExplicitStyle(node));
             }
 
             return computedStyle;
         }
 
         /// <summary>
-        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specificity.
-        /// Two rules with the same specificity are ordered according to their appearance. The more
-        /// recent declaration wins. Inheritance is not taken into account.
+        /// Computes the cascaded style, i.e. merges the explicit style of the element with
+        /// the style from the parent.
         /// </summary>
         /// <param name="styles">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration? parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent)
         {
-            var ctx = element.Owner?.Context;
+            var computedStyle = (CssStyleDeclaration)styles.ComputeExplicitStyle(element);
+            computedStyle.UpdateDeclarations(parent);
+            return computedStyle;
+        }
+
+        /// <summary>
+        /// Computes the explicit style, i.e., orders the rules after specificity.
+        /// Two rules with the same specificity are ordered according to their appearance. The more
+        /// recent declaration wins. Inheritance is not taken into account.
+        /// </summary>
+        /// <param name="styles">The style rules to apply.</param>
+        /// <param name="element">The element to compute the cascade for.</param>
+        /// <returns>Returns the explicit read-only style declaration.</returns>
+        public static ICssStyleDeclaration ComputeExplicitStyle(this IStyleCollection styles, IElement element)
+        {
+            var ctx = element.Owner?.Context ?? throw new InvalidOperationException("The element must be associated with a browsing context.");
             var computedStyle = new CssStyleDeclaration(ctx);
             var rules = styles.SortBySpecificity(element);
 
@@ -109,11 +124,6 @@ namespace AngleSharp.Css
             if (element is IHtmlElement || element is ISvgElement)
             {
                 computedStyle.SetDeclarations(element.GetStyle());
-            }
-
-            if (parent is not null)
-            {
-                computedStyle.UpdateDeclarations(parent);
             }
 
             return computedStyle;
@@ -133,7 +143,7 @@ namespace AngleSharp.Css
             var computedStyle = new CssStyleDeclaration(ctx);
 
             // Element's own cascaded style (CSS rule matching + inline style).
-            computedStyle.SetDeclarations(styles.ComputeCascadedStyle(element));
+            computedStyle.SetDeclarations(styles.ComputeExplicitStyle(element));
 
             // Inherit from the parent's already-computed style instead of walking
             // all ancestors individually. The parent style already includes the
@@ -175,41 +185,6 @@ namespace AngleSharp.Css
         private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
 
         private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
-
-        #endregion
-
-        #region Context
-
-        sealed class CssComputeContext : ICssComputeContext
-        {
-            private readonly IRenderDevice _device;
-            private readonly IBrowsingContext? _context;
-            private readonly ICssProperties _properties;
-
-            public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties)
-            {
-                _device = device ?? new DefaultRenderDevice();
-                _context = context;
-                _properties = properties;
-            }
-
-            public IRenderDevice Device => _device;
-
-            public IBrowsingContext? Context => _context;
-
-            public IValueConverter? Converter => null;
-
-            public ICssValue? Resolve(String name)
-            {
-                if (name.StartsWith("--"))
-                {
-                    var property = _properties.FirstOrDefault(m => m.Name.Equals(name, StringComparison.Ordinal));
-                    return property?.RawValue;
-                }
-
-                return null;
-            }
-        }
 
         #endregion
     }

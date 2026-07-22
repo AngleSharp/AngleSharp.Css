@@ -254,7 +254,7 @@ namespace AngleSharp.Css.Tests.Declarations
 <body style=""border-style: hidden double dashed;""></body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var styleDeclaration = document.Body.ComputeCurrentStyle();
+            var styleDeclaration = document.Body!.ComputeCurrentStyle();
             Assert.AreEqual("hidden", styleDeclaration.GetBorderTopStyle());
             Assert.AreEqual("double", styleDeclaration.GetBorderLeftStyle());
             Assert.AreEqual("double", styleDeclaration.GetBorderRightStyle());
@@ -601,7 +601,7 @@ table * { border: inherit; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var td = document.QuerySelector("td");
+            var td = document.QuerySelector("td")!;
             var style = td.ComputeCurrentStyle();
             Assert.AreEqual("solid", style.GetBorderTopStyle());
             Assert.AreEqual("3px", style.GetBorderTopWidth());
@@ -621,7 +621,7 @@ div.child { border: inherit; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var child = document.QuerySelector("div.child");
+            var child = document.QuerySelector("div.child")!;
             var style = child.ComputeCurrentStyle();
             Assert.AreEqual("dashed", style.GetBorderTopStyle());
             Assert.AreEqual("dashed", style.GetBorderBottomStyle());
@@ -645,7 +645,7 @@ div.child { border-style: inherit; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var child = document.QuerySelector("div.child");
+            var child = document.QuerySelector("div.child")!;
             var style = child.ComputeCurrentStyle();
             Assert.AreEqual("dotted", style.GetBorderTopStyle());
             Assert.AreEqual("dotted", style.GetBorderRightStyle());
@@ -665,7 +665,7 @@ div.child { border-width: inherit; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var child = document.QuerySelector("div.child");
+            var child = document.QuerySelector("div.child")!;
             var style = child.ComputeCurrentStyle();
             Assert.AreEqual("5px", style.GetBorderTopWidth());
             Assert.AreEqual("5px", style.GetBorderLeftWidth());
@@ -685,7 +685,7 @@ div.root * { border: inherit; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var inner = document.QuerySelector("div.inner");
+            var inner = document.QuerySelector("div.inner")!;
             var style = inner.ComputeCurrentStyle();
             Assert.AreEqual("solid", style.GetBorderTopStyle());
             Assert.AreEqual("4px", style.GetBorderTopWidth());
@@ -705,7 +705,7 @@ div.child { border: inherit; border-top-style: dotted; }
 </body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var child = document.QuerySelector("div.child");
+            var child = document.QuerySelector("div.child")!;
             var style = child.ComputeCurrentStyle();
             Assert.AreEqual("dotted", style.GetBorderTopStyle());
             Assert.AreEqual("solid", style.GetBorderBottomStyle());

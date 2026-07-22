@@ -57,9 +57,15 @@ namespace AngleSharp.Dom
             return new CssPseudoElementList(validTypes.Select(pseudoSelector =>
             {
                 var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
-                var style = window.GetComputedStyle(pseudoElement!);
-                return new CssPseudoElement(pseudoElement, pseudoSelector, style);
-            }));
+
+                if (pseudoElement is not null)
+                {
+                    var style = window.GetComputedStyle(pseudoElement);
+                    return new CssPseudoElement(pseudoElement, pseudoSelector, style);
+                }
+
+                return null;
+            }).OfType<CssPseudoElement>());
         }
 
         /// <summary>
@@ -74,7 +80,8 @@ namespace AngleSharp.Dom
         [DomName("getComputedStyle")]
         public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
-            var styleCollection = window.GetStyleCollection();
+            var device = window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
+            var styleCollection = window.GetStyleCollection(device);
             return styleCollection.ComputeDeclarations(element, pseudo);
         }
 
@@ -125,8 +132,8 @@ namespace AngleSharp.Dom
         /// <returns>The created render node.</returns>
         public static IRenderNode Render(this IWindow window, IRenderDevice? renderDevice = null)
         {
-            var builder = new RenderTreeBuilder(window, renderDevice ?? new DefaultRenderDevice());
-            return builder.RenderDocument();
+            var builder = RenderTreeBuilder.GetInstance(window);
+            return builder.RenderDocument(renderDevice);
         }
     }
 }

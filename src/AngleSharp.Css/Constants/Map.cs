@@ -50,50 +50,50 @@ namespace AngleSharp.Css
             { CssKeywords.FullWidth, TextTransform.FullWidth },
         };
 
-		/// <summary>
-		/// Contains the string-TextAlignLast mapping.
-		/// </summary>
-		public static readonly Dictionary<String, TextAlignLast> TextAlignLasts = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Auto, TextAlignLast.Auto },
-			{ CssKeywords.Start, TextAlignLast.Start },
-			{ CssKeywords.End, TextAlignLast.End },
-			{ CssKeywords.Right, TextAlignLast.Right },
-			{ CssKeywords.Left, TextAlignLast.Left },
-			{ CssKeywords.Center, TextAlignLast.Center },
-			{ CssKeywords.Justify, TextAlignLast.Justify }
-		};
+        /// <summary>
+        /// Contains the string-TextAlignLast mapping.
+        /// </summary>
+        public static readonly Dictionary<String, TextAlignLast> TextAlignLasts = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, TextAlignLast.Auto },
+            { CssKeywords.Start, TextAlignLast.Start },
+            { CssKeywords.End, TextAlignLast.End },
+            { CssKeywords.Right, TextAlignLast.Right },
+            { CssKeywords.Left, TextAlignLast.Left },
+            { CssKeywords.Center, TextAlignLast.Center },
+            { CssKeywords.Justify, TextAlignLast.Justify }
+        };
 
-		/// <summary>
-		/// Contains the string-TextAnchor mapping.
-		/// </summary>
-		public static readonly Dictionary<String, TextAnchor> TextAnchors = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Start, TextAnchor.Start },
-			{ CssKeywords.Middle, TextAnchor.Middle },
-			{ CssKeywords.End, TextAnchor.End }
-		};
+        /// <summary>
+        /// Contains the string-TextAnchor mapping.
+        /// </summary>
+        public static readonly Dictionary<String, TextAnchor> TextAnchors = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Start, TextAnchor.Start },
+            { CssKeywords.Middle, TextAnchor.Middle },
+            { CssKeywords.End, TextAnchor.End }
+        };
 
-		/// <summary>
-		/// Contains the string-TextJustify mapping.
-		/// </summary>
-		public static readonly Dictionary<String, TextJustify> TextJustifies = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Auto, TextJustify.Auto },
-			{ CssKeywords.Distribute, TextJustify.Distribute },
-			{ CssKeywords.DistributeAllLines, TextJustify.DistributeAllLines },
-			{ CssKeywords.DistributeCenterLast, TextJustify.DistributeCenterLast },
-			{ CssKeywords.InterCluster, TextJustify.InterCluster },
-			{ CssKeywords.InterIdeograph, TextJustify.InterIdeograph },
-			{ CssKeywords.InterWord, TextJustify.InterWord },
-			{ CssKeywords.Kashida, TextJustify.Kashida },
-			{ CssKeywords.Newspaper, TextJustify.Newspaper }
-		};
+        /// <summary>
+        /// Contains the string-TextJustify mapping.
+        /// </summary>
+        public static readonly Dictionary<String, TextJustify> TextJustifies = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, TextJustify.Auto },
+            { CssKeywords.Distribute, TextJustify.Distribute },
+            { CssKeywords.DistributeAllLines, TextJustify.DistributeAllLines },
+            { CssKeywords.DistributeCenterLast, TextJustify.DistributeCenterLast },
+            { CssKeywords.InterCluster, TextJustify.InterCluster },
+            { CssKeywords.InterIdeograph, TextJustify.InterIdeograph },
+            { CssKeywords.InterWord, TextJustify.InterWord },
+            { CssKeywords.Kashida, TextJustify.Kashida },
+            { CssKeywords.Newspaper, TextJustify.Newspaper }
+        };
 
-		/// <summary>
-		/// Contains the string-HorizontalAlignment mapping.
-		/// </summary>
-		public static readonly Dictionary<String, TextAlign> HorizontalAlignments = new(StringComparer.OrdinalIgnoreCase)
+        /// <summary>
+        /// Contains the string-HorizontalAlignment mapping.
+        /// </summary>
+        public static readonly Dictionary<String, TextAlign> HorizontalAlignments = new(StringComparer.OrdinalIgnoreCase)
         {
             { CssKeywords.Left, TextAlign.Left },
             { CssKeywords.Right, TextAlign.Right },
@@ -740,44 +740,44 @@ namespace AngleSharp.Css
             { CssKeywords.StatusBar, SystemFont.StatusBar },
         };
 
-		/// <summary>
-		/// Contains the string-StrokeLinecap mapping.
-		/// </summary>
-		public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Butt, StrokeLinecap.Butt },
-			{ CssKeywords.Round, StrokeLinecap.Round },
-			{ CssKeywords.Square, StrokeLinecap.Square }
-		};
+        /// <summary>
+        /// Contains the string-StrokeLinecap mapping.
+        /// </summary>
+        public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Butt, StrokeLinecap.Butt },
+            { CssKeywords.Round, StrokeLinecap.Round },
+            { CssKeywords.Square, StrokeLinecap.Square }
+        };
 
-		/// <summary>
-		/// Contains the string-StrokeLinejoin mapping.
-		/// </summary>
-		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Miter, StrokeLinejoin.Miter },
-			{ CssKeywords.Round, StrokeLinejoin.Round },
-			{ CssKeywords.Bevel, StrokeLinejoin.Bevel }
-		};
+        /// <summary>
+        /// Contains the string-StrokeLinejoin mapping.
+        /// </summary>
+        public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Miter, StrokeLinejoin.Miter },
+            { CssKeywords.Round, StrokeLinejoin.Round },
+            { CssKeywords.Bevel, StrokeLinejoin.Bevel }
+        };
 
-		/// <summary>
-		/// Contains the string-WordBreak mapping.
-		/// </summary>
-		public static readonly Dictionary<String, WordBreak> WordBreaks = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Normal, WordBreak.Normal },
-			{ CssKeywords.BreakAll, WordBreak.BreakAll },
-			{ CssKeywords.KeepAll, WordBreak.KeepAll }
-		};
+        /// <summary>
+        /// Contains the string-WordBreak mapping.
+        /// </summary>
+        public static readonly Dictionary<String, WordBreak> WordBreaks = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Normal, WordBreak.Normal },
+            { CssKeywords.BreakAll, WordBreak.BreakAll },
+            { CssKeywords.KeepAll, WordBreak.KeepAll }
+        };
 
-		/// <summary>
-		/// Contains the string-WordBreak mapping.
-		/// </summary>
-		public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new(StringComparer.OrdinalIgnoreCase)
-		{
-			{ CssKeywords.Normal, OverflowWrap.Normal },
-			{ CssKeywords.BreakWord, OverflowWrap.BreakWord },
-		};
+        /// <summary>
+        /// Contains the string-WordBreak mapping.
+        /// </summary>
+        public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Normal, OverflowWrap.Normal },
+            { CssKeywords.BreakWord, OverflowWrap.BreakWord },
+        };
 
         /// <summary>
         /// Contains the string-ResizeMode mapping.

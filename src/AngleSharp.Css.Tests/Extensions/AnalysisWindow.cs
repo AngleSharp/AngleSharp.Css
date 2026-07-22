@@ -298,7 +298,7 @@ em { font-style: italic !important; }
             var sheet = ParseStyleSheet("a {}");
             var document = await sheet.Context.OpenAsync(res => res.Content("<body></body>"));
             var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
-            var decl = sc.ComputeCascadedStyle(document.Body);
+            var decl = sc.ComputeExplicitStyle(document.Body);
             Assert.IsNotNull(decl);
         }
 
@@ -308,7 +308,7 @@ em { font-style: italic !important; }
             var sheet = ParseStyleSheet(@"#target {color: blue} h3, #nottarget { color: purple; } ");
             var document = await sheet.Context.OpenAsync(res => res.Content(@"<h3 id='target'>Test</h3>"));
             var sc = new StyleCollection(new[] { sheet }, new DefaultRenderDevice());
-            var style = sc.ComputeCascadedStyle(document.QuerySelector("h3"));
+            var style = sc.ComputeExplicitStyle(document.QuerySelector("h3"));
             Assert.AreEqual("rgba(0, 0, 255, 1)", style.GetColor());
         }
 

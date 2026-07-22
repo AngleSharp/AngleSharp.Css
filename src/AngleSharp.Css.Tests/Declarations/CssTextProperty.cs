@@ -206,7 +206,7 @@ namespace AngleSharp.Css.Tests.Declarations
 <body style=""text-decoration: underline dotted;""></body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var styleDeclaration = document.Body.ComputeCurrentStyle();
+            var styleDeclaration = document.Body!.ComputeCurrentStyle();
             Assert.AreEqual("dotted", styleDeclaration.GetTextDecorationStyle());
             Assert.AreEqual("underline", styleDeclaration.GetTextDecorationLine());
         }
@@ -664,6 +664,18 @@ namespace AngleSharp.Css.Tests.Declarations
 			var snippet = "word-wrap: break-word";
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("word-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", property.Value);
+		}
+
+		[Test]
+		public void CssWordBreakBreakWordLegal()
+		{
+			var snippet = "word-break: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 			Assert.IsTrue(property.HasValue);

@@ -47,6 +47,9 @@ namespace AngleSharp.Css
             return info.Aggregator?.Merge(longhands);
         }
 
+        public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> enumerable)
+            where T : class => enumerable.Where(e => e is not null).Select(e => e!);
+
         public static ICssValue[]? Expand(this DeclarationInfo info, IDeclarationFactory factory, ICssValue value)
         {
             var longhands = info.Longhands;
