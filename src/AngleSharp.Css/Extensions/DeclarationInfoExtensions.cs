@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
@@ -12,7 +12,7 @@ namespace AngleSharp.Css
         public static IEnumerable<String> GetMappings(this DeclarationInfo info) =>
             info.Longhands.Length > 0 ? info.Longhands : Enumerable.Repeat(info.Name, 1);
 
-        public static ICssValue Collapse(this DeclarationInfo info, IDeclarationFactory factory, ICssValue[] longhands)
+        public static ICssValue? Collapse(this DeclarationInfo info, IDeclarationFactory factory, ICssValue[] longhands)
         {
             var initial = true;
             var unset = true;
@@ -47,7 +47,10 @@ namespace AngleSharp.Css
             return info.Aggregator?.Merge(longhands);
         }
 
-        public static ICssValue[] Expand(this DeclarationInfo info, IDeclarationFactory factory, ICssValue value)
+        public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> enumerable)
+            where T : class => enumerable.Where(e => e is not null).Select(e => e!);
+
+        public static ICssValue[]? Expand(this DeclarationInfo info, IDeclarationFactory factory, ICssValue value)
         {
             var longhands = info.Longhands;
 

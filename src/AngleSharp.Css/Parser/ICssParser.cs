@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Browser;
@@ -32,7 +33,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="owner">The stylesheet hosting the rule.</param>
         /// <param name="content">The rule snippet to parse.</param>
         /// <returns>The created rule.</returns>
-        ICssRule ParseRule(ICssStyleSheet owner, String content);
+        ICssRule? ParseRule(ICssStyleSheet owner, String content);
 
         /// <summary>
         /// Parses a CSS keyframe rule from a string.
@@ -40,14 +41,14 @@ namespace AngleSharp.Css.Parser
         /// <param name="owner">The stylesheet hosting the rule.</param>
         /// <param name="content">The rule snippet to parse.</param>
         /// <returns>The created keyframe rule.</returns>
-        ICssKeyframeRule ParseKeyframeRule(ICssStyleSheet owner, String content);
+        ICssKeyframeRule? ParseKeyframeRule(ICssStyleSheet owner, String content);
 
         /// <summary>
         /// Parses a CSS style declaration from a string.
         /// </summary>
         /// <param name="content">The style declaration to parse.</param>
         /// <returns>The created style declaration.</returns>
-        ICssStyleDeclaration ParseDeclaration(String content);
+        ICssStyleDeclaration? ParseDeclaration(String content);
 
         /// <summary>
         /// Parses a CSS stylesheet from a string asynchronously.

@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
@@ -17,7 +18,7 @@ namespace AngleSharp.Css
         /// Sets a new default stylesheet to use.
         /// </summary>
         /// <param name="sheet">The default stylesheet to use.</param>
-        void SetDefault(ICssStyleSheet sheet);
+        void SetDefault(ICssStyleSheet? sheet);
 
         /// <summary>
         /// Sets a new default stylesheet to use.

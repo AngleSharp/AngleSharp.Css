@@ -1,6 +1,6 @@
 # 1.0.0
 
-Released on Sunday, January 21 2024.
+Released on Sunday, July 26 2026.
 
 - Updated to use AngleSharp minimum version of 1.5 (#150)
 - Updated media parsing to media L4 spec (#133)

@@ -4,6 +4,21 @@ section: "AngleSharp.Css"
 ---
 # API Documentation
 
+## Quick API Map
+
+The following APIs cover most day-to-day tasks:
+
+- `Configuration.Default.WithCss(...)`
+: Registers CSS services in your browsing context.
+- `ICssParser`
+: Parses stylesheets and declarations from strings or streams.
+- `ICssStyleSheet` and `ICssRule`
+: Lets you inspect and traverse stylesheet structure.
+- `IElement.GetStyle()`
+: Accesses and edits inline style declarations.
+- `IWindow.GetComputedStyle(...)` or `IElement.ComputeStyle()`
+: Resolves final computed declarations for an element.
+
 ## CSSOM - Basics
 
 The CSS Object Model (CSSOM) consists of multiple parts. On the one hand we have standard Document Object Model (DOM) exposed interfaces, such as the stylesheets, styles, or rules, on the other hand we have special constructs only available in AngleSharp to dig deeper into the provided CSS.
@@ -20,6 +35,36 @@ A CSS declaration is a CSS property, e.g., `color` together with its value (e.g.
 The topic with longhands and shorthands is especially complicated in face of *defered computation*. This is the case once a calculated value is hit, which is necessary for the rule to be validated, but cannot be calculated during sheet evaluation time (i.e., the calculation has to take place with the cascade coming from the DOM). The simplest example is `var`. CSS variables are evaluated only with the cascade in mind. In this case no simple expansion of the shorthand into longhands is possible. Instead, AngleSharp will "fake" a potential expansion with a reference value, which can then be resolved later.
 
 There are multiple types of rules. Depending on the type of rule other rules may be the children of the rule. While a style rule is the most elementary one (essentially just containing an `ICssStyleDeclaration` instance) one example of a container rule is the media rule. This type of rule hosts other rules.
+
+## Practical Traversal Example
+
+This pattern is useful for reporting tools and linters.
+
+```cs
+using AngleSharp;
+using AngleSharp.Css.Dom;
+using AngleSharp.Css.Parser;
+
+var context = BrowsingContext.New(Configuration.Default.WithCss());
+var parser = context.GetService<ICssParser>();
+var sheet = parser.ParseStyleSheet(@"
+  .card { padding: 12px; border: 1px solid #ddd; }
+  @media (max-width: 700px) { .card { padding: 8px; } }
+");
+
+foreach (var rule in sheet.Rules)
+{
+	if (rule is ICssStyleRule styleRule)
+	{
+		Console.WriteLine($"Selector: {styleRule.SelectorText}");
+		Console.WriteLine($"Declarations: {styleRule.Style.Length}");
+	}
+	else
+	{
+		Console.WriteLine($"Rule type: {rule.Type}");
+	}
+}
+```
 
 ## CSSOM - Values
 
@@ -46,3 +91,28 @@ var color = rule.GetValueOf("border-right-color").AsRgba();
 The idea behind `GetStyleRuleWith` is to get the first top-level style rule that matches the given selector exactly. The text of the selector does not have to be equal to the text of the selector in the stylesheet, but it needs to be equal *semantically*, i.e., in the provided example the spaces do not matter as the semantics are not influenced by them.
 
 The `GetValueOf` obtains the `ICssValue` instance behind the property with the given name. The `AsRgba` works (like all the other `As*` extension methods) against the `ICssValue` to get an elementary value out of it. This works in simple cases, but will fail, e.g., when there are multiple values available or when the primitive value is hidden in a composite one.
+
+## Working With Inline Style And Computed Style
+
+```cs
+using AngleSharp;
+using AngleSharp.Css.Dom;
+using AngleSharp.Dom;
+
+var html = @"<!doctype html>
+<style>.alert { color: white; background: #c0392b; }</style>
+<div class='alert' id='msg'>Warning</div>";
+
+var context = BrowsingContext.New(Configuration.Default.WithCss());
+var document = await context.OpenAsync(req => req.Content(html));
+
+var message = document.QuerySelector("#msg");
+
+// Edit inline style
+message.GetStyle().SetProperty("padding", "8px 12px");
+
+// Read computed style
+var computed = message.ComputeStyle();
+Console.WriteLine(computed.GetPropertyValue("color"));
+Console.WriteLine(computed.GetPropertyValue("padding"));
+```

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net472;net10.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
-    <LangVersion>9</LangVersion>
+    <SignAssembly>false</SignAssembly>
     <AngleSharpVersion>1.*</AngleSharpVersion>
   </PropertyGroup>
 

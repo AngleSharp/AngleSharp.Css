@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Converters
                 return new CssInitialValue(_defaultValue);
             }
 
-            return _converter.Convert(source);
+            return _converter.Convert(source)!;
         }
     }
 }

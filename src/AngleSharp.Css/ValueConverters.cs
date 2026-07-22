@@ -524,7 +524,9 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the WordBreak enumeration.
 		/// </summary>
-		public static readonly IValueConverter WordBreakConverter = Map.WordBreaks.ToConverter();
+        public static readonly IValueConverter WordBreakConverter = Or(
+            Map.WordBreaks.ToConverter(),
+            Assign(CssKeywords.BreakWord, CssKeywords.BreakWord));
 
 		/// <summary>
 		/// Represents a converter for the OverflowWrap enumeration.

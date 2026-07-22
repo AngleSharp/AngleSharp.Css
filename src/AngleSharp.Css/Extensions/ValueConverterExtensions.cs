@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Converters
     /// </summary>
     static class ValueConverterExtensions
     {
-        public static ICssValue Convert(this IValueConverter converter, String value)
+        public static ICssValue? Convert(this IValueConverter converter, String value)
         {
             var source = new StringSource(value);
             source.SkipSpacesAndComments();
@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Converters
             return varRefs;
         }
 
-        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue, String separator = null) =>
+        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue, String? separator = null) =>
             new OneOrMoreValueConverter(converter, min, max, separator);
 
         public static IValueConverter FromList(this IValueConverter converter) =>
@@ -58,10 +58,10 @@ namespace AngleSharp.Css.Converters
                 if (result != null && !source.IsDone)
                 {
                     source.BackTo(pos);
-                    return null;
+                    return null!;
                 }
 
-                return result;
+                return result!;
             });
         }
 
