@@ -184,7 +184,7 @@ namespace AngleSharp.Css.Tests.Styling
             var source = "/* before */ h1 { color: red; /*another comment*/ }";
             var sheet = ParseStyleSheet(source);
 
-            var result = sheet.ToCss(true);
+            var result = sheet.ToCss(new CssSerializationOptions { PreserveComments = true });
 
             Assert.IsTrue(result.Contains("/* before */"));
             Assert.IsTrue(result.Contains("/*another comment*/"));
@@ -201,7 +201,7 @@ namespace AngleSharp.Css.Tests.Styling
             style.SetProperty("color", "blue");
             style.SetProperty("display", "block");
 
-            var result = sheet.ToCss(true);
+            var result = sheet.ToCss(new CssSerializationOptions { PreserveComments = true });
 
             Assert.IsTrue(result.Contains("/*keep*/"));
             Assert.IsTrue(result.Contains("color: rgba(0, 0, 255, 1)"));

@@ -176,7 +176,28 @@ foreach (var file in Directory.EnumerateFiles("./styles", "*.css", SearchOption.
 }
 ```
 
-## 10. Where To Go Next
+## 10. Preserve Comments When Serializing
+
+AngleSharp.Css can preserve parsed CSS comment trivia when you serialize the stylesheet again.
+
+```cs
+using AngleSharp;
+using AngleSharp.Css.Dom;
+using System.Linq;
+
+var source = "/* before */ h1 { color: red; /* keep */ }";
+var context = BrowsingContext.New(Configuration.Default.WithCss());
+var document = await context.OpenAsync(req => req.Content($"<style>{source}</style>"));
+
+var sheet = document.StyleSheets.OfType<ICssStyleSheet>().First();
+var serialized = sheet.ToCss(new CssSerializationOptions { PreserveComments = true });
+
+Console.WriteLine(serialized);
+```
+
+This preserves comments, but not their exact original positions in every case. Depending on where a comment was placed, it may be moved when the stylesheet is serialized again.
+
+## 11. Where To Go Next
 
 - Read [API Documentation](01-API.md) for deeper CSSOM details.
 - Read [Render Tree Examples](04-Render-Tree.md) for style-aware tree traversal and resource download workflows.

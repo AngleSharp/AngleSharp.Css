@@ -87,14 +87,16 @@ namespace AngleSharp.Dom
         /// Serializes the stylesheet from its current CSSOM state.
         /// </summary>
         /// <param name="sheet">The stylesheet to serialize.</param>
-        /// <param name="preserveComments">
-        /// If true, parsed comment trivia will be included in the output.
+        /// <param name="options">
+        /// Serialization options to use.
         /// </param>
         /// <returns>The source code snippet.</returns>
-        public static String ToCss(this ICssStyleSheet sheet, Boolean preserveComments)
+        public static String ToCss(this ICssStyleSheet sheet, CssSerializationOptions options)
         {
             sheet = sheet ?? throw new ArgumentNullException(nameof(sheet));
-            return preserveComments
+            options = options ?? new CssSerializationOptions();
+
+            return options.PreserveComments
                 ? ((IStyleFormattable)sheet).ToCss(CommentPreservingFormatter.Instance)
                 : ((IStyleFormattable)sheet).ToCss();
         }
