@@ -93,9 +93,49 @@ namespace AngleSharp.Css.Dom
         [DomName("CONTAINER_RULE")]
         Container = 17,
         /// <summary>
+        /// Represents a @layer rule.
+        /// </summary>
+        [DomName("LAYER_RULE")]
+        Layer = 18,
+        /// <summary>
+        /// Represents a @scope rule.
+        /// </summary>
+        [DomName("SCOPE_RULE")]
+        Scope = 19,
+        /// <summary>
+        /// Represents a @property rule.
+        /// </summary>
+        [DomName("PROPERTY_RULE")]
+        Property = 20,
+        /// <summary>
+        /// Represents a @starting-style rule.
+        /// </summary>
+        [DomName("STARTING_STYLE_RULE")]
+        StartingStyle = 21,
+        /// <summary>
+        /// Represents a @view-transition rule.
+        /// </summary>
+        [DomName("VIEW_TRANSITION_RULE")]
+        ViewTransition = 22,
+        /// <summary>
+        /// Represents a @position-try rule.
+        /// </summary>
+        [DomName("POSITION_TRY_RULE")]
+        PositionTry = 23,
+        /// <summary>
+        /// Represents a @font-palette-values rule.
+        /// </summary>
+        [DomName("FONT_PALETTE_VALUES_RULE")]
+        FontPaletteValues = 24,
+        /// <summary>
+        /// Represents a @color-profile rule.
+        /// </summary>
+        [DomName("COLOR_PROFILE_RULE")]
+        ColorProfile = 25,
+        /// <summary>
         /// Represents a CSS comment node rule.
         /// </summary>
         [DomName("COMMENT_RULE")]
-        Comment = 32,
+        Comment = 64,
     }
 }

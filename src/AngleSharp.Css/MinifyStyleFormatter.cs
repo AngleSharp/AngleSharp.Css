@@ -127,6 +127,9 @@ namespace AngleSharp.Css
                     case CssRuleType.Document:
                     case CssRuleType.Supports:
                     case CssRuleType.Container:
+                    case CssRuleType.Layer:
+                    case CssRuleType.Scope:
+                    case CssRuleType.StartingStyle:
                     case CssRuleType.Media:
                         if (IsNotEmpty(((ICssGroupingRule)rule).Rules))
                         {
@@ -159,6 +162,21 @@ namespace AngleSharp.Css
                         break;
                     case CssRuleType.Keyframe:
                         if (((ICssKeyframeRule)rule).Style.Any())
+                        {
+                            return true;
+                        }
+                        break;
+                    case CssRuleType.PositionTry:
+                        if (((ICssPositionTryRule)rule).Style.Any())
+                        {
+                            return true;
+                        }
+                        break;
+                    case CssRuleType.Property:
+                    case CssRuleType.ViewTransition:
+                    case CssRuleType.FontPaletteValues:
+                    case CssRuleType.ColorProfile:
+                        if (((ICssProperties)rule).Any())
                         {
                             return true;
                         }

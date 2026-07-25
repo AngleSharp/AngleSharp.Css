@@ -37,6 +37,7 @@ Released on Sunday, July 26 2026.
 - Added missing auxiliary declarations (e.g., `counter-set`, `image-rendering`, `view-transition-name`)
 - Added missing containment declarations (e.g., `contain`, `will-change`)
 - Added more CSSOM possibilities and helpers (#6)
+- Added more rules such as `@view-transition` or `@layer`
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
 - Added support for recent CSS `list-type` values (#152)
