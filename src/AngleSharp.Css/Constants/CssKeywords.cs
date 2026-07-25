@@ -58,6 +58,16 @@ namespace AngleSharp.Css
         public static readonly String Normal = "normal";
 
         /// <summary>
+        /// The accumulate keyword.
+        /// </summary>
+        public static readonly String Accumulate = "accumulate";
+
+        /// <summary>
+        /// The add keyword.
+        /// </summary>
+        public static readonly String Add = "add";
+
+        /// <summary>
         /// The arabic-indic keyword.
         /// </summary>
         public static readonly String ArabicIndic = "arabic-indic";
@@ -1386,6 +1396,11 @@ namespace AngleSharp.Css
         /// The clone keyword.
         /// </summary>
         public static readonly String Clone = "clone";
+
+        /// <summary>
+        /// The replace keyword.
+        /// </summary>
+        public static readonly String Replace = "replace";
 
         /// <summary>
         /// The running keyword.

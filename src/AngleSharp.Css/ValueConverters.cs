@@ -326,6 +326,43 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AnimationFillStyleConverter = Map.AnimationFillStyles.ToConverter();
 
         /// <summary>
+        /// Represents a converter for animation-composition keyword values.
+        /// </summary>
+        public static readonly IValueConverter AnimationCompositionConverter = Or(
+            Assign(CssKeywords.Replace, CssKeywords.Replace),
+            Assign(CssKeywords.Add, CssKeywords.Add),
+            Assign(CssKeywords.Accumulate, CssKeywords.Accumulate)).FromList();
+
+        /// <summary>
+        /// Represents a converter for animation-timeline values.
+        /// </summary>
+        public static readonly IValueConverter AnimationTimelineConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            IdentifierConverter).FromList();
+
+        /// <summary>
+        /// Represents a converter for a single animation-range-start/end value.
+        /// </summary>
+        public static readonly IValueConverter AnimationRangeConverter = FromParser(source =>
+        {
+            var name = Or(
+                Assign(CssKeywords.Cover, CssKeywords.Cover),
+                Assign(CssKeywords.Contain, CssKeywords.Contain)).Convert(source);
+
+            if (name != null)
+            {
+                source.SkipSpacesAndComments();
+                var pct = LengthOrPercentConverter.Convert(source);
+                return pct != null ? new Values.CssTupleValue(new ICssValue[] { name, pct }) : name;
+            }
+
+            var normal = Assign<Object>(CssKeywords.Normal, null).Convert(source);
+            if (normal != null) return normal;
+
+            return LengthOrPercentConverter.Convert(source);
+        });
+
+        /// <summary>
         /// Represents a converter for the TextDecorationStyle enumeration.
         /// </summary>
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();

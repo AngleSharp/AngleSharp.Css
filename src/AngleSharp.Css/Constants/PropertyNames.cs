@@ -83,6 +83,31 @@ namespace AngleSharp.Css
         public static readonly String AnimationTimingFunction = "animation-timing-function";
 
         /// <summary>
+        /// The animation-composition declaration.
+        /// </summary>
+        public static readonly String AnimationComposition = "animation-composition";
+
+        /// <summary>
+        /// The animation-timeline declaration.
+        /// </summary>
+        public static readonly String AnimationTimeline = "animation-timeline";
+
+        /// <summary>
+        /// The animation-range declaration.
+        /// </summary>
+        public static readonly String AnimationRange = "animation-range";
+
+        /// <summary>
+        /// The animation-range-start declaration.
+        /// </summary>
+        public static readonly String AnimationRangeStart = "animation-range-start";
+
+        /// <summary>
+        /// The animation-range-end declaration.
+        /// </summary>
+        public static readonly String AnimationRangeEnd = "animation-range-end";
+
+        /// <summary>
         /// The background-attachment declaration.
         /// </summary>
         public static readonly String BackgroundAttachment = "background-attachment";

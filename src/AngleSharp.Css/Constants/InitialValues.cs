@@ -66,6 +66,10 @@ namespace AngleSharp.Css
         public static readonly ICssValue AnimationDirectionDecl = new CssConstantValue<AnimationDirection>(CssKeywords.Normal, AnimationDirection.Normal);
         public static readonly ICssValue AnimationFillModeDecl = new CssConstantValue<AnimationFillStyle>(CssKeywords.None, AnimationFillStyle.None);
         public static readonly ICssValue AnimationPlayStateDecl = new CssConstantValue<PlayState>(CssKeywords.Running, PlayState.Running);
+        public static readonly ICssValue AnimationCompositionDecl = new CssConstantValue<Object>(CssKeywords.Replace, null);
+        public static readonly ICssValue AnimationTimelineDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue AnimationRangeStartDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue AnimationRangeEndDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue TransitionDelayDecl = CssTimeValue.Zero;
         public static readonly ICssValue TransitionDurationDecl = CssTimeValue.Zero;
         public static readonly ICssValue TransitionPropertyDecl = new CssIdentifierValue(CssKeywords.All);

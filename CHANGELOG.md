@@ -25,6 +25,7 @@ Released on Sunday, July 26 2026.
 - Added missing box model declarations (e.g., `aspect-ratio`, `block-size`, `overflow-clip-margin`)
 - Added missing logical declarations (e.g., `inset`, `border-inline`, `border-end-start-radius`)
 - Added missing alignment declarations (e.g., `justify-items`, `place-content`)
+- Added missing animations declarations (e.g., `animation-composition`, `animation-delay-start`)
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`

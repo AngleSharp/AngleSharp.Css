@@ -1163,6 +1163,43 @@ namespace AngleSharp.Css
                     shorthands: AnimationNameDeclaration.Shorthands)
             },
             {
+                AnimationCompositionDeclaration.Name, new DeclarationInfo(
+                    name: AnimationCompositionDeclaration.Name,
+                    converter: AnimationCompositionDeclaration.Converter,
+                    initialValue: AnimationCompositionDeclaration.InitialValue,
+                    flags: AnimationCompositionDeclaration.Flags)
+            },
+            {
+                AnimationTimelineDeclaration.Name, new DeclarationInfo(
+                    name: AnimationTimelineDeclaration.Name,
+                    converter: AnimationTimelineDeclaration.Converter,
+                    initialValue: AnimationTimelineDeclaration.InitialValue,
+                    flags: AnimationTimelineDeclaration.Flags)
+            },
+            {
+                AnimationRangeStartDeclaration.Name, new DeclarationInfo(
+                    name: AnimationRangeStartDeclaration.Name,
+                    converter: AnimationRangeStartDeclaration.Converter,
+                    initialValue: AnimationRangeStartDeclaration.InitialValue,
+                    flags: AnimationRangeStartDeclaration.Flags,
+                    shorthands: AnimationRangeStartDeclaration.Shorthands)
+            },
+            {
+                AnimationRangeEndDeclaration.Name, new DeclarationInfo(
+                    name: AnimationRangeEndDeclaration.Name,
+                    converter: AnimationRangeEndDeclaration.Converter,
+                    initialValue: AnimationRangeEndDeclaration.InitialValue,
+                    flags: AnimationRangeEndDeclaration.Flags,
+                    shorthands: AnimationRangeEndDeclaration.Shorthands)
+            },
+            {
+                AnimationRangeDeclaration.Name, new DeclarationInfo(
+                    name: AnimationRangeDeclaration.Name,
+                    converter: AnimationRangeDeclaration.Converter,
+                    longhands: AnimationRangeDeclaration.Longhands,
+                    flags: AnimationRangeDeclaration.Flags)
+            },
+            {
                 AnimationIterationCountDeclaration.Name, new DeclarationInfo(
                     name: AnimationIterationCountDeclaration.Name,
                     converter: AnimationIterationCountDeclaration.Converter,
