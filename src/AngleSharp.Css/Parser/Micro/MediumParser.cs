@@ -239,7 +239,7 @@ namespace AngleSharp.Css.Parser
             {
                 var pos = source.Index;
                 source.SkipCurrentAndSpaces();
-                var feature = source.ParseMediaFeaturePlain() ?? source.ParseMediaFeatureBoolean() ?? source.ParseMediaFeatureRange();
+                var feature = source.ParseMediaFeaturePlain() ?? source.ParseMediaFeatureRange() ?? source.ParseMediaFeatureBoolean();
 
                 if (feature is not null && source.Current == Symbols.RoundBracketClose)
                 {

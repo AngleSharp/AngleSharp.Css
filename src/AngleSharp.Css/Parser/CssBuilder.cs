@@ -28,6 +28,7 @@ namespace AngleSharp.Css.Parser
             { RuleNames.Document, 10 },
             { RuleNames.CounterStyle, 11 },
             { RuleNames.FontFeatureValues, 12 },
+            { RuleNames.Container, 13 },
         };
 
         private readonly CssTokenizer _tokenizer;
@@ -100,6 +101,7 @@ namespace AngleSharp.Css.Parser
                     case 10: return CreateDocument(new CssDocumentRule(sheet), token);
                     case 11: return CreateCounterStyle(new CssCounterStyleRule(sheet), token);
                     case 12: return CreateFontFeatureValues(new CssFontFeatureValuesRule(sheet), token);
+                    case 13: return CreateContainer(new CssContainerRule(sheet), token);
                 }
             }
 
@@ -332,6 +334,26 @@ namespace AngleSharp.Css.Parser
 
             FillDeclarations(rule);
             return rule;
+        }
+
+        private CssContainerRule CreateContainer(CssContainerRule rule, CssToken current)
+        {
+            var token = NextToken();
+            CollectTrivia(rule.Owner, ref token);
+            var condition = GetArgument(ref token);
+            var result = rule.SetConditionText(condition, throwOnError: false);
+            CollectTrivia(rule.Owner, ref token);
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
+                SkipDeclarations(token);
+            }
+            else if (FillRules(rule) && result)
+            {
+                return rule;
+            }
+
+            return null;
         }
 
         public CssStyleRule CreateStyle(CssStyleRule rule, CssToken current)

@@ -45,7 +45,7 @@ namespace AngleSharp.Css.Dom
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = (ICssImportRule)rule;
+            var newRule = (ICssMediaRule)rule;
             _media.Replace(newRule.Media);
         }
 

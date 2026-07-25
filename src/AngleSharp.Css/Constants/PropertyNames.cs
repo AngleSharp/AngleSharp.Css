@@ -478,6 +478,21 @@ namespace AngleSharp.Css
         public static readonly String Content = "content";
 
         /// <summary>
+        /// The container declaration.
+        /// </summary>
+        public static readonly String Container = "container";
+
+        /// <summary>
+        /// The container-name declaration.
+        /// </summary>
+        public static readonly String ContainerName = "container-name";
+
+        /// <summary>
+        /// The container-type declaration.
+        /// </summary>
+        public static readonly String ContainerType = "container-type";
+
+        /// <summary>
         /// The content-visibility declaration.
         /// </summary>
         public static readonly String ContentVisibility = "content-visibility";

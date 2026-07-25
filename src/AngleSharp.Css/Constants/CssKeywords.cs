@@ -233,6 +233,16 @@ namespace AngleSharp.Css
         public static readonly String Content = "content";
 
         /// <summary>
+        /// The size keyword.
+        /// </summary>
+        public static readonly String Size = "size";
+
+        /// <summary>
+        /// The inline-size keyword.
+        /// </summary>
+        public static readonly String InlineSize = "inline-size";
+
+        /// <summary>
         /// The min-content keyword.
         /// </summary>
         public static readonly String MinContent = "min-content";

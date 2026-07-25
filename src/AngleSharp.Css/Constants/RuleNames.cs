@@ -48,6 +48,11 @@
         public static readonly String Media = "@media";
 
         /// <summary>
+        /// The @container rule.
+        /// </summary>
+        public static readonly String Container = "@container";
+
+        /// <summary>
         /// The @namespace rule.
         /// </summary>
         public static readonly String Namespace = "@namespace";

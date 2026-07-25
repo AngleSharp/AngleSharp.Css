@@ -392,6 +392,22 @@ h1 { color: green }";
         }
 
         [Test]
+        public void ImplicitAllFeatureWidthLessThanOrEqualMediaList()
+        {
+            var source = @"@media (width <= 30em) {
+    h1 { color: green }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = (CssMediaRule)sheet.Rules[0];
+            Assert.AreEqual("(width <= 30em)", media.Media.MediaText);
+            var list = media.Media;
+            Assert.AreEqual(1, list.Length);
+            Assert.AreEqual(1, media.Rules.Length);
+        }
+
+        [Test]
         public void CssMediaListApiWithAppendDeleteAndTextShouldWork()
         {
             var media = new [] { "handheld", "screen", "only screen and (max-device-width: 480px)" };

@@ -88,6 +88,11 @@ namespace AngleSharp.Css.Dom
         [DomName("REGION_STYLE_RULE")]
         RegionStyle = 16,
         /// <summary>
+        /// Represents a @container rule.
+        /// </summary>
+        [DomName("CONTAINER_RULE")]
+        Container = 17,
+        /// <summary>
         /// Represents a CSS comment node rule.
         /// </summary>
         [DomName("COMMENT_RULE")]

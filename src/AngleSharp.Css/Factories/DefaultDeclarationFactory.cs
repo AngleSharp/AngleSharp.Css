@@ -125,6 +125,30 @@ namespace AngleSharp.Css
                     flags: ContentDeclaration.Flags)
             },
             {
+                ContainerDeclaration.Name, new DeclarationInfo(
+                    name: ContainerDeclaration.Name,
+                    converter: ContainerDeclaration.Converter,
+                    initialValue: ContainerDeclaration.InitialValue,
+                    flags: ContainerDeclaration.Flags,
+                    longhands: ContainerDeclaration.Longhands)
+            },
+            {
+                ContainerNameDeclaration.Name, new DeclarationInfo(
+                    name: ContainerNameDeclaration.Name,
+                    converter: ContainerNameDeclaration.Converter,
+                    initialValue: ContainerNameDeclaration.InitialValue,
+                    flags: ContainerNameDeclaration.Flags,
+                    shorthands: ContainerNameDeclaration.Shorthands)
+            },
+            {
+                ContainerTypeDeclaration.Name, new DeclarationInfo(
+                    name: ContainerTypeDeclaration.Name,
+                    converter: ContainerTypeDeclaration.Converter,
+                    initialValue: ContainerTypeDeclaration.InitialValue,
+                    flags: ContainerTypeDeclaration.Flags,
+                    shorthands: ContainerTypeDeclaration.Shorthands)
+            },
+            {
                 ContentVisibilityDeclaration.Name, new DeclarationInfo(
                     name: ContentVisibilityDeclaration.Name,
                     converter: ContentVisibilityDeclaration.Converter,

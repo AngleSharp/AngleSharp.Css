@@ -27,6 +27,7 @@ Released on Sunday, July 26 2026.
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
 - Added support for recent CSS `list-type` values (#152)
 - Added option to preserve comments in CSS stylesheet (#99)
+- Added support for CSS container queries
 
 # 0.17.0
 

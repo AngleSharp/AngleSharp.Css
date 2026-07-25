@@ -126,6 +126,7 @@ namespace AngleSharp.Css
                 {
                     case CssRuleType.Document:
                     case CssRuleType.Supports:
+                    case CssRuleType.Container:
                     case CssRuleType.Media:
                         if (IsNotEmpty(((ICssGroupingRule)rule).Rules))
                         {
