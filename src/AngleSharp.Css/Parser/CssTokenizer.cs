@@ -52,7 +52,6 @@ namespace AngleSharp.Css.Parser
         public CssToken Get()
         {
             var current = GetNext();
-            _position = GetCurrentPosition();
             return Data(current);
         }
 
@@ -70,27 +69,37 @@ namespace AngleSharp.Css.Parser
 
             while (current != Symbols.EndOfFile)
             {
-                if (current is Symbols.DoubleQuote or Symbols.SingleQuote && previous != Symbols.ReverseSolidus)
+                if (current == Symbols.Semicolon || current == Symbols.CurlyBracketOpen || current == Symbols.CurlyBracketClose)
+                {
+                    break;
+                }
+
+                if ((current == Symbols.DoubleQuote || current == Symbols.SingleQuote) && previous != Symbols.ReverseSolidus)
                 {
                     trailingWhitespace = 0;
                     var quote = current;
                     sb.Append(current);
+                    previous = current;
                     current = GetNext();
 
                     while (current != Symbols.EndOfFile && current != quote)
                     {
+                        sb.Append(current);
+
                         if (current == Symbols.ReverseSolidus)
                         {
-                            sb.Append(current);
+                            previous = current;
                             current = GetNext();
 
                             if (current == Symbols.EndOfFile)
                             {
                                 break;
                             }
+
+                            sb.Append(current);
                         }
 
-                        sb.Append(current);
+                        previous = current;
                         current = GetNext();
                     }
 
@@ -100,27 +109,23 @@ namespace AngleSharp.Css.Parser
                         previous = current;
                         current = GetNext();
                     }
+
+                    continue;
                 }
-                else if (current is Symbols.Semicolon or Symbols.CurlyBracketOpen or Symbols.CurlyBracketClose)
+
+                sb.Append(current);
+
+                if (current == Symbols.Space || current == Symbols.Tab || current == Symbols.LineFeed || current == Symbols.CarriageReturn || current == Symbols.FormFeed)
                 {
-                    break;
+                    trailingWhitespace++;
                 }
                 else
                 {
-                    sb.Append(current);
-
-                    if (current.IsSpaceCharacter())
-                    {
-                        trailingWhitespace++;
-                    }
-                    else
-                    {
-                        trailingWhitespace = 0;
-                    }
-
-                    previous = current;
-                    current = GetNext();
+                    trailingWhitespace = 0;
                 }
+
+                previous = current;
+                current = GetNext();
             }
 
             if (trailingWhitespace > 0)
@@ -603,24 +608,23 @@ namespace AngleSharp.Css.Parser
         private CssToken Comment()
         {
             var current = GetNext();
-            StringBuffer.Append(Symbols.Solidus).Append(Symbols.Asterisk);
 
             while (current != Symbols.EndOfFile)
             {
-                StringBuffer.Append(current);
-
                 if (current == Symbols.Asterisk)
                 {
                     current = GetNext();
-                    StringBuffer.Append(current);
 
                     if (current == Symbols.Solidus)
                     {
                         return NewComment(FlushBuffer());
                     }
+
+                    StringBuffer.Append(Symbols.Asterisk).Append(current);
                 }
                 else
                 {
+                    StringBuffer.Append(current);
                     current = GetNext();
                 }
             }

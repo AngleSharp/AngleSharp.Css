@@ -6,12 +6,13 @@ namespace AngleSharp.Css.Parser.Tokens
     /// <summary>
     /// The base class token for the CSS parser.
     /// </summary>
-    class CssToken
+    struct CssToken
     {
         #region Fields
 
         private readonly CssTokenType _type;
         private readonly String _data;
+        private TextPosition _position;
 
         #endregion
 
@@ -33,8 +34,8 @@ namespace AngleSharp.Css.Parser.Tokens
 
         public TextPosition Position
         {
-            get;
-            set;
+            get => _position;
+            set => _position = value;
         }
 
         #endregion

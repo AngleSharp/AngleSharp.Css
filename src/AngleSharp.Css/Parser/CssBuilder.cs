@@ -887,32 +887,11 @@ namespace AngleSharp.Css.Parser
             {
                 if (token.Type == CssTokenType.Comment)
                 {
-                    var comment = NormalizeCommentData(token.Data);
-                    _commentRuleTarget?.Add(new CssCommentRule(owner, comment));
+                    _commentRuleTarget?.Add(new CssCommentRule(owner, token.Data));
                 }
 
                 token = _tokenizer.Get();
             }
-        }
-
-        private static String NormalizeCommentData(String comment)
-        {
-            if (!String.IsNullOrEmpty(comment) && comment.StartsWith("/*", StringComparison.Ordinal) && comment.EndsWith("*/", StringComparison.Ordinal))
-            {
-                return comment.Substring(2, comment.Length - 4);
-            }
-
-            if (!String.IsNullOrEmpty(comment) && comment.StartsWith("/*", StringComparison.Ordinal))
-            {
-                return comment.Substring(2);
-            }
-
-            if (!String.IsNullOrEmpty(comment) && comment.EndsWith("*/", StringComparison.Ordinal))
-            {
-                return comment.Substring(0, comment.Length - 2);
-            }
-
-            return comment;
         }
 
         private void SkipDeclarations(CssToken token)
@@ -932,9 +911,25 @@ namespace AngleSharp.Css.Parser
         {
             var keyword = CssKeywords.BangImportant;
             var value = _tokenizer.ContentFrom(token.Position.Position);
-            important = value.EndsWith(keyword, StringComparison.OrdinalIgnoreCase);
+            var keywordStart = value.Length - keyword.Length;
+            important = keywordStart >= 0 &&
+                value[keywordStart] == Symbols.ExclamationMark &&
+                String.Compare(value, keywordStart, keyword, 0, keyword.Length, StringComparison.OrdinalIgnoreCase) == 0;
             token = NextToken();
-            return important ? value.Substring(0, value.Length - keyword.Length).Trim() : value;
+
+            if (!important)
+            {
+                return value;
+            }
+
+            var end = keywordStart;
+
+            while (end > 0 && value[end - 1].IsSpaceCharacter())
+            {
+                end--;
+            }
+
+            return value.Substring(0, end);
         }
 
         private String GetArgument(ref CssToken token)

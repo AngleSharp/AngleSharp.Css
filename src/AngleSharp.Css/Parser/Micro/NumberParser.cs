@@ -171,7 +171,17 @@ namespace AngleSharp.Css.Parser
                 }
 
                 var negative = value.StartsWith("-");
-                var allNumbers = (negative ? value.Substring(1) : value).All(m => m.IsDigit());
+                var allNumbers = true;
+                var start = negative ? 1 : 0;
+
+                for (var i = start; i < value.Length; i++)
+                {
+                    if (!value[i].IsDigit())
+                    {
+                        allNumbers = false;
+                        break;
+                    }
+                }
 
                 if (allNumbers)
                 {
