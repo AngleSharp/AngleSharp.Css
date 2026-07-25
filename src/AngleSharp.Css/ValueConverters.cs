@@ -574,6 +574,16 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AlignItemsConverter = Map.AlignItemsModes.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the JustifyItems enumeration.
+        /// </summary>
+        public static readonly IValueConverter JustifyItemsConverter = Map.JustifyItemsModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the JustifySelf enumeration.
+        /// </summary>
+        public static readonly IValueConverter JustifySelfConverter = Map.JustifySelfModes.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the FlexDirection enumeration.
         /// </summary>
         public static readonly IValueConverter FlexDirectionConverter = Map.FlexDirections.ToConverter();

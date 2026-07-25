@@ -913,6 +913,31 @@ namespace AngleSharp.Css
         };
 
         /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> JustifyItemsModes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.Baseline, FlexContentMode.Baseline },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+        };
+
+        /// <summary>
+        /// Contains the string-FlexContentMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FlexContentMode> JustifySelfModes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Auto, FlexContentMode.Auto },
+            { CssKeywords.FlexStart, FlexContentMode.Start },
+            { CssKeywords.FlexEnd, FlexContentMode.End },
+            { CssKeywords.Center, FlexContentMode.Center },
+            { CssKeywords.Baseline, FlexContentMode.Baseline },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+        };
+
+        /// <summary>
         /// Contains the string-BookmarkState mapping.
         /// </summary>
         public static readonly Dictionary<String, BookmarkState> BookmarkStates = new(StringComparer.OrdinalIgnoreCase)

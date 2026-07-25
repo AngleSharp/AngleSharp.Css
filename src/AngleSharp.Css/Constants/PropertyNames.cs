@@ -858,6 +858,16 @@ namespace AngleSharp.Css
         public static readonly String JustifyContent = "justify-content";
 
         /// <summary>
+        /// The justify-items declaration.
+        /// </summary>
+        public static readonly String JustifyItems = "justify-items";
+
+        /// <summary>
+        /// The justify-self declaration.
+        /// </summary>
+        public static readonly String JustifySelf = "justify-self";
+
+        /// <summary>
         /// The layout-grid declaration.
         /// </summary>
         public static readonly String LayoutGrid = "layout-grid";
@@ -1276,6 +1286,21 @@ namespace AngleSharp.Css
         /// The pointer-events declaration.
         /// </summary>
         public static readonly String PointerEvents = "pointer-events";
+
+        /// <summary>
+        /// The place-content declaration.
+        /// </summary>
+        public static readonly String PlaceContent = "place-content";
+
+        /// <summary>
+        /// The place-items declaration.
+        /// </summary>
+        public static readonly String PlaceItems = "place-items";
+
+        /// <summary>
+        /// The place-self declaration.
+        /// </summary>
+        public static readonly String PlaceSelf = "place-self";
 
         /// <summary>
         /// The position declaration.

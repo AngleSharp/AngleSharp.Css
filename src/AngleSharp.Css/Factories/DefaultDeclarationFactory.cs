@@ -1754,6 +1754,41 @@ namespace AngleSharp.Css
                     flags: AlignItemsDeclaration.Flags)
             },
             {
+                JustifyItemsDeclaration.Name, new DeclarationInfo(
+                    name: JustifyItemsDeclaration.Name,
+                    converter: JustifyItemsDeclaration.Converter,
+                    initialValue: JustifyItemsDeclaration.InitialValue,
+                    flags: JustifyItemsDeclaration.Flags)
+            },
+            {
+                JustifySelfDeclaration.Name, new DeclarationInfo(
+                    name: JustifySelfDeclaration.Name,
+                    converter: JustifySelfDeclaration.Converter,
+                    initialValue: JustifySelfDeclaration.InitialValue,
+                    flags: JustifySelfDeclaration.Flags)
+            },
+            {
+                PlaceContentDeclaration.Name, new DeclarationInfo(
+                    name: PlaceContentDeclaration.Name,
+                    converter: PlaceContentDeclaration.Converter,
+                    longhands: PlaceContentDeclaration.Longhands,
+                    flags: PlaceContentDeclaration.Flags)
+            },
+            {
+                PlaceItemsDeclaration.Name, new DeclarationInfo(
+                    name: PlaceItemsDeclaration.Name,
+                    converter: PlaceItemsDeclaration.Converter,
+                    longhands: PlaceItemsDeclaration.Longhands,
+                    flags: PlaceItemsDeclaration.Flags)
+            },
+            {
+                PlaceSelfDeclaration.Name, new DeclarationInfo(
+                    name: PlaceSelfDeclaration.Name,
+                    converter: PlaceSelfDeclaration.Converter,
+                    longhands: PlaceSelfDeclaration.Longhands,
+                    flags: PlaceSelfDeclaration.Flags)
+            },
+            {
                 FlexDirectionDeclaration.Name, new DeclarationInfo(
                     name: FlexDirectionDeclaration.Name,
                     converter: FlexDirectionDeclaration.Converter,
