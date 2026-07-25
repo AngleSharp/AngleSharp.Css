@@ -10,6 +10,8 @@ We have more detailed information regarding the following subjects:
 - [Core Interfaces](general/04-Core-Interfaces.md)
 - [Extensibility](general/05-Extensibility.md)
 - [Provided Services](general/06-Provided-Services.md)
+- [Supported At-Rules](general/07-Supported-At-Rules.md)
+- [Supported Declarations](general/08-Supported-Declarations.md)
 
 ## Tutorials
 
@@ -26,9 +28,10 @@ If you are new to AngleSharp.Css, this order gives a practical ramp-up:
 2. [Examples](tutorials/02-Examples.md) for copy-paste recipes.
 3. [API Documentation](tutorials/01-API.md) for deeper understanding of the CSSOM model.
 4. [CSSOM](general/03-CSSOM.md) and [Core Interfaces](general/04-Core-Interfaces.md) once you need a deeper model understanding.
-5. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/04-Render-Tree.md) for style computation workflows.
-6. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations.
-7. [FAQ](tutorials/03-Questions.md) for common pitfalls and output customization.
+5. [Supported At-Rules](general/07-Supported-At-Rules.md) and [Supported Declarations](general/08-Supported-Declarations.md) when checking implementation coverage and constraints.
+6. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/04-Render-Tree.md) for style computation workflows.
+7. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations.
+8. [FAQ](tutorials/03-Questions.md) for common pitfalls and output customization.
 
 ## What You Can Do With AngleSharp.Css
 
