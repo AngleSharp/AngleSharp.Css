@@ -235,6 +235,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue ContentVisibilityDecl = new CssConstantValue<Visibility>(CssKeywords.Visible, Visibility.Visible);
         public static readonly ICssValue CounterIncrementDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue CounterResetDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue CounterSetDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue DisplayDecl = new CssConstantValue<DisplayMode>(CssKeywords.Inline, DisplayMode.Inline);
         public static readonly ICssValue ColumnFillDecl = new CssConstantValue<Boolean>(CssKeywords.Balance, true);
         public static readonly ICssValue ColumnSpanDecl = new CssConstantValue<Boolean>(CssKeywords.None, false);
@@ -298,5 +299,9 @@ namespace AngleSharp.Css
         public static readonly ICssValue OverscrollBehaviorBlockDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue OverscrollBehaviorInlineDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue ScrollSnapAlignDecl = new CssConstantValue<ScrollSnapAlign>(CssKeywords.None, ScrollSnapAlign.None);
+        public static readonly ICssValue ImageOrientationDecl = new CssIdentifierValue(CssKeywords.FromImage);
+        public static readonly ICssValue ImageRenderingDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue ViewTransitionNameDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue ViewTransitionClassDecl = new CssIdentifierValue(CssKeywords.None);
     }
 }

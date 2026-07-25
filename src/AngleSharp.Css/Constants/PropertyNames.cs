@@ -708,6 +708,11 @@ namespace AngleSharp.Css
         public static readonly String CounterReset = "counter-reset";
 
         /// <summary>
+        /// The counter-set declaration.
+        /// </summary>
+        public static readonly String CounterSet = "counter-set";
+
+        /// <summary>
         /// The cursor declaration.
         /// </summary>
         public static readonly String Cursor = "cursor";
@@ -916,6 +921,16 @@ namespace AngleSharp.Css
         /// The ime-mode declaration.
         /// </summary>
         public static readonly String ImeMode = "ime-mode";
+
+        /// <summary>
+        /// The image-orientation declaration.
+        /// </summary>
+        public static readonly String ImageOrientation = "image-orientation";
+
+        /// <summary>
+        /// The image-rendering declaration.
+        /// </summary>
+        public static readonly String ImageRendering = "image-rendering";
 
         /// <summary>
         /// The inline-size declaration.
@@ -1846,6 +1861,16 @@ namespace AngleSharp.Css
         /// The visibility declaration.
         /// </summary>
         public static readonly String Visibility = "visibility";
+
+        /// <summary>
+        /// The view-transition-name declaration.
+        /// </summary>
+        public static readonly String ViewTransitionName = "view-transition-name";
+
+        /// <summary>
+        /// The view-transition-class declaration.
+        /// </summary>
+        public static readonly String ViewTransitionClass = "view-transition-class";
 
         /// <summary>
         /// The white-space declaration.

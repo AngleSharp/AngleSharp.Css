@@ -273,6 +273,11 @@ namespace AngleSharp.Css
         public static readonly String From = "from";
 
         /// <summary>
+        /// The from-image keyword for image-orientation.
+        /// </summary>
+        public static readonly String FromImage = "from-image";
+
+        /// <summary>
         /// The to keyword.
         /// </summary>
         public static readonly String To = "to";
@@ -1921,5 +1926,10 @@ namespace AngleSharp.Css
         /// The optimize-speed shape rendering value.
         /// </summary>
         public static readonly String OptimizeSpeed = "optimize-speed";
+
+        /// <summary>
+        /// The optimize-quality image-rendering value.
+        /// </summary>
+        public static readonly String OptimizeQuality = "optimize-quality";
     }
 }

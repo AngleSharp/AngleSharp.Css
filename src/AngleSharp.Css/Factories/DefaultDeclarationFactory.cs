@@ -261,6 +261,13 @@ namespace AngleSharp.Css
                     flags: CounterIncrementDeclaration.Flags)
             },
             {
+                CounterSetDeclaration.Name, new DeclarationInfo(
+                    name: CounterSetDeclaration.Name,
+                    converter: CounterSetDeclaration.Converter,
+                    initialValue: CounterSetDeclaration.InitialValue,
+                    flags: CounterSetDeclaration.Flags)
+            },
+            {
                 ObjectFitDeclaration.Name, new DeclarationInfo(
                     name: ObjectFitDeclaration.Name,
                     converter: ObjectFitDeclaration.Converter,
@@ -2709,6 +2716,34 @@ namespace AngleSharp.Css
                     converter: BorderEndEndRadiusDeclaration.Converter,
                     initialValue: BorderEndEndRadiusDeclaration.InitialValue,
                     flags: BorderEndEndRadiusDeclaration.Flags)
+            },
+            {
+                ImageRenderingDeclaration.Name, new DeclarationInfo(
+                    name: ImageRenderingDeclaration.Name,
+                    converter: ImageRenderingDeclaration.Converter,
+                    initialValue: ImageRenderingDeclaration.InitialValue,
+                    flags: ImageRenderingDeclaration.Flags)
+            },
+            {
+                ImageOrientationDeclaration.Name, new DeclarationInfo(
+                    name: ImageOrientationDeclaration.Name,
+                    converter: ImageOrientationDeclaration.Converter,
+                    initialValue: ImageOrientationDeclaration.InitialValue,
+                    flags: ImageOrientationDeclaration.Flags)
+            },
+            {
+                ViewTransitionNameDeclaration.Name, new DeclarationInfo(
+                    name: ViewTransitionNameDeclaration.Name,
+                    converter: ViewTransitionNameDeclaration.Converter,
+                    initialValue: ViewTransitionNameDeclaration.InitialValue,
+                    flags: ViewTransitionNameDeclaration.Flags)
+            },
+            {
+                ViewTransitionClassDeclaration.Name, new DeclarationInfo(
+                    name: ViewTransitionClassDeclaration.Name,
+                    converter: ViewTransitionClassDeclaration.Converter,
+                    initialValue: ViewTransitionClassDeclaration.InitialValue,
+                    flags: ViewTransitionClassDeclaration.Flags)
             },
         };
 

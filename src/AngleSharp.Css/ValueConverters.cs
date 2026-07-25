@@ -339,6 +339,37 @@ namespace AngleSharp.Css
             Assign(CssKeywords.GeometricPrecision, CssKeywords.GeometricPrecision));
 
         /// <summary>
+        /// Represents a converter for the counter-set property.
+        /// </summary>
+        public static readonly IValueConverter CounterSetConverter = new CounterValueConverter(CssIntegerValue.Zero);
+
+        /// <summary>
+        /// Represents a converter for the image-rendering property.
+        /// </summary>
+        public static readonly IValueConverter ImageRenderingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.CrispEdges, CssKeywords.CrispEdges),
+            Assign(CssKeywords.OptimizeQuality, CssKeywords.OptimizeQuality),
+            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed));
+
+        /// <summary>
+        /// Represents a converter for the image-orientation property.
+        /// </summary>
+        public static readonly IValueConverter ImageOrientationConverter = Or(
+            Assign(CssKeywords.FromImage, CssKeywords.FromImage),
+            FromParser(UnitParser.ParseAngle));
+
+        /// <summary>
+        /// Represents a converter for the view-transition-name property.
+        /// </summary>
+        public static readonly IValueConverter ViewTransitionNameConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the view-transition-class property.
+        /// </summary>
+        public static readonly IValueConverter ViewTransitionClassConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
