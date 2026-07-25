@@ -752,6 +752,13 @@ namespace AngleSharp.Css
                     flags: TransformStyleDeclaration.Flags)
             },
             {
+                TranslateDeclaration.Name, new DeclarationInfo(
+                    name: TranslateDeclaration.Name,
+                    converter: TranslateDeclaration.Converter,
+                    initialValue: TranslateDeclaration.InitialValue,
+                    flags: TranslateDeclaration.Flags)
+            },
+            {
                 ColumnCountDeclaration.Name, new DeclarationInfo(
                     name: ColumnCountDeclaration.Name,
                     converter: ColumnCountDeclaration.Converter,
@@ -1910,6 +1917,13 @@ namespace AngleSharp.Css
                     flags: ResizeDeclaration.Flags)
             },
             {
+                RotateDeclaration.Name, new DeclarationInfo(
+                    name: RotateDeclaration.Name,
+                    converter: RotateDeclaration.Converter,
+                    initialValue: RotateDeclaration.InitialValue,
+                    flags: RotateDeclaration.Flags)
+            },
+            {
                 RubyAlignDeclaration.Name, new DeclarationInfo(
                     name: RubyAlignDeclaration.Name,
                     converter: RubyAlignDeclaration.Converter,
@@ -1929,6 +1943,13 @@ namespace AngleSharp.Css
                     converter: RubyPositionDeclaration.Converter,
                     initialValue: RubyPositionDeclaration.InitialValue,
                     flags: RubyPositionDeclaration.Flags)
+            },
+            {
+                ScaleDeclaration.Name, new DeclarationInfo(
+                    name: ScaleDeclaration.Name,
+                    converter: ScaleDeclaration.Converter,
+                    initialValue: ScaleDeclaration.InitialValue,
+                    flags: ScaleDeclaration.Flags)
             },
             {
                 Scrollbar3dLightColorDeclaration.Name, new DeclarationInfo(

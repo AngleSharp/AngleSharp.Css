@@ -1430,6 +1430,24 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TransformConverter = FromParser(TransformParser.ParseTransform);
 
         /// <summary>
+        /// Represents the rotate property value (angle or axis + angle).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter RotateConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
+        /// Represents the scale property value (numbers for scale factors).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter ScaleConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
+        /// Represents the translate property value (length/percentage offsets).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter TranslateConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
         public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseCurrentColor);

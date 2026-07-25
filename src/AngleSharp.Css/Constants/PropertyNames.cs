@@ -1648,6 +1648,11 @@ namespace AngleSharp.Css
         public static readonly String Right = "right";
 
         /// <summary>
+        /// The rotate declaration.
+        /// </summary>
+        public static readonly String Rotate = "rotate";
+
+        /// <summary>
         /// The ruby-align declaration.
         /// </summary>
         public static readonly String RubyAlign = "ruby-align";
@@ -1661,6 +1666,11 @@ namespace AngleSharp.Css
         /// The ruby-position declaration.
         /// </summary>
         public static readonly String RubyPosition = "ruby-position";
+
+        /// <summary>
+        /// The scale declaration.
+        /// </summary>
+        public static readonly String Scale = "scale";
 
         /// <summary>
         /// The scrollbar3d-light-color declaration.
@@ -2056,6 +2066,11 @@ namespace AngleSharp.Css
         /// The transform-style declaration.
         /// </summary>
         public static readonly String TransformStyle = "transform-style";
+
+        /// <summary>
+        /// The translate declaration.
+        /// </summary>
+        public static readonly String Translate = "translate";
 
         /// <summary>
         /// The transition declaration.

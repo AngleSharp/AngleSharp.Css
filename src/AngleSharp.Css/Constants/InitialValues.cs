@@ -215,6 +215,9 @@ namespace AngleSharp.Css
         public static readonly ICssValue TransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TransformStyleDecl = new CssConstantValue<Boolean>(CssKeywords.Flat, true);
         public static readonly ICssValue TransformOriginDecl = CssPoint2D.Center;
+        public static readonly ICssValue RotateDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ScaleDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue TranslateDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TableLayoutDecl = new CssConstantValue<Boolean>(CssKeywords.Auto, false);
         public static readonly ICssValue ClearDecl = new CssConstantValue<ClearMode>(CssKeywords.None, ClearMode.None);
         public static readonly ICssValue ClipDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
