@@ -313,6 +313,16 @@ namespace AngleSharp.Css
         public static readonly String Left = "left";
 
         /// <summary>
+        /// The light keyword (color-scheme).
+        /// </summary>
+        public static readonly String Light = "light";
+
+        /// <summary>
+        /// The dark keyword (color-scheme).
+        /// </summary>
+        public static readonly String Dark = "dark";
+
+        /// <summary>
         /// The right keyword.
         /// </summary>
         public static readonly String Right = "right";
@@ -876,6 +886,16 @@ namespace AngleSharp.Css
         /// The embed keyword.
         /// </summary>
         public static readonly String Embed = "embed";
+
+        /// <summary>
+        /// The economy keyword (print-color-adjust).
+        /// </summary>
+        public static readonly String Economy = "economy";
+
+        /// <summary>
+        /// The exact keyword (print-color-adjust).
+        /// </summary>
+        public static readonly String Exact = "exact";
 
         /// <summary>
         /// The isolate keyword.

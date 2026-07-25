@@ -108,6 +108,11 @@ namespace AngleSharp.Css
         public static readonly String AnimationRangeEnd = "animation-range-end";
 
         /// <summary>
+        /// The accent-color declaration.
+        /// </summary>
+        public static readonly String AccentColor = "accent-color";
+
+        /// <summary>
         /// The background-attachment declaration.
         /// </summary>
         public static readonly String BackgroundAttachment = "background-attachment";
@@ -643,6 +648,16 @@ namespace AngleSharp.Css
         public static readonly String Color = "color";
 
         /// <summary>
+        /// The caret-color declaration.
+        /// </summary>
+        public static readonly String CaretColor = "caret-color";
+
+        /// <summary>
+        /// The color-scheme declaration.
+        /// </summary>
+        public static readonly String ColorScheme = "color-scheme";
+
+        /// <summary>
         /// The color-interpolation-filters declaration.
         /// </summary>
         public static readonly String ColorInterpolationFilters = "color-interpolation-filters";
@@ -731,6 +746,11 @@ namespace AngleSharp.Css
         /// The filter declaration.
         /// </summary>
         public static readonly String Filter = "filter";
+
+        /// <summary>
+        /// The forced-color-adjust declaration.
+        /// </summary>
+        public static readonly String ForcedColorAdjust = "forced-color-adjust";
 
         /// <summary>
         /// The flex declaration.
@@ -1381,6 +1401,11 @@ namespace AngleSharp.Css
         /// The position declaration.
         /// </summary>
         public static readonly String Position = "position";
+
+        /// <summary>
+        /// The print-color-adjust declaration.
+        /// </summary>
+        public static readonly String PrintColorAdjust = "print-color-adjust";
 
         /// <summary>
         /// The quotes declaration.

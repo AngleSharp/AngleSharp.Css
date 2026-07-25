@@ -228,6 +228,47 @@ namespace AngleSharp.Css
         public static readonly IValueConverter ColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseColor);
 
         /// <summary>
+        /// Represents a converter for the accent-color property.
+        /// </summary>
+        public static readonly IValueConverter AccentColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the caret-color property.
+        /// </summary>
+        public static readonly IValueConverter CaretColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the color-scheme property.
+        /// </summary>
+        public static readonly IValueConverter ColorSchemeConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithAny(
+                Or(
+                    Assign(CssKeywords.Light, CssKeywords.Light),
+                    Assign(CssKeywords.Dark, CssKeywords.Dark)
+                )
+            ).Many());
+
+        /// <summary>
+        /// Represents a converter for the forced-color-adjust property.
+        /// </summary>
+        public static readonly IValueConverter ForcedColorAdjustConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the print-color-adjust property.
+        /// </summary>
+        public static readonly IValueConverter PrintColorAdjustConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Economy, CssKeywords.Economy),
+            Assign(CssKeywords.Exact, CssKeywords.Exact));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

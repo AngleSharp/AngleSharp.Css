@@ -198,6 +198,13 @@ namespace AngleSharp.Css
                     flags: FloatDeclaration.Flags)
             },
             {
+                ForcedColorAdjustDeclaration.Name, new DeclarationInfo(
+                    name: ForcedColorAdjustDeclaration.Name,
+                    converter: ForcedColorAdjustDeclaration.Converter,
+                    initialValue: ForcedColorAdjustDeclaration.InitialValue,
+                    flags: ForcedColorAdjustDeclaration.Flags)
+            },
+            {
                 OverflowDeclaration.Name, new DeclarationInfo(
                     name: OverflowDeclaration.Name,
                     converter: OverflowDeclaration.Converter,
@@ -224,6 +231,13 @@ namespace AngleSharp.Css
                     converter: PositionDeclaration.Converter,
                     initialValue: PositionDeclaration.InitialValue,
                     flags: PositionDeclaration.Flags)
+            },
+            {
+                PrintColorAdjustDeclaration.Name, new DeclarationInfo(
+                    name: PrintColorAdjustDeclaration.Name,
+                    converter: PrintColorAdjustDeclaration.Converter,
+                    initialValue: PrintColorAdjustDeclaration.InitialValue,
+                    flags: PrintColorAdjustDeclaration.Flags)
             },
             {
                 ZIndexDeclaration.Name, new DeclarationInfo(
@@ -518,6 +532,20 @@ namespace AngleSharp.Css
                     converter: ColorDeclaration.Converter,
                     initialValue: ColorDeclaration.InitialValue,
                     flags: ColorDeclaration.Flags)
+            },
+            {
+                CaretColorDeclaration.Name, new DeclarationInfo(
+                    name: CaretColorDeclaration.Name,
+                    converter: CaretColorDeclaration.Converter,
+                    initialValue: CaretColorDeclaration.InitialValue,
+                    flags: CaretColorDeclaration.Flags)
+            },
+            {
+                ColorSchemeDeclaration.Name, new DeclarationInfo(
+                    name: ColorSchemeDeclaration.Name,
+                    converter: ColorSchemeDeclaration.Converter,
+                    initialValue: ColorSchemeDeclaration.InitialValue,
+                    flags: ColorSchemeDeclaration.Flags)
             },
             {
                 WordSpacingDeclaration.Name, new DeclarationInfo(
@@ -1391,6 +1419,13 @@ namespace AngleSharp.Css
                     initialValue: BackgroundImageDeclaration.InitialValue,
                     flags: BackgroundImageDeclaration.Flags,
                     shorthands: BackgroundImageDeclaration.Shorthands)
+            },
+            {
+                AccentColorDeclaration.Name, new DeclarationInfo(
+                    name: AccentColorDeclaration.Name,
+                    converter: AccentColorDeclaration.Converter,
+                    initialValue: AccentColorDeclaration.InitialValue,
+                    flags: AccentColorDeclaration.Flags)
             },
             {
                 BackgroundColorDeclaration.Name, new DeclarationInfo(

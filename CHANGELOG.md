@@ -28,6 +28,7 @@ Released on Sunday, July 26 2026.
 - Added missing animations declarations (e.g., `animation-composition`, `animation-delay-start`)
 - Added missing scroll declarations (e.g., `scroll-behavior`, `overscroll-behavior`)
 - Added missing fonts declarations (e.g., `font-display`, `font-palette`, `font-synthesis`)
+- Added missing color declarations (e.g., `color-scheme`, `accent-color`)
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
