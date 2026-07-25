@@ -1444,12 +1444,27 @@ namespace AngleSharp.Css
                     shorthands: BackgroundClipDeclaration.Shorthands)
             },
             {
+                BackdropFilterDeclaration.Name, new DeclarationInfo(
+                    name: BackdropFilterDeclaration.Name,
+                    converter: BackdropFilterDeclaration.Converter,
+                    initialValue: BackdropFilterDeclaration.InitialValue,
+                    flags: BackdropFilterDeclaration.Flags)
+            },
+            {
                 BackgroundAttachmentDeclaration.Name, new DeclarationInfo(
                     name: BackgroundAttachmentDeclaration.Name,
                     converter: BackgroundAttachmentDeclaration.Converter,
                     initialValue: BackgroundAttachmentDeclaration.InitialValue,
                     flags: BackgroundAttachmentDeclaration.Flags,
                     shorthands: BackgroundAttachmentDeclaration.Shorthands)
+            },
+            {
+                BackgroundBlendModeDeclaration.Name, new DeclarationInfo(
+                    name: BackgroundBlendModeDeclaration.Name,
+                    converter: BackgroundBlendModeDeclaration.Converter,
+                    initialValue: BackgroundBlendModeDeclaration.InitialValue,
+                    flags: BackgroundBlendModeDeclaration.Flags,
+                    shorthands: BackgroundBlendModeDeclaration.Shorthands)
             },
             {
                 BorderTopWidthDeclaration.Name, new DeclarationInfo(
@@ -1666,6 +1681,13 @@ namespace AngleSharp.Css
                     initialValue: MarginInlineDeclaration.InitialValue,
                     flags: MarginInlineDeclaration.Flags,
                     longhands: MarginInlineDeclaration.Longhands)
+            },
+            {
+                MixBlendModeDeclaration.Name, new DeclarationInfo(
+                    name: MixBlendModeDeclaration.Name,
+                    converter: MixBlendModeDeclaration.Converter,
+                    initialValue: MixBlendModeDeclaration.InitialValue,
+                    flags: MixBlendModeDeclaration.Flags)
             },
             {
                 BorderRadiusDeclaration.Name, new DeclarationInfo(
@@ -2361,6 +2383,13 @@ namespace AngleSharp.Css
                     converter: OverscrollBehaviorInlineDeclaration.Converter,
                     initialValue: OverscrollBehaviorInlineDeclaration.InitialValue,
                     flags: OverscrollBehaviorInlineDeclaration.Flags)
+            },
+            {
+                IsolationDeclaration.Name, new DeclarationInfo(
+                    name: IsolationDeclaration.Name,
+                    converter: IsolationDeclaration.Converter,
+                    initialValue: IsolationDeclaration.InitialValue,
+                    flags: IsolationDeclaration.Flags)
             },
             // CSS Logical Properties — inset
             {

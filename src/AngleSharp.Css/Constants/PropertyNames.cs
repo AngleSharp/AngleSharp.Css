@@ -118,6 +118,11 @@ namespace AngleSharp.Css
         public static readonly String BackgroundAttachment = "background-attachment";
 
         /// <summary>
+        /// The background-blend-mode declaration.
+        /// </summary>
+        public static readonly String BackgroundBlendMode = "background-blend-mode";
+
+        /// <summary>
         /// The background-color declaration.
         /// </summary>
         public static readonly String BackgroundColor = "background-color";
@@ -176,6 +181,11 @@ namespace AngleSharp.Css
         /// The background declaration.
         /// </summary>
         public static readonly String Background = "background";
+
+        /// <summary>
+        /// The backdrop-filter declaration.
+        /// </summary>
+        public static readonly String BackdropFilter = "backdrop-filter";
 
         /// <summary>
         /// The behavior declaration.
@@ -913,6 +923,11 @@ namespace AngleSharp.Css
         public static readonly String InlineSize = "inline-size";
 
         /// <summary>
+        /// The isolation declaration.
+        /// </summary>
+        public static readonly String Isolation = "isolation";
+
+        /// <summary>
         /// The inset declaration.
         /// </summary>
         public static readonly String Inset = "inset";
@@ -1166,6 +1181,11 @@ namespace AngleSharp.Css
         /// The margin declaration.
         /// </summary>
         public static readonly String Margin = "margin";
+
+        /// <summary>
+        /// The mix-blend-mode declaration.
+        /// </summary>
+        public static readonly String MixBlendMode = "mix-blend-mode";
 
         /// <summary>
         /// The marker declaration.

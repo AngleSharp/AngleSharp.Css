@@ -269,6 +269,50 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Exact, CssKeywords.Exact));
 
         /// <summary>
+        /// Represents a converter for the backdrop-filter property.
+        /// </summary>
+        public static readonly IValueConverter BackdropFilterConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for blend mode values (mix-blend-mode, background-blend-mode).
+        /// </summary>
+        public static readonly IValueConverter BlendModeConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.Multiply, CssKeywords.Multiply),
+            Assign(CssKeywords.Screen, CssKeywords.Screen),
+            Assign(CssKeywords.Overlay, CssKeywords.Overlay),
+            Assign(CssKeywords.Darken, CssKeywords.Darken),
+            Assign(CssKeywords.Lighten, CssKeywords.Lighten),
+            Assign(CssKeywords.ColorDodge, CssKeywords.ColorDodge),
+            Assign(CssKeywords.ColorBurn, CssKeywords.ColorBurn),
+            Assign(CssKeywords.HardLight, CssKeywords.HardLight),
+            Assign(CssKeywords.SoftLight, CssKeywords.SoftLight),
+            Assign(CssKeywords.Difference, CssKeywords.Difference),
+            Assign(CssKeywords.Exclusion, CssKeywords.Exclusion),
+            Assign(CssKeywords.Hue, CssKeywords.Hue),
+            Assign(CssKeywords.Saturation, CssKeywords.Saturation),
+            Assign(CssKeywords.Color, CssKeywords.Color),
+            Assign(CssKeywords.Luminosity, CssKeywords.Luminosity),
+            Assign(CssKeywords.Add, CssKeywords.Add));
+
+        /// <summary>
+        /// Represents a converter for the mix-blend-mode property.
+        /// </summary>
+        public static readonly IValueConverter MixBlendModeConverter = BlendModeConverter;
+
+        /// <summary>
+        /// Represents a converter for the background-blend-mode property.
+        /// </summary>
+        public static readonly IValueConverter BackgroundBlendModeConverter = BlendModeConverter.FromList();
+
+        /// <summary>
+        /// Represents a converter for the isolation property.
+        /// </summary>
+        public static readonly IValueConverter IsolationConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Isolate, CssKeywords.Isolate));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
