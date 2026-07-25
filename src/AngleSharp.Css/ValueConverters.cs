@@ -368,6 +368,28 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
 
         /// <summary>
+        /// Represents a converter for scroll-behavior (auto | smooth).
+        /// </summary>
+        public static readonly IValueConverter ScrollBehaviorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Smooth, CssKeywords.Smooth));
+
+        /// <summary>
+        /// Represents a converter for scroll-snap-stop (normal | always).
+        /// </summary>
+        public static readonly IValueConverter ScrollSnapStopConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.Always, CssKeywords.Always));
+
+        /// <summary>
+        /// Represents a converter for overscroll-behavior-x/y/block/inline (auto | contain | none).
+        /// </summary>
+        public static readonly IValueConverter OverscrollBehaviorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Contain, CssKeywords.Contain),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
         /// Represents a converter for the TextDecorationLine enumeration,
         /// taking many values or none.
         /// </summary>
@@ -717,6 +739,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AutoLengthOrPercentConverter = Or(
             LengthOrPercentConverter,
             Auto);
+
+        /// <summary>
+        /// Represents a converter for scroll-padding longhands (auto | length-percentage).
+        /// </summary>
+        public static readonly IValueConverter ScrollPaddingConverter = AutoLengthOrPercentConverter;
         
         /// <summary>
         /// Represents a value for a width.

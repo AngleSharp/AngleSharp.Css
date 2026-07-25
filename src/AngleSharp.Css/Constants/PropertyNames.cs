@@ -1403,14 +1403,154 @@ namespace AngleSharp.Css
         public static readonly String ScrollbarTrackColor = "scrollbar-track-color";
 
         /// <summary>
+        /// The scroll-behavior declaration.
+        /// </summary>
+        public static readonly String ScrollBehavior = "scroll-behavior";
+
+        /// <summary>
+        /// The scroll-snap-stop declaration.
+        /// </summary>
+        public static readonly String ScrollSnapStop = "scroll-snap-stop";
+
+        /// <summary>
         /// The scroll-snap-type declaration.
         /// </summary>
         public static readonly String ScrollSnapType = "scroll-snap-type";
 
         /// <summary>
-        /// The scroll-margin declaration.
+        /// The scroll-margin declaration (shorthand).
         /// </summary>
         public static readonly String ScrollMargin = "scroll-margin";
+
+        /// <summary>
+        /// The scroll-margin-top declaration.
+        /// </summary>
+        public static readonly String ScrollMarginTop = "scroll-margin-top";
+
+        /// <summary>
+        /// The scroll-margin-right declaration.
+        /// </summary>
+        public static readonly String ScrollMarginRight = "scroll-margin-right";
+
+        /// <summary>
+        /// The scroll-margin-bottom declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBottom = "scroll-margin-bottom";
+
+        /// <summary>
+        /// The scroll-margin-left declaration.
+        /// </summary>
+        public static readonly String ScrollMarginLeft = "scroll-margin-left";
+
+        /// <summary>
+        /// The scroll-margin-block declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlock = "scroll-margin-block";
+
+        /// <summary>
+        /// The scroll-margin-block-start declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlockStart = "scroll-margin-block-start";
+
+        /// <summary>
+        /// The scroll-margin-block-end declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlockEnd = "scroll-margin-block-end";
+
+        /// <summary>
+        /// The scroll-margin-inline declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInline = "scroll-margin-inline";
+
+        /// <summary>
+        /// The scroll-margin-inline-start declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInlineStart = "scroll-margin-inline-start";
+
+        /// <summary>
+        /// The scroll-margin-inline-end declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInlineEnd = "scroll-margin-inline-end";
+
+        /// <summary>
+        /// The scroll-padding declaration (shorthand).
+        /// </summary>
+        public static readonly String ScrollPadding = "scroll-padding";
+
+        /// <summary>
+        /// The scroll-padding-top declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingTop = "scroll-padding-top";
+
+        /// <summary>
+        /// The scroll-padding-right declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingRight = "scroll-padding-right";
+
+        /// <summary>
+        /// The scroll-padding-bottom declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBottom = "scroll-padding-bottom";
+
+        /// <summary>
+        /// The scroll-padding-left declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingLeft = "scroll-padding-left";
+
+        /// <summary>
+        /// The scroll-padding-block declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlock = "scroll-padding-block";
+
+        /// <summary>
+        /// The scroll-padding-block-start declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlockStart = "scroll-padding-block-start";
+
+        /// <summary>
+        /// The scroll-padding-block-end declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlockEnd = "scroll-padding-block-end";
+
+        /// <summary>
+        /// The scroll-padding-inline declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInline = "scroll-padding-inline";
+
+        /// <summary>
+        /// The scroll-padding-inline-start declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInlineStart = "scroll-padding-inline-start";
+
+        /// <summary>
+        /// The scroll-padding-inline-end declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInlineEnd = "scroll-padding-inline-end";
+
+        /// <summary>
+        /// The overscroll-behavior declaration (shorthand).
+        /// </summary>
+        public static readonly String OverscrollBehavior = "overscroll-behavior";
+
+        /// <summary>
+        /// The overscroll-behavior-x declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorX = "overscroll-behavior-x";
+
+        /// <summary>
+        /// The overscroll-behavior-y declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorY = "overscroll-behavior-y";
+
+        /// <summary>
+        /// The overscroll-behavior-block declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorBlock = "overscroll-behavior-block";
+
+        /// <summary>
+        /// The overscroll-behavior-inline declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorInline = "overscroll-behavior-inline";
 
         /// <summary>
         /// The scroll-snap-align declaration.

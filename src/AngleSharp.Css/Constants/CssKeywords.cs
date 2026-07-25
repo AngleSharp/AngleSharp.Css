@@ -283,6 +283,11 @@ namespace AngleSharp.Css
         public static readonly String Always = "always";
 
         /// <summary>
+        /// The smooth keyword.
+        /// </summary>
+        public static readonly String Smooth = "smooth";
+
+        /// <summary>
         /// The avoid keyword.
         /// </summary>
         public static readonly String Avoid = "avoid";

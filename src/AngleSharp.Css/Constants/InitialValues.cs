@@ -252,6 +252,28 @@ namespace AngleSharp.Css
         public static readonly ICssValue FontSizeAdjustDecl = new CssLengthValue(1.0, CssLengthValue.Unit.Em);
         public static readonly ICssValue ScrollSnapTypeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue ScrollMarginDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginTopDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginRightDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginBottomDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginLeftDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginBlockStartDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginBlockEndDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginInlineStartDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollMarginInlineEndDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ScrollPaddingTopDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingRightDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingBottomDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingLeftDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingBlockStartDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingBlockEndDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingInlineStartDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollPaddingInlineEndDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollBehaviorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollSnapStopDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue OverscrollBehaviorXDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue OverscrollBehaviorYDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue OverscrollBehaviorBlockDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue OverscrollBehaviorInlineDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue ScrollSnapAlignDecl = new CssConstantValue<ScrollSnapAlign>(CssKeywords.None, ScrollSnapAlign.None);
     }
 }

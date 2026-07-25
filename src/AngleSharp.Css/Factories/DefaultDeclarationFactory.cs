@@ -2012,6 +2012,242 @@ namespace AngleSharp.Css
                     initialValue: ScrollSnapTypeDeclaration.InitialValue,
                     flags: ScrollSnapTypeDeclaration.Flags)
             },
+            // Scroll behavior and snap stop
+            {
+                ScrollBehaviorDeclaration.Name, new DeclarationInfo(
+                    name: ScrollBehaviorDeclaration.Name,
+                    converter: ScrollBehaviorDeclaration.Converter,
+                    initialValue: ScrollBehaviorDeclaration.InitialValue,
+                    flags: ScrollBehaviorDeclaration.Flags)
+            },
+            {
+                ScrollSnapStopDeclaration.Name, new DeclarationInfo(
+                    name: ScrollSnapStopDeclaration.Name,
+                    converter: ScrollSnapStopDeclaration.Converter,
+                    initialValue: ScrollSnapStopDeclaration.InitialValue,
+                    flags: ScrollSnapStopDeclaration.Flags)
+            },
+            // Scroll margin — physical shorthand + sides
+            {
+                ScrollMarginDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginDeclaration.Name,
+                    converter: ScrollMarginDeclaration.Converter,
+                    initialValue: ScrollMarginDeclaration.InitialValue,
+                    flags: ScrollMarginDeclaration.Flags,
+                    longhands: ScrollMarginDeclaration.Longhands)
+            },
+            {
+                ScrollMarginTopDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginTopDeclaration.Name,
+                    converter: ScrollMarginTopDeclaration.Converter,
+                    initialValue: ScrollMarginTopDeclaration.InitialValue,
+                    flags: ScrollMarginTopDeclaration.Flags,
+                    shorthands: ScrollMarginTopDeclaration.Shorthands)
+            },
+            {
+                ScrollMarginRightDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginRightDeclaration.Name,
+                    converter: ScrollMarginRightDeclaration.Converter,
+                    initialValue: ScrollMarginRightDeclaration.InitialValue,
+                    flags: ScrollMarginRightDeclaration.Flags,
+                    shorthands: ScrollMarginRightDeclaration.Shorthands)
+            },
+            {
+                ScrollMarginBottomDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginBottomDeclaration.Name,
+                    converter: ScrollMarginBottomDeclaration.Converter,
+                    initialValue: ScrollMarginBottomDeclaration.InitialValue,
+                    flags: ScrollMarginBottomDeclaration.Flags,
+                    shorthands: ScrollMarginBottomDeclaration.Shorthands)
+            },
+            {
+                ScrollMarginLeftDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginLeftDeclaration.Name,
+                    converter: ScrollMarginLeftDeclaration.Converter,
+                    initialValue: ScrollMarginLeftDeclaration.InitialValue,
+                    flags: ScrollMarginLeftDeclaration.Flags,
+                    shorthands: ScrollMarginLeftDeclaration.Shorthands)
+            },
+            // Scroll margin — logical block
+            {
+                ScrollMarginBlockDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginBlockDeclaration.Name,
+                    converter: ScrollMarginBlockDeclaration.Converter,
+                    initialValue: ScrollMarginBlockDeclaration.InitialValue,
+                    flags: ScrollMarginBlockDeclaration.Flags,
+                    longhands: ScrollMarginBlockDeclaration.Longhands)
+            },
+            {
+                ScrollMarginBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginBlockStartDeclaration.Name,
+                    converter: ScrollMarginBlockStartDeclaration.Converter,
+                    initialValue: ScrollMarginBlockStartDeclaration.InitialValue,
+                    flags: ScrollMarginBlockStartDeclaration.Flags,
+                    shorthands: ScrollMarginBlockStartDeclaration.Shorthands)
+            },
+            {
+                ScrollMarginBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginBlockEndDeclaration.Name,
+                    converter: ScrollMarginBlockEndDeclaration.Converter,
+                    initialValue: ScrollMarginBlockEndDeclaration.InitialValue,
+                    flags: ScrollMarginBlockEndDeclaration.Flags,
+                    shorthands: ScrollMarginBlockEndDeclaration.Shorthands)
+            },
+            // Scroll margin — logical inline
+            {
+                ScrollMarginInlineDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginInlineDeclaration.Name,
+                    converter: ScrollMarginInlineDeclaration.Converter,
+                    initialValue: ScrollMarginInlineDeclaration.InitialValue,
+                    flags: ScrollMarginInlineDeclaration.Flags,
+                    longhands: ScrollMarginInlineDeclaration.Longhands)
+            },
+            {
+                ScrollMarginInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginInlineStartDeclaration.Name,
+                    converter: ScrollMarginInlineStartDeclaration.Converter,
+                    initialValue: ScrollMarginInlineStartDeclaration.InitialValue,
+                    flags: ScrollMarginInlineStartDeclaration.Flags,
+                    shorthands: ScrollMarginInlineStartDeclaration.Shorthands)
+            },
+            {
+                ScrollMarginInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: ScrollMarginInlineEndDeclaration.Name,
+                    converter: ScrollMarginInlineEndDeclaration.Converter,
+                    initialValue: ScrollMarginInlineEndDeclaration.InitialValue,
+                    flags: ScrollMarginInlineEndDeclaration.Flags,
+                    shorthands: ScrollMarginInlineEndDeclaration.Shorthands)
+            },
+            // Scroll padding — physical shorthand + sides
+            {
+                ScrollPaddingDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingDeclaration.Name,
+                    converter: ScrollPaddingDeclaration.Converter,
+                    initialValue: ScrollPaddingDeclaration.InitialValue,
+                    flags: ScrollPaddingDeclaration.Flags,
+                    longhands: ScrollPaddingDeclaration.Longhands)
+            },
+            {
+                ScrollPaddingTopDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingTopDeclaration.Name,
+                    converter: ScrollPaddingTopDeclaration.Converter,
+                    initialValue: ScrollPaddingTopDeclaration.InitialValue,
+                    flags: ScrollPaddingTopDeclaration.Flags,
+                    shorthands: ScrollPaddingTopDeclaration.Shorthands)
+            },
+            {
+                ScrollPaddingRightDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingRightDeclaration.Name,
+                    converter: ScrollPaddingRightDeclaration.Converter,
+                    initialValue: ScrollPaddingRightDeclaration.InitialValue,
+                    flags: ScrollPaddingRightDeclaration.Flags,
+                    shorthands: ScrollPaddingRightDeclaration.Shorthands)
+            },
+            {
+                ScrollPaddingBottomDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingBottomDeclaration.Name,
+                    converter: ScrollPaddingBottomDeclaration.Converter,
+                    initialValue: ScrollPaddingBottomDeclaration.InitialValue,
+                    flags: ScrollPaddingBottomDeclaration.Flags,
+                    shorthands: ScrollPaddingBottomDeclaration.Shorthands)
+            },
+            {
+                ScrollPaddingLeftDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingLeftDeclaration.Name,
+                    converter: ScrollPaddingLeftDeclaration.Converter,
+                    initialValue: ScrollPaddingLeftDeclaration.InitialValue,
+                    flags: ScrollPaddingLeftDeclaration.Flags,
+                    shorthands: ScrollPaddingLeftDeclaration.Shorthands)
+            },
+            // Scroll padding — logical block
+            {
+                ScrollPaddingBlockDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingBlockDeclaration.Name,
+                    converter: ScrollPaddingBlockDeclaration.Converter,
+                    initialValue: ScrollPaddingBlockDeclaration.InitialValue,
+                    flags: ScrollPaddingBlockDeclaration.Flags,
+                    longhands: ScrollPaddingBlockDeclaration.Longhands)
+            },
+            {
+                ScrollPaddingBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingBlockStartDeclaration.Name,
+                    converter: ScrollPaddingBlockStartDeclaration.Converter,
+                    initialValue: ScrollPaddingBlockStartDeclaration.InitialValue,
+                    flags: ScrollPaddingBlockStartDeclaration.Flags,
+                    shorthands: ScrollPaddingBlockStartDeclaration.Shorthands)
+            },
+            {
+                ScrollPaddingBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingBlockEndDeclaration.Name,
+                    converter: ScrollPaddingBlockEndDeclaration.Converter,
+                    initialValue: ScrollPaddingBlockEndDeclaration.InitialValue,
+                    flags: ScrollPaddingBlockEndDeclaration.Flags,
+                    shorthands: ScrollPaddingBlockEndDeclaration.Shorthands)
+            },
+            // Scroll padding — logical inline
+            {
+                ScrollPaddingInlineDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingInlineDeclaration.Name,
+                    converter: ScrollPaddingInlineDeclaration.Converter,
+                    initialValue: ScrollPaddingInlineDeclaration.InitialValue,
+                    flags: ScrollPaddingInlineDeclaration.Flags,
+                    longhands: ScrollPaddingInlineDeclaration.Longhands)
+            },
+            {
+                ScrollPaddingInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingInlineStartDeclaration.Name,
+                    converter: ScrollPaddingInlineStartDeclaration.Converter,
+                    initialValue: ScrollPaddingInlineStartDeclaration.InitialValue,
+                    flags: ScrollPaddingInlineStartDeclaration.Flags,
+                    shorthands: ScrollPaddingInlineStartDeclaration.Shorthands)
+            },
+            {
+                ScrollPaddingInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: ScrollPaddingInlineEndDeclaration.Name,
+                    converter: ScrollPaddingInlineEndDeclaration.Converter,
+                    initialValue: ScrollPaddingInlineEndDeclaration.InitialValue,
+                    flags: ScrollPaddingInlineEndDeclaration.Flags,
+                    shorthands: ScrollPaddingInlineEndDeclaration.Shorthands)
+            },
+            // Overscroll behavior
+            {
+                OverscrollBehaviorDeclaration.Name, new DeclarationInfo(
+                    name: OverscrollBehaviorDeclaration.Name,
+                    converter: OverscrollBehaviorDeclaration.Converter,
+                    initialValue: OverscrollBehaviorDeclaration.InitialValue,
+                    flags: OverscrollBehaviorDeclaration.Flags,
+                    longhands: OverscrollBehaviorDeclaration.Longhands)
+            },
+            {
+                OverscrollBehaviorXDeclaration.Name, new DeclarationInfo(
+                    name: OverscrollBehaviorXDeclaration.Name,
+                    converter: OverscrollBehaviorXDeclaration.Converter,
+                    initialValue: OverscrollBehaviorXDeclaration.InitialValue,
+                    flags: OverscrollBehaviorXDeclaration.Flags,
+                    shorthands: OverscrollBehaviorXDeclaration.Shorthands)
+            },
+            {
+                OverscrollBehaviorYDeclaration.Name, new DeclarationInfo(
+                    name: OverscrollBehaviorYDeclaration.Name,
+                    converter: OverscrollBehaviorYDeclaration.Converter,
+                    initialValue: OverscrollBehaviorYDeclaration.InitialValue,
+                    flags: OverscrollBehaviorYDeclaration.Flags,
+                    shorthands: OverscrollBehaviorYDeclaration.Shorthands)
+            },
+            {
+                OverscrollBehaviorBlockDeclaration.Name, new DeclarationInfo(
+                    name: OverscrollBehaviorBlockDeclaration.Name,
+                    converter: OverscrollBehaviorBlockDeclaration.Converter,
+                    initialValue: OverscrollBehaviorBlockDeclaration.InitialValue,
+                    flags: OverscrollBehaviorBlockDeclaration.Flags)
+            },
+            {
+                OverscrollBehaviorInlineDeclaration.Name, new DeclarationInfo(
+                    name: OverscrollBehaviorInlineDeclaration.Name,
+                    converter: OverscrollBehaviorInlineDeclaration.Converter,
+                    initialValue: OverscrollBehaviorInlineDeclaration.InitialValue,
+                    flags: OverscrollBehaviorInlineDeclaration.Flags)
+            },
             // CSS Logical Properties — inset
             {
                 InsetDeclaration.Name, new DeclarationInfo(
