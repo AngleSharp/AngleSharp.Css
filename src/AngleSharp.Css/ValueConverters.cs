@@ -650,6 +650,68 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Luminance, CssKeywords.Luminance));
 
         /// <summary>
+        /// Represents a converter for the contain property.
+        /// </summary>
+        public static readonly IValueConverter ContainConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Strict, CssKeywords.Strict),
+            Assign(CssKeywords.Content, CssKeywords.Content),
+            Assign(CssKeywords.Layout, CssKeywords.Layout),
+            Assign(CssKeywords.Style, CssKeywords.Style),
+            Assign(CssKeywords.Paint, CssKeywords.Paint),
+            Assign(CssKeywords.Size, CssKeywords.Size));
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-width property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicWidthConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-height property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicHeightConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-block-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicBlockSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-inline-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicInlineSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the will-change property.
+        /// </summary>
+        public static readonly IValueConverter WillChangeConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.ScrollPosition, CssKeywords.ScrollPosition),
+            Assign(CssKeywords.Contents, CssKeywords.Contents),
+            Assign(CssKeywords.Transform, CssKeywords.Transform),
+            Assign(CssKeywords.Opacity, CssKeywords.Opacity));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

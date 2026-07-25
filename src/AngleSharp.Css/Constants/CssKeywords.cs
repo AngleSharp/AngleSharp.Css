@@ -2081,5 +2081,35 @@ namespace AngleSharp.Css
         /// The view-box keyword for mask-clip and mask-origin.
         /// </summary>
         public static readonly String ViewBox = "view-box";
+
+        /// <summary>
+        /// The paint keyword for contain property.
+        /// </summary>
+        public static readonly String Paint = "paint";
+
+        /// <summary>
+        /// The layout keyword for contain property.
+        /// </summary>
+        public static readonly String Layout = "layout";
+
+        /// <summary>
+        /// The scroll-position keyword for will-change property.
+        /// </summary>
+        public static readonly String ScrollPosition = "scroll-position";
+
+        /// <summary>
+        /// The contents keyword for will-change property.
+        /// </summary>
+        public static readonly String Contents = "contents";
+
+        /// <summary>
+        /// The transform keyword for will-change property.
+        /// </summary>
+        public static readonly String Transform = "transform";
+
+        /// <summary>
+        /// The opacity keyword for will-change property.
+        /// </summary>
+        public static readonly String Opacity = "opacity";
     }
 }

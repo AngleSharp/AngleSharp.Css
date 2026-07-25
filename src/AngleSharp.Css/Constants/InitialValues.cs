@@ -232,6 +232,12 @@ namespace AngleSharp.Css
         public static readonly ICssValue ContentDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue ContainerNameDecl = new CssIdentifierValue(CssKeywords.None);
         public static readonly ICssValue ContainerTypeDecl = new CssIdentifierValue(CssKeywords.Normal);
+        public static readonly ICssValue ContainDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ContainIntrinsicSizeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ContainIntrinsicWidthDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ContainIntrinsicHeightDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ContainIntrinsicBlockSizeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ContainIntrinsicInlineSizeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue ContentVisibilityDecl = new CssConstantValue<Visibility>(CssKeywords.Visible, Visibility.Visible);
         public static readonly ICssValue CounterIncrementDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue CounterResetDecl = new CssConstantValue<Object>(CssKeywords.None, null);
@@ -340,5 +346,6 @@ namespace AngleSharp.Css
         public static readonly ICssValue MaskBorderOutsetDecl = CssLengthValue.Zero;
         public static readonly ICssValue MaskBorderRepeatDecl = new CssConstantValue<Object>(CssKeywords.Repeat, null);
         public static readonly ICssValue MaskBorderModeDecl = new CssIdentifierValue(CssKeywords.AlphaKeyword);
+        public static readonly ICssValue WillChangeDecl = new CssIdentifierValue(CssKeywords.Auto);
     }
 }

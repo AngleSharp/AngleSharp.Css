@@ -149,6 +149,48 @@ namespace AngleSharp.Css
                     shorthands: ContainerTypeDeclaration.Shorthands)
             },
             {
+                ContainDeclaration.Name, new DeclarationInfo(
+                    name: ContainDeclaration.Name,
+                    converter: ContainDeclaration.Converter,
+                    initialValue: ContainDeclaration.InitialValue,
+                    flags: ContainDeclaration.Flags)
+            },
+            {
+                ContainIntrinsicSizeDeclaration.Name, new DeclarationInfo(
+                    name: ContainIntrinsicSizeDeclaration.Name,
+                    converter: ContainIntrinsicSizeDeclaration.Converter,
+                    initialValue: ContainIntrinsicSizeDeclaration.InitialValue,
+                    flags: ContainIntrinsicSizeDeclaration.Flags)
+            },
+            {
+                ContainIntrinsicWidthDeclaration.Name, new DeclarationInfo(
+                    name: ContainIntrinsicWidthDeclaration.Name,
+                    converter: ContainIntrinsicWidthDeclaration.Converter,
+                    initialValue: ContainIntrinsicWidthDeclaration.InitialValue,
+                    flags: ContainIntrinsicWidthDeclaration.Flags)
+            },
+            {
+                ContainIntrinsicHeightDeclaration.Name, new DeclarationInfo(
+                    name: ContainIntrinsicHeightDeclaration.Name,
+                    converter: ContainIntrinsicHeightDeclaration.Converter,
+                    initialValue: ContainIntrinsicHeightDeclaration.InitialValue,
+                    flags: ContainIntrinsicHeightDeclaration.Flags)
+            },
+            {
+                ContainIntrinsicBlockSizeDeclaration.Name, new DeclarationInfo(
+                    name: ContainIntrinsicBlockSizeDeclaration.Name,
+                    converter: ContainIntrinsicBlockSizeDeclaration.Converter,
+                    initialValue: ContainIntrinsicBlockSizeDeclaration.InitialValue,
+                    flags: ContainIntrinsicBlockSizeDeclaration.Flags)
+            },
+            {
+                ContainIntrinsicInlineSizeDeclaration.Name, new DeclarationInfo(
+                    name: ContainIntrinsicInlineSizeDeclaration.Name,
+                    converter: ContainIntrinsicInlineSizeDeclaration.Converter,
+                    initialValue: ContainIntrinsicInlineSizeDeclaration.InitialValue,
+                    flags: ContainIntrinsicInlineSizeDeclaration.Flags)
+            },
+            {
                 ContentVisibilityDeclaration.Name, new DeclarationInfo(
                     name: ContentVisibilityDeclaration.Name,
                     converter: ContentVisibilityDeclaration.Converter,
@@ -273,6 +315,13 @@ namespace AngleSharp.Css
                     converter: PrintColorAdjustDeclaration.Converter,
                     initialValue: PrintColorAdjustDeclaration.InitialValue,
                     flags: PrintColorAdjustDeclaration.Flags)
+            },
+            {
+                WillChangeDeclaration.Name, new DeclarationInfo(
+                    name: WillChangeDeclaration.Name,
+                    converter: WillChangeDeclaration.Converter,
+                    initialValue: WillChangeDeclaration.InitialValue,
+                    flags: WillChangeDeclaration.Flags)
             },
             {
                 ZIndexDeclaration.Name, new DeclarationInfo(

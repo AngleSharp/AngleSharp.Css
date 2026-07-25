@@ -703,6 +703,36 @@ namespace AngleSharp.Css
         public static readonly String ContainerType = "container-type";
 
         /// <summary>
+        /// The contain declaration.
+        /// </summary>
+        public static readonly String Contain = "contain";
+
+        /// <summary>
+        /// The contain-intrinsic-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicSize = "contain-intrinsic-size";
+
+        /// <summary>
+        /// The contain-intrinsic-width declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicWidth = "contain-intrinsic-width";
+
+        /// <summary>
+        /// The contain-intrinsic-height declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicHeight = "contain-intrinsic-height";
+
+        /// <summary>
+        /// The contain-intrinsic-block-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicBlockSize = "contain-intrinsic-block-size";
+
+        /// <summary>
+        /// The contain-intrinsic-inline-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicInlineSize = "contain-intrinsic-inline-size";
+
+        /// <summary>
         /// The content-visibility declaration.
         /// </summary>
         public static readonly String ContentVisibility = "content-visibility";
@@ -2096,6 +2126,11 @@ namespace AngleSharp.Css
         /// The writing-mode declaration.
         /// </summary>
         public static readonly String WritingMode = "writing-mode";
+
+        /// <summary>
+        /// The will-change declaration.
+        /// </summary>
+        public static readonly String WillChange = "will-change";
 
         /// <summary>
         /// The z-index declaration.

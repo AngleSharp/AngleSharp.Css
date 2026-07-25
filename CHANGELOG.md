@@ -35,6 +35,7 @@ Released on Sunday, July 26 2026.
 - Added missing text declarations (e.g., `text-underline-offset`, `tab-size`, `initial-letter`)
 - Added missing masking declarations (e.g., `mask-image`, `mask-border-source`)
 - Added missing auxiliary declarations (e.g., `counter-set`, `image-rendering`, `view-transition-name`)
+- Added missing containment declarations (e.g., `contain`, `will-change`)
 - Added more CSSOM possibilities and helpers (#6)
 - Added parts of recent color spec update such as `rgb` with spaces (#131)
 - Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
