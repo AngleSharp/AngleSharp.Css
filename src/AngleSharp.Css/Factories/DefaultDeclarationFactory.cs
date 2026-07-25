@@ -429,6 +429,69 @@ namespace AngleSharp.Css
                     flags: MinWidthDeclaration.Flags)
             },
             {
+                AspectRatioDeclaration.Name, new DeclarationInfo(
+                    name: AspectRatioDeclaration.Name,
+                    converter: AspectRatioDeclaration.Converter,
+                    initialValue: AspectRatioDeclaration.InitialValue,
+                    flags: AspectRatioDeclaration.Flags)
+            },
+            {
+                BlockSizeDeclaration.Name, new DeclarationInfo(
+                    name: BlockSizeDeclaration.Name,
+                    converter: BlockSizeDeclaration.Converter,
+                    initialValue: BlockSizeDeclaration.InitialValue,
+                    flags: BlockSizeDeclaration.Flags)
+            },
+            {
+                InlineSizeDeclaration.Name, new DeclarationInfo(
+                    name: InlineSizeDeclaration.Name,
+                    converter: InlineSizeDeclaration.Converter,
+                    initialValue: InlineSizeDeclaration.InitialValue,
+                    flags: InlineSizeDeclaration.Flags)
+            },
+            {
+                MinBlockSizeDeclaration.Name, new DeclarationInfo(
+                    name: MinBlockSizeDeclaration.Name,
+                    converter: MinBlockSizeDeclaration.Converter,
+                    initialValue: MinBlockSizeDeclaration.InitialValue,
+                    flags: MinBlockSizeDeclaration.Flags)
+            },
+            {
+                MaxBlockSizeDeclaration.Name, new DeclarationInfo(
+                    name: MaxBlockSizeDeclaration.Name,
+                    converter: MaxBlockSizeDeclaration.Converter,
+                    initialValue: MaxBlockSizeDeclaration.InitialValue,
+                    flags: MaxBlockSizeDeclaration.Flags)
+            },
+            {
+                MinInlineSizeDeclaration.Name, new DeclarationInfo(
+                    name: MinInlineSizeDeclaration.Name,
+                    converter: MinInlineSizeDeclaration.Converter,
+                    initialValue: MinInlineSizeDeclaration.InitialValue,
+                    flags: MinInlineSizeDeclaration.Flags)
+            },
+            {
+                MaxInlineSizeDeclaration.Name, new DeclarationInfo(
+                    name: MaxInlineSizeDeclaration.Name,
+                    converter: MaxInlineSizeDeclaration.Converter,
+                    initialValue: MaxInlineSizeDeclaration.InitialValue,
+                    flags: MaxInlineSizeDeclaration.Flags)
+            },
+            {
+                OverflowClipMarginDeclaration.Name, new DeclarationInfo(
+                    name: OverflowClipMarginDeclaration.Name,
+                    converter: OverflowClipMarginDeclaration.Converter,
+                    initialValue: OverflowClipMarginDeclaration.InitialValue,
+                    flags: OverflowClipMarginDeclaration.Flags)
+            },
+            {
+                OverflowAnchorDeclaration.Name, new DeclarationInfo(
+                    name: OverflowAnchorDeclaration.Name,
+                    converter: OverflowAnchorDeclaration.Converter,
+                    initialValue: OverflowAnchorDeclaration.InitialValue,
+                    flags: OverflowAnchorDeclaration.Flags)
+            },
+            {
                 RightDeclaration.Name, new DeclarationInfo(
                     name: RightDeclaration.Name,
                     converter: RightDeclaration.Converter,

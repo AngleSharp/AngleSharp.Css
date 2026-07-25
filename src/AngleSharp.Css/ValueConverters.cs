@@ -781,6 +781,24 @@ namespace AngleSharp.Css
 		public static readonly IValueConverter RatioConverter = new StructValueConverter<CssRatioValue>(NumberParser.ParseRatio);
 
         /// <summary>
+        /// Represents a converter for the aspect-ratio property (auto | &lt;ratio&gt;).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
+        /// </summary>
+        public static readonly IValueConverter AspectRatioConverter = Or(Auto, RatioConverter);
+
+        /// <summary>
+        /// Represents a converter for the overflow-anchor property (auto | none).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor
+        /// </summary>
+        public static readonly IValueConverter OverflowAnchorConverter = Or(Auto, None);
+
+        /// <summary>
+        /// Represents a converter for the overflow-clip-margin property (&lt;visual-box&gt; || &lt;length&gt;).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-clip-margin
+        /// </summary>
+        public static readonly IValueConverter OverflowClipMarginConverter = Or(LengthOrPercentConverter, BoxModelConverter);
+
+        /// <summary>
         /// Represents multiple shadow objects.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>

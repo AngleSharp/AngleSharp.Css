@@ -96,6 +96,15 @@ namespace AngleSharp.Css
         public static readonly ICssValue MinWidthDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
         public static readonly ICssValue MaxHeightDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue MaxWidthDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue AspectRatioDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
+        public static readonly ICssValue BlockSizeDecl = CssLengthValue.Auto;
+        public static readonly ICssValue InlineSizeDecl = CssLengthValue.Auto;
+        public static readonly ICssValue MinBlockSizeDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
+        public static readonly ICssValue MaxBlockSizeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue MinInlineSizeDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
+        public static readonly ICssValue MaxInlineSizeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue OverflowClipMarginDecl = CssLengthValue.Zero;
+        public static readonly ICssValue OverflowAnchorDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
         public static readonly ICssValue MarginBlockEndDecl = CssLengthValue.Zero;
         public static readonly ICssValue MarginBlockStartDecl = CssLengthValue.Zero;
         public static readonly ICssValue MarginInlineEndDecl = CssLengthValue.Zero;

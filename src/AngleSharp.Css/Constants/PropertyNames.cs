@@ -33,6 +33,11 @@ namespace AngleSharp.Css
         public static readonly String Accelerator = "accelerator";
 
         /// <summary>
+        /// The aspect-ratio declaration.
+        /// </summary>
+        public static readonly String AspectRatio = "aspect-ratio";
+
+        /// <summary>
         /// The animation declaration.
         /// </summary>
         public static readonly String Animation = "animation";
@@ -358,6 +363,11 @@ namespace AngleSharp.Css
         public static readonly String Bottom = "bottom";
 
         /// <summary>
+        /// The block-size declaration.
+        /// </summary>
+        public static readonly String BlockSize = "block-size";
+
+        /// <summary>
         /// The columns declaration.
         /// </summary>
         public static readonly String Columns = "columns";
@@ -663,6 +673,11 @@ namespace AngleSharp.Css
         public static readonly String ImeMode = "ime-mode";
 
         /// <summary>
+        /// The inline-size declaration.
+        /// </summary>
+        public static readonly String InlineSize = "inline-size";
+
+        /// <summary>
         /// The justify-content declaration.
         /// </summary>
         public static readonly String JustifyContent = "justify-content";
@@ -908,6 +923,16 @@ namespace AngleSharp.Css
         public static readonly String MaxWidth = "max-width";
 
         /// <summary>
+        /// The max-block-size declaration.
+        /// </summary>
+        public static readonly String MaxBlockSize = "max-block-size";
+
+        /// <summary>
+        /// The max-inline-size declaration.
+        /// </summary>
+        public static readonly String MaxInlineSize = "max-inline-size";
+
+        /// <summary>
         /// The min-height declaration.
         /// </summary>
         public static readonly String MinHeight = "min-height";
@@ -916,6 +941,16 @@ namespace AngleSharp.Css
         /// The min-width declaration.
         /// </summary>
         public static readonly String MinWidth = "min-width";
+
+        /// <summary>
+        /// The min-block-size declaration.
+        /// </summary>
+        public static readonly String MinBlockSize = "min-block-size";
+
+        /// <summary>
+        /// The min-inline-size declaration.
+        /// </summary>
+        public static readonly String MinInlineSize = "min-inline-size";
 
         /// <summary>
         /// The opacity declaration.
@@ -971,6 +1006,16 @@ namespace AngleSharp.Css
 		/// The overflow-wrap declaration.
 		/// </summary>
 		public static readonly String OverflowWrap = "overflow-wrap";
+
+        /// <summary>
+        /// The overflow-clip-margin declaration.
+        /// </summary>
+        public static readonly String OverflowClipMargin = "overflow-clip-margin";
+
+        /// <summary>
+        /// The overflow-anchor declaration.
+        /// </summary>
+        public static readonly String OverflowAnchor = "overflow-anchor";
 
         /// <summary>
         /// The padding-block declaration.
