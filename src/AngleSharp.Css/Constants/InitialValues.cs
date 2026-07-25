@@ -48,6 +48,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue FontSynthesisSmallCapsDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue FontVariationSettingsDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue AccentColorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue AppearanceDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue CaretColorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue ColorSchemeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue ForcedColorAdjustDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
@@ -180,6 +181,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue OutlineWidthDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Medium, CssLengthValue.Medium);
         public static readonly ICssValue OutlineStyleDecl = new CssConstantValue<LineStyle>(CssKeywords.None, LineStyle.None);
         public static readonly ICssValue OutlineColorDecl = new CssConstantValue<CssColorValue>(CssKeywords.Invert, CssColorValue.InvertedColor);
+        public static readonly ICssValue OutlineOffsetDecl = CssLengthValue.Zero;
         public static readonly ICssValue TextTransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextShadowDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextRenderingDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
@@ -278,6 +280,9 @@ namespace AngleSharp.Css
         public static readonly ICssValue ScrollbarBaseColorDecl = CssColorValue.Transparent;
         public static readonly ICssValue ScrollbarArrowColorDecl = CssColors.GetColor("buttontext");
         public static readonly ICssValue Scrollbar3dLightColorDecl = CssColorValue.White;
+        public static readonly ICssValue ScrollbarWidthDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue ScrollbarColorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ScrollbarGutterDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue LetterSpacingDecl = CssLengthValue.Normal;
         public static readonly ICssValue FontSizeAdjustDecl = new CssLengthValue(1.0, CssLengthValue.Unit.Em);
         public static readonly ICssValue ScrollSnapTypeDecl = new CssConstantValue<Object>(CssKeywords.None, null);
@@ -346,6 +351,8 @@ namespace AngleSharp.Css
         public static readonly ICssValue MaskBorderOutsetDecl = CssLengthValue.Zero;
         public static readonly ICssValue MaskBorderRepeatDecl = new CssConstantValue<Object>(CssKeywords.Repeat, null);
         public static readonly ICssValue MaskBorderModeDecl = new CssIdentifierValue(CssKeywords.AlphaKeyword);
+        public static readonly ICssValue TouchActionDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue UserSelectDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue WillChangeDecl = new CssIdentifierValue(CssKeywords.Auto);
     }
 }

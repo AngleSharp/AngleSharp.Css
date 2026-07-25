@@ -2111,5 +2111,10 @@ namespace AngleSharp.Css
         /// The opacity keyword for will-change property.
         /// </summary>
         public static readonly String Opacity = "opacity";
+
+        /// <summary>
+        /// The manipulation keyword for touch-action property.
+        /// </summary>
+        public static readonly String Manipulation = "manipulation";
     }
 }

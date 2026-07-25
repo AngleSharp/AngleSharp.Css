@@ -712,6 +712,60 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Opacity, CssKeywords.Opacity));
 
         /// <summary>
+        /// Represents a converter for the appearance property.
+        /// </summary>
+        public static readonly IValueConverter AppearanceConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the user-select property.
+        /// </summary>
+        public static readonly IValueConverter UserSelectConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Text, CssKeywords.Text),
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Contain, CssKeywords.Contain),
+            Assign(CssKeywords.All, CssKeywords.All));
+
+        /// <summary>
+        /// Represents a converter for the touch-action property.
+        /// </summary>
+        public static readonly IValueConverter TouchActionConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Manipulation, CssKeywords.Manipulation));
+
+        /// <summary>
+        /// Represents a converter for the outline-offset property.
+        /// </summary>
+        public static readonly IValueConverter OutlineOffsetConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-width property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarWidthConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Thin, CssKeywords.Thin),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-color property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-gutter property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarGutterConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Stable, CssKeywords.Stable));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

@@ -123,6 +123,11 @@ namespace AngleSharp.Css
         public static readonly String AccentColor = "accent-color";
 
         /// <summary>
+        /// The appearance declaration.
+        /// </summary>
+        public static readonly String Appearance = "appearance";
+
+        /// <summary>
         /// The background-attachment declaration.
         /// </summary>
         public static readonly String BackgroundAttachment = "background-attachment";
@@ -1448,6 +1453,11 @@ namespace AngleSharp.Css
         public static readonly String OutlineStyle = "outline-style";
 
         /// <summary>
+        /// The outline-offset declaration.
+        /// </summary>
+        public static readonly String OutlineOffset = "outline-offset";
+
+        /// <summary>
         /// The outline-width declaration.
         /// </summary>
         public static readonly String OutlineWidth = "outline-width";
@@ -1691,6 +1701,21 @@ namespace AngleSharp.Css
         /// The scrollbar-track-color declaration.
         /// </summary>
         public static readonly String ScrollbarTrackColor = "scrollbar-track-color";
+
+        /// <summary>
+        /// The scrollbar-width declaration.
+        /// </summary>
+        public static readonly String ScrollbarWidth = "scrollbar-width";
+
+        /// <summary>
+        /// The scrollbar-color declaration.
+        /// </summary>
+        public static readonly String ScrollbarColor = "scrollbar-color";
+
+        /// <summary>
+        /// The scrollbar-gutter declaration.
+        /// </summary>
+        public static readonly String ScrollbarGutter = "scrollbar-gutter";
 
         /// <summary>
         /// The scroll-behavior declaration.
@@ -2063,6 +2088,11 @@ namespace AngleSharp.Css
         public static readonly String Top = "top";
 
         /// <summary>
+        /// The touch-action declaration.
+        /// </summary>
+        public static readonly String TouchAction = "touch-action";
+
+        /// <summary>
         /// The unicode-bidi declaration.
         /// </summary>
         public static readonly String UnicodeBidi = "unicode-bidi";
@@ -2086,6 +2116,11 @@ namespace AngleSharp.Css
         /// The view-transition-class declaration.
         /// </summary>
         public static readonly String ViewTransitionClass = "view-transition-class";
+
+        /// <summary>
+        /// The user-select declaration.
+        /// </summary>
+        public static readonly String UserSelect = "user-select";
 
         /// <summary>
         /// The white-space declaration.

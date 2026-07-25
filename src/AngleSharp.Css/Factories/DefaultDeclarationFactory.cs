@@ -104,6 +104,13 @@ namespace AngleSharp.Css
                     flags: TableLayoutDeclaration.Flags)
             },
             {
+                TouchActionDeclaration.Name, new DeclarationInfo(
+                    name: TouchActionDeclaration.Name,
+                    converter: TouchActionDeclaration.Converter,
+                    initialValue: TouchActionDeclaration.InitialValue,
+                    flags: TouchActionDeclaration.Flags)
+            },
+            {
                 UnicodeBidiDeclaration.Name, new DeclarationInfo(
                     name: UnicodeBidiDeclaration.Name,
                     converter: UnicodeBidiDeclaration.Converter,
@@ -1255,6 +1262,13 @@ namespace AngleSharp.Css
                     shorthands: OutlineColorDeclaration.Shorthands)
             },
             {
+                OutlineOffsetDeclaration.Name, new DeclarationInfo(
+                    name: OutlineOffsetDeclaration.Name,
+                    converter: OutlineOffsetDeclaration.Converter,
+                    initialValue: OutlineOffsetDeclaration.InitialValue,
+                    flags: OutlineOffsetDeclaration.Flags)
+            },
+            {
                 TextDecorationStyleDeclaration.Name, new DeclarationInfo(
                     name: TextDecorationStyleDeclaration.Name,
                     converter: TextDecorationStyleDeclaration.Converter,
@@ -1531,6 +1545,13 @@ namespace AngleSharp.Css
                     converter: AccentColorDeclaration.Converter,
                     initialValue: AccentColorDeclaration.InitialValue,
                     flags: AccentColorDeclaration.Flags)
+            },
+            {
+                AppearanceDeclaration.Name, new DeclarationInfo(
+                    name: AppearanceDeclaration.Name,
+                    converter: AppearanceDeclaration.Converter,
+                    initialValue: AppearanceDeclaration.InitialValue,
+                    flags: AppearanceDeclaration.Flags)
             },
             {
                 BackgroundColorDeclaration.Name, new DeclarationInfo(
@@ -1964,6 +1985,27 @@ namespace AngleSharp.Css
                     converter: ScrollbarTrackColorDeclaration.Converter,
                     initialValue: ScrollbarTrackColorDeclaration.InitialValue,
                     flags: ScrollbarTrackColorDeclaration.Flags)
+            },
+            {
+                ScrollbarWidthDeclaration.Name, new DeclarationInfo(
+                    name: ScrollbarWidthDeclaration.Name,
+                    converter: ScrollbarWidthDeclaration.Converter,
+                    initialValue: ScrollbarWidthDeclaration.InitialValue,
+                    flags: ScrollbarWidthDeclaration.Flags)
+            },
+            {
+                ScrollbarColorDeclaration.Name, new DeclarationInfo(
+                    name: ScrollbarColorDeclaration.Name,
+                    converter: ScrollbarColorDeclaration.Converter,
+                    initialValue: ScrollbarColorDeclaration.InitialValue,
+                    flags: ScrollbarColorDeclaration.Flags)
+            },
+            {
+                ScrollbarGutterDeclaration.Name, new DeclarationInfo(
+                    name: ScrollbarGutterDeclaration.Name,
+                    converter: ScrollbarGutterDeclaration.Converter,
+                    initialValue: ScrollbarGutterDeclaration.InitialValue,
+                    flags: ScrollbarGutterDeclaration.Flags)
             },
             {
                 PointerEventsDeclaration.Name, new DeclarationInfo(
@@ -2842,6 +2884,13 @@ namespace AngleSharp.Css
                     converter: ViewTransitionClassDeclaration.Converter,
                     initialValue: ViewTransitionClassDeclaration.InitialValue,
                     flags: ViewTransitionClassDeclaration.Flags)
+            },
+            {
+                UserSelectDeclaration.Name, new DeclarationInfo(
+                    name: UserSelectDeclaration.Name,
+                    converter: UserSelectDeclaration.Converter,
+                    initialValue: UserSelectDeclaration.InitialValue,
+                    flags: UserSelectDeclaration.Flags)
             },
             {
                 TextUnderlineOffsetDeclaration.Name, new DeclarationInfo(
