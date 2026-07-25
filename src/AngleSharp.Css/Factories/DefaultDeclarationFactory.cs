@@ -2902,6 +2902,132 @@ namespace AngleSharp.Css
                     initialValue: HangingPunctuationDeclaration.InitialValue,
                     flags: HangingPunctuationDeclaration.Flags)
             },
+            {
+                MaskImageDeclaration.Name, new DeclarationInfo(
+                    name: MaskImageDeclaration.Name,
+                    converter: MaskImageDeclaration.Converter,
+                    initialValue: MaskImageDeclaration.InitialValue,
+                    flags: MaskImageDeclaration.Flags,
+                    shorthands: MaskImageDeclaration.Shorthands)
+            },
+            {
+                MaskModeDeclaration.Name, new DeclarationInfo(
+                    name: MaskModeDeclaration.Name,
+                    converter: MaskModeDeclaration.Converter,
+                    initialValue: MaskModeDeclaration.InitialValue,
+                    flags: MaskModeDeclaration.Flags,
+                    shorthands: MaskModeDeclaration.Shorthands)
+            },
+            {
+                MaskRepeatDeclaration.Name, new DeclarationInfo(
+                    name: MaskRepeatDeclaration.Name,
+                    converter: MaskRepeatDeclaration.Converter,
+                    initialValue: MaskRepeatDeclaration.InitialValue,
+                    flags: MaskRepeatDeclaration.Flags,
+                    shorthands: MaskRepeatDeclaration.Shorthands)
+            },
+            {
+                MaskPositionDeclaration.Name, new DeclarationInfo(
+                    name: MaskPositionDeclaration.Name,
+                    converter: MaskPositionDeclaration.Converter,
+                    initialValue: MaskPositionDeclaration.InitialValue,
+                    flags: MaskPositionDeclaration.Flags,
+                    shorthands: MaskPositionDeclaration.Shorthands)
+            },
+            {
+                MaskClipDeclaration.Name, new DeclarationInfo(
+                    name: MaskClipDeclaration.Name,
+                    converter: MaskClipDeclaration.Converter,
+                    initialValue: MaskClipDeclaration.InitialValue,
+                    flags: MaskClipDeclaration.Flags,
+                    shorthands: MaskClipDeclaration.Shorthands)
+            },
+            {
+                MaskOriginDeclaration.Name, new DeclarationInfo(
+                    name: MaskOriginDeclaration.Name,
+                    converter: MaskOriginDeclaration.Converter,
+                    initialValue: MaskOriginDeclaration.InitialValue,
+                    flags: MaskOriginDeclaration.Flags,
+                    shorthands: MaskOriginDeclaration.Shorthands)
+            },
+            {
+                MaskSizeDeclaration.Name, new DeclarationInfo(
+                    name: MaskSizeDeclaration.Name,
+                    converter: MaskSizeDeclaration.Converter,
+                    initialValue: MaskSizeDeclaration.InitialValue,
+                    flags: MaskSizeDeclaration.Flags,
+                    shorthands: MaskSizeDeclaration.Shorthands)
+            },
+            {
+                MaskCompositeDeclaration.Name, new DeclarationInfo(
+                    name: MaskCompositeDeclaration.Name,
+                    converter: MaskCompositeDeclaration.Converter,
+                    initialValue: MaskCompositeDeclaration.InitialValue,
+                    flags: MaskCompositeDeclaration.Flags,
+                    shorthands: MaskCompositeDeclaration.Shorthands)
+            },
+            {
+                MaskTypeDeclaration.Name, new DeclarationInfo(
+                    name: MaskTypeDeclaration.Name,
+                    converter: MaskTypeDeclaration.Converter,
+                    initialValue: MaskTypeDeclaration.InitialValue,
+                    flags: MaskTypeDeclaration.Flags)
+            },
+            {
+                MaskBorderDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderDeclaration.Name,
+                    converter: MaskBorderDeclaration.Converter,
+                    initialValue: MaskBorderDeclaration.InitialValue,
+                    flags: MaskBorderDeclaration.Flags)
+            },
+            {
+                MaskBorderSourceDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderSourceDeclaration.Name,
+                    converter: MaskBorderSourceDeclaration.Converter,
+                    initialValue: MaskBorderSourceDeclaration.InitialValue,
+                    flags: MaskBorderSourceDeclaration.Flags,
+                    shorthands: MaskBorderSourceDeclaration.Shorthands)
+            },
+            {
+                MaskBorderSliceDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderSliceDeclaration.Name,
+                    converter: MaskBorderSliceDeclaration.Converter,
+                    initialValue: MaskBorderSliceDeclaration.InitialValue,
+                    flags: MaskBorderSliceDeclaration.Flags,
+                    shorthands: MaskBorderSliceDeclaration.Shorthands)
+            },
+            {
+                MaskBorderWidthDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderWidthDeclaration.Name,
+                    converter: MaskBorderWidthDeclaration.Converter,
+                    initialValue: MaskBorderWidthDeclaration.InitialValue,
+                    flags: MaskBorderWidthDeclaration.Flags,
+                    shorthands: MaskBorderWidthDeclaration.Shorthands)
+            },
+            {
+                MaskBorderOutsetDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderOutsetDeclaration.Name,
+                    converter: MaskBorderOutsetDeclaration.Converter,
+                    initialValue: MaskBorderOutsetDeclaration.InitialValue,
+                    flags: MaskBorderOutsetDeclaration.Flags,
+                    shorthands: MaskBorderOutsetDeclaration.Shorthands)
+            },
+            {
+                MaskBorderRepeatDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderRepeatDeclaration.Name,
+                    converter: MaskBorderRepeatDeclaration.Converter,
+                    initialValue: MaskBorderRepeatDeclaration.InitialValue,
+                    flags: MaskBorderRepeatDeclaration.Flags,
+                    shorthands: MaskBorderRepeatDeclaration.Shorthands)
+            },
+            {
+                MaskBorderModeDeclaration.Name, new DeclarationInfo(
+                    name: MaskBorderModeDeclaration.Name,
+                    converter: MaskBorderModeDeclaration.Converter,
+                    initialValue: MaskBorderModeDeclaration.InitialValue,
+                    flags: MaskBorderModeDeclaration.Flags,
+                    shorthands: MaskBorderModeDeclaration.Shorthands)
+            },
         };
 
         /// <summary>

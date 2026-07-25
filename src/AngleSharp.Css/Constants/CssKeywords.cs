@@ -2041,5 +2041,45 @@ namespace AngleSharp.Css
         /// The strict keyword for line-break.
         /// </summary>
         public static readonly String Strict = "strict";
+
+        /// <summary>
+        /// The luminance keyword for mask-mode.
+        /// </summary>
+        public static readonly String Luminance = "luminance";
+
+        /// <summary>
+        /// The alpha keyword for mask-mode.
+        /// </summary>
+        public static readonly String AlphaKeyword = "alpha";
+
+        /// <summary>
+        /// The subtract keyword for mask-composite.
+        /// </summary>
+        public static readonly String Subtract = "subtract";
+
+        /// <summary>
+        /// The intersect keyword for mask-composite.
+        /// </summary>
+        public static readonly String Intersect = "intersect";
+
+        /// <summary>
+        /// The exclude keyword for mask-composite.
+        /// </summary>
+        public static readonly String Exclude = "exclude";
+
+        /// <summary>
+        /// The fill-box keyword for mask-clip and mask-origin.
+        /// </summary>
+        public static readonly String FillBox = "fill-box";
+
+        /// <summary>
+        /// The stroke-box keyword for mask-clip and mask-origin.
+        /// </summary>
+        public static readonly String StrokeBox = "stroke-box";
+
+        /// <summary>
+        /// The view-box keyword for mask-clip and mask-origin.
+        /// </summary>
+        public static readonly String ViewBox = "view-box";
     }
 }

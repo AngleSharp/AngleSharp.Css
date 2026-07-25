@@ -541,6 +541,115 @@ namespace AngleSharp.Css
         public static readonly IValueConverter HangingPunctuationConverter = Assign(CssKeywords.None, CssKeywords.None);
 
         /// <summary>
+        /// Represents a converter for the mask-image property.
+        /// </summary>
+        public static readonly IValueConverter MaskImageConverter = MultipleImageSourceConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-mode property.
+        /// </summary>
+        public static readonly IValueConverter MaskModeConverter = Or(
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword),
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance));
+
+        /// <summary>
+        /// Represents a converter for the mask-repeat property.
+        /// </summary>
+        public static readonly IValueConverter MaskRepeatConverter = BackgroundRepeatsConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-position property.
+        /// </summary>
+        public static readonly IValueConverter MaskPositionConverter = PointConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-clip property.
+        /// </summary>
+        public static readonly IValueConverter MaskClipConverter = Or(
+            Assign(CssKeywords.BorderBox, CssKeywords.BorderBox),
+            Assign(CssKeywords.PaddingBox, CssKeywords.PaddingBox),
+            Assign(CssKeywords.ContentBox, CssKeywords.ContentBox),
+            Assign(CssKeywords.FillBox, CssKeywords.FillBox),
+            Assign(CssKeywords.StrokeBox, CssKeywords.StrokeBox),
+            Assign(CssKeywords.ViewBox, CssKeywords.ViewBox));
+
+        /// <summary>
+        /// Represents a converter for the mask-origin property.
+        /// </summary>
+        public static readonly IValueConverter MaskOriginConverter = Or(
+            Assign(CssKeywords.BorderBox, CssKeywords.BorderBox),
+            Assign(CssKeywords.PaddingBox, CssKeywords.PaddingBox),
+            Assign(CssKeywords.ContentBox, CssKeywords.ContentBox),
+            Assign(CssKeywords.FillBox, CssKeywords.FillBox),
+            Assign(CssKeywords.StrokeBox, CssKeywords.StrokeBox),
+            Assign(CssKeywords.ViewBox, CssKeywords.ViewBox));
+
+        /// <summary>
+        /// Represents a converter for the mask-size property.
+        /// </summary>
+        public static readonly IValueConverter MaskSizeConverter = BackgroundSizeConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-composite property.
+        /// </summary>
+        public static readonly IValueConverter MaskCompositeConverter = Or(
+            Assign(CssKeywords.Add, CssKeywords.Add),
+            Assign(CssKeywords.Subtract, CssKeywords.Subtract),
+            Assign(CssKeywords.Intersect, CssKeywords.Intersect),
+            Assign(CssKeywords.Exclude, CssKeywords.Exclude),
+            Assign(CssKeywords.Multiply, CssKeywords.Multiply),
+            Assign(CssKeywords.Screen, CssKeywords.Screen),
+            Assign(CssKeywords.Overlay, CssKeywords.Overlay),
+            Assign(CssKeywords.Darken, CssKeywords.Darken),
+            Assign(CssKeywords.Lighten, CssKeywords.Lighten));
+
+        /// <summary>
+        /// Represents a converter for the mask-type property.
+        /// </summary>
+        public static readonly IValueConverter MaskTypeConverter = Or(
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance),
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword));
+
+        /// <summary>
+        /// Represents a converter for the mask-border property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-source property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderSourceConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-slice property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderSliceConverter = NumberConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-width property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderWidthConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthOrPercentConverter);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-outset property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderOutsetConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-repeat property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderRepeatConverter = BackgroundRepeatsConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-mode property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderModeConverter = Or(
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword),
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

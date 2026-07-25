@@ -324,5 +324,21 @@ namespace AngleSharp.Css
         public static readonly ICssValue InitialLetterDecl = new CssIdentifierValue(CssKeywords.Normal);
         public static readonly ICssValue InitialLetterAlignDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue HangingPunctuationDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue MaskImageDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue MaskModeDecl = new CssIdentifierValue(CssKeywords.AlphaKeyword);
+        public static readonly ICssValue MaskRepeatDecl = new CssConstantValue<Object>(CssKeywords.Repeat, null);
+        public static readonly ICssValue MaskPositionDecl = new CssConstantValue<CssPoint2D>(null, new CssPoint2D(CssLengthValue.Zero, CssLengthValue.Zero));
+        public static readonly ICssValue MaskClipDecl = new CssIdentifierValue(CssKeywords.BorderBox);
+        public static readonly ICssValue MaskOriginDecl = new CssIdentifierValue(CssKeywords.BorderBox);
+        public static readonly ICssValue MaskSizeDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue MaskCompositeDecl = new CssIdentifierValue(CssKeywords.Add);
+        public static readonly ICssValue MaskTypeDecl = new CssIdentifierValue(CssKeywords.Luminance);
+        public static readonly ICssValue MaskBorderDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue MaskBorderSourceDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue MaskBorderSliceDecl = new CssNumberValue(0.0);
+        public static readonly ICssValue MaskBorderWidthDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue MaskBorderOutsetDecl = CssLengthValue.Zero;
+        public static readonly ICssValue MaskBorderRepeatDecl = new CssConstantValue<Object>(CssKeywords.Repeat, null);
+        public static readonly ICssValue MaskBorderModeDecl = new CssIdentifierValue(CssKeywords.AlphaKeyword);
     }
 }

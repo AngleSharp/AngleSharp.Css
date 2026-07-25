@@ -1273,6 +1273,86 @@ namespace AngleSharp.Css
         public static readonly String Mask = "mask";
 
         /// <summary>
+        /// The mask-border declaration.
+        /// </summary>
+        public static readonly String MaskBorder = "mask-border";
+
+        /// <summary>
+        /// The mask-border-mode declaration.
+        /// </summary>
+        public static readonly String MaskBorderMode = "mask-border-mode";
+
+        /// <summary>
+        /// The mask-border-outset declaration.
+        /// </summary>
+        public static readonly String MaskBorderOutset = "mask-border-outset";
+
+        /// <summary>
+        /// The mask-border-repeat declaration.
+        /// </summary>
+        public static readonly String MaskBorderRepeat = "mask-border-repeat";
+
+        /// <summary>
+        /// The mask-border-slice declaration.
+        /// </summary>
+        public static readonly String MaskBorderSlice = "mask-border-slice";
+
+        /// <summary>
+        /// The mask-border-source declaration.
+        /// </summary>
+        public static readonly String MaskBorderSource = "mask-border-source";
+
+        /// <summary>
+        /// The mask-border-width declaration.
+        /// </summary>
+        public static readonly String MaskBorderWidth = "mask-border-width";
+
+        /// <summary>
+        /// The mask-clip declaration.
+        /// </summary>
+        public static readonly String MaskClip = "mask-clip";
+
+        /// <summary>
+        /// The mask-composite declaration.
+        /// </summary>
+        public static readonly String MaskComposite = "mask-composite";
+
+        /// <summary>
+        /// The mask-image declaration.
+        /// </summary>
+        public static readonly String MaskImage = "mask-image";
+
+        /// <summary>
+        /// The mask-mode declaration.
+        /// </summary>
+        public static readonly String MaskMode = "mask-mode";
+
+        /// <summary>
+        /// The mask-origin declaration.
+        /// </summary>
+        public static readonly String MaskOrigin = "mask-origin";
+
+        /// <summary>
+        /// The mask-position declaration.
+        /// </summary>
+        public static readonly String MaskPosition = "mask-position";
+
+        /// <summary>
+        /// The mask-repeat declaration.
+        /// </summary>
+        public static readonly String MaskRepeat = "mask-repeat";
+
+        /// <summary>
+        /// The mask-size declaration.
+        /// </summary>
+        public static readonly String MaskSize = "mask-size";
+
+        /// <summary>
+        /// The mask-type declaration.
+        /// </summary>
+        public static readonly String MaskType = "mask-type";
+
+        /// <summary>
         /// The max-height declaration.
         /// </summary>
         public static readonly String MaxHeight = "max-height";
