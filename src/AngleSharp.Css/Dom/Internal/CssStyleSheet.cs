@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
@@ -73,7 +74,10 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Sheet(Rules));
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            writer.Write(formatter.Sheet(_rules.GetFormattables()));
+        }
 
         public void Add(ICssRule rule)
         {

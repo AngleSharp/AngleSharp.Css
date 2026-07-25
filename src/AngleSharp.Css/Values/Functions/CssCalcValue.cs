@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
@@ -54,6 +55,14 @@ namespace AngleSharp.Css.Values
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText => Name.CssFunction(_expression.CssText);
+
+        #endregion
+
+        #region Methods
+
+        ICssValue ICssValue.Compute(ICssComputeContext context) => _expression.Compute(context);
+
+        Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
 
         #endregion
     }

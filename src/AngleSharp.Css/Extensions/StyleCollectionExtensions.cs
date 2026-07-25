@@ -1,6 +1,9 @@
+#nullable enable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.RenderTree;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Svg.Dom;
@@ -19,65 +22,98 @@ namespace AngleSharp.Css
         /// Generates the style collection for the given window object.
         /// </summary>
         /// <param name="window">The window to host the style collection.</param>
+        /// <param name="renderDevice">The device to get the style collection for.</param>
         /// <returns>The device-bound style collection.</returns>
-        public static IStyleCollection GetStyleCollection(this IWindow window)
+        public static IStyleCollection GetStyleCollection(this IWindow window, IRenderDevice renderDevice)
         {
             var document = window.Document;
             var ctx = document.Context;
-            var device = ctx.GetService<IRenderDevice>();
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
             var stylesheets = defaultSheets.Concat(currentSheets);
-            return new StyleCollection(stylesheets, device);
+            return new StyleCollection(stylesheets, renderDevice);
         }
 
         /// <summary>
         /// Computes the declarations for the given element in the context of
         /// the specified styling rules.
         /// </summary>
-        /// <param name="rules">The styles to use.</param>
+        /// <param name="styles">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static ICssStyleDeclaration ComputeDeclarations(this IEnumerable<ICssStyleRule> rules, IElement element, String pseudoSelector = null)
+        public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
+            var ctx = element.Owner?.Context;
+            var declarations = GetDeclarations(styles, element, pseudoSelector);
+            var context = new CssComputeContext(styles.Device, ctx, declarations);
+
+            return declarations.Compute(context);
+        }
+
+        /// <summary>
+        /// Gets the declarations for the given element in the context of
+        /// the specified styling rules.
+        /// </summary>
+        /// <param name="styles">The styles to use.</param>
+        /// <param name="element">The element that is questioned.</param>
+        /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
+        /// <returns>The style declaration containing all the declarations.</returns>
+        public static ICssStyleDeclaration GetDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
+        {
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
             var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
             {
-                var pseudoElement = element?.Pseudo(pseudoSelector.TrimStart(':'));
+                var pseudoElement = element?.Pseudo(pseudoSelector!.TrimStart(':'));
 
-                if (pseudoElement != null)
+                if (pseudoElement is not null)
                 {
                     element = pseudoElement;
                 }
             }
 
-            computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element));
+            computedStyle.SetDeclarations(styles.ComputeExplicitStyle(element!));
 
             foreach (var node in nodes)
             {
-                computedStyle.UpdateDeclarations(rules.ComputeCascadedStyle(node));
+                computedStyle.UpdateDeclarations(styles.ComputeExplicitStyle(node));
             }
 
             return computedStyle;
         }
 
         /// <summary>
-        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specificity.
-        /// Two rules with the same specificity are ordered according to their appearance. The more
-        /// recent declaration wins. Inheritance is not taken into account.
+        /// Computes the cascaded style, i.e. merges the explicit style of the element with
+        /// the style from the parent.
         /// </summary>
-        /// <param name="styleCollection">The style rules to apply.</param>
+        /// <param name="styles">The style rules to apply.</param>
         /// <param name="element">The element to compute the cascade for.</param>
         /// <param name="parent">The potential parent for the cascade.</param>
         /// <returns>Returns the cascaded read-only style declaration.</returns>
-        public static ICssStyleDeclaration ComputeCascadedStyle(this IEnumerable<ICssStyleRule> styleCollection, IElement element, ICssStyleDeclaration parent = null)
+        public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent)
         {
-            var computedStyle = new CssStyleDeclaration(element.Owner?.Context);
-            var rules = styleCollection.SortBySpecificity(element);
+            var computedStyle = (CssStyleDeclaration)styles.ComputeExplicitStyle(element);
+            computedStyle.UpdateDeclarations(parent);
+            return computedStyle;
+        }
+
+        /// <summary>
+        /// Computes the explicit style, i.e., orders the rules after specificity.
+        /// Two rules with the same specificity are ordered according to their appearance. The more
+        /// recent declaration wins. Inheritance is not taken into account.
+        /// </summary>
+        /// <param name="styles">The style rules to apply.</param>
+        /// <param name="element">The element to compute the cascade for.</param>
+        /// <returns>Returns the explicit read-only style declaration.</returns>
+        public static ICssStyleDeclaration ComputeExplicitStyle(this IStyleCollection styles, IElement element)
+        {
+            var ctx = element.Owner?.Context ?? throw new InvalidOperationException("The element must be associated with a browsing context.");
+            var computedStyle = new CssStyleDeclaration(ctx);
+            var rules = styles.SortBySpecificity(element);
 
             foreach (var rule in rules)
             {
@@ -90,20 +126,65 @@ namespace AngleSharp.Css
                 computedStyle.SetDeclarations(element.GetStyle());
             }
 
-            if (parent != null)
-            {
-                computedStyle.UpdateDeclarations(parent);
-            }
-
             return computedStyle;
+        }
+
+        /// <summary>
+        /// Computes the declarations for the given element using a pre-computed
+        /// parent style for inheritance, avoiding the O(depth) ancestor walk.
+        /// </summary>
+        /// <param name="styles">The styles to use.</param>
+        /// <param name="element">The element that is questioned.</param>
+        /// <param name="parentComputedStyle">The parent's already-computed style.</param>
+        /// <returns>The style declaration containing all the declarations.</returns>
+        internal static ICssStyleDeclaration ComputeDeclarationsWithParent(this IStyleCollection styles, IElement element, ICssStyleDeclaration parentComputedStyle)
+        {
+            var ctx = element.Owner?.Context;
+            var computedStyle = new CssStyleDeclaration(ctx);
+
+            // Element's own cascaded style (CSS rule matching + inline style).
+            computedStyle.SetDeclarations(styles.ComputeExplicitStyle(element));
+
+            // Inherit from the parent's already-computed style instead of walking
+            // all ancestors individually. The parent style already includes the
+            // full ancestor inheritance chain.
+            computedStyle.UpdateDeclarations(parentComputedStyle);
+
+            var context = new CssComputeContext(styles.Device, ctx, computedStyle);
+            return computedStyle.Compute(context);
         }
 
         #endregion
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element) =>
-            rules.Where(m => m.Selector?.Match(element) ?? false).OrderBy(m => m.Selector.Specificity);
+        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
+        {
+            IEnumerable<Tuple<ICssStyleRule, Priority>> MapPriority(ICssStyleRule rule)
+            {
+                if (rule.TryMatch(element, null, out var specificity))
+                {
+                    yield return Tuple.Create(rule, specificity);
+                }
+
+                foreach (var subRule in rule.Rules)
+                {
+                    if (subRule is ICssStyleRule style)
+                    {
+                        foreach (var item in MapPriority(style))
+                        {
+                            yield return item;
+                        }
+                    }
+                }
+            }
+
+            return rules.SelectMany(MapPriority).OrderBy(GetPriority).Select(GetRule);
+        }
+
+        private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
+
+        private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
 
         #endregion
     }

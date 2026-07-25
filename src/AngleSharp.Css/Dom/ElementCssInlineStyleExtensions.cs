@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
@@ -14,7 +15,7 @@ namespace AngleSharp.Css.Dom
     [DomExposed("SVGElement")]
     public static class ElementCssInlineStyleExtensions
     {
-        private static readonly ConditionalWeakTable<IElement, ICssStyleDeclaration> _styles = new ConditionalWeakTable<IElement, ICssStyleDeclaration>();
+        private static readonly ConditionalWeakTable<IElement, ICssStyleDeclaration> _styles = new();
 
         /// <summary>
         /// Gets the style declaration of an element.

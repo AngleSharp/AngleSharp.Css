@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.RenderTree
 {
     using AngleSharp.Css.Dom;
@@ -16,12 +17,23 @@ namespace AngleSharp.Css.RenderTree
     /// </summary>
     public static class RenderNodeExtensions
     {
+        private static readonly String[] ResourceProperties =
+        {
+            PropertyNames.BackgroundImage,
+            PropertyNames.BorderImageSource,
+            PropertyNames.ListStyleImage,
+            PropertyNames.Cursor,
+        };
+
         /// <summary>
         /// Downloads the referenced resources from the node if visible.
         ///
         /// Included resources:
         /// 
         /// - Background images
+        /// - Border images
+        /// - List style images
+        /// - Custom cursor images
         /// </summary>
         /// <param name="node">The node to use as a starting base.</param>
         /// <param name="cancellationToken">The cancellation token to use, if any.</param>
@@ -30,24 +42,108 @@ namespace AngleSharp.Css.RenderTree
             var context = node.Ref.Owner?.Context ?? throw new InvalidOperationException("The node needs to be inside a browsing context.");
             var loader = context.GetService<IResourceLoader>() ?? throw new InvalidOperationException("A resource loader is required. Check your configuration.");
             var tasks = new List<Task>();
+            var requestedUrls = new HashSet<String>(StringComparer.Ordinal);
 
-            if (node.IsVisible() && node is ElementRenderNode element)
-            {
-                var elementRef = element.Ref as IElement;
-                var style = element.ComputedStyle;
-                var value = style.GetProperty(PropertyNames.BackgroundImage).RawValue;
-
-                if (value is CssListValue list)
-                {
-                    var url = new Url(list.AsUrl());
-                    var request = new ResourceRequest(elementRef, url);
-                    var download = loader.FetchAsync(request);
-                    cancellationToken.Register(download.Cancel);
-                    tasks.Add(download.Task);
-                }
-            }
+            CollectResources(node);
 
             return Task.WhenAll(tasks);
+
+            void CollectResources(IRenderNode renderNode)
+            {
+                if (!renderNode.IsVisible())
+                {
+                    return;
+                }
+
+                if (renderNode is ElementRenderNode element)
+                {
+                    var elementRef = element.Ref;
+                    var style = element.ComputedStyle;
+
+                    foreach (var propertyName in ResourceProperties)
+                    {
+                        var value = style.GetProperty(propertyName).RawValue;
+
+                        foreach (var resourceUrl in GetResourceUrls(value))
+                        {
+                            if (requestedUrls.Add(resourceUrl))
+                            {
+                                var request = new ResourceRequest(elementRef, new Url(resourceUrl));
+                                var download = loader.FetchAsync(request);
+                                cancellationToken.Register(download.Cancel);
+                                tasks.Add(download.Task);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var child in renderNode.Children)
+                {
+                    CollectResources(child);
+                }
+            }
+        }
+
+        private static IEnumerable<String> GetResourceUrls(ICssValue value)
+        {
+            if (value is null)
+            {
+                yield break;
+            }
+
+            if (value is CssUrlValue urlValue)
+            {
+                if (!String.IsNullOrEmpty(urlValue.Path))
+                {
+                    yield return urlValue.Path;
+                }
+
+                yield break;
+            }
+
+            if (value is CssCustomCursorValue customCursor)
+            {
+                foreach (var resourceUrl in GetResourceUrls(customCursor.Source))
+                {
+                    yield return resourceUrl;
+                }
+
+                yield break;
+            }
+
+            if (value is CssCursorValue cursor)
+            {
+                foreach (var definition in cursor.Definitions)
+                {
+                    foreach (var resourceUrl in GetResourceUrls(definition))
+                    {
+                        yield return resourceUrl;
+                    }
+                }
+
+                yield break;
+            }
+
+            if (value is ICssMultipleValue multiple)
+            {
+                foreach (var item in multiple)
+                {
+                    foreach (var resourceUrl in GetResourceUrls(item))
+                    {
+                        yield return resourceUrl;
+                    }
+                }
+
+                yield break;
+            }
+
+            if (value is ICssSpecialValue special && special.Value is not null)
+            {
+                foreach (var resourceUrl in GetResourceUrls(special.Value))
+                {
+                    yield return resourceUrl;
+                }
+            }
         }
 
         /// <summary>

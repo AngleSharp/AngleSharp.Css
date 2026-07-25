@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
@@ -102,7 +103,7 @@ namespace AngleSharp.Css.Declarations
                     }
 
                     var image = default(ICssImageValue);
-                    var position = default(Point?);
+                    var position = default(CssPoint2D?);
                     var size = default(CssBackgroundSizeValue);
                     var repeat = default(CssImageRepeatsValue);
                     var attachment = default(ICssValue);
@@ -126,6 +127,7 @@ namespace AngleSharp.Css.Declarations
 
                             if (c == Symbols.Solidus && size == null)
                             {
+                                c = source.Next();
                                 c = source.SkipSpacesAndComments();
                                 size = source.ParseSize();
                                 c = source.SkipSpacesAndComments();
@@ -158,7 +160,17 @@ namespace AngleSharp.Css.Declarations
 
                         if (color == null)
                         {
-                            color = ColorParser.ParseColor(source);
+                            var parsedColor = ColorParser.ParseColor(source);
+
+                            if (parsedColor.HasValue)
+                            {
+                                color = parsedColor.Value;
+                            }
+                            else if (source.IsFunction(FunctionNames.Var))
+                            {
+                                color = source.ParseVar();
+                            }
+
                             c = source.SkipSpacesAndComments();
                         }
                     }
@@ -230,7 +242,7 @@ namespace AngleSharp.Css.Declarations
 
                 return null;
             }
-            
+
             private static ICssValue CreateLayers(CssListValue image, CssListValue attachment, CssListValue clip, CssListValue position, CssListValue origin, CssListValue repeat, CssListValue size)
             {
                 var count = GetCount(image, attachment, clip, position, size, repeat, origin);

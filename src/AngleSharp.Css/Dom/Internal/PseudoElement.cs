@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
@@ -52,6 +53,8 @@ namespace AngleSharp.Css.Dom
         public INamedNodeMap Attributes => _host.Attributes;
 
         public ITokenList ClassList => _host.ClassList;
+
+        public String GivenNamespaceUri => _host.GivenNamespaceUri;
 
         public String ClassName
         {

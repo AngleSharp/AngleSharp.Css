@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Extensions
 {
     using AngleSharp.Dom;
@@ -37,6 +38,9 @@ namespace AngleSharp.Css.Tests.Extensions
         // paragraph
         [TestCase("<p>test</p>", "test")]
         [TestCase("<p>test1</p><p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>\n<p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>\n \n <p>test2</p>", "test1\n\ntest2")]
+        [TestCase("<p>test1</p>a\n \n b<p>test2</p>", "test1\n\na b\n\ntest2")]
         // block-level
         [TestCase("<div>test1</div><div>test2</div><div>test3</div>", "test1\ntest2\ntest3")]
         [TestCase(@"test1<span style=""display:block"">test2</span>test3", "test1\ntest2\ntest3")]
@@ -44,6 +48,7 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("test1<br>test2<br>test3", "test1\ntest2\ntest3")]
         // table
         [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>", "1\t2\n3\t4")]
+        [TestCase("<table><tr><td>1</td> <td>2</td></tr> <tr><td>3</td> <td>4</td></tr></table>", "1\t2\n3\t4")]
         [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td><table><tr><td>3</td><td>4</td></tr></table></td><td>5</td></tr></table>", "1\t2\n\n3\t4\n\t5")]
         // select
         [TestCase("<select><option>test1</option><option>test2</option></select>", "test1\ntest2")]

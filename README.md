@@ -79,6 +79,20 @@ The main idea behind AngleSharp.Css is to expose the CSSOM as it would be in the
 - Calculated values (i.e., `calc(20px + 50%)`)
 - Window-based declaration calculations, see `window.GetComputedStyle`
 
+## Benchmarks
+
+The `AngleSharp.Performance.Css` project uses [BenchmarkDotNet](https://benchmarkdotnet.org/) to compare CSS parsing performance across libraries. Run the benchmarks in Release mode:
+
+```bash
+dotnet run --project src/AngleSharp.Performance.Css/AngleSharp.Performance.Css.csproj -c Release --framework net10.0
+```
+
+To run a quick smoke test instead of a full benchmark:
+
+```bash
+dotnet run --project src/AngleSharp.Performance.Css/AngleSharp.Performance.Css.csproj -c Release --framework net10.0 -- --job short
+```
+
 ## Participating
 
 Participation in the project is highly welcome. For this project the same rules as for the AngleSharp core project may be applied.
@@ -97,12 +111,4 @@ This project is supported by the [.NET Foundation](https://dotnetfoundation.org)
 
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2016 - 2022 AngleSharp
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+AngleSharp.Css is released using the MIT license. For more information see the [license file](./LICENSE).

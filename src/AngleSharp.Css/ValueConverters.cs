@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Converters;
@@ -14,6 +15,22 @@ namespace AngleSharp.Css
     static class ValueConverters
     {
         #region Misc
+
+        /// <summary>
+        /// Represents a CSS variable reference.
+        /// </summary>
+        public static readonly IValueConverter VarConverter = new ClassValueConverter<CssVarValue>(source =>
+        {
+            var ident = source.ParseIdent();
+
+            if (ident.Isi(FunctionNames.Var) && source.Current == Symbols.RoundBracketOpen)
+            {
+                source.SkipCurrentAndSpaces();
+                return source.ParseVar();
+            }
+
+            return null;
+        });
 
         /// <summary>
         /// Creates an or converter for the given converters.
@@ -61,12 +78,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the auto keyword with no value.
         /// </summary>
-        public static IValueConverter Auto = new IdentifierValueConverter<Length>(CssKeywords.Auto, Length.Auto);
+        public static IValueConverter Auto = new IdentifierValueConverter<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
 
         /// <summary>
         /// Represents a converter for the content keyword with no value.
         /// </summary>
-        public static IValueConverter Content = new IdentifierValueConverter<Length>(CssKeywords.Content, Length.Content);
+        public static IValueConverter Content = new IdentifierValueConverter<CssLengthValue>(CssKeywords.Content, CssLengthValue.Content);
 
         /// <summary>
         /// Represents a length object with line-width additions.
@@ -84,29 +101,29 @@ namespace AngleSharp.Css
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
         /// </summary>
-        public static readonly IValueConverter OnlyLengthConverter = new StructValueConverter<Length>(UnitParser.ParseLength);
+        public static readonly IValueConverter OnlyLengthConverter = new StructValueConverter<CssLengthValue>(UnitParser.ParseLength);
 
         /// <summary>
         /// Represents a resolution object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
         /// </summary>
-        public static readonly IValueConverter OnlyResolutionConverter = new StructValueConverter<Resolution>(UnitParser.ParseResolution);
+        public static readonly IValueConverter OnlyResolutionConverter = new StructValueConverter<CssResolutionValue>(UnitParser.ParseResolution);
 
         /// <summary>
         /// Represents a time object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
         /// </summary>
-        public static readonly IValueConverter OnlyTimeConverter = new StructValueConverter<Time>(UnitParser.ParseTime);
+        public static readonly IValueConverter OnlyTimeConverter = new StructValueConverter<CssTimeValue>(UnitParser.ParseTime);
 
         /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
-        public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<Length>(UnitParser.ParseDistance);
+        public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<CssLengthValue>(UnitParser.ParseDistance);
 
         /// <summary>
         /// Represents a string object.
         /// </summary>
-        public static readonly IValueConverter StringConverter = new StructValueConverter<Label>(FromString(StringParser.ParseString));
+        public static readonly IValueConverter StringConverter = new StructValueConverter<CssStringValue>(FromString(StringParser.ParseString));
 
         /// <summary>
         /// Represents an URL object.
@@ -126,6 +143,12 @@ namespace AngleSharp.Css
         public static readonly IValueConverter IdentifierConverter = new IdentifierValueConverter(IdentParser.ParseNormalizedIdent);
 
         /// <summary>
+        /// Represents an identifier object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/custom-ident
+        /// </summary>
+        public static readonly IValueConverter CustomIdentConverter = new IdentifierValueConverter(IdentParser.ParseCustomIdent);
+
+        /// <summary>
         /// Represents an identifier object that matches the production rules of a single transition property.
         /// http://dev.w3.org/csswg/css-transitions/#single-transition-property
         /// </summary>
@@ -135,33 +158,33 @@ namespace AngleSharp.Css
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
-        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseInteger));
+        public static readonly IValueConverter OnlyIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseInteger);
 
         /// <summary>
         /// Represents an integer object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseNaturalInteger));
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseNaturalInteger);
 
         /// <summary>
         /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
         /// </summary>
-        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseWeightInteger));
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseWeightInteger);
 
         /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParsePositiveInteger));
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParsePositiveInteger);
 
         /// <summary>
         /// Represents an integer object with 0 or 1.
         /// </summary>
-        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Length>(FromInteger(NumberParser.ParseBinary));
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseBinary);
 
         /// <summary>
         /// Represents a number object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
         /// </summary>
-        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNumber));
+        public static readonly IValueConverter OnlyNumberConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseNumber);
 
         /// <summary>
         /// Represents a (calculated) number object.
@@ -196,19 +219,557 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents an number object that is zero or greater.
         /// </summary>
-        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseNaturalNumber));
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseNaturalNumber);
 
         /// <summary>
         /// Represents an color object (usually hex or name).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
         /// </summary>
-        public static readonly IValueConverter ColorConverter = new StructValueConverter<Color>(ColorParser.ParseColor);
+        public static readonly IValueConverter ColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseColor);
+
+        /// <summary>
+        /// Represents a converter for the accent-color property.
+        /// </summary>
+        public static readonly IValueConverter AccentColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the caret-color property.
+        /// </summary>
+        public static readonly IValueConverter CaretColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the color-scheme property.
+        /// </summary>
+        public static readonly IValueConverter ColorSchemeConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithAny(
+                Or(
+                    Assign(CssKeywords.Light, CssKeywords.Light),
+                    Assign(CssKeywords.Dark, CssKeywords.Dark)
+                )
+            ).Many());
+
+        /// <summary>
+        /// Represents a converter for the forced-color-adjust property.
+        /// </summary>
+        public static readonly IValueConverter ForcedColorAdjustConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the print-color-adjust property.
+        /// </summary>
+        public static readonly IValueConverter PrintColorAdjustConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Economy, CssKeywords.Economy),
+            Assign(CssKeywords.Exact, CssKeywords.Exact));
+
+        /// <summary>
+        /// Represents a converter for the backdrop-filter property.
+        /// </summary>
+        public static readonly IValueConverter BackdropFilterConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for blend mode values (mix-blend-mode, background-blend-mode).
+        /// </summary>
+        public static readonly IValueConverter BlendModeConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.Multiply, CssKeywords.Multiply),
+            Assign(CssKeywords.Screen, CssKeywords.Screen),
+            Assign(CssKeywords.Overlay, CssKeywords.Overlay),
+            Assign(CssKeywords.Darken, CssKeywords.Darken),
+            Assign(CssKeywords.Lighten, CssKeywords.Lighten),
+            Assign(CssKeywords.ColorDodge, CssKeywords.ColorDodge),
+            Assign(CssKeywords.ColorBurn, CssKeywords.ColorBurn),
+            Assign(CssKeywords.HardLight, CssKeywords.HardLight),
+            Assign(CssKeywords.SoftLight, CssKeywords.SoftLight),
+            Assign(CssKeywords.Difference, CssKeywords.Difference),
+            Assign(CssKeywords.Exclusion, CssKeywords.Exclusion),
+            Assign(CssKeywords.Hue, CssKeywords.Hue),
+            Assign(CssKeywords.Saturation, CssKeywords.Saturation),
+            Assign(CssKeywords.Color, CssKeywords.Color),
+            Assign(CssKeywords.Luminosity, CssKeywords.Luminosity),
+            Assign(CssKeywords.Add, CssKeywords.Add));
+
+        /// <summary>
+        /// Represents a converter for the mix-blend-mode property.
+        /// </summary>
+        public static readonly IValueConverter MixBlendModeConverter = BlendModeConverter;
+
+        /// <summary>
+        /// Represents a converter for the background-blend-mode property.
+        /// </summary>
+        public static readonly IValueConverter BackgroundBlendModeConverter = BlendModeConverter.FromList();
+
+        /// <summary>
+        /// Represents a converter for the isolation property.
+        /// </summary>
+        public static readonly IValueConverter IsolationConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Isolate, CssKeywords.Isolate));
+
+        /// <summary>
+        /// Represents a converter for the shape-outside property.
+        /// </summary>
+        public static readonly IValueConverter ShapeOutsideConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the shape-margin property.
+        /// </summary>
+        public static readonly IValueConverter ShapeMarginConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the shape-image-threshold property.
+        /// </summary>
+        public static readonly IValueConverter ShapeImageThresholdConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            NumberConverter);
+
+        /// <summary>
+        /// Represents a converter for the shape-rendering property.
+        /// </summary>
+        public static readonly IValueConverter ShapeRenderingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed),
+            Assign(CssKeywords.CrispEdges, CssKeywords.CrispEdges),
+            Assign(CssKeywords.GeometricPrecision, CssKeywords.GeometricPrecision));
+
+        /// <summary>
+        /// Represents a converter for the counter-set property.
+        /// </summary>
+        public static readonly IValueConverter CounterSetConverter = new CounterValueConverter(CssIntegerValue.Zero);
+
+        /// <summary>
+        /// Represents a converter for the image-rendering property.
+        /// </summary>
+        public static readonly IValueConverter ImageRenderingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.CrispEdges, CssKeywords.CrispEdges),
+            Assign(CssKeywords.OptimizeQuality, CssKeywords.OptimizeQuality),
+            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed));
+
+        /// <summary>
+        /// Represents a converter for the image-orientation property.
+        /// </summary>
+        public static readonly IValueConverter ImageOrientationConverter = Or(
+            Assign(CssKeywords.FromImage, CssKeywords.FromImage),
+            FromParser(UnitParser.ParseAngle));
+
+        /// <summary>
+        /// Represents a converter for the view-transition-name property.
+        /// </summary>
+        public static readonly IValueConverter ViewTransitionNameConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the view-transition-class property.
+        /// </summary>
+        public static readonly IValueConverter ViewTransitionClassConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the anchor-name property.
+        /// </summary>
+        public static readonly IValueConverter AnchorNameConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the anchor-scope property.
+        /// </summary>
+        public static readonly IValueConverter AnchorScopeConverter = Or(
+            Assign(CssKeywords.All, CssKeywords.All),
+            Assign(CssKeywords.Own, CssKeywords.Own),
+            IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the position-anchor property.
+        /// </summary>
+        public static readonly IValueConverter PositionAnchorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            IdentifierConverter);
+
+        /// <summary>
+        /// Represents a converter for the position-area property.
+        /// </summary>
+        public static readonly IValueConverter PositionAreaConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Top, CssKeywords.Top),
+            Assign(CssKeywords.Bottom, CssKeywords.Bottom),
+            Assign(CssKeywords.Left, CssKeywords.Left),
+            Assign(CssKeywords.Right, CssKeywords.Right),
+            Assign(CssKeywords.Center, CssKeywords.Center),
+            Assign(CssKeywords.Start, CssKeywords.Start),
+            Assign(CssKeywords.End, CssKeywords.End),
+            Assign(CssKeywords.SelfStart, CssKeywords.SelfStart),
+            Assign(CssKeywords.SelfEnd, CssKeywords.SelfEnd),
+            Assign(CssKeywords.SpanAll, CssKeywords.SpanAll));
+
+        /// <summary>
+        /// Represents a converter for the position-try-fallbacks property.
+        /// </summary>
+        public static readonly IValueConverter PositionTryFallbacksConverter = None;
+
+        /// <summary>
+        /// Represents a converter for the position-try-order property.
+        /// </summary>
+        public static readonly IValueConverter PositionTryOrderConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.FlipBlock, CssKeywords.FlipBlock),
+            Assign(CssKeywords.FlipInline, CssKeywords.FlipInline),
+            Assign(CssKeywords.FlipStart, CssKeywords.FlipStart),
+            Assign(CssKeywords.FlipEnd, CssKeywords.FlipEnd));
+
+        /// <summary>
+        /// Represents a converter for the position-visibility property.
+        /// </summary>
+        public static readonly IValueConverter PositionVisibilityConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Always, CssKeywords.Always),
+            Assign(CssKeywords.PreferHidden, CssKeywords.PreferHidden),
+            Assign(CssKeywords.PreferNoOverflow, CssKeywords.PreferNoOverflow));
+
+        /// <summary>
+        /// Represents a converter for the text-underline-offset property.
+        /// </summary>
+        public static readonly IValueConverter TextUnderlineOffsetConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the text-decoration-thickness property.
+        /// </summary>
+        public static readonly IValueConverter TextDecorationThicknessConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.FromFont, CssKeywords.FromFont),
+            LengthOrPercentConverter);
+
+        /// <summary>
+        /// Represents a converter for the text-decoration-skip-ink property.
+        /// </summary>
+        public static readonly IValueConverter TextDecorationSkipInkConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.All, CssKeywords.All),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapConverter = Or(
+            Assign(CssKeywords.Wrap, CssKeywords.Wrap),
+            Assign(CssKeywords.Nowrap, CssKeywords.Nowrap),
+            Assign(CssKeywords.Balance, CssKeywords.Balance),
+            Assign(CssKeywords.Stable, CssKeywords.Stable),
+            Assign(CssKeywords.Pretty, CssKeywords.Pretty));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap-mode property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapModeConverter = Or(
+            Assign(CssKeywords.Wrap, CssKeywords.Wrap),
+            Assign(CssKeywords.Nowrap, CssKeywords.Nowrap));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap-style property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapStyleConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Stable, CssKeywords.Stable),
+            Assign(CssKeywords.Balance, CssKeywords.Balance),
+            Assign(CssKeywords.Pretty, CssKeywords.Pretty));
+
+        /// <summary>
+        /// Represents a converter for the white-space-collapse property.
+        /// </summary>
+        public static readonly IValueConverter WhiteSpaceCollapseConverter = Or(
+            Assign(CssKeywords.Collapse, CssKeywords.Collapse),
+            Assign(CssKeywords.Preserve, CssKeywords.Preserve),
+            Assign(CssKeywords.PreserveBreaks, CssKeywords.PreserveBreaks),
+            Assign(CssKeywords.PreserveSpaces, CssKeywords.PreserveSpaces));
+
+        /// <summary>
+        /// Represents a converter for the tab-size property.
+        /// </summary>
+        public static readonly IValueConverter TabSizeConverter = Or(NumberConverter, LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the hyphens property.
+        /// </summary>
+        public static readonly IValueConverter HyphensConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Manual, CssKeywords.Manual),
+            Assign(CssKeywords.Auto, CssKeywords.Auto));
+
+        /// <summary>
+        /// Represents a converter for the hyphenate-character property.
+        /// </summary>
+        public static readonly IValueConverter HyphenateCharacterConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            StringConverter);
+
+        /// <summary>
+        /// Represents a converter for the hyphenate-limit-chars property.
+        /// </summary>
+        public static readonly IValueConverter HypenatateLimitCharsConverter = Assign(CssKeywords.Auto, CssKeywords.Auto);
+
+        /// <summary>
+        /// Represents a converter for the line-break property.
+        /// </summary>
+        public static readonly IValueConverter LineBreakConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Loose, CssKeywords.Loose),
+            Assign(CssKeywords.Strict, CssKeywords.Strict),
+            Assign(CssKeywords.Anywhere, CssKeywords.Anywhere));
+
+        /// <summary>
+        /// Represents a converter for the initial-letter property.
+        /// </summary>
+        public static readonly IValueConverter InitialLetterConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            NumberConverter);
+
+        /// <summary>
+        /// Represents a converter for the initial-letter-align property.
+        /// </summary>
+        public static readonly IValueConverter InitialLetterAlignConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Alphabetic, CssKeywords.Alphabetic),
+            Assign(CssKeywords.Hanging, CssKeywords.Hanging),
+            Assign(CssKeywords.Leading, CssKeywords.Leading));
+
+        /// <summary>
+        /// Represents a converter for the hanging-punctuation property.
+        /// </summary>
+        public static readonly IValueConverter HangingPunctuationConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the mask-image property.
+        /// </summary>
+        public static readonly IValueConverter MaskImageConverter = MultipleImageSourceConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-mode property.
+        /// </summary>
+        public static readonly IValueConverter MaskModeConverter = Or(
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword),
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance));
+
+        /// <summary>
+        /// Represents a converter for the mask-repeat property.
+        /// </summary>
+        public static readonly IValueConverter MaskRepeatConverter = BackgroundRepeatsConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-position property.
+        /// </summary>
+        public static readonly IValueConverter MaskPositionConverter = PointConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-clip property.
+        /// </summary>
+        public static readonly IValueConverter MaskClipConverter = Or(
+            Assign(CssKeywords.BorderBox, CssKeywords.BorderBox),
+            Assign(CssKeywords.PaddingBox, CssKeywords.PaddingBox),
+            Assign(CssKeywords.ContentBox, CssKeywords.ContentBox),
+            Assign(CssKeywords.FillBox, CssKeywords.FillBox),
+            Assign(CssKeywords.StrokeBox, CssKeywords.StrokeBox),
+            Assign(CssKeywords.ViewBox, CssKeywords.ViewBox));
+
+        /// <summary>
+        /// Represents a converter for the mask-origin property.
+        /// </summary>
+        public static readonly IValueConverter MaskOriginConverter = Or(
+            Assign(CssKeywords.BorderBox, CssKeywords.BorderBox),
+            Assign(CssKeywords.PaddingBox, CssKeywords.PaddingBox),
+            Assign(CssKeywords.ContentBox, CssKeywords.ContentBox),
+            Assign(CssKeywords.FillBox, CssKeywords.FillBox),
+            Assign(CssKeywords.StrokeBox, CssKeywords.StrokeBox),
+            Assign(CssKeywords.ViewBox, CssKeywords.ViewBox));
+
+        /// <summary>
+        /// Represents a converter for the mask-size property.
+        /// </summary>
+        public static readonly IValueConverter MaskSizeConverter = BackgroundSizeConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-composite property.
+        /// </summary>
+        public static readonly IValueConverter MaskCompositeConverter = Or(
+            Assign(CssKeywords.Add, CssKeywords.Add),
+            Assign(CssKeywords.Subtract, CssKeywords.Subtract),
+            Assign(CssKeywords.Intersect, CssKeywords.Intersect),
+            Assign(CssKeywords.Exclude, CssKeywords.Exclude),
+            Assign(CssKeywords.Multiply, CssKeywords.Multiply),
+            Assign(CssKeywords.Screen, CssKeywords.Screen),
+            Assign(CssKeywords.Overlay, CssKeywords.Overlay),
+            Assign(CssKeywords.Darken, CssKeywords.Darken),
+            Assign(CssKeywords.Lighten, CssKeywords.Lighten));
+
+        /// <summary>
+        /// Represents a converter for the mask-type property.
+        /// </summary>
+        public static readonly IValueConverter MaskTypeConverter = Or(
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance),
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword));
+
+        /// <summary>
+        /// Represents a converter for the mask-border property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-source property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderSourceConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-slice property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderSliceConverter = NumberConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-width property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderWidthConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthOrPercentConverter);
+
+        /// <summary>
+        /// Represents a converter for the mask-border-outset property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderOutsetConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-repeat property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderRepeatConverter = BackgroundRepeatsConverter;
+
+        /// <summary>
+        /// Represents a converter for the mask-border-mode property.
+        /// </summary>
+        public static readonly IValueConverter MaskBorderModeConverter = Or(
+            Assign(CssKeywords.AlphaKeyword, CssKeywords.AlphaKeyword),
+            Assign(CssKeywords.Luminance, CssKeywords.Luminance));
+
+        /// <summary>
+        /// Represents a converter for the contain property.
+        /// </summary>
+        public static readonly IValueConverter ContainConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Strict, CssKeywords.Strict),
+            Assign(CssKeywords.Content, CssKeywords.Content),
+            Assign(CssKeywords.Layout, CssKeywords.Layout),
+            Assign(CssKeywords.Style, CssKeywords.Style),
+            Assign(CssKeywords.Paint, CssKeywords.Paint),
+            Assign(CssKeywords.Size, CssKeywords.Size));
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-width property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicWidthConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-height property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicHeightConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-block-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicBlockSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the contain-intrinsic-inline-size property.
+        /// </summary>
+        public static readonly IValueConverter ContainIntrinsicInlineSizeConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the will-change property.
+        /// </summary>
+        public static readonly IValueConverter WillChangeConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.ScrollPosition, CssKeywords.ScrollPosition),
+            Assign(CssKeywords.Contents, CssKeywords.Contents),
+            Assign(CssKeywords.Transform, CssKeywords.Transform),
+            Assign(CssKeywords.Opacity, CssKeywords.Opacity));
+
+        /// <summary>
+        /// Represents a converter for the appearance property.
+        /// </summary>
+        public static readonly IValueConverter AppearanceConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the user-select property.
+        /// </summary>
+        public static readonly IValueConverter UserSelectConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Text, CssKeywords.Text),
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Contain, CssKeywords.Contain),
+            Assign(CssKeywords.All, CssKeywords.All));
+
+        /// <summary>
+        /// Represents a converter for the touch-action property.
+        /// </summary>
+        public static readonly IValueConverter TouchActionConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Manipulation, CssKeywords.Manipulation));
+
+        /// <summary>
+        /// Represents a converter for the outline-offset property.
+        /// </summary>
+        public static readonly IValueConverter OutlineOffsetConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-width property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarWidthConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Thin, CssKeywords.Thin),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-color property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarColorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            ColorConverter);
+
+        /// <summary>
+        /// Represents a converter for the scrollbar-gutter property.
+        /// </summary>
+        public static readonly IValueConverter ScrollbarGutterConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Stable, CssKeywords.Stable));
 
         /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
-        public static readonly IValueConverter PointConverter = new StructValueConverter<Point>(PointParser.ParsePoint);
+        public static readonly IValueConverter PointConverter = new StructValueConverter<CssPoint2D>(PointParser.ParsePoint);
 
         /// <summary>
         /// Represents an origin (Point3D) object.
@@ -226,6 +787,12 @@ namespace AngleSharp.Css
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>
         public static readonly IValueConverter PointYConverter = FromParser(PointParser.ParsePointY);
+
+        /// <summary>
+        /// Represents an symbols object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/symbols
+        /// </summary>
+        public static readonly IValueConverter SymbolsConverter = FromParser(SymbolsParser.ParseSymbols);
 
         #endregion
 
@@ -297,9 +864,68 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AnimationFillStyleConverter = Map.AnimationFillStyles.ToConverter();
 
         /// <summary>
+        /// Represents a converter for animation-composition keyword values.
+        /// </summary>
+        public static readonly IValueConverter AnimationCompositionConverter = Or(
+            Assign(CssKeywords.Replace, CssKeywords.Replace),
+            Assign(CssKeywords.Add, CssKeywords.Add),
+            Assign(CssKeywords.Accumulate, CssKeywords.Accumulate)).FromList();
+
+        /// <summary>
+        /// Represents a converter for animation-timeline values.
+        /// </summary>
+        public static readonly IValueConverter AnimationTimelineConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            IdentifierConverter).FromList();
+
+        /// <summary>
+        /// Represents a converter for a single animation-range-start/end value.
+        /// </summary>
+        public static readonly IValueConverter AnimationRangeConverter = FromParser(source =>
+        {
+            var name = Or(
+                Assign(CssKeywords.Cover, CssKeywords.Cover),
+                Assign(CssKeywords.Contain, CssKeywords.Contain)).Convert(source);
+
+            if (name != null)
+            {
+                source.SkipSpacesAndComments();
+                var pct = LengthOrPercentConverter.Convert(source);
+                return pct != null ? new Values.CssTupleValue(new ICssValue[] { name, pct }) : name;
+            }
+
+            var normal = Assign<Object>(CssKeywords.Normal, null).Convert(source);
+            if (normal != null) return normal;
+
+            return LengthOrPercentConverter.Convert(source);
+        });
+
+        /// <summary>
         /// Represents a converter for the TextDecorationStyle enumeration.
         /// </summary>
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for scroll-behavior (auto | smooth).
+        /// </summary>
+        public static readonly IValueConverter ScrollBehaviorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Smooth, CssKeywords.Smooth));
+
+        /// <summary>
+        /// Represents a converter for scroll-snap-stop (normal | always).
+        /// </summary>
+        public static readonly IValueConverter ScrollSnapStopConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.Always, CssKeywords.Always));
+
+        /// <summary>
+        /// Represents a converter for overscroll-behavior-x/y/block/inline (auto | contain | none).
+        /// </summary>
+        public static readonly IValueConverter OverscrollBehaviorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Contain, CssKeywords.Contain),
+            Assign(CssKeywords.None, CssKeywords.None));
 
         /// <summary>
         /// Represents a converter for the TextDecorationLine enumeration,
@@ -315,7 +941,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the ListStyle enumeration.
         /// </summary>
-        public static readonly IValueConverter ListStyleConverter = Map.ListStyles.ToConverter();
+        public static readonly IValueConverter ListStyleConverter = Or(Map.ListStyles.ToConverter(), StringConverter, SymbolsConverter, CustomIdentConverter);
+
+        /// <summary>
+        /// Represents a converter for the SymbolsType enumeration.
+        /// </summary>
+        public static readonly IValueConverter SymbolsTypeConverter = Map.SymbolsTypes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the BreakMode enumeration.
@@ -448,6 +1079,82 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the font-display descriptor.
+        /// </summary>
+        public static readonly IValueConverter FontDisplayConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Block, CssKeywords.Block),
+            Assign(CssKeywords.Swap, CssKeywords.Swap),
+            Assign(CssKeywords.Fallback, CssKeywords.Fallback),
+            Assign(CssKeywords.Optional, CssKeywords.Optional));
+
+        /// <summary>
+        /// Represents a converter for the font-kerning property.
+        /// </summary>
+        public static readonly IValueConverter FontKerningConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-language-override property.
+        /// </summary>
+        public static readonly IValueConverter FontLanguageOverrideConverter = Assign(CssKeywords.Normal, CssKeywords.Normal);
+
+        /// <summary>
+        /// Represents a converter for the font-optical-sizing property.
+        /// </summary>
+        public static readonly IValueConverter FontOpticalSizingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-palette property.
+        /// </summary>
+        public static readonly IValueConverter FontPaletteConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            IdentifierConverter);
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis property (shorthand).
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            WithAny(
+                Or(
+                    Assign(CssKeywords.Weight, CssKeywords.Weight),
+                    Assign(CssKeywords.Style, CssKeywords.Style),
+                    Assign(CssKeywords.SmallCaps, CssKeywords.SmallCaps)
+                )
+            ).Many());
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-weight property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisWeightConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-style property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisStyleConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-small-caps property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisSmallCapsConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-variation-settings property.
+        /// </summary>
+        public static readonly IValueConverter FontVariationSettingsConverter = Assign(CssKeywords.Normal, CssKeywords.Normal);
+
+        /// <summary>
         /// Represents a converter for the ResizeMode enumeration.
         /// </summary>
         public static readonly IValueConverter ResizeConverter = Map.ResizeModes.ToConverter();
@@ -490,7 +1197,9 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the WordBreak enumeration.
 		/// </summary>
-		public static readonly IValueConverter WordBreakConverter = Map.WordBreaks.ToConverter();
+        public static readonly IValueConverter WordBreakConverter = Or(
+            Map.WordBreaks.ToConverter(),
+            Assign(CssKeywords.BreakWord, CssKeywords.BreakWord));
 
 		/// <summary>
 		/// Represents a converter for the OverflowWrap enumeration.
@@ -536,6 +1245,16 @@ namespace AngleSharp.Css
         /// Represents a converter for the AlignItems enumeration.
         /// </summary>
         public static readonly IValueConverter AlignItemsConverter = Map.AlignItemsModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the JustifyItems enumeration.
+        /// </summary>
+        public static readonly IValueConverter JustifyItemsConverter = Map.JustifyItemsModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the JustifySelf enumeration.
+        /// </summary>
+        public static readonly IValueConverter JustifySelfConverter = Map.JustifySelfModes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the FlexDirection enumeration.
@@ -612,7 +1331,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter OptionalLengthConverter = Or(
             LengthConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
 
         /// <summary>
         /// Represents a length (or default).
@@ -634,6 +1353,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AutoLengthOrPercentConverter = Or(
             LengthOrPercentConverter,
             Auto);
+
+        /// <summary>
+        /// Represents a converter for scroll-padding longhands (auto | length-percentage).
+        /// </summary>
+        public static readonly IValueConverter ScrollPaddingConverter = AutoLengthOrPercentConverter;
         
         /// <summary>
         /// Represents a value for a width.
@@ -661,14 +1385,14 @@ namespace AngleSharp.Css
         public static readonly IValueConverter LineHeightConverter = Or(
             LengthOrPercentConverter,
             NumberConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
         
         /// <summary>
         /// Represents a distance object or normal length.
         /// </summary>
         public static readonly IValueConverter GapConverter = Or(
             LengthOrPercentConverter,
-            Assign(CssKeywords.Normal, Length.Normal));
+            Assign(CssKeywords.Normal, CssLengthValue.Normal));
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.
@@ -706,16 +1430,34 @@ namespace AngleSharp.Css
         public static readonly IValueConverter TransformConverter = FromParser(TransformParser.ParseTransform);
 
         /// <summary>
+        /// Represents the rotate property value (angle or axis + angle).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter RotateConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
+        /// Represents the scale property value (numbers for scale factors).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter ScaleConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
+        /// Represents the translate property value (length/percentage offsets).
+        /// https://drafts.csswg.org/css-transforms-2/#individual-transforms
+        /// </summary>
+        public static readonly IValueConverter TranslateConverter = Or(Assign<Object>(CssKeywords.None, null), Any);
+
+        /// <summary>
         /// Represents a color object or, alternatively, the current color.
         /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<Color>(ColorParser.ParseCurrentColor);
+        public static readonly IValueConverter CurrentColorConverter = new StructValueConverter<CssColorValue>(ColorParser.ParseCurrentColor);
 
         /// <summary>
         /// Represents a color object, the current color, or the inverted current color.
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = Or(
             CurrentColorConverter,
-            Assign(CssKeywords.Invert, Color.InvertedColor));
+            Assign(CssKeywords.Invert, CssColorValue.InvertedColor));
 
 		/// <summary>
 		/// Represents a paint object.
@@ -736,13 +1478,31 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the StrokeMiterlimit enumeration.
 		/// </summary>
-		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseGreaterOrEqualOneNumber));
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<CssNumberValue>(NumberParser.ParseGreaterOrEqualOneNumber);
 
 		/// <summary>
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
-		public static readonly IValueConverter RatioConverter = new StructValueConverter<Length>(FromNumber(NumberParser.ParseRatio));
+		public static readonly IValueConverter RatioConverter = new StructValueConverter<CssRatioValue>(NumberParser.ParseRatio);
+
+        /// <summary>
+        /// Represents a converter for the aspect-ratio property (auto | &lt;ratio&gt;).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
+        /// </summary>
+        public static readonly IValueConverter AspectRatioConverter = Or(Auto, RatioConverter);
+
+        /// <summary>
+        /// Represents a converter for the overflow-anchor property (auto | none).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor
+        /// </summary>
+        public static readonly IValueConverter OverflowAnchorConverter = Or(Auto, None);
+
+        /// <summary>
+        /// Represents a converter for the overflow-clip-margin property (&lt;visual-box&gt; || &lt;length&gt;).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-clip-margin
+        /// </summary>
+        public static readonly IValueConverter OverflowClipMarginConverter = Or(LengthOrPercentConverter, BoxModelConverter);
 
         /// <summary>
         /// Represents multiple shadow objects.
@@ -870,7 +1630,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for LineName values.
         /// </summary>
-        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<LineNames>(GridParser.ParseLineNames);
+        public static readonly IValueConverter LineNamesConverter = new StructValueConverter<CssLineNamesValue>(GridParser.ParseLineNames);
 
         /// <summary>
         /// Represents a converter for TrackSize values.
@@ -915,9 +1675,9 @@ namespace AngleSharp.Css
 
         public static IValueConverter WithBorderSide(ICssValue lineWidth, ICssValue lineStyle, ICssValue lineColor) => AggregateTuple(
             WithAny(
-                LineWidthConverter.Option(lineWidth),
-                LineStyleConverter.Option(lineStyle),
-                CurrentColorConverter.Option(lineColor)));
+                Or(LineWidthConverter, VarConverter).Option(lineWidth),
+                Or(LineStyleConverter, VarConverter).Option(lineStyle),
+                Or(CurrentColorConverter, VarConverter).Option(lineColor)));
 
         public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 
@@ -943,37 +1703,37 @@ namespace AngleSharp.Css
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
 
-        private static Func<StringSource, Label?> FromString(Func<StringSource, String> converter) => source =>
+        private static Func<StringSource, CssStringValue?> FromString(Func<StringSource, String> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result != null)
             {
-                return new Label(result);
+                return new CssStringValue(result);
             }
 
             return null;
         };
 
-        private static Func<StringSource, Length?> FromInteger(Func<StringSource, Int32?> converter) => source =>
+        private static Func<StringSource, CssLengthValue?> FromInteger(Func<StringSource, Int32?> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result.HasValue)
             {
-                return new Length(result.Value, Length.Unit.None);
+                return new CssLengthValue(result.Value, CssLengthValue.Unit.None);
             }
 
             return null;
         };
 
-        private static Func<StringSource, Length?> FromNumber(Func<StringSource, Double?> converter) => source =>
+        private static Func<StringSource, CssLengthValue?> FromNumber(Func<StringSource, Double?> converter) => source =>
         {
             var result = converter.Invoke(source);
 
             if (result.HasValue)
             {
-                return new Length(result.Value, Length.Unit.None);
+                return new CssLengthValue(result.Value, CssLengthValue.Unit.None);
             }
 
             return null;

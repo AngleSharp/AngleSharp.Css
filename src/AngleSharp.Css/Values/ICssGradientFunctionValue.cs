@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
@@ -10,7 +11,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets an enumeration of all stops.
         /// </summary>
-        CssGradientStopValue[] Stops { get; }
+        ICssValue[] Stops { get; }
 
         /// <summary>
         /// Gets if the gradient is repeating.

@@ -10,6 +10,7 @@ namespace AngleSharp.Css.Declarations
 
         public static readonly String[] Shorthands = new[]
         {
+            PropertyNames.Grid,
             PropertyNames.GridTemplate,
         };
 

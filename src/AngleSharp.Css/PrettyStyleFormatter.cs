@@ -1,5 +1,6 @@
 namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Represents the an CSS3 markup formatter with inserted intends.
     /// </summary>
-    public class PrettyStyleFormatter : IStyleFormatter
+    public class PrettyStyleFormatter : IStyleFormatter, ICommentPreservingFormatter
     {
         #region Fields
 
@@ -55,6 +56,8 @@ namespace AngleSharp.Css
         #endregion
 
         #region Methods
+
+        Boolean ICommentPreservingFormatter.PreserveComments => true;
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
@@ -117,7 +120,15 @@ namespace AngleSharp.Css
             foreach (var declaration in declarations)
             {
                 sb.Append(sep).Append(_intendString);
-                sb.Append(declaration.ToCss()).Append(Symbols.Semicolon);
+
+                if (declaration is ICssProperty)
+                {
+                    sb.Append(declaration.ToCss()).Append(Symbols.Semicolon);
+                }
+                else
+                {
+                    sb.Append(declaration.ToCss());
+                }
             }
 
             return sb.Append(sep).Append(Symbols.CurlyBracketClose).ToPool();

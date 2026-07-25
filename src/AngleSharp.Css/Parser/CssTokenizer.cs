@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
@@ -64,39 +65,67 @@ namespace AngleSharp.Css.Parser
             var sb = StringBuilderPool.Obtain();
             Back(Position - position);
             var current = Current;
-            var spaced = 0;
+            var trailingWhitespace = 0;
+            var previous = Symbols.EndOfFile;
 
-            while (!(current is Symbols.EndOfFile or Symbols.Semicolon or Symbols.CurlyBracketOpen or Symbols.CurlyBracketClose))
+            while (current != Symbols.EndOfFile)
             {
-                var token = Data(current);
-
-                if (token.Type == CssTokenType.Whitespace)
+                if (current is Symbols.DoubleQuote or Symbols.SingleQuote && previous != Symbols.ReverseSolidus)
                 {
-                    spaced++;
+                    trailingWhitespace = 0;
+                    var quote = current;
                     sb.Append(current);
                     current = GetNext();
-                }
-                else
-                {
-                    var length = Position - position;
-                    Back(length++);
-                    current = Current;
-                    spaced = 0;
 
-                    while (length > 0)
+                    while (current != Symbols.EndOfFile && current != quote)
+                    {
+                        if (current == Symbols.ReverseSolidus)
+                        {
+                            sb.Append(current);
+                            current = GetNext();
+
+                            if (current == Symbols.EndOfFile)
+                            {
+                                break;
+                            }
+                        }
+
+                        sb.Append(current);
+                        current = GetNext();
+                    }
+
+                    if (current != Symbols.EndOfFile)
                     {
                         sb.Append(current);
-                        --length;
+                        previous = current;
                         current = GetNext();
                     }
                 }
-                
-                position = Position;
+                else if (current is Symbols.Semicolon or Symbols.CurlyBracketOpen or Symbols.CurlyBracketClose)
+                {
+                    break;
+                }
+                else
+                {
+                    sb.Append(current);
+
+                    if (current.IsSpaceCharacter())
+                    {
+                        trailingWhitespace++;
+                    }
+                    else
+                    {
+                        trailingWhitespace = 0;
+                    }
+
+                    previous = current;
+                    current = GetNext();
+                }
             }
 
-            if (spaced > 0)
+            if (trailingWhitespace > 0)
             {
-                sb.Remove(sb.Length - spaced, spaced);
+                sb.Remove(sb.Length - trailingWhitespace, trailingWhitespace);
             }
 
             Back();
@@ -1333,7 +1362,7 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewString(String value, Boolean bad = false)
         {
-            return new CssStringToken(value, bad) { Position = _position };
+            return new CssToken(CssTokenType.String, value) { Position = _position };
         }
 
         private CssToken NewHash(String data)
@@ -1343,7 +1372,7 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewComment(String data, Boolean bad = false)
         {
-            return new CssCommentToken(data, bad) { Position = _position };
+            return new CssToken(CssTokenType.Comment, data) { Position = _position };
         }
 
         private CssToken NewAtKeyword(String data)
@@ -1373,7 +1402,7 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewUrl(String data, Boolean bad = false)
         {
-            return new CssUrlToken(data, bad) { Position = _position };
+            return new CssToken(CssTokenType.Url, data) { Position = _position };
         }
 
         private CssToken NewRange(String data)
@@ -1383,7 +1412,7 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewWhitespace(Char c)
         {
-            return new CssToken(CssTokenType.Whitespace, c.ToString()) { Position = _position };
+            return new CssToken(CssTokenType.Whitespace, CachedCharString(c)) { Position = _position };
         }
 
         private CssToken NewNumber(String data)
@@ -1393,7 +1422,26 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.Delim, c.ToString()) { Position = _position };
+            return new CssToken(CssTokenType.Delim, CachedCharString(c)) { Position = _position };
+        }
+
+        private static readonly String[] CharStringCache = CreateCharStringCache();
+
+        private static String[] CreateCharStringCache()
+        {
+            var cache = new String[128];
+
+            for (var i = 0; i < cache.Length; i++)
+            {
+                cache[i] = ((Char)i).ToString();
+            }
+
+            return cache;
+        }
+
+        private static String CachedCharString(Char c)
+        {
+            return c < 128 ? CharStringCache[c] : c.ToString();
         }
 
         private CssToken NewEof()

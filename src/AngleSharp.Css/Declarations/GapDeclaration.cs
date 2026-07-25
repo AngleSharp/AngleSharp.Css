@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
@@ -24,14 +25,14 @@ namespace AngleSharp.Css.Declarations
 
         sealed class GapAggregagtor : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = WithOrder(GapConverter, GapConverter);
+            private static readonly IValueConverter converter = WithOrder(Or(GapConverter, VarConverter), Or(GapConverter, VarConverter));
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 
             public ICssValue Merge(ICssValue[] values)
             {
-                var col = values[0];
-                var row = values[1];
+                var row = values[0];
+                var col = values[1];
 
                 if (row != null || col != null)
                 {

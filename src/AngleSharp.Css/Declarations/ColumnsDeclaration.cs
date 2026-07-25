@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
@@ -25,8 +26,8 @@ namespace AngleSharp.Css.Declarations
         sealed class ColumnsValueConverter : IValueConverter
         {
             private static readonly IValueConverter converter = WithAny(
-                AutoLengthConverter,
-                OptionalIntegerConverter);
+                Or(AutoLengthConverter, VarConverter),
+                Or(OptionalIntegerConverter, VarConverter));
 
             public ICssValue Convert(StringSource source)
             {

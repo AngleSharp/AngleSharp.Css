@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Css.Dom
+#nullable disable
+namespace AngleSharp.Css.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -76,6 +77,8 @@
             _rules.Remove(rule);
             rule.SetParent(null);
         }
+
+        protected IEnumerable<IStyleFormattable> GetFormattableRules() => _rules.GetFormattables();
 
         #endregion
     }

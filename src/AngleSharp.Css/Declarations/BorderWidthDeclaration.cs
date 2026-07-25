@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
@@ -13,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Border,
         };
 
-        public static IValueConverter Converter = AggregatePeriodic(LineWidthConverter);
+        public static IValueConverter Converter = AggregatePeriodic(Or(LineWidthConverter, VarConverter));
 
         public static ICssValue InitialValue = null;
 

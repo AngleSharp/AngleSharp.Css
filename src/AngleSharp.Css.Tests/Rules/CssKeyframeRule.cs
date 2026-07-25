@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Tests.Rules
+namespace AngleSharp.Css.Tests.Rules
 {
     using NUnit.Framework;
     using System.Linq;
@@ -72,6 +72,16 @@
             Assert.IsNotNull(rule);
             Assert.AreEqual("0%", rule.KeyText);
             Assert.AreEqual(1, rule.Key.Stops.Count());
+            Assert.AreEqual(0, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithPercentage_Issue128()
+        {
+            var rule = ParseKeyframeRule(@"  0.52%,   50.0%,92.82% { }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("0.52%, 50%, 92.82%", rule.KeyText);
+            Assert.AreEqual(3, rule.Key.Stops.Count());
             Assert.AreEqual(0, rule.Style.Length);
         }
     }

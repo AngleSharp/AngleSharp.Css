@@ -4,10 +4,10 @@ namespace AngleSharp.Css.RenderTree
 
     class RenderValues
     {
-        public Color Color { get; set; }
+        public CssColorValue Color { get; set; }
 
-        public Length Width { get; set; }
+        public CssLengthValue Width { get; set; }
 
-        public Length Height { get; set; }
+        public CssLengthValue Height { get; set; }
     }
 }

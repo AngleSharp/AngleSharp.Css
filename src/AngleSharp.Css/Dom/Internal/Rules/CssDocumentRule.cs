@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
@@ -71,7 +72,7 @@ namespace AngleSharp.Css.Dom
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = formatter.BlockRules(Rules);
+            var rules = formatter.BlockRules(GetFormattableRules());
             writer.Write(formatter.Rule(RuleNames.Document, ConditionText, rules));
         }
 

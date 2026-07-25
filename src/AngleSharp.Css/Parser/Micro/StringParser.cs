@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
@@ -16,13 +17,12 @@ namespace AngleSharp.Css.Parser
         {
             var current = source.Current;
 
-            switch (current)
+            return current switch
             {
-                case Symbols.DoubleQuote: return DoubleQuoted(source);
-                case Symbols.SingleQuote: return SingleQuoted(source);
-            }
-
-            return null;
+                Symbols.DoubleQuote => DoubleQuoted(source),
+                Symbols.SingleQuote => SingleQuoted(source),
+                _ => null,
+            };
         }
 
         private static String DoubleQuoted(StringSource source)

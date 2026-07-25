@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
@@ -25,7 +26,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The created element or null, if not possible.</returns>
         [DomName("pseudo")]
-        public static IPseudoElement Pseudo(this IElement element, String pseudoElement)
+        public static IPseudoElement? Pseudo(this IElement element, String pseudoElement)
         {
             var factory = element.Owner?.Context.GetService<IPseudoElementFactory>();
             return factory?.Create(element, pseudoElement);
@@ -47,19 +48,28 @@ namespace AngleSharp.Dom
                 hidden = true;
             }
 
+            // Build the style collection once and cache computed styles for the
+            // entire traversal to avoid redundant stylesheet enumeration and
+            // repeated selector matching for the same elements.
+            var document = element.Owner;
+            var window = document?.DefaultView;
+            var device = window?.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
+            var styleCollection = window is not null ? window.GetStyleCollection(device) : null;
+            var styleCache = new Dictionary<IElement, ICssStyleDeclaration>();
+
             if (!hidden.HasValue)
             {
-                var css = element.ComputeCurrentStyle();
+                var css = ComputeCachedStyle(element, styleCollection, styleCache);
 
                 if (!String.IsNullOrEmpty(css?.GetDisplay()))
                 {
-                    hidden = css.GetDisplay() == CssKeywords.None;
+                    hidden = css!.GetDisplay() == CssKeywords.None;
                 }
             }
 
             if (!hidden.HasValue)
             {
-                hidden = (element as IHtmlElement)?.IsHidden;
+                hidden = (element as IHtmlElement)?.IsHidden ?? false;
             }
 
             if (!hidden.Value)
@@ -67,7 +77,11 @@ namespace AngleSharp.Dom
                 var offset = 0;
                 var sb = StringBuilderPool.Obtain();
                 var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
-                InnerTextCollection(element, sb, requiredLineBreakCounts, element.ParentElement?.ComputeCurrentStyle());
+                var textStyleCache = new Dictionary<ICssStyleDeclaration, TextStyleInfo>();
+                var parentStyle = element.ParentElement != null
+                    ? ComputeCachedStyle(element.ParentElement, styleCollection, styleCache)
+                    : null;
+                InnerTextCollection(element, sb, requiredLineBreakCounts, parentStyle, styleCollection, styleCache, textStyleCache);
 
                 // Remove any runs of consecutive required line break count items at the start or end of results.
                 requiredLineBreakCounts.Remove(0);
@@ -87,6 +101,36 @@ namespace AngleSharp.Dom
             return element.TextContent;
         }
 
+        private static ICssStyleDeclaration? ComputeCachedStyle(IElement element, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> cache)
+        {
+            if (styleCollection == null)
+            {
+                return null;
+            }
+
+            if (cache.TryGetValue(element, out var cached))
+            {
+                return cached;
+            }
+
+            ICssStyleDeclaration style;
+            var parent = element.ParentElement;
+
+            if (parent != null && cache.TryGetValue(parent, out var parentStyle))
+            {
+                // Parent already computed — use incremental computation that
+                // skips the O(depth) ancestor walk.
+                style = styleCollection.ComputeDeclarationsWithParent(element, parentStyle);
+            }
+            else
+            {
+                style = styleCollection.ComputeDeclarations(element);
+            }
+
+            cache[element] = style;
+            return style;
+        }
+
         /// <summary>
         /// Sets the innerText of an element.
         /// </summary>
@@ -95,7 +139,7 @@ namespace AngleSharp.Dom
         [DomName("innerText")]
         [DomAccessor(Accessors.Setter)]
 
-        public static void SetInnerText(this IElement element, String value)
+        public static void SetInnerText(this IElement element, String? value)
         {
             if (String.IsNullOrEmpty(value))
             {
@@ -104,10 +148,10 @@ namespace AngleSharp.Dom
             else
             {
                 var document = element.Owner;
-                var fragment = document.CreateDocumentFragment();
+                var fragment = document!.CreateDocumentFragment();
                 var sb = StringBuilderPool.Obtain();
 
-                for (var i = 0; i < value.Length; i++)
+                for (var i = 0; i < value!.Length; i++)
                 {
                     var c = value[i];
 
@@ -149,21 +193,21 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
+        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration? parentStyle, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache, Dictionary<ICssStyleDeclaration, TextStyleInfo> textStyleCache)
         {
             if (HasCssBox(node))
             {
                 var element = node as IElement;
-                var elementCss = element?.ComputeCurrentStyle();
-                ItcInCssBox(elementCss, parentStyle, node, sb, requiredLineBreakCounts);
+                var elementCss = element != null ? ComputeCachedStyle(element, styleCollection, styleCache) : null;
+                ItcInCssBox(elementCss, parentStyle, node, sb, requiredLineBreakCounts, styleCollection, styleCache, textStyleCache);
             }
         }
 
-        private static void ItcInCssBox(ICssStyleDeclaration elementStyle, ICssStyleDeclaration parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts)
+        private static void ItcInCssBox(ICssStyleDeclaration? elementStyle, ICssStyleDeclaration? parentStyle, INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, IStyleCollection? styleCollection, Dictionary<IElement, ICssStyleDeclaration> styleCache, Dictionary<ICssStyleDeclaration, TextStyleInfo> textStyleCache)
         {
             var elementHidden = new Nullable<Boolean>();
 
-            if (elementStyle != null)
+            if (elementStyle is not null)
             {
                 if (!String.IsNullOrEmpty(elementStyle.GetDisplay()))
                 {
@@ -188,7 +232,7 @@ namespace AngleSharp.Dom
 
                 foreach (var child in node.ChildNodes)
                 {
-                    InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle);
+                    InnerTextCollection(child, sb, requiredLineBreakCounts, elementStyle, styleCollection, styleCache, textStyleCache);
                 }
 
                 if (node is IText textElement)
@@ -196,31 +240,32 @@ namespace AngleSharp.Dom
                     var lastLine = node.NextSibling is null ||
                         String.IsNullOrEmpty(node.NextSibling.TextContent) ||
                         node.NextSibling is IHtmlBreakRowElement;
-                    ProcessText(textElement.Data, sb, parentStyle, lastLine);
+                    var styleInfo = GetTextStyleInfo(parentStyle, textStyleCache);
+                    ProcessText(textElement.Data, sb, styleInfo.WhiteSpace, styleInfo.TextTransform, lastLine, requiredLineBreakCounts);
                 }
                 else if (node is IHtmlBreakRowElement)
                 {
                     sb.Append(Symbols.LineFeed);
                 }
-                else if (elementStyle != null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
+                else if (elementStyle is not null && ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableCell))
                 {
-                    if (node.NextSibling is IElement nextSibling)
+                    if (((IElement)node).NextElementSibling is IElement nextSibling)
                     {
-                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                        var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
-                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableCell)
+                        if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss!.GetDisplay()) || nextSiblingCss!.GetDisplay() == CssKeywords.TableCell)
                         {
                             sb.Append(Symbols.Tab);
                         }
                     }
                 }
-                else if (elementStyle != null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
+                else if (elementStyle is not null && ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementStyle.GetDisplay())) || elementStyle.GetDisplay() == CssKeywords.TableRow))
                 {
-                    if (node.NextSibling is IElement nextSibling)
+                    if (((IElement)node).NextElementSibling is IElement nextSibling)
                     {
-                        var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                        var nextSiblingCss = ComputeCachedStyle(nextSibling, styleCollection, styleCache);
 
-                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.GetDisplay()) || nextSiblingCss.GetDisplay() == CssKeywords.TableRow)
+                        if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss!.GetDisplay()) || nextSiblingCss!.GetDisplay() == CssKeywords.TableRow)
                         {
                             sb.Append(Symbols.LineFeed);
                         }
@@ -243,7 +288,7 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (elementStyle != null)
+                if (elementStyle is not null)
                 {
                     if (IsBlockLevelDisplay(elementStyle.GetDisplay()))
                     {
@@ -297,105 +342,57 @@ namespace AngleSharp.Dom
 
         private static Boolean HasCssBox(INode node)
         {
-            switch (node.NodeName)
+            return node.NodeName switch
             {
-                case "CANVAS":
-                case "COL":
-                case "COLGROUP":
-                case "DETAILS":
-                case "FRAME":
-                case "FRAMESET":
-                case "IFRAME":
-                case "IMG":
-                case "INPUT":
-                case "LINK":
-                case "METER":
-                case "PROGRESS":
-                case "TEMPLATE":
-                case "TEXTAREA":
-                case "VIDEO":
-                case "WBR":
-                case "SCRIPT":
-                case "STYLE":
-                case "NOSCRIPT":
-                    return false;
-                default:
-                    return true;
-            }
+                "CANVAS" or "COL" or "COLGROUP" or "DETAILS" or "FRAME" or "FRAMESET" or "IFRAME" or "IMG" or "INPUT" or "LINK" or "METER" or "PROGRESS" or "TEMPLATE" or "TEXTAREA" or "VIDEO" or "WBR" or "SCRIPT" or "STYLE" or "NOSCRIPT" => false,
+                _ => true,
+            };
         }
 
         private static Boolean IsBlockLevelDisplay(String display)
         {
             // https://www.w3.org/TR/css-display-3/#display-value-summary
             // https://hg.mozilla.org/mozilla-central/file/0acceb224b7d/servo/components/layout/query.rs#l1016
-            switch (display)
+            return display switch
             {
-                case "block":
-                case "flow-root":
-                case "flex":
-                case "grid":
-                case "table":
-                case "table-caption":
-                    return true;
-                default:
-                    return false;
-            }
+                "block" or "flow-root" or "flex" or "grid" or "table" or "table-caption" => true,
+                _ => false,
+            };
         }
 
         private static Boolean IsBlockLevel(INode node)
         {
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
-            switch (node.NodeName)
+            return node.NodeName switch
             {
-                case "ADDRESS":
-                case "ARTICLE":
-                case "ASIDE":
-                case "BLOCKQUOTE":
-                case "CANVAS":
-                case "DD":
-                case "DIV":
-                case "DL":
-                case "DT":
-                case "FIELDSET":
-                case "FIGCAPTION":
-                case "FIGURE":
-                case "FOOTER":
-                case "FORM":
-                case "H1":
-                case "H2":
-                case "H3":
-                case "H4":
-                case "H5":
-                case "H6":
-                case "HEADER":
-                case "GROUP":
-                case "HR":
-                case "LI":
-                case "MAIN":
-                case "NAV":
-                case "NOSCRIPT":
-                case "OL":
-                case "OPTION":
-                case "OUTPUT":
-                case "P":
-                case "PRE":
-                case "SECTION":
-                case "TABLE":
-                case "TFOOT":
-                case "UL":
-                case "VIDEO":
-                    return true;
-                default:
-                    return false;
-            }
+                "ADDRESS" or "ARTICLE" or "ASIDE" or "BLOCKQUOTE" or "CANVAS" or "DD" or "DIV" or "DL" or "DT" or "FIELDSET" or "FIGCAPTION" or "FIGURE" or "FOOTER" or "FORM" or "H1" or "H2" or "H3" or "H4" or "H5" or "H6" or "HEADER" or "GROUP" or "HR" or "LI" or "MAIN" or "NAV" or "NOSCRIPT" or "OL" or "OPTION" or "OUTPUT" or "P" or "PRE" or "SECTION" or "TABLE" or "TFOOT" or "UL" or "VIDEO" => true,
+                _ => false,
+            };
         }
 
-        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style, Boolean lastLine)
+        private static Boolean IsWhiteSpace(Char c) => Char.IsWhiteSpace(c) && c != Symbols.NoBreakSpace;
+
+        private static TextStyleInfo GetTextStyleInfo(ICssStyleDeclaration? style, Dictionary<ICssStyleDeclaration, TextStyleInfo> cache)
+        {
+            if (style is null)
+            {
+                return default;
+            }
+
+            if (cache.TryGetValue(style, out var info))
+            {
+                return info;
+            }
+
+            info = new TextStyleInfo(style.GetWhiteSpace(), style.GetTextTransform());
+            cache[style] = info;
+            return info;
+        }
+
+        private static void ProcessText(String text, StringBuilder sb, String? whiteSpace, String? textTransform, Boolean lastLine, Dictionary<Int32, Int32> requiredLineBreakCounts)
         {
             var startIndex = sb.Length;
-            var whiteSpace = style?.GetWhiteSpace();
-            var textTransform = style?.GetTextTransform();
-            var isWhiteSpace = startIndex > 0 ? Char.IsWhiteSpace(sb[startIndex - 1]) && sb[startIndex - 1] != Symbols.NoBreakSpace : true;
+            var isWhiteSpace = startIndex <= 0 || IsWhiteSpace(sb[startIndex - 1]) || (requiredLineBreakCounts.ContainsKey(startIndex) && IsWhiteSpace(text[0]));
 
             for (var i = 0; i < text.Length; i++)
             {
@@ -476,6 +473,19 @@ namespace AngleSharp.Dom
                     }
                 }
             }
+        }
+
+        private readonly struct TextStyleInfo
+        {
+            public TextStyleInfo(String? whiteSpace, String? textTransform)
+            {
+                WhiteSpace = whiteSpace;
+                TextTransform = textTransform;
+            }
+
+            public String? WhiteSpace { get; }
+
+            public String? TextTransform { get; }
         }
     }
 }

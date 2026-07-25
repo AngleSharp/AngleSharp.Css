@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Converters;
@@ -28,9 +29,9 @@ namespace AngleSharp.Css.Declarations
         sealed class BorderAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter converter = WithAny(
-                LineWidthConverter.Option(InitialValues.BorderWidthDecl),
-                LineStyleConverter.Option(InitialValues.BorderStyleDecl),
-                CurrentColorConverter.Option(InitialValues.BorderColorDecl));
+                Or(LineWidthConverter, VarConverter).Option(InitialValues.BorderWidthDecl),
+                Or(LineStyleConverter, VarConverter).Option(InitialValues.BorderStyleDecl),
+                Or(CurrentColorConverter, VarConverter).Option(InitialValues.BorderColorDecl));
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

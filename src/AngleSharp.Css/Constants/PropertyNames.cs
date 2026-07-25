@@ -33,6 +33,21 @@ namespace AngleSharp.Css
         public static readonly String Accelerator = "accelerator";
 
         /// <summary>
+        /// The aspect-ratio declaration.
+        /// </summary>
+        public static readonly String AspectRatio = "aspect-ratio";
+
+        /// <summary>
+        /// The anchor-name declaration.
+        /// </summary>
+        public static readonly String AnchorName = "anchor-name";
+
+        /// <summary>
+        /// The anchor-scope declaration.
+        /// </summary>
+        public static readonly String AnchorScope = "anchor-scope";
+
+        /// <summary>
         /// The animation declaration.
         /// </summary>
         public static readonly String Animation = "animation";
@@ -78,9 +93,49 @@ namespace AngleSharp.Css
         public static readonly String AnimationTimingFunction = "animation-timing-function";
 
         /// <summary>
+        /// The animation-composition declaration.
+        /// </summary>
+        public static readonly String AnimationComposition = "animation-composition";
+
+        /// <summary>
+        /// The animation-timeline declaration.
+        /// </summary>
+        public static readonly String AnimationTimeline = "animation-timeline";
+
+        /// <summary>
+        /// The animation-range declaration.
+        /// </summary>
+        public static readonly String AnimationRange = "animation-range";
+
+        /// <summary>
+        /// The animation-range-start declaration.
+        /// </summary>
+        public static readonly String AnimationRangeStart = "animation-range-start";
+
+        /// <summary>
+        /// The animation-range-end declaration.
+        /// </summary>
+        public static readonly String AnimationRangeEnd = "animation-range-end";
+
+        /// <summary>
+        /// The accent-color declaration.
+        /// </summary>
+        public static readonly String AccentColor = "accent-color";
+
+        /// <summary>
+        /// The appearance declaration.
+        /// </summary>
+        public static readonly String Appearance = "appearance";
+
+        /// <summary>
         /// The background-attachment declaration.
         /// </summary>
         public static readonly String BackgroundAttachment = "background-attachment";
+
+        /// <summary>
+        /// The background-blend-mode declaration.
+        /// </summary>
+        public static readonly String BackgroundBlendMode = "background-blend-mode";
 
         /// <summary>
         /// The background-color declaration.
@@ -141,6 +196,11 @@ namespace AngleSharp.Css
         /// The background declaration.
         /// </summary>
         public static readonly String Background = "background";
+
+        /// <summary>
+        /// The backdrop-filter declaration.
+        /// </summary>
+        public static readonly String BackdropFilter = "backdrop-filter";
 
         /// <summary>
         /// The behavior declaration.
@@ -353,9 +413,154 @@ namespace AngleSharp.Css
         public static readonly String Border = "border";
 
         /// <summary>
+        /// The border-block declaration.
+        /// </summary>
+        public static readonly String BorderBlock = "border-block";
+
+        /// <summary>
+        /// The border-block-start declaration.
+        /// </summary>
+        public static readonly String BorderBlockStart = "border-block-start";
+
+        /// <summary>
+        /// The border-block-end declaration.
+        /// </summary>
+        public static readonly String BorderBlockEnd = "border-block-end";
+
+        /// <summary>
+        /// The border-block-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockColor = "border-block-color";
+
+        /// <summary>
+        /// The border-block-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockStyle = "border-block-style";
+
+        /// <summary>
+        /// The border-block-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockWidth = "border-block-width";
+
+        /// <summary>
+        /// The border-block-start-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartColor = "border-block-start-color";
+
+        /// <summary>
+        /// The border-block-start-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartStyle = "border-block-start-style";
+
+        /// <summary>
+        /// The border-block-start-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartWidth = "border-block-start-width";
+
+        /// <summary>
+        /// The border-block-end-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndColor = "border-block-end-color";
+
+        /// <summary>
+        /// The border-block-end-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndStyle = "border-block-end-style";
+
+        /// <summary>
+        /// The border-block-end-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndWidth = "border-block-end-width";
+
+        /// <summary>
+        /// The border-inline declaration.
+        /// </summary>
+        public static readonly String BorderInline = "border-inline";
+
+        /// <summary>
+        /// The border-inline-start declaration.
+        /// </summary>
+        public static readonly String BorderInlineStart = "border-inline-start";
+
+        /// <summary>
+        /// The border-inline-end declaration.
+        /// </summary>
+        public static readonly String BorderInlineEnd = "border-inline-end";
+
+        /// <summary>
+        /// The border-inline-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineColor = "border-inline-color";
+
+        /// <summary>
+        /// The border-inline-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineStyle = "border-inline-style";
+
+        /// <summary>
+        /// The border-inline-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineWidth = "border-inline-width";
+
+        /// <summary>
+        /// The border-inline-start-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartColor = "border-inline-start-color";
+
+        /// <summary>
+        /// The border-inline-start-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartStyle = "border-inline-start-style";
+
+        /// <summary>
+        /// The border-inline-start-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartWidth = "border-inline-start-width";
+
+        /// <summary>
+        /// The border-inline-end-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndColor = "border-inline-end-color";
+
+        /// <summary>
+        /// The border-inline-end-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndStyle = "border-inline-end-style";
+
+        /// <summary>
+        /// The border-inline-end-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndWidth = "border-inline-end-width";
+
+        /// <summary>
+        /// The border-start-start-radius declaration.
+        /// </summary>
+        public static readonly String BorderStartStartRadius = "border-start-start-radius";
+
+        /// <summary>
+        /// The border-start-end-radius declaration.
+        /// </summary>
+        public static readonly String BorderStartEndRadius = "border-start-end-radius";
+
+        /// <summary>
+        /// The border-end-start-radius declaration.
+        /// </summary>
+        public static readonly String BorderEndStartRadius = "border-end-start-radius";
+
+        /// <summary>
+        /// The border-end-end-radius declaration.
+        /// </summary>
+        public static readonly String BorderEndEndRadius = "border-end-end-radius";
+
+        /// <summary>
         /// The bottom declaration.
         /// </summary>
         public static readonly String Bottom = "bottom";
+
+        /// <summary>
+        /// The block-size declaration.
+        /// </summary>
+        public static readonly String BlockSize = "block-size";
 
         /// <summary>
         /// The columns declaration.
@@ -468,6 +673,16 @@ namespace AngleSharp.Css
         public static readonly String Color = "color";
 
         /// <summary>
+        /// The caret-color declaration.
+        /// </summary>
+        public static readonly String CaretColor = "caret-color";
+
+        /// <summary>
+        /// The color-scheme declaration.
+        /// </summary>
+        public static readonly String ColorScheme = "color-scheme";
+
+        /// <summary>
         /// The color-interpolation-filters declaration.
         /// </summary>
         public static readonly String ColorInterpolationFilters = "color-interpolation-filters";
@@ -476,6 +691,51 @@ namespace AngleSharp.Css
         /// The content declaration.
         /// </summary>
         public static readonly String Content = "content";
+
+        /// <summary>
+        /// The container declaration.
+        /// </summary>
+        public static readonly String Container = "container";
+
+        /// <summary>
+        /// The container-name declaration.
+        /// </summary>
+        public static readonly String ContainerName = "container-name";
+
+        /// <summary>
+        /// The container-type declaration.
+        /// </summary>
+        public static readonly String ContainerType = "container-type";
+
+        /// <summary>
+        /// The contain declaration.
+        /// </summary>
+        public static readonly String Contain = "contain";
+
+        /// <summary>
+        /// The contain-intrinsic-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicSize = "contain-intrinsic-size";
+
+        /// <summary>
+        /// The contain-intrinsic-width declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicWidth = "contain-intrinsic-width";
+
+        /// <summary>
+        /// The contain-intrinsic-height declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicHeight = "contain-intrinsic-height";
+
+        /// <summary>
+        /// The contain-intrinsic-block-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicBlockSize = "contain-intrinsic-block-size";
+
+        /// <summary>
+        /// The contain-intrinsic-inline-size declaration.
+        /// </summary>
+        public static readonly String ContainIntrinsicInlineSize = "contain-intrinsic-inline-size";
 
         /// <summary>
         /// The content-visibility declaration.
@@ -491,6 +751,11 @@ namespace AngleSharp.Css
         /// The counter-reset declaration.
         /// </summary>
         public static readonly String CounterReset = "counter-reset";
+
+        /// <summary>
+        /// The counter-set declaration.
+        /// </summary>
+        public static readonly String CounterSet = "counter-set";
 
         /// <summary>
         /// The cursor declaration.
@@ -541,6 +806,11 @@ namespace AngleSharp.Css
         /// The filter declaration.
         /// </summary>
         public static readonly String Filter = "filter";
+
+        /// <summary>
+        /// The forced-color-adjust declaration.
+        /// </summary>
+        public static readonly String ForcedColorAdjust = "forced-color-adjust";
 
         /// <summary>
         /// The flex declaration.
@@ -628,6 +898,56 @@ namespace AngleSharp.Css
         public static readonly String Font = "font";
 
         /// <summary>
+        /// The font-display declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String FontDisplay = "font-display";
+
+        /// <summary>
+        /// The font-kerning declaration.
+        /// </summary>
+        public static readonly String FontKerning = "font-kerning";
+
+        /// <summary>
+        /// The font-language-override declaration.
+        /// </summary>
+        public static readonly String FontLanguageOverride = "font-language-override";
+
+        /// <summary>
+        /// The font-optical-sizing declaration.
+        /// </summary>
+        public static readonly String FontOpticalSizing = "font-optical-sizing";
+
+        /// <summary>
+        /// The font-palette declaration.
+        /// </summary>
+        public static readonly String FontPalette = "font-palette";
+
+        /// <summary>
+        /// The font-synthesis declaration (shorthand).
+        /// </summary>
+        public static readonly String FontSynthesis = "font-synthesis";
+
+        /// <summary>
+        /// The font-synthesis-weight declaration.
+        /// </summary>
+        public static readonly String FontSynthesisWeight = "font-synthesis-weight";
+
+        /// <summary>
+        /// The font-synthesis-style declaration.
+        /// </summary>
+        public static readonly String FontSynthesisStyle = "font-synthesis-style";
+
+        /// <summary>
+        /// The font-synthesis-small-caps declaration.
+        /// </summary>
+        public static readonly String FontSynthesisSmallCaps = "font-synthesis-small-caps";
+
+        /// <summary>
+        /// The font-variation-settings declaration.
+        /// </summary>
+        public static readonly String FontVariationSettings = "font-variation-settings";
+
+        /// <summary>
         /// The glyph-orientation-horizontal declaration.
         /// </summary>
         public static readonly String GlyphOrientationHorizontal = "glyph-orientation-horizontal";
@@ -643,14 +963,109 @@ namespace AngleSharp.Css
         public static readonly String Height = "height";
 
         /// <summary>
+        /// The hanging-punctuation declaration.
+        /// </summary>
+        public static readonly String HangingPunctuation = "hanging-punctuation";
+
+        /// <summary>
+        /// The hyphenate-character declaration.
+        /// </summary>
+        public static readonly String HyphenateCharacter = "hyphenate-character";
+
+        /// <summary>
+        /// The hyphenate-limit-chars declaration.
+        /// </summary>
+        public static readonly String HypenatateLimitChars = "hyphenate-limit-chars";
+
+        /// <summary>
+        /// The hyphens declaration.
+        /// </summary>
+        public static readonly String Hyphens = "hyphens";
+
+        /// <summary>
         /// The ime-mode declaration.
         /// </summary>
         public static readonly String ImeMode = "ime-mode";
 
         /// <summary>
+        /// The initial-letter declaration.
+        /// </summary>
+        public static readonly String InitialLetter = "initial-letter";
+
+        /// <summary>
+        /// The initial-letter-align declaration.
+        /// </summary>
+        public static readonly String InitialLetterAlign = "initial-letter-align";
+
+        /// <summary>
+        /// The image-orientation declaration.
+        /// </summary>
+        public static readonly String ImageOrientation = "image-orientation";
+
+        /// <summary>
+        /// The image-rendering declaration.
+        /// </summary>
+        public static readonly String ImageRendering = "image-rendering";
+
+        /// <summary>
+        /// The inline-size declaration.
+        /// </summary>
+        public static readonly String InlineSize = "inline-size";
+
+        /// <summary>
+        /// The isolation declaration.
+        /// </summary>
+        public static readonly String Isolation = "isolation";
+
+        /// <summary>
+        /// The inset declaration.
+        /// </summary>
+        public static readonly String Inset = "inset";
+
+        /// <summary>
+        /// The inset-block declaration.
+        /// </summary>
+        public static readonly String InsetBlock = "inset-block";
+
+        /// <summary>
+        /// The inset-block-start declaration.
+        /// </summary>
+        public static readonly String InsetBlockStart = "inset-block-start";
+
+        /// <summary>
+        /// The inset-block-end declaration.
+        /// </summary>
+        public static readonly String InsetBlockEnd = "inset-block-end";
+
+        /// <summary>
+        /// The inset-inline declaration.
+        /// </summary>
+        public static readonly String InsetInline = "inset-inline";
+
+        /// <summary>
+        /// The inset-inline-start declaration.
+        /// </summary>
+        public static readonly String InsetInlineStart = "inset-inline-start";
+
+        /// <summary>
+        /// The inset-inline-end declaration.
+        /// </summary>
+        public static readonly String InsetInlineEnd = "inset-inline-end";
+
+        /// <summary>
         /// The justify-content declaration.
         /// </summary>
         public static readonly String JustifyContent = "justify-content";
+
+        /// <summary>
+        /// The justify-items declaration.
+        /// </summary>
+        public static readonly String JustifyItems = "justify-items";
+
+        /// <summary>
+        /// The justify-self declaration.
+        /// </summary>
+        public static readonly String JustifySelf = "justify-self";
 
         /// <summary>
         /// The layout-grid declaration.
@@ -783,6 +1198,11 @@ namespace AngleSharp.Css
         public static readonly String LineHeight = "line-height";
 
         /// <summary>
+        /// The line-break declaration.
+        /// </summary>
+        public static readonly String LineBreak = "line-break";
+
+        /// <summary>
         /// The list-style-image declaration.
         /// </summary>
         public static readonly String ListStyleImage = "list-style-image";
@@ -801,6 +1221,36 @@ namespace AngleSharp.Css
         /// The list-style declaration.
         /// </summary>
         public static readonly String ListStyle = "list-style";
+
+        /// <summary>
+        /// The margin-block declaration.
+        /// </summary>
+        public static readonly String MarginBlock = "margin-block";
+
+        /// <summary>
+        /// The margin-block-end declaration.
+        /// </summary>
+        public static readonly String MarginBlockEnd = "margin-block-end";
+
+        /// <summary>
+        /// The margin-block-start declaration.
+        /// </summary>
+        public static readonly String MarginBlockStart = "margin-block-start";
+
+        /// <summary>
+        /// The margin-inline declaration.
+        /// </summary>
+        public static readonly String MarginInline = "margin-inline";
+
+        /// <summary>
+        /// The margin-inline-end declaration.
+        /// </summary>
+        public static readonly String MarginInlineEnd = "margin-inline-end";
+
+        /// <summary>
+        /// The margin-inline-start declaration.
+        /// </summary>
+        public static readonly String MarginInlineStart = "margin-inline-start";
 
         /// <summary>
         /// The margin-right declaration.
@@ -828,6 +1278,11 @@ namespace AngleSharp.Css
         public static readonly String Margin = "margin";
 
         /// <summary>
+        /// The mix-blend-mode declaration.
+        /// </summary>
+        public static readonly String MixBlendMode = "mix-blend-mode";
+
+        /// <summary>
         /// The marker declaration.
         /// </summary>
         public static readonly String Marker = "marker";
@@ -853,6 +1308,86 @@ namespace AngleSharp.Css
         public static readonly String Mask = "mask";
 
         /// <summary>
+        /// The mask-border declaration.
+        /// </summary>
+        public static readonly String MaskBorder = "mask-border";
+
+        /// <summary>
+        /// The mask-border-mode declaration.
+        /// </summary>
+        public static readonly String MaskBorderMode = "mask-border-mode";
+
+        /// <summary>
+        /// The mask-border-outset declaration.
+        /// </summary>
+        public static readonly String MaskBorderOutset = "mask-border-outset";
+
+        /// <summary>
+        /// The mask-border-repeat declaration.
+        /// </summary>
+        public static readonly String MaskBorderRepeat = "mask-border-repeat";
+
+        /// <summary>
+        /// The mask-border-slice declaration.
+        /// </summary>
+        public static readonly String MaskBorderSlice = "mask-border-slice";
+
+        /// <summary>
+        /// The mask-border-source declaration.
+        /// </summary>
+        public static readonly String MaskBorderSource = "mask-border-source";
+
+        /// <summary>
+        /// The mask-border-width declaration.
+        /// </summary>
+        public static readonly String MaskBorderWidth = "mask-border-width";
+
+        /// <summary>
+        /// The mask-clip declaration.
+        /// </summary>
+        public static readonly String MaskClip = "mask-clip";
+
+        /// <summary>
+        /// The mask-composite declaration.
+        /// </summary>
+        public static readonly String MaskComposite = "mask-composite";
+
+        /// <summary>
+        /// The mask-image declaration.
+        /// </summary>
+        public static readonly String MaskImage = "mask-image";
+
+        /// <summary>
+        /// The mask-mode declaration.
+        /// </summary>
+        public static readonly String MaskMode = "mask-mode";
+
+        /// <summary>
+        /// The mask-origin declaration.
+        /// </summary>
+        public static readonly String MaskOrigin = "mask-origin";
+
+        /// <summary>
+        /// The mask-position declaration.
+        /// </summary>
+        public static readonly String MaskPosition = "mask-position";
+
+        /// <summary>
+        /// The mask-repeat declaration.
+        /// </summary>
+        public static readonly String MaskRepeat = "mask-repeat";
+
+        /// <summary>
+        /// The mask-size declaration.
+        /// </summary>
+        public static readonly String MaskSize = "mask-size";
+
+        /// <summary>
+        /// The mask-type declaration.
+        /// </summary>
+        public static readonly String MaskType = "mask-type";
+
+        /// <summary>
         /// The max-height declaration.
         /// </summary>
         public static readonly String MaxHeight = "max-height";
@@ -863,6 +1398,16 @@ namespace AngleSharp.Css
         public static readonly String MaxWidth = "max-width";
 
         /// <summary>
+        /// The max-block-size declaration.
+        /// </summary>
+        public static readonly String MaxBlockSize = "max-block-size";
+
+        /// <summary>
+        /// The max-inline-size declaration.
+        /// </summary>
+        public static readonly String MaxInlineSize = "max-inline-size";
+
+        /// <summary>
         /// The min-height declaration.
         /// </summary>
         public static readonly String MinHeight = "min-height";
@@ -871,6 +1416,16 @@ namespace AngleSharp.Css
         /// The min-width declaration.
         /// </summary>
         public static readonly String MinWidth = "min-width";
+
+        /// <summary>
+        /// The min-block-size declaration.
+        /// </summary>
+        public static readonly String MinBlockSize = "min-block-size";
+
+        /// <summary>
+        /// The min-inline-size declaration.
+        /// </summary>
+        public static readonly String MinInlineSize = "min-inline-size";
 
         /// <summary>
         /// The opacity declaration.
@@ -896,6 +1451,11 @@ namespace AngleSharp.Css
         /// The outline-style declaration.
         /// </summary>
         public static readonly String OutlineStyle = "outline-style";
+
+        /// <summary>
+        /// The outline-offset declaration.
+        /// </summary>
+        public static readonly String OutlineOffset = "outline-offset";
 
         /// <summary>
         /// The outline-width declaration.
@@ -927,10 +1487,50 @@ namespace AngleSharp.Css
 		/// </summary>
 		public static readonly String OverflowWrap = "overflow-wrap";
 
-		/// <summary>
-		/// The padding-top declaration.
-		/// </summary>
-		public static readonly String PaddingTop = "padding-top";
+        /// <summary>
+        /// The overflow-clip-margin declaration.
+        /// </summary>
+        public static readonly String OverflowClipMargin = "overflow-clip-margin";
+
+        /// <summary>
+        /// The overflow-anchor declaration.
+        /// </summary>
+        public static readonly String OverflowAnchor = "overflow-anchor";
+
+        /// <summary>
+        /// The padding-block declaration.
+        /// </summary>
+        public static readonly String PaddingBlock = "padding-block";
+
+        /// <summary>
+        /// The padding-block-end declaration.
+        /// </summary>
+        public static readonly String PaddingBlockEnd = "padding-block-end";
+
+        /// <summary>
+        /// The padding-block-start declaration.
+        /// </summary>
+        public static readonly String PaddingBlockStart = "padding-block-start";
+
+        /// <summary>
+        /// The padding-inline declaration.
+        /// </summary>
+        public static readonly String PaddingInline = "padding-inline";
+
+        /// <summary>
+        /// The padding-inline-end declaration.
+        /// </summary>
+        public static readonly String PaddingInlineEnd = "padding-inline-end";
+
+        /// <summary>
+        /// The padding-inline-start declaration.
+        /// </summary>
+        public static readonly String PaddingInlineStart = "padding-inline-start";
+
+        /// <summary>
+        /// The padding-top declaration.
+        /// </summary>
+        public static readonly String PaddingTop = "padding-top";
 
         /// <summary>
         /// The padding-right declaration.
@@ -983,9 +1583,54 @@ namespace AngleSharp.Css
         public static readonly String PointerEvents = "pointer-events";
 
         /// <summary>
+        /// The place-content declaration.
+        /// </summary>
+        public static readonly String PlaceContent = "place-content";
+
+        /// <summary>
+        /// The place-items declaration.
+        /// </summary>
+        public static readonly String PlaceItems = "place-items";
+
+        /// <summary>
+        /// The place-self declaration.
+        /// </summary>
+        public static readonly String PlaceSelf = "place-self";
+
+        /// <summary>
         /// The position declaration.
         /// </summary>
         public static readonly String Position = "position";
+
+        /// <summary>
+        /// The position-anchor declaration.
+        /// </summary>
+        public static readonly String PositionAnchor = "position-anchor";
+
+        /// <summary>
+        /// The position-area declaration.
+        /// </summary>
+        public static readonly String PositionArea = "position-area";
+
+        /// <summary>
+        /// The position-try-fallbacks declaration.
+        /// </summary>
+        public static readonly String PositionTryFallbacks = "position-try-fallbacks";
+
+        /// <summary>
+        /// The position-try-order declaration.
+        /// </summary>
+        public static readonly String PositionTryOrder = "position-try-order";
+
+        /// <summary>
+        /// The position-visibility declaration.
+        /// </summary>
+        public static readonly String PositionVisibility = "position-visibility";
+
+        /// <summary>
+        /// The print-color-adjust declaration.
+        /// </summary>
+        public static readonly String PrintColorAdjust = "print-color-adjust";
 
         /// <summary>
         /// The quotes declaration.
@@ -1003,6 +1648,11 @@ namespace AngleSharp.Css
         public static readonly String Right = "right";
 
         /// <summary>
+        /// The rotate declaration.
+        /// </summary>
+        public static readonly String Rotate = "rotate";
+
+        /// <summary>
         /// The ruby-align declaration.
         /// </summary>
         public static readonly String RubyAlign = "ruby-align";
@@ -1016,6 +1666,11 @@ namespace AngleSharp.Css
         /// The ruby-position declaration.
         /// </summary>
         public static readonly String RubyPosition = "ruby-position";
+
+        /// <summary>
+        /// The scale declaration.
+        /// </summary>
+        public static readonly String Scale = "scale";
 
         /// <summary>
         /// The scrollbar3d-light-color declaration.
@@ -1058,19 +1713,194 @@ namespace AngleSharp.Css
         public static readonly String ScrollbarTrackColor = "scrollbar-track-color";
 
         /// <summary>
+        /// The scrollbar-width declaration.
+        /// </summary>
+        public static readonly String ScrollbarWidth = "scrollbar-width";
+
+        /// <summary>
+        /// The scrollbar-color declaration.
+        /// </summary>
+        public static readonly String ScrollbarColor = "scrollbar-color";
+
+        /// <summary>
+        /// The scrollbar-gutter declaration.
+        /// </summary>
+        public static readonly String ScrollbarGutter = "scrollbar-gutter";
+
+        /// <summary>
+        /// The scroll-behavior declaration.
+        /// </summary>
+        public static readonly String ScrollBehavior = "scroll-behavior";
+
+        /// <summary>
+        /// The scroll-snap-stop declaration.
+        /// </summary>
+        public static readonly String ScrollSnapStop = "scroll-snap-stop";
+
+        /// <summary>
         /// The scroll-snap-type declaration.
         /// </summary>
         public static readonly String ScrollSnapType = "scroll-snap-type";
 
         /// <summary>
-        /// The scroll-margin declaration.
+        /// The scroll-margin declaration (shorthand).
         /// </summary>
         public static readonly String ScrollMargin = "scroll-margin";
 
         /// <summary>
+        /// The scroll-margin-top declaration.
+        /// </summary>
+        public static readonly String ScrollMarginTop = "scroll-margin-top";
+
+        /// <summary>
+        /// The scroll-margin-right declaration.
+        /// </summary>
+        public static readonly String ScrollMarginRight = "scroll-margin-right";
+
+        /// <summary>
+        /// The scroll-margin-bottom declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBottom = "scroll-margin-bottom";
+
+        /// <summary>
+        /// The scroll-margin-left declaration.
+        /// </summary>
+        public static readonly String ScrollMarginLeft = "scroll-margin-left";
+
+        /// <summary>
+        /// The scroll-margin-block declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlock = "scroll-margin-block";
+
+        /// <summary>
+        /// The scroll-margin-block-start declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlockStart = "scroll-margin-block-start";
+
+        /// <summary>
+        /// The scroll-margin-block-end declaration.
+        /// </summary>
+        public static readonly String ScrollMarginBlockEnd = "scroll-margin-block-end";
+
+        /// <summary>
+        /// The scroll-margin-inline declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInline = "scroll-margin-inline";
+
+        /// <summary>
+        /// The scroll-margin-inline-start declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInlineStart = "scroll-margin-inline-start";
+
+        /// <summary>
+        /// The scroll-margin-inline-end declaration.
+        /// </summary>
+        public static readonly String ScrollMarginInlineEnd = "scroll-margin-inline-end";
+
+        /// <summary>
+        /// The shape-outside declaration.
+        /// </summary>
+        public static readonly String ShapeOutside = "shape-outside";
+
+        /// <summary>
+        /// The shape-margin declaration.
+        /// </summary>
+        public static readonly String ShapeMargin = "shape-margin";
+
+        /// <summary>
+        /// The shape-image-threshold declaration.
+        /// </summary>
+        public static readonly String ShapeImageThreshold = "shape-image-threshold";
+
+        /// <summary>
+        /// The shape-rendering declaration.
+        /// </summary>
+        public static readonly String ShapeRendering = "shape-rendering";
+
+        /// <summary>
+        /// The scroll-padding declaration (shorthand).
+        /// </summary>
+        public static readonly String ScrollPadding = "scroll-padding";
+
+        /// <summary>
+        /// The scroll-padding-top declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingTop = "scroll-padding-top";
+
+        /// <summary>
+        /// The scroll-padding-right declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingRight = "scroll-padding-right";
+
+        /// <summary>
+        /// The scroll-padding-bottom declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBottom = "scroll-padding-bottom";
+
+        /// <summary>
+        /// The scroll-padding-left declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingLeft = "scroll-padding-left";
+
+        /// <summary>
+        /// The scroll-padding-block declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlock = "scroll-padding-block";
+
+        /// <summary>
+        /// The scroll-padding-block-start declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlockStart = "scroll-padding-block-start";
+
+        /// <summary>
+        /// The scroll-padding-block-end declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingBlockEnd = "scroll-padding-block-end";
+
+        /// <summary>
+        /// The scroll-padding-inline declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInline = "scroll-padding-inline";
+
+        /// <summary>
+        /// The scroll-padding-inline-start declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInlineStart = "scroll-padding-inline-start";
+
+        /// <summary>
+        /// The scroll-padding-inline-end declaration.
+        /// </summary>
+        public static readonly String ScrollPaddingInlineEnd = "scroll-padding-inline-end";
+
+        /// <summary>
+        /// The overscroll-behavior declaration (shorthand).
+        /// </summary>
+        public static readonly String OverscrollBehavior = "overscroll-behavior";
+
+        /// <summary>
+        /// The overscroll-behavior-x declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorX = "overscroll-behavior-x";
+
+        /// <summary>
+        /// The overscroll-behavior-y declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorY = "overscroll-behavior-y";
+
+        /// <summary>
+        /// The overscroll-behavior-block declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorBlock = "overscroll-behavior-block";
+
+        /// <summary>
+        /// The overscroll-behavior-inline declaration.
+        /// </summary>
+        public static readonly String OverscrollBehaviorInline = "overscroll-behavior-inline";
+
+        /// <summary>
         /// The scroll-snap-align declaration.
         /// </summary>
-        public static readonly String ScrollSnapAlign = "scroll-snap-aling";
+        public static readonly String ScrollSnapAlign = "scroll-snap-align";
 
         /// <summary>
         /// The stroke declaration.
@@ -1118,6 +1948,11 @@ namespace AngleSharp.Css
         public static readonly String TableLayout = "table-layout";
 
         /// <summary>
+        /// The tab-size declaration.
+        /// </summary>
+        public static readonly String TabSize = "tab-size";
+
+        /// <summary>
         /// The text-align declaration.
         /// </summary>
         public static readonly String TextAlign = "text-align";
@@ -1158,6 +1993,16 @@ namespace AngleSharp.Css
         public static readonly String TextDecorationStyle = "text-decoration-style";
 
         /// <summary>
+        /// The text-decoration-skip-ink declaration.
+        /// </summary>
+        public static readonly String TextDecorationSkipInk = "text-decoration-skip-ink";
+
+        /// <summary>
+        /// The text-decoration-thickness declaration.
+        /// </summary>
+        public static readonly String TextDecorationThickness = "text-decoration-thickness";
+
+        /// <summary>
         /// The text-indent declaration.
         /// </summary>
         public static readonly String TextIndent = "text-indent";
@@ -1183,9 +2028,29 @@ namespace AngleSharp.Css
         public static readonly String TextTransform = "text-transform";
 
         /// <summary>
+        /// The text-underline-offset declaration.
+        /// </summary>
+        public static readonly String TextUnderlineOffset = "text-underline-offset";
+
+        /// <summary>
         /// The text-underline-position declaration.
         /// </summary>
         public static readonly String TextUnderlinePosition = "text-underline-position";
+
+        /// <summary>
+        /// The text-wrap declaration.
+        /// </summary>
+        public static readonly String TextWrap = "text-wrap";
+
+        /// <summary>
+        /// The text-wrap-mode declaration.
+        /// </summary>
+        public static readonly String TextWrapMode = "text-wrap-mode";
+
+        /// <summary>
+        /// The text-wrap-style declaration.
+        /// </summary>
+        public static readonly String TextWrapStyle = "text-wrap-style";
 
         /// <summary>
         /// The transform declaration.
@@ -1201,6 +2066,11 @@ namespace AngleSharp.Css
         /// The transform-style declaration.
         /// </summary>
         public static readonly String TransformStyle = "transform-style";
+
+        /// <summary>
+        /// The translate declaration.
+        /// </summary>
+        public static readonly String Translate = "translate";
 
         /// <summary>
         /// The transition declaration.
@@ -1233,6 +2103,11 @@ namespace AngleSharp.Css
         public static readonly String Top = "top";
 
         /// <summary>
+        /// The touch-action declaration.
+        /// </summary>
+        public static readonly String TouchAction = "touch-action";
+
+        /// <summary>
         /// The unicode-bidi declaration.
         /// </summary>
         public static readonly String UnicodeBidi = "unicode-bidi";
@@ -1248,9 +2123,29 @@ namespace AngleSharp.Css
         public static readonly String Visibility = "visibility";
 
         /// <summary>
+        /// The view-transition-name declaration.
+        /// </summary>
+        public static readonly String ViewTransitionName = "view-transition-name";
+
+        /// <summary>
+        /// The view-transition-class declaration.
+        /// </summary>
+        public static readonly String ViewTransitionClass = "view-transition-class";
+
+        /// <summary>
+        /// The user-select declaration.
+        /// </summary>
+        public static readonly String UserSelect = "user-select";
+
+        /// <summary>
         /// The white-space declaration.
         /// </summary>
         public static readonly String WhiteSpace = "white-space";
+
+        /// <summary>
+        /// The white-space-collapse declaration.
+        /// </summary>
+        public static readonly String WhiteSpaceCollapse = "white-space-collapse";
 
         /// <summary>
         /// The widows declaration.
@@ -1281,6 +2176,11 @@ namespace AngleSharp.Css
         /// The writing-mode declaration.
         /// </summary>
         public static readonly String WritingMode = "writing-mode";
+
+        /// <summary>
+        /// The will-change declaration.
+        /// </summary>
+        public static readonly String WillChange = "will-change";
 
         /// <summary>
         /// The z-index declaration.

@@ -1,5 +1,7 @@
+#nullable disable
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -93,20 +95,36 @@ namespace AngleSharp.Css.Parser
             var name = source.ParseCustomIdent();
             var f = source.SkipGetSkip();
 
-            if (name != null)
+            if (name is not null)
             {
                 switch (f)
                 {
                     case Symbols.RoundBracketClose:
                         return new CssVarValue(name);
                     case Symbols.Comma:
-                        var defaultValue = source.TakeUntilClosed();
-                        source.SkipCurrentAndSpaces();
+                        source.SkipSpacesAndComments();
+                        var defaultValue = ParseVarFallback(source);
                         return new CssVarValue(name, defaultValue);
                 }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Parses a CSS var (variable) fallback value.
+        /// </summary>
+        public static ICssValue ParseVarFallback(this StringSource source)
+        {
+            if (!source.IsFunction(FunctionNames.Var))
+            {
+                var content = source.TakeUntilClosed();
+                source.SkipCurrentAndSpaces();
+                return new CssAnyValue(content);
+            }
+
+            return source.ParseVar();
+
         }
 
         /// <summary>
@@ -151,7 +169,7 @@ namespace AngleSharp.Css.Parser
         /// Parses a counter object.
         /// http://www.w3.org/TR/CSS2/syndata.html#value-def-counter
         /// </summary>
-        public static CounterDefinition? ParseCounter(this StringSource source)
+        public static CssCounterDefinitionValue? ParseCounter(this StringSource source)
         {
             if (source.IsFunction(FunctionNames.Counter))
             {
@@ -179,7 +197,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static CounterDefinition? ParseCounterStyle(StringSource source, String ident, String separator, Char f)
+        private static CssCounterDefinitionValue? ParseCounterStyle(StringSource source, String ident, String separator, Char f)
         {
             var style = CssKeywords.Decimal;
 
@@ -191,7 +209,7 @@ namespace AngleSharp.Css.Parser
 
             if (f == Symbols.RoundBracketClose)
             {
-                return new CounterDefinition(ident, style, separator);
+                return new CssCounterDefinitionValue(ident, style, separator);
             }
 
             return null;

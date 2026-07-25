@@ -1,3 +1,49 @@
+# 0.18.0
+
+Released on Saturday, July 25 2026.
+
+- Updated to use AngleSharp minimum version of 1.5 (#150)
+- Updated media parsing to media L4 spec (#133)
+- Updated naming of CSS values (e.g., `Color` to `CssColorValue`)
+- Fixed issue when updating shorthands with invalid values (#129)
+- Fixed issue with appended EOF character in `CssText` (#123)
+- Fixed missing semicolon in `@page` rule (#135)
+- Fixed integer serialization of keyframe stops (#128)
+- Fixed ordering of rows and columns in `grid` and `grid-gap` (#137)
+- Fixed inclusion of CSS from stylesheets (#116, #140)
+- Fixed style empty if `text-align` is `start` (#151)
+- Fixed computation of priority in CSS rules using multi selector
+- Fixed `GetInnerText` multi-line / text node behavior (#155) @Seyden
+- Fixed computation of relative (`em`) values to absolute (`px`) for `Length` (#136)
+- Added further compactification of CSS tuples (#89, #93)
+- Added new value types `CssPercentageValue`, `CssNumberValue`, and `CssIntegerValue`
+- Added support for CSS nesting in style rules (#148)
+- Added resolution of CSS variable names (#62)
+- Added support for 8-digit hex color codes (#132)
+- Added support for `margin-block` and `margin-inline` declarations
+- Added support for `padding-block` and `padding-inline` declarations
+- Added missing box model declarations (e.g., `aspect-ratio`, `block-size`, `overflow-clip-margin`)
+- Added missing logical declarations (e.g., `inset`, `border-inline`, `border-end-start-radius`)
+- Added missing alignment declarations (e.g., `justify-items`, `place-content`)
+- Added missing animations declarations (e.g., `animation-composition`, `animation-delay-start`)
+- Added missing scroll declarations (e.g., `scroll-behavior`, `overscroll-behavior`)
+- Added missing fonts declarations (e.g., `font-display`, `font-palette`, `font-synthesis`)
+- Added missing color declarations (e.g., `color-scheme`, `accent-color`)
+- Added missing compositing declarations (e.g., `backdrop-filter`, `isolation`)
+- Added missing shape declarations (e.g., `shape-outside`, `shape-rendering`)
+- Added missing anchor positioning declarations (e.g., `anchor-name`, `anchor-scope`, `position-anchor`)
+- Added missing text declarations (e.g., `text-underline-offset`, `tab-size`, `initial-letter`)
+- Added missing masking declarations (e.g., `mask-image`, `mask-border-source`)
+- Added missing auxiliary declarations (e.g., `counter-set`, `image-rendering`, `view-transition-name`)
+- Added missing containment declarations (e.g., `contain`, `will-change`)
+- Added more CSSOM possibilities and helpers (#6)
+- Added more rules such as `@view-transition` or `@layer`
+- Added parts of recent color spec update such as `rgb` with spaces (#131)
+- Added now Color L4 parsing with `hsl`, `hwb`, `lab`, `lch`, `oklab`, and `oklch`
+- Added support for recent CSS `list-type` values (#152)
+- Added option to preserve comments in CSS stylesheet (#99)
+- Added support for CSS container queries
+
 # 0.17.0
 
 Released on Sunday, January 15 2023.

@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
@@ -79,7 +80,7 @@ namespace AngleSharp.Css.Parser
         /// Creates a new parser with the context.
         /// </summary>
         /// <param name="context">The context to use.</param>
-        internal CssParser(IBrowsingContext context)
+        internal CssParser(IBrowsingContext? context)
             : this(default, context)
         {
         }
@@ -89,7 +90,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         /// <param name="options">The options to use.</param>
         /// <param name="context">The context to use.</param>
-        public CssParser(CssParserOptions options, IBrowsingContext context)
+        public CssParser(CssParserOptions options, IBrowsingContext? context)
         {
             _options = options;
             _context = context ?? BrowsingContext.New(Configuration.Default.WithOnly<ICssParser>(this).WithCss());
@@ -154,7 +155,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Takes a stylesheet and adds the style rule after parsing its raw text.
         /// </summary>
-        public ICssRule ParseRule(ICssStyleSheet owner, String ruleText)
+        public ICssRule? ParseRule(ICssStyleSheet owner, String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateRule(owner, t));
         }
@@ -162,7 +163,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Takes a stylesheet and adds the keyframe rule after parsing its raw text.
         /// </summary>
-        public ICssKeyframeRule ParseKeyframeRule(ICssStyleSheet owner, String ruleText)
+        public ICssKeyframeRule? ParseKeyframeRule(ICssStyleSheet owner, String ruleText)
         {
             var rule = new CssKeyframeRule(owner);
             return Parse(ruleText, (b, t) => b.CreateKeyframeRule(rule, t));
@@ -171,10 +172,10 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses the declaration text.
         /// </summary>
-        public ICssStyleDeclaration ParseDeclaration(String declarationText)
+        public ICssStyleDeclaration? ParseDeclaration(String declarationText)
         {
             var style = new CssStyleDeclaration(_context);
-            return Parse(declarationText, (b, t) => b.FillDeclarations(style, t));
+            return Parse(declarationText, (b, t) => b.FillDeclarations(null, style, t));
         }
 
         /// <summary>
@@ -189,12 +190,12 @@ namespace AngleSharp.Css.Parser
 
         #region Internal Methods
 
-        internal ICssProperty ParseProperty(String propertyText)
+        internal ICssProperty? ParseProperty(String propertyText)
         {
             var style = new CssStyleDeclaration(_context);
             return Parse(propertyText, (b, t) =>
             {
-                b.CreateDeclarationWith(style, ref t);
+                b.CreateDeclarationWith(null, style, ref t);
                 return Tuple.Create(style.Declarations.FirstOrDefault(), t);
             });
         }
@@ -203,7 +204,6 @@ namespace AngleSharp.Css.Parser
         {
             var sheet = new CssStyleSheet(_context, source);
             var tokenizer = CreateTokenizer(source);
-            var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(_options, tokenizer, _context);
             InvokeEventListener(new CssParseEvent(sheet, completed: false));
             builder.CreateRules(sheet);
@@ -241,19 +241,23 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 var import = (CssImportRule)rule;
-                var url = baseUrl != null ? new Url(baseUrl, import.Href) : Url.Create(import.Href);
+                var url = baseUrl is not null ? new Url(baseUrl, import.Href) : Url.Create(import.Href);
 
-                if (!url.IsInvalid && !IsRecursion(sheet, url) && loader != null)
+                if (!url.IsInvalid && !IsRecursion(sheet, url) && loader is not null)
                 {
-                    var request = sheet.OwnerNode.CreateRequestFor(url);
-                    var download = loader.FetchAsync(request);
-                    tasks.Add(ParseChildStyleSheetAsync(download, sheet, cancel).ContinueWith(task =>
+                    var request = sheet.OwnerNode?.CreateRequestFor(url);
+
+                    if (request is not null)
                     {
-                        if (task.IsCompleted && !task.IsFaulted)
+                        var download = loader.FetchAsync(request);
+                        tasks.Add(ParseChildStyleSheetAsync(download, sheet, cancel).ContinueWith(task =>
                         {
-                            import.Sheet = task.Result;
-                        }
-                    }));
+                            if (task.IsCompleted && !task.IsFaulted)
+                            {
+                                import.Sheet = task.Result;
+                            }
+                        }));
+                    }
                 }
             }
 
@@ -281,7 +285,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private T Parse<T>(String source, Func<CssBuilder, CssToken, T> create)
+        private T? Parse<T>(String source, Func<CssBuilder, CssToken, T> create)
         {
             var tokenizer = CreateTokenizer(source);
             var token = tokenizer.Get();
@@ -290,7 +294,7 @@ namespace AngleSharp.Css.Parser
             return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default;
         }
 
-        private T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
+        private T? Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
         {
             var tokenizer = CreateTokenizer(source);
             var token = tokenizer.Get();

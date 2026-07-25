@@ -131,7 +131,7 @@
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("0 30px", property.Value);
+            Assert.AreEqual("0% 30px", property.Value);
         }
     }
 }

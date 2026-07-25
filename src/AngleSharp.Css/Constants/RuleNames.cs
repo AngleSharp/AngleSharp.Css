@@ -48,6 +48,11 @@
         public static readonly String Media = "@media";
 
         /// <summary>
+        /// The @container rule.
+        /// </summary>
+        public static readonly String Container = "@container";
+
+        /// <summary>
         /// The @namespace rule.
         /// </summary>
         public static readonly String Namespace = "@namespace";
@@ -66,5 +71,45 @@
         /// The @font-feature-values rule.
         /// </summary>
         public static readonly String FontFeatureValues = "@font-feature-values";
+
+        /// <summary>
+        /// The @layer rule.
+        /// </summary>
+        public static readonly String Layer = "@layer";
+
+        /// <summary>
+        /// The @scope rule.
+        /// </summary>
+        public static readonly String Scope = "@scope";
+
+        /// <summary>
+        /// The @property rule.
+        /// </summary>
+        public static readonly String Property = "@property";
+
+        /// <summary>
+        /// The @starting-style rule.
+        /// </summary>
+        public static readonly String StartingStyle = "@starting-style";
+
+        /// <summary>
+        /// The @view-transition rule.
+        /// </summary>
+        public static readonly String ViewTransition = "@view-transition";
+
+        /// <summary>
+        /// The @position-try rule.
+        /// </summary>
+        public static readonly String PositionTry = "@position-try";
+
+        /// <summary>
+        /// The @font-palette-values rule.
+        /// </summary>
+        public static readonly String FontPaletteValues = "@font-palette-values";
+
+        /// <summary>
+        /// The @color-profile rule.
+        /// </summary>
+        public static readonly String ColorProfile = "@color-profile";
     }
 }

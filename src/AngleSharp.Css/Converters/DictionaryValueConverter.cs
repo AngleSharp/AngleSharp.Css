@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
@@ -24,7 +25,7 @@ namespace AngleSharp.Css.Converters
 
             if (ident != null && _values.TryGetValue(ident, out mode))
             {
-                return new Constant<T>(ident.ToLowerInvariant(), mode);
+                return new CssConstantValue<T>(ident.ToLowerFast(), mode);
             }
 
             source.BackTo(pos);

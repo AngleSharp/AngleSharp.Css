@@ -16,6 +16,15 @@ AngleSharp.Css contains code written by (in order of first pull request / commit
 * [Bastian Buchholz](https://github.com/campersau)
 * [Fraaankes](https://github.com/Fraaankes)
 * [Eric Mutta](https://github.com/ericmutta)
+* [Seyden](https://github.com/Seyden)
+* [Dave Dunkin](https://github.com/ddunkin)
+* [Jason Finch](https://github.com/jafin)
+* [Mariusz Stępień](https://github.com/mariusz96)
+* [Viktor Radulov](https://github.com/NSGolova)
+* [Marko Lahma](https://github.com/lahma)
+* [Sebastian Stehle](https://github.com/SebastianStehle)
+* [MaceWindu](https://github.com/MaceWindu)
+* [Serhan Apaydın](https://github.com/monoblaine)
 
 Without these awesome people AngleSharp.Css could not exist. Thanks to everyone for your contributions! :beers:
 

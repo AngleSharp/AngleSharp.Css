@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Css.Dom
+﻿#nullable enable
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Common;
@@ -30,12 +31,12 @@
         /// Gets the containing rule, if any.
         /// </summary>
         [DomName("parentRule")]
-        ICssRule Parent { get; }
+        ICssRule? Parent { get; }
 
         /// <summary>
         /// Sets the parent rule.
         /// </summary>
         /// <param name="rule">The rule to use as parent.</param>
-        void SetParent(ICssRule rule);
+        void SetParent(ICssRule? rule);
     }
 }

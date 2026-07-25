@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Converters
 {
     using AngleSharp.Css.Dom;
@@ -33,6 +34,11 @@ namespace AngleSharp.Css.Converters
 
             if (length > 0)
             {
+                if (length == 4)
+                {
+                    return new CssPeriodicValue(options);
+                }
+
                 var values = new ICssValue[length];
                 Array.Copy(options, values, length);
                 return new CssPeriodicValue(values);

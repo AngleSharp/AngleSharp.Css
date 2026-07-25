@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Performance
+﻿#nullable disable
+namespace AngleSharp.Performance
 {
     using System;
     using System.Collections.Generic;

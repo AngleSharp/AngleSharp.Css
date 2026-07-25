@@ -1,3 +1,4 @@
+#nullable disable
 ﻿namespace AngleSharp.Css.Tests.Functions
 {
     using AngleSharp.Css.Dom;

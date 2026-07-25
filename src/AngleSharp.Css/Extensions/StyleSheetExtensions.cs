@@ -1,3 +1,4 @@
+#nullable enable
 namespace AngleSharp.Dom
 {
     using AngleSharp.Css;
@@ -83,10 +84,28 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Serializes the stylesheet from its current CSSOM state.
+        /// </summary>
+        /// <param name="sheet">The stylesheet to serialize.</param>
+        /// <param name="options">
+        /// Serialization options to use.
+        /// </param>
+        /// <returns>The source code snippet.</returns>
+        public static String ToCss(this ICssStyleSheet sheet, CssSerializationOptions options)
+        {
+            sheet = sheet ?? throw new ArgumentNullException(nameof(sheet));
+            options = options ?? new CssSerializationOptions();
+
+            return options.PreserveComments
+                ? ((IStyleFormattable)sheet).ToCss(CommentPreservingFormatter.Instance)
+                : ((IStyleFormattable)sheet).ToCss();
+        }
+
+        /// <summary>
         /// Gets the associated document of the sheet if any.
         /// </summary>
         /// <param name="sheet">The sheet.</param>
         /// <returns>The associated document, if any.</returns>
-        public static IDocument GetDocument(this IStyleSheet sheet) => sheet?.OwnerNode?.Owner;
+        public static IDocument? GetDocument(this IStyleSheet sheet) => sheet?.OwnerNode?.Owner;
     }
 }

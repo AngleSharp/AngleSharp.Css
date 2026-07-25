@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     sealed class CssViewportRule : CssDeclarationRule
     {
-        private static readonly HashSet<String> ContainedProperties = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<String> ContainedProperties = new(StringComparer.OrdinalIgnoreCase)
         {
             PropertyNames.MinWidth,
             PropertyNames.MaxWidth,

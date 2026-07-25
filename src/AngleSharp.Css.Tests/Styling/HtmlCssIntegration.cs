@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Dom;
@@ -49,6 +50,24 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual(rule.Name, decl[0]);
             Assert.AreEqual("rgba(0, 128, 0, 1)", rule.Value);
+        }
+
+        [Test]
+        public void MalformedImportRuleInStyleBlockIsIgnored()
+        {
+            var source = @"<!DOCTYPE html>
+<html>
+<head>
+    <style type=""text/css"">@import ;</style>
+</head>
+<body></body>
+</html>";
+
+            var doc = ParseDocument(source);
+            var styleSheet = doc.StyleSheets[0] as CssStyleSheet;
+
+            Assert.IsNotNull(styleSheet);
+            Assert.AreEqual(0, styleSheet.Rules.Length);
         }
 
         [Test]

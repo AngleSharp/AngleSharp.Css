@@ -36,5 +36,18 @@ namespace AngleSharp.Css.Parser
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets if nesting of style rules should be
+        /// disabled; if disabled the interpretation is closer to
+        /// older browser also accepting declarations such as
+        /// "*x-overflow", which would otherwise be an invalid
+        /// nesting rule.
+        /// </summary>
+        public Boolean IsExcludingNesting
+        {
+            get;
+            set;
+        }
     }
 }

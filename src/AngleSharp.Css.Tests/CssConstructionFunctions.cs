@@ -1,7 +1,9 @@
+#nullable disable
 namespace AngleSharp.Css.Tests
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using System;
@@ -70,7 +72,6 @@ namespace AngleSharp.Css.Tests
         internal static CssStyleDeclaration ParseDeclarations(String declarations)
         {
             var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var parser = context.GetService<ICssParser>();
             var style = new CssStyleDeclaration(context);
             style.Update(declarations);
             return style;
@@ -93,7 +94,7 @@ namespace AngleSharp.Css.Tests
         internal static Predicate<IRenderDevice> CreateValidator(String name, String value)
         {
             var validator = CreateMediaFeatureValidator(name);
-            var feature = new MediaFeature(name, value);
+            var feature = new MediaFeature(name, new CssAnyValue(value));
             return device => validator.Validate(feature, device);
         }
 

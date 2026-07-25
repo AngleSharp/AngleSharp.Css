@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Styling
 {
     using AngleSharp.Css.Dom;
@@ -107,6 +108,20 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void GetComputedStyleFromPlainDocumentDoesNotThrow()
+        {
+            var document = ParseDocument("<div>hi</div>");
+            var element = document.QuerySelector("div");
+
+            Assert.DoesNotThrow(() =>
+            {
+                var style = element.ComputeCurrentStyle();
+                Assert.IsNotNull(style);
+                Assert.AreEqual(String.Empty, style.GetColor());
+            });
+        }
+
+        [Test]
         public void CssStyleDeclarationEmpty()
         {
             var css = ParseDeclarations(String.Empty);
@@ -164,6 +179,36 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void ToCssCanPreserveComments()
+        {
+            var source = "/* before */ h1 { color: red; /*another comment*/ }";
+            var sheet = ParseStyleSheet(source);
+
+            var result = sheet.ToCss(new CssSerializationOptions { PreserveComments = true });
+
+            Assert.IsTrue(result.Contains("/* before */"));
+            Assert.IsTrue(result.Contains("/*another comment*/"));
+            Assert.IsTrue(result.Contains("color: rgba(255, 0, 0, 1)"));
+        }
+
+        [Test]
+        public void ToCssCanPreserveCommentsAfterMutatingDeclarations()
+        {
+            var source = "h1 { color: red; /*keep*/ }";
+            var sheet = ParseStyleSheet(source);
+            var style = ((ICssStyleRule)sheet.Rules[0]).Style;
+
+            style.SetProperty("color", "blue");
+            style.SetProperty("display", "block");
+
+            var result = sheet.ToCss(new CssSerializationOptions { PreserveComments = true });
+
+            Assert.IsTrue(result.Contains("/*keep*/"));
+            Assert.IsTrue(result.Contains("color: rgba(0, 0, 255, 1)"));
+            Assert.IsTrue(result.Contains("display: block"));
+        }
+
+        [Test]
         public void MinifyRemovesEmptyStyleRule()
         {
             var sheet = ParseStyleSheet("h1 {  }");
@@ -209,6 +254,14 @@ namespace AngleSharp.Css.Tests.Styling
             var sheet = ParseStyleSheet("h1 { top:0   ; left:   2px;  border: none;  } h2 { border: 1px solid red;} h3{}");
             var result = sheet.ToCss(new MinifyStyleFormatter());
             Assert.AreEqual("h1{top:0;left:2px;border:none}h2{border:1px solid rgba(255, 0, 0, 1)}", result);
+        }
+
+        [Test]
+        public void MinifyMinimizesProperties_Issue89()
+        {
+            var sheet = ParseStyleSheet("a { grid-area: aa / aa / aa / aa }");
+            var result = sheet.ToCss(new MinifyStyleFormatter());
+            Assert.AreEqual("a{grid-area:aa}", result);
         }
     }
 }

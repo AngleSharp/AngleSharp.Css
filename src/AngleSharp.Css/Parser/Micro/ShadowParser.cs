@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
@@ -20,7 +21,7 @@ namespace AngleSharp.Css.Parser
             var offsetY = default(ICssValue);
             var blurRadius = default(ICssValue);
             var spreadRadius = default(ICssValue);
-            var color = default(Color?);
+            var color = default(CssColorValue?);
             var pos = start;
 
             do

@@ -534,7 +534,7 @@ namespace AngleSharp.Css.Tests.Declarations
             var css = ParseStyleSheet(source);
             var text = css.Rules[0].CssText;
 
-            var expected = "#nav-header { grid-area: aaa / aaa / aaa / aaa }";
+            var expected = "#nav-header { grid-area: aaa }";
             Assert.AreEqual(expected, text);
         }
 
@@ -908,6 +908,22 @@ namespace AngleSharp.Css.Tests.Declarations
             var snippet = "grid-template-areas: none; grid-template-columns: none; grid-template-rows: none";
             var style = ParseDeclarations(snippet);
             Assert.AreEqual("grid-template: none", style.CssText);
+        }
+
+        [Test]
+        public void CssGridPreservesParts_Issue137()
+        {
+            var snippet = "grid: 10px / 80px";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual("grid: 10px / 80px", style.CssText);
+        }
+
+        [Test]
+        public void CssGridGapPreservesParts_Issue137()
+        {
+            var snippet = "grid-gap: 10px 80px";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual("grid-gap: 10px 80px", style.CssText);
         }
     }
 }

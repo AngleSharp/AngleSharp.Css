@@ -1,3 +1,4 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
@@ -26,9 +27,9 @@ namespace AngleSharp.Css.Declarations
         sealed class FlexAggregator : IValueAggregator, IValueConverter
         {
             private static readonly IValueConverter converter = Or(None, WithAny(
-                FlexGrowDeclaration.Converter,
-                FlexShrinkDeclaration.Converter,
-                FlexBasisDeclaration.Converter));
+                Or(FlexGrowDeclaration.Converter, VarConverter),
+                Or(FlexShrinkDeclaration.Converter, VarConverter),
+                Or(FlexBasisDeclaration.Converter, VarConverter)));
 
             public ICssValue Convert(StringSource source)
             {

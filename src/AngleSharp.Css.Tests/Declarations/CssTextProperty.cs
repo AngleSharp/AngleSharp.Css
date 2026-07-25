@@ -206,7 +206,7 @@ namespace AngleSharp.Css.Tests.Declarations
 <body style=""text-decoration: underline dotted;""></body>
 </html>";
             var document = source.ToHtmlDocument(Configuration.Default.WithCss());
-            var styleDeclaration = document.Body.ComputeCurrentStyle();
+            var styleDeclaration = document.Body!.ComputeCurrentStyle();
             Assert.AreEqual("dotted", styleDeclaration.GetTextDecorationStyle());
             Assert.AreEqual("underline", styleDeclaration.GetTextDecorationLine());
         }
@@ -671,6 +671,18 @@ namespace AngleSharp.Css.Tests.Declarations
 		}
 
 		[Test]
+		public void CssWordBreakBreakWordLegal()
+		{
+			var snippet = "word-break: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", property.Value);
+		}
+
+		[Test]
 		public void CssOverflowWrapNoneIllegal()
 		{
 			var snippet = "overflow-wrap: none";
@@ -690,6 +702,39 @@ namespace AngleSharp.Css.Tests.Declarations
 			Assert.IsFalse(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 			Assert.IsFalse(property.HasValue);
-		}
-	}
+        }
+
+        [Test]
+        public void CssTextAlignLegalStart_Issue151()
+        {
+            var snippet = "text-align:start";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("text-align", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("start", property.Value);
+        }
+
+        [Test]
+        public void CssTextAlignLegalJustifyAll_Issue151()
+        {
+            var snippet = "text-align:justify-all";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("text-align", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsFalse(property.IsInherited);
+            Assert.AreEqual("justify-all", property.Value);
+        }
+
+        [Test]
+        public void CssTextAlignIllegalJustifyNone_Issue151()
+        {
+            var snippet = "text-align:justify-none";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("text-align", property.Name);
+            Assert.IsFalse(property.HasValue);
+        }
+    }
 }
