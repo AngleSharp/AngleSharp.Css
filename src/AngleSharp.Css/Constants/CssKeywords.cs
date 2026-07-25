@@ -1128,6 +1128,11 @@ namespace AngleSharp.Css
         public static readonly String ContentBox = "content-box";
 
         /// <summary>
+        /// The margin-box keyword.
+        /// </summary>
+        public static readonly String MarginBox = "margin-box";
+
+        /// <summary>
         /// The reverse keyword.
         /// </summary>
         public static readonly String Reverse = "reverse";
@@ -1901,5 +1906,20 @@ namespace AngleSharp.Css
         /// The mandatory keyword.
         /// </summary>
         public static readonly String Mandatory = "mandatory";
+
+        /// <summary>
+        /// The crisp-edges shape rendering value.
+        /// </summary>
+        public static readonly String CrispEdges = "crisp-edges";
+
+        /// <summary>
+        /// The geometric-precision shape rendering value.
+        /// </summary>
+        public static readonly String GeometricPrecision = "geometric-precision";
+
+        /// <summary>
+        /// The optimize-speed shape rendering value.
+        /// </summary>
+        public static readonly String OptimizeSpeed = "optimize-speed";
     }
 }

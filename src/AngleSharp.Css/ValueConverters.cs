@@ -313,6 +313,32 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Isolate, CssKeywords.Isolate));
 
         /// <summary>
+        /// Represents a converter for the shape-outside property.
+        /// </summary>
+        public static readonly IValueConverter ShapeOutsideConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
+        /// Represents a converter for the shape-margin property.
+        /// </summary>
+        public static readonly IValueConverter ShapeMarginConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the shape-image-threshold property.
+        /// </summary>
+        public static readonly IValueConverter ShapeImageThresholdConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            NumberConverter);
+
+        /// <summary>
+        /// Represents a converter for the shape-rendering property.
+        /// </summary>
+        public static readonly IValueConverter ShapeRenderingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed),
+            Assign(CssKeywords.CrispEdges, CssKeywords.CrispEdges),
+            Assign(CssKeywords.GeometricPrecision, CssKeywords.GeometricPrecision));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

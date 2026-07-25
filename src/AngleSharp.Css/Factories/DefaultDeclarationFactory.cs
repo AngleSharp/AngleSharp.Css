@@ -2254,6 +2254,35 @@ namespace AngleSharp.Css
                     flags: ScrollMarginInlineEndDeclaration.Flags,
                     shorthands: ScrollMarginInlineEndDeclaration.Shorthands)
             },
+            // CSS Shapes
+            {
+                ShapeOutsideDeclaration.Name, new DeclarationInfo(
+                    name: ShapeOutsideDeclaration.Name,
+                    converter: ShapeOutsideDeclaration.Converter,
+                    initialValue: ShapeOutsideDeclaration.InitialValue,
+                    flags: ShapeOutsideDeclaration.Flags)
+            },
+            {
+                ShapeMarginDeclaration.Name, new DeclarationInfo(
+                    name: ShapeMarginDeclaration.Name,
+                    converter: ShapeMarginDeclaration.Converter,
+                    initialValue: ShapeMarginDeclaration.InitialValue,
+                    flags: ShapeMarginDeclaration.Flags)
+            },
+            {
+                ShapeImageThresholdDeclaration.Name, new DeclarationInfo(
+                    name: ShapeImageThresholdDeclaration.Name,
+                    converter: ShapeImageThresholdDeclaration.Converter,
+                    initialValue: ShapeImageThresholdDeclaration.InitialValue,
+                    flags: ShapeImageThresholdDeclaration.Flags)
+            },
+            {
+                ShapeRenderingDeclaration.Name, new DeclarationInfo(
+                    name: ShapeRenderingDeclaration.Name,
+                    converter: ShapeRenderingDeclaration.Converter,
+                    initialValue: ShapeRenderingDeclaration.InitialValue,
+                    flags: ShapeRenderingDeclaration.Flags)
+            },
             // Scroll padding — physical shorthand + sides
             {
                 ScrollPaddingDeclaration.Name, new DeclarationInfo(

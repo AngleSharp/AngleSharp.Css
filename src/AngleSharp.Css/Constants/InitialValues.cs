@@ -56,6 +56,10 @@ namespace AngleSharp.Css
         public static readonly ICssValue MixBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue BackgroundBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue IsolationDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue ShapeOutsideDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue ShapeMarginDecl = CssLengthValue.Zero;
+        public static readonly ICssValue ShapeImageThresholdDecl = new CssConstantValue<Object>("0", null);
+        public static readonly ICssValue ShapeRenderingDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue BorderWidthDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Medium, CssLengthValue.Medium);
         public static readonly ICssValue BorderStyleDecl = new CssConstantValue<LineStyle>(CssKeywords.None, LineStyle.None);
         public static readonly ICssValue BorderColorDecl = new CssConstantValue<CssColorValue>(CssKeywords.CurrentColor, CssColorValue.CurrentColor);

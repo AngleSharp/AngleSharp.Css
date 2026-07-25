@@ -1568,6 +1568,26 @@ namespace AngleSharp.Css
         public static readonly String ScrollMarginInlineEnd = "scroll-margin-inline-end";
 
         /// <summary>
+        /// The shape-outside declaration.
+        /// </summary>
+        public static readonly String ShapeOutside = "shape-outside";
+
+        /// <summary>
+        /// The shape-margin declaration.
+        /// </summary>
+        public static readonly String ShapeMargin = "shape-margin";
+
+        /// <summary>
+        /// The shape-image-threshold declaration.
+        /// </summary>
+        public static readonly String ShapeImageThreshold = "shape-image-threshold";
+
+        /// <summary>
+        /// The shape-rendering declaration.
+        /// </summary>
+        public static readonly String ShapeRendering = "shape-rendering";
+
+        /// <summary>
         /// The scroll-padding declaration (shorthand).
         /// </summary>
         public static readonly String ScrollPadding = "scroll-padding";
