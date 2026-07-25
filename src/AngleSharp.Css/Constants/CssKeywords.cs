@@ -288,6 +288,21 @@ namespace AngleSharp.Css
         public static readonly String Smooth = "smooth";
 
         /// <summary>
+        /// The swap keyword (font-display).
+        /// </summary>
+        public static readonly String Swap = "swap";
+
+        /// <summary>
+        /// The fallback keyword (font-display).
+        /// </summary>
+        public static readonly String Fallback = "fallback";
+
+        /// <summary>
+        /// The optional keyword (font-display, animation-range).
+        /// </summary>
+        public static readonly String Optional = "optional";
+
+        /// <summary>
         /// The avoid keyword.
         /// </summary>
         public static readonly String Avoid = "avoid";
@@ -1391,6 +1406,16 @@ namespace AngleSharp.Css
         /// The small-caps keyword.
         /// </summary>
         public static readonly String SmallCaps = "small-caps";
+
+        /// <summary>
+        /// The weight keyword (font-synthesis).
+        /// </summary>
+        public static readonly String Weight = "weight";
+
+        /// <summary>
+        /// The style keyword (font-synthesis, caption sides).
+        /// </summary>
+        public static readonly String Style = "style";
 
         /// <summary>
         /// The slice keyword.

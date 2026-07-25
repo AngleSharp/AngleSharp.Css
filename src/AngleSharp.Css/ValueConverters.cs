@@ -541,6 +541,82 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the font-display descriptor.
+        /// </summary>
+        public static readonly IValueConverter FontDisplayConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Block, CssKeywords.Block),
+            Assign(CssKeywords.Swap, CssKeywords.Swap),
+            Assign(CssKeywords.Fallback, CssKeywords.Fallback),
+            Assign(CssKeywords.Optional, CssKeywords.Optional));
+
+        /// <summary>
+        /// Represents a converter for the font-kerning property.
+        /// </summary>
+        public static readonly IValueConverter FontKerningConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-language-override property.
+        /// </summary>
+        public static readonly IValueConverter FontLanguageOverrideConverter = Assign(CssKeywords.Normal, CssKeywords.Normal);
+
+        /// <summary>
+        /// Represents a converter for the font-optical-sizing property.
+        /// </summary>
+        public static readonly IValueConverter FontOpticalSizingConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-palette property.
+        /// </summary>
+        public static readonly IValueConverter FontPaletteConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            IdentifierConverter);
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis property (shorthand).
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            WithAny(
+                Or(
+                    Assign(CssKeywords.Weight, CssKeywords.Weight),
+                    Assign(CssKeywords.Style, CssKeywords.Style),
+                    Assign(CssKeywords.SmallCaps, CssKeywords.SmallCaps)
+                )
+            ).Many());
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-weight property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisWeightConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-style property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisStyleConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-synthesis-small-caps property.
+        /// </summary>
+        public static readonly IValueConverter FontSynthesisSmallCapsConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the font-variation-settings property.
+        /// </summary>
+        public static readonly IValueConverter FontVariationSettingsConverter = Assign(CssKeywords.Normal, CssKeywords.Normal);
+
+        /// <summary>
         /// Represents a converter for the ResizeMode enumeration.
         /// </summary>
         public static readonly IValueConverter ResizeConverter = Map.ResizeModes.ToConverter();

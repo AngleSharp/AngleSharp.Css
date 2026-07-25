@@ -37,6 +37,16 @@ namespace AngleSharp.Css
         public static readonly ICssValue FontStretchDecl = new CssConstantValue<FontStretch>(CssKeywords.Normal, FontStretch.Normal);
         public static readonly ICssValue FontSizeDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Medium, CssLengthValue.Medium);
         public static readonly ICssValue FontFamilyDecl = new CssStringValue("Times New Roman");
+        public static readonly ICssValue FontDisplayDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontKerningDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontLanguageOverrideDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue FontOpticalSizingDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontPaletteDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue FontSynthesisDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue FontSynthesisWeightDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontSynthesisStyleDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontSynthesisSmallCapsDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
+        public static readonly ICssValue FontVariationSettingsDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue BorderWidthDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Medium, CssLengthValue.Medium);
         public static readonly ICssValue BorderStyleDecl = new CssConstantValue<LineStyle>(CssKeywords.None, LineStyle.None);
         public static readonly ICssValue BorderColorDecl = new CssConstantValue<CssColorValue>(CssKeywords.CurrentColor, CssColorValue.CurrentColor);

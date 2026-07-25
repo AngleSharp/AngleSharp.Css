@@ -821,6 +821,85 @@ namespace AngleSharp.Css
                     shorthands: FontWeightDeclaration.Shorthands)
             },
             {
+                FontDisplayDeclaration.Name, new DeclarationInfo(
+                    name: FontDisplayDeclaration.Name,
+                    converter: FontDisplayDeclaration.Converter,
+                    initialValue: FontDisplayDeclaration.InitialValue,
+                    flags: FontDisplayDeclaration.Flags)
+            },
+            {
+                FontKerningDeclaration.Name, new DeclarationInfo(
+                    name: FontKerningDeclaration.Name,
+                    converter: FontKerningDeclaration.Converter,
+                    initialValue: FontKerningDeclaration.InitialValue,
+                    flags: FontKerningDeclaration.Flags,
+                    shorthands: FontKerningDeclaration.Shorthands)
+            },
+            {
+                FontLanguageOverrideDeclaration.Name, new DeclarationInfo(
+                    name: FontLanguageOverrideDeclaration.Name,
+                    converter: FontLanguageOverrideDeclaration.Converter,
+                    initialValue: FontLanguageOverrideDeclaration.InitialValue,
+                    flags: FontLanguageOverrideDeclaration.Flags,
+                    shorthands: FontLanguageOverrideDeclaration.Shorthands)
+            },
+            {
+                FontOpticalSizingDeclaration.Name, new DeclarationInfo(
+                    name: FontOpticalSizingDeclaration.Name,
+                    converter: FontOpticalSizingDeclaration.Converter,
+                    initialValue: FontOpticalSizingDeclaration.InitialValue,
+                    flags: FontOpticalSizingDeclaration.Flags,
+                    shorthands: FontOpticalSizingDeclaration.Shorthands)
+            },
+            {
+                FontPaletteDeclaration.Name, new DeclarationInfo(
+                    name: FontPaletteDeclaration.Name,
+                    converter: FontPaletteDeclaration.Converter,
+                    initialValue: FontPaletteDeclaration.InitialValue,
+                    flags: FontPaletteDeclaration.Flags,
+                    shorthands: FontPaletteDeclaration.Shorthands)
+            },
+            {
+                FontSynthesisDeclaration.Name, new DeclarationInfo(
+                    name: FontSynthesisDeclaration.Name,
+                    converter: FontSynthesisDeclaration.Converter,
+                    initialValue: FontSynthesisDeclaration.InitialValue,
+                    flags: FontSynthesisDeclaration.Flags,
+                    longhands: FontSynthesisDeclaration.Longhands)
+            },
+            {
+                FontSynthesisWeightDeclaration.Name, new DeclarationInfo(
+                    name: FontSynthesisWeightDeclaration.Name,
+                    converter: FontSynthesisWeightDeclaration.Converter,
+                    initialValue: FontSynthesisWeightDeclaration.InitialValue,
+                    flags: FontSynthesisWeightDeclaration.Flags,
+                    shorthands: FontSynthesisWeightDeclaration.Shorthands)
+            },
+            {
+                FontSynthesisStyleDeclaration.Name, new DeclarationInfo(
+                    name: FontSynthesisStyleDeclaration.Name,
+                    converter: FontSynthesisStyleDeclaration.Converter,
+                    initialValue: FontSynthesisStyleDeclaration.InitialValue,
+                    flags: FontSynthesisStyleDeclaration.Flags,
+                    shorthands: FontSynthesisStyleDeclaration.Shorthands)
+            },
+            {
+                FontSynthesisSmallCapsDeclaration.Name, new DeclarationInfo(
+                    name: FontSynthesisSmallCapsDeclaration.Name,
+                    converter: FontSynthesisSmallCapsDeclaration.Converter,
+                    initialValue: FontSynthesisSmallCapsDeclaration.InitialValue,
+                    flags: FontSynthesisSmallCapsDeclaration.Flags,
+                    shorthands: FontSynthesisSmallCapsDeclaration.Shorthands)
+            },
+            {
+                FontVariationSettingsDeclaration.Name, new DeclarationInfo(
+                    name: FontVariationSettingsDeclaration.Name,
+                    converter: FontVariationSettingsDeclaration.Converter,
+                    initialValue: FontVariationSettingsDeclaration.InitialValue,
+                    flags: FontVariationSettingsDeclaration.Flags,
+                    shorthands: FontVariationSettingsDeclaration.Shorthands)
+            },
+            {
                 UnicodeRangeDeclaration.Name, new DeclarationInfo(
                     name: UnicodeRangeDeclaration.Name,
                     converter: UnicodeRangeDeclaration.Converter,

@@ -818,6 +818,56 @@ namespace AngleSharp.Css
         public static readonly String Font = "font";
 
         /// <summary>
+        /// The font-display declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String FontDisplay = "font-display";
+
+        /// <summary>
+        /// The font-kerning declaration.
+        /// </summary>
+        public static readonly String FontKerning = "font-kerning";
+
+        /// <summary>
+        /// The font-language-override declaration.
+        /// </summary>
+        public static readonly String FontLanguageOverride = "font-language-override";
+
+        /// <summary>
+        /// The font-optical-sizing declaration.
+        /// </summary>
+        public static readonly String FontOpticalSizing = "font-optical-sizing";
+
+        /// <summary>
+        /// The font-palette declaration.
+        /// </summary>
+        public static readonly String FontPalette = "font-palette";
+
+        /// <summary>
+        /// The font-synthesis declaration (shorthand).
+        /// </summary>
+        public static readonly String FontSynthesis = "font-synthesis";
+
+        /// <summary>
+        /// The font-synthesis-weight declaration.
+        /// </summary>
+        public static readonly String FontSynthesisWeight = "font-synthesis-weight";
+
+        /// <summary>
+        /// The font-synthesis-style declaration.
+        /// </summary>
+        public static readonly String FontSynthesisStyle = "font-synthesis-style";
+
+        /// <summary>
+        /// The font-synthesis-small-caps declaration.
+        /// </summary>
+        public static readonly String FontSynthesisSmallCaps = "font-synthesis-small-caps";
+
+        /// <summary>
+        /// The font-variation-settings declaration.
+        /// </summary>
+        public static readonly String FontVariationSettings = "font-variation-settings";
+
+        /// <summary>
         /// The glyph-orientation-horizontal declaration.
         /// </summary>
         public static readonly String GlyphOrientationHorizontal = "glyph-orientation-horizontal";
