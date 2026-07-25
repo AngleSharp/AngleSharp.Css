@@ -358,6 +358,146 @@ namespace AngleSharp.Css
         public static readonly String Border = "border";
 
         /// <summary>
+        /// The border-block declaration.
+        /// </summary>
+        public static readonly String BorderBlock = "border-block";
+
+        /// <summary>
+        /// The border-block-start declaration.
+        /// </summary>
+        public static readonly String BorderBlockStart = "border-block-start";
+
+        /// <summary>
+        /// The border-block-end declaration.
+        /// </summary>
+        public static readonly String BorderBlockEnd = "border-block-end";
+
+        /// <summary>
+        /// The border-block-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockColor = "border-block-color";
+
+        /// <summary>
+        /// The border-block-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockStyle = "border-block-style";
+
+        /// <summary>
+        /// The border-block-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockWidth = "border-block-width";
+
+        /// <summary>
+        /// The border-block-start-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartColor = "border-block-start-color";
+
+        /// <summary>
+        /// The border-block-start-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartStyle = "border-block-start-style";
+
+        /// <summary>
+        /// The border-block-start-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockStartWidth = "border-block-start-width";
+
+        /// <summary>
+        /// The border-block-end-color declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndColor = "border-block-end-color";
+
+        /// <summary>
+        /// The border-block-end-style declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndStyle = "border-block-end-style";
+
+        /// <summary>
+        /// The border-block-end-width declaration.
+        /// </summary>
+        public static readonly String BorderBlockEndWidth = "border-block-end-width";
+
+        /// <summary>
+        /// The border-inline declaration.
+        /// </summary>
+        public static readonly String BorderInline = "border-inline";
+
+        /// <summary>
+        /// The border-inline-start declaration.
+        /// </summary>
+        public static readonly String BorderInlineStart = "border-inline-start";
+
+        /// <summary>
+        /// The border-inline-end declaration.
+        /// </summary>
+        public static readonly String BorderInlineEnd = "border-inline-end";
+
+        /// <summary>
+        /// The border-inline-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineColor = "border-inline-color";
+
+        /// <summary>
+        /// The border-inline-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineStyle = "border-inline-style";
+
+        /// <summary>
+        /// The border-inline-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineWidth = "border-inline-width";
+
+        /// <summary>
+        /// The border-inline-start-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartColor = "border-inline-start-color";
+
+        /// <summary>
+        /// The border-inline-start-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartStyle = "border-inline-start-style";
+
+        /// <summary>
+        /// The border-inline-start-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineStartWidth = "border-inline-start-width";
+
+        /// <summary>
+        /// The border-inline-end-color declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndColor = "border-inline-end-color";
+
+        /// <summary>
+        /// The border-inline-end-style declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndStyle = "border-inline-end-style";
+
+        /// <summary>
+        /// The border-inline-end-width declaration.
+        /// </summary>
+        public static readonly String BorderInlineEndWidth = "border-inline-end-width";
+
+        /// <summary>
+        /// The border-start-start-radius declaration.
+        /// </summary>
+        public static readonly String BorderStartStartRadius = "border-start-start-radius";
+
+        /// <summary>
+        /// The border-start-end-radius declaration.
+        /// </summary>
+        public static readonly String BorderStartEndRadius = "border-start-end-radius";
+
+        /// <summary>
+        /// The border-end-start-radius declaration.
+        /// </summary>
+        public static readonly String BorderEndStartRadius = "border-end-start-radius";
+
+        /// <summary>
+        /// The border-end-end-radius declaration.
+        /// </summary>
+        public static readonly String BorderEndEndRadius = "border-end-end-radius";
+
+        /// <summary>
         /// The bottom declaration.
         /// </summary>
         public static readonly String Bottom = "bottom";
@@ -676,6 +816,41 @@ namespace AngleSharp.Css
         /// The inline-size declaration.
         /// </summary>
         public static readonly String InlineSize = "inline-size";
+
+        /// <summary>
+        /// The inset declaration.
+        /// </summary>
+        public static readonly String Inset = "inset";
+
+        /// <summary>
+        /// The inset-block declaration.
+        /// </summary>
+        public static readonly String InsetBlock = "inset-block";
+
+        /// <summary>
+        /// The inset-block-start declaration.
+        /// </summary>
+        public static readonly String InsetBlockStart = "inset-block-start";
+
+        /// <summary>
+        /// The inset-block-end declaration.
+        /// </summary>
+        public static readonly String InsetBlockEnd = "inset-block-end";
+
+        /// <summary>
+        /// The inset-inline declaration.
+        /// </summary>
+        public static readonly String InsetInline = "inset-inline";
+
+        /// <summary>
+        /// The inset-inline-start declaration.
+        /// </summary>
+        public static readonly String InsetInlineStart = "inset-inline-start";
+
+        /// <summary>
+        /// The inset-inline-end declaration.
+        /// </summary>
+        public static readonly String InsetInlineEnd = "inset-inline-end";
 
         /// <summary>
         /// The justify-content declaration.

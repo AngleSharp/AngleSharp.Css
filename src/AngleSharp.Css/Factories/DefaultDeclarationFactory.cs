@@ -1940,6 +1940,296 @@ namespace AngleSharp.Css
                     initialValue: ScrollSnapTypeDeclaration.InitialValue,
                     flags: ScrollSnapTypeDeclaration.Flags)
             },
+            // CSS Logical Properties — inset
+            {
+                InsetDeclaration.Name, new DeclarationInfo(
+                    name: InsetDeclaration.Name,
+                    converter: InsetDeclaration.Converter,
+                    initialValue: InsetDeclaration.InitialValue,
+                    flags: InsetDeclaration.Flags,
+                    longhands: InsetDeclaration.Longhands)
+            },
+            {
+                InsetBlockDeclaration.Name, new DeclarationInfo(
+                    name: InsetBlockDeclaration.Name,
+                    converter: InsetBlockDeclaration.Converter,
+                    initialValue: InsetBlockDeclaration.InitialValue,
+                    flags: InsetBlockDeclaration.Flags,
+                    longhands: InsetBlockDeclaration.Longhands)
+            },
+            {
+                InsetBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: InsetBlockStartDeclaration.Name,
+                    converter: InsetBlockStartDeclaration.Converter,
+                    initialValue: InsetBlockStartDeclaration.InitialValue,
+                    flags: InsetBlockStartDeclaration.Flags,
+                    shorthands: InsetBlockStartDeclaration.Shorthands)
+            },
+            {
+                InsetBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: InsetBlockEndDeclaration.Name,
+                    converter: InsetBlockEndDeclaration.Converter,
+                    initialValue: InsetBlockEndDeclaration.InitialValue,
+                    flags: InsetBlockEndDeclaration.Flags,
+                    shorthands: InsetBlockEndDeclaration.Shorthands)
+            },
+            {
+                InsetInlineDeclaration.Name, new DeclarationInfo(
+                    name: InsetInlineDeclaration.Name,
+                    converter: InsetInlineDeclaration.Converter,
+                    initialValue: InsetInlineDeclaration.InitialValue,
+                    flags: InsetInlineDeclaration.Flags,
+                    longhands: InsetInlineDeclaration.Longhands)
+            },
+            {
+                InsetInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: InsetInlineStartDeclaration.Name,
+                    converter: InsetInlineStartDeclaration.Converter,
+                    initialValue: InsetInlineStartDeclaration.InitialValue,
+                    flags: InsetInlineStartDeclaration.Flags,
+                    shorthands: InsetInlineStartDeclaration.Shorthands)
+            },
+            {
+                InsetInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: InsetInlineEndDeclaration.Name,
+                    converter: InsetInlineEndDeclaration.Converter,
+                    initialValue: InsetInlineEndDeclaration.InitialValue,
+                    flags: InsetInlineEndDeclaration.Flags,
+                    shorthands: InsetInlineEndDeclaration.Shorthands)
+            },
+            // CSS Logical Properties — border-block
+            {
+                BorderBlockDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockDeclaration.Name,
+                    converter: BorderBlockDeclaration.Converter,
+                    initialValue: BorderBlockDeclaration.InitialValue,
+                    flags: BorderBlockDeclaration.Flags,
+                    longhands: BorderBlockDeclaration.Longhands)
+            },
+            {
+                BorderBlockStartDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockStartDeclaration.Name,
+                    converter: BorderBlockStartDeclaration.Converter,
+                    initialValue: BorderBlockStartDeclaration.InitialValue,
+                    flags: BorderBlockStartDeclaration.Flags,
+                    shorthands: BorderBlockStartDeclaration.Shorthands,
+                    longhands: BorderBlockStartDeclaration.Longhands)
+            },
+            {
+                BorderBlockEndDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockEndDeclaration.Name,
+                    converter: BorderBlockEndDeclaration.Converter,
+                    initialValue: BorderBlockEndDeclaration.InitialValue,
+                    flags: BorderBlockEndDeclaration.Flags,
+                    shorthands: BorderBlockEndDeclaration.Shorthands,
+                    longhands: BorderBlockEndDeclaration.Longhands)
+            },
+            {
+                BorderBlockColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockColorDeclaration.Name,
+                    converter: BorderBlockColorDeclaration.Converter,
+                    initialValue: BorderBlockColorDeclaration.InitialValue,
+                    flags: BorderBlockColorDeclaration.Flags,
+                    shorthands: BorderBlockColorDeclaration.Shorthands,
+                    longhands: BorderBlockColorDeclaration.Longhands)
+            },
+            {
+                BorderBlockStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockStyleDeclaration.Name,
+                    converter: BorderBlockStyleDeclaration.Converter,
+                    initialValue: BorderBlockStyleDeclaration.InitialValue,
+                    flags: BorderBlockStyleDeclaration.Flags,
+                    shorthands: BorderBlockStyleDeclaration.Shorthands,
+                    longhands: BorderBlockStyleDeclaration.Longhands)
+            },
+            {
+                BorderBlockWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockWidthDeclaration.Name,
+                    converter: BorderBlockWidthDeclaration.Converter,
+                    initialValue: BorderBlockWidthDeclaration.InitialValue,
+                    flags: BorderBlockWidthDeclaration.Flags,
+                    shorthands: BorderBlockWidthDeclaration.Shorthands,
+                    longhands: BorderBlockWidthDeclaration.Longhands)
+            },
+            {
+                BorderBlockStartColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockStartColorDeclaration.Name,
+                    converter: BorderBlockStartColorDeclaration.Converter,
+                    initialValue: BorderBlockStartColorDeclaration.InitialValue,
+                    flags: BorderBlockStartColorDeclaration.Flags,
+                    shorthands: BorderBlockStartColorDeclaration.Shorthands)
+            },
+            {
+                BorderBlockStartStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockStartStyleDeclaration.Name,
+                    converter: BorderBlockStartStyleDeclaration.Converter,
+                    initialValue: BorderBlockStartStyleDeclaration.InitialValue,
+                    flags: BorderBlockStartStyleDeclaration.Flags,
+                    shorthands: BorderBlockStartStyleDeclaration.Shorthands)
+            },
+            {
+                BorderBlockStartWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockStartWidthDeclaration.Name,
+                    converter: BorderBlockStartWidthDeclaration.Converter,
+                    initialValue: BorderBlockStartWidthDeclaration.InitialValue,
+                    flags: BorderBlockStartWidthDeclaration.Flags,
+                    shorthands: BorderBlockStartWidthDeclaration.Shorthands)
+            },
+            {
+                BorderBlockEndColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockEndColorDeclaration.Name,
+                    converter: BorderBlockEndColorDeclaration.Converter,
+                    initialValue: BorderBlockEndColorDeclaration.InitialValue,
+                    flags: BorderBlockEndColorDeclaration.Flags,
+                    shorthands: BorderBlockEndColorDeclaration.Shorthands)
+            },
+            {
+                BorderBlockEndStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockEndStyleDeclaration.Name,
+                    converter: BorderBlockEndStyleDeclaration.Converter,
+                    initialValue: BorderBlockEndStyleDeclaration.InitialValue,
+                    flags: BorderBlockEndStyleDeclaration.Flags,
+                    shorthands: BorderBlockEndStyleDeclaration.Shorthands)
+            },
+            {
+                BorderBlockEndWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderBlockEndWidthDeclaration.Name,
+                    converter: BorderBlockEndWidthDeclaration.Converter,
+                    initialValue: BorderBlockEndWidthDeclaration.InitialValue,
+                    flags: BorderBlockEndWidthDeclaration.Flags,
+                    shorthands: BorderBlockEndWidthDeclaration.Shorthands)
+            },
+            // CSS Logical Properties — border-inline
+            {
+                BorderInlineDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineDeclaration.Name,
+                    converter: BorderInlineDeclaration.Converter,
+                    initialValue: BorderInlineDeclaration.InitialValue,
+                    flags: BorderInlineDeclaration.Flags,
+                    longhands: BorderInlineDeclaration.Longhands)
+            },
+            {
+                BorderInlineStartDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineStartDeclaration.Name,
+                    converter: BorderInlineStartDeclaration.Converter,
+                    initialValue: BorderInlineStartDeclaration.InitialValue,
+                    flags: BorderInlineStartDeclaration.Flags,
+                    shorthands: BorderInlineStartDeclaration.Shorthands,
+                    longhands: BorderInlineStartDeclaration.Longhands)
+            },
+            {
+                BorderInlineEndDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineEndDeclaration.Name,
+                    converter: BorderInlineEndDeclaration.Converter,
+                    initialValue: BorderInlineEndDeclaration.InitialValue,
+                    flags: BorderInlineEndDeclaration.Flags,
+                    shorthands: BorderInlineEndDeclaration.Shorthands,
+                    longhands: BorderInlineEndDeclaration.Longhands)
+            },
+            {
+                BorderInlineColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineColorDeclaration.Name,
+                    converter: BorderInlineColorDeclaration.Converter,
+                    initialValue: BorderInlineColorDeclaration.InitialValue,
+                    flags: BorderInlineColorDeclaration.Flags,
+                    shorthands: BorderInlineColorDeclaration.Shorthands,
+                    longhands: BorderInlineColorDeclaration.Longhands)
+            },
+            {
+                BorderInlineStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineStyleDeclaration.Name,
+                    converter: BorderInlineStyleDeclaration.Converter,
+                    initialValue: BorderInlineStyleDeclaration.InitialValue,
+                    flags: BorderInlineStyleDeclaration.Flags,
+                    shorthands: BorderInlineStyleDeclaration.Shorthands,
+                    longhands: BorderInlineStyleDeclaration.Longhands)
+            },
+            {
+                BorderInlineWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineWidthDeclaration.Name,
+                    converter: BorderInlineWidthDeclaration.Converter,
+                    initialValue: BorderInlineWidthDeclaration.InitialValue,
+                    flags: BorderInlineWidthDeclaration.Flags,
+                    shorthands: BorderInlineWidthDeclaration.Shorthands,
+                    longhands: BorderInlineWidthDeclaration.Longhands)
+            },
+            {
+                BorderInlineStartColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineStartColorDeclaration.Name,
+                    converter: BorderInlineStartColorDeclaration.Converter,
+                    initialValue: BorderInlineStartColorDeclaration.InitialValue,
+                    flags: BorderInlineStartColorDeclaration.Flags,
+                    shorthands: BorderInlineStartColorDeclaration.Shorthands)
+            },
+            {
+                BorderInlineStartStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineStartStyleDeclaration.Name,
+                    converter: BorderInlineStartStyleDeclaration.Converter,
+                    initialValue: BorderInlineStartStyleDeclaration.InitialValue,
+                    flags: BorderInlineStartStyleDeclaration.Flags,
+                    shorthands: BorderInlineStartStyleDeclaration.Shorthands)
+            },
+            {
+                BorderInlineStartWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineStartWidthDeclaration.Name,
+                    converter: BorderInlineStartWidthDeclaration.Converter,
+                    initialValue: BorderInlineStartWidthDeclaration.InitialValue,
+                    flags: BorderInlineStartWidthDeclaration.Flags,
+                    shorthands: BorderInlineStartWidthDeclaration.Shorthands)
+            },
+            {
+                BorderInlineEndColorDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineEndColorDeclaration.Name,
+                    converter: BorderInlineEndColorDeclaration.Converter,
+                    initialValue: BorderInlineEndColorDeclaration.InitialValue,
+                    flags: BorderInlineEndColorDeclaration.Flags,
+                    shorthands: BorderInlineEndColorDeclaration.Shorthands)
+            },
+            {
+                BorderInlineEndStyleDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineEndStyleDeclaration.Name,
+                    converter: BorderInlineEndStyleDeclaration.Converter,
+                    initialValue: BorderInlineEndStyleDeclaration.InitialValue,
+                    flags: BorderInlineEndStyleDeclaration.Flags,
+                    shorthands: BorderInlineEndStyleDeclaration.Shorthands)
+            },
+            {
+                BorderInlineEndWidthDeclaration.Name, new DeclarationInfo(
+                    name: BorderInlineEndWidthDeclaration.Name,
+                    converter: BorderInlineEndWidthDeclaration.Converter,
+                    initialValue: BorderInlineEndWidthDeclaration.InitialValue,
+                    flags: BorderInlineEndWidthDeclaration.Flags,
+                    shorthands: BorderInlineEndWidthDeclaration.Shorthands)
+            },
+            // CSS Logical Properties — logical border radii
+            {
+                BorderStartStartRadiusDeclaration.Name, new DeclarationInfo(
+                    name: BorderStartStartRadiusDeclaration.Name,
+                    converter: BorderStartStartRadiusDeclaration.Converter,
+                    initialValue: BorderStartStartRadiusDeclaration.InitialValue,
+                    flags: BorderStartStartRadiusDeclaration.Flags)
+            },
+            {
+                BorderStartEndRadiusDeclaration.Name, new DeclarationInfo(
+                    name: BorderStartEndRadiusDeclaration.Name,
+                    converter: BorderStartEndRadiusDeclaration.Converter,
+                    initialValue: BorderStartEndRadiusDeclaration.InitialValue,
+                    flags: BorderStartEndRadiusDeclaration.Flags)
+            },
+            {
+                BorderEndStartRadiusDeclaration.Name, new DeclarationInfo(
+                    name: BorderEndStartRadiusDeclaration.Name,
+                    converter: BorderEndStartRadiusDeclaration.Converter,
+                    initialValue: BorderEndStartRadiusDeclaration.InitialValue,
+                    flags: BorderEndStartRadiusDeclaration.Flags)
+            },
+            {
+                BorderEndEndRadiusDeclaration.Name, new DeclarationInfo(
+                    name: BorderEndEndRadiusDeclaration.Name,
+                    converter: BorderEndEndRadiusDeclaration.Converter,
+                    initialValue: BorderEndEndRadiusDeclaration.InitialValue,
+                    flags: BorderEndEndRadiusDeclaration.Flags)
+            },
         };
 
         /// <summary>

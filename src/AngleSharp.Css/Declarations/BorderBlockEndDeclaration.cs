@@ -1,0 +1,33 @@
+#nullable disable
+namespace AngleSharp.Css.Declarations
+{
+    using AngleSharp.Css.Dom;
+    using System;
+    using static ValueConverters;
+
+    static class BorderBlockEndDeclaration
+    {
+        public static String Name = PropertyNames.BorderBlockEnd;
+
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.BorderBlock,
+        };
+
+        public static IValueConverter Converter = WithBorderSide(
+            InitialValues.BorderBlockEndWidthDecl,
+            InitialValues.BorderBlockEndStyleDecl,
+            InitialValues.BorderBlockEndColorDecl);
+
+        public static ICssValue InitialValue = null;
+
+        public static PropertyFlags Flags = PropertyFlags.Animatable | PropertyFlags.Shorthand;
+
+        public static String[] Longhands = new[]
+        {
+            PropertyNames.BorderBlockEndWidth,
+            PropertyNames.BorderBlockEndStyle,
+            PropertyNames.BorderBlockEndColor,
+        };
+    }
+}
