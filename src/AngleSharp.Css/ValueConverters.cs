@@ -370,6 +370,66 @@ namespace AngleSharp.Css
         public static readonly IValueConverter ViewTransitionClassConverter = Or(None, IdentifierConverter.FromList());
 
         /// <summary>
+        /// Represents a converter for the anchor-name property.
+        /// </summary>
+        public static readonly IValueConverter AnchorNameConverter = Or(None, IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the anchor-scope property.
+        /// </summary>
+        public static readonly IValueConverter AnchorScopeConverter = Or(
+            Assign(CssKeywords.All, CssKeywords.All),
+            Assign(CssKeywords.Own, CssKeywords.Own),
+            IdentifierConverter.FromList());
+
+        /// <summary>
+        /// Represents a converter for the position-anchor property.
+        /// </summary>
+        public static readonly IValueConverter PositionAnchorConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            IdentifierConverter);
+
+        /// <summary>
+        /// Represents a converter for the position-area property.
+        /// </summary>
+        public static readonly IValueConverter PositionAreaConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Top, CssKeywords.Top),
+            Assign(CssKeywords.Bottom, CssKeywords.Bottom),
+            Assign(CssKeywords.Left, CssKeywords.Left),
+            Assign(CssKeywords.Right, CssKeywords.Right),
+            Assign(CssKeywords.Center, CssKeywords.Center),
+            Assign(CssKeywords.Start, CssKeywords.Start),
+            Assign(CssKeywords.End, CssKeywords.End),
+            Assign(CssKeywords.SelfStart, CssKeywords.SelfStart),
+            Assign(CssKeywords.SelfEnd, CssKeywords.SelfEnd),
+            Assign(CssKeywords.SpanAll, CssKeywords.SpanAll));
+
+        /// <summary>
+        /// Represents a converter for the position-try-fallbacks property.
+        /// </summary>
+        public static readonly IValueConverter PositionTryFallbacksConverter = None;
+
+        /// <summary>
+        /// Represents a converter for the position-try-order property.
+        /// </summary>
+        public static readonly IValueConverter PositionTryOrderConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.FlipBlock, CssKeywords.FlipBlock),
+            Assign(CssKeywords.FlipInline, CssKeywords.FlipInline),
+            Assign(CssKeywords.FlipStart, CssKeywords.FlipStart),
+            Assign(CssKeywords.FlipEnd, CssKeywords.FlipEnd));
+
+        /// <summary>
+        /// Represents a converter for the position-visibility property.
+        /// </summary>
+        public static readonly IValueConverter PositionVisibilityConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Always, CssKeywords.Always),
+            Assign(CssKeywords.PreferHidden, CssKeywords.PreferHidden),
+            Assign(CssKeywords.PreferNoOverflow, CssKeywords.PreferNoOverflow));
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

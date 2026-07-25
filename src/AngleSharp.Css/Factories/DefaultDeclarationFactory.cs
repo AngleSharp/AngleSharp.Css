@@ -233,6 +233,41 @@ namespace AngleSharp.Css
                     flags: PositionDeclaration.Flags)
             },
             {
+                PositionAnchorDeclaration.Name, new DeclarationInfo(
+                    name: PositionAnchorDeclaration.Name,
+                    converter: PositionAnchorDeclaration.Converter,
+                    initialValue: PositionAnchorDeclaration.InitialValue,
+                    flags: PositionAnchorDeclaration.Flags)
+            },
+            {
+                PositionAreaDeclaration.Name, new DeclarationInfo(
+                    name: PositionAreaDeclaration.Name,
+                    converter: PositionAreaDeclaration.Converter,
+                    initialValue: PositionAreaDeclaration.InitialValue,
+                    flags: PositionAreaDeclaration.Flags)
+            },
+            {
+                PositionTryFallbacksDeclaration.Name, new DeclarationInfo(
+                    name: PositionTryFallbacksDeclaration.Name,
+                    converter: PositionTryFallbacksDeclaration.Converter,
+                    initialValue: PositionTryFallbacksDeclaration.InitialValue,
+                    flags: PositionTryFallbacksDeclaration.Flags)
+            },
+            {
+                PositionTryOrderDeclaration.Name, new DeclarationInfo(
+                    name: PositionTryOrderDeclaration.Name,
+                    converter: PositionTryOrderDeclaration.Converter,
+                    initialValue: PositionTryOrderDeclaration.InitialValue,
+                    flags: PositionTryOrderDeclaration.Flags)
+            },
+            {
+                PositionVisibilityDeclaration.Name, new DeclarationInfo(
+                    name: PositionVisibilityDeclaration.Name,
+                    converter: PositionVisibilityDeclaration.Converter,
+                    initialValue: PositionVisibilityDeclaration.InitialValue,
+                    flags: PositionVisibilityDeclaration.Flags)
+            },
+            {
                 PrintColorAdjustDeclaration.Name, new DeclarationInfo(
                     name: PrintColorAdjustDeclaration.Name,
                     converter: PrintColorAdjustDeclaration.Converter,
@@ -455,6 +490,20 @@ namespace AngleSharp.Css
                     converter: AspectRatioDeclaration.Converter,
                     initialValue: AspectRatioDeclaration.InitialValue,
                     flags: AspectRatioDeclaration.Flags)
+            },
+            {
+                AnchorNameDeclaration.Name, new DeclarationInfo(
+                    name: AnchorNameDeclaration.Name,
+                    converter: AnchorNameDeclaration.Converter,
+                    initialValue: AnchorNameDeclaration.InitialValue,
+                    flags: AnchorNameDeclaration.Flags)
+            },
+            {
+                AnchorScopeDeclaration.Name, new DeclarationInfo(
+                    name: AnchorScopeDeclaration.Name,
+                    converter: AnchorScopeDeclaration.Converter,
+                    initialValue: AnchorScopeDeclaration.InitialValue,
+                    flags: AnchorScopeDeclaration.Flags)
             },
             {
                 BlockSizeDeclaration.Name, new DeclarationInfo(

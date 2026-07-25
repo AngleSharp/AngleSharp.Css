@@ -38,6 +38,16 @@ namespace AngleSharp.Css
         public static readonly String AspectRatio = "aspect-ratio";
 
         /// <summary>
+        /// The anchor-name declaration.
+        /// </summary>
+        public static readonly String AnchorName = "anchor-name";
+
+        /// <summary>
+        /// The anchor-scope declaration.
+        /// </summary>
+        public static readonly String AnchorScope = "anchor-scope";
+
+        /// <summary>
         /// The animation declaration.
         /// </summary>
         public static readonly String Animation = "animation";
@@ -1436,6 +1446,31 @@ namespace AngleSharp.Css
         /// The position declaration.
         /// </summary>
         public static readonly String Position = "position";
+
+        /// <summary>
+        /// The position-anchor declaration.
+        /// </summary>
+        public static readonly String PositionAnchor = "position-anchor";
+
+        /// <summary>
+        /// The position-area declaration.
+        /// </summary>
+        public static readonly String PositionArea = "position-area";
+
+        /// <summary>
+        /// The position-try-fallbacks declaration.
+        /// </summary>
+        public static readonly String PositionTryFallbacks = "position-try-fallbacks";
+
+        /// <summary>
+        /// The position-try-order declaration.
+        /// </summary>
+        public static readonly String PositionTryOrder = "position-try-order";
+
+        /// <summary>
+        /// The position-visibility declaration.
+        /// </summary>
+        public static readonly String PositionVisibility = "position-visibility";
 
         /// <summary>
         /// The print-color-adjust declaration.

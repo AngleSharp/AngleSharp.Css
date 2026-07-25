@@ -1931,5 +1931,55 @@ namespace AngleSharp.Css
         /// The optimize-quality image-rendering value.
         /// </summary>
         public static readonly String OptimizeQuality = "optimize-quality";
+
+        /// <summary>
+        /// The own keyword for anchor-scope.
+        /// </summary>
+        public static readonly String Own = "own";
+
+        /// <summary>
+        /// The flip-block keyword for position-try-order.
+        /// </summary>
+        public static readonly String FlipBlock = "flip-block";
+
+        /// <summary>
+        /// The flip-inline keyword for position-try-order.
+        /// </summary>
+        public static readonly String FlipInline = "flip-inline";
+
+        /// <summary>
+        /// The flip-start keyword for position-try-order.
+        /// </summary>
+        public static readonly String FlipStart = "flip-start";
+
+        /// <summary>
+        /// The flip-end keyword for position-try-order.
+        /// </summary>
+        public static readonly String FlipEnd = "flip-end";
+
+        /// <summary>
+        /// The prefer-hidden keyword for position-visibility.
+        /// </summary>
+        public static readonly String PreferHidden = "prefer-hidden";
+
+        /// <summary>
+        /// The prefer-no-overflow keyword for position-visibility.
+        /// </summary>
+        public static readonly String PreferNoOverflow = "prefer-no-overflow";
+
+        /// <summary>
+        /// The self-start keyword for position-area.
+        /// </summary>
+        public static readonly String SelfStart = "self-start";
+
+        /// <summary>
+        /// The self-end keyword for position-area.
+        /// </summary>
+        public static readonly String SelfEnd = "self-end";
+
+        /// <summary>
+        /// The span-all keyword for position-area.
+        /// </summary>
+        public static readonly String SpanAll = "span-all";
     }
 }

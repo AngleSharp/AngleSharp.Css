@@ -303,5 +303,12 @@ namespace AngleSharp.Css
         public static readonly ICssValue ImageRenderingDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue ViewTransitionNameDecl = new CssIdentifierValue(CssKeywords.None);
         public static readonly ICssValue ViewTransitionClassDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue AnchorNameDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue AnchorScopeDecl = new CssIdentifierValue(CssKeywords.All);
+        public static readonly ICssValue PositionAnchorDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue PositionAreaDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue PositionTryFallbacksDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue PositionTryOrderDecl = new CssIdentifierValue(CssKeywords.Normal);
+        public static readonly ICssValue PositionVisibilityDecl = new CssIdentifierValue(CssKeywords.Auto);
     }
 }
