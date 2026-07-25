@@ -430,6 +430,117 @@ namespace AngleSharp.Css
             Assign(CssKeywords.PreferNoOverflow, CssKeywords.PreferNoOverflow));
 
         /// <summary>
+        /// Represents a converter for the text-underline-offset property.
+        /// </summary>
+        public static readonly IValueConverter TextUnderlineOffsetConverter = LengthOrPercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the text-decoration-thickness property.
+        /// </summary>
+        public static readonly IValueConverter TextDecorationThicknessConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.FromFont, CssKeywords.FromFont),
+            LengthOrPercentConverter);
+
+        /// <summary>
+        /// Represents a converter for the text-decoration-skip-ink property.
+        /// </summary>
+        public static readonly IValueConverter TextDecorationSkipInkConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.All, CssKeywords.All),
+            Assign(CssKeywords.None, CssKeywords.None));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapConverter = Or(
+            Assign(CssKeywords.Wrap, CssKeywords.Wrap),
+            Assign(CssKeywords.Nowrap, CssKeywords.Nowrap),
+            Assign(CssKeywords.Balance, CssKeywords.Balance),
+            Assign(CssKeywords.Stable, CssKeywords.Stable),
+            Assign(CssKeywords.Pretty, CssKeywords.Pretty));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap-mode property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapModeConverter = Or(
+            Assign(CssKeywords.Wrap, CssKeywords.Wrap),
+            Assign(CssKeywords.Nowrap, CssKeywords.Nowrap));
+
+        /// <summary>
+        /// Represents a converter for the text-wrap-style property.
+        /// </summary>
+        public static readonly IValueConverter TextWrapStyleConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Stable, CssKeywords.Stable),
+            Assign(CssKeywords.Balance, CssKeywords.Balance),
+            Assign(CssKeywords.Pretty, CssKeywords.Pretty));
+
+        /// <summary>
+        /// Represents a converter for the white-space-collapse property.
+        /// </summary>
+        public static readonly IValueConverter WhiteSpaceCollapseConverter = Or(
+            Assign(CssKeywords.Collapse, CssKeywords.Collapse),
+            Assign(CssKeywords.Preserve, CssKeywords.Preserve),
+            Assign(CssKeywords.PreserveBreaks, CssKeywords.PreserveBreaks),
+            Assign(CssKeywords.PreserveSpaces, CssKeywords.PreserveSpaces));
+
+        /// <summary>
+        /// Represents a converter for the tab-size property.
+        /// </summary>
+        public static readonly IValueConverter TabSizeConverter = Or(NumberConverter, LengthConverter);
+
+        /// <summary>
+        /// Represents a converter for the hyphens property.
+        /// </summary>
+        public static readonly IValueConverter HyphensConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            Assign(CssKeywords.Manual, CssKeywords.Manual),
+            Assign(CssKeywords.Auto, CssKeywords.Auto));
+
+        /// <summary>
+        /// Represents a converter for the hyphenate-character property.
+        /// </summary>
+        public static readonly IValueConverter HyphenateCharacterConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            StringConverter);
+
+        /// <summary>
+        /// Represents a converter for the hyphenate-limit-chars property.
+        /// </summary>
+        public static readonly IValueConverter HypenatateLimitCharsConverter = Assign(CssKeywords.Auto, CssKeywords.Auto);
+
+        /// <summary>
+        /// Represents a converter for the line-break property.
+        /// </summary>
+        public static readonly IValueConverter LineBreakConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Loose, CssKeywords.Loose),
+            Assign(CssKeywords.Strict, CssKeywords.Strict),
+            Assign(CssKeywords.Anywhere, CssKeywords.Anywhere));
+
+        /// <summary>
+        /// Represents a converter for the initial-letter property.
+        /// </summary>
+        public static readonly IValueConverter InitialLetterConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            NumberConverter);
+
+        /// <summary>
+        /// Represents a converter for the initial-letter-align property.
+        /// </summary>
+        public static readonly IValueConverter InitialLetterAlignConverter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Alphabetic, CssKeywords.Alphabetic),
+            Assign(CssKeywords.Hanging, CssKeywords.Hanging),
+            Assign(CssKeywords.Leading, CssKeywords.Leading));
+
+        /// <summary>
+        /// Represents a converter for the hanging-punctuation property.
+        /// </summary>
+        public static readonly IValueConverter HangingPunctuationConverter = Assign(CssKeywords.None, CssKeywords.None);
+
+        /// <summary>
         /// Represents a position object.
         /// http://www.w3.org/TR/css3-background/#ltpositiongt
         /// </summary>

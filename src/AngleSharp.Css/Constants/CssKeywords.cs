@@ -1981,5 +1981,65 @@ namespace AngleSharp.Css
         /// The span-all keyword for position-area.
         /// </summary>
         public static readonly String SpanAll = "span-all";
+
+        /// <summary>
+        /// The anywhere keyword for line-break.
+        /// </summary>
+        public static readonly String Anywhere = "anywhere";
+
+        /// <summary>
+        /// The from-font keyword for text-decoration-thickness.
+        /// </summary>
+        public static readonly String FromFont = "from-font";
+
+        /// <summary>
+        /// The hanging keyword for initial-letter-align.
+        /// </summary>
+        public static readonly String Hanging = "hanging";
+
+        /// <summary>
+        /// The leading keyword for initial-letter-align.
+        /// </summary>
+        public static readonly String Leading = "leading";
+
+        /// <summary>
+        /// The loose keyword for line-break.
+        /// </summary>
+        public static readonly String Loose = "loose";
+
+        /// <summary>
+        /// The manual keyword for hyphens.
+        /// </summary>
+        public static readonly String Manual = "manual";
+
+        /// <summary>
+        /// The pretty keyword for text-wrap.
+        /// </summary>
+        public static readonly String Pretty = "pretty";
+
+        /// <summary>
+        /// The preserve keyword for white-space-collapse.
+        /// </summary>
+        public static readonly String Preserve = "preserve";
+
+        /// <summary>
+        /// The preserve-breaks keyword for white-space-collapse.
+        /// </summary>
+        public static readonly String PreserveBreaks = "preserve-breaks";
+
+        /// <summary>
+        /// The preserve-spaces keyword for white-space-collapse.
+        /// </summary>
+        public static readonly String PreserveSpaces = "preserve-spaces";
+
+        /// <summary>
+        /// The stable keyword for text-wrap.
+        /// </summary>
+        public static readonly String Stable = "stable";
+
+        /// <summary>
+        /// The strict keyword for line-break.
+        /// </summary>
+        public static readonly String Strict = "strict";
     }
 }

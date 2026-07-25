@@ -928,9 +928,39 @@ namespace AngleSharp.Css
         public static readonly String Height = "height";
 
         /// <summary>
+        /// The hanging-punctuation declaration.
+        /// </summary>
+        public static readonly String HangingPunctuation = "hanging-punctuation";
+
+        /// <summary>
+        /// The hyphenate-character declaration.
+        /// </summary>
+        public static readonly String HyphenateCharacter = "hyphenate-character";
+
+        /// <summary>
+        /// The hyphenate-limit-chars declaration.
+        /// </summary>
+        public static readonly String HypenatateLimitChars = "hyphenate-limit-chars";
+
+        /// <summary>
+        /// The hyphens declaration.
+        /// </summary>
+        public static readonly String Hyphens = "hyphens";
+
+        /// <summary>
         /// The ime-mode declaration.
         /// </summary>
         public static readonly String ImeMode = "ime-mode";
+
+        /// <summary>
+        /// The initial-letter declaration.
+        /// </summary>
+        public static readonly String InitialLetter = "initial-letter";
+
+        /// <summary>
+        /// The initial-letter-align declaration.
+        /// </summary>
+        public static readonly String InitialLetterAlign = "initial-letter-align";
 
         /// <summary>
         /// The image-orientation declaration.
@@ -1131,6 +1161,11 @@ namespace AngleSharp.Css
         /// The line-height declaration.
         /// </summary>
         public static readonly String LineHeight = "line-height";
+
+        /// <summary>
+        /// The line-break declaration.
+        /// </summary>
+        public static readonly String LineBreak = "line-break";
 
         /// <summary>
         /// The list-style-image declaration.
@@ -1768,6 +1803,11 @@ namespace AngleSharp.Css
         public static readonly String TableLayout = "table-layout";
 
         /// <summary>
+        /// The tab-size declaration.
+        /// </summary>
+        public static readonly String TabSize = "tab-size";
+
+        /// <summary>
         /// The text-align declaration.
         /// </summary>
         public static readonly String TextAlign = "text-align";
@@ -1808,6 +1848,16 @@ namespace AngleSharp.Css
         public static readonly String TextDecorationStyle = "text-decoration-style";
 
         /// <summary>
+        /// The text-decoration-skip-ink declaration.
+        /// </summary>
+        public static readonly String TextDecorationSkipInk = "text-decoration-skip-ink";
+
+        /// <summary>
+        /// The text-decoration-thickness declaration.
+        /// </summary>
+        public static readonly String TextDecorationThickness = "text-decoration-thickness";
+
+        /// <summary>
         /// The text-indent declaration.
         /// </summary>
         public static readonly String TextIndent = "text-indent";
@@ -1833,9 +1883,29 @@ namespace AngleSharp.Css
         public static readonly String TextTransform = "text-transform";
 
         /// <summary>
+        /// The text-underline-offset declaration.
+        /// </summary>
+        public static readonly String TextUnderlineOffset = "text-underline-offset";
+
+        /// <summary>
         /// The text-underline-position declaration.
         /// </summary>
         public static readonly String TextUnderlinePosition = "text-underline-position";
+
+        /// <summary>
+        /// The text-wrap declaration.
+        /// </summary>
+        public static readonly String TextWrap = "text-wrap";
+
+        /// <summary>
+        /// The text-wrap-mode declaration.
+        /// </summary>
+        public static readonly String TextWrapMode = "text-wrap-mode";
+
+        /// <summary>
+        /// The text-wrap-style declaration.
+        /// </summary>
+        public static readonly String TextWrapStyle = "text-wrap-style";
 
         /// <summary>
         /// The transform declaration.
@@ -1911,6 +1981,11 @@ namespace AngleSharp.Css
         /// The white-space declaration.
         /// </summary>
         public static readonly String WhiteSpace = "white-space";
+
+        /// <summary>
+        /// The white-space-collapse declaration.
+        /// </summary>
+        public static readonly String WhiteSpaceCollapse = "white-space-collapse";
 
         /// <summary>
         /// The widows declaration.

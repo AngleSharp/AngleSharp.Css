@@ -2794,6 +2794,114 @@ namespace AngleSharp.Css
                     initialValue: ViewTransitionClassDeclaration.InitialValue,
                     flags: ViewTransitionClassDeclaration.Flags)
             },
+            {
+                TextUnderlineOffsetDeclaration.Name, new DeclarationInfo(
+                    name: TextUnderlineOffsetDeclaration.Name,
+                    converter: TextUnderlineOffsetDeclaration.Converter,
+                    initialValue: TextUnderlineOffsetDeclaration.InitialValue,
+                    flags: TextUnderlineOffsetDeclaration.Flags,
+                    shorthands: TextUnderlineOffsetDeclaration.Shorthands)
+            },
+            {
+                TextDecorationThicknessDeclaration.Name, new DeclarationInfo(
+                    name: TextDecorationThicknessDeclaration.Name,
+                    converter: TextDecorationThicknessDeclaration.Converter,
+                    initialValue: TextDecorationThicknessDeclaration.InitialValue,
+                    flags: TextDecorationThicknessDeclaration.Flags,
+                    shorthands: TextDecorationThicknessDeclaration.Shorthands)
+            },
+            {
+                TextDecorationSkipInkDeclaration.Name, new DeclarationInfo(
+                    name: TextDecorationSkipInkDeclaration.Name,
+                    converter: TextDecorationSkipInkDeclaration.Converter,
+                    initialValue: TextDecorationSkipInkDeclaration.InitialValue,
+                    flags: TextDecorationSkipInkDeclaration.Flags,
+                    shorthands: TextDecorationSkipInkDeclaration.Shorthands)
+            },
+            {
+                TextWrapDeclaration.Name, new DeclarationInfo(
+                    name: TextWrapDeclaration.Name,
+                    converter: TextWrapDeclaration.Converter,
+                    initialValue: TextWrapDeclaration.InitialValue,
+                    flags: TextWrapDeclaration.Flags)
+            },
+            {
+                TextWrapModeDeclaration.Name, new DeclarationInfo(
+                    name: TextWrapModeDeclaration.Name,
+                    converter: TextWrapModeDeclaration.Converter,
+                    initialValue: TextWrapModeDeclaration.InitialValue,
+                    flags: TextWrapModeDeclaration.Flags)
+            },
+            {
+                TextWrapStyleDeclaration.Name, new DeclarationInfo(
+                    name: TextWrapStyleDeclaration.Name,
+                    converter: TextWrapStyleDeclaration.Converter,
+                    initialValue: TextWrapStyleDeclaration.InitialValue,
+                    flags: TextWrapStyleDeclaration.Flags)
+            },
+            {
+                WhiteSpaceCollapseDeclaration.Name, new DeclarationInfo(
+                    name: WhiteSpaceCollapseDeclaration.Name,
+                    converter: WhiteSpaceCollapseDeclaration.Converter,
+                    initialValue: WhiteSpaceCollapseDeclaration.InitialValue,
+                    flags: WhiteSpaceCollapseDeclaration.Flags)
+            },
+            {
+                TabSizeDeclaration.Name, new DeclarationInfo(
+                    name: TabSizeDeclaration.Name,
+                    converter: TabSizeDeclaration.Converter,
+                    initialValue: TabSizeDeclaration.InitialValue,
+                    flags: TabSizeDeclaration.Flags)
+            },
+            {
+                HyphensDeclaration.Name, new DeclarationInfo(
+                    name: HyphensDeclaration.Name,
+                    converter: HyphensDeclaration.Converter,
+                    initialValue: HyphensDeclaration.InitialValue,
+                    flags: HyphensDeclaration.Flags)
+            },
+            {
+                HyphenateCharacterDeclaration.Name, new DeclarationInfo(
+                    name: HyphenateCharacterDeclaration.Name,
+                    converter: HyphenateCharacterDeclaration.Converter,
+                    initialValue: HyphenateCharacterDeclaration.InitialValue,
+                    flags: HyphenateCharacterDeclaration.Flags)
+            },
+            {
+                HypenatateLimitCharsDeclaration.Name, new DeclarationInfo(
+                    name: HypenatateLimitCharsDeclaration.Name,
+                    converter: HypenatateLimitCharsDeclaration.Converter,
+                    initialValue: HypenatateLimitCharsDeclaration.InitialValue,
+                    flags: HypenatateLimitCharsDeclaration.Flags)
+            },
+            {
+                LineBreakDeclaration.Name, new DeclarationInfo(
+                    name: LineBreakDeclaration.Name,
+                    converter: LineBreakDeclaration.Converter,
+                    initialValue: LineBreakDeclaration.InitialValue,
+                    flags: LineBreakDeclaration.Flags)
+            },
+            {
+                InitialLetterDeclaration.Name, new DeclarationInfo(
+                    name: InitialLetterDeclaration.Name,
+                    converter: InitialLetterDeclaration.Converter,
+                    initialValue: InitialLetterDeclaration.InitialValue,
+                    flags: InitialLetterDeclaration.Flags)
+            },
+            {
+                InitialLetterAlignDeclaration.Name, new DeclarationInfo(
+                    name: InitialLetterAlignDeclaration.Name,
+                    converter: InitialLetterAlignDeclaration.Converter,
+                    initialValue: InitialLetterAlignDeclaration.InitialValue,
+                    flags: InitialLetterAlignDeclaration.Flags)
+            },
+            {
+                HangingPunctuationDeclaration.Name, new DeclarationInfo(
+                    name: HangingPunctuationDeclaration.Name,
+                    converter: HangingPunctuationDeclaration.Converter,
+                    initialValue: HangingPunctuationDeclaration.InitialValue,
+                    flags: HangingPunctuationDeclaration.Flags)
+            },
         };
 
         /// <summary>

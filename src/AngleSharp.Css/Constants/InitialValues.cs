@@ -310,5 +310,19 @@ namespace AngleSharp.Css
         public static readonly ICssValue PositionTryFallbacksDecl = new CssIdentifierValue(CssKeywords.None);
         public static readonly ICssValue PositionTryOrderDecl = new CssIdentifierValue(CssKeywords.Normal);
         public static readonly ICssValue PositionVisibilityDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue TextUnderlineOffsetDecl = CssLengthValue.Zero;
+        public static readonly ICssValue TextDecorationThicknessDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue TextDecorationSkipInkDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue TextWrapDecl = new CssIdentifierValue(CssKeywords.Wrap);
+        public static readonly ICssValue TextWrapModeDecl = new CssIdentifierValue(CssKeywords.Wrap);
+        public static readonly ICssValue TextWrapStyleDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue WhiteSpaceCollapseDecl = new CssIdentifierValue(CssKeywords.Collapse);
+        public static readonly ICssValue TabSizeDecl = new CssNumberValue(8.0);
+        public static readonly ICssValue HyphensDecl = new CssIdentifierValue(CssKeywords.Manual);
+        public static readonly ICssValue HyphenateCharacterDecl = new CssStringValue("-");
+        public static readonly ICssValue HypenatateLimitCharsDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue InitialLetterDecl = new CssIdentifierValue(CssKeywords.Normal);
+        public static readonly ICssValue InitialLetterAlignDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue HangingPunctuationDecl = new CssIdentifierValue(CssKeywords.None);
     }
 }
