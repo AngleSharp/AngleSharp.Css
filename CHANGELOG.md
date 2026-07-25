@@ -1,3 +1,9 @@
+# 1.0.0
+
+Released on Sunday, July 26 2026.
+
+- First stable version
+
 # 0.18.0
 
 Released on Saturday, July 25 2026.

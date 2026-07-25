@@ -1,3 +1,7 @@
+---
+title: "Supported Rules"
+section: "AngleSharp.Css"
+---
 # Supported At-Rules
 
 This page documents the at-rules recognized by the AngleSharp.Css parser (`CssBuilder.AtRuleMap`) and the corresponding CSSOM rule implementations.

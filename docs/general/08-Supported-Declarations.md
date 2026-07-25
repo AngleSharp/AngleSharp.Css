@@ -1,3 +1,7 @@
+---
+title: "Supported Declarations"
+section: "AngleSharp.Css"
+---
 # Supported Declarations
 
 This page documents declaration/property support in AngleSharp.Css based on the registration in `DefaultDeclarationFactory` and declaration classes in `src/AngleSharp.Css/Declarations`.

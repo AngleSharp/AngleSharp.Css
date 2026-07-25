@@ -17,8 +17,8 @@ We have more detailed information regarding the following subjects:
 
 - [API Documentation](tutorials/01-API.md)
 - [Examples](tutorials/02-Examples.md)
-- [FAQ](tutorials/03-Questions.md)
-- [Render Tree Examples](tutorials/04-Render-Tree.md)
+- [Render Tree Examples](tutorials/03-Render-Tree.md)
+- [FAQ](tutorials/04-Questions.md)
 
 ## Recommended Reading Order
 
@@ -29,9 +29,9 @@ If you are new to AngleSharp.Css, this order gives a practical ramp-up:
 3. [API Documentation](tutorials/01-API.md) for deeper understanding of the CSSOM model.
 4. [CSSOM](general/03-CSSOM.md) and [Core Interfaces](general/04-Core-Interfaces.md) once you need a deeper model understanding.
 5. [Supported At-Rules](general/07-Supported-At-Rules.md) and [Supported Declarations](general/08-Supported-Declarations.md) when checking implementation coverage and constraints.
-6. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/04-Render-Tree.md) for style computation workflows.
+6. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/03-Render-Tree.md) for style computation workflows.
 7. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations.
-8. [FAQ](tutorials/03-Questions.md) for common pitfalls and output customization.
+8. [FAQ](tutorials/04-Questions.md) for common pitfalls and output customization.
 
 ## What You Can Do With AngleSharp.Css
 
