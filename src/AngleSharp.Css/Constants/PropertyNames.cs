@@ -1145,7 +1145,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// The scroll-snap-align declaration.
         /// </summary>
-        public static readonly String ScrollSnapAlign = "scroll-snap-aling";
+        public static readonly String ScrollSnapAlign = "scroll-snap-align";
 
         /// <summary>
         /// The stroke declaration.
