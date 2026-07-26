@@ -102,13 +102,25 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static Boolean IsFunction(this StringSource source, String name)
         {
+            var pos = source.Index;
             var rest = source.Content.Length - source.Index;
 
             if (rest >= name.Length + 2)
             {
+                var content = source.Content;
+                var hasEscape = content.IndexOf(Symbols.ReverseSolidus, pos, name.Length) >= 0;
+
+                if (!hasEscape &&
+                    content[pos + name.Length] == Symbols.RoundBracketOpen &&
+                    String.Compare(content, pos, name, 0, name.Length, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    source.NextTo(pos + name.Length + 1);
+                    source.SkipSpacesAndComments();
+                    return true;
+                }
+
                 var length = 0;
                 var current = source.Current;
-                var pos = source.Index;
 
                 while (length < name.Length)
                 {
@@ -122,7 +134,7 @@ namespace AngleSharp.Css.Parser
                         current = next[0];
                     }
 
-                    if (Char.ToLowerInvariant(current) != Char.ToLowerInvariant(name[length]))
+                    if (!EqualsIgnoreCase(current, name[length]))
                         break;
 
                     length++;
@@ -245,16 +257,36 @@ namespace AngleSharp.Css.Parser
         public static String ParseAnimatableIdent(this StringSource source)
         {
             var pos = source.Index;
-            var test = source.ParseNormalizedIdent();
+            var test = source.ParseIdent();
 
             //TODO Replace Animatables with call to DeclarationFactory - get from flags
             if (test != null && (test.Isi(CssKeywords.All) || Animatables.Contains(test)))
             {
-                return test;
+                return test.ToLowerFast();
             }
 
             source.BackTo(pos);
             return null;
+        }
+
+        private static Boolean EqualsIgnoreCase(Char a, Char b)
+        {
+            if (a == b)
+            {
+                return true;
+            }
+
+            if (a >= 'A' && a <= 'Z')
+            {
+                a = (Char)(a + 32);
+            }
+
+            if (b >= 'A' && b <= 'Z')
+            {
+                b = (Char)(b + 32);
+            }
+
+            return a == b;
         }
 
         private static String Start(StringSource source, Char current, StringBuilder buffer)

@@ -200,5 +200,5 @@ This preserves comments, but not their exact original positions in every case. D
 ## 11. Where To Go Next
 
 - Read [API Documentation](01-API.md) for deeper CSSOM details.
-- Read [Render Tree Examples](04-Render-Tree.md) for style-aware tree traversal and resource download workflows.
-- Read [FAQ](03-Questions.md) for serializer behavior and common edge cases.
+- Read [Render Tree Examples](03-Render-Tree.md) for style-aware tree traversal and resource download workflows.
+- Read [FAQ](04-Questions.md) for serializer behavior and common edge cases.

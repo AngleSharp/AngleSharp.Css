@@ -77,9 +77,9 @@ namespace AngleSharp.Css.Parser
             }
 
             var end = source.Index;
-            source.BackTo(lastNonWhitespace);
+            source.Back(source.Index - lastNonWhitespace);
             var content = source.Substring(start);
-            source.NextTo(end);
+            source.Next(end - source.Index);
             return content;
         }
 
@@ -127,16 +127,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static Char BackTo(this StringSource source, Int32 index)
         {
-            var diff = source.Index - index;
-            var current = Symbols.Null;
-
-            while (diff > 0)
-            {
-                current = source.Back();
-                diff--;
-            }
-
-            return current;
+            return source.Back(source.Index - index);
         }
 
         /// <summary>
@@ -144,16 +135,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static Char NextTo(this StringSource source, Int32 index)
         {
-            var diff = index - source.Index;
-            var current = Symbols.Null;
-
-            while (diff > 0)
-            {
-                current = source.Next();
-                diff--;
-            }
-
-            return current;
+            return source.Next(index - source.Index);
         }
     }
 }

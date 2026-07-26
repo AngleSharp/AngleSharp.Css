@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Parser
     /// </summary>
     static class CssTokenExtensions
     {
-        public static Boolean IsPotentiallyNested(this CssToken token)
+        public static Boolean IsPotentiallyNested(this in CssToken token)
         {
             if (token.Is(CssTokenType.Hash, CssTokenType.Colon, CssTokenType.SquareBracketOpen))
             {
@@ -35,7 +35,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="a">The first type to match.</param>
         /// <param name="b">The alternative match for the token.</param>
         /// <returns>Result of the examination.</returns>
-        public static Boolean Is(this CssToken token, CssTokenType a, CssTokenType b)
+        public static Boolean Is(this in CssToken token, CssTokenType a, CssTokenType b)
         {
             var type = token.Type;
             return type == a || type == b;
@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="b">The 2nd type to match.</param>
         /// <param name="c">The 3rd type to match.</param>
         /// <returns>Result of the examination.</returns>
-        public static Boolean Is(this CssToken token, CssTokenType a, CssTokenType b, CssTokenType c)
+        public static Boolean Is(this in CssToken token, CssTokenType a, CssTokenType b, CssTokenType c)
         {
             var type = token.Type;
             return type == a || type == b || type == c;
@@ -68,7 +68,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="g">The 7th type to match.</param>
         /// <param name="h">The 8th type to match.</param>
         /// <returns>Result of the examination.</returns>
-        public static Boolean Is(this CssToken token, CssTokenType a, CssTokenType b, CssTokenType c, CssTokenType d, CssTokenType e, CssTokenType f, CssTokenType g, CssTokenType h)
+        public static Boolean Is(this in CssToken token, CssTokenType a, CssTokenType b, CssTokenType c, CssTokenType d, CssTokenType e, CssTokenType f, CssTokenType g, CssTokenType h)
         {
             var type = token.Type;
             return type == a || type == b || type == c || type == d || type == e || type == f || type == g || type == h;
@@ -82,7 +82,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="a">The first type to unmatch.</param>
         /// <param name="b">The alternative unmatch for the token.</param>
         /// <returns>Result of the examination.</returns>
-        public static Boolean IsNot(this CssToken token, CssTokenType a, CssTokenType b)
+        public static Boolean IsNot(this in CssToken token, CssTokenType a, CssTokenType b)
         {
             var type = token.Type;
             return type != a && type != b;
@@ -97,7 +97,7 @@ namespace AngleSharp.Css.Parser
         /// <param name="b">The alternative unmatch for the token.</param>
         /// <param name="c">The final unmatch for the token.</param>
         /// <returns>Result of the examination.</returns>
-        public static Boolean IsNot(this CssToken token, CssTokenType a, CssTokenType b, CssTokenType c)
+        public static Boolean IsNot(this in CssToken token, CssTokenType a, CssTokenType b, CssTokenType c)
         {
             var type = token.Type;
             return type != a && type != b && type != c;
