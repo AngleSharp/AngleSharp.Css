@@ -543,7 +543,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-image property.
         /// </summary>
-        public static readonly IValueConverter MaskImageConverter = MultipleImageSourceConverter;
+        public static IValueConverter MaskImageConverter => MultipleImageSourceConverter;
 
         /// <summary>
         /// Represents a converter for the mask-mode property.
@@ -555,12 +555,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-repeat property.
         /// </summary>
-        public static readonly IValueConverter MaskRepeatConverter = BackgroundRepeatsConverter;
+        public static IValueConverter MaskRepeatConverter => BackgroundRepeatsConverter;
 
         /// <summary>
         /// Represents a converter for the mask-position property.
         /// </summary>
-        public static readonly IValueConverter MaskPositionConverter = PointConverter;
+        public static IValueConverter MaskPositionConverter => PointConverter;
 
         /// <summary>
         /// Represents a converter for the mask-clip property.
@@ -587,7 +587,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-size property.
         /// </summary>
-        public static readonly IValueConverter MaskSizeConverter = BackgroundSizeConverter;
+        public static IValueConverter MaskSizeConverter => BackgroundSizeConverter;
 
         /// <summary>
         /// Represents a converter for the mask-composite property.
@@ -640,7 +640,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-border-repeat property.
         /// </summary>
-        public static readonly IValueConverter MaskBorderRepeatConverter = BackgroundRepeatsConverter;
+        public static IValueConverter MaskBorderRepeatConverter => BackgroundRepeatsConverter;
 
         /// <summary>
         /// Represents a converter for the mask-border-mode property.
