@@ -160,5 +160,20 @@ namespace AngleSharp.Css.Tests.Parsing
             Assert.AreEqual(1, ss.Rules.Length);
             Assert.AreEqual("a", ((AngleSharp.Css.Dom.ICssStyleRule)ss.Rules[0]).SelectorText);
         }
+
+        [Test]
+        public void ParseMaskImageLinearGradientDoesNotThrow_Issue218()
+        {
+            var css = @"
+ .class{
+  mask-image: linear-gradient(red, blue);
+}
+";
+            var parser = new CssParser();
+
+            Assert.DoesNotThrow(() => parser.ParseStyleSheet(css));
+            var sheet = parser.ParseStyleSheet(css);
+            Assert.AreEqual(1, sheet.Rules.Length);
+        }
     }
 }

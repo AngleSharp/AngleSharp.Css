@@ -59,7 +59,8 @@ local.properties
 [Dd]ebug/
 [Rr]elease/
 [Bb]in/
-[Bb]uild/
+build/bin/
+build/obj/
 [Oo]bj/
 
 # Visual Studio 2015 cache/options directory
@@ -171,7 +172,8 @@ Desktop.ini
 *.egg
 *.egg-info
 dist
-build
+build/bin
+build/obj
 eggs
 parts
 var
@@ -195,5 +197,5 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
-# Nuke build tool
-.nuke/temp
+# Fallout build tool
+.fallout/temp
