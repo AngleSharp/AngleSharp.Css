@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Dom
         private readonly CssStyleDeclaration _style;
         private readonly CssRuleList _rules;
         private ISelector _selector;
-        private IEnumerable<ISelector> _selectorList;
+        private ISelector[] _selectorList;
         private Boolean _nested;
 
         #endregion
@@ -120,8 +120,13 @@ namespace AngleSharp.Css.Dom
 
             if (_selectorList is not null)
             {
-                foreach (var selector in _selectorList.OrderByDescending(m => m.Specificity))
+                // Already ordered by descending specificity when the selector was
+                // assigned - sorting here would repeat the work for every single
+                // element the rule is matched against.
+                for (var i = 0; i < _selectorList.Length; i++)
                 {
+                    var selector = _selectorList[i];
+
                     if (selector.Match(element, scope))
                     {
                         specificity += selector.Specificity;
@@ -186,7 +191,9 @@ namespace AngleSharp.Css.Dom
 
         void ISelectorVisitor.List(IEnumerable<ISelector> selectors)
         {
-            _selectorList = selectors;
+            // OrderByDescending is stable, so selectors of equal specificity keep
+            // their declared order - same as when this ran per match attempt.
+            _selectorList = selectors.OrderByDescending(m => m.Specificity).ToArray();
         }
 
         void ISelectorVisitor.Combinator(IEnumerable<ISelector> selectors, IEnumerable<string> symbols)

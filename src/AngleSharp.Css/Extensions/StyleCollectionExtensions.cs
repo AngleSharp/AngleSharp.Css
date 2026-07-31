@@ -113,11 +113,11 @@ namespace AngleSharp.Css
         {
             var ctx = element.Owner?.Context ?? throw new InvalidOperationException("The element must be associated with a browsing context.");
             var computedStyle = new CssStyleDeclaration(ctx);
-            var rules = styles.SortBySpecificity(element);
+            var matches = styles.SortBySpecificity(element);
 
-            foreach (var rule in rules)
+            for (var i = 0; i < matches.Count; i++)
             {
-                var inlineStyle = rule.Style;
+                var inlineStyle = matches[i].Rule.Style;
                 computedStyle.SetDeclarations(inlineStyle);
             }
 
@@ -158,33 +158,80 @@ namespace AngleSharp.Css
 
         #region Helpers
 
-        private static IEnumerable<ICssStyleRule> SortBySpecificity(this IEnumerable<ICssStyleRule> rules, IElement element)
+        private static List<RuleMatch> SortBySpecificity(this IStyleCollection styles, IElement element)
         {
-            IEnumerable<Tuple<ICssStyleRule, Priority>> MapPriority(ICssStyleRule rule)
-            {
-                if (rule.TryMatch(element, null, out var specificity))
-                {
-                    yield return Tuple.Create(rule, specificity);
-                }
+            // Resolving the scope once is equivalent to letting every TryMatch call
+            // fall back to it, but avoids re-reading DocumentElement per rule.
+            var scope = element.Owner?.DocumentElement;
+            var matches = new List<RuleMatch>();
 
-                foreach (var subRule in rule.Rules)
+            if (styles is StyleCollection collection)
+            {
+                var rules = collection.GetRules();
+
+                for (var i = 0; i < rules.Count; i++)
                 {
-                    if (subRule is ICssStyleRule style)
-                    {
-                        foreach (var item in MapPriority(style))
-                        {
-                            yield return item;
-                        }
-                    }
+                    MapPriority(rules[i], element, scope, matches);
+                }
+            }
+            else
+            {
+                foreach (var rule in styles)
+                {
+                    MapPriority(rule, element, scope, matches);
                 }
             }
 
-            return rules.SelectMany(MapPriority).OrderBy(GetPriority).Select(GetRule);
+            // OrderBy is a stable sort; the index tie-break reproduces that for
+            // rules that share the same specificity.
+            matches.Sort(RuleMatchComparer.Instance);
+            return matches;
         }
 
-        private static Priority GetPriority(Tuple<ICssStyleRule, Priority> item) => item.Item2;
+        private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, List<RuleMatch> matches)
+        {
+            if (rule.TryMatch(element, scope, out var specificity))
+            {
+                matches.Add(new RuleMatch(rule, specificity, matches.Count));
+            }
 
-        private static ICssStyleRule GetRule(Tuple<ICssStyleRule, Priority> item) => item.Item1;
+            var subRules = rule.Rules;
+
+            for (var i = 0; i < subRules.Length; i++)
+            {
+                if (subRules[i] is ICssStyleRule style)
+                {
+                    MapPriority(style, element, scope, matches);
+                }
+            }
+        }
+
+        private readonly struct RuleMatch
+        {
+            public RuleMatch(ICssStyleRule rule, Priority priority, Int32 index)
+            {
+                Rule = rule;
+                Priority = priority;
+                Index = index;
+            }
+
+            public ICssStyleRule Rule { get; }
+
+            public Priority Priority { get; }
+
+            public Int32 Index { get; }
+        }
+
+        private sealed class RuleMatchComparer : IComparer<RuleMatch>
+        {
+            public static readonly RuleMatchComparer Instance = new RuleMatchComparer();
+
+            public Int32 Compare(RuleMatch x, RuleMatch y)
+            {
+                var result = Comparer<Priority>.Default.Compare(x.Priority, y.Priority);
+                return result != 0 ? result : x.Index.CompareTo(y.Index);
+            }
+        }
 
         #endregion
     }
