@@ -15,11 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Css"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{988B2C40-782B-4128-9551-7AE65B60F903}"
 	ProjectSection(SolutionItems) = preProject
-		AngleSharp.Css.nuspec = AngleSharp.Css.nuspec
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "..\nuke\_build.csproj", "{B82798E2-2766-4C1E-860C-136F4B3B1185}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "..\build\_build.csproj", "{B82798E2-2766-4C1E-860C-136F4B3B1185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

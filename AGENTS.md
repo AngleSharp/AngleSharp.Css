@@ -14,10 +14,10 @@ This guide helps coding agents become productive quickly in the AngleSharp.Css r
 From repository root:
 
 ```bash
-# Full build + unit tests through NUKE (Linux/macOS)
+# Full build + unit tests through Fallout (Linux/macOS)
 ./build.sh
 
-# Full build + unit tests through NUKE (Windows PowerShell)
+# Full build + unit tests through Fallout (Windows PowerShell)
 ./build.ps1
 
 # Run tests directly
@@ -45,7 +45,7 @@ Notes:
   - Additional Windows-only targets: `net462;net472`
 - Test project: `src/AngleSharp.Css.Tests/AngleSharp.Css.Tests.csproj`
   - Targets: `net8.0`
-- NUKE entrypoint: `nuke/Build.cs`
+- Fallout entrypoint: `build/Build.cs`
   - Default target chain runs unit tests.
 
 ## 4) Repository map (where to change what)
@@ -128,7 +128,7 @@ dotnet test src/AngleSharp.Css.Tests/AngleSharp.Css.Tests.csproj --filter FullyQ
 dotnet test src/AngleSharp.Css.Tests/AngleSharp.Css.Tests.csproj
 ```
 
-- If changing multi-target-sensitive code (conditional behavior, APIs), also run full build via NUKE script to mimic CI flow.
+- If changing multi-target-sensitive code (conditional behavior, APIs), also run full build via Fallout script to mimic CI flow.
 
 ## 7) Style and safety expectations
 
