@@ -126,7 +126,6 @@ namespace AngleSharp.Css.Dom
 
             if (requiredProperties.Length > 0)
             {
-                var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
                 var values = new ICssValue[requiredProperties.Length];
                 var important = 0;
                 var count = 0;
@@ -135,9 +134,9 @@ namespace AngleSharp.Css.Dom
                 {
                     var name = requiredProperties[i];
                     var propInfo = factory.Create(name);
-                    var property = propInfo.Longhands.Any() ?
+                    var property = propInfo.Longhands.Length > 0 ?
                         TryCreateShorthand(name, serialized, usedProperties, force) :
-                        longhands.Where(m => m.Name == name).FirstOrDefault();
+                        FindUnserializedLonghand(name, serialized);
 
                     if (property?.Value is not null)
                     {
@@ -339,6 +338,39 @@ namespace AngleSharp.Css.Dom
 
         private ICssProperty GetPropertyShorthand(String name) =>
             TryCreateShorthand(name, Enumerable.Empty<String>(), new List<String>(), true);
+
+        /// <summary>
+        /// Gets the first declaration with the given name, unless that name was
+        /// already serialized. Equivalent to filtering all declarations by the
+        /// serialized set first, since only declarations with exactly this name
+        /// can ever be returned.
+        /// </summary>
+        private ICssProperty FindUnserializedLonghand(String name, IEnumerable<String> serialized)
+        {
+            if (serialized is ICollection<String> collection)
+            {
+                if (collection.Count > 0 && collection.Contains(name))
+                {
+                    return null;
+                }
+            }
+            else if (serialized.Contains(name))
+            {
+                return null;
+            }
+
+            for (var i = 0; i < _declarations.Count; i++)
+            {
+                var declaration = _declarations[i];
+
+                if (declaration.Name == name)
+                {
+                    return declaration;
+                }
+            }
+
+            return null;
+        }
 
         private ICssProperty CreateProperty(String propertyName)
         {

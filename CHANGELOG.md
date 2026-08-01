@@ -1,3 +1,10 @@
+# 1.0.1
+
+Released on Friday, July 31 2026.
+
+- Fixed NRE in `mask-image` with gradients (#218)
+- Improved cascade resolution performance (#220) @lahma
+
 # 1.0.0
 
 Released on Sunday, July 26 2026.
