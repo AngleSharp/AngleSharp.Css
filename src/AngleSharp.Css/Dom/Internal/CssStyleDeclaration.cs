@@ -284,7 +284,12 @@ namespace AngleSharp.Css.Dom
             {
                 if (priority is null || priority.Isi(CssKeywords.Important))
                 {
-                    var property = CreateProperty(propertyName);
+                    // Deliberately not seeded from any existing declaration of the same
+                    // name: assigning Value below always replaces the raw value, so
+                    // reading the old one only costs a lookup. For a shorthand that
+                    // lookup is not even a lookup - it rebuilds the shorthand from its
+                    // longhands just to throw the result away.
+                    var property = _context.CreateProperty(propertyName);
 
                     if (property is not null)
                     {
@@ -370,19 +375,6 @@ namespace AngleSharp.Css.Dom
             }
 
             return null;
-        }
-
-        private ICssProperty CreateProperty(String propertyName)
-        {
-            var newProperty = _context.CreateProperty(propertyName);
-            var existing = GetProperty(propertyName);
-
-            if (existing is not null)
-            {
-                newProperty.RawValue = existing.RawValue;
-            }
-
-            return newProperty;
         }
 
         private void SetProperty(ICssProperty property)
