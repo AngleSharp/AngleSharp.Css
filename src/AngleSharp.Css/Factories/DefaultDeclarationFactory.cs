@@ -975,6 +975,41 @@ namespace AngleSharp.Css
                     flags: FontDisplayDeclaration.Flags)
             },
             {
+                FontFeatureSettingsDeclaration.Name, new DeclarationInfo(
+                    name: FontFeatureSettingsDeclaration.Name,
+                    converter: FontFeatureSettingsDeclaration.Converter,
+                    initialValue: FontFeatureSettingsDeclaration.InitialValue,
+                    flags: FontFeatureSettingsDeclaration.Flags)
+            },
+            {
+                SizeAdjustDeclaration.Name, new DeclarationInfo(
+                    name: SizeAdjustDeclaration.Name,
+                    converter: SizeAdjustDeclaration.Converter,
+                    initialValue: SizeAdjustDeclaration.InitialValue,
+                    flags: SizeAdjustDeclaration.Flags)
+            },
+            {
+                AscentOverrideDeclaration.Name, new DeclarationInfo(
+                    name: AscentOverrideDeclaration.Name,
+                    converter: AscentOverrideDeclaration.Converter,
+                    initialValue: AscentOverrideDeclaration.InitialValue,
+                    flags: AscentOverrideDeclaration.Flags)
+            },
+            {
+                DescentOverrideDeclaration.Name, new DeclarationInfo(
+                    name: DescentOverrideDeclaration.Name,
+                    converter: DescentOverrideDeclaration.Converter,
+                    initialValue: DescentOverrideDeclaration.InitialValue,
+                    flags: DescentOverrideDeclaration.Flags)
+            },
+            {
+                LineGapOverrideDeclaration.Name, new DeclarationInfo(
+                    name: LineGapOverrideDeclaration.Name,
+                    converter: LineGapOverrideDeclaration.Converter,
+                    initialValue: LineGapOverrideDeclaration.InitialValue,
+                    flags: LineGapOverrideDeclaration.Flags)
+            },
+            {
                 FontKerningDeclaration.Name, new DeclarationInfo(
                     name: FontKerningDeclaration.Name,
                     converter: FontKerningDeclaration.Converter,

@@ -308,6 +308,16 @@ namespace AngleSharp.Css
         public static readonly String Optional = "optional";
 
         /// <summary>
+        /// The on keyword (font-feature-settings).
+        /// </summary>
+        public static readonly String On = "on";
+
+        /// <summary>
+        /// The off keyword (font-feature-settings).
+        /// </summary>
+        public static readonly String Off = "off";
+
+        /// <summary>
         /// The avoid keyword.
         /// </summary>
         public static readonly String Avoid = "avoid";

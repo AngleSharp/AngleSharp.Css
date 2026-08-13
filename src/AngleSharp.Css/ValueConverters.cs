@@ -121,6 +121,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter OnlyLengthOrPercentConverter = new StructValueConverter<CssLengthValue>(UnitParser.ParseDistance);
 
         /// <summary>
+        /// Represents a percentage object, i.e. a number followed by a percent sign.
+        /// </summary>
+        public static readonly IValueConverter OnlyPercentConverter = new StructValueConverter<CssPercentageValue>(ParseOnlyPercent);
+
+        /// <summary>
         /// Represents a string object.
         /// </summary>
         public static readonly IValueConverter StringConverter = new StructValueConverter<CssStringValue>(FromString(StringParser.ParseString));
@@ -215,6 +220,11 @@ namespace AngleSharp.Css
         /// Represents a (calculated) distance object (either Length or Percent).
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = Or(OnlyLengthOrPercentConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents a (calculated) percentage object.
+        /// </summary>
+        public static readonly IValueConverter PercentConverter = Or(OnlyPercentConverter, CalcConverter);
 
         /// <summary>
         /// Represents an number object that is zero or greater.
@@ -1089,6 +1099,32 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Optional, CssKeywords.Optional));
 
         /// <summary>
+        /// Represents a converter for the size-adjust descriptor.
+        /// </summary>
+        public static readonly IValueConverter SizeAdjustConverter = PercentConverter;
+
+        /// <summary>
+        /// Represents a converter for the ascent-override, descent-override and
+        /// line-gap-override descriptors.
+        /// </summary>
+        public static readonly IValueConverter FontMetricOverrideConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            PercentConverter);
+
+        /// <summary>
+        /// Represents a converter for the font-feature-settings property.
+        /// </summary>
+        public static readonly IValueConverter FontFeatureSettingsConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithOrder(
+                StringConverter,
+                Or(
+                    NaturalIntegerConverter,
+                    Assign(CssKeywords.On, CssKeywords.On),
+                    Assign(CssKeywords.Off, CssKeywords.Off)))
+            .FromList());
+
+        /// <summary>
         /// Represents a converter for the font-kerning property.
         /// </summary>
         public static readonly IValueConverter FontKerningConverter = Or(
@@ -1152,7 +1188,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the font-variation-settings property.
         /// </summary>
-        public static readonly IValueConverter FontVariationSettingsConverter = Assign(CssKeywords.Normal, CssKeywords.Normal);
+        public static readonly IValueConverter FontVariationSettingsConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithOrder(
+                StringConverter,
+                NumberConverter)
+            .FromList());
 
         /// <summary>
         /// Represents a converter for the ResizeMode enumeration.
@@ -1702,6 +1743,20 @@ namespace AngleSharp.Css
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
+
+        private static CssPercentageValue? ParseOnlyPercent(this StringSource source)
+        {
+            var pos = source.Index;
+            var result = source.ParsePercentOrNumber();
+
+            if (result?.Type == CssPercentageValue.Unit.Percent)
+            {
+                return result;
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
 
         private static Func<StringSource, CssStringValue?> FromString(Func<StringSource, String> converter) => source =>
         {

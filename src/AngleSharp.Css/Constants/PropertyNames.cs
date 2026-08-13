@@ -908,6 +908,26 @@ namespace AngleSharp.Css
         public static readonly String FontKerning = "font-kerning";
 
         /// <summary>
+        /// The size-adjust declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String SizeAdjust = "size-adjust";
+
+        /// <summary>
+        /// The ascent-override declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String AscentOverride = "ascent-override";
+
+        /// <summary>
+        /// The descent-override declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String DescentOverride = "descent-override";
+
+        /// <summary>
+        /// The line-gap-override declaration (@font-face descriptor).
+        /// </summary>
+        public static readonly String LineGapOverride = "line-gap-override";
+
+        /// <summary>
         /// The font-language-override declaration.
         /// </summary>
         public static readonly String FontLanguageOverride = "font-language-override";
