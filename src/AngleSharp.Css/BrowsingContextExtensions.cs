@@ -95,7 +95,7 @@ namespace AngleSharp.Css
         private static Boolean AllowsDeclaration(this IBrowsingContext context, DeclarationInfo info) =>
             info.Flags != PropertyFlags.Unknown || context.IsAllowingUnknownDeclarations();
 
-        private static Boolean IsAllowingUnknownDeclarations(this IBrowsingContext context)
+        internal static Boolean IsAllowingUnknownDeclarations(this IBrowsingContext context)
         {
             var parser = context.GetProvider<CssParser>();
             return parser?.Options.IsIncludingUnknownDeclarations ?? true;

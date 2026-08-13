@@ -85,7 +85,11 @@ namespace AngleSharp.Css.Dom
 
         private ICssProperty CreateNewProperty(String propertyName)
         {
-            if (_contained.Contains(propertyName))
+            // Descriptors of the rule itself are always created. Anything else is
+            // kept only when unknown declarations are included - the same switch
+            // that preserves them in ordinary style rules. Without it the
+            // declaration would be dropped silently.
+            if (_contained.Contains(propertyName) || Owner.Context.IsAllowingUnknownDeclarations())
             {
                 return Owner.Context.CreateProperty(propertyName);
             }
@@ -110,22 +114,32 @@ namespace AngleSharp.Css.Dom
         {
             if (!String.IsNullOrEmpty(valueText))
             {
-                foreach (var declaration in _declarations)
+                var property = CreateNewProperty(propertyName);
+
+                if (property is null)
                 {
-                    if (declaration.Name.Is(propertyName))
+                    return;
+                }
+
+                property.Value = valueText;
+
+                if (property.RawValue is null)
+                {
+                    // The value is not valid for this declaration; ignore it instead
+                    // of storing an empty declaration that would serialize as "name: ".
+                    return;
+                }
+
+                for (var i = 0; i < _declarations.Count; i++)
+                {
+                    if (_declarations[i].Name.Is(propertyName))
                     {
-                        declaration.Value = valueText;
+                        _declarations[i] = property;
                         return;
                     }
                 }
 
-                var property = CreateNewProperty(propertyName);
-
-                if (property != null)
-                {
-                    property.Value = valueText;
-                    _declarations.Add(property);
-                }
+                _declarations.Add(property);
             }
             else
             {
