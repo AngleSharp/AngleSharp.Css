@@ -25,6 +25,7 @@ AngleSharp.Css contains code written by (in order of first pull request / commit
 * [Sebastian Stehle](https://github.com/SebastianStehle)
 * [MaceWindu](https://github.com/MaceWindu)
 * [Serhan Apaydın](https://github.com/monoblaine)
+* [scasteran](https://github.com/scasteran-jw)
 
 Without these awesome people AngleSharp.Css could not exist. Thanks to everyone for your contributions! :beers:
 

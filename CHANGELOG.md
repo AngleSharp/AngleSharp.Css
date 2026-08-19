@@ -1,3 +1,9 @@
+# 1.0.2
+
+Released on Friday, August 21 2026.
+
+- Fixed `oklab`/`oklch` usage with plain number as first argument (#225) @scasteran-jw
+
 # 1.0.1
 
 Released on Friday, July 31 2026.

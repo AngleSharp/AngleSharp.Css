@@ -1,6 +1,6 @@
 {
   "name": "@anglesharp/css",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "preview": true,
   "description": "The doclet for the AngleSharp.Css documentation.",
   "keywords": [
