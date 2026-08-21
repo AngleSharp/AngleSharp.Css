@@ -292,7 +292,7 @@ namespace AngleSharp.Css.Parser
 
         private static CssColorValue? ParseOklab(StringSource source)
         {
-            var l = ParseLabComponent(source);
+            var l = ParseLabComponent(source, numberScale: 100.0);
             source.SkipSpacesAndComments();
             var a = ParseLabComponent(source);
             source.SkipSpacesAndComments();
@@ -324,7 +324,7 @@ namespace AngleSharp.Css.Parser
 
         private static CssColorValue? ParseOklch(StringSource source)
         {
-            var l = ParseLabComponent(source);
+            var l = ParseLabComponent(source, numberScale: 100.0);
             source.SkipSpacesAndComments();
             var c = ParseLabComponent(source);
             source.SkipSpacesAndComments();
@@ -385,7 +385,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static Double? ParseLabComponent(StringSource source)
+        private static Double? ParseLabComponent(StringSource source, Double numberScale = 1.0)
         {
             var pos = source.Index;
             var unit = source.ParseUnit();
@@ -404,7 +404,7 @@ namespace AngleSharp.Css.Parser
 
             if ((unit.Dimension == String.Empty || unit.Dimension == "%") && Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
             {
-                return value;
+                return unit.Dimension == String.Empty ? value * numberScale : value;
             }
 
             return null;

@@ -22,6 +22,13 @@ namespace AngleSharp.Css.Dom
             PropertyNames.FontStretch,
             PropertyNames.UnicodeRange,
             PropertyNames.FontVariant,
+            PropertyNames.FontDisplay,
+            PropertyNames.FontFeatureSettings,
+            PropertyNames.FontVariationSettings,
+            PropertyNames.SizeAdjust,
+            PropertyNames.AscentOverride,
+            PropertyNames.DescentOverride,
+            PropertyNames.LineGapOverride,
         };
 
         #endregion
@@ -83,8 +90,8 @@ namespace AngleSharp.Css.Dom
 
         String ICssFontFaceRule.Features
         {
-            get => String.Empty;
-            set { }
+            get => GetValue(PropertyNames.FontFeatureSettings);
+            set => SetValue(PropertyNames.FontFeatureSettings, value);
         }
 
         #endregion
@@ -101,6 +108,7 @@ namespace AngleSharp.Css.Dom
             SetValue(PropertyNames.FontStretch, newRule.Stretch);
             SetValue(PropertyNames.UnicodeRange, newRule.Range);
             SetValue(PropertyNames.FontVariant, newRule.Variant);
+            SetValue(PropertyNames.FontFeatureSettings, newRule.Features);
         }
 
         #endregion

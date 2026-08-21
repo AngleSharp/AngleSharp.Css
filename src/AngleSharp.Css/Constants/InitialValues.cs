@@ -47,6 +47,11 @@ namespace AngleSharp.Css
         public static readonly ICssValue FontSynthesisStyleDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue FontSynthesisSmallCapsDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue FontVariationSettingsDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue FontFeatureSettingsDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue SizeAdjustDecl = new CssPercentageValue(100.0);
+        public static readonly ICssValue AscentOverrideDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue DescentOverrideDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
+        public static readonly ICssValue LineGapOverrideDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue AccentColorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue AppearanceDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue CaretColorDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);

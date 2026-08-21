@@ -76,6 +76,28 @@ namespace AngleSharp.Css.Tests.Functions
         }
 
         [Test]
+        public void ParseOklabNumberToRgb_First()
+        {
+            var html = @"<p style='color: oklab(0.401 0.1143 0.045)'>Text</p>";
+            var dom = ParseDocument(html);
+            var p = dom.QuerySelector("p");
+            var s = p.GetStyle();
+            var color = s.GetColor();
+            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+        }
+
+        [Test]
+        public void ParseOklabNumberToRgb_Second()
+        {
+            var html = @"<p style='color: oklab(0.5969 0.1007 0.1191);'>Text</p>";
+            var dom = ParseDocument(html);
+            var p = dom.QuerySelector("p");
+            var s = p.GetStyle();
+            var color = s.GetColor();
+            Assert.AreEqual("rgba(198, 93, 7, 1)", color);
+        }
+
+        [Test]
         public void ParseOklabToRgb_Alpha()
         {
             var html = @"<p style='color: oklab(59.69% 0.1007 0.1191 / 0.5);'>Text</p>";
@@ -101,6 +123,28 @@ namespace AngleSharp.Css.Tests.Functions
         public void ParseOklchToRgb_Second()
         {
             var html = @"<p style='color: oklch(59.69% 0.156 49.77)'>Text</p>";
+            var dom = ParseDocument(html);
+            var p = dom.QuerySelector("p");
+            var s = p.GetStyle();
+            var color = s.GetColor();
+            Assert.AreEqual("rgba(198, 93, 7, 1)", color);
+        }
+
+        [Test]
+        public void ParseOklchNumberToRgb_First()
+        {
+            var html = @"<p style='color: oklch(0.401 0.123 21.57)'>Text</p>";
+            var dom = ParseDocument(html);
+            var p = dom.QuerySelector("p");
+            var s = p.GetStyle();
+            var color = s.GetColor();
+            Assert.AreEqual("rgba(125, 35, 40, 1)", color);
+        }
+
+        [Test]
+        public void ParseOklchNumberToRgb_Second()
+        {
+            var html = @"<p style='color: oklch(0.5969 0.156 49.77)'>Text</p>";
             var dom = ParseDocument(html);
             var p = dom.QuerySelector("p");
             var s = p.GetStyle();
