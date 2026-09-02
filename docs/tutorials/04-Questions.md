@@ -6,10 +6,10 @@ section: "AngleSharp.Css"
 
 ## How to change the color output?
 
-By default, AngleSharp.Css uses `rgba()` for the serialization of `Color`. To change this you can set
+By default, AngleSharp.Css uses `rgba()` for the serialization of `CssColorValue`. To change this you can set
 
 ```cs
-Color.UseHex = true;
+CssColorValue.UseHex = true;
 ```
 
 which will automatically use hex for all non-transparent colors. All other colors would still be represented via the `rgba()` function.
@@ -17,12 +17,24 @@ which will automatically use hex for all non-transparent colors. All other color
 So you'd get:
 
 ```cs
-Color.UseHex = true;
-var color1 = new Color(65, 12, 48);
+CssColorValue.UseHex = true;
+var color1 = new CssColorValue(65, 12, 48);
 // color1.CssText = #410C30
-var color2 = new Color(65, 12, 48, 10);
+var color2 = new CssColorValue(65, 12, 48, 10);
 // color2.CssText = rgba(65, 12, 48, 0.04)
 ```
+
+Alternatively, you can follow the serialization rules from the CSSOM specification, which omit the alpha channel of an opaque color:
+
+```cs
+CssColorValue.UseSpecSerialization = true;
+var color1 = new CssColorValue(65, 12, 48);
+// color1.CssText = rgb(65, 12, 48)
+var color2 = new CssColorValue(65, 12, 48, 10);
+// color2.CssText = rgba(65, 12, 48, 0.04)
+```
+
+Both switches are global and `UseHex` wins if both are active.
 
 ## Why is my linked stylesheet not loaded?
 
