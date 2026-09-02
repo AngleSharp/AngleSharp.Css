@@ -50,8 +50,11 @@ namespace AngleSharp.Css.Dom
 
         #region Helpers
 
-        //TODO use Validate with RenderDevice
-        private Boolean ComputeMatched(IWindow window) => false;
+        private Boolean ComputeMatched(IWindow window)
+        {
+            var device = window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
+            return _media.Validate(device);
+        }
 
         private void Resized(Object sender, Event ev)
         {
