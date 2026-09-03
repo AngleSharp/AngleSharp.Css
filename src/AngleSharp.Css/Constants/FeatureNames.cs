@@ -206,5 +206,50 @@
         /// Gets the name of the hover feature.
         /// </summary>
         public readonly static String Hover = "hover";
+
+        /// <summary>
+        /// Gets the name of the any-pointer feature.
+        /// </summary>
+        public readonly static String AnyPointer = "any-pointer";
+
+        /// <summary>
+        /// Gets the name of the any-hover feature.
+        /// </summary>
+        public readonly static String AnyHover = "any-hover";
+
+        /// <summary>
+        /// Gets the name of the prefers-color-scheme feature.
+        /// </summary>
+        public readonly static String PrefersColorScheme = "prefers-color-scheme";
+
+        /// <summary>
+        /// Gets the name of the prefers-reduced-motion feature.
+        /// </summary>
+        public readonly static String PrefersReducedMotion = "prefers-reduced-motion";
+
+        /// <summary>
+        /// Gets the name of the prefers-reduced-transparency feature.
+        /// </summary>
+        public readonly static String PrefersReducedTransparency = "prefers-reduced-transparency";
+
+        /// <summary>
+        /// Gets the name of the prefers-reduced-data feature.
+        /// </summary>
+        public readonly static String PrefersReducedData = "prefers-reduced-data";
+
+        /// <summary>
+        /// Gets the name of the prefers-contrast feature.
+        /// </summary>
+        public readonly static String PrefersContrast = "prefers-contrast";
+
+        /// <summary>
+        /// Gets the name of the forced-colors feature.
+        /// </summary>
+        public readonly static String ForcedColors = "forced-colors";
+
+        /// <summary>
+        /// Gets the name of the display-mode feature.
+        /// </summary>
+        public readonly static String DisplayMode = "display-mode";
     }
 }

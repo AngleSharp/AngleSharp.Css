@@ -7,8 +7,22 @@ namespace AngleSharp.Css.FeatureValidators
 
     sealed class HoverFeatureValidator : IFeatureValidator
     {
+        private readonly String _name;
+
+        public HoverFeatureValidator(String name)
+        {
+            _name = name;
+        }
+
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
+            var preference = renderDevice.GetPreference(_name);
+
+            if (preference is not null)
+            {
+                return PreferenceFeatureValidator.Matches(feature, preference, CssKeywords.None);
+            }
+
             var hover = HoverAbilityConverter.Convert(feature.Value);
 
             if (hover != null)

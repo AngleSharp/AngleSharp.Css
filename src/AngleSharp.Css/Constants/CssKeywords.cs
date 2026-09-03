@@ -2126,5 +2126,35 @@ namespace AngleSharp.Css
         /// The manipulation keyword for touch-action property.
         /// </summary>
         public static readonly String Manipulation = "manipulation";
+
+        /// <summary>
+        /// The no-preference keyword for the user preference media features.
+        /// </summary>
+        public static readonly String NoPreference = "no-preference";
+
+        /// <summary>
+        /// The reduce keyword for the user preference media features.
+        /// </summary>
+        public static readonly String Reduce = "reduce";
+
+        /// <summary>
+        /// The more keyword for the prefers-contrast media feature.
+        /// </summary>
+        public static readonly String More = "more";
+
+        /// <summary>
+        /// The less keyword for the prefers-contrast media feature.
+        /// </summary>
+        public static readonly String Less = "less";
+
+        /// <summary>
+        /// The custom keyword for the prefers-contrast media feature.
+        /// </summary>
+        public static readonly String Custom = "custom";
+
+        /// <summary>
+        /// The active keyword for the forced-colors media feature.
+        /// </summary>
+        public static readonly String Active = "active";
     }
 }
