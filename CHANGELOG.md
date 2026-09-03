@@ -1,3 +1,11 @@
+# 1.1.0
+
+Released on Saturday, September 5 2026
+
+- Fixed wrong media feature used for scripting (#233)
+- Added optional CSSOM compliant color seralization (#229) @lahma
+- Added media query list evaluation using `IRenderDevice` (#228) @lahma
+
 # 1.0.2
 
 Released on Friday, August 21 2026.
