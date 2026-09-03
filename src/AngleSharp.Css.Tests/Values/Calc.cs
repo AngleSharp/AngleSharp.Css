@@ -1,8 +1,13 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using NUnit.Framework;
+    using System;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -99,6 +104,48 @@ namespace AngleSharp.Css.Tests.Values
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("calc(21 + 5 - 4 * 2)", property.Value);
+        }
+
+        [Test]
+        public void CalcAdditionOfLengthsIsComputed()
+        {
+            var document = ParseDocument("<style>p { width: calc(100px + 20px) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("120px", style.GetWidth());
+        }
+
+        [Test]
+        public void CalcSubtractionOfLengthsIsComputed()
+        {
+            var document = ParseDocument("<style>p { width: calc(100px - 20px) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("80px", style.GetWidth());
+        }
+
+        [Test]
+        public void CalcAdditionOfTimesIsComputed()
+        {
+            var document = ParseDocument("<style>p { transition-duration: calc(30ms + 20ms) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("50ms", style.GetTransitionDuration());
+        }
+
+        [TestCase(typeof(CssAngleValue))]
+        [TestCase(typeof(CssFrequencyValue))]
+        [TestCase(typeof(CssIntegerValue))]
+        [TestCase(typeof(CssLengthValue))]
+        [TestCase(typeof(CssNumberValue))]
+        [TestCase(typeof(CssPercentageValue))]
+        [TestCase(typeof(CssResolutionValue))]
+        [TestCase(typeof(CssTimeValue))]
+        public void MetricValueCanBeCreatedWithAnotherValue(Type type)
+        {
+            var template = (ICssMetricValue)Activator.CreateInstance(type, 2.0);
+            var result = template.WithValue(5.0);
+
+            Assert.IsInstanceOf(type, result);
+            Assert.AreEqual(5.0, ((ICssMetricValue)result).Value);
+            Assert.AreEqual(template.UnitString, ((ICssMetricValue)result).UnitString);
         }
     }
 }

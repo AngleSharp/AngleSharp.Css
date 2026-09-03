@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Values
             if (left is ICssMetricValue x && right is ICssMetricValue y && x.UnitString == y.UnitString)
             {
                 var result = x.Value - y.Value;
-                return (ICssValue)Activator.CreateInstance(x.GetType(), result);
+                return x.WithValue(result);
             }
 
             return null;
