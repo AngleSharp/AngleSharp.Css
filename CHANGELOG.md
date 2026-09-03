@@ -7,6 +7,7 @@ Released on Saturday, September 5 2026
 - Fixed wrong rientation and scan evaluation (#232)
 - Fixed `not <known media type>` is always false (#231)
 - Added optional CSSOM compliant color seralization (#229) @lahma
+- Added user-preference media features to the render device (#235) @lahma
 - Added media query list evaluation using `IRenderDevice` (#228) @lahma
 
 # 1.0.2
