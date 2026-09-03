@@ -55,7 +55,7 @@ namespace AngleSharp.Css
             { FeatureNames.Grid, () => new GridFeatureValidator() },
             { FeatureNames.Scan, () => new ScanFeatureValidator() },
             { FeatureNames.UpdateFrequency, () => new UpdateFrequencyFeatureValidator() },
-            { FeatureNames.Scripting, () => new ScanFeatureValidator() },
+            { FeatureNames.Scripting, () => new ScriptingFeatureValidator() },
             { FeatureNames.Pointer, () => new PointerFeatureValidator() },
             { FeatureNames.Hover, () => new HoverFeatureValidator() },
         };
