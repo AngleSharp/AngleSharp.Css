@@ -98,6 +98,13 @@ namespace AngleSharp.Css.Tests
             return device => validator.Validate(feature, device);
         }
 
+        internal static Predicate<IRenderDevice> CreateBooleanValidator(String name)
+        {
+            var validator = CreateMediaFeatureValidator(name);
+            var feature = new MediaFeature(name);
+            return device => validator.Validate(feature, device);
+        }
+
         internal static CssFontFeatureValuesRule ParseFontFeatureValuesRule(String source)
         {
             ICssParser parser = new CssParser();

@@ -41,6 +41,37 @@ var config = Configuration.Default
 
 If no specific `IRenderDevice` (e.g., via creating an `DefaultRenderDevice` object) instance is created a default implementation will be set.
 
+The render device also carries the *user preferences* of the Media Queries Level 5 (and Level 4) user-preference features. `DefaultRenderDevice` implements `IRenderDevicePreferences` for that, and any custom `IRenderDevice` can implement it as well. The dictionary is keyed by the media feature name and holds the keyword that the feature should answer with:
+
+```cs
+var config = Configuration.Default
+    .WithCss()
+    .WithRenderDevice(new DefaultRenderDevice
+    {
+        Preferences = new Dictionary<String, String>
+        {
+            { "prefers-color-scheme", "dark" },
+            { "prefers-reduced-motion", "reduce" },
+        },
+    });
+```
+
+With this device `@media (prefers-color-scheme: dark)` applies in the cascade and `window.MatchMedia("(prefers-color-scheme: dark)").IsMatched` is `true`. A key that is not set leaves its media feature unknown, i.e., a query using it never matches. The keys a browser would set are:
+
+| Key | Keywords |
+| --- | --- |
+| `prefers-color-scheme` | `light`, `dark` |
+| `prefers-reduced-motion` | `no-preference`, `reduce` |
+| `prefers-reduced-transparency` | `no-preference`, `reduce` |
+| `prefers-contrast` | `no-preference`, `more`, `less`, `custom` |
+| `prefers-reduced-data` | `no-preference`, `reduce` |
+| `forced-colors` | `none`, `active` |
+| `hover`, `any-hover` | `none`, `hover` |
+| `pointer`, `any-pointer` | `none`, `coarse`, `fine` |
+| `display-mode` | `fullscreen`, `standalone`, `minimal-ui`, `browser` |
+
+The value is compared to the queried keyword case insensitively, so a keyword that is newer than this library works as well. Used without a value, e.g., `@media (prefers-reduced-motion)`, the feature evaluates in a boolean context, where `no-preference` (and `none` for `forced-colors`, `hover`, `any-hover`, `pointer` and `any-pointer`) is `false`. Without a preference `hover` and `pointer` keep answering as they did before, i.e., as a device with no input mechanism.
+
 Going a bit further it is possible to `Render` the current document. This render tree information can then be used to retrieve or other information, e.g.,
 
 ```cs

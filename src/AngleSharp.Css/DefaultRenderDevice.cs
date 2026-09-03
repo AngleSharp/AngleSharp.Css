@@ -1,11 +1,12 @@
 namespace AngleSharp.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the default render device.
     /// </summary>
-    public class DefaultRenderDevice : IRenderDevice
+    public class DefaultRenderDevice : IRenderDevice, IRenderDevicePreferences
     {
         /// <inheritdoc />
         public DeviceCategory Category
@@ -69,6 +70,13 @@ namespace AngleSharp.Css
             get;
             set;
         } = 16;
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<String, String> Preferences
+        {
+            get;
+            set;
+        } = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
 
         /// <inheritdoc />
         public Int32 Resolution
