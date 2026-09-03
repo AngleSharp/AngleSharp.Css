@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Improved evaluation of comma-separated media queries (#230)
 - Fixed wrong media feature used for scripting (#233)
 - Fixed wrong rientation and scan evaluation (#232)
 - Fixed `not <known media type>` is always false (#231)

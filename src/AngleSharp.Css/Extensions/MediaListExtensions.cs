@@ -31,7 +31,7 @@ namespace AngleSharp.Css.Dom
             return validator?.Validate(feature, device) ?? false;
         }
 
-        public static Boolean Validate(this IMediaList list, IRenderDevice device) => !list.Any(m => !m.Validate(device));
+        public static Boolean Validate(this IMediaList list, IRenderDevice device) => !list.Any() || list.Any(m => m.Validate(device));
 
         public static Boolean Validate(this ICssMedium medium, IRenderDevice device)
         {

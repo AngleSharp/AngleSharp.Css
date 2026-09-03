@@ -44,6 +44,13 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void MatchMediaWithCommaSeparatedQueriesIsMatchedWhenOneQueryMatches()
+        {
+            var window = CreateWindow(new DefaultRenderDevice { Category = DeviceCategory.Screen });
+            Assert.IsTrue(window.MatchMedia("screen, print").IsMatched);
+        }
+
+        [Test]
         public void MatchMediaScreenIsNotMatchedOnPrinterDevice()
         {
             var window = CreateWindow(new DefaultRenderDevice { Category = DeviceCategory.Printer });
