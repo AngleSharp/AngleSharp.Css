@@ -3,6 +3,7 @@
 Released on Saturday, September 5 2026
 
 - Fixed wrong media feature used for scripting (#233)
+- Fixed `not <known media type>` is always false (#231)
 - Added optional CSSOM compliant color seralization (#229) @lahma
 - Added media query list evaluation using `IRenderDevice` (#228) @lahma
 

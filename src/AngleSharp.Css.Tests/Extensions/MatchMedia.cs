@@ -107,6 +107,20 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void MatchMediaNotPrintIsMatchedOnScreenDevice()
+        {
+            var window = CreateWindow(new DefaultRenderDevice { Category = DeviceCategory.Screen });
+            Assert.IsTrue(window.MatchMedia("not print").IsMatched);
+        }
+
+        [Test]
+        public void MatchMediaNotAllIsNotMatched()
+        {
+            var window = CreateWindow(new DefaultRenderDevice { Category = DeviceCategory.Screen });
+            Assert.IsFalse(window.MatchMedia("not all").IsMatched);
+        }
+
+        [Test]
         public void MatchMediaNotMinWidthIsMatchedForNarrowViewPort()
         {
             var window = CreateWindow(new DefaultRenderDevice { ViewPortWidth = 320, ViewPortHeight = 480 });

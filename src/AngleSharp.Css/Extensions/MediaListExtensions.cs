@@ -35,7 +35,8 @@ namespace AngleSharp.Css.Dom
 
         public static Boolean Validate(this ICssMedium medium, IRenderDevice device)
         {
-            if (!String.IsNullOrEmpty(medium.Type) && KnownTypes.Contains(medium.Type) == medium.IsInverse)
+            if (!String.IsNullOrEmpty(medium.Type) &&
+                ((medium.Type.Is(CssKeywords.All) && medium.IsInverse) || (!KnownTypes.Contains(medium.Type) && !medium.IsInverse)))
             {
                 return false;
             }
