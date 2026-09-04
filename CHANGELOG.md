@@ -6,6 +6,8 @@ Released on Saturday, September 5 2026
 - Fixed wrong media feature used for scripting (#233)
 - Fixed wrong rientation and scan evaluation (#232)
 - Fixed `not <known media type>` is always false (#231)
+- Fixed `calc()` computations in AoT-compiled applications (#236) @sebastienros
+- Fixed usage of `calc()` with unitless scaling (multiplication / division)
 - Added optional CSSOM compliant color seralization (#229) @lahma
 - Added user-preference media features to the render device (#235) @lahma
 - Added media query list evaluation using `IRenderDevice` (#228) @lahma

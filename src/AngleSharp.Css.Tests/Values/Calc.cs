@@ -130,6 +130,16 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual("50ms", style.GetTransitionDuration());
         }
 
+        [TestCase("calc(2 * 10px)", "20px")]
+        [TestCase("calc(10px * 2)", "20px")]
+        [TestCase("calc(20px / 2)", "10px")]
+        public void CalcLengthWithUnitlessOperandIsComputed(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
         [TestCase(typeof(CssAngleValue))]
         [TestCase(typeof(CssFrequencyValue))]
         [TestCase(typeof(CssIntegerValue))]

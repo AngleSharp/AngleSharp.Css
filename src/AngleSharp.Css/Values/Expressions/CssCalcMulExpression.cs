@@ -63,6 +63,16 @@ namespace AngleSharp.Css.Values
                 return x.WithValue(result);
             }
 
+            if (left is ICssMetricValue unitlessLeft && right is ICssMetricValue unitRight && unitlessLeft.UnitString.Length == 0)
+            {
+                return unitRight.WithValue(unitlessLeft.Value * unitRight.Value);
+            }
+
+            if (left is ICssMetricValue unitLeft && right is ICssMetricValue unitlessRight && unitlessRight.UnitString.Length == 0)
+            {
+                return unitLeft.WithValue(unitLeft.Value * unitlessRight.Value);
+            }
+
             return null;
         }
 
