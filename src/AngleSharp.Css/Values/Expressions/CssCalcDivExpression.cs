@@ -54,8 +54,8 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var left = _left.Compute(context);
-            var right = _right.Compute(context);
+            var left = ComputeValue(_left, context);
+            var right = ComputeValue(_right, context);
 
             if (left is ICssMetricValue x && right is ICssMetricValue y && x.UnitString == y.UnitString)
             {
@@ -69,6 +69,11 @@ namespace AngleSharp.Css.Values
             }
 
             return null;
+        }
+
+        private static ICssValue ComputeValue(ICssValue value, ICssComputeContext context)
+        {
+            return value is CssLengthValue length && length.Type == CssLengthValue.Unit.None ? value : value.Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
