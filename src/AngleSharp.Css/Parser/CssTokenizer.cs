@@ -8,6 +8,7 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
     using System.Globalization;
+    using System.Text;
 
     /// <summary>
     /// The CSS tokenizer.
@@ -74,6 +75,12 @@ namespace AngleSharp.Css.Parser
                     break;
                 }
 
+                if ((current == 'u' || current == 'U') && !IsIdentContinuation(previous) && TryAppendUrl(sb, ref current, ref previous))
+                {
+                    trailingWhitespace = 0;
+                    continue;
+                }
+
                 if ((current == Symbols.DoubleQuote || current == Symbols.SingleQuote) && previous != Symbols.ReverseSolidus)
                 {
                     trailingWhitespace = 0;
@@ -135,6 +142,80 @@ namespace AngleSharp.Css.Parser
 
             Back();
             return sb.ToPool();
+        }
+
+        /// <summary>
+        /// Checks if the given character would continue an identifier, i.e. if a
+        /// following "url(" belongs to a longer function name such as "myurl(".
+        /// </summary>
+        private static Boolean IsIdentContinuation(Char current) =>
+            current != Symbols.EndOfFile && (current.IsName() || current == Symbols.ReverseSolidus);
+
+        /// <summary>
+        /// Appends a url token starting at the current position, if there is one.
+        /// The contents of an unquoted url token may contain ';', '{' and '}',
+        /// which must not be mistaken for the end of the surrounding value.
+        /// </summary>
+        private Boolean TryAppendUrl(StringBuilder sb, ref Char current, ref Char previous)
+        {
+            var start = Position;
+            var r = GetNext();
+            var l = (r == 'r' || r == 'R') ? GetNext() : Symbols.EndOfFile;
+            var open = (l == 'l' || l == 'L') ? GetNext() : Symbols.EndOfFile;
+
+            if (open != Symbols.RoundBracketOpen)
+            {
+                Back(Position - start);
+                return false;
+            }
+
+            sb.Append(current).Append(r).Append(l).Append(open);
+            previous = open;
+            current = GetNext();
+
+            while (current.IsSpaceCharacter())
+            {
+                sb.Append(current);
+                previous = current;
+                current = GetNext();
+            }
+
+            // A quoted url() is an ordinary function token; the string is handled by
+            // the caller. Only the unquoted form treats ';', '{' and '}' as content.
+            if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote)
+            {
+                return true;
+            }
+
+            while (current != Symbols.EndOfFile)
+            {
+                sb.Append(current);
+
+                if (current == Symbols.RoundBracketClose)
+                {
+                    previous = current;
+                    current = GetNext();
+                    return true;
+                }
+
+                if (current == Symbols.ReverseSolidus)
+                {
+                    previous = current;
+                    current = GetNext();
+
+                    if (current == Symbols.EndOfFile)
+                    {
+                        break;
+                    }
+
+                    sb.Append(current);
+                }
+
+                previous = current;
+                current = GetNext();
+            }
+
+            return true;
         }
 
         internal void RaiseErrorOccurred(CssParseError error, TextPosition position)
