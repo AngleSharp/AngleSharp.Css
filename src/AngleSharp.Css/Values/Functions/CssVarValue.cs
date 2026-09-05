@@ -79,11 +79,12 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var text = new StringBuilder();
+                var text = StringBuilderPool.Obtain();
                 var value = this;
                 var depth = 0;
 
-                while (true)
+                // use a max-depth of 16384 to avoid stack overflows in case of circular references
+                while (depth < 16384)
                 {
                     text.Append(FunctionNames.Var).Append('(').Append(value._variableName);
                     depth++;
@@ -101,8 +102,10 @@ namespace AngleSharp.Css.Values
                         text.Append(value._defaultValue.CssText);
                     }
 
-                    return text.Append(')', depth).ToString();
+                    break;
                 }
+
+                return text.Append(')', depth).ToPool();
             }
         }
 
