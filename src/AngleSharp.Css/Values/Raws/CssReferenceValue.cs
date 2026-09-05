@@ -18,6 +18,7 @@ namespace AngleSharp.Css.Values
         private readonly TextRange[] _ranges;
         private readonly CssVarValue[] _references;
         private readonly CssVariableValue _tokens;
+        private readonly CssVarValue[] _parsedReferences;
 
         #endregion
 
@@ -33,15 +34,12 @@ namespace AngleSharp.Css.Values
             _value = value;
             _ranges = references.Select(m => m.Item1).ToArray();
             _references = references.Select(m => m.Item2).ToArray();
-            _tokens = new CssVariableValue(value);
         }
 
-        internal CssReferenceValue(CssVariableValue value)
+        internal CssReferenceValue(CssVariableValue value, IEnumerable<Tuple<TextRange, CssVarValue>> references)
+            : this(value.Text, references)
         {
-            var references = value.GetReferences().ToArray();
-            _value = value.Text;
-            _ranges = references.Select(m => m.Item1).ToArray();
-            _references = references.Select(m => m.Item2).ToArray();
+            _parsedReferences = (CssVarValue[])_references.Clone();
             _tokens = value;
         }
 
@@ -75,8 +73,67 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
+            foreach (var reference in _references)
+            {
+                var result = reference.Compute(context);
+
+                if (result is not null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        internal ICssValue ComputeSubstituted(ICssComputeContext context)
+        {
+            // Direct value computation retains the public References contract.
+            // Only unmodified parser-owned values use token-stream substitution
+            // at the property computation boundary.
+            if (HasCustomReferences)
+            {
+                return ((ICssValue)this).Compute(context);
+            }
+
             var text = _tokens.Substitute(context.Resolve);
             return text is null ? null : ((ICssValue)new CssAnyValue(text)).Compute(context);
+        }
+
+        internal IEnumerable<CssVariableValue> GetVariableValues()
+        {
+            if (HasCustomReferences)
+            {
+                foreach (var reference in _references)
+                {
+                    yield return new CssVariableValue(reference.CssText);
+                }
+            }
+            else
+            {
+                yield return _tokens;
+            }
+        }
+
+        private Boolean HasCustomReferences
+        {
+            get
+            {
+                if (_tokens is null)
+                {
+                    return true;
+                }
+
+                for (var i = 0; i < _references.Length; i++)
+                {
+                    if (!Object.ReferenceEquals(_references[i], _parsedReferences[i]))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);

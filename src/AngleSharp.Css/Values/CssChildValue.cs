@@ -93,7 +93,19 @@ namespace AngleSharp.Css.Values
 
             if (shorthandName is not null && parent is ICssRawValue)
             {
-                var text = new CssVariableValue(parent.CssText).Substitute(context.Resolve);
+                var values = parent is CssReferenceValue reference ? reference.GetVariableValues() :
+                    new[] { new CssVariableValue(parent.CssText) };
+                String text = null;
+
+                foreach (var candidate in values)
+                {
+                    text = candidate.Substitute(context.Resolve);
+
+                    if (text is not null)
+                    {
+                        break;
+                    }
+                }
 
                 if (text is null)
                 {

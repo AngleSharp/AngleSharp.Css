@@ -79,7 +79,7 @@ namespace AngleSharp.Css.Values
 
                     if (valid)
                     {
-                        _references.Add(i, new Reference(_tokens[name].Data, name, end, separator < end ? separator + 1 : -1));
+                        _references.Add(i, new Reference(_tokens[name].Data, end, separator < end ? separator + 1 : -1));
                     }
                 }
             }
@@ -109,23 +109,6 @@ namespace AngleSharp.Css.Values
                 var index = SkipTrivia(0);
                 return index < _tokens.Count && _tokens[index].Type == CssTokenType.Ident &&
                     SkipTrivia(index + 1) == _tokens.Count ? _tokens[index].Data : null;
-            }
-        }
-
-        public IEnumerable<Tuple<TextRange, CssVarValue>> GetReferences()
-        {
-            for (var i = 0; i < _tokens.Count; i++)
-            {
-                if (_references.TryGetValue(i, out var reference))
-                {
-                    var fallback = reference.Fallback >= 0 ?
-                        new CssAnyValue(Text.Substring(Offset(reference.Fallback - 1) + 1,
-                            Offset(reference.End) - Offset(reference.Fallback - 1) - 1).Trim()) : null;
-                    var start = new TextPosition(0, 0, Offset(reference.NameIndex));
-                    var end = new TextPosition(0, 0, EndOffset(reference.End));
-                    yield return Tuple.Create(new TextRange(start, end), new CssVarValue(reference.Name, fallback));
-                    i = reference.End;
-                }
             }
         }
 
@@ -262,16 +245,14 @@ namespace AngleSharp.Css.Values
 
         private readonly struct Reference
         {
-            public Reference(String name, Int32 nameIndex, Int32 end, Int32 fallback)
+            public Reference(String name, Int32 end, Int32 fallback)
             {
                 Name = name;
-                NameIndex = nameIndex;
                 End = end;
                 Fallback = fallback;
             }
 
             public String Name { get; }
-            public Int32 NameIndex { get; }
             public Int32 End { get; }
             public Int32 Fallback { get; }
         }

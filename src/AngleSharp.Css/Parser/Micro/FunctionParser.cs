@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents extensions to for general CSS functions.
@@ -36,14 +37,54 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssReferenceValue ParseVars(this StringSource source)
         {
-            if (source.Content.IndexOf(FunctionNames.Var, StringComparison.OrdinalIgnoreCase) < 0 &&
-                source.Content.IndexOf('\\') < 0)
+            var index = source.Index;
+            var start = index;
+            var length = FunctionNames.Var.Length;
+            var refs = default(List<Tuple<TextRange, CssVarValue>>);
+
+            while (!source.IsDone)
             {
-                return null;
+                index = source.Content.IndexOf(FunctionNames.Var, index, StringComparison.OrdinalIgnoreCase) + length;
+
+                if (index >= length)
+                {
+                    source.NextTo(index);
+                    var c = source.SkipSpacesAndComments();
+
+                    if (c == Symbols.RoundBracketOpen)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        var s = new TextPosition(0, 0, source.Index);
+                        var reference = ParseVar(source);
+
+                        if (reference == null)
+                        {
+                            refs = null;
+                            break;
+                        }
+
+                        if (refs == null)
+                        {
+                            refs = new List<Tuple<TextRange, CssVarValue>>();
+                        }
+
+                        var e = new TextPosition(0, 0, source.Index);
+                        refs.Add(Tuple.Create(new TextRange(s, e), reference));
+                        continue;
+                    }
+                }
+
+                break;
             }
 
-            var value = new CssVariableValue(source.Content);
-            return value.IsValid && value.HasReferences ? new CssReferenceValue(value) : null;
+            source.BackTo(start);
+
+            if (refs != null)
+            {
+                return new CssReferenceValue(new CssVariableValue(source.Content), refs);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -75,9 +116,45 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseVarFallback(this StringSource source)
         {
-            var content = source.TakeUntilClosed();
-            source.SkipCurrentAndSpaces();
-            return new CssAnyValue(content);
+            var names = new Stack<String>();
+            ICssValue fallback = null;
+            var readFallback = true;
+
+            while (source.IsFunction(FunctionNames.Var))
+            {
+                var name = source.ParseCustomIdent();
+                var separator = source.SkipGetSkip();
+
+                if (name is null || (separator != Symbols.Comma && separator != Symbols.RoundBracketClose))
+                {
+                    readFallback = false;
+                    break;
+                }
+
+                names.Push(name);
+
+                if (separator == Symbols.RoundBracketClose)
+                {
+                    readFallback = false;
+                    break;
+                }
+
+                source.SkipSpacesAndComments();
+            }
+
+            if (readFallback)
+            {
+                var content = source.TakeUntilClosed();
+                source.SkipCurrentAndSpaces();
+                fallback = new CssAnyValue(content);
+            }
+
+            while (names.Count > 0)
+            {
+                fallback = new CssVarValue(names.Pop(), fallback);
+            }
+
+            return fallback;
         }
 
         /// <summary>

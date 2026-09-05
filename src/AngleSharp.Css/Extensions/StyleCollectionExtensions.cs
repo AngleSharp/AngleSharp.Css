@@ -44,7 +44,7 @@ namespace AngleSharp.Css
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
         public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
-            => GetElementDeclarations(styles, element, pseudoSelector, true);
+            => GetComputedDeclarations(styles, element, pseudoSelector);
 
         /// <summary>
         /// Gets the declarations for the given element in the context of
@@ -55,9 +55,27 @@ namespace AngleSharp.Css
         /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
         public static ICssStyleDeclaration GetDeclarations(this IStyleCollection styles, IElement element, String? pseudoSelector = null)
-            => GetElementDeclarations(styles, element, pseudoSelector, false);
+        {
+            var ctx = element.Owner?.Context;
+            var declarations = new CssStyleDeclaration(ctx);
+            var ancestors = element.GetAncestors().OfType<IElement>();
 
-        private static ICssStyleDeclaration GetElementDeclarations(IStyleCollection styles, IElement element, String? pseudoSelector, Boolean compute)
+            if (!String.IsNullOrEmpty(pseudoSelector))
+            {
+                element = element.Pseudo(pseudoSelector!.TrimStart(':')) ?? element;
+            }
+
+            declarations.SetDeclarations(styles.ComputeExplicitStyle(element));
+
+            foreach (var ancestor in ancestors)
+            {
+                declarations.UpdateDeclarations(styles.ComputeExplicitStyle(ancestor));
+            }
+
+            return declarations;
+        }
+
+        private static ICssStyleDeclaration GetComputedDeclarations(IStyleCollection styles, IElement element, String? pseudoSelector)
         {
             var ctx = element.Owner?.Context;
             ICssStyleDeclaration? parent = null;
@@ -84,8 +102,7 @@ namespace AngleSharp.Css
             {
                 var explicitStyle = styles.ComputeExplicitStyle(nodes.Pop());
                 var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parent);
-                var declarations = explicitStyle.Cascade(parent!, context);
-                parent = compute ? declarations.Compute(context) : declarations;
+                parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context);
             }
 
             return parent!;
@@ -101,9 +118,9 @@ namespace AngleSharp.Css
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static ICssStyleDeclaration ComputeCascadedStyle(this IStyleCollection styles, IElement element, ICssStyleDeclaration parent)
         {
-            var explicitStyle = styles.ComputeExplicitStyle(element);
-            var context = new CssComputeContext(styles.Device, element.Owner?.Context, explicitStyle, parent);
-            return explicitStyle.Cascade(parent, context);
+            var declarations = (CssStyleDeclaration)styles.ComputeExplicitStyle(element);
+            declarations.UpdateDeclarations(parent);
+            return declarations;
         }
 
         /// <summary>
@@ -147,7 +164,7 @@ namespace AngleSharp.Css
             var ctx = element.Owner?.Context;
             var explicitStyle = styles.ComputeExplicitStyle(element);
             var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parentComputedStyle);
-            return explicitStyle.Cascade(parentComputedStyle, context).Compute(context);
+            return explicitStyle.PrepareComputedDeclarations(parentComputedStyle, context).Compute(context);
         }
 
         #endregion

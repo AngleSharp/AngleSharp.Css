@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Represents a CSS var replacement.
@@ -78,18 +79,30 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                var fn = FunctionNames.Var;
-                var args = new List<String>
-                {
-                    _variableName,
-                };
+                var text = new StringBuilder();
+                var value = this;
+                var depth = 0;
 
-                if (_defaultValue is not null)
+                while (true)
                 {
-                    args.Add(_defaultValue.CssText);
+                    text.Append(FunctionNames.Var).Append('(').Append(value._variableName);
+                    depth++;
+
+                    if (value._defaultValue is not null)
+                    {
+                        text.Append(", ");
+
+                        if (value._defaultValue is CssVarValue nested)
+                        {
+                            value = nested;
+                            continue;
+                        }
+
+                        text.Append(value._defaultValue.CssText);
+                    }
+
+                    return text.Append(')', depth).ToString();
                 }
-
-                return fn.CssFunction(String.Join(", ", args));
             }
         }
 
@@ -121,20 +134,25 @@ namespace AngleSharp.Css.Values
         /// <returns>The resolved value or null.</returns>
         public ICssValue Compute(ICssComputeContext context)
         {
-            var value = context.Resolve(_variableName);
+            var reference = this;
 
-            if (value is not null)
+            while (true)
             {
-                return value.Compute(context);
-            }
+                var value = context.Resolve(reference._variableName)?.Compute(context);
 
-            if (_defaultValue is null)
-            {
-                return null;
-            }
+                if (value is not null)
+                {
+                    return value;
+                }
 
-            var text = new CssVariableValue(_defaultValue.CssText).Substitute(context.Resolve);
-            return text is null ? null : ((ICssValue)new CssAnyValue(text)).Compute(context);
+                if (reference._defaultValue is CssVarValue nested)
+                {
+                    reference = nested;
+                    continue;
+                }
+
+                return reference._defaultValue?.Compute(context);
+            }
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssVarValue value && Equals(value);

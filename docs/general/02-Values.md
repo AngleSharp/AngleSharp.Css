@@ -65,7 +65,12 @@ Console.WriteLine($"Computed font-size: {computedFontSize}");
 
 ## Custom Properties At Computed-Value Time
 
-Custom properties are resolved for each element before they are inherited. An inherited
+Custom properties are resolved only during style computation, for each element before
+they are inherited. `GetDeclarations`, `ComputeExplicitStyle`, `ComputeCascadedStyle`,
+and render-tree `SpecifiedStyle` retain the original variable expressions. Computed
+results are separate declarations and do not rewrite stylesheet or inline values.
+
+During computation, an inherited
 alias keeps the parent's resolved value; changing its dependencies on a child does not
 resolve that alias again. A declaration explicitly matching both elements is resolved
 locally on each element.
@@ -78,7 +83,11 @@ or initial value, not an earlier declaration from the cascade. A valid custom-pr
 value that does not match the consumer's grammar does not trigger the `var()` fallback.
 
 Dependency analysis and fallback substitution are iterative, including deeply nested
-fallbacks. Expanded values are limited to 1,048,576 UTF-16 code units (including token
+fallbacks. The public parser still represents nested `var()` fallbacks as `CssVarValue`
+objects, and direct `CssReferenceValue.Compute` calls honor the supplied `References`
+array, including subsequent changes to its entries.
+
+Expanded values during style computation are limited to 1,048,576 UTF-16 code units (including token
 separators) to bound exponential substitution; an expansion exceeding this limit is
 invalid at computed-value time. Property-specific parsing, unit conversion, and layout
 support still determine which resolved values can be used by a consuming property.

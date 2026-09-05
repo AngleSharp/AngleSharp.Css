@@ -114,7 +114,7 @@ namespace AngleSharp.Css.Dom
             return computedStyle;
         }
 
-        internal static CssStyleDeclaration Cascade(this ICssStyleDeclaration style, ICssStyleDeclaration parent, ICssComputeContext context)
+        internal static CssStyleDeclaration PrepareComputedDeclarations(this ICssStyleDeclaration style, ICssStyleDeclaration parent, ICssComputeContext context)
         {
             var declarations = new CssStyleDeclaration(context.Context);
 

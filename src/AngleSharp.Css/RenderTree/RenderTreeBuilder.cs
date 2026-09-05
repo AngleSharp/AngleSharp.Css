@@ -84,10 +84,16 @@ namespace AngleSharp.Css.RenderTree
         {
             var explicitStyle = collection.ComputeExplicitStyle(element);
 
-            var specifiedContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentSpecifiedStyle);
-            var specifiedStyle = explicitStyle.Cascade(parentSpecifiedStyle!, specifiedContext);
+            var specifiedStyle = new CssStyleDeclaration(_context);
+            specifiedStyle.SetDeclarations(explicitStyle);
+
+            if (parentSpecifiedStyle is not null)
+            {
+                specifiedStyle.UpdateDeclarations(parentSpecifiedStyle);
+            }
+
             var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);
-            var computedStyle = explicitStyle.Cascade(parentComputedStyle!, computeContext).Compute(computeContext);
+            var computedStyle = explicitStyle.PrepareComputedDeclarations(parentComputedStyle!, computeContext).Compute(computeContext);
             var children = new List<IRenderNode>();
             var node = new ElementRenderNode(element, parent, children, specifiedStyle, computedStyle);
 

@@ -3,6 +3,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     sealed class CssCustomPropertyResolver
     {
@@ -35,8 +36,10 @@ namespace AngleSharp.Css.Values
                         continue;
                     }
 
-                    var tokens = value is null || value is CssInvalidValue ? null : new CssVariableValue(value.CssText);
-                    var keyword = tokens?.Keyword;
+                    var values = value is CssReferenceValue references ? references.GetVariableValues().ToArray() :
+                        value is null || value is CssInvalidValue ? Array.Empty<CssVariableValue>() :
+                        new[] { new CssVariableValue(value.CssText) };
+                    var keyword = values.Length == 1 ? values[0].Keyword : null;
 
                     if (String.Equals(keyword, CssKeywords.Inherit, StringComparison.OrdinalIgnoreCase) ||
                         String.Equals(keyword, CssKeywords.Unset, StringComparison.OrdinalIgnoreCase))
@@ -46,20 +49,28 @@ namespace AngleSharp.Css.Values
 
                     _values[property.Name] = null;
 
-                    if (tokens is not null && tokens.IsValid && !String.Equals(keyword, CssKeywords.Initial, StringComparison.OrdinalIgnoreCase))
+                    if (values.Length > 0 && !String.Equals(keyword, CssKeywords.Initial, StringComparison.OrdinalIgnoreCase))
                     {
-                        nodes[property.Name] = new Node(property.Name, tokens);
+                        nodes[property.Name] = new Node(property.Name, values);
                     }
                 }
             }
 
             foreach (var node in nodes.Values)
             {
-                foreach (var name in node.Value.Dependencies)
+                foreach (var value in node.Values)
                 {
-                    if (nodes.TryGetValue(name, out var dependency))
+                    if (!value.IsValid)
                     {
-                        node.Dependencies.Add(dependency);
+                        continue;
+                    }
+
+                    foreach (var name in value.Dependencies)
+                    {
+                        if (nodes.TryGetValue(name, out var dependency))
+                        {
+                            node.Dependencies.Add(dependency);
+                        }
                     }
                 }
             }
@@ -123,8 +134,16 @@ namespace AngleSharp.Css.Values
 
                         if (component.Count == 1 && !node.Dependencies.Contains(node))
                         {
-                            var text = node.Value.Substitute(Resolve);
-                            _values[node.Name] = text is null ? null : new CssAnyValue(text, isResolved: true);
+                            foreach (var value in node.Values)
+                            {
+                                var text = value.Substitute(Resolve);
+
+                                if (text is not null)
+                                {
+                                    _values[node.Name] = new CssAnyValue(text, isResolved: true);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -143,14 +162,14 @@ namespace AngleSharp.Css.Values
 
         private sealed class Node
         {
-            public Node(String name, CssVariableValue value)
+            public Node(String name, CssVariableValue[] values)
             {
                 Name = name;
-                Value = value;
+                Values = values;
             }
 
             public String Name { get; }
-            public CssVariableValue Value { get; }
+            public CssVariableValue[] Values { get; }
             public List<Node> Dependencies { get; } = new();
             public Int32 Index { get; set; } = -1;
             public Int32 LowLink { get; set; }

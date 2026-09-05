@@ -64,7 +64,7 @@ namespace AngleSharp.Css.Values
                 return source.IsDone ? value?.Compute(context) : null;
             }
 
-            return this;
+            return IsResolved ? this : null;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssAnyValue o && _text == o.CssText;
