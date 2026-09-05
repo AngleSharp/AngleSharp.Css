@@ -209,5 +209,57 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.AreEqual("not (display: flex)", supports.ConditionText);
             Assert.IsFalse(supports.Condition.Check(device));
         }
+
+        [Test]
+        public void SupportsUppercaseAndKeywordRule()
+        {
+            var source = @"@supports ((background-color: red) AND (color: blue)) { }";
+            var sheet = ParseStyleSheet(source);
+            var device = new DefaultRenderDevice();
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
+            Assert.AreEqual("((background-color: red) and (color: blue))", supports.ConditionText);
+            Assert.IsTrue(supports.Condition.Check(device));
+        }
+
+        [Test]
+        public void SupportsUppercaseOrKeywordRule()
+        {
+            var source = @"@supports ((background-transparency: half) OR (color: blue)) { }";
+            var sheet = ParseStyleSheet(source);
+            var device = new DefaultRenderDevice();
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
+            Assert.AreEqual("((background-transparency: half) or (color: blue))", supports.ConditionText);
+            Assert.IsTrue(supports.Condition.Check(device));
+        }
+
+        [Test]
+        public void SupportsMixedCaseAndKeywordChainRule()
+        {
+            var source = @"@supports ((background-color: red) And (color: blue) aND (width: 10px)) { }";
+            var sheet = ParseStyleSheet(source);
+            var device = new DefaultRenderDevice();
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
+            Assert.AreEqual("((background-color: red) and (color: blue) and (width: 10px))", supports.ConditionText);
+            Assert.IsTrue(supports.Condition.Check(device));
+        }
+
+        [Test]
+        public void SupportsUppercaseAndKeywordKeepsInnerRules()
+        {
+            var source = @"@supports (color: red) AND (display: flex) {
+  body { width: 100%; }
+}";
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
+            Assert.AreEqual(1, supports.Rules.Length);
+        }
     }
 }
