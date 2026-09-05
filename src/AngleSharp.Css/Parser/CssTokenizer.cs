@@ -1087,7 +1087,7 @@ namespace AngleSharp.Css.Parser
             {
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(CssParseError.EOF);
-                    return NewUrl(String.Empty, bad: true);
+                    return NewUrl(String.Empty, bad: false);
 
                 case Symbols.DoubleQuote:
                     return UrlDQ();
@@ -1217,7 +1217,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (current == Symbols.EndOfFile)
                 {
-                    return NewUrl(FlushBuffer(), bad: true);
+                    return NewUrl(FlushBuffer(), bad: false);
                 }
                 else if (current is Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
@@ -1272,50 +1272,26 @@ namespace AngleSharp.Css.Parser
         private CssToken UrlBad()
         {
             var current = Current;
-            var curly = 0;
-            var round = 1;
 
+            // The remnants of a bad url are consumed so that parsing can resume
+            // after it, but they are not part of any value - they are discarded.
             while (current != Symbols.EndOfFile)
             {
-                if (current == Symbols.Semicolon)
+                if (current == Symbols.RoundBracketClose)
                 {
-                    Back();
-                    return NewUrl(FlushBuffer(), true);
-                }
-                else if (current == Symbols.CurlyBracketClose && --curly == -1)
-                {
-                    Back();
-                    return NewUrl(FlushBuffer(), true);
-                }
-                else if (current == Symbols.RoundBracketClose && --round == 0)
-                {
-                    StringBuffer.Append(current);
-                    return NewUrl(FlushBuffer(), true);
+                    break;
                 }
                 else if (IsValidEscape(current))
                 {
                     current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
-                }
-                else
-                {
-                    if (current == Symbols.RoundBracketOpen)
-                    {
-                        ++round;
-                    }
-                    else if (curly == Symbols.CurlyBracketOpen)
-                    {
-                        ++curly;
-                    }
-
-                    StringBuffer.Append(current);
+                    ConsumeEscape(current);
                 }
 
                 current = GetNext();
             }
 
-            RaiseErrorOccurred(CssParseError.EOF);
-            return NewUrl(FlushBuffer(), bad: true);
+            FlushBuffer();
+            return NewUrl(String.Empty, bad: true);
         }
 
         /// <summary>
@@ -1487,7 +1463,7 @@ namespace AngleSharp.Css.Parser
 
         private CssToken NewUrl(String data, Boolean bad = false)
         {
-            return new CssToken(CssTokenType.Url, data) { Position = _position };
+            return new CssToken(bad ? CssTokenType.BadUrl : CssTokenType.Url, data) { Position = _position };
         }
 
         private CssToken NewRange(String data)

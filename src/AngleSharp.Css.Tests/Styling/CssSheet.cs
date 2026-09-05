@@ -875,6 +875,118 @@ h1 { color: blue }");
         }
 
         [Test]
+        public void CssSheetWithEmptyUrlKeepsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(); color: red }");
+            var rule = sheet.Rules[0] as CssStyleRule;
+            Assert.AreEqual(2, rule.Style.Length);
+            var decl = rule.Style as ICssStyleDeclaration;
+            Assert.AreEqual("url(\"\")", decl.GetBackgroundImage());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", decl.GetColor());
+        }
+
+        [Test]
+        public void CssSheetWithEmptyUrlContainingSpacesKeepsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(   ); color: red }");
+            var decl = (sheet.Rules[0] as CssStyleRule).Style as ICssStyleDeclaration;
+            Assert.AreEqual("url(\"\")", decl.GetBackgroundImage());
+        }
+
+        [Test]
+        public void CssSheetWithWhitespaceInsideUnquotedUrlDropsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(a b); color: red }");
+            var rule = sheet.Rules[0] as CssStyleRule;
+            Assert.AreEqual(1, rule.Style.Length);
+            var decl = rule.Style as ICssStyleDeclaration;
+            Assert.AreEqual("rgba(255, 0, 0, 1)", decl.GetColor());
+        }
+
+        [Test]
+        public void CssSheetWithParenthesisInsideUnquotedUrlDropsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(a(b); color: red }");
+            var rule = sheet.Rules[0] as CssStyleRule;
+            Assert.AreEqual(1, rule.Style.Length);
+            var decl = rule.Style as ICssStyleDeclaration;
+            Assert.AreEqual("rgba(255, 0, 0, 1)", decl.GetColor());
+        }
+
+        [Test]
+        public void CssSheetWithQuoteInsideUnquotedUrlDropsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(a\"b); color: red }");
+            var rule = sheet.Rules[0] as CssStyleRule;
+            Assert.AreEqual(1, rule.Style.Length);
+            var decl = rule.Style as ICssStyleDeclaration;
+            Assert.AreEqual("rgba(255, 0, 0, 1)", decl.GetColor());
+        }
+
+        [Test]
+        public void CssSheetWithBadUrlInShorthandDropsTheWholeDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background: url(a b) red }");
+            var rule = sheet.Rules[0] as CssStyleRule;
+            Assert.AreEqual(0, rule.Style.Length);
+        }
+
+        [Test]
+        public void CssSheetWithBadUrlDoesNotAffectFollowingRules()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(a b) } b { color: red }");
+            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.AreEqual(0, (sheet.Rules[0] as CssStyleRule).Style.Length);
+            var decl = (sheet.Rules[1] as CssStyleRule).Style as ICssStyleDeclaration;
+            Assert.AreEqual("rgba(255, 0, 0, 1)", decl.GetColor());
+        }
+
+        [Test]
+        public void CssSheetWithUnterminatedUnquotedUrlKeepsTheDeclaration()
+        {
+            var sheet = ParseStyleSheet("a { background-image: url(abc");
+            var decl = (sheet.Rules[0] as CssStyleRule).Style as ICssStyleDeclaration;
+            Assert.AreEqual("url(\"abc\")", decl.GetBackgroundImage());
+        }
+
+        [Test]
+        public void CssSheetImportWithBadUrlIsDropped()
+        {
+            var sheet = ParseStyleSheet("@import url(a b); a { color: red }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
+        }
+
+        [Test]
+        public void CssSheetImportWithUnterminatedUrlIsKept()
+        {
+            var sheet = ParseStyleSheet("@import url(abc");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var import = sheet.Rules[0] as CssImportRule;
+            Assert.IsNotNull(import);
+            Assert.AreEqual("abc", import.Href);
+        }
+
+        [Test]
+        public void CssSheetNamespaceWithBadUrlIsDropped()
+        {
+            var sheet = ParseStyleSheet("@namespace x url(a b); a { color: red }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
+        }
+
+        [Test]
+        public void CssSheetNamespaceAcceptsAStringUri()
+        {
+            var sheet = ParseStyleSheet("@namespace x \"http://foo\"; a { color: red }");
+            Assert.AreEqual(2, sheet.Rules.Length);
+            var ns = sheet.Rules[0] as CssNamespaceRule;
+            Assert.IsNotNull(ns);
+            Assert.AreEqual("x", ns.Prefix);
+            Assert.AreEqual("http://foo", ns.NamespaceUri);
+        }
+
+        [Test]
         public void CssSheetFromStreamWeirdBytesLeadingToInfiniteLoop()
         {
             var bs = new Byte[8];

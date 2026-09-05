@@ -73,6 +73,7 @@ namespace AngleSharp.Css.Parser
 
                 case CssTokenType.String:
                 case CssTokenType.Url:
+                case CssTokenType.BadUrl:
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
@@ -267,11 +268,14 @@ namespace AngleSharp.Css.Parser
             rule.Prefix = GetRuleName(ref token);
             CollectTrivia(rule.Owner, ref token);
 
-            if (token.Type == CssTokenType.Url)
+            if (!token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                rule.NamespaceUri = token.Data;
+                RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
+                JumpToEnd(ref token);
+                return null;
             }
 
+            rule.NamespaceUri = token.Data;
             JumpToEnd(ref token);
             return rule;
         }
