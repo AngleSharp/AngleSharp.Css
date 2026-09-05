@@ -11,9 +11,24 @@ namespace AngleSharp.Css.Tests.Values
     public class ErrorHandlingTests
     {
         [Test]
-        public void ParseInlineStyleWithToleratedInvalidValueShouldReturnThatValue()
+        public void ParseInlineStyleWithBadUnquotedUrlShouldDropThatDeclaration()
         {
+            // An unquoted url() may not contain '(' - that makes it a bad url, and
+            // the whole declaration is dropped rather than guessing at its value.
             var source = "<div style=\"background-image: url(javascript:alert(1))\"></div>";
+            var document = ParseDocument(source, new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true
+            });
+            var div = document.QuerySelector<IHtmlElement>("div");
+            Assert.AreEqual(0, div.GetStyle().Length);
+        }
+
+        [Test]
+        public void ParseInlineStyleWithQuotedUrlShouldReturnThatValue()
+        {
+            var source = "<div style=\"background-image: url('javascript:alert(1)')\"></div>";
             var document = ParseDocument(source, new CssParserOptions
             {
                 IsIncludingUnknownDeclarations = true,

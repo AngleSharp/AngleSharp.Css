@@ -16,18 +16,29 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssUrlValue ParseUri(this StringSource source)
         {
+            var start = source.Index;
+
             if (source.IsFunction(FunctionNames.Url))
             {
                 var current = source.SkipSpacesAndComments();
 
-                return current switch
+                var result = current switch
                 {
                     Symbols.DoubleQuote => DoubleQuoted(source),
                     Symbols.SingleQuote => SingleQuoted(source),
-                    Symbols.RoundBracketClose => new CssUrlValue(String.Empty),
+                    Symbols.RoundBracketClose => Empty(source),
                     Symbols.EndOfFile => new CssUrlValue(String.Empty),
                     _ => Unquoted(source),
                 };
+
+                if (result is null)
+                {
+                    // A bad url yields no value at all. Nothing is consumed either, so
+                    // that the caller sees the url() as unparsed instead of as absent.
+                    source.BackTo(start);
+                }
+
+                return result;
             }
 
             return null;
@@ -43,7 +54,7 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsLineBreak())
                 {
-                    return Bad(source, buffer);
+                    return Bad(buffer);
                 }
                 else if (Symbols.EndOfFile == current)
                 {
@@ -89,7 +100,7 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsLineBreak())
                 {
-                    return Bad(source, buffer);
+                    return Bad(buffer);
                 }
                 else if (current == Symbols.EndOfFile)
                 {
@@ -142,7 +153,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (current is Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
-                    return Bad(source, buffer);
+                    return Bad(buffer);
                 }
                 else if (current != Symbols.ReverseSolidus)
                 {
@@ -154,7 +165,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else
                 {
-                    return Bad(source, buffer);
+                    return Bad(buffer);
                 }
 
                 current = source.Next();
@@ -171,52 +182,19 @@ namespace AngleSharp.Css.Parser
                 return new CssUrlValue(buffer.ToPool());
             }
 
-            return Bad(source, buffer);
+            return Bad(buffer);
         }
 
-        private static CssUrlValue Bad(StringSource source, StringBuilder buffer)
+        private static CssUrlValue Empty(StringSource source)
         {
-            var current = source.Current;
-            var curly = 0;
-            var round = 1;
+            source.Next();
+            return new CssUrlValue(String.Empty);
+        }
 
-            while (current != Symbols.EndOfFile)
-            {
-                if (current == Symbols.Semicolon)
-                {
-                    return new CssUrlValue(buffer.ToPool());
-                }
-                else if (current == Symbols.CurlyBracketClose && --curly == -1)
-                {
-                    return new CssUrlValue(buffer.ToPool());
-                }
-                else if (current == Symbols.RoundBracketClose && --round == 0)
-                {
-                    source.Next();
-                    return new CssUrlValue(buffer.ToPool());
-                }
-                else if (source.IsValidEscape())
-                {
-                    buffer.Append(source.ConsumeEscape());
-                }
-                else
-                {
-                    if (current == Symbols.RoundBracketOpen)
-                    {
-                        ++round;
-                    }
-                    else if (current == Symbols.CurlyBracketOpen)
-                    {
-                        ++curly;
-                    }
-
-                    buffer.Append(current);
-                }
-
-                current = source.Next();
-            }
-            
-            return new CssUrlValue(buffer.ToPool());
+        private static CssUrlValue Bad(StringBuilder buffer)
+        {
+            buffer.ToPool();
+            return null;
         }
     }
 }
