@@ -140,6 +140,38 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(expected, style.GetWidth());
         }
 
+        [TestCase("calc(10px - 2px - 3px)", "5px")]
+        [TestCase("calc(100px - 10px - 20px - 30px)", "40px")]
+        [TestCase("calc(30px - 10px + 5px)", "25px")]
+        [TestCase("calc(10px + 20px - 5px)", "25px")]
+        [TestCase("calc(50px - (10px - 5px))", "45px")]
+        public void CalcSameOperatorChainIsLeftAssociative(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("calc(100px / 2 / 5)", "10px")]
+        [TestCase("calc(100px / 2 * 5)", "250px")]
+        [TestCase("calc(100px * 2 / 5)", "40px")]
+        [TestCase("calc(1px * 2 * 3)", "6px")]
+        public void CalcMultiplicativeChainIsLeftAssociative(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("calc(2 * 3px + 1px)", "7px")]
+        [TestCase("calc(21px + 5px - 4px * 2)", "18px")]
+        public void CalcMixedPrecedenceIsComputed(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
         [TestCase(typeof(CssAngleValue))]
         [TestCase(typeof(CssFrequencyValue))]
         [TestCase(typeof(CssIntegerValue))]
