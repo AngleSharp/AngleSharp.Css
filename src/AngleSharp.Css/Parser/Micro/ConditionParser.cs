@@ -57,8 +57,8 @@ namespace AngleSharp.Css.Parser
 
             if (ident != null)
             {
-                var isAnd = ident.Is(CssKeywords.And);
-                var isOr = ident.Is(CssKeywords.Or);
+                var isAnd = ident.Isi(CssKeywords.And);
+                var isOr = ident.Isi(CssKeywords.Or);
 
                 if (isAnd || isOr)
                 {
@@ -141,7 +141,7 @@ namespace AngleSharp.Css.Parser
                 source.SkipSpacesAndComments();
                 ident = source.ParseIdent();
             }
-            while (ident != null && ident.Is(keyword));
+            while (ident != null && ident.Isi(keyword));
 
             return conditions;
         }

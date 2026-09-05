@@ -84,5 +84,38 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.AreEqual(3, rule.Key.Stops.Count());
             Assert.AreEqual(0, rule.Style.Length);
         }
+
+        [Test]
+        public void KeyframeRuleWithUppercaseFrom()
+        {
+            var rule = ParseKeyframeRule(@"  FROM {
+    margin-left: 0px;
+  }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("0%", rule.KeyText);
+            Assert.AreEqual(1, rule.Key.Stops.Count());
+            Assert.AreEqual(1, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithUppercaseTo()
+        {
+            var rule = ParseKeyframeRule(@"  TO {
+    margin-left: 200px;
+  }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("100%", rule.KeyText);
+            Assert.AreEqual(1, rule.Key.Stops.Count());
+            Assert.AreEqual(1, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithMixedCaseFromAndTo()
+        {
+            var rule = ParseKeyframeRule(@"  From, To { }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("0%, 100%", rule.KeyText);
+            Assert.AreEqual(2, rule.Key.Stops.Count());
+        }
     }
 }
