@@ -111,7 +111,9 @@ namespace AngleSharp.Css.Dom
         public ICssProperty Compute(ICssComputeContext context)
         {
             var propertyContext = new PropertyComputeContext(context, _converter);
-            var computedValue = _value?.Compute(propertyContext);
+            var computedValue = _name.StartsWith("--", StringComparison.Ordinal) ?
+                context.Resolve(_name) ?? CssInvalidValue.Instance :
+                _value is CssChildValue child ? child.Compute(propertyContext, _name) : _value?.Compute(propertyContext);
 
             if (computedValue != _value)
             {

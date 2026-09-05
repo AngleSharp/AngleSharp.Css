@@ -17,6 +17,7 @@ namespace AngleSharp.Css.Values
         private readonly String _value;
         private readonly TextRange[] _ranges;
         private readonly CssVarValue[] _references;
+        private readonly CssVariableValue _tokens;
 
         #endregion
 
@@ -32,6 +33,16 @@ namespace AngleSharp.Css.Values
             _value = value;
             _ranges = references.Select(m => m.Item1).ToArray();
             _references = references.Select(m => m.Item2).ToArray();
+            _tokens = new CssVariableValue(value);
+        }
+
+        internal CssReferenceValue(CssVariableValue value)
+        {
+            var references = value.GetReferences().ToArray();
+            _value = value.Text;
+            _ranges = references.Select(m => m.Item1).ToArray();
+            _references = references.Select(m => m.Item2).ToArray();
+            _tokens = value;
         }
 
         #endregion
@@ -64,17 +75,8 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            foreach (var reference in _references)
-            {
-                var result = reference.Compute(context);
-
-                if (result is not null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
+            var text = _tokens.Substitute(context.Resolve);
+            return text is null ? null : ((ICssValue)new CssAnyValue(text)).Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);

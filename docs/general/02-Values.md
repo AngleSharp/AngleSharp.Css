@@ -62,3 +62,23 @@ Console.WriteLine($"Computed font-size: {computedFontSize}");
 - Shorthand values (e.g., `margin`, `background`) are decomposed internally to longhands.
 - Variables (`var(--x)`) may defer full resolution until cascade context is available.
 - Comparing raw source strings is often misleading; compare parsed or computed values instead.
+
+## Custom Properties At Computed-Value Time
+
+Custom properties are resolved for each element before they are inherited. An inherited
+alias keeps the parent's resolved value; changing its dependencies on a child does not
+resolve that alias again. A declaration explicitly matching both elements is resolved
+locally on each element.
+
+Following [CSS Variables dependency-cycle rules](https://drafts.csswg.org/css-variables-1/#cycles),
+every property in a cycle becomes guaranteed-invalid, including cycles through unused
+fallbacks. A consuming `var(--name, fallback)` can recover from an invalid or missing
+custom property. Without a usable fallback, the consuming declaration uses its inherited
+or initial value, not an earlier declaration from the cascade. A valid custom-property
+value that does not match the consumer's grammar does not trigger the `var()` fallback.
+
+Dependency analysis and fallback substitution are iterative, including deeply nested
+fallbacks. Expanded values are limited to 1,048,576 UTF-16 code units (including token
+separators) to bound exponential substitution; an expansion exceeding this limit is
+invalid at computed-value time. Property-specific parsing, unit conversion, and layout
+support still determine which resolved values can be used by a consuming property.

@@ -260,6 +260,10 @@ namespace AngleSharp.Css.Parser
                             Advance(2);
                             return NewCloseComment();
                         }
+                        else if (c1 == Symbols.Minus)
+                        {
+                            return IdentStart(current);
+                        }
                     }
                     else
                     {
@@ -706,7 +710,7 @@ namespace AngleSharp.Css.Parser
             {
                 current = GetNext();
 
-                if (current.IsNameStart() || IsValidEscape(current))
+                if (current.IsNameStart() || current == Symbols.Minus || IsValidEscape(current))
                 {
                     StringBuffer.Append(Symbols.Minus);
                     return IdentRest(current);

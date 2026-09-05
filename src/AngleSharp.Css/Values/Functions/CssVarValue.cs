@@ -121,14 +121,20 @@ namespace AngleSharp.Css.Values
         /// <returns>The resolved value or null.</returns>
         public ICssValue Compute(ICssComputeContext context)
         {
-            var value = context.Resolve(_variableName)?.Compute(context);
+            var value = context.Resolve(_variableName);
 
             if (value is not null)
             {
-                return value;
+                return value.Compute(context);
             }
 
-            return _defaultValue?.Compute(context);
+            if (_defaultValue is null)
+            {
+                return null;
+            }
+
+            var text = new CssVariableValue(_defaultValue.CssText).Substitute(context.Resolve);
+            return text is null ? null : ((ICssValue)new CssAnyValue(text)).Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssVarValue value && Equals(value);

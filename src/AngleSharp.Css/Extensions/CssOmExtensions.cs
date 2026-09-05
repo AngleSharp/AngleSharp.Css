@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
@@ -92,10 +93,40 @@ namespace AngleSharp.Css.Dom
 
             foreach (var property in style)
             {
-                computedStyle.AddProperty(property.Compute(context));
+                var computed = property.Compute(context);
+
+                var substitutedKeyword = property.RawValue is not ICssSpecialValue && computed.RawValue is ICssSpecialValue;
+
+                if ((computed.RawValue is null || substitutedKeyword) && property.RawValue is not null && property is CssProperty cssProperty)
+                {
+                    var inherit = computed.RawValue is CssInheritValue ||
+                        (computed.RawValue is not CssInitialValue && property.CanBeInherited);
+                    var inherited = inherit && context is CssComputeContext cssContext ?
+                        cssContext.InheritedValue(property.Name) : null;
+                    var initial = context.Context.GetDeclarationInfo(property.Name).InitialValue;
+                    var value = inherited ?? (initial is null ? null : cssProperty.Converter.Convert(initial.CssText)?.Compute(context));
+                    computed = new CssProperty(property.Name, cssProperty.Converter, cssProperty.Flags, value, property.IsImportant);
+                }
+
+                computedStyle.AddProperty(computed);
             }
 
             return computedStyle;
+        }
+
+        internal static CssStyleDeclaration Cascade(this ICssStyleDeclaration style, ICssStyleDeclaration parent, ICssComputeContext context)
+        {
+            var declarations = new CssStyleDeclaration(context.Context);
+
+            // Resolve local custom declarations before merging the parent. In
+            // particular, initial must not disappear through IsInherited.
+            foreach (var property in style)
+            {
+                declarations.AddProperty(property.Name.StartsWith("--", StringComparison.Ordinal) ? property.Compute(context) : property);
+            }
+
+            declarations.UpdateDeclarations(parent);
+            return declarations;
         }
     }
 }
