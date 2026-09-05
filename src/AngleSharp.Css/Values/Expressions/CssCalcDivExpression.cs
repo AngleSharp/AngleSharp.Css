@@ -57,15 +57,20 @@ namespace AngleSharp.Css.Values
             var left = ComputeValue(_left, context);
             var right = ComputeValue(_right, context);
 
-            if (left is ICssMetricValue x && right is ICssMetricValue y && x.UnitString == y.UnitString)
+            if (left is ICssMetricValue x && right is ICssMetricValue y)
             {
-                var result = x.Value / y.Value;
-                return x.WithValue(result);
-            }
+                // Dividing by a plain number scales the left operand, keeping its unit.
+                if (y.UnitString.Length == 0)
+                {
+                    return x.WithValue(x.Value / y.Value);
+                }
 
-            if (left is ICssMetricValue unitLeft && right is ICssMetricValue unitlessRight && unitlessRight.UnitString.Length == 0)
-            {
-                return unitLeft.WithValue(unitLeft.Value / unitlessRight.Value);
+                // Dividing two values sharing a unit cancels the unit out, i.e. the
+                // result is a plain number (calc(40px / 20px) is 2, not 2px).
+                if (x.UnitString == y.UnitString)
+                {
+                    return new CssLengthValue(x.Value / y.Value, CssLengthValue.Unit.None);
+                }
             }
 
             return null;
