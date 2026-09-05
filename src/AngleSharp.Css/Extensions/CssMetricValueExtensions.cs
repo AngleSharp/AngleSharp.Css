@@ -34,6 +34,10 @@ namespace AngleSharp.Css.Values
                 "public constructor taking a single Double themselves, e.g., via DynamicDependency.")]
 #endif
         public static ICssValue WithValue(this ICssMetricValue template, Double value) =>
-            (ICssValue)Activator.CreateInstance(template.GetType(), value);
+            // The single argument constructor of CssLengthValue defaults to pixels, which would
+            // turn a unitless length (e.g., the result of calc(1 / 4)) into a length in pixels.
+            template is CssLengthValue length ?
+                new CssLengthValue(value, length.Type) :
+                (ICssValue)Activator.CreateInstance(template.GetType(), value);
     }
 }

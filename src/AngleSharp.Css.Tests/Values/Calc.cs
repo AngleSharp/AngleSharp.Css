@@ -172,6 +172,39 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(expected, style.GetWidth());
         }
 
+        [TestCase("opacity", "calc(10px / 20px)", "0.5")]
+        [TestCase("opacity", "calc(2s / 8s)", "0.25")]
+        [TestCase("flex-grow", "calc(100px / 50px)", "2")]
+        [TestCase("z-index", "calc(100px / 25px)", "4")]
+        [TestCase("line-height", "calc(40px / 20px)", "2")]
+        public void CalcDivisionOfEqualUnitsYieldsNumber(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
+        [TestCase("width", "calc(100px / 2)", "50px")]
+        [TestCase("width", "calc(100px * 3 / 2)", "150px")]
+        [TestCase("width", "calc(100px / 2px * 3px)", "150px")]
+        [TestCase("transition-duration", "calc(2s / 4)", "500ms")]
+        public void CalcDivisionByNumberKeepsUnitOfLeftOperand(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
+        [TestCase("opacity", "calc(1 / 4)", "0.25")]
+        [TestCase("opacity", "calc(2 * 3)", "6")]
+        [TestCase("flex-shrink", "calc(20 / 8)", "2.5")]
+        public void CalcOfUnitlessOperandsStaysUnitless(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
         [TestCase(typeof(CssAngleValue))]
         [TestCase(typeof(CssFrequencyValue))]
         [TestCase(typeof(CssIntegerValue))]
