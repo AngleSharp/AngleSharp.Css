@@ -48,50 +48,11 @@ namespace AngleSharp.Css.Parser
 
         private static ICssValue ParseAddExpression(this StringSource source)
         {
-            var left = ParseSubExpression(source);
-
-            if (source.Current == Symbols.Plus)
-            {
-                source.SkipCurrentAndSpaces();
-                var right = ParseAddExpression(source);
-
-                if (right == null)
-                {
-                    return null;
-                }
-
-                return new CssCalcAddExpression(left, right);
-            }
-
-            return left;
-        }
-
-        private static ICssValue ParseSubExpression(this StringSource source)
-        {
             var left = ParseMulExpression(source);
 
-            if (source.Current == Symbols.Minus)
+            while (left != null && (source.Current == Symbols.Plus || source.Current == Symbols.Minus))
             {
-                source.SkipCurrentAndSpaces();
-                var right = ParseSubExpression(source);
-
-                if (right == null)
-                {
-                    return null;
-                }
-
-                return new CssCalcSubExpression(left, right);
-            }
-
-            return left;
-        }
-
-        private static ICssValue ParseMulExpression(this StringSource source)
-        {
-            var left = ParseDivExpression(source);
-
-            if (source.Current == Symbols.Asterisk)
-            {
+                var add = source.Current == Symbols.Plus;
                 source.SkipCurrentAndSpaces();
                 var right = ParseMulExpression(source);
 
@@ -100,27 +61,32 @@ namespace AngleSharp.Css.Parser
                     return null;
                 }
 
-                return new CssCalcMulExpression(left, right);
+                left = add ?
+                    new CssCalcAddExpression(left, right) :
+                    (ICssValue)new CssCalcSubExpression(left, right);
             }
 
             return left;
         }
 
-        private static ICssValue ParseDivExpression(this StringSource source)
+        private static ICssValue ParseMulExpression(this StringSource source)
         {
             var left = ParseBracketExpression(source);
 
-            if (source.Current == Symbols.Solidus)
+            while (left != null && (source.Current == Symbols.Asterisk || source.Current == Symbols.Solidus))
             {
+                var mul = source.Current == Symbols.Asterisk;
                 source.SkipCurrentAndSpaces();
-                var right = ParseDivExpression(source);
+                var right = ParseBracketExpression(source);
 
                 if (right == null)
                 {
                     return null;
                 }
 
-                return new CssCalcDivExpression(left, right);
+                left = mul ?
+                    new CssCalcMulExpression(left, right) :
+                    (ICssValue)new CssCalcDivExpression(left, right);
             }
 
             return left;

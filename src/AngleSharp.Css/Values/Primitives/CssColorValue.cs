@@ -470,6 +470,12 @@ namespace AngleSharp.Css.Values
         public static Boolean UseHex { get; set; }
 
         /// <summary>
+        /// Gets or sets if the CSSOM serialization rules should be used, i.e.,
+        /// if the alpha channel of an opaque color should be omitted.
+        /// </summary>
+        public static Boolean UseSpecSerialization { get; set; }
+
+        /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
         public String CssText
@@ -494,6 +500,17 @@ namespace AngleSharp.Css.Values
                     }
 
                     return color;
+                }
+                else if (UseSpecSerialization && _alpha == 255)
+                {
+                    var fn = FunctionNames.Rgb;
+                    var args = String.Join(", ", new[]
+                    {
+                        R.ToString(CultureInfo.InvariantCulture),
+                        G.ToString(CultureInfo.InvariantCulture),
+                        B.ToString(CultureInfo.InvariantCulture),
+                    });
+                    return fn.CssFunction(args);
                 }
                 else
                 {

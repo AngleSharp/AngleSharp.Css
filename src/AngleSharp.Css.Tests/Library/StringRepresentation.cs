@@ -16,6 +16,13 @@ namespace AngleSharp.Css.Tests.Library
     [TestFixture]
     public class StringRepresentationTests
     {
+        [TearDown]
+        public void ResetColorSerialization()
+        {
+            CssColorValue.UseHex = false;
+            CssColorValue.UseSpecSerialization = false;
+        }
+
         [Test]
         public void PrettyStyleFormatterStringifyShouldWork_Issue41()
         {
@@ -48,6 +55,62 @@ namespace AngleSharp.Css.Tests.Library
             var text = color.CssText;
             CssColorValue.UseHex = false;
             Assert.AreEqual("#410C300A", text);
+        }
+
+        [Test]
+        public void OpaqueColorKeepsTheAlphaChannelByDefault_Issue227()
+        {
+            var color = new CssColorValue(65, 12, 48);
+            Assert.AreEqual("rgba(65, 12, 48, 1)", color.CssText);
+        }
+
+        [Test]
+        public void OpaqueColorDropsTheAlphaChannelWithSpecOutput_Issue227()
+        {
+            var color = new CssColorValue(65, 12, 48);
+            CssColorValue.UseSpecSerialization = true;
+            Assert.AreEqual("rgb(65, 12, 48)", color.CssText);
+        }
+
+        [Test]
+        public void TransparentColorKeepsTheAlphaChannelWithSpecOutput_Issue227()
+        {
+            var color = new CssColorValue(65, 12, 48, 128);
+            CssColorValue.UseSpecSerialization = true;
+            Assert.AreEqual("rgba(65, 12, 48, 0.5)", color.CssText);
+        }
+
+        [Test]
+        public void OpaqueColorPrefersHexOutputOverSpecOutput_Issue227()
+        {
+            var color = new CssColorValue(65, 12, 48);
+            CssColorValue.UseHex = true;
+            CssColorValue.UseSpecSerialization = true;
+            Assert.AreEqual("#410C30", color.CssText);
+        }
+
+        [Test]
+        public void TransparentColorPrefersHexOutputOverSpecOutput_Issue227()
+        {
+            var color = new CssColorValue(65, 12, 48, 10);
+            CssColorValue.UseHex = true;
+            CssColorValue.UseSpecSerialization = true;
+            Assert.AreEqual("#410C300A", color.CssText);
+        }
+
+        [Test]
+        public void CurrentColorIsNotAffectedBySpecOutput_Issue227()
+        {
+            CssColorValue.UseSpecSerialization = true;
+            Assert.AreEqual("currentColor", CssColorValue.CurrentColor.CssText);
+        }
+
+        [Test]
+        public void DeclarationUsesSpecOutputForOpaqueColors_Issue227()
+        {
+            CssColorValue.UseSpecSerialization = true;
+            var declaration = ParseDeclaration("color: rgba(255, 0, 0, 1)");
+            Assert.AreEqual("color: rgb(255, 0, 0)", declaration.CssText);
         }
 
         [Test]

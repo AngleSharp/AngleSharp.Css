@@ -54,16 +54,31 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var left = _left.Compute(context);
-            var right = _right.Compute(context);
+            var left = ComputeValue(_left, context);
+            var right = ComputeValue(_right, context);
 
             if (left is ICssMetricValue x && right is ICssMetricValue y && x.UnitString == y.UnitString)
             {
                 var result = x.Value * y.Value;
-                return (ICssValue)Activator.CreateInstance(x.GetType(), result);
+                return x.WithValue(result);
+            }
+
+            if (left is ICssMetricValue unitlessLeft && right is ICssMetricValue unitRight && unitlessLeft.UnitString.Length == 0)
+            {
+                return unitRight.WithValue(unitlessLeft.Value * unitRight.Value);
+            }
+
+            if (left is ICssMetricValue unitLeft && right is ICssMetricValue unitlessRight && unitlessRight.UnitString.Length == 0)
+            {
+                return unitLeft.WithValue(unitLeft.Value * unitlessRight.Value);
             }
 
             return null;
+        }
+
+        private static ICssValue ComputeValue(ICssValue value, ICssComputeContext context)
+        {
+            return value is CssLengthValue length && length.Type == CssLengthValue.Unit.None ? value : value.Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);

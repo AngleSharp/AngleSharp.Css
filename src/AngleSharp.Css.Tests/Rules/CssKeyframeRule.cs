@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Tests.Rules
 {
+    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using System.Linq;
     using static CssConstructionFunctions;
@@ -83,6 +84,57 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.AreEqual("0.52%, 50%, 92.82%", rule.KeyText);
             Assert.AreEqual(3, rule.Key.Stops.Count());
             Assert.AreEqual(0, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithUppercaseFrom()
+        {
+            var rule = ParseKeyframeRule(@"  FROM {
+    margin-left: 0px;
+  }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("0%", rule.KeyText);
+            Assert.AreEqual(1, rule.Key.Stops.Count());
+            Assert.AreEqual(1, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithUppercaseTo()
+        {
+            var rule = ParseKeyframeRule(@"  TO {
+    margin-left: 200px;
+  }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("100%", rule.KeyText);
+            Assert.AreEqual(1, rule.Key.Stops.Count());
+            Assert.AreEqual(1, rule.Style.Length);
+        }
+
+        [Test]
+        public void KeyframeRuleWithMixedCaseFromAndTo()
+        {
+            var rule = ParseKeyframeRule(@"  From, To { }");
+            Assert.IsNotNull(rule);
+            Assert.AreEqual("0%, 100%", rule.KeyText);
+            Assert.AreEqual(2, rule.Key.Stops.Count());
+        }
+
+        [Test]
+        public void KeyframeRuleWithMalformedSelectorIsRejected()
+        {
+            var rule = ParseKeyframeRule("invalid { opacity: 0; }");
+
+            Assert.IsNull(rule);
+        }
+
+        [Test]
+        public void KeyframesRuleOmitsMalformedSelectorAndKeepsFollowingRule()
+        {
+            var sheet = ParseStyleSheet("@keyframes fade { invalid { opacity: 0; } to { opacity: 1; } }");
+            var keyframes = sheet.Rules.OfType<ICssKeyframesRule>().Single();
+
+            Assert.AreEqual(1, keyframes.Rules.Length);
+            Assert.AreEqual("100%", ((ICssKeyframeRule)keyframes.Rules[0]).KeyText);
         }
     }
 }

@@ -55,9 +55,18 @@ namespace AngleSharp.Css
             { FeatureNames.Grid, () => new GridFeatureValidator() },
             { FeatureNames.Scan, () => new ScanFeatureValidator() },
             { FeatureNames.UpdateFrequency, () => new UpdateFrequencyFeatureValidator() },
-            { FeatureNames.Scripting, () => new ScanFeatureValidator() },
-            { FeatureNames.Pointer, () => new PointerFeatureValidator() },
-            { FeatureNames.Hover, () => new HoverFeatureValidator() },
+            { FeatureNames.Scripting, () => new ScriptingFeatureValidator() },
+            { FeatureNames.Pointer, () => new PointerFeatureValidator(FeatureNames.Pointer) },
+            { FeatureNames.AnyPointer, () => new PointerFeatureValidator(FeatureNames.AnyPointer) },
+            { FeatureNames.Hover, () => new HoverFeatureValidator(FeatureNames.Hover) },
+            { FeatureNames.AnyHover, () => new HoverFeatureValidator(FeatureNames.AnyHover) },
+            { FeatureNames.PrefersColorScheme, () => new PreferenceFeatureValidator(FeatureNames.PrefersColorScheme, CssKeywords.NoPreference) },
+            { FeatureNames.PrefersReducedMotion, () => new PreferenceFeatureValidator(FeatureNames.PrefersReducedMotion, CssKeywords.NoPreference) },
+            { FeatureNames.PrefersReducedTransparency, () => new PreferenceFeatureValidator(FeatureNames.PrefersReducedTransparency, CssKeywords.NoPreference) },
+            { FeatureNames.PrefersReducedData, () => new PreferenceFeatureValidator(FeatureNames.PrefersReducedData, CssKeywords.NoPreference) },
+            { FeatureNames.PrefersContrast, () => new PreferenceFeatureValidator(FeatureNames.PrefersContrast, CssKeywords.NoPreference) },
+            { FeatureNames.ForcedColors, () => new PreferenceFeatureValidator(FeatureNames.ForcedColors, CssKeywords.None) },
+            { FeatureNames.DisplayMode, () => new PreferenceFeatureValidator(FeatureNames.DisplayMode, null) },
         };
 
         /// <summary>

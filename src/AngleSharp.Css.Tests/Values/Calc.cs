@@ -1,8 +1,13 @@
+#nullable disable
 namespace AngleSharp.Css.Tests.Values
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using NUnit.Framework;
+    using System;
     using static CssConstructionFunctions;
 
     [TestFixture]
@@ -99,6 +104,123 @@ namespace AngleSharp.Css.Tests.Values
             var property = ParseDeclaration(source);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("calc(21 + 5 - 4 * 2)", property.Value);
+        }
+
+        [Test]
+        public void CalcAdditionOfLengthsIsComputed()
+        {
+            var document = ParseDocument("<style>p { width: calc(100px + 20px) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("120px", style.GetWidth());
+        }
+
+        [Test]
+        public void CalcSubtractionOfLengthsIsComputed()
+        {
+            var document = ParseDocument("<style>p { width: calc(100px - 20px) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("80px", style.GetWidth());
+        }
+
+        [Test]
+        public void CalcAdditionOfTimesIsComputed()
+        {
+            var document = ParseDocument("<style>p { transition-duration: calc(30ms + 20ms) }</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("50ms", style.GetTransitionDuration());
+        }
+
+        [TestCase("calc(2 * 10px)", "20px")]
+        [TestCase("calc(10px * 2)", "20px")]
+        [TestCase("calc(20px / 2)", "10px")]
+        public void CalcLengthWithUnitlessOperandIsComputed(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("calc(10px - 2px - 3px)", "5px")]
+        [TestCase("calc(100px - 10px - 20px - 30px)", "40px")]
+        [TestCase("calc(30px - 10px + 5px)", "25px")]
+        [TestCase("calc(10px + 20px - 5px)", "25px")]
+        [TestCase("calc(50px - (10px - 5px))", "45px")]
+        public void CalcSameOperatorChainIsLeftAssociative(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("calc(100px / 2 / 5)", "10px")]
+        [TestCase("calc(100px / 2 * 5)", "250px")]
+        [TestCase("calc(100px * 2 / 5)", "40px")]
+        [TestCase("calc(1px * 2 * 3)", "6px")]
+        public void CalcMultiplicativeChainIsLeftAssociative(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("calc(2 * 3px + 1px)", "7px")]
+        [TestCase("calc(21px + 5px - 4px * 2)", "18px")]
+        public void CalcMixedPrecedenceIsComputed(String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ width: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetWidth());
+        }
+
+        [TestCase("opacity", "calc(10px / 20px)", "0.5")]
+        [TestCase("opacity", "calc(2s / 8s)", "0.25")]
+        [TestCase("flex-grow", "calc(100px / 50px)", "2")]
+        [TestCase("z-index", "calc(100px / 25px)", "4")]
+        [TestCase("line-height", "calc(40px / 20px)", "2")]
+        public void CalcDivisionOfEqualUnitsYieldsNumber(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
+        [TestCase("width", "calc(100px / 2)", "50px")]
+        [TestCase("width", "calc(100px * 3 / 2)", "150px")]
+        [TestCase("width", "calc(100px / 2px * 3px)", "150px")]
+        [TestCase("transition-duration", "calc(2s / 4)", "500ms")]
+        public void CalcDivisionByNumberKeepsUnitOfLeftOperand(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
+        [TestCase("opacity", "calc(1 / 4)", "0.25")]
+        [TestCase("opacity", "calc(2 * 3)", "6")]
+        [TestCase("flex-shrink", "calc(20 / 8)", "2.5")]
+        public void CalcOfUnitlessOperandsStaysUnitless(String property, String expression, String expected)
+        {
+            var document = ParseDocument($"<style>p {{ {property}: {expression} }}</style><p></p>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual(expected, style.GetPropertyValue(property));
+        }
+
+        [TestCase(typeof(CssAngleValue))]
+        [TestCase(typeof(CssFrequencyValue))]
+        [TestCase(typeof(CssIntegerValue))]
+        [TestCase(typeof(CssLengthValue))]
+        [TestCase(typeof(CssNumberValue))]
+        [TestCase(typeof(CssPercentageValue))]
+        [TestCase(typeof(CssResolutionValue))]
+        [TestCase(typeof(CssTimeValue))]
+        public void MetricValueCanBeCreatedWithAnotherValue(Type type)
+        {
+            var template = (ICssMetricValue)Activator.CreateInstance(type, 2.0);
+            var result = template.WithValue(5.0);
+
+            Assert.IsInstanceOf(type, result);
+            Assert.AreEqual(5.0, ((ICssMetricValue)result).Value);
+            Assert.AreEqual(template.UnitString, ((ICssMetricValue)result).UnitString);
         }
     }
 }

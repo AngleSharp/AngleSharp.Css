@@ -1,3 +1,22 @@
+# 1.1.0
+
+Released on Saturday, September 5 2026
+
+- Improved evaluation of comma-separated media queries (#230)
+- Fixed wrong media feature used for scripting (#233)
+- Fixed wrong rientation and scan evaluation (#232)
+- Fixed `not <known media type>` is always false (#231)
+- Fixed `calc()` computations in AoT-compiled applications (#236) @sebastienros
+- Fixed usage of `calc()` with unitless scaling (multiplication / division)
+- Fixed case-sensitive matching of `and` / `or` in `@supports` and `from` / `to` in `@keyframes` (#240) @meziantou
+- Fixed operator associativity and result units in `calc()` (#239) @meziantou
+- Fixed unquoted and invalid `url()` handling (#238) @meziantou
+- Fixed handling of invalid keyframe selectors
+- Fixed stackoverflow due to cyclic CSS variables (#241)
+- Added optional CSSOM compliant color seralization (#229) @lahma
+- Added user-preference media features to the render device (#235) @lahma
+- Added media query list evaluation using `IRenderDevice` (#228) @lahma
+
 # 1.0.2
 
 Released on Friday, August 21 2026.

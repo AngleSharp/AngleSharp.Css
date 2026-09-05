@@ -56,7 +56,7 @@ namespace AngleSharp.Css
 
             if (value is ICssRawValue || value is CssChildValue)
             {
-                var child = new CssChildValue(value);
+                var child = new CssChildValue(value, shorthandName: info.Name);
                 return Enumerable
                     .Repeat(child, longhands.Length)
                     .ToArray();

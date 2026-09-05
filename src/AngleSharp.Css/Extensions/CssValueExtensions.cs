@@ -349,7 +349,7 @@ namespace AngleSharp.Css.Dom
             {
                 return true;
             }
-            else if (value?.GetType() == typeof(CssConstantValue<>) && value.CssText.Isi(keyword))
+            else if (value?.GetType() is { IsGenericType: true } type && type.GetGenericTypeDefinition() == typeof(CssConstantValue<>) && value.CssText.Isi(keyword))
             {
                 return true;
             }

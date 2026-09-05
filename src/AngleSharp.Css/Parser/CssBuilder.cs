@@ -73,6 +73,7 @@ namespace AngleSharp.Css.Parser
 
                 case CssTokenType.String:
                 case CssTokenType.Url:
+                case CssTokenType.BadUrl:
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
@@ -267,11 +268,14 @@ namespace AngleSharp.Css.Parser
             rule.Prefix = GetRuleName(ref token);
             CollectTrivia(rule.Owner, ref token);
 
-            if (token.Type == CssTokenType.Url)
+            if (!token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                rule.NamespaceUri = token.Data;
+                RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
+                JumpToEnd(ref token);
+                return null;
             }
 
+            rule.NamespaceUri = token.Data;
             JumpToEnd(ref token);
             return rule;
         }
@@ -535,7 +539,16 @@ namespace AngleSharp.Css.Parser
         public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
             CollectTrivia(rule.Owner, ref current);
+            var position = current.Position;
             rule.KeyText = GetArgument(ref current);
+
+            if (rule.Key is null)
+            {
+                RaiseErrorOccurred(CssParseError.InvalidKeyframe, position);
+                JumpToRuleEnd(ref current);
+                return null;
+            }
+
             FillDeclarations(rule.Owner, rule.Style, NextToken());
             return rule;
         }
@@ -547,11 +560,14 @@ namespace AngleSharp.Css.Parser
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                var rule = new CssKeyframeRule(parentRule.Owner);
-                CreateKeyframeRule(rule, token);
+                var rule = CreateKeyframeRule(new CssKeyframeRule(parentRule.Owner), token);
                 token = NextToken();
                 CollectTrivia(parentRule.Owner, ref token);
-                parentRule.Add(rule);
+
+                if (rule is not null)
+                {
+                    parentRule.Add(rule);
+                }
             }
 
             return parentRule;

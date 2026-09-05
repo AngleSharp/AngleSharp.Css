@@ -14,6 +14,10 @@
         /// </summary>
         Url,
         /// <summary>
+        /// A bad URL token, i.e. a url() that could not be parsed.
+        /// </summary>
+        BadUrl,
+        /// <summary>
         /// A color token.
         /// </summary>
         Color,

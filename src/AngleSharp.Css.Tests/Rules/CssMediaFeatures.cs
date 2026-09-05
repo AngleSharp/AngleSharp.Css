@@ -67,5 +67,21 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.IsTrue(valid);
             Assert.IsFalse(invalid);
         }
+
+        [Test]
+        public void CssMediaOrientationAndScanValidation()
+        {
+            var portrait = CreateValidator(FeatureNames.Orientation, "portrait");
+            var landscape = CreateValidator(FeatureNames.Orientation, "landscape");
+            var interlace = CreateValidator(FeatureNames.Scan, "interlace");
+            var progressive = CreateValidator(FeatureNames.Scan, "progressive");
+            var landscapeDevice = new DefaultRenderDevice { DeviceWidth = 1024, DeviceHeight = 768 };
+            var interlacedDevice = new DefaultRenderDevice { IsInterlaced = true };
+
+            Assert.IsFalse(portrait(landscapeDevice));
+            Assert.IsTrue(landscape(landscapeDevice));
+            Assert.IsTrue(interlace(interlacedDevice));
+            Assert.IsFalse(progressive(interlacedDevice));
+        }
     }
 }

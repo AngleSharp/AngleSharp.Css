@@ -43,11 +43,11 @@ namespace AngleSharp.Css.Parser
 
                     stops.Add(test.Value);
                 }
-                else if (id.Is(CssKeywords.From))
+                else if (id.Isi(CssKeywords.From))
                 {
                     stops.Add(0f);
                 }
-                else if (id.Is(CssKeywords.To))
+                else if (id.Isi(CssKeywords.To))
                 {
                     stops.Add(1f);
                 }
