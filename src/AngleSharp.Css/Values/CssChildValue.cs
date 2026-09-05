@@ -2,6 +2,7 @@
 namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
     using System;
     using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace AngleSharp.Css.Values
 
         private readonly ICssValue _parent;
         private readonly ICssValue _value;
+        private readonly String _shorthandName;
 
         #endregion
 
@@ -24,10 +26,12 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <param name="parent">The reference to the shorthand value.</param>
         /// <param name="value">The value of the child, if any.</param>
-        public CssChildValue(ICssValue parent, ICssValue value = null)
+        /// <param name="shorthandName">The shorthand that supplied the pending value.</param>
+        public CssChildValue(ICssValue parent, ICssValue value = null, String shorthandName = null)
         {
             _parent = parent;
             _value = value;
+            _shorthandName = shorthandName;
         }
 
         #endregion
@@ -73,7 +77,50 @@ namespace AngleSharp.Css.Values
         {
             var parent = _parent.Compute(context);
             var value = _value?.Compute(context);
-            return new CssChildValue(parent, value);
+            return new CssChildValue(parent, value, _shorthandName);
+        }
+
+        internal ICssValue Compute(ICssComputeContext context, String longhandName)
+        {
+            var parent = _parent;
+            var shorthandName = _shorthandName;
+
+            while (parent is CssChildValue child)
+            {
+                shorthandName = child._shorthandName;
+                parent = child.Parent;
+            }
+
+            if (shorthandName is not null && parent is ICssRawValue)
+            {
+                var values = parent is CssReferenceValue reference ? reference.GetVariableValues() :
+                    new[] { new CssVariableValue(parent.CssText) };
+                String text = null;
+
+                foreach (var candidate in values)
+                {
+                    text = candidate.Substitute(context.Resolve);
+
+                    if (text is not null)
+                    {
+                        break;
+                    }
+                }
+
+                if (text is null)
+                {
+                    return null;
+                }
+
+                // Parse the substituted shorthand once its complete token stream
+                // is known, rather than feeding it to an individual longhand's
+                // converter and discarding the remaining components.
+                var parser = context.Context?.GetService<ICssParser>() ?? new CssParser(context.Context);
+                var declarations = parser.ParseDeclaration(shorthandName + ":" + text);
+                return declarations.GetProperty(longhandName)?.RawValue?.Compute(context);
+            }
+
+            return ((ICssValue)this).Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssChildValue value && Equals(value);

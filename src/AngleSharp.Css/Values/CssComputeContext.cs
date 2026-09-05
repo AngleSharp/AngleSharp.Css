@@ -8,13 +8,15 @@ namespace AngleSharp.Css.Values
     {
         private readonly IRenderDevice _device;
         private readonly IBrowsingContext? _context;
-        private readonly ICssProperties _properties;
+        private readonly CssCustomPropertyResolver _variables;
+        private readonly ICssProperties? _parent;
 
-        public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties)
+        public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties, ICssProperties? parent = null)
         {
             _device = device ?? new DefaultRenderDevice();
             _context = context;
-            _properties = properties;
+            _variables = new CssCustomPropertyResolver(properties, parent);
+            _parent = parent;
         }
 
         public IRenderDevice Device => _device;
@@ -23,16 +25,9 @@ namespace AngleSharp.Css.Values
 
         public IValueConverter? Converter => null;
 
-        public ICssValue? Resolve(String name)
-        {
-            if (name.StartsWith("--"))
-            {
-                var property = _properties.FirstOrDefault(m => m.Name.Equals(name, StringComparison.Ordinal));
-                return property?.RawValue;
-            }
+        public ICssValue? Resolve(String name) => _variables.Resolve(name);
 
-            return null;
-        }
+        internal ICssValue? InheritedValue(String name) => _parent?.FirstOrDefault(m => m.Name == name)?.RawValue;
     }
 
 }

@@ -37,7 +37,7 @@ namespace AngleSharp.Css.Dom
         public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();
-            _declarationIndex = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase);
+            _declarationIndex = new Dictionary<String, Int32>(StringComparer.Ordinal);
             _context = context;
         }
 
@@ -79,11 +79,13 @@ namespace AngleSharp.Css.Dom
 
         public ICssProperty GetProperty(String name)
         {
+            name = name.StartsWith("--", StringComparison.Ordinal) ? name : name.ToLowerFast();
+
             if (_declarationIndex.TryGetValue(name, out var index) && index < _declarations.Count)
             {
                 var declaration = _declarations[index];
 
-                if (declaration.Name.Isi(name))
+                if (declaration.Name.Is(name))
                 {
                     return declaration;
                 }
@@ -391,6 +393,7 @@ namespace AngleSharp.Css.Dom
 
         private void RemovePropertyByName(String propertyName)
         {
+            propertyName = propertyName.StartsWith("--", StringComparison.Ordinal) ? propertyName : propertyName.ToLowerFast();
             var info = _context.GetDeclarationInfo(propertyName);
             var longhands = info.Longhands;
 

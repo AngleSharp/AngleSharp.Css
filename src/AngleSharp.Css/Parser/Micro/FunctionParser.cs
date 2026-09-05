@@ -73,7 +73,7 @@ namespace AngleSharp.Css.Parser
                         continue;
                     }
                 }
-                
+
                 break;
             }
 
@@ -81,7 +81,7 @@ namespace AngleSharp.Css.Parser
 
             if (refs != null)
             {
-                return new CssReferenceValue(source.Content, refs);
+                return new CssReferenceValue(new CssVariableValue(source.Content), refs);
             }
 
             return null;
@@ -116,15 +116,45 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseVarFallback(this StringSource source)
         {
-            if (!source.IsFunction(FunctionNames.Var))
+            var names = new Stack<String>();
+            ICssValue fallback = null;
+            var readFallback = true;
+
+            while (source.IsFunction(FunctionNames.Var))
+            {
+                var name = source.ParseCustomIdent();
+                var separator = source.SkipGetSkip();
+
+                if (name is null || (separator != Symbols.Comma && separator != Symbols.RoundBracketClose))
+                {
+                    readFallback = false;
+                    break;
+                }
+
+                names.Push(name);
+
+                if (separator == Symbols.RoundBracketClose)
+                {
+                    readFallback = false;
+                    break;
+                }
+
+                source.SkipSpacesAndComments();
+            }
+
+            if (readFallback)
             {
                 var content = source.TakeUntilClosed();
                 source.SkipCurrentAndSpaces();
-                return new CssAnyValue(content);
+                fallback = new CssAnyValue(content);
             }
 
-            return source.ParseVar();
+            while (names.Count > 0)
+            {
+                fallback = new CssVarValue(names.Pop(), fallback);
+            }
 
+            return fallback;
         }
 
         /// <summary>
