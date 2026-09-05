@@ -539,7 +539,16 @@ namespace AngleSharp.Css.Parser
         public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
             CollectTrivia(rule.Owner, ref current);
+            var position = current.Position;
             rule.KeyText = GetArgument(ref current);
+
+            if (rule.Key is null)
+            {
+                RaiseErrorOccurred(CssParseError.InvalidKeyframe, position);
+                JumpToRuleEnd(ref current);
+                return null;
+            }
+
             FillDeclarations(rule.Owner, rule.Style, NextToken());
             return rule;
         }
@@ -551,11 +560,14 @@ namespace AngleSharp.Css.Parser
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                var rule = new CssKeyframeRule(parentRule.Owner);
-                CreateKeyframeRule(rule, token);
+                var rule = CreateKeyframeRule(new CssKeyframeRule(parentRule.Owner), token);
                 token = NextToken();
                 CollectTrivia(parentRule.Owner, ref token);
-                parentRule.Add(rule);
+
+                if (rule is not null)
+                {
+                    parentRule.Add(rule);
+                }
             }
 
             return parentRule;

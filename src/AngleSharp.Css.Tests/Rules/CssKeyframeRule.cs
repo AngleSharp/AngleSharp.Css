@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Tests.Rules
 {
+    using AngleSharp.Css.Dom;
     using NUnit.Framework;
     using System.Linq;
     using static CssConstructionFunctions;
@@ -116,6 +117,24 @@ namespace AngleSharp.Css.Tests.Rules
             Assert.IsNotNull(rule);
             Assert.AreEqual("0%, 100%", rule.KeyText);
             Assert.AreEqual(2, rule.Key.Stops.Count());
+        }
+
+        [Test]
+        public void KeyframeRuleWithMalformedSelectorIsRejected()
+        {
+            var rule = ParseKeyframeRule("invalid { opacity: 0; }");
+
+            Assert.IsNull(rule);
+        }
+
+        [Test]
+        public void KeyframesRuleOmitsMalformedSelectorAndKeepsFollowingRule()
+        {
+            var sheet = ParseStyleSheet("@keyframes fade { invalid { opacity: 0; } to { opacity: 1; } }");
+            var keyframes = sheet.Rules.OfType<ICssKeyframesRule>().Single();
+
+            Assert.AreEqual(1, keyframes.Rules.Length);
+            Assert.AreEqual("100%", ((ICssKeyframeRule)keyframes.Rules[0]).KeyText);
         }
     }
 }
