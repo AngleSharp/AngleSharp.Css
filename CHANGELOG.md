@@ -12,6 +12,7 @@ Released on Saturday, September 5 2026
 - Fixed operator associativity and result units in `calc()` (#239) @meziantou
 - Fixed unquoted and invalid `url()` handling (#238) @meziantou
 - Fixed handling of invalid keyframe selectors
+- Fixed stackoverflow due to cyclic CSS variables (#241)
 - Added optional CSSOM compliant color seralization (#229) @lahma
 - Added user-preference media features to the render device (#235) @lahma
 - Added media query list evaluation using `IRenderDevice` (#228) @lahma
