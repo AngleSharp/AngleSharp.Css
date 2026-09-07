@@ -1,3 +1,9 @@
+# 1.1.1
+
+Released on Wednesday, September 9 2026
+
+- Fixed unresolved converter re-entry (#243) @sebastienros
+
 # 1.1.0
 
 Released on Saturday, September 5 2026
