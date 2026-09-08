@@ -96,21 +96,20 @@ namespace AngleSharp.Css.Values
         /// <returns>The current transformation.</returns>
         public TransformMatrix ComputeMatrix(IRenderDimensions dimensions)
         {
-            var values = _values.Select(v => v.AsDouble()).ToList();
+            var values = _values.Select(v => v.AsDouble()).ToArray();
 
-            if (values.Count == 6)
+            if (values.Length == 6)
             {
-                values.Add(1.0);
-                values.Add(0.0);
-                values.Add(0.0);
-                values.Add(0.0);
-                values.Add(0.0);
-                values.Add(0.0);
-                values.Add(0.0);
-                values.Add(1.0);
+                values = new[]
+                {
+                    values[0], values[2], 0.0, values[4],
+                    values[1], values[3], 0.0, values[5],
+                    0.0, 0.0, 1.0, 0.0,
+                    0.0, 0.0, 0.0, 1.0,
+                };
             }
 
-            return new TransformMatrix(values.ToArray());
+            return new TransformMatrix(values);
         }
 
         ICssValue ICssValue.Compute(ICssComputeContext context)

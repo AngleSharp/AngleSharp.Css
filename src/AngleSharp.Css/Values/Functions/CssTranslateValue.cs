@@ -133,9 +133,9 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var x = _x.Compute(context);
-            var y = _y.Compute(context);
-            var z = _z.Compute(context);
+            var x = _x?.Compute(context);
+            var y = _y?.Compute(context);
+            var z = _z?.Compute(context);
             return new CssTranslateValue(x, y, z);
         }
 

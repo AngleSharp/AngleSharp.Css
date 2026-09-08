@@ -3,6 +3,7 @@
 Released on Wednesday, September 9 2026
 
 - Fixed unresolved converter re-entry (#243) @sebastienros
+- Fixed issue with computation of `transform` functions
 
 # 1.1.0
 
