@@ -90,22 +90,64 @@ namespace AngleSharp.Css.Tests.Values
         }
 
         [Test]
-        public void PlainSixValueMatrixFunctionThrowsArgumentExceptionWhenComputed()
+        public void PlainSixValueMatrixFunctionDoesNotThrowWhenComputed()
         {
-            // Root cause: CssMatrixValue.ComputeMatrix() (Values/Functions/CssMatrixValue.cs) pads
-            // the ordinary 6-value 2D matrix(a, b, c, d, e, f) form up to a 4x4 matrix by appending
-            // 8 more values (values.Add(...) called 8 times) before constructing a TransformMatrix
-            // from the flat array - but TransformMatrix's array constructor requires exactly 16
-            // values (4x4) and 6 + 8 = 14, not 16, so it throws
-            // "You need to provide 16 (4x4) values." The correct 4x4 homogeneous embedding of a 2D
-            // matrix(a, b, c, d, e, f) is the row-major 16-value array
-            // [a, c, 0, e,  b, d, 0, f,  0, 0, 1, 0,  0, 0, 0, 1] - i.e. 10 padding values are
-            // needed after the original 6, not 8.
+            // Original root cause (now fixed): CssMatrixValue.ComputeMatrix() used to pad the
+            // ordinary 6-value 2D matrix(a, b, c, d, e, f) form up to a 4x4 matrix by appending
+            // only 8 more values before constructing a TransformMatrix from the flat array - but
+            // TransformMatrix's array constructor requires exactly 16 values (4x4) and 6 + 8 = 14,
+            // not 16, so it threw "You need to provide 16 (4x4) values." See
+            // PlainSixValueMatrixFunctionPreservesAllSixComponents below for a second, distinct bug
+            // the fix for this one introduced.
             var source = new StringSource("matrix(1, 0, 0, 1, 5, 9)");
             var value = TransformParser.ParseTransform(source);
             Assert.IsNotNull(value);
 
             Assert.DoesNotThrow(() => value.ComputeMatrix(new PlainRenderDevice()));
+        }
+
+        [Test]
+        public void PlainSixValueMatrixFunctionPreservesAllSixComponents()
+        {
+            // Root cause: TransformMatrix's array constructor (Values/TransformMatrix.cs) is
+            // column-major - `for (i = 0..4) for (j = 0..4, k++) _matrix[j, i] = values[k];` with
+            // `i` as the outer/column index and `j` as the inner/row index, so array indices
+            // 0-3 fill *column* 0 (not row 0), indices 4-7 fill column 1, and so on; Tx/Ty/Tz live
+            // at indices 12/13/14 (the start of column 3), not scattered through the middle of the
+            // array.
+            //
+            // CssMatrixValue.ComputeMatrix()'s current 6-to-16 padding
+            // (Values/Functions/CssMatrixValue.cs) builds
+            // [a, c, 0, e,  b, d, 0, f,  0, 0, 1, 0,  0, 0, 0, 1] - grouping by CSS *row*
+            // (matching how a reader would naturally transcribe matrix(a,b,c,d,e,f) into the 2D
+            // homogeneous matrix [[a,c,0,e],[b,d,0,f],[0,0,1,0],[0,0,0,1]]), which would be correct
+            // for a *row-major* array constructor but is wrong for this one, which is column-major.
+            // Reading that array back through the constructor's actual column-major loop lands
+            // `e` and `f` in column 0/1's *last* row (an unused perspective cell, values[3] and
+            // values[7]) rather than in column 3 (Tx/Ty) - so the translation is silently dropped
+            // to 0 - and it also transposes b/c into the wrong of M12/M21.
+            //
+            // Confirmed with distinguishable, non-symmetric coefficients (a=2, b=3, c=4, d=5, e=6,
+            // f=7) specifically so a coincidental symmetric identity (e.g. a=d=1, b=c=0) cannot mask
+            // the corruption - which is exactly what happened with the identical-looking
+            // PlainSixValueMatrixFunctionDoesNotThrowWhenComputed test above: for matrix(1,0,0,1,5,9)
+            // this bug happens to zero everything down to the identity matrix, silently discarding
+            // the translation without a symptom that "does not throw" alone would ever catch.
+            //
+            // The correct column-major 16-value embedding of matrix(a, b, c, d, e, f) is
+            // [a, b, 0, 0,  c, d, 0, 0,  0, 0, 1, 0,  e, f, 0, 1].
+            var source = new StringSource("matrix(2, 3, 4, 5, 6, 7)");
+            var value = TransformParser.ParseTransform(source);
+            Assert.IsNotNull(value);
+
+            var matrix = value.ComputeMatrix(new PlainRenderDevice());
+
+            Assert.AreEqual(2.0, matrix.M11, "M11 should be a (2)");
+            Assert.AreEqual(4.0, matrix.M12, "M12 should be c (4)");
+            Assert.AreEqual(3.0, matrix.M21, "M21 should be b (3)");
+            Assert.AreEqual(5.0, matrix.M22, "M22 should be d (5)");
+            Assert.AreEqual(6.0, matrix.Tx, "Tx should be e (6)");
+            Assert.AreEqual(7.0, matrix.Ty, "Ty should be f (7)");
         }
     }
 }
