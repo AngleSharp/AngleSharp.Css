@@ -33,6 +33,85 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Forces the given pseudo-class to be considered active (or inactive) for this element
+        /// during selector matching and style computation, e.g. to preview a `:hover` or
+        /// `:active` state without real pointer/keyboard interaction.
+        /// </summary>
+        /// <param name="element">The element to force the pseudo-class on.</param>
+        /// <param name="pseudoClass">The pseudo-class name, with or without the leading colon.</param>
+        /// <param name="value">True to force it as matching, false to force it as not matching.</param>
+        /// <remarks>
+        /// The <c>focus</c> pseudo-class is backed by real focus state instead of a forced
+        /// override; setting it calls <see cref="IHtmlElement.DoFocus"/> / <see cref="IHtmlElement.DoBlur"/>.
+        /// Forcing is explicit and does not propagate to ancestors or descendants.
+        /// </remarks>
+        public static void SetPseudoClass(this IElement element, String pseudoClass, Boolean value = true)
+        {
+            pseudoClass = pseudoClass.TrimStart(':');
+
+            if (pseudoClass.Equals(PseudoClassNames.Focus, StringComparison.OrdinalIgnoreCase))
+            {
+                if (element is IHtmlElement html)
+                {
+                    if (value)
+                    {
+                        html.DoFocus();
+                    }
+                    else
+                    {
+                        html.DoBlur();
+                    }
+                }
+
+                return;
+            }
+
+            PseudoClassStateStore.Set(element, pseudoClass, value);
+        }
+
+        /// <summary>
+        /// Gets the forced state of the given pseudo-class for this element, or null if it has
+        /// not been forced (in which case normal matching rules apply).
+        /// </summary>
+        /// <param name="element">The element to inspect.</param>
+        /// <param name="pseudoClass">The pseudo-class name, with or without the leading colon.</param>
+        public static Boolean? GetPseudoClass(this IElement element, String pseudoClass)
+        {
+            pseudoClass = pseudoClass.TrimStart(':');
+
+            if (pseudoClass.Equals(PseudoClassNames.Focus, StringComparison.OrdinalIgnoreCase))
+            {
+                return element.IsFocused;
+            }
+
+            return PseudoClassStateStore.TryGet(element, pseudoClass, out var value) ? value : null;
+        }
+
+        /// <summary>
+        /// Removes a previously forced pseudo-class state, reverting to normal matching rules.
+        /// </summary>
+        /// <param name="element">The element to reset.</param>
+        /// <param name="pseudoClass">The pseudo-class name, with or without the leading colon.</param>
+        public static void RemovePseudoClass(this IElement element, String pseudoClass)
+        {
+            pseudoClass = pseudoClass.TrimStart(':');
+
+            if (pseudoClass.Equals(PseudoClassNames.Focus, StringComparison.OrdinalIgnoreCase))
+            {
+                (element as IHtmlElement)?.DoBlur();
+                return;
+            }
+
+            PseudoClassStateStore.Remove(element, pseudoClass);
+        }
+
+        /// <summary>
+        /// Removes all forced pseudo-class states for this element.
+        /// </summary>
+        /// <param name="element">The element to reset.</param>
+        public static void ClearPseudoClasses(this IElement element) => PseudoClassStateStore.Clear(element);
+
+        /// <summary>
         /// Gets the innerText of an element.
         /// </summary>
         /// <param name="element">The element to extend.</param>

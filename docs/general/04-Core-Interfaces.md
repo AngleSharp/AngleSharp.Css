@@ -77,6 +77,33 @@ var config = Configuration.Default
 
 These are central for extensibility and custom property handling.
 
+## Pseudo-Class Forcing
+
+AngleSharp has no notion of pointer/keyboard interaction state, so pseudo-classes such as `:hover` and `:active` never match by default. `WithCss()` adds extension methods on `IElement` that let a caller force a pseudo-class to match (or not match) for a specific element, both in `Element.Matches(...)` and in computed style (`ComputeCurrentStyle()`/`ComputeDeclarations(...)`):
+
+- `SetPseudoClass(pseudoClass, value = true)`
+: Forces the given pseudo-class on (or off, with `value: false`).
+- `GetPseudoClass(pseudoClass)`
+: Returns the forced value, or `null` if nothing was forced for that element.
+- `RemovePseudoClass(pseudoClass)`
+: Clears a single forced pseudo-class, reverting to normal matching.
+- `ClearPseudoClasses()`
+: Clears every forced pseudo-class for the element.
+
+```cs
+using AngleSharp.Dom;
+
+var target = document.QuerySelector("#target");
+target.SetPseudoClass("hover");
+
+Console.WriteLine(target.Matches(":hover")); // True
+Console.WriteLine(target.ComputeCurrentStyle().GetPropertyValue("background-color"));
+
+target.RemovePseudoClass("hover");
+```
+
+This applies to any pseudo-class the selector engine recognizes (`:hover`, `:active`, `:visited`, ...), works per element only (forcing a child does not propagate to its ancestors), and is not the mechanism for `:focus`: that pseudo-class already has a real, settable state in AngleSharp core, so `SetPseudoClass("focus", ...)` delegates to `IHtmlElement.DoFocus()`/`DoBlur()` instead of a separate forced flag.
+
 ## Rule Of Thumb
 
 - Use parser and CSSOM interfaces for analysis/transforms.

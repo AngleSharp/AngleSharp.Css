@@ -197,7 +197,33 @@ Console.WriteLine(serialized);
 
 This preserves comments, but not their exact original positions in every case. Depending on where a comment was placed, it may be moved when the stylesheet is serialized again.
 
-## 11. Where To Go Next
+## 11. Preview A `:hover` State Without Real Interaction
+
+Useful for headless rendering/screenshot tools that need to show interactive states.
+
+```cs
+using AngleSharp;
+using AngleSharp.Dom;
+
+var html = @"<!doctype html>
+<style>
+  #btn { background-color: rgb(0, 0, 255); }
+  #btn:hover { background-color: rgb(255, 0, 0); }
+</style>
+<button id='btn'>Hover me</button>";
+
+var context = BrowsingContext.New(Configuration.Default.WithCss());
+var document = await context.OpenAsync(req => req.Content(html));
+
+var button = document.QuerySelector("#btn");
+button.SetPseudoClass("hover");
+
+Console.WriteLine(button.ComputeCurrentStyle().GetPropertyValue("background-color")); // rgba(255, 0, 0, 1)
+
+button.RemovePseudoClass("hover");
+```
+
+## 12. Where To Go Next
 
 - Read [API Documentation](01-API.md) for deeper CSSOM details.
 - Read [Render Tree Examples](03-Render-Tree.md) for style-aware tree traversal and resource download workflows.
