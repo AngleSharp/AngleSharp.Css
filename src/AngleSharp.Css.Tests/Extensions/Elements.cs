@@ -39,7 +39,11 @@ namespace AngleSharp.Css.Tests.Extensions
             };
             var config = Configuration.Default
                 .WithDefaultLoader(loaderOptions)
-                .WithRenderDevice()
+                .WithRenderDevice(new DefaultRenderDevice
+                {
+                    ViewPortWidth = 800,
+                    ViewPortHeight = 600,
+                })
                 .WithCss();
             var document = "<style>div { background: url('https://avatars1.githubusercontent.com/u/10828168?s=200&v=4'); }</style><div></div>".ToHtmlDocument(config);
             var tree = document.DefaultView!.Render();

@@ -128,7 +128,7 @@ namespace AngleSharp.Css.Dom
 
         #region Compute Context
 
-        sealed class PropertyComputeContext : ICssComputeContext
+        sealed class PropertyComputeContext : ICssComputeContext, ILocalComputeContext
         {
             private readonly ICssComputeContext _parent;
             private readonly IValueConverter _converter;
@@ -140,6 +140,8 @@ namespace AngleSharp.Css.Dom
             }
 
             public IRenderDevice Device => _parent.Device;
+
+            public ICssProperties Properties => _parent is ILocalComputeContext local ? local.Properties : null;
 
             public IBrowsingContext Context => _parent.Context;
 

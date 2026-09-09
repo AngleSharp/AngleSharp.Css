@@ -127,7 +127,7 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            if (_unit != Unit.Ms)
+            if (_unit != Unit.Ms && _value != 0.0)
             {
                 var ms = ToMilliseconds();
                 return new CssTimeValue(ms, Unit.Ms);

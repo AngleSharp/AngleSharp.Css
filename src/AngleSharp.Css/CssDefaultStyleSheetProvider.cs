@@ -97,7 +97,7 @@ td, th, tr      { vertical-align: inherit }
 s, strike, del  { text-decoration: line-through }
 hr              { border: 1px inset }
 ol, ul, dir,
-menu, dd        { margin-left: 40px }
+menu, dd        { margin-left: 40px; list-style-type: disc; list-style-position: outside }
 ol              { list-style-type: decimal }
 ol ul, ul ol,
 ul ul, ol ol    { margin-top: 0; margin-bottom: 0 }
