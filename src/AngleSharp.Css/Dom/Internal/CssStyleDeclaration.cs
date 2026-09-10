@@ -91,6 +91,13 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
+            var related = GetPropertyFromShorthand(name);
+
+            if (related is not null)
+            {
+                return related;
+            }
+
             return GetPropertyShorthand(name);
         }
 
@@ -508,6 +515,12 @@ namespace AngleSharp.Css.Dom
 
         private void SetShorthand(ICssProperty shorthand)
         {
+            if ((_context.GetDeclarationInfo(shorthand.Name).Flags & PropertyFlags.PreserveShorthand) == PropertyFlags.PreserveShorthand)
+            {
+                SetLonghand(shorthand);
+                return;
+            }
+
             var properties = _context.CreateLonghands(shorthand);
 
             if (properties is not null)
@@ -517,6 +530,36 @@ namespace AngleSharp.Css.Dom
                     SetProperty(property);
                 }
             }
+        }
+
+        private ICssProperty GetPropertyFromShorthand(String name)
+        {
+            var info = _context.GetDeclarationInfo(name);
+            var factory = _context.GetFactory<IDeclarationFactory>();
+
+            foreach (var shorthandName in info.Shorthands)
+            {
+                if (_declarationIndex.TryGetValue(shorthandName, out var index) && index < _declarations.Count)
+                {
+                    var shorthand = _declarations[index];
+
+                    var shorthandInfo = factory.Create(shorthandName);
+                    var rawValue = shorthand.RawValue ?? shorthandInfo.Converter.Convert(new StringSource(shorthand.Value));
+
+                    if (rawValue is not null)
+                    {
+                        var values = shorthandInfo.Expand(factory, rawValue);
+                        var longhandIndex = Array.IndexOf(shorthandInfo.Longhands, name);
+
+                        if (values is not null && longhandIndex >= 0 && longhandIndex < values.Length)
+                        {
+                            return new CssProperty(name, info.Converter, info.Flags, values[longhandIndex], shorthand.IsImportant);
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
         private void RebuildIndex()

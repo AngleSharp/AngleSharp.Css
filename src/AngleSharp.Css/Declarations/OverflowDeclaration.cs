@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Declarations
 
         public static ICssValue InitialValue = InitialValues.OverflowDecl;
 
-        public static PropertyFlags Flags = PropertyFlags.Shorthand;
+        public static PropertyFlags Flags = PropertyFlags.Shorthand | PropertyFlags.PreserveShorthand;
 
         sealed class OverflowAggregator : IValueAggregator, IValueConverter
         {
