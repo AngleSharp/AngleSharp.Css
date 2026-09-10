@@ -129,6 +129,11 @@ namespace AngleSharp.Css.Dom
                 {
                     for (var i = 0; i < info.Longhands.Length; i++)
                     {
+                        if (style.Any(property => property.Name.Is(info.Longhands[i])))
+                        {
+                            continue;
+                        }
+
                         var longhand = factory.Create(info.Longhands[i]);
                         computedStyle.AddProperty(new CssProperty(info.Longhands[i], longhand.Converter, longhand.Flags, values[i], shorthand.IsImportant));
                     }

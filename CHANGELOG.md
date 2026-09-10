@@ -9,6 +9,7 @@ Released on Wednesday, September 9 2026
 - Fixed default list styling for unordered lists
 - Added shorthand decomposition and `clip` support for `overflow`
 - Added explicit pseudo class handling via `SetPseudoClass`
+- Added support for parsing `filter` declarations
 
 # 1.1.0
 
