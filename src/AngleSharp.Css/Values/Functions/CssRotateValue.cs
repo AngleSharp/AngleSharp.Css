@@ -149,8 +149,16 @@ namespace AngleSharp.Css.Values
         public TransformMatrix ComputeMatrix(IRenderDimensions renderDimensions)
         {
             var x = _x.AsDouble();
-            var y = _x.AsDouble();
-            var z = _x.AsDouble();
+            var y = _y.AsDouble();
+            var z = _z.AsDouble();
+
+            if (_x is null && _y is null && _z is null)
+            {
+                x = 0.0;
+                y = 0.0;
+                z = 1.0;
+            }
+
             var norm = 1.0 / Math.Sqrt(x * x + y * y + z * z);
             var alpha = _angle.AsRad();
             var sina = Math.Sin(alpha);

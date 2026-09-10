@@ -89,9 +89,53 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var h = ((ICssValue)_horizontal).Compute(context);
-            var v = ((ICssValue)_vertical).Compute(context);
+            var h = ComputePeriodic(_horizontal, context, RenderMode.Horizontal);
+            var v = ComputePeriodic(_vertical, context, RenderMode.Vertical);
             return new CssBorderRadiusValue((CssPeriodicValue)h, (CssPeriodicValue)v);
+        }
+
+        private static CssPeriodicValue ComputePeriodic(CssPeriodicValue value, ICssComputeContext context, RenderMode mode) =>
+            new CssPeriodicValue(new[]
+            {
+                ComputeLength(value.Top, context, mode),
+                ComputeLength(value.Right, context, mode),
+                ComputeLength(value.Bottom, context, mode),
+                ComputeLength(value.Left, context, mode),
+            });
+
+        private static ICssValue ComputeLength(ICssValue value, ICssComputeContext context, RenderMode mode)
+        {
+            if (value is CssLengthValue length && length.Type == CssLengthValue.Unit.Percent)
+            {
+                return new CssLengthValue(length.Value * 0.01 * GetDimension(context, mode), CssLengthValue.Unit.Px);
+            }
+
+            if (value is CssPercentageValue percentage)
+            {
+                var dimension = GetDimension(context, mode);
+                return new CssLengthValue(percentage.Value * 0.01 * dimension, CssLengthValue.Unit.Px);
+            }
+
+            return value.Compute(context);
+        }
+
+        private static Double GetDimension(ICssComputeContext context, RenderMode mode)
+        {
+            var name = mode == RenderMode.Horizontal ? PropertyNames.Width : PropertyNames.Height;
+            var properties = (context as ILocalComputeContext)?.Properties;
+            var property = properties?.GetProperty(name);
+
+            if (property?.RawValue is CssLengthValue length && length.Type == CssLengthValue.Unit.Px)
+            {
+                return length.Value;
+            }
+
+            if (CssLengthValue.TryParse(properties?.GetPropertyValue(name), out var parsed))
+            {
+                return parsed.ToPixel(context.Device);
+            }
+
+            return mode == RenderMode.Horizontal ? context.Device.RenderWidth : context.Device.RenderHeight;
         }
 
         #endregion

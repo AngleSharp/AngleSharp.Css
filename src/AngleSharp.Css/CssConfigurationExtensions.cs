@@ -4,6 +4,7 @@ namespace AngleSharp
     using AngleSharp.Css;
     using AngleSharp.Css.Parser;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Extensions for the configuration.
@@ -50,6 +51,16 @@ namespace AngleSharp
             if (!configuration.Has<ICssParser>())
             {
                 configuration = configuration.With<ICssParser>(context => new CssParser(options, context));
+            }
+
+            // Wraps whatever pseudo-class selector factory is registered so that pseudo-classes
+            // it recognizes (e.g. :hover, :active) can be forced per element via
+            // ElementExtensions.SetPseudoClass, regardless of which factory instance is in use.
+            var pseudoClassFactory = configuration.Services.OfType<IPseudoClassSelectorFactory>().FirstOrDefault();
+
+            if (pseudoClassFactory is not null && pseudoClassFactory is not ForcingPseudoClassSelectorFactory)
+            {
+                configuration = configuration.WithOnly<IPseudoClassSelectorFactory>(new ForcingPseudoClassSelectorFactory(pseudoClassFactory));
             }
 
             return configuration

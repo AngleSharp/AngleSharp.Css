@@ -3,9 +3,9 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Text;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
-    using AngleSharp.Text;
     using System;
     using System.Linq;
 
@@ -96,8 +96,11 @@ namespace AngleSharp.Css.Dom
                 var computed = property.Compute(context);
 
                 var substitutedKeyword = property.RawValue is not ICssSpecialValue && computed.RawValue is ICssSpecialValue;
+                var info = context.Context.GetDeclarationInfo(property.Name);
+                var initialValue = computed.RawValue is CssInitialValue ||
+                    (info.Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
 
-                if ((computed.RawValue is null || substitutedKeyword) && property.RawValue is not null && property is CssProperty cssProperty)
+                if ((computed.RawValue is null || substitutedKeyword || initialValue) && property.RawValue is not null && property is CssProperty cssProperty)
                 {
                     var inherit = computed.RawValue is CssInheritValue ||
                         (computed.RawValue is not CssInitialValue && property.CanBeInherited);
@@ -109,6 +112,32 @@ namespace AngleSharp.Css.Dom
                 }
 
                 computedStyle.AddProperty(computed);
+            }
+
+            var factory = context.Context.GetFactory<IDeclarationFactory>();
+            var preservedShorthands = style
+                .Where(property => (factory.Create(property.Name).Flags & PropertyFlags.PreserveShorthand) != 0)
+                .ToArray();
+
+            foreach (var shorthand in preservedShorthands)
+            {
+                var info = factory.Create(shorthand.Name);
+                var rawValue = shorthand.RawValue ?? info.Converter.Convert(new StringSource(shorthand.Value));
+                var values = rawValue is null ? null : info.Expand(factory, rawValue);
+
+                if (values is not null)
+                {
+                    for (var i = 0; i < info.Longhands.Length; i++)
+                    {
+                        if (style.Any(property => property.Name.Is(info.Longhands[i])))
+                        {
+                            continue;
+                        }
+
+                        var longhand = factory.Create(info.Longhands[i]);
+                        computedStyle.AddProperty(new CssProperty(info.Longhands[i], longhand.Converter, longhand.Flags, values[i], shorthand.IsImportant));
+                    }
+                }
             }
 
             return computedStyle;

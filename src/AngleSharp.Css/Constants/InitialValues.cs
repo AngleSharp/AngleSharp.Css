@@ -59,6 +59,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue ForcedColorAdjustDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue PrintColorAdjustDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue BackdropFilterDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue FilterDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue MixBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue BackgroundBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue IsolationDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
@@ -90,7 +91,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue AnimationNameDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue AnimationDurationDecl = CssTimeValue.Zero;
         public static readonly ICssValue AnimationTimingFunctionDecl = CssCubicBezierValue.Ease;
-        public static readonly ICssValue AnimationDelayDecl = CssTimeValue.Zero;
+        public static readonly ICssValue AnimationDelayDecl = new CssTimeValue(0, CssTimeValue.Unit.S);
         public static readonly ICssValue AnimationIterationCountDecl = new CssLengthValue(1, CssLengthValue.Unit.None);
         public static readonly ICssValue AnimationDirectionDecl = new CssConstantValue<AnimationDirection>(CssKeywords.Normal, AnimationDirection.Normal);
         public static readonly ICssValue AnimationFillModeDecl = new CssConstantValue<AnimationFillStyle>(CssKeywords.None, AnimationFillStyle.None);

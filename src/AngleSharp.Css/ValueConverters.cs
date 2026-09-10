@@ -284,6 +284,13 @@ namespace AngleSharp.Css
         public static readonly IValueConverter BackdropFilterConverter = Assign(CssKeywords.None, CssKeywords.None);
 
         /// <summary>
+        /// Represents a filter function list or the none keyword.
+        /// </summary>
+        public static readonly IValueConverter FilterConverter = Or(
+            Assign(CssKeywords.None, CssKeywords.None),
+            FromParser(FilterParser.ParseFilter));
+
+        /// <summary>
         /// Represents a converter for blend mode values (mix-blend-mode, background-blend-mode).
         /// </summary>
         public static readonly IValueConverter BlendModeConverter = Or(

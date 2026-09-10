@@ -61,7 +61,15 @@ namespace AngleSharp.Css.Values
                 source.SkipSpacesAndComments();
                 var value = converter.Convert(source);
                 source.SkipSpacesAndComments();
-                return source.IsDone ? value?.Compute(context) : null;
+
+                if (!source.IsDone)
+                {
+                    return null;
+                }
+
+                // A composite converter may accept opaque tokens through an Any
+                // arm. Recomputing that result would re-enter the same converter.
+                return value is CssAnyValue ? value : value?.Compute(context);
             }
 
             return IsResolved ? this : null;

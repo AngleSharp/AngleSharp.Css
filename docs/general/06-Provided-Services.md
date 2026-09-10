@@ -18,6 +18,7 @@ From the default configuration extension:
 - `ICssParser` -> parser instance using optional `CssParserOptions`,
 - `IStylingService` -> `CssStylingService` for CSS MIME handling,
 - CSS observer service (`Factory.Observer`) for style mutation integration.
+- `IPseudoClassSelectorFactory` -> wrapped so any recognized pseudo-class can be forced per element via `SetPseudoClass(...)` (see [Core Interfaces](04-Core-Interfaces.md)).
 
 ## Quick Service Retrieval
 

@@ -4,7 +4,7 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Linq;
 
-    sealed class CssComputeContext : ICssComputeContext
+    sealed class CssComputeContext : ICssComputeContext, ILocalComputeContext
     {
         private readonly IRenderDevice _device;
         private readonly IBrowsingContext? _context;
@@ -17,7 +17,10 @@ namespace AngleSharp.Css.Values
             _context = context;
             _variables = new CssCustomPropertyResolver(properties, parent);
             _parent = parent;
+            Properties = properties;
         }
+
+        public ICssProperties Properties { get; }
 
         public IRenderDevice Device => _device;
 

@@ -254,25 +254,35 @@ namespace AngleSharp.Css
                     flags: ForcedColorAdjustDeclaration.Flags)
             },
             {
+                FilterDeclaration.Name, new DeclarationInfo(
+                    name: FilterDeclaration.Name,
+                    converter: FilterDeclaration.Converter,
+                    initialValue: FilterDeclaration.InitialValue,
+                    flags: FilterDeclaration.Flags)
+            },
+            {
                 OverflowDeclaration.Name, new DeclarationInfo(
                     name: OverflowDeclaration.Name,
                     converter: OverflowDeclaration.Converter,
                     initialValue: OverflowDeclaration.InitialValue,
-                    flags: OverflowDeclaration.Flags)
+                    flags: OverflowDeclaration.Flags,
+                    longhands: OverflowDeclaration.Longhands)
             },
             {
                 OverflowXDeclaration.Name, new DeclarationInfo(
                     name: OverflowXDeclaration.Name,
                     converter: OverflowXDeclaration.Converter,
                     initialValue: OverflowXDeclaration.InitialValue,
-                    flags: OverflowXDeclaration.Flags)
+                    flags: OverflowXDeclaration.Flags,
+                    shorthands: OverflowXDeclaration.Shorthands)
             },
             {
                 OverflowYDeclaration.Name, new DeclarationInfo(
                     name: OverflowYDeclaration.Name,
                     converter: OverflowYDeclaration.Converter,
                     initialValue: OverflowYDeclaration.InitialValue,
-                    flags: OverflowYDeclaration.Flags)
+                    flags: OverflowYDeclaration.Flags,
+                    shorthands: OverflowYDeclaration.Shorthands)
             },
             {
                 PositionDeclaration.Name, new DeclarationInfo(

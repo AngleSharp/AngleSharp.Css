@@ -37,6 +37,10 @@ namespace AngleSharp.Css
         /// <summary>
         /// The property is not known.
         /// </summary>
-        Unknown = 0x20
+        Unknown = 0x20,
+        /// <summary>
+        /// The authored shorthand is retained instead of being expanded immediately.
+        /// </summary>
+        PreserveShorthand = 0x40
     }
 }

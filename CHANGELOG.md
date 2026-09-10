@@ -1,3 +1,16 @@
+# 1.1.1
+
+Released on Wednesday, September 9 2026
+
+- Fixed unresolved converter re-entry (#243) @sebastienros
+- Fixed issue with computation of `transform` functions
+- Fixed computed `animation` longhands retaining unresolved `initial` values
+- Fixed percentage `border-radius` components resolving against the wrong axis
+- Fixed default list styling for unordered lists
+- Added shorthand decomposition and `clip` support for `overflow`
+- Added explicit pseudo class handling via `SetPseudoClass`
+- Added support for parsing `filter` declarations
+
 # 1.1.0
 
 Released on Saturday, September 5 2026

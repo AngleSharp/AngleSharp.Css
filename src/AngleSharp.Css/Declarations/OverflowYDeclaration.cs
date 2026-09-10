@@ -8,6 +8,11 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.OverflowY;
 
+        public static String[] Shorthands = new[]
+        {
+            PropertyNames.Overflow,
+        };
+
         public static IValueConverter Converter = OverflowExtendedModeConverter;
 
         public static ICssValue InitialValue = InitialValues.OverflowDecl;
