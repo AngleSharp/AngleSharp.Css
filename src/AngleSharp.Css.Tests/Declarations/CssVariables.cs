@@ -194,10 +194,13 @@ namespace AngleSharp.Css.Tests.Declarations
         [Test]
         public void GridGapShorthandWithVariableKeepsLonghands()
         {
+            // gap's two-value form is <row-gap> <column-gap> (the first value is the row gap) -
+            // this test previously encoded the reverse, matching a real, now-fixed bug in
+            // GapDeclaration's own Longhands ordering (see GapShorthandComputedStyleTests).
             var style = ParseDeclarations(@"gap: 12px var(--gap-x)");
 
-            Assert.AreEqual("12px", style.GetProperty("column-gap").Value);
-            Assert.AreEqual("var(--gap-x)", style.GetProperty("row-gap").Value);
+            Assert.AreEqual("12px", style.GetProperty("row-gap").Value);
+            Assert.AreEqual("var(--gap-x)", style.GetProperty("column-gap").Value);
         }
 
         [Test]

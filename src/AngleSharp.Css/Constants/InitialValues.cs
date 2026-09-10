@@ -191,7 +191,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue TextTransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextShadowDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextRenderingDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
-        public static readonly ICssValue TextOverflowDecl = new CssConstantValue<OverflowMode>(CssKeywords.Auto, OverflowMode.Clip);
+        public static readonly ICssValue TextOverflowDecl = new CssConstantValue<TextOverflow>(CssKeywords.Clip, TextOverflow.Clip);
         public static readonly ICssValue TextOrientationDecl = new CssConstantValue<Object>(CssKeywords.Mixed, null);
         public static readonly ICssValue TextJustifyDecl = new CssConstantValue<TextJustify>(CssKeywords.Auto, TextJustify.Auto);
         public static readonly ICssValue TextIndentDecl = CssLengthValue.Zero;

@@ -1,3 +1,12 @@
+# 1.1.2
+
+Released on ?
+
+- Fixed issue with calculation of CSS grid style
+- Fixed default value of CSS gradients
+- Fixed issue with Point2D style computations
+- Added support for more `text-overflow` keywords
+
 # 1.1.1
 
 Released on Wednesday, September 9 2026

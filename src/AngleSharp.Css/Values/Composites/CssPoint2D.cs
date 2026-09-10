@@ -163,7 +163,7 @@ namespace AngleSharp.Css.Values
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var x = _x.Compute(context);
-            var y = _x.Compute(context);
+            var y = _y.Compute(context);
 
             if (x != _x || y != _y)
             {

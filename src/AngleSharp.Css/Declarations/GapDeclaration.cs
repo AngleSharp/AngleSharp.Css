@@ -11,10 +11,14 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.Gap;
 
+        // Order must match GapAggregagtor.Split()'s own [row, col] convention (values[0]/Items[0]
+        // is always treated as the row value by both Merge() and Split() below) - this used to list
+        // ColumnGap first, pairing it with the row value and vice versa, so `gap: 10px 20px`
+        // (row-gap 10px, column-gap 20px per spec) computed row-gap as 20px and column-gap as 10px.
         public static readonly String[] Longhands = new[]
         {
-            PropertyNames.ColumnGap,
             PropertyNames.RowGap,
+            PropertyNames.ColumnGap,
         };
 
         public static readonly IValueConverter Converter = new GapAggregagtor();

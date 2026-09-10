@@ -236,7 +236,14 @@ namespace AngleSharp.Css.Parser
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
-            var position = source.ParseDistanceOrCalc();
+            // A conic-gradient's stops are naturally positioned with angles (e.g. "red 0deg"), not
+            // just <length-percentage> - this same stop parser is shared across linear/radial/conic
+            // (no gradient-kind context is threaded through), so distance/percent is tried first
+            // (the common case for linear/radial) and angle only as a fallback once that fails and
+            // backtracks. Without this, any angle-positioned stop left the source mid-token instead
+            // of at the following comma/close-paren, which made the *entire* gradient fail to parse
+            // rather than just that one stop's position.
+            var position = source.ParseDistanceOrCalc() ?? source.ParseAngleOrCalc();
 
             if (color.HasValue)
             {

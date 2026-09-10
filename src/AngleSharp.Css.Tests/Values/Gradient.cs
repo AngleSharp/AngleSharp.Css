@@ -471,5 +471,46 @@ namespace AngleSharp.Css.Tests.Values
             Assert.AreEqual(CssColorValue.FromName("yellow").Value, ((CssGradientStopValue)stops[3]).Color);
             Assert.AreEqual(CssColorValue.FromName("red").Value, ((CssGradientStopValue)stops[4]).Color);
         }
+
+        [Test]
+        public void ConicGradientDefaultAngleIsZeroNotHalfCircle()
+        {
+            // https://drafts.csswg.org/css-images-4/#conic-gradients: "from <angle>" defaults to
+            // 0deg when omitted. CssConicGradientValue.Angle instead falls back to
+            // CssAngleValue.Half (180deg) - correct for CssLinearGradientValue.Angle's own default
+            // ("to bottom" is 180deg), but wrong for conic-gradient, which does not share linear
+            // gradient's default direction. Confirmed via Arguments.Length == Stops.Length (proving
+            // no angle/center was actually parsed - the leading-argument insertion in
+            // CssConicGradientValue.Arguments only happens for a value that was really authored),
+            // so this is the property's own fallback being wrong, not a parsing gap.
+            var source = "conic-gradient(red, blue)";
+            var gradient = GradientConverter.Convert(source) as CssConicGradientValue;
+
+            Assert.IsNotNull(gradient);
+            Assert.AreEqual(gradient.Stops.Length, gradient.Arguments.Length, "no angle/center was actually authored");
+            Assert.AreEqual(CssAngleValue.Zero, gradient.Angle, "an omitted `from` should default to 0deg per spec, not 180deg");
+        }
+
+        [Test]
+        public void ConicGradientAcceptsAngleBasedStopPositions()
+        {
+            // A conic-gradient stop is naturally positioned with an angle ("red 0deg"), not just a
+            // <length-percentage> - GradientParser.ParseGradientStop only ever tried
+            // ParseDistanceOrCalc for a stop's position (shared, unparameterized, across linear/
+            // radial/conic), which does not accept "0deg" at all. That left the source mid-token
+            // instead of at the following comma/close-paren, which made the *entire* gradient fail
+            // to parse (GradientConverter.Convert returning null) rather than just that one stop's
+            // position - confirmed by first reproducing with GradientParser.ParseGradient directly
+            // before tracing it to this one call site.
+            var source = "conic-gradient(red 0deg, blue 90deg, green 1turn)";
+            var gradient = GradientConverter.Convert(source) as CssConicGradientValue;
+
+            Assert.IsNotNull(gradient);
+            var stops = gradient.Stops.OfType<CssGradientStopValue>().ToArray();
+            Assert.AreEqual(3, stops.Length);
+            Assert.AreEqual(CssAngleValue.Zero, stops[0].Location);
+            Assert.AreEqual(CssAngleValue.Quarter, stops[1].Location);
+            Assert.AreEqual(new CssAngleValue(360.0, CssAngleValue.Unit.Deg), stops[2].Location);
+        }
     }
 }

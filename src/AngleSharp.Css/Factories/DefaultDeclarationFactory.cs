@@ -453,6 +453,13 @@ namespace AngleSharp.Css
                     flags: OverflowWrapDeclaration.Flags)
             },
             {
+                TextOverflowDeclaration.Name, new DeclarationInfo(
+                    name: TextOverflowDeclaration.Name,
+                    converter: TextOverflowDeclaration.Converter,
+                    initialValue: TextOverflowDeclaration.InitialValue,
+                    flags: TextOverflowDeclaration.Flags)
+            },
+            {
                 WordWrapDeclaration.Name, new DeclarationInfo(
                     name: WordWrapDeclaration.Name,
                     converter: WordWrapDeclaration.Converter,
