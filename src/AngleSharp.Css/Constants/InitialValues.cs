@@ -59,6 +59,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue ForcedColorAdjustDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue PrintColorAdjustDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
         public static readonly ICssValue BackdropFilterDecl = new CssConstantValue<Object>(CssKeywords.None, null);
+        public static readonly ICssValue FilterDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue MixBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue BackgroundBlendModeDecl = new CssConstantValue<Object>(CssKeywords.Normal, null);
         public static readonly ICssValue IsolationDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
