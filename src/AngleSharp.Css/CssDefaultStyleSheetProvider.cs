@@ -102,7 +102,8 @@ ol              { list-style-type: decimal }
 ol ul, ul ol,
 ul ul, ol ol    { margin-top: 0; margin-bottom: 0 }
 u, ins          { text-decoration: underline }
-br:before       { content: '\A'; white-space: pre-line }
+br::before      { content: '\A'; white-space: pre-line }
+*::before, *::after { display: inline }
 center          { text-align: center }
 :link, :visited { text-decoration: underline }
 :focus          { outline: thin dotted invert }

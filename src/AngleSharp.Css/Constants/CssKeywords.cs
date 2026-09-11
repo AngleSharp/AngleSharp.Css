@@ -28,6 +28,11 @@ namespace AngleSharp.Css
         public static readonly String Clip = "clip";
 
         /// <summary>
+        /// The ellipsis keyword.
+        /// </summary>
+        public static readonly String Ellipsis = "ellipsis";
+
+        /// <summary>
         /// The cyclic keyword.
         /// </summary>
         public static readonly String Cyclic = "cyclic";

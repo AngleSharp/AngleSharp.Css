@@ -34,7 +34,11 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.IsNotNull(service.Default);
             var sheet = service.Default;
             Assert.IsNotNull(sheet);
-            Assert.AreEqual(49, sheet.Rules.Length);
+            // 50, not 49: the UA stylesheet now also carries a `*:before, *:after { display: inline }`
+            // rule, giving generated-content pseudo-elements their spec-correct default display
+            // (previously they had none at all, so this renderer's general "unset display defaults
+            // to block" fallback made every ::before/::after start its own new block line).
+            Assert.AreEqual(50, sheet.Rules.Length);
         }
     }
 }

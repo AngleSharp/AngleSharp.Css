@@ -780,6 +780,15 @@ namespace AngleSharp.Css
         };
 
         /// <summary>
+        /// Contains the string-TextOverflow mapping.
+        /// </summary>
+        public static readonly Dictionary<String, TextOverflow> TextOverflows = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { CssKeywords.Clip, TextOverflow.Clip },
+            { CssKeywords.Ellipsis, TextOverflow.Ellipsis },
+        };
+
+        /// <summary>
         /// Contains the string-ResizeMode mapping.
         /// </summary>
         public static readonly Dictionary<String, ResizeMode> ResizeModes = new(StringComparer.OrdinalIgnoreCase)

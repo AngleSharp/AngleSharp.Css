@@ -1,0 +1,20 @@
+namespace AngleSharp.Css.Declarations
+{
+    using AngleSharp.Css.Dom;
+    using System;
+    using static ValueConverters;
+
+    static class ColorInterpolationFiltersDeclaration
+    {
+        public static String Name = PropertyNames.ColorInterpolationFilters;
+
+        public static IValueConverter Converter = Or(
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign("sRGB", "sRGB"),
+            Assign("linearRGB", "linearRGB"));
+
+        public static ICssValue InitialValue = InitialValues.ColorInterpolationFiltersDecl;
+
+        public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Animatable;
+    }
+}

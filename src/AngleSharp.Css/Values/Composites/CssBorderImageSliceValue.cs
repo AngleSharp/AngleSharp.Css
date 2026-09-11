@@ -139,10 +139,10 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var bottom = (CssLengthValue)((ICssValue)_bottom).Compute(context);
-            var left = (CssLengthValue)((ICssValue)_left).Compute(context);
-            var right = (CssLengthValue)((ICssValue)_right).Compute(context);
-            var top = (CssLengthValue)((ICssValue)_top).Compute(context);
+            var bottom = _bottom.Compute(context);
+            var left = _left.Compute(context);
+            var right = _right.Compute(context);
+            var top = _top.Compute(context);
             return new CssBorderImageSliceValue(top, right, bottom, left, _filled);
         }
 

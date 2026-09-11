@@ -11,10 +11,12 @@ namespace AngleSharp.Css.Declarations
     {
         public static readonly String Name = PropertyNames.GridGap;
 
+        // Same fix, same reasoning as GapDeclaration.Longhands - order must match
+        // GridGapAggregagtor.Split()'s own [row, col] convention.
         public static readonly String[] Longhands = new[]
         {
-            PropertyNames.GridColumnGap,
             PropertyNames.GridRowGap,
+            PropertyNames.GridColumnGap,
         };
 
         public static readonly IValueConverter Converter = new GridGapAggregagtor();

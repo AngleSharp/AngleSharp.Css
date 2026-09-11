@@ -199,7 +199,10 @@ em { font-style: italic !important; }
 
             var style = window.GetComputedStyle(element, ":after");
             Assert.IsNotNull(style);
-            Assert.AreEqual(2, style.Length);
+            // 3, not 2: `color` (the rule's own) + `font-weight` (inherited from .bold) + `display`
+            // (the UA stylesheet's `*:before, *:after { display: inline }` default, giving generated
+            // content its spec-correct display instead of none at all).
+            Assert.AreEqual(3, style.Length);
         }
 
         [Test]
@@ -219,7 +222,9 @@ em { font-style: italic !important; }
 
             var style = window.GetComputedStyle(element, "::after");
             Assert.IsNotNull(style);
-            Assert.AreEqual(2, style.Length);
+            // See GetComputedStylePseudoInitialScenarioSingleColon's comment above - same rule, `::`
+            // syntax instead of `:`.
+            Assert.AreEqual(3, style.Length);
         }
 
         [Test]
@@ -243,7 +248,9 @@ em { font-style: italic !important; }
 
             var stylePseudo = window.GetComputedStyle(element, ":before");
             Assert.IsNotNull(stylePseudo);
-            Assert.AreEqual(3, stylePseudo.Length);
+            // 4, not 3: `color` + `content` (the rule's own) + `font-weight` (inherited) + `display`
+            // (the UA stylesheet's `*:before, *:after { display: inline }` default).
+            Assert.AreEqual(4, stylePseudo.Length);
         }
 
         [Test]

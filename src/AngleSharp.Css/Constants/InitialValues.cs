@@ -191,7 +191,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue TextTransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextShadowDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TextRenderingDecl = new CssConstantValue<Object>(CssKeywords.Auto, null);
-        public static readonly ICssValue TextOverflowDecl = new CssConstantValue<OverflowMode>(CssKeywords.Auto, OverflowMode.Clip);
+        public static readonly ICssValue TextOverflowDecl = new CssConstantValue<TextOverflow>(CssKeywords.Clip, TextOverflow.Clip);
         public static readonly ICssValue TextOrientationDecl = new CssConstantValue<Object>(CssKeywords.Mixed, null);
         public static readonly ICssValue TextJustifyDecl = new CssConstantValue<TextJustify>(CssKeywords.Auto, TextJustify.Auto);
         public static readonly ICssValue TextIndentDecl = CssLengthValue.Zero;
@@ -331,6 +331,17 @@ namespace AngleSharp.Css
         public static readonly ICssValue PositionTryOrderDecl = new CssIdentifierValue(CssKeywords.Normal);
         public static readonly ICssValue PositionVisibilityDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue TextUnderlineOffsetDecl = CssLengthValue.Zero;
+        public static readonly ICssValue TextUnderlinePositionDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue WritingModeDecl = new CssIdentifierValue("horizontal-tb");
+        public static readonly ICssValue ClipPathDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue FillRuleDecl = new CssIdentifierValue("nonzero");
+        public static readonly ICssValue FillOpacityDecl = new CssNumberValue(1.0);
+        public static readonly ICssValue ClipRuleDecl = new CssIdentifierValue("nonzero");
+        public static readonly ICssValue MarkerDecl = new CssIdentifierValue(CssKeywords.None);
+        public static readonly ICssValue BaselineShiftDecl = new CssIdentifierValue("baseline");
+        public static readonly ICssValue DominantBaselineDecl = new CssIdentifierValue(CssKeywords.Auto);
+        public static readonly ICssValue AlignmentBaselineDecl = new CssIdentifierValue("baseline");
+        public static readonly ICssValue ColorInterpolationFiltersDecl = new CssIdentifierValue("linearRGB");
         public static readonly ICssValue TextDecorationThicknessDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue TextDecorationSkipInkDecl = new CssIdentifierValue(CssKeywords.Auto);
         public static readonly ICssValue TextWrapDecl = new CssIdentifierValue(CssKeywords.Wrap);

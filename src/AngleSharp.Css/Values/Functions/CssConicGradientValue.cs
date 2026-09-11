@@ -103,9 +103,11 @@ namespace AngleSharp.Css.Values
         }
 
         /// <summary>
-        /// Gets the angle of the conic gradient.
+        /// Gets the angle of the conic gradient. Defaults to 0deg when no "from" clause was
+        /// authored, per https://drafts.csswg.org/css-images-4/#conic-gradients - unlike
+        /// CssLinearGradientValue.Angle, whose own "to bottom" default really is 180deg.
         /// </summary>
-        public ICssValue Angle => _angle ?? Values.CssAngleValue.Half;
+        public ICssValue Angle => _angle ?? Values.CssAngleValue.Zero;
 
         /// <summary>
         /// Gets the position of the conic gradient.
@@ -162,8 +164,12 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var center = _center.Compute(context);
-            var angle = _angle.Compute(context);
+            // _center/_angle are null whenever no "at"/"from" clause was authored (the default
+            // center/0deg case, the most common way conic-gradient is actually written) - calling
+            // .Compute() on them unconditionally threw a NullReferenceException for that ordinary
+            // case.
+            var center = _center?.Compute(context);
+            var angle = _angle?.Compute(context);
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
             return new CssConicGradientValue(angle, center, stops, _repeating);
         }

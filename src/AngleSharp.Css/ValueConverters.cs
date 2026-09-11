@@ -1254,6 +1254,11 @@ namespace AngleSharp.Css
 		/// </summary>
 		public static readonly IValueConverter OverflowWrapConverter = Map.OverflowWraps.ToConverter();
 
+		/// <summary>
+		/// Represents a converter for the TextOverflow enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextOverflowConverter = Map.TextOverflows.ToConverter();
+
         /// <summary>
         /// Represents a converter for the BorderImageRepeat property.
         /// </summary>

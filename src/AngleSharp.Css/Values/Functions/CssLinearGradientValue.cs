@@ -154,7 +154,10 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var angle = _angle.Compute(context);
+            // _angle is null whenever no direction was authored (the default "to bottom" case,
+            // the most common way linear-gradient is actually written) - calling .Compute() on it
+            // unconditionally threw a NullReferenceException for that ordinary case.
+            var angle = _angle?.Compute(context);
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
             return new CssLinearGradientValue(angle, stops, _repeating);
         }

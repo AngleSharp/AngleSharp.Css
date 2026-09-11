@@ -1,3 +1,24 @@
+# 1.1.2
+
+Released on Friday, September 11 2026
+
+- Fixed issue with calculation of CSS grid style
+- Fixed default value of CSS gradients
+- Fixed issue with Point2D style computations
+- Fixed issue with style computation of `border-image-slice` declarations
+- Fixed handling of `::before` and `::after` w.r.t. `content` declarations
+- Added support for more `text-overflow` keywords
+- Added `alignment-baseline` declaration
+- Added `baseline-shift` declaration
+- Added `color-interpolation-filters` declaration
+- Added `clip-path` and `clip-rule` declarations
+- Added `dominant-baseline` declaration
+- Added `fill-opacity` and `fill-rule` declarations
+- Added `marker-start`, `marker-mid`, and `marker-end` declarations
+- Added `mask` declaration
+- Added `text-underline-position` declaration
+- Added `writing-mode` declaration
+
 # 1.1.1
 
 Released on Wednesday, September 9 2026

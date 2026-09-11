@@ -196,8 +196,12 @@ namespace AngleSharp.Css.Values
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var center = (CssPoint2D)((ICssValue)_center).Compute(context);
-            var width = _width.Compute(context);
-            var height = _height.Compute(context);
+            // _width/_height are null whenever no explicit size/radius was authored (the default
+            // ellipse/farthest-corner case, the most common way radial-gradient is actually
+            // written) - calling .Compute() on them unconditionally threw a NullReferenceException
+            // for that ordinary case.
+            var width = _width?.Compute(context);
+            var height = _height?.Compute(context);
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
             return new CssRadialGradientValue(_circle, center, width, height, _sizeMode, stops, _repeating);
         }

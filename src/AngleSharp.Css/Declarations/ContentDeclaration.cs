@@ -21,6 +21,27 @@ namespace AngleSharp.Css.Declarations
 
         public static PropertyFlags Flags = PropertyFlags.None;
 
+        /// <summary>
+        /// Whether <paramref name="style"/>'s own computed <c>content</c> actually generates content
+        /// - used by <see cref="RenderTree.RenderTreeBuilder"/> to decide whether a <c>::before</c>/
+        /// <c>::after</c> pseudo-element gets a render-tree node at all (per spec, <c>none</c> and the
+        /// initial/unset <c>normal</c> - the only values <see cref="ContentValueConverter"/> parses to
+        /// zero modes for - generate no box).
+        /// </summary>
+        public static Boolean HasContent(ICssStyleDeclaration style) =>
+            (style as CssStyleDeclaration)?.GetProperty(Name)?.RawValue is ContentValueConverter.ContentValue value && value.HasContent;
+
+        /// <summary>
+        /// Resolves <paramref name="style"/>'s own computed <c>content</c> into its final text against
+        /// <paramref name="element"/> (e.g. resolving <c>attr()</c> against a live attribute) - used by
+        /// <see cref="RenderTree.RenderTreeBuilder"/> to synthesize a <c>::before</c>/<c>::after</c>
+        /// pseudo-element's single generated-content child. Returns an empty string for anything not
+        /// itself a parsed <see cref="ContentValueConverter.ContentValue"/> (unset, <c>none</c>, or a
+        /// value that failed to parse), matching <see cref="HasContent"/>'s own "no box" gate.
+        /// </summary>
+        public static String Stringify(ICssStyleDeclaration style, IElement element) =>
+            (style as CssStyleDeclaration)?.GetProperty(Name)?.RawValue is ContentValueConverter.ContentValue value ? value.Stringify(element) : String.Empty;
+
         sealed class ContentValueConverter : IValueConverter
         {
             private static readonly Dictionary<String, ContentMode> ContentModes = new(StringComparer.OrdinalIgnoreCase)
@@ -109,7 +130,7 @@ namespace AngleSharp.Css.Declarations
                 return null;
             }
 
-            private sealed class ContentValue : ICssValue, IEquatable<ContentValue>
+            internal sealed class ContentValue : ICssValue, IEquatable<ContentValue>
             {
                 private readonly ICssValue[] _modes;
 
@@ -117,6 +138,20 @@ namespace AngleSharp.Css.Declarations
                 {
                     _modes = modes;
                 }
+
+                /// <summary>
+                /// Whether this value actually generates content (i.e. was not <c>none</c>, nor the
+                /// initial/unset <c>normal</c> - both of which parse to zero modes).
+                /// </summary>
+                public Boolean HasContent => _modes.Length > 0;
+
+                /// <summary>
+                /// Resolves every mode's own text contribution against <paramref name="element"/> and
+                /// concatenates them - the same per-mode <see cref="ContentMode.Stringify(IElement)"/>
+                /// this converter's modes already implement (e.g. <see cref="AttributeContentMode"/>
+                /// reading a live attribute), just not previously reachable from outside this type.
+                /// </summary>
+                public String Stringify(IElement element) => String.Concat(_modes.OfType<ContentMode>().Select(mode => mode.Stringify(element)));
 
                 public String CssText => _modes.Length == 0 ? CssKeywords.None : _modes.Join(" ");
 
