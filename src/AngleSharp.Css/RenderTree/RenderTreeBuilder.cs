@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.RenderTree
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Declarations;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
@@ -99,6 +100,33 @@ namespace AngleSharp.Css.RenderTree
 
             _cascadedStyles[element] = specifiedStyle;
 
+            if (element is IPseudoElement)
+            {
+                // A ::before/::after pseudo-element has no DOM children of its own - IElement.ChildNodes
+                // on the wrapper aliases its host's real children, which the generic walk below would
+                // otherwise duplicate into the render tree under the pseudo. Its only "child" is the
+                // text its own computed `content` generates (attr()/literal strings resolved against
+                // this same element, since a pseudo-element has no attributes of its own to differ from
+                // its host's).
+                children.Add(new TextRenderNode(_window.Document.CreateTextNode(ContentDeclaration.Stringify(computedStyle, element)), node));
+                return node;
+            }
+
+            var before = element.Pseudo("before");
+
+            if (before is not null)
+            {
+                var beforeNode = RenderElement(before, collection, node, specifiedStyle, computedStyle);
+
+                // Per spec, `content: none` (and the initial/unset `normal`, equivalent for these two
+                // pseudo-elements specifically) means no box is generated at all - not merely an empty
+                // one - so a content-less ::before/::after is simply left out of the tree entirely.
+                if (ContentDeclaration.HasContent(beforeNode.ComputedStyle))
+                {
+                    children.Add(beforeNode);
+                }
+            }
+
             foreach (var child in element.ChildNodes)
             {
                 if (child is IElement childElement)
@@ -108,6 +136,18 @@ namespace AngleSharp.Css.RenderTree
                 else if (child is IText childText)
                 {
                     children.Add(new TextRenderNode(childText, node));
+                }
+            }
+
+            var after = element.Pseudo("after");
+
+            if (after is not null)
+            {
+                var afterNode = RenderElement(after, collection, node, specifiedStyle, computedStyle);
+
+                if (ContentDeclaration.HasContent(afterNode.ComputedStyle))
+                {
+                    children.Add(afterNode);
                 }
             }
 
