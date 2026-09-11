@@ -460,6 +460,104 @@ namespace AngleSharp.Css
                     flags: TextOverflowDeclaration.Flags)
             },
             {
+                WritingModeDeclaration.Name, new DeclarationInfo(
+                    name: WritingModeDeclaration.Name,
+                    converter: WritingModeDeclaration.Converter,
+                    initialValue: WritingModeDeclaration.InitialValue,
+                    flags: WritingModeDeclaration.Flags)
+            },
+            {
+                ClipPathDeclaration.Name, new DeclarationInfo(
+                    name: ClipPathDeclaration.Name,
+                    converter: ClipPathDeclaration.Converter,
+                    initialValue: ClipPathDeclaration.InitialValue,
+                    flags: ClipPathDeclaration.Flags)
+            },
+            {
+                MaskDeclaration.Name, new DeclarationInfo(
+                    name: MaskDeclaration.Name,
+                    converter: MaskDeclaration.Converter,
+                    initialValue: MaskDeclaration.InitialValue,
+                    flags: MaskDeclaration.Flags)
+            },
+            {
+                FillRuleDeclaration.Name, new DeclarationInfo(
+                    name: FillRuleDeclaration.Name,
+                    converter: FillRuleDeclaration.Converter,
+                    initialValue: FillRuleDeclaration.InitialValue,
+                    flags: FillRuleDeclaration.Flags)
+            },
+            {
+                FillOpacityDeclaration.Name, new DeclarationInfo(
+                    name: FillOpacityDeclaration.Name,
+                    converter: FillOpacityDeclaration.Converter,
+                    initialValue: FillOpacityDeclaration.InitialValue,
+                    flags: FillOpacityDeclaration.Flags)
+            },
+            {
+                ClipRuleDeclaration.Name, new DeclarationInfo(
+                    name: ClipRuleDeclaration.Name,
+                    converter: ClipRuleDeclaration.Converter,
+                    initialValue: ClipRuleDeclaration.InitialValue,
+                    flags: ClipRuleDeclaration.Flags)
+            },
+            {
+                MarkerStartDeclaration.Name, new DeclarationInfo(
+                    name: MarkerStartDeclaration.Name,
+                    converter: MarkerStartDeclaration.Converter,
+                    initialValue: MarkerStartDeclaration.InitialValue,
+                    flags: MarkerStartDeclaration.Flags)
+            },
+            {
+                MarkerMidDeclaration.Name, new DeclarationInfo(
+                    name: MarkerMidDeclaration.Name,
+                    converter: MarkerMidDeclaration.Converter,
+                    initialValue: MarkerMidDeclaration.InitialValue,
+                    flags: MarkerMidDeclaration.Flags)
+            },
+            {
+                MarkerEndDeclaration.Name, new DeclarationInfo(
+                    name: MarkerEndDeclaration.Name,
+                    converter: MarkerEndDeclaration.Converter,
+                    initialValue: MarkerEndDeclaration.InitialValue,
+                    flags: MarkerEndDeclaration.Flags)
+            },
+            {
+                TextUnderlinePositionDeclaration.Name, new DeclarationInfo(
+                    name: TextUnderlinePositionDeclaration.Name,
+                    converter: TextUnderlinePositionDeclaration.Converter,
+                    initialValue: TextUnderlinePositionDeclaration.InitialValue,
+                    flags: TextUnderlinePositionDeclaration.Flags)
+            },
+            {
+                BaselineShiftDeclaration.Name, new DeclarationInfo(
+                    name: BaselineShiftDeclaration.Name,
+                    converter: BaselineShiftDeclaration.Converter,
+                    initialValue: BaselineShiftDeclaration.InitialValue,
+                    flags: BaselineShiftDeclaration.Flags)
+            },
+            {
+                DominantBaselineDeclaration.Name, new DeclarationInfo(
+                    name: DominantBaselineDeclaration.Name,
+                    converter: DominantBaselineDeclaration.Converter,
+                    initialValue: DominantBaselineDeclaration.InitialValue,
+                    flags: DominantBaselineDeclaration.Flags)
+            },
+            {
+                AlignmentBaselineDeclaration.Name, new DeclarationInfo(
+                    name: AlignmentBaselineDeclaration.Name,
+                    converter: AlignmentBaselineDeclaration.Converter,
+                    initialValue: AlignmentBaselineDeclaration.InitialValue,
+                    flags: AlignmentBaselineDeclaration.Flags)
+            },
+            {
+                ColorInterpolationFiltersDeclaration.Name, new DeclarationInfo(
+                    name: ColorInterpolationFiltersDeclaration.Name,
+                    converter: ColorInterpolationFiltersDeclaration.Converter,
+                    initialValue: ColorInterpolationFiltersDeclaration.InitialValue,
+                    flags: ColorInterpolationFiltersDeclaration.Flags)
+            },
+            {
                 WordWrapDeclaration.Name, new DeclarationInfo(
                     name: WordWrapDeclaration.Name,
                     converter: WordWrapDeclaration.Converter,
