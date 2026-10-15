@@ -1,8 +1,9 @@
 # 1.1.3
 
-Released on Saturday, September 12 2026
+Released on Thursday, October 15 2026
 
 - Improved pseudo-class matching to skip a per-element `ConditionalWeakTable` probe when no state has ever been forced via `SetPseudoClass`
+- Fixed box-shadow serialization dropping zero blur before nonzero spread (#249) @PrzemyslawKlys
 
 # 1.1.2
 
