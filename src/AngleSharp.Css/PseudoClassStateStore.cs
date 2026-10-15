@@ -14,12 +14,24 @@ namespace AngleSharp.Css
     {
         private static readonly ConditionalWeakTable<IElement, Dictionary<String, Boolean>> _states = new();
 
-        public static void Set(IElement element, String pseudoClass, Boolean value) =>
+        // WithCss() wraps every non-:focus pseudo-class selector in ForcingPseudoClassSelector, so
+        // TryGet runs once per pseudo-class match attempt on every element - a page that never
+        // calls SetPseudoClass still paid a ConditionalWeakTable probe for every :hover, :disabled,
+        // :checked, ... match. This flag only ever moves from "nothing forced" to "something
+        // forced": Remove/Clear cannot prove every forced state everywhere has been undone (there
+        // is no per-element or per-process count to check), so it deliberately never goes back to
+        // false. Once anything has been forced, the process pays the old per-match cost again.
+        private static volatile Boolean _anyForced;
+
+        public static void Set(IElement element, String pseudoClass, Boolean value)
+        {
+            _anyForced = true;
             _states.GetValue(element, _ => new Dictionary<String, Boolean>(StringComparer.OrdinalIgnoreCase))[pseudoClass] = value;
+        }
 
         public static Boolean TryGet(IElement element, String pseudoClass, out Boolean value)
         {
-            if (_states.TryGetValue(element, out var state) && state.TryGetValue(pseudoClass, out value))
+            if (_anyForced && _states.TryGetValue(element, out var state) && state.TryGetValue(pseudoClass, out value))
             {
                 return true;
             }

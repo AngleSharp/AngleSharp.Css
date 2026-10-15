@@ -124,6 +124,20 @@ namespace AngleSharp.Performance.Css
 
             sb.Append("h1,h2,h3,p.big,a:hover,.c-1 span{font-weight:bold;letter-spacing:0.02em;}");
             sb.Append(".hidden{display:none}.big{font-size:24px}a{color:blue}");
+
+            // WithCss() wraps every non-:focus pseudo-class selector so a caller-forced state
+            // (ElementExtensions.SetPseudoClass) can override it - so every rule below probes a
+            // ConditionalWeakTable per candidate element even though this benchmark never forces
+            // anything. One rule per child class per interaction pseudo-class keeps every sampled
+            // "div.child-*" reaching that probe instead of being short-circuited by an earlier,
+            // non-matching simple selector.
+            for (var i = 0; i < 20; i++)
+            {
+                sb.Append(".child-").Append(i).Append(":hover{outline:1px solid red;}");
+                sb.Append(".child-").Append(i).Append(":active{outline:1px solid green;}");
+                sb.Append(".child-").Append(i).Append(":disabled{outline:1px solid blue;}");
+            }
+
             sb.Append("</style></head><body><main id='root'>");
 
             for (var s = 0; s < 25; s++)
