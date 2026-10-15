@@ -63,12 +63,15 @@ namespace AngleSharp.Css.Values
                 parts.Add(_offsetX.CssText);
                 parts.Add(_offsetY.CssText);
 
-                if (_blurRadius != null && !_blurRadius.Equals(CssLengthValue.Zero))
+                var hasSpread = _spreadRadius != null && !_spreadRadius.Equals(CssLengthValue.Zero);
+
+                // A nonzero spread must remain the fourth length.
+                if (hasSpread || _blurRadius != null && !_blurRadius.Equals(CssLengthValue.Zero))
                 {
-                    parts.Add(_blurRadius.CssText);
+                    parts.Add((_blurRadius ?? CssLengthValue.Zero).CssText);
                 }
 
-                if (_spreadRadius != null && !_spreadRadius.Equals(CssLengthValue.Zero))
+                if (hasSpread)
                 {
                     parts.Add(_spreadRadius.CssText);
                 }
