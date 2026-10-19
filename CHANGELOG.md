@@ -2,7 +2,12 @@
 
 Released on Monday, October 19 2026.
 
-- Improved default stylesheet
+- Improved default stylesheet with HTML5 elements, non-rendered elements, and form control styles
+- Changed cascade to always order author rules after default stylesheet rules
+- Fixed rules matching the host being applied to its `::before` / `::after` pseudo-elements
+- Fixed computed `font-weight` to resolve `bolder` / `lighter` against the parent's weight
+- Fixed computed `border-*-radius` to keep percentages instead of resolving them to pixels
+- Changed computed zero lengths to serialize with their unit (e.g., `0px`)
 
 # 1.1.3
 

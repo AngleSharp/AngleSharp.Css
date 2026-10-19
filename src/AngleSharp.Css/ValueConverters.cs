@@ -1093,7 +1093,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the FontWeight enumeration.
         /// </summary>
-        public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
+        public static readonly IValueConverter FontWeightConverter = new FontWeightValueConverter();
 
         /// <summary>
         /// Represents a converter for the font-display descriptor.

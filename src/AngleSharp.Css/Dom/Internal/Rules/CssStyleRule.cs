@@ -22,6 +22,8 @@ namespace AngleSharp.Css.Dom
         private readonly CssRuleList _rules;
         private ISelector _selector;
         private ISelector[] _selectorList;
+        private Boolean[] _selectorListTargetsPseudo;
+        private Boolean _selectorTargetsPseudo;
         private Boolean _nested;
 
         #endregion
@@ -96,6 +98,9 @@ namespace AngleSharp.Css.Dom
         {
             specificity = Priority.Zero;
             scope ??= element?.Owner!.DocumentElement;
+            // A pseudo-element only gets the rules whose selector targets a pseudo-element;
+            // a rule matching the host itself must not apply to its pseudo-elements.
+            var isPseudo = element is IPseudoElement;
 
             if (!_nested && Parent is CssStyleRule parent)
             {
@@ -127,15 +132,18 @@ namespace AngleSharp.Css.Dom
                 {
                     var selector = _selectorList[i];
 
-                    if (selector.Match(element, scope))
+                    if ((!isPseudo || _selectorListTargetsPseudo[i]) && selector.Match(element, scope))
                     {
                         specificity += selector.Specificity;
                         return true;
                     }
                 }
+
+                // The list as a whole matches exactly if one of its items does.
+                return false;
             }
 
-            if (_selector is not null && _selector.Match(element, scope))
+            if (_selector is not null && (!isPseudo || _selectorTargetsPseudo) && _selector.Match(element, scope))
             {
                 specificity += _selector.Specificity;
                 return true;
@@ -157,7 +165,9 @@ namespace AngleSharp.Css.Dom
         internal void ChangeSelector(ISelector value)
         {
             _selectorList = null;
+            _selectorListTargetsPseudo = null;
             _selector = value;
+            _selectorTargetsPseudo = PseudoElementSubjectVisitor.TargetsPseudoElement(value);
             value?.Accept(this);
         }
 
@@ -194,6 +204,7 @@ namespace AngleSharp.Css.Dom
             // OrderByDescending is stable, so selectors of equal specificity keep
             // their declared order - same as when this ran per match attempt.
             _selectorList = selectors.OrderByDescending(m => m.Specificity).ToArray();
+            _selectorListTargetsPseudo = _selectorList.Select(PseudoElementSubjectVisitor.TargetsPseudoElement).ToArray();
         }
 
         void ISelectorVisitor.Combinator(IEnumerable<ISelector> selectors, IEnumerable<string> symbols)

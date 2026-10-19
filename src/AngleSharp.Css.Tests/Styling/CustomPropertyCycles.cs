@@ -88,7 +88,7 @@ namespace AngleSharp.Css.Tests.Styling
             var style = document.QuerySelector("div").ComputeCurrentStyle();
             Assert.AreEqual("0", style.GetPropertyValue("--a"));
             Assert.AreEqual("0", style.GetPropertyValue("opacity"));
-            Assert.AreEqual("0", style.GetPropertyValue("width"));
+            Assert.AreEqual("0px", style.GetPropertyValue("width"));
         }
 
         [TestCase("--a:red;--b:var(--a);--c:var(--a);--d:var(--b) var(--c)", "red red")]
@@ -178,7 +178,7 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(expected, document.QuerySelector("div").ComputeCurrentStyle().GetPropertyValue("visibility"));
         }
 
-        [TestCase("--a:var(--a);margin:var(--a)", "0", "0")]
+        [TestCase("--a:var(--a);margin:var(--a)", "0px", "0px")]
         [TestCase("--a:var(--a);margin:var(--a,1px 2px)", "1px", "2px")]
         [TestCase("--a:1px 2px;margin:var(--a)", "1px", "2px")]
         [TestCase("--a:var(--a);margin:3px var(--a,4px)", "3px", "4px")]

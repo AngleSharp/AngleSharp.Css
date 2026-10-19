@@ -130,45 +130,22 @@ namespace AngleSharp.Css.Values
 
             for (var i = 0; i < _values.Length; i++)
             {
-                var mode = i == 1 ? RenderMode.Vertical : RenderMode.Horizontal;
-                values[i] = (T)ComputeValue(_values[i], context, mode);
+                values[i] = (T)ComputeValue(_values[i], context);
             }
 
             return new CssRadiusValue<T>(values);
         }
 
-        private static ICssValue ComputeValue(ICssValue value, ICssComputeContext context, RenderMode mode)
+        private static ICssValue ComputeValue(ICssValue value, ICssComputeContext context)
         {
-            if (value is CssLengthValue length && length.Type == CssLengthValue.Unit.Percent)
+            // The computed value is a pair of <length-percentage> values: a percentage refers
+            // to the border box, which is only known during layout, so it stays a percentage.
+            if (value is CssLengthValue length && length.Type == CssLengthValue.Unit.Percent || value is CssPercentageValue)
             {
-                return new CssLengthValue(length.Value * 0.01 * GetDimension(context, mode), CssLengthValue.Unit.Px);
-            }
-
-            if (value is CssPercentageValue percentage)
-            {
-                return new CssLengthValue(percentage.Value * 0.01 * GetDimension(context, mode), CssLengthValue.Unit.Px);
+                return value;
             }
 
             return value.Compute(context);
-        }
-
-        private static Double GetDimension(ICssComputeContext context, RenderMode mode)
-        {
-            var name = mode == RenderMode.Horizontal ? PropertyNames.Width : PropertyNames.Height;
-            var properties = (context as ILocalComputeContext)?.Properties;
-            var property = properties?.GetProperty(name);
-
-            if (property?.RawValue is CssLengthValue length && length.Type == CssLengthValue.Unit.Px)
-            {
-                return length.Value;
-            }
-
-            if (CssLengthValue.TryParse(properties?.GetPropertyValue(name), out var parsed))
-            {
-                return parsed.ToPixel(context.Device);
-            }
-
-            return mode == RenderMode.Horizontal ? context.Device.RenderWidth : context.Device.RenderHeight;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRadiusValue<T> value && Equals(value);

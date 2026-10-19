@@ -4,7 +4,7 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Linq;
 
-    sealed class CssComputeContext : ICssComputeContext, ILocalComputeContext
+    sealed class CssComputeContext : ICssComputeContext, ILocalComputeContext, IInheritingComputeContext
     {
         private readonly IRenderDevice _device;
         private readonly IBrowsingContext? _context;
@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Values
 
         public ICssValue? Resolve(String name) => _variables.Resolve(name);
 
-        internal ICssValue? InheritedValue(String name) => _parent?.FirstOrDefault(m => m.Name == name)?.RawValue;
+        public ICssValue? InheritedValue(String name) => _parent?.FirstOrDefault(m => m.Name == name)?.RawValue;
     }
 
 }

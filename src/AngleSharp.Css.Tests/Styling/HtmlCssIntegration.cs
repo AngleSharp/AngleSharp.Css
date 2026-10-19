@@ -467,7 +467,8 @@ namespace AngleSharp.Css.Tests.Styling
             var htmlParser = browsingContext.GetService<IHtmlParser>();
             var document = htmlParser.ParseDocument("<html><body><b>Hello, World!</b></body></html>");
             var boldStyle = document.Body.FirstElementChild.ComputeCurrentStyle();
-            Assert.AreEqual("bolder", boldStyle.GetFontWeight());
+            // The computed value of `bolder` is resolved against the parent's weight (normal).
+            Assert.AreEqual("700", boldStyle.GetFontWeight());
         }
 
         [Test]

@@ -32,8 +32,7 @@ namespace AngleSharp.Dom
                 var defaultStyleSheetProvider = ctx?.GetServices<ICssDefaultStyleSheetProvider>() ?? Enumerable.Empty<ICssDefaultStyleSheetProvider>();
                 var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
                 var currentSheets = document?.GetStyleSheets().OfType<ICssStyleSheet>() ?? Enumerable.Empty<ICssStyleSheet>();
-                var stylesheets = defaultSheets.Concat(currentSheets);
-                var styleCollection = new StyleCollection(stylesheets, device!);
+                var styleCollection = new StyleCollection(defaultSheets, currentSheets, device!);
                 return styleCollection.ComputeDeclarations(element);
             }
 

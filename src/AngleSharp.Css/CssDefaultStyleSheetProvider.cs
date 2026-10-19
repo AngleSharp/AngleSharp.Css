@@ -39,7 +39,9 @@ namespace AngleSharp.Css
 
         /// <summary>
         /// Gets the source code for the by default used base stylesheet.
-        /// Taken from https://www.w3.org/TR/CSS22/sample.html.
+        /// Taken from https://www.w3.org/TR/CSS22/sample.html, extended with
+        /// the rules for HTML5 elements and form controls from
+        /// https://html.spec.whatwg.org/multipage/rendering.html.
         /// </summary>
         public static readonly String DefaultSource = @"
 html, address,
@@ -50,9 +52,22 @@ frame, frameset,
 h1, h2, h3, h4,
 h5, h6, noframes,
 ol, p, ul, center,
-dir, hr, menu, pre   { display: block; unicode-bidi: embed }
+dir, hr, menu, pre,
+article, aside,
+details, figcaption,
+figure, footer,
+header, hgroup,
+legend, main, nav,
+search, section,
+summary         { display: block; unicode-bidi: embed }
 li              { display: list-item }
-head            { display: none }
+head, area, base,
+basefont, datalist,
+link, meta, noembed,
+param, rp, script,
+style, template,
+title           { display: none }
+[hidden]        { display: none }
 table           { display: table }
 tr              { display: table-row }
 thead           { display: table-header-group }
@@ -86,6 +101,25 @@ kbd, samp       { font-family: monospace }
 pre             { white-space: pre }
 button, textarea,
 input, select   { display: inline-block }
+input, textarea,
+select, button  { border: 1px solid rgb(118, 118, 118); padding: 2px 4px; background-color: rgb(255, 255, 255) }
+select, button,
+input[type=button],
+input[type=submit],
+input[type=reset],
+input[type=file] { background-color: rgb(232, 232, 232) }
+button,
+input[type=button],
+input[type=submit],
+input[type=reset],
+input[type=file] { padding: 2px 10px }
+input[type=color] { padding: 2px }
+input[type=checkbox],
+input[type=radio] { padding: 0px; margin: 3px 3px 3px 4px }
+input[type=radio] { border-radius: 50% }
+input[type=range] { border: none; padding: 0px; background-color: transparent }
+input[type=hidden] { display: none }
+textarea        { white-space: pre-wrap }
 big             { font-size: 1.17em }
 small, sub, sup { font-size: .83em }
 sub             { vertical-align: sub }

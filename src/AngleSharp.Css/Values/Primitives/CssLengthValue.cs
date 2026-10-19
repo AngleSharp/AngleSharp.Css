@@ -62,6 +62,7 @@ namespace AngleSharp.Css.Values
 
         private readonly Double _value;
         private readonly Unit _unit;
+        private readonly Boolean _computed;
 
         #endregion
 
@@ -85,6 +86,14 @@ namespace AngleSharp.Css.Values
         {
             _value = value;
             _unit = unit;
+            _computed = false;
+        }
+
+        private CssLengthValue(Double value, Unit unit, Boolean computed)
+        {
+            _value = value;
+            _unit = unit;
+            _computed = computed;
         }
 
         #endregion
@@ -110,7 +119,8 @@ namespace AngleSharp.Css.Values
                 {
                     // Per CSS spec, 0 is valid without a unit for lengths,
                     // but 0% is a percentage (relative to context) and must keep its unit.
-                    var unit = _value == 0.0 && _unit != Unit.Percent ? String.Empty : UnitString;
+                    // A computed (resolved) length always keeps its unit, e.g., 0px.
+                    var unit = _value == 0.0 && _unit != Unit.Percent && !_computed ? String.Empty : UnitString;
                     var val = _value.CssStringify();
                     return String.Concat(val, unit);
                 }
@@ -231,10 +241,10 @@ namespace AngleSharp.Css.Values
             if (_unit != CssLengthValue.Unit.Px)
             {
                 var px = ToPixel(context.Device);
-                return new CssLengthValue(px, CssLengthValue.Unit.Px);
+                return new CssLengthValue(px, CssLengthValue.Unit.Px, true);
             }
 
-            return this;
+            return _value == 0.0 && !_computed ? new CssLengthValue(_value, _unit, true) : this;
         }
 
         /// <summary>
