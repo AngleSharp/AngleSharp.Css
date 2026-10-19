@@ -1,13 +1,19 @@
+# 1.1.4
+
+Released on Monday, October 19 2026.
+
+- Improved default stylesheet
+
 # 1.1.3
 
-Released on Thursday, October 15 2026
+Released on Thursday, October 15 2026.
 
 - Improved pseudo-class matching to skip a per-element `ConditionalWeakTable` probe when no state has ever been forced via `SetPseudoClass`
 - Fixed box-shadow serialization dropping zero blur before nonzero spread (#249) @PrzemyslawKlys
 
 # 1.1.2
 
-Released on Friday, September 11 2026
+Released on Friday, September 11 2026.
 
 - Fixed issue with calculation of CSS grid style
 - Fixed default value of CSS gradients
@@ -28,7 +34,7 @@ Released on Friday, September 11 2026
 
 # 1.1.1
 
-Released on Wednesday, September 9 2026
+Released on Wednesday, September 9 2026.
 
 - Fixed unresolved converter re-entry (#243) @sebastienros
 - Fixed issue with computation of `transform` functions
@@ -41,7 +47,7 @@ Released on Wednesday, September 9 2026
 
 # 1.1.0
 
-Released on Saturday, September 5 2026
+Released on Saturday, September 5 2026.
 
 - Improved evaluation of comma-separated media queries (#230)
 - Fixed wrong media feature used for scripting (#233)
