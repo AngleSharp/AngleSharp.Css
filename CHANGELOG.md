@@ -8,6 +8,7 @@ Released on Monday, October 19 2026.
 - Fixed computed `font-weight` to resolve `bolder` / `lighter` against the parent's weight
 - Fixed computed `border-*-radius` to keep percentages instead of resolving them to pixels
 - Changed computed zero lengths to serialize with their unit (e.g., `0px`)
+- Added support for `display: flow-root`
 
 # 1.1.3
 

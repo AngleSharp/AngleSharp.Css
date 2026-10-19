@@ -606,6 +606,7 @@ namespace AngleSharp.Css
             { CssKeywords.InlineFlex, DisplayMode.InlineFlex },
             { CssKeywords.Grid, DisplayMode.Grid },
             { CssKeywords.InlineGrid, DisplayMode.InlineGrid },
+            { CssKeywords.FlowRoot, DisplayMode.FlowRoot },
         };
 
         /// <summary>

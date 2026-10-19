@@ -523,6 +523,11 @@ namespace AngleSharp.Css
         public static readonly String InlineBlock = "inline-block";
 
         /// <summary>
+        /// The flow-root keyword.
+        /// </summary>
+        public static readonly String FlowRoot = "flow-root";
+
+        /// <summary>
         /// The list-item keyword.
         /// </summary>
         public static readonly String ListItem = "list-item";
