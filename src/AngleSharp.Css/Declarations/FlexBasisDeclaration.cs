@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Flex,
         };
 
-        public static IValueConverter Converter = Or(Content, AutoLengthOrPercentConverter);
+        public static IValueConverter Converter = Or(Content, WidthConverter);
 
         public static ICssValue InitialValue = InitialValues.FlexBasisDecl;
 

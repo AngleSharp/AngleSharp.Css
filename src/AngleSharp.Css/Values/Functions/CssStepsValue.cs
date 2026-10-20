@@ -17,6 +17,7 @@ namespace AngleSharp.Css.Values
 
         private readonly ICssValue _intervals;
         private readonly Boolean _start;
+        private readonly String _position;
 
         #endregion
 
@@ -30,9 +31,19 @@ namespace AngleSharp.Css.Values
         /// <param name="intervals">It must be a positive integer (greater than 0).</param>
         /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
         public CssStepsValue(ICssValue intervals, Boolean start = false)
+            : this(intervals, start ? CssKeywords.Start : null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new steps timing-function with the given step position keyword, e.g.,
+        /// jump-none. A missing position is the same as end.
+        /// </summary>
+        internal CssStepsValue(ICssValue intervals, String position)
         {
             _intervals = intervals;
-            _start = start;
+            _position = position;
+            _start = position is not null && (position.Is(CssKeywords.Start) || position.Is(CssKeywords.JumpStart));
         }
 
         #endregion
@@ -56,9 +67,9 @@ namespace AngleSharp.Css.Values
                     _intervals
                 };
 
-                if (_start)
+                if (_position is not null && !_position.Is(CssKeywords.End) && !_position.Is(CssKeywords.JumpEnd))
                 {
-                    args.Add(new CssIdentifierValue(CssKeywords.Start));
+                    args.Add(new CssIdentifierValue(_position));
                 }
 
                 return args.ToArray();
@@ -72,7 +83,7 @@ namespace AngleSharp.Css.Values
         {
             get
             {
-                if (!_intervals.Equals(CssIntegerValue.One))
+                if (!_intervals.Equals(CssIntegerValue.One) || (_position is not null && !_position.Is(CssKeywords.Start) && !_position.Is(CssKeywords.End)))
                 {
                     return Name.CssFunction(Arguments.Join(", "));
                 }
@@ -111,13 +122,19 @@ namespace AngleSharp.Css.Values
             if (other is not null)
             {
                 var comparer = EqualityComparer<ICssValue>.Default;
-                return _start == other._start && comparer.Equals(_intervals, other._intervals);
+                return _start == other._start && comparer.Equals(_intervals, other._intervals) && NormalizedPosition.Is(other.NormalizedPosition);
             }
 
             return false;
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssStepsValue value && Equals(value);
+
+        /// <summary>
+        /// Gets the step position, where start and end are the same as jump-start and jump-end.
+        /// </summary>
+        private String NormalizedPosition => _start ? CssKeywords.Start :
+            _position is null || _position.Is(CssKeywords.JumpEnd) ? CssKeywords.End : _position;
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 

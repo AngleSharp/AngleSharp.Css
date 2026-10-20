@@ -119,9 +119,31 @@
         }
 
         [Test]
-        public void FontFaceWeightOutOfRange1ShouldBeInvalid()
+        public void FontFaceWeightBoundary1ShouldBeValid()
         {
+            // CSS Fonts 4 allows any number in the range [1, 1000].
             var src = "@font-face { font-weight: 1; }";
+            var sheet = ParseStyleSheet(src);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var fontface = (ICssFontFaceRule)sheet.Rules[0];
+            Assert.AreEqual("1", fontface.Weight);
+        }
+
+        [Test]
+        public void FontFaceWeightBoundary1000ShouldBeValid()
+        {
+            // CSS Fonts 4 allows any number in the range [1, 1000].
+            var src = "@font-face { font-weight: 1000; }";
+            var sheet = ParseStyleSheet(src);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var fontface = (ICssFontFaceRule)sheet.Rules[0];
+            Assert.AreEqual("1000", fontface.Weight);
+        }
+
+        [Test]
+        public void FontFaceWeightOutOfRange0ShouldBeInvalid()
+        {
+            var src = "@font-face { font-weight: 0; }";
             var sheet = ParseStyleSheet(src);
             Assert.AreEqual(1, sheet.Rules.Length);
             var fontface = (ICssFontFaceRule)sheet.Rules[0];
@@ -129,9 +151,9 @@
         }
 
         [Test]
-        public void FontFaceWeightOutOfRange1000ShouldBeInvalid()
+        public void FontFaceWeightOutOfRange1001ShouldBeInvalid()
         {
-            var src = "@font-face { font-weight: 1000; }";
+            var src = "@font-face { font-weight: 1001; }";
             var sheet = ParseStyleSheet(src);
             Assert.AreEqual(1, sheet.Rules.Length);
             var fontface = (ICssFontFaceRule)sheet.Rules[0];

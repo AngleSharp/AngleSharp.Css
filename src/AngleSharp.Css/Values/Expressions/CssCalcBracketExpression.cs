@@ -44,7 +44,13 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context) => _content.Compute(context);
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var content = _content.Compute(context);
+
+            // An expression that could not be resolved keeps its brackets.
+            return content is null || content is ICssMetricValue ? content : new CssCalcBracketExpression(content);
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
 

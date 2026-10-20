@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MaxHeight;
 
-        public static IValueConverter Converter = OptionalLengthOrPercentConverter;
+        public static IValueConverter Converter = MaxWidthConverter;
 
         public static ICssValue InitialValue = InitialValues.MaxHeightDecl;
 

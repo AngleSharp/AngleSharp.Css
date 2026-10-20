@@ -63,7 +63,8 @@ namespace AngleSharp.Css.Values
                 return x.WithValue(result);
             }
 
-            return null;
+            // The operands cannot be combined yet, e.g., a percentage of an unknown box with a length.
+            return left is null || right is null ? null : new CssCalcAddExpression(left, right);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);

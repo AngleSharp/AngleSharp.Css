@@ -353,13 +353,23 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void CssBackgroundPositionRightLengthBottomLengthIllegal()
+        public void CssBackgroundPositionRightLengthBottomLengthLegal()
         {
             var snippet = "background-position: right 20px bottom 20px";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("right 20px bottom 20px", property.Value);
+        }
+
+        [Test]
+        public void CssBackgroundPositionCenterWithOffsetIllegal()
+        {
+            var snippet = "background-position: center 20px bottom 20px";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.HasValue);
         }
 

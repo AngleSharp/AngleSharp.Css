@@ -73,7 +73,8 @@ namespace AngleSharp.Css.Values
                 }
             }
 
-            return null;
+            // The operands cannot be combined yet, e.g., a percentage of an unknown box with a length.
+            return left is null || right is null ? null : new CssCalcDivExpression(left, right);
         }
 
         private static ICssValue ComputeValue(ICssValue value, ICssComputeContext context)

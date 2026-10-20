@@ -97,5 +97,13 @@
         /// formatting context, i.e., it contains its floats.
         /// </summary>
         FlowRoot,
+        /// <summary>
+        /// The element does not generate a box, but its children do.
+        /// </summary>
+        Contents,
+        /// <summary>
+        /// The element generates a ruby container box.
+        /// </summary>
+        Ruby,
     }
 }

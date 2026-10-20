@@ -174,6 +174,18 @@ namespace AngleSharp.Css.Values
                     Unit.Vmin => UnitNames.Vmin,
                     Unit.Vmax => UnitNames.Vmax,
                     Unit.Percent => UnitNames.Percent,
+                    Unit.Svw => UnitNames.Svw,
+                    Unit.Svh => UnitNames.Svh,
+                    Unit.Svmin => UnitNames.Svmin,
+                    Unit.Svmax => UnitNames.Svmax,
+                    Unit.Lvw => UnitNames.Lvw,
+                    Unit.Lvh => UnitNames.Lvh,
+                    Unit.Lvmin => UnitNames.Lvmin,
+                    Unit.Lvmax => UnitNames.Lvmax,
+                    Unit.Dvw => UnitNames.Dvw,
+                    Unit.Dvh => UnitNames.Dvh,
+                    Unit.Dvmin => UnitNames.Dvmin,
+                    Unit.Dvmax => UnitNames.Dvmax,
                     _ => String.Empty,
                 };
             }
@@ -252,6 +264,24 @@ namespace AngleSharp.Css.Values
                 return this;
             }
 
+            if (context is IRelativeComputeContext relative)
+            {
+                switch (_unit)
+                {
+                    case Unit.Percent when relative.PercentageBasis.HasValue:
+                        return new CssLengthValue(_value * 0.01 * relative.PercentageBasis.Value, Unit.Px, true);
+                    case Unit.Percent when relative.KeepsPercentages:
+                        return this;
+                    case Unit.Em when relative.EmBase.HasValue:
+                        return new CssLengthValue(_value * relative.EmBase.Value, Unit.Px, true);
+                    case Unit.Ex or Unit.Ch when relative.EmBase.HasValue:
+                        // Without font metrics, 1ex and 1ch are taken as 0.5em.
+                        return new CssLengthValue(_value * 0.5 * relative.EmBase.Value, Unit.Px, true);
+                    case Unit.Rem when relative.RootFontSize.HasValue:
+                        return new CssLengthValue(_value * relative.RootFontSize.Value, Unit.Px, true);
+                }
+            }
+
             if (_unit != CssLengthValue.Unit.Px)
             {
                 var px = ToPixel(context.Device);
@@ -310,6 +340,18 @@ namespace AngleSharp.Css.Values
                 "vmax" => Unit.Vmax,
                 "vmin" => Unit.Vmin,
                 "vw" => Unit.Vw,
+                "svw" => Unit.Svw,
+                "svh" => Unit.Svh,
+                "svmin" => Unit.Svmin,
+                "svmax" => Unit.Svmax,
+                "lvw" => Unit.Lvw,
+                "lvh" => Unit.Lvh,
+                "lvmin" => Unit.Lvmin,
+                "lvmax" => Unit.Lvmax,
+                "dvw" => Unit.Dvw,
+                "dvh" => Unit.Dvh,
+                "dvmin" => Unit.Dvmin,
+                "dvmax" => Unit.Dvmax,
                 "%" => Unit.Percent,
                 _ => Unit.None,
             };
@@ -332,7 +374,7 @@ namespace AngleSharp.Css.Values
         /// <returns>The number of pixels represented by the current length.</returns>
         public Double ToPixel(IRenderDimensions renderDimensions, RenderMode mode)
         {
-            switch (_unit)
+            switch (GetViewportUnit(_unit))
             {
                 case Unit.In: // 1 in = 2.54 cm
                     return _value * 96.0;
@@ -352,6 +394,11 @@ namespace AngleSharp.Css.Values
                 case Unit.Em:
                     CheckForValidRenderDimensionsForFont(renderDimensions);
                     return _value * renderDimensions.FontSize;
+                case Unit.Ex:
+                case Unit.Ch:
+                    // without font metrics 1ex and 1ch are taken as 0.5em
+                    CheckForValidRenderDimensionsForFont(renderDimensions);
+                    return _value * 0.5 * renderDimensions.FontSize;
                 case Unit.Rem:
                     // here we dont actually know the root font size but currently the only IRenderDimensions used is
                     // the IRenderDevice meaning its always the root font size
@@ -388,7 +435,7 @@ namespace AngleSharp.Css.Values
         {
             var value = ToPixel(renderDimensions, mode);
 
-            switch (unit)
+            switch (GetViewportUnit(unit))
             {
                 case Unit.In: // 1 in = 2.54 cm
                     return value / 96.0;
@@ -431,6 +478,19 @@ namespace AngleSharp.Css.Values
                     throw new InvalidOperationException("Unsupported unit cannot be converted.");
             }
         }
+
+        /// <summary>
+        /// Maps the small, large, and dynamic viewport units to the plain viewport units. A
+        /// render device only knows a single viewport, i.e., they are all the same.
+        /// </summary>
+        private static Unit GetViewportUnit(Unit unit) => unit switch
+        {
+            Unit.Svw or Unit.Lvw or Unit.Dvw => Unit.Vw,
+            Unit.Svh or Unit.Lvh or Unit.Dvh => Unit.Vh,
+            Unit.Svmin or Unit.Lvmin or Unit.Dvmin => Unit.Vmin,
+            Unit.Svmax or Unit.Lvmax or Unit.Dvmax => Unit.Vmax,
+            _ => unit,
+        };
 
         private void CheckForValidRenderDimensions(IRenderDimensions renderDimensions, RenderMode mode)
         {
@@ -525,7 +585,67 @@ namespace AngleSharp.Css.Values
             /// The value is relative to a fixed (external) value, that is context
             /// dependent. 1% = 1/100 of the external value.
             /// </summary>
-            Percent
+            Percent,
+            /// <summary>
+            /// The value is relative to the small viewport width.
+            /// 1svw = 1/100 of the small viewport width.
+            /// </summary>
+            Svw,
+            /// <summary>
+            /// The value is relative to the small viewport height.
+            /// 1svh = 1/100 of the small viewport height.
+            /// </summary>
+            Svh,
+            /// <summary>
+            /// The value is relative to the small minimum viewport dimension.
+            /// 1svmin = 1/100 of the small minimum viewport dimension.
+            /// </summary>
+            Svmin,
+            /// <summary>
+            /// The value is relative to the small maximum viewport dimension.
+            /// 1svmax = 1/100 of the small maximum viewport dimension.
+            /// </summary>
+            Svmax,
+            /// <summary>
+            /// The value is relative to the large viewport width.
+            /// 1lvw = 1/100 of the large viewport width.
+            /// </summary>
+            Lvw,
+            /// <summary>
+            /// The value is relative to the large viewport height.
+            /// 1lvh = 1/100 of the large viewport height.
+            /// </summary>
+            Lvh,
+            /// <summary>
+            /// The value is relative to the large minimum viewport dimension.
+            /// 1lvmin = 1/100 of the large minimum viewport dimension.
+            /// </summary>
+            Lvmin,
+            /// <summary>
+            /// The value is relative to the large maximum viewport dimension.
+            /// 1lvmax = 1/100 of the large maximum viewport dimension.
+            /// </summary>
+            Lvmax,
+            /// <summary>
+            /// The value is relative to the dynamic viewport width.
+            /// 1dvw = 1/100 of the dynamic viewport width.
+            /// </summary>
+            Dvw,
+            /// <summary>
+            /// The value is relative to the dynamic viewport height.
+            /// 1dvh = 1/100 of the dynamic viewport height.
+            /// </summary>
+            Dvh,
+            /// <summary>
+            /// The value is relative to the dynamic minimum viewport dimension.
+            /// 1dvmin = 1/100 of the dynamic minimum viewport dimension.
+            /// </summary>
+            Dvmin,
+            /// <summary>
+            /// The value is relative to the dynamic maximum viewport dimension.
+            /// 1dvmax = 1/100 of the dynamic maximum viewport dimension.
+            /// </summary>
+            Dvmax
         }
 
         #endregion

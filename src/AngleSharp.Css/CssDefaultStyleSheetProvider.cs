@@ -58,9 +58,24 @@ details, figcaption,
 figure, footer,
 header, hgroup,
 legend, main, nav,
-search, section,
-summary         { display: block; unicode-bidi: embed }
+search, section  { display: block }
+address,
+blockquote,
+center, div,
+figure, figcaption,
+footer, form,
+header, hr,
+legend, listing,
+main, p,
+plaintext, pre,
+search, xmp,
+bdi, output,
+[dir=ltr i],
+[dir=rtl i],
+[dir=auto i]    { unicode-bidi: isolate }
 li              { display: list-item }
+summary         { display: list-item; list-style-type: disclosure-closed; list-style-position: inside }
+details[open] > summary { list-style-type: disclosure-open }
 head, area, base,
 basefont, datalist,
 link, meta, noembed,
@@ -75,7 +90,7 @@ tbody           { display: table-row-group }
 tfoot           { display: table-footer-group }
 col             { display: table-column }
 colgroup        { display: table-column-group }
-td, th          { display: table-cell }
+td, th          { display: table-cell; padding: 1px }
 caption         { display: table-caption }
 th              { font-weight: bolder; text-align: center }
 caption         { text-align: center }
@@ -83,17 +98,21 @@ body            { margin: 8px }
 h1              { font-size: 2em; margin: .67em 0 }
 h2              { font-size: 1.5em; margin: .75em 0 }
 h3              { font-size: 1.17em; margin: .83em 0 }
-h4, p,
-blockquote, ul,
-fieldset, form,
-ol, dl, dir,
-menu            { margin: 1.12em 0 }
+h4, form        { margin: 1.12em 0 }
+blockquote,
+figure, listing,
+p, plaintext,
+pre, xmp,
+dir, dl, menu,
+ol, ul          { margin: 1em 0 }
 h5              { font-size: .83em; margin: 1.5em 0 }
 h6              { font-size: .75em; margin: 1.67em 0 }
 h1, h2, h3, h4,
 h5, h6, b,
 strong          { font-weight: bolder }
-blockquote      { margin-left: 40px; margin-right: 40px }
+blockquote,
+figure          { margin-left: 40px; margin-right: 40px }
+fieldset        { margin-left: 2px; margin-right: 2px; border: 2px groove rgb(192, 192, 192); padding: 0.35em 0.75em 0.625em }
 i, cite, em,
 var, address    { font-style: italic }
 pre, tt, code,
@@ -129,16 +148,22 @@ thead, tbody,
 tfoot           { vertical-align: middle }
 td, th, tr      { vertical-align: inherit }
 s, strike, del  { text-decoration: line-through }
-hr              { border: 1px inset }
+hr              { border: 1px inset; margin: 0.5em auto }
 ol, ul, dir,
-menu, dd        { margin-left: 40px; list-style-type: disc; list-style-position: outside }
+menu            { padding-left: 40px; list-style-type: disc; list-style-position: outside }
+dd              { margin-left: 40px }
 ol              { list-style-type: decimal }
 ol ul, ul ol,
 ul ul, ol ol    { margin-top: 0; margin-bottom: 0 }
 u, ins          { text-decoration: underline }
+abbr[title],
+acronym[title]  { text-decoration: dotted underline }
+mark            { background-color: yellow; color: black }
 br::before      { content: '\A'; white-space: pre-line }
 *::before, *::after { display: inline }
 center          { text-align: center }
+:link           { color: #0000ee }
+:visited        { color: #551a8b }
 :link, :visited { text-decoration: underline }
 :focus          { outline: thin dotted invert }
 
@@ -146,8 +171,8 @@ center          { text-align: center }
 BDO[DIR='ltr']  { direction: ltr; unicode-bidi: bidi-override }
 BDO[DIR='rtl']  { direction: rtl; unicode-bidi: bidi-override }
 
-*[DIR='ltr']    { direction: ltr; unicode-bidi: embed }
-*[DIR='rtl']    { direction: rtl; unicode-bidi: embed }
+[dir=ltr i]     { direction: ltr }
+[dir=rtl i]     { direction: rtl }
 
 @media print {
   h1            { page-break-before: always }

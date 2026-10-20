@@ -174,12 +174,13 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
-        public void MinBlockSizeAutoIllegal()
+        public void MinBlockSizeAutoLegal()
         {
             var snippet = "min-block-size: auto";
             var property = ParseDeclaration(snippet);
             Assert.AreEqual("min-block-size", property.Name);
-            Assert.IsFalse(property.HasValue);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("auto", property.Value);
         }
 
         #endregion

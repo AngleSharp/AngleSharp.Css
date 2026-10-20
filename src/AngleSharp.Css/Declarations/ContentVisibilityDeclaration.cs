@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.ContentVisibility;
 
-        public static IValueConverter Converter = VisibilityConverter;
+        public static IValueConverter Converter = ContentVisibilityConverter;
 
         public static ICssValue InitialValue = InitialValues.ContentVisibilityDecl;
 

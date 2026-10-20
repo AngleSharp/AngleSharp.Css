@@ -128,6 +128,12 @@ namespace AngleSharp.Css.Values
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var values = _values.Select(v => (T)v.Compute(context)).ToArray();
+            // Keep the specific type, e.g., such that shorthands can merge the computed values.
+            if (this is CssFlowRelativeValue)
+            {
+                return new CssFlowRelativeValue((ICssValue[])(object)values);
+            }
+
             return new CssFlowRelativeValue<T>(values);
         }
 

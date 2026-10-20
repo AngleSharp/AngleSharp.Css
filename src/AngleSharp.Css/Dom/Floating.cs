@@ -21,5 +21,13 @@ namespace AngleSharp.Css.Dom
         /// Each footnote element is placed in the footnote area of the page.
         /// </summary>
         Footnote,
+        /// <summary>
+        /// The element floats on the start side of its containing block.
+        /// </summary>
+        InlineStart,
+        /// <summary>
+        /// The element floats on the end side of its containing block.
+        /// </summary>
+        InlineEnd,
     }
 }

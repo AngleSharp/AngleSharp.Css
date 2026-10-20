@@ -63,6 +63,16 @@ namespace AngleSharp.Css.Declarations
                         options.Items[2],
                     };
                 }
+                else if (value != null && value.CssText.Isi(CssKeywords.None))
+                {
+                    // flex: none is equivalent to flex: 0 0 auto
+                    return new[]
+                    {
+                        new CssLengthValue(0, CssLengthValue.Unit.None),
+                        new CssLengthValue(0, CssLengthValue.Unit.None),
+                        InitialValues.FlexBasisDecl,
+                    };
+                }
 
                 return null;
             }

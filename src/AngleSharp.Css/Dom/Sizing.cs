@@ -18,5 +18,10 @@ namespace AngleSharp.Css.Dom
         /// The intrinsic minimum width.
         /// </summary>
         MinContent,
+        /// <summary>
+        /// The box fills the available space of its containing block.
+        /// <seealso href="https://drafts.csswg.org/css-sizing-4/#valdef-width-stretch"/>
+        /// </summary>
+        Stretch,
     }
 }

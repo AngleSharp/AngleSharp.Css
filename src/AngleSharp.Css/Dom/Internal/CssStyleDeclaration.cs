@@ -73,6 +73,12 @@ namespace AngleSharp.Css.Dom
 
         public ICssRule Parent => _parent;
 
+        /// <summary>
+        /// Gets or sets the computed font size (in px) of the root element, which is carried
+        /// along from computed style to computed style to resolve rem units.
+        /// </summary>
+        internal Double? RootFontSize { get; set; }
+
         #endregion
 
         #region Methods

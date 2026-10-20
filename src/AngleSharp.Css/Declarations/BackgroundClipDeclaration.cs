@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Background,
         };
 
-        public static IValueConverter Converter = BoxModelConverter.FromList();
+        public static IValueConverter Converter = BackgroundClipConverter.FromList();
 
         public static ICssValue InitialValue = InitialValues.BackgroundClipDecl;
 

@@ -20,6 +20,14 @@
         /// <summary>
         /// The element is moved down to clear past both left and right floats.
         /// </summary>
-        Both
+        Both,
+        /// <summary>
+        /// The element is moved below the floats on the start side.
+        /// </summary>
+        InlineStart,
+        /// <summary>
+        /// The element is moved below the floats on the end side.
+        /// </summary>
+        InlineEnd
     }
 }

@@ -21,6 +21,10 @@
         /// after being repeated an integral number of times, the image is
         /// rescaled to fit.
         /// </summary>
-        Round
+        Round,
+        /// <summary>
+        /// The image is tiled to fill the area, with extra space distributed between the tiles.
+        /// </summary>
+        Space
     }
 }

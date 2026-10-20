@@ -25,6 +25,8 @@ namespace AngleSharp.Css.Parser
             { FunctionNames.Lch, ParseLch },
             { FunctionNames.Oklab, ParseOklab},
             { FunctionNames.Oklch, ParseOklch },
+            { FunctionNames.LightDark, ParseLightDark },
+            { FunctionNames.ColorMix, ParseColorMix },
         };
 
         /// <summary>
@@ -175,6 +177,20 @@ namespace AngleSharp.Css.Parser
 
         private static CssColorValue? ParseHsla(StringSource source)
         {
+            var pos = source.Index;
+            var color = ParseHslaLegacy(source);
+
+            if (!color.HasValue)
+            {
+                source.BackTo(pos);
+                return ParseHueModern(source, CssColorValue.FromHsla);
+            }
+
+            return color.Value;
+        }
+
+        private static CssColorValue? ParseHslaLegacy(StringSource source)
+        {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
             var s = source.ParsePercent();
@@ -201,6 +217,94 @@ namespace AngleSharp.Css.Parser
             }
 
             return null;
+        }
+
+        private static CssColorValue? ParseLightDark(StringSource source)
+        {
+            var light = Start(source);
+            var c1 = source.SkipGetSkip();
+            var dark = Start(source);
+            var c2 = source.SkipGetSkip();
+
+            if (light != null && dark != null && c1 == Symbols.Comma && c2 == Symbols.RoundBracketClose)
+            {
+                // The used color scheme is unknown while parsing, i.e., the light one is taken.
+                return light;
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseColorMix(StringSource source)
+        {
+            if (!source.IsIdentifier(CssKeywords.In))
+            {
+                return null;
+            }
+
+            source.SkipSpacesAndComments();
+
+            // The colors are always interpolated in sRGB, independent of the given color space
+            // or hue interpolation method.
+            while (source.Current != Symbols.Comma && source.ParseIdent() != null)
+            {
+                source.SkipSpacesAndComments();
+            }
+
+            if (source.Current != Symbols.Comma)
+            {
+                return null;
+            }
+
+            source.SkipCurrentAndSpaces();
+            var first = ParseMixComponent(source, out var p1);
+            var c1 = source.SkipGetSkip();
+            var second = ParseMixComponent(source, out var p2);
+            var c2 = source.SkipGetSkip();
+
+            if (first == null || second == null || c1 != Symbols.Comma || c2 != Symbols.RoundBracketClose)
+            {
+                return null;
+            }
+
+            p1 ??= 1.0 - (p2 ?? 0.5);
+            p2 ??= 1.0 - p1.Value;
+            var sum = p1.Value + p2.Value;
+
+            if (p1 < 0 || p2 < 0 || sum <= 0)
+            {
+                return null;
+            }
+
+            var w1 = p1.Value / sum;
+            var w2 = p2.Value / sum;
+            var a1 = first.Value.A / 255.0;
+            var a2 = second.Value.A / 255.0;
+            var alpha = a1 * w1 + a2 * w2;
+
+            // Mixes with premultiplied alpha; percentages summing to less than 100% scale the alpha.
+            Byte Channel(Byte x, Byte y) => alpha > 0 ? (Byte)Math.Round(Math.Max(Math.Min((x * a1 * w1 + y * a2 * w2) / alpha, 255.0), 0.0)) : (Byte)0;
+
+            return CssColorValue.FromRgba(
+                Channel(first.Value.R, second.Value.R),
+                Channel(first.Value.G, second.Value.G),
+                Channel(first.Value.B, second.Value.B),
+                alpha * Math.Min(sum, 1.0));
+        }
+
+        private static CssColorValue? ParseMixComponent(StringSource source, out Double? percentage)
+        {
+            percentage = source.ParsePercent();
+            source.SkipSpacesAndComments();
+            var color = Start(source);
+            source.SkipSpacesAndComments();
+
+            if (!percentage.HasValue)
+            {
+                percentage = source.ParsePercent();
+            }
+
+            return color;
         }
 
         private static CssColorValue? ParseGray(StringSource source)
@@ -356,6 +460,56 @@ namespace AngleSharp.Css.Parser
 
         private static CssColorValue? ParseHwba(StringSource source)
         {
+            var pos = source.Index;
+            var color = ParseHwbaLegacy(source);
+
+            if (!color.HasValue)
+            {
+                source.BackTo(pos);
+                return ParseHueModern(source, CssColorValue.FromHwba);
+            }
+
+            return color.Value;
+        }
+
+        /// <summary>
+        /// Parses the space-separated syntax of a hue-based color function (hsl, hwb), e.g.,
+        /// hsl(120deg 100% 50% / 50%). Missing components (none) are taken as zero.
+        /// </summary>
+        private static CssColorValue? ParseHueModern(StringSource source, Func<Double, Double, Double, Double, CssColorValue> create)
+        {
+            var h = ParseAngleOrNone(source);
+            source.SkipSpacesAndComments();
+            var x = ParsePercentOrNone(source);
+            source.SkipSpacesAndComments();
+            var y = ParsePercentOrNone(source);
+            source.SkipSpacesAndComments();
+            var c = source.Current;
+            var a = new Nullable<Double>(1.0);
+
+            if (h != null && x != null && y != null)
+            {
+                source.SkipCurrentAndSpaces();
+
+                if (c == Symbols.Solidus)
+                {
+                    a = ParseAlphaOrNone(source);
+                    source.SkipSpacesAndComments();
+                    c = source.Current;
+                    source.SkipCurrentAndSpaces();
+                }
+
+                if (a != null && c == Symbols.RoundBracketClose)
+                {
+                    return create(h.Value, x.Value, y.Value, a.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private static CssColorValue? ParseHwbaLegacy(StringSource source)
+        {
             var h = ParseAngle(source);
             var c1 = source.SkipGetSkip();
             var s = source.ParsePercent();
@@ -449,6 +603,33 @@ namespace AngleSharp.Css.Parser
                 return (Byte)Math.Round((255.0 * val) / 100.0);
             }
 
+            return null;
+        }
+
+        private static Double? ParseAngleOrNone(StringSource source) =>
+            source.IsIdentifier(CssKeywords.None) ? 0.0 : ParseAngle(source);
+
+        private static Double? ParseAlphaOrNone(StringSource source) =>
+            source.IsIdentifier(CssKeywords.None) ? 0.0 : ParseAlpha(source);
+
+        private static Double? ParsePercentOrNone(StringSource source)
+        {
+            if (source.IsIdentifier(CssKeywords.None))
+            {
+                return 0.0;
+            }
+
+            var pos = source.Index;
+            var unit = source.ParseUnit();
+
+            // The modern syntax also allows plain numbers, which are interpreted as percentages.
+            if (unit != null && (unit.Dimension == "%" || unit.Dimension == String.Empty) &&
+                Double.TryParse(unit.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+            {
+                return value * 0.01;
+            }
+
+            source.BackTo(pos);
             return null;
         }
 

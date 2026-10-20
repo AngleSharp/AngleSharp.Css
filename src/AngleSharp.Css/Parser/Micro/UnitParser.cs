@@ -200,7 +200,24 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseFontSize(this StringSource source) =>
             source.ParseDistanceOrCalc() ??
-            source.ParseConstant(Map.FontSizes);
+            source.ParseFontSizeKeyword();
+
+        /// <summary>
+        /// Parses a font size keyword, e.g., medium or larger.
+        /// </summary>
+        internal static CssFontSizeKeywordValue ParseFontSizeKeyword(this StringSource source)
+        {
+            var pos = source.Index;
+            var ident = source.ParseIdent();
+
+            if (ident != null && Map.FontSizes.TryGetValue(ident, out var size))
+            {
+                return new CssFontSizeKeywordValue(ident.ToLowerFast(), size);
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
 
         /// <summary>
         /// Parses a track breadth value.

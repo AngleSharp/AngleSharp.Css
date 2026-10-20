@@ -102,6 +102,12 @@ namespace AngleSharp.Css.Values
             // line) - calling .Compute() on it unconditionally threw a NullReferenceException for
             // that ordinary case.
             var items = _items.Select(v => v == null ? v : (T)v.Compute(context)).ToArray();
+            // Keep the specific type, e.g., such that shorthands can merge the computed tuple.
+            if (this is CssTupleValue)
+            {
+                return new CssTupleValue((ICssValue[])(object)items, _separator);
+            }
+
             return new CssTupleValue<T>(items, _separator);
         }
 

@@ -220,6 +220,10 @@ namespace AngleSharp.Css
         public static readonly ICssValue PositionDecl = new CssConstantValue<PositionMode>(CssKeywords.Inline, PositionMode.Static);
         public static readonly ICssValue TransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TransformStyleDecl = new CssConstantValue<Boolean>(CssKeywords.Flat, true);
+        public static readonly ICssValue TransformBoxDecl = new CssConstantValue<String>(CssKeywords.ViewBox, CssKeywords.ViewBox);
+        public static readonly ICssValue TransitionBehaviorDecl = new CssConstantValue<String>(CssKeywords.Normal, CssKeywords.Normal);
+        public static readonly ICssValue FontVariantNumericDecl = new CssConstantValue<String>(CssKeywords.Normal, CssKeywords.Normal);
+        public static readonly ICssValue FontVariantLigaturesDecl = new CssConstantValue<String>(CssKeywords.Normal, CssKeywords.Normal);
         public static readonly ICssValue TransformOriginDecl = CssPoint2D.Center;
         public static readonly ICssValue RotateDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue ScaleDecl = new CssConstantValue<Object>(CssKeywords.None, null);

@@ -110,7 +110,7 @@ namespace AngleSharp.Css.Dom
 
         public ICssProperty Compute(ICssComputeContext context)
         {
-            var propertyContext = new PropertyComputeContext(context, _converter);
+            var propertyContext = new PropertyComputeContext(context, _converter, _name);
             var computedValue = _name.StartsWith("--", StringComparison.Ordinal) ?
                 context.Resolve(_name) ?? CssInvalidValue.Instance :
                 _value is CssChildValue child ? child.Compute(propertyContext, _name) :
@@ -128,15 +128,17 @@ namespace AngleSharp.Css.Dom
 
         #region Compute Context
 
-        sealed class PropertyComputeContext : ICssComputeContext, ILocalComputeContext, IInheritingComputeContext
+        sealed class PropertyComputeContext : ICssComputeContext, ILocalComputeContext, IInheritingComputeContext, IRelativeComputeContext
         {
             private readonly ICssComputeContext _parent;
             private readonly IValueConverter _converter;
+            private readonly String _name;
 
-            public PropertyComputeContext(ICssComputeContext parent, IValueConverter converter)
+            public PropertyComputeContext(ICssComputeContext parent, IValueConverter converter, String name)
             {
                 _parent = parent;
                 _converter = converter;
+                _name = name;
             }
 
             public IRenderDevice Device => _parent.Device;
@@ -150,6 +152,21 @@ namespace AngleSharp.Css.Dom
             public ICssValue Resolve(String name) =>_parent.Resolve(name);
 
             public ICssValue InheritedValue(String name) => (_parent as IInheritingComputeContext)?.InheritedValue(name);
+
+            private IFontComputeContext Fonts => _parent as IFontComputeContext;
+
+            // em in font-size refers to the font size of the parent, everywhere else to the one of the element.
+            public Double? EmBase => _name.Is(PropertyNames.FontSize) ? Fonts?.ParentFontSize : Fonts?.FontSize;
+
+            public Double? RootFontSize => Fonts?.RootFontSize;
+
+            // Except for font-size and line-height, percentages refer to a box (or a length) that is only known during layout.
+            public Boolean KeepsPercentages => Fonts is not null && PercentageBasis is null;
+
+            public Double? PercentageBasis =>
+                _name.Is(PropertyNames.FontSize) ? Fonts?.ParentFontSize :
+                _name.Is(PropertyNames.LineHeight) ? Fonts?.FontSize :
+                null;
         }
 
         #endregion

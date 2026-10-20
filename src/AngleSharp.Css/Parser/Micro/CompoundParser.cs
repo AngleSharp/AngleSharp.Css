@@ -128,10 +128,78 @@ namespace AngleSharp.Css.Parser
 
             if (url == null)
             {
-                return source.ParseGradient();
+                return source.ParseGradient() ?? source.ParseImageSet();
             }
 
             return url;
+        }
+
+        /// <summary>
+        /// Parses an image-set function, where each option is an image (or a string with its
+        /// URL) followed by an optional resolution and an optional type().
+        /// </summary>
+        internal static ICssImageValue ParseImageSet(this StringSource source)
+        {
+            var pos = source.Index;
+
+            if (source.IsFunction(FunctionNames.ImageSet))
+            {
+                var options = new List<CssTupleValue>();
+
+                while (true)
+                {
+                    var parts = new List<ICssValue>();
+                    var image = source.ParseUri() ?? source.ParseGradient() ?? (ICssValue)ParseStringValue(source);
+
+                    if (image is null)
+                    {
+                        break;
+                    }
+
+                    parts.Add(image);
+                    source.SkipSpacesAndComments();
+                    var resolution = source.ParseResolution();
+
+                    if (resolution.HasValue)
+                    {
+                        parts.Add(resolution.Value);
+                        source.SkipSpacesAndComments();
+                    }
+
+                    if (source.IsFunction(FunctionNames.Type))
+                    {
+                        var type = ParseStringValue(source);
+
+                        if (type is null || source.SkipGetSkip() != Symbols.RoundBracketClose)
+                        {
+                            break;
+                        }
+
+                        parts.Add(new CssImageSetValue.TypeValue(type));
+                    }
+
+                    options.Add(new CssTupleValue(parts.ToArray()));
+                    var c = source.SkipGetSkip();
+
+                    if (c == Symbols.RoundBracketClose)
+                    {
+                        return new CssImageSetValue(options.ToArray());
+                    }
+                    else if (c != Symbols.Comma)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static ICssValue ParseStringValue(StringSource source)
+        {
+            var str = source.ParseString();
+            return str is not null ? new CssStringValue(str) : null;
         }
 
         /// <summary>

@@ -1,9 +1,42 @@
-# 1.1.5
+# 1.2.0
 
 Released on Wednesday, October 21 2026.
 
-- tbd.
-
+- Improved default stylesheet to follow the HTML Standard's rendering section for links, `mark`, `pre`, `hr`, `fieldset`, `abbr[title]`, `summary`, table cell padding, and list padding
+- Improved default stylesheet to isolate `bdi`, `[dir]`, and block elements for the bidi algorithm (`unicode-bidi: isolate`)
+- Updated `p`, `pre`, `blockquote`, and list margins in the default stylesheet to `1em` (from `1.12em`)
+- Updated computed percentages to remain percentages instead of resolving them against the viewport, except for `font-size` (parent font size) and `line-height` (element font size)
+- Updated `calc()`, `min()`, and `max()` to keep their expression in the computed value when it cannot be resolved (e.g., `calc(50% + 10px)`)
+- Updated `font` shorthand to serialize font size keywords as written (e.g., `large` instead of `1.2em`)
+- Fixed `em` resolving against the device font size instead of the element's font size (the parent's font size for `font-size`)
+- Fixed `rem` ignoring the root element's font size
+- Fixed computed `font-size` keywords (`medium`, `x-large`, `larger`, `smaller`, ...) not resolving to lengths
+- Fixed computing `ex` and `ch` lengths throwing an exception
+- Fixed `ComputeCurrentStyle` throwing for a `box-shadow` or `text-shadow` layer without a blur radius
+- Fixed `word-break`, `overflow-wrap`, and `word-wrap` not being inherited
+- Fixed computed `border-radius` shorthand (and other shorthands merging computed lists, tuples, or periodic values) being empty
+- Fixed `grid: auto-flow / ...` losing `auto-flow` and `dense` expanding to the wrong `grid-auto-flow` axis
+- Fixed `counters()` losing the comma and the quotes of its separator string
+- Fixed `color: currentcolor` not computing to the inherited color
+- Fixed `flex: none` not expanding to `0 0 auto`
+- Fixed `content-visibility` accepting `collapse` instead of `auto`
+- Fixed `min-width`, `min-height`, and their logical counterparts rejecting `auto`
+- Fixed radial gradients without a size serializing a double space
+- Added `space-evenly` and the remaining CSS Box Alignment 3 keywords (`start`, `end`, `left`, `right`, `normal`, `stretch`, `self-start`, `self-end`, `legacy`, `first` / `last baseline`, `safe` / `unsafe`)
+- Added support for the multi-keyword `display` syntax (e.g., `inline flex`) and `display: contents` / `ruby`
+- Added support for `min()`, `max()`, and `clamp()`
+- Added support for `stretch` and `fit-content()` in sizing properties
+- Added support for the small, large, and dynamic viewport units (e.g., `svh`, `lvw`, `dvmin`)
+- Added support for the space-separated syntax of `hsl()` and `hwb()`, `color-mix()` (interpolated in sRGB), and `light-dark()`
+- Added support for percentages in `opacity`, `fill-opacity`, and `stroke-opacity`
+- Added support for `currentcolor` in shadows
+- Added support for three- and four-value positions (e.g., `right 10px bottom 20px`) and edge offsets in `background-position-x` / `-y`
+- Added support for `image-set()` and the `x` resolution unit
+- Added support for `aspect-ratio: auto <ratio>`, `grid-template-*: subgrid`, and `text-indent` with `hanging` / `each-line`
+- Added support for font weights in the range 1 to 1000 (also in `@font-face`) and `font-style: oblique <angle>`
+- Added support for the `jump-*` positions of `steps()` and the `linear()` easing function
+- Added support for `plus-lighter`, `image-rendering: pixelated`, `background-clip: text`, `border-image-repeat: space`, `outline-style: auto`, `overflow-wrap: anywhere`, `white-space: break-spaces`, two-value `text-overflow`, and `float` / `clear` with `inline-start` / `inline-end`
+- Added `font-variant-numeric`, `font-variant-ligatures`, `transform-box`, and `transition-behavior` properties
 
 # 1.1.4
 

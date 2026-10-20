@@ -41,7 +41,10 @@ namespace AngleSharp.Css.Tests.Styling
             // 60, not 50: the UA stylesheet now also carries the rules for elements that are
             // never rendered (`[hidden]`, `input[type=hidden]`) and the default look of form
             // controls (text fields, buttons, checkboxes/radios, color and range inputs).
-            Assert.AreEqual(60, sheet.Rules.Length);
+            // 70, not 60: the UA stylesheet now also follows the HTML Standard's rendering
+            // section for bidi isolation, `summary`, `fieldset`, `mark`, `abbr[title]`, links,
+            // and the block margins / list padding.
+            Assert.AreEqual(70, sheet.Rules.Length);
         }
     }
 }

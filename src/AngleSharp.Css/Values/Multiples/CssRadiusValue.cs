@@ -133,6 +133,12 @@ namespace AngleSharp.Css.Values
                 values[i] = (T)ComputeValue(_values[i], context);
             }
 
+            // Keep the specific type, e.g., such that shorthands can merge the computed radii.
+            if (this is CssRadiusValue)
+            {
+                return new CssRadiusValue((ICssValue[])(object)values);
+            }
+
             return new CssRadiusValue<T>(values);
         }
 
