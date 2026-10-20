@@ -460,6 +460,13 @@ namespace AngleSharp.Css
                     flags: TextOverflowDeclaration.Flags)
             },
             {
+                TextOrientationDeclaration.Name, new DeclarationInfo(
+                    name: TextOrientationDeclaration.Name,
+                    converter: TextOrientationDeclaration.Converter,
+                    initialValue: TextOrientationDeclaration.InitialValue,
+                    flags: TextOrientationDeclaration.Flags)
+            },
+            {
                 WritingModeDeclaration.Name, new DeclarationInfo(
                     name: WritingModeDeclaration.Name,
                     converter: WritingModeDeclaration.Converter,

@@ -19,6 +19,9 @@ Released on Wednesday, October 21 2026.
 - Fixed `counters()` losing the comma and the quotes of its separator string
 - Fixed `color: currentcolor` not computing to the inherited color
 - Fixed `flex: none` not expanding to `0 0 auto`
+- Fixed `flex` shorthand leaving omitted longhands unset instead of `1` for the factors and `0%` for the basis (e.g., `flex: 1` is `1 1 0%`)
+- Fixed computed `flex` shorthand dropping longhands at their initial value (e.g., `flex-basis: 40px` reading back as `40px` instead of `0 1 40px`)
+- Fixed legacy `writing-mode` values (`lr`, `lr-tb`, `rl`, `rl-tb`, `tb`, `tb-rl`) being rejected instead of mapping to `horizontal-tb` / `vertical-rl`
 - Fixed `content-visibility` accepting `collapse` instead of `auto`
 - Fixed `min-width`, `min-height`, and their logical counterparts rejecting `auto`
 - Fixed radial gradients without a size serializing a double space
@@ -36,7 +39,7 @@ Released on Wednesday, October 21 2026.
 - Added support for font weights in the range 1 to 1000 (also in `@font-face`) and `font-style: oblique <angle>`
 - Added support for the `jump-*` positions of `steps()` and the `linear()` easing function
 - Added support for `plus-lighter`, `image-rendering: pixelated`, `background-clip: text`, `border-image-repeat: space`, `outline-style: auto`, `overflow-wrap: anywhere`, `white-space: break-spaces`, two-value `text-overflow`, and `float` / `clear` with `inline-start` / `inline-end`
-- Added `font-variant-numeric`, `font-variant-ligatures`, `transform-box`, and `transition-behavior` properties
+- Added `font-variant-numeric`, `font-variant-ligatures`, `text-orientation`, `transform-box`, and `transition-behavior` properties
 
 # 1.1.4
 

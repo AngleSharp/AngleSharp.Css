@@ -2053,6 +2053,11 @@ namespace AngleSharp.Css
         public static readonly String TextOverflow = "text-overflow";
 
         /// <summary>
+        /// The text-orientation declaration.
+        /// </summary>
+        public static readonly String TextOrientation = "text-orientation";
+
+        /// <summary>
         /// The text-shadow declaration.
         /// </summary>
         public static readonly String TextShadow = "text-shadow";
