@@ -38,6 +38,9 @@ namespace AngleSharp.Css.Converters
         public static IValueConverter ToConverter<T>(this Dictionary<String, T> values) =>
             new DictionaryValueConverter<T>(values);
 
+        public static IValueConverter BoxRelative(this IValueConverter converter) =>
+            new BoxRelativeValueConverter(converter);
+
         public static IValueConverter FlowRelative(this IValueConverter converter) =>
             new FlowRelativeValueConverter(converter);
 

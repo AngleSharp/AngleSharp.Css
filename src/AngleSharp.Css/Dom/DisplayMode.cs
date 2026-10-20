@@ -91,6 +91,11 @@
         /// The element behaves like an inline element and lay out its content
         /// according to the grid model.
         /// </summary>
-        InlineGrid
+        InlineGrid,
+        /// <summary>
+        /// The element generates a block box that establishes a new block
+        /// formatting context, i.e., it contains its floats.
+        /// </summary>
+        FlowRoot,
     }
 }

@@ -451,7 +451,7 @@ namespace AngleSharp.Css.Tests.Declarations
 			var snippet = "text-align-last: none";
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("text-align-last", property.Name);
-			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 			Assert.IsFalse(property.HasValue);
 		}

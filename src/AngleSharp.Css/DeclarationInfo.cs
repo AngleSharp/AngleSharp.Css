@@ -1,6 +1,7 @@
 #nullable enable
 namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
     using static ValueConverters;
@@ -23,6 +24,13 @@ namespace AngleSharp.Css
         {
             Name = name;
             Converter = initialValue is not null || longhands?.Length > 0 ? Or(AssignInitial(initialValue), converter) : converter;
+
+            if (converter is BoxRelativeValueConverter && Converter != converter)
+            {
+                // The marker needs to stay visible to the computation of the values.
+                Converter = Converter.BoxRelative();
+            }
+
             Aggregator = converter as IValueAggregator;
             Flags = flags;
             InitialValue = initialValue;

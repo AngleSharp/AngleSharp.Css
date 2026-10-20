@@ -91,6 +91,13 @@ namespace AngleSharp.Css.Values
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             var items = _items.Select(v => (T)v.Compute(context)).ToArray();
+
+            // Keep the specific type, e.g., such that shorthands can merge the computed list.
+            if (this is CssListValue)
+            {
+                return new CssListValue((ICssValue[])(object)items);
+            }
+
             return new CssListValue<T>(items);
         }
 

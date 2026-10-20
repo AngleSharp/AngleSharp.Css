@@ -63,7 +63,7 @@ namespace AngleSharp.Css.Declarations
                             if (widths != null && c == Symbols.Solidus)
                             {
                                 source.SkipCurrentAndSpaces();
-                                outsets = source.ParsePeriodic<ICssValue>(UnitParser.ParseDistanceOrCalc);
+                                outsets = source.ParsePeriodic<ICssValue>(m => m.ParseDistanceOrCalc() ?? m.ParseNumber());
 
                                 if (outsets == null)
                                 {

@@ -888,6 +888,11 @@ namespace AngleSharp.Css
         public static readonly String FontVariant = "font-variant";
 
         /// <summary>
+        /// The font-variant-caps declaration.
+        /// </summary>
+        public static readonly String FontVariantCaps = "font-variant-caps";
+
+        /// <summary>
         /// The font-weight declaration.
         /// </summary>
         public static readonly String FontWeight = "font-weight";

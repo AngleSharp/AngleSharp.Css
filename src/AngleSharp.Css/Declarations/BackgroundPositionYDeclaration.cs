@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BackgroundPosition,
         };
 
-        public static IValueConverter Converter = PointYConverter.FromList();
+        public static IValueConverter Converter = PointYConverter.FromList().BoxRelative();
 
         public static ICssValue InitialValue = InitialValues.BackgroundPositionYDecl;
 

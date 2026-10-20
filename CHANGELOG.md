@@ -1,13 +1,37 @@
+# 1.1.4
+
+Released on Tuesday, October 20 2026.
+
+- Improved default stylesheet with HTML5 elements, non-rendered elements, and form control styles
+- Updated computed zero lengths to serialize with their unit (e.g., `0px`)
+- Updated cascade to always order author rules after default stylesheet rules
+- Updated `font-variant` to be a shorthand for `font-variant-caps`
+- Fixed rules matching the host being applied to its `::before` / `::after` pseudo-elements
+- Fixed computed `font-weight` to resolve `bolder` / `lighter` against the parent's weight
+- Fixed computed `border-*-radius` to keep percentages instead of resolving them to pixels
+- Fixed computed `background-position` and `mask-position` to keep percentages instead of resolving them against the viewport
+- Fixed computed `background-position` and `background-repeat` being empty
+- Fixed computed `border-image-slice` serializing missing sides as `NaNpx`
+- Fixed computing a unitless `border-image-width` or `border-image-outset` throwing
+- Fixed `border-image-outset` dropping unitless numbers
+- Fixed `text-align-last` not being inherited
+- Added support for `display: flow-root`
+- Added support for double-position color stops in gradients (e.g., `red 0 50%`)
+- Added support for filter functions in `backdrop-filter`
+- Added support for multiple layers in `mask-size`, `mask-repeat`, and `mask-position`
+- Added support for percentages in `font-stretch`
+- Added `font-variant-caps` property
+
 # 1.1.3
 
-Released on Thursday, October 15 2026
+Released on Thursday, October 15 2026.
 
 - Improved pseudo-class matching to skip a per-element `ConditionalWeakTable` probe when no state has ever been forced via `SetPseudoClass`
 - Fixed box-shadow serialization dropping zero blur before nonzero spread (#249) @PrzemyslawKlys
 
 # 1.1.2
 
-Released on Friday, September 11 2026
+Released on Friday, September 11 2026.
 
 - Fixed issue with calculation of CSS grid style
 - Fixed default value of CSS gradients
@@ -28,7 +52,7 @@ Released on Friday, September 11 2026
 
 # 1.1.1
 
-Released on Wednesday, September 9 2026
+Released on Wednesday, September 9 2026.
 
 - Fixed unresolved converter re-entry (#243) @sebastienros
 - Fixed issue with computation of `transform` functions
@@ -41,7 +65,7 @@ Released on Wednesday, September 9 2026
 
 # 1.1.0
 
-Released on Saturday, September 5 2026
+Released on Saturday, September 5 2026.
 
 - Improved evaluation of comma-separated media queries (#230)
 - Fixed wrong media feature used for scripting (#233)

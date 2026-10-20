@@ -128,7 +128,7 @@ namespace AngleSharp.Css.Dom
 
         #region Compute Context
 
-        sealed class PropertyComputeContext : ICssComputeContext, ILocalComputeContext
+        sealed class PropertyComputeContext : ICssComputeContext, ILocalComputeContext, IInheritingComputeContext
         {
             private readonly ICssComputeContext _parent;
             private readonly IValueConverter _converter;
@@ -148,6 +148,8 @@ namespace AngleSharp.Css.Dom
             public IValueConverter Converter => _converter;
 
             public ICssValue Resolve(String name) =>_parent.Resolve(name);
+
+            public ICssValue InheritedValue(String name) => (_parent as IInheritingComputeContext)?.InheritedValue(name);
         }
 
         #endregion

@@ -38,7 +38,10 @@ namespace AngleSharp.Css.Tests.Styling
             // rule, giving generated-content pseudo-elements their spec-correct default display
             // (previously they had none at all, so this renderer's general "unset display defaults
             // to block" fallback made every ::before/::after start its own new block line).
-            Assert.AreEqual(50, sheet.Rules.Length);
+            // 60, not 50: the UA stylesheet now also carries the rules for elements that are
+            // never rendered (`[hidden]`, `input[type=hidden]`) and the default look of form
+            // controls (text fields, buttons, checkboxes/radios, color and range inputs).
+            Assert.AreEqual(60, sheet.Rules.Length);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.BorderImage,
         };
 
-        public static IValueConverter Converter = LengthOrPercentConverter.Periodic();
+        public static IValueConverter Converter = Or(LengthOrPercentConverter, NumberConverter).Periodic();
 
         public static ICssValue InitialValue = InitialValues.BorderImageOutsetDecl;
 

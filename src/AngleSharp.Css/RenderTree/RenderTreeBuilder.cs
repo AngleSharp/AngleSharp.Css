@@ -72,8 +72,7 @@ namespace AngleSharp.Css.RenderTree
         {
             var document = _window.Document;
             var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
-            var stylesheets = _defaultSheets.Concat(currentSheets).ToList();
-            return new StyleCollection(stylesheets, device);
+            return new StyleCollection(_defaultSheets, currentSheets.ToList(), device);
         }
 
         private ElementRenderNode RenderElement(

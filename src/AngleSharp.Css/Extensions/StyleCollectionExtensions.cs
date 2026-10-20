@@ -31,8 +31,7 @@ namespace AngleSharp.Css
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
-            var stylesheets = defaultSheets.Concat(currentSheets);
-            return new StyleCollection(stylesheets, renderDevice);
+            return new StyleCollection(defaultSheets, currentSheets, renderDevice);
         }
 
         /// <summary>
@@ -181,17 +180,18 @@ namespace AngleSharp.Css
             if (styles is StyleCollection collection)
             {
                 var rules = collection.GetRules();
+                var defaultRuleCount = collection.GetDefaultRuleCount();
 
                 for (var i = 0; i < rules.Count; i++)
                 {
-                    MapPriority(rules[i], element, scope, matches);
+                    MapPriority(rules[i], element, scope, i < defaultRuleCount, matches);
                 }
             }
             else
             {
                 foreach (var rule in styles)
                 {
-                    MapPriority(rule, element, scope, matches);
+                    MapPriority(rule, element, scope, false, matches);
                 }
             }
 
@@ -201,11 +201,11 @@ namespace AngleSharp.Css
             return matches;
         }
 
-        private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, List<RuleMatch> matches)
+        private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, Boolean isDefault, List<RuleMatch> matches)
         {
             if (rule.TryMatch(element, scope, out var specificity))
             {
-                matches.Add(new RuleMatch(rule, specificity, matches.Count));
+                matches.Add(new RuleMatch(rule, isDefault, specificity, matches.Count));
             }
 
             var subRules = rule.Rules;
@@ -214,21 +214,24 @@ namespace AngleSharp.Css
             {
                 if (subRules[i] is ICssStyleRule style)
                 {
-                    MapPriority(style, element, scope, matches);
+                    MapPriority(style, element, scope, isDefault, matches);
                 }
             }
         }
 
         private readonly struct RuleMatch
         {
-            public RuleMatch(ICssStyleRule rule, Priority priority, Int32 index)
+            public RuleMatch(ICssStyleRule rule, Boolean isDefault, Priority priority, Int32 index)
             {
                 Rule = rule;
+                IsDefault = isDefault;
                 Priority = priority;
                 Index = index;
             }
 
             public ICssStyleRule Rule { get; }
+
+            public Boolean IsDefault { get; }
 
             public Priority Priority { get; }
 
@@ -241,6 +244,13 @@ namespace AngleSharp.Css
 
             public Int32 Compare(RuleMatch x, RuleMatch y)
             {
+                // Rules of the default (user agent) stylesheets always precede author
+                // rules, i.e., an author rule wins independent of its specificity.
+                if (x.IsDefault != y.IsDefault)
+                {
+                    return x.IsDefault ? -1 : 1;
+                }
+
                 var result = Comparer<Priority>.Default.Compare(x.Priority, y.Priority);
                 return result != 0 ? result : x.Index.CompareTo(y.Index);
             }

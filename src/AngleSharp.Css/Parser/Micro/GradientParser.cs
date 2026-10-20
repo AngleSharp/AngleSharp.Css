@@ -220,19 +220,16 @@ namespace AngleSharp.Css.Parser
                     source.SkipCurrentAndSpaces();
                 }
 
-                var stop = ParseGradientStop(source);
-
-                if (stop == null)
+                if (!ParseGradientStop(source, stops))
                     break;
 
-                stops.Add(stop);
                 current = source.SkipSpacesAndComments();
             }
 
             return stops.ToArray();
         }
 
-        private static CssGradientStopValue ParseGradientStop(StringSource source)
+        private static Boolean ParseGradientStop(StringSource source, List<CssGradientStopValue> stops)
         {
             var color = source.ParseColor();
             source.SkipSpacesAndComments();
@@ -243,15 +240,33 @@ namespace AngleSharp.Css.Parser
             // backtracks. Without this, any angle-positioned stop left the source mid-token instead
             // of at the following comma/close-paren, which made the *entire* gradient fail to parse
             // rather than just that one stop's position.
-            var position = source.ParseDistanceOrCalc() ?? source.ParseAngleOrCalc();
+            var position = ParseGradientStopPosition(source);
 
             if (color.HasValue)
             {
-                return new CssGradientStopValue(color.Value, position);
+                stops.Add(new CssGradientStopValue(color.Value, position));
+
+                if (position != null)
+                {
+                    // CSS Images 4 allows a second position ("red 0 50%"), which is
+                    // the same as two stops of the same color at both positions.
+                    source.SkipSpacesAndComments();
+                    var second = ParseGradientStopPosition(source);
+
+                    if (second != null)
+                    {
+                        stops.Add(new CssGradientStopValue(color.Value, second));
+                    }
+                }
+
+                return true;
             }
 
-            return null;
+            return false;
         }
+
+        private static ICssValue ParseGradientStopPosition(StringSource source) =>
+            source.ParseDistanceOrCalc() ?? source.ParseAngleOrCalc();
 
         private static ICssValue ParseLinearAngle(StringSource source)
         {

@@ -175,7 +175,7 @@ em { font-style: italic !important; }
             Assert.IsNotNull(style);
             Assert.AreEqual(8, style.Length);
 
-            Assert.AreEqual("0", style.GetMargin());
+            Assert.AreEqual("0px", style.GetMargin());
             Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
             Assert.AreEqual("bold", style.GetFontWeight());
             Assert.AreEqual("italic", style.GetFontStyle());

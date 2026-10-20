@@ -1072,7 +1072,16 @@ namespace AngleSharp.Css
                     converter: FontVariantDeclaration.Converter,
                     initialValue: FontVariantDeclaration.InitialValue,
                     flags: FontVariantDeclaration.Flags,
-                    shorthands: FontVariantDeclaration.Shorthands)
+                    shorthands: FontVariantDeclaration.Shorthands,
+                    longhands: FontVariantDeclaration.Longhands)
+            },
+            {
+                FontVariantCapsDeclaration.Name, new DeclarationInfo(
+                    name: FontVariantCapsDeclaration.Name,
+                    converter: FontVariantCapsDeclaration.Converter,
+                    initialValue: FontVariantCapsDeclaration.InitialValue,
+                    flags: FontVariantCapsDeclaration.Flags,
+                    shorthands: FontVariantCapsDeclaration.Shorthands)
             },
             {
                 FontWeightDeclaration.Name, new DeclarationInfo(
