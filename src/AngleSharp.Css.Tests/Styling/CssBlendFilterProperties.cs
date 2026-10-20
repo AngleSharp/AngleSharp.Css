@@ -229,11 +229,11 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
-        public void BackdropFilterInvalid()
+        public void BackdropFilterAcceptsFilterFunctions()
         {
             var element = _document.CreateElement("div") as IHtmlElement;
             element.GetStyle().SetProperty("backdrop-filter", "blur(5px)");
-            Assert.AreEqual("", element.GetStyle().GetPropertyValue("backdrop-filter"));
+            Assert.AreEqual("blur(5px)", element.GetStyle().GetPropertyValue("backdrop-filter"));
         }
 
         [Test]

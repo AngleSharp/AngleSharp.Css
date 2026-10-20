@@ -1,14 +1,26 @@
 # 1.1.4
 
-Released on Monday, October 19 2026.
+Released on Tuesday, October 20 2026.
 
 - Improved default stylesheet with HTML5 elements, non-rendered elements, and form control styles
-- Changed cascade to always order author rules after default stylesheet rules
+- Updated computed zero lengths to serialize with their unit (e.g., `0px`)
+- Updated cascade to always order author rules after default stylesheet rules
+- Updated `font-variant` to be a shorthand for `font-variant-caps`
 - Fixed rules matching the host being applied to its `::before` / `::after` pseudo-elements
 - Fixed computed `font-weight` to resolve `bolder` / `lighter` against the parent's weight
 - Fixed computed `border-*-radius` to keep percentages instead of resolving them to pixels
-- Changed computed zero lengths to serialize with their unit (e.g., `0px`)
+- Fixed computed `background-position` and `mask-position` to keep percentages instead of resolving them against the viewport
+- Fixed computed `background-position` and `background-repeat` being empty
+- Fixed computed `border-image-slice` serializing missing sides as `NaNpx`
+- Fixed computing a unitless `border-image-width` or `border-image-outset` throwing
+- Fixed `border-image-outset` dropping unitless numbers
+- Fixed `text-align-last` not being inherited
 - Added support for `display: flow-root`
+- Added support for double-position color stops in gradients (e.g., `red 0 50%`)
+- Added support for filter functions in `backdrop-filter`
+- Added support for multiple layers in `mask-size`, `mask-repeat`, and `mask-position`
+- Added support for percentages in `font-stretch`
+- Added `font-variant-caps` property
 
 # 1.1.3
 

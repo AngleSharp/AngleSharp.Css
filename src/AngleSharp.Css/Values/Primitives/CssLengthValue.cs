@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Values
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
 
@@ -238,6 +239,19 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
+            if (_unit == Unit.None || Double.IsNaN(_value))
+            {
+                // A plain number (e.g., a multiple of the border width) or a
+                // keyword (e.g., auto) has no pixel representation.
+                return this;
+            }
+
+            if (_unit == Unit.Percent && context.Converter is BoxRelativeValueConverter)
+            {
+                // Refers to the element's own box, which is only known during layout.
+                return this;
+            }
+
             if (_unit != CssLengthValue.Unit.Px)
             {
                 var px = ToPixel(context.Device);

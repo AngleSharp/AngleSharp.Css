@@ -281,7 +281,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the backdrop-filter property.
         /// </summary>
-        public static readonly IValueConverter BackdropFilterConverter = Assign(CssKeywords.None, CssKeywords.None);
+        public static IValueConverter BackdropFilterConverter => FilterConverter;
 
         /// <summary>
         /// Represents a filter function list or the none keyword.
@@ -572,12 +572,12 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-repeat property.
         /// </summary>
-        public static IValueConverter MaskRepeatConverter => BackgroundRepeatsConverter;
+        public static IValueConverter MaskRepeatConverter => BackgroundRepeatsConverter.FromList();
 
         /// <summary>
         /// Represents a converter for the mask-position property.
         /// </summary>
-        public static IValueConverter MaskPositionConverter => PointConverter;
+        public static IValueConverter MaskPositionConverter => PointConverter.FromList().BoxRelative();
 
         /// <summary>
         /// Represents a converter for the mask-clip property.
@@ -604,7 +604,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the mask-size property.
         /// </summary>
-        public static IValueConverter MaskSizeConverter => BackgroundSizeConverter;
+        public static IValueConverter MaskSizeConverter => BackgroundSizeConverter.FromList();
 
         /// <summary>
         /// Represents a converter for the mask-composite property.
@@ -1006,6 +1006,18 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FontVariantConverter = Map.FontVariants.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the font-variant-caps property.
+        /// https://www.w3.org/TR/css-fonts-4/#font-variant-caps-prop
+        /// </summary>
+        public static readonly IValueConverter FontVariantCapsConverter = Or(
+            FontVariantConverter,
+            Assign(CssKeywords.AllSmallCaps, CssKeywords.AllSmallCaps),
+            Assign(CssKeywords.PetiteCaps, CssKeywords.PetiteCaps),
+            Assign(CssKeywords.AllPetiteCaps, CssKeywords.AllPetiteCaps),
+            Assign(CssKeywords.Unicase, CssKeywords.Unicase),
+            Assign(CssKeywords.TitlingCaps, CssKeywords.TitlingCaps));
+
+        /// <summary>
         /// Represents a converter for the DirectionMode enumeration.
         /// </summary>
         public static readonly IValueConverter DirectionModeConverter = Map.DirectionModes.ToConverter();
@@ -1083,7 +1095,9 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the FontStretch enumeration.
         /// </summary>
-        public static readonly IValueConverter FontStretchConverter = Map.FontStretches.ToConverter();
+        public static readonly IValueConverter FontStretchConverter = Or(
+            Map.FontStretches.ToConverter(),
+            PercentConverter);
 
         /// <summary>
         /// Represents a converter for the FontStyle enumeration.

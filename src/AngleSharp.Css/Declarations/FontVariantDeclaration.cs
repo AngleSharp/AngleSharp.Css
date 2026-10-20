@@ -1,6 +1,8 @@
+#nullable disable
 namespace AngleSharp.Css.Declarations
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Text;
     using System;
     using static ValueConverters;
 
@@ -13,10 +15,24 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Font,
         };
 
-        public static IValueConverter Converter = FontVariantConverter;
+        public static String[] Longhands = new[]
+        {
+            PropertyNames.FontVariantCaps,
+        };
+
+        public static IValueConverter Converter = new FontVariantAggregator();
 
         public static ICssValue InitialValue = InitialValues.FontVariantDecl;
 
-        public static PropertyFlags Flags = PropertyFlags.Inherited;
+        public static PropertyFlags Flags = PropertyFlags.Inherited | PropertyFlags.Shorthand;
+
+        sealed class FontVariantAggregator : IValueAggregator, IValueConverter
+        {
+            public ICssValue Convert(StringSource source) => FontVariantCapsConverter.Convert(source);
+
+            public ICssValue Merge(ICssValue[] values) => values[0];
+
+            public ICssValue[] Split(ICssValue value) => new[] { value };
+        }
     }
 }

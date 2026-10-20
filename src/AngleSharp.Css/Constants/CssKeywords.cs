@@ -1458,6 +1458,31 @@ namespace AngleSharp.Css
         public static readonly String SmallCaps = "small-caps";
 
         /// <summary>
+        /// The all-small-caps keyword.
+        /// </summary>
+        public static readonly String AllSmallCaps = "all-small-caps";
+
+        /// <summary>
+        /// The petite-caps keyword.
+        /// </summary>
+        public static readonly String PetiteCaps = "petite-caps";
+
+        /// <summary>
+        /// The all-petite-caps keyword.
+        /// </summary>
+        public static readonly String AllPetiteCaps = "all-petite-caps";
+
+        /// <summary>
+        /// The unicase keyword.
+        /// </summary>
+        public static readonly String Unicase = "unicase";
+
+        /// <summary>
+        /// The titling-caps keyword.
+        /// </summary>
+        public static readonly String TitlingCaps = "titling-caps";
+
+        /// <summary>
         /// The weight keyword (font-synthesis).
         /// </summary>
         public static readonly String Weight = "weight";
