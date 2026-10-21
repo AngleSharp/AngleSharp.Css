@@ -51,6 +51,27 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(expected, Computed("<hr id=target>", property));
         }
 
+        [TestCase("::before", "open-quote")]
+        [TestCase("::after", "close-quote")]
+        public void QuotesAreGenerated(string pseudo, string expected)
+        {
+            var document = ParseDocument("<p><q id=target>x</q></p>");
+            var element = document.GetElementById("target");
+            Assert.AreEqual(expected, document.DefaultView.GetComputedStyle(element, pseudo).GetPropertyValue("content"));
+        }
+
+        [Test]
+        public void TablesAreBorderBoxSized()
+        {
+            Assert.AreEqual("border-box", Computed("<table id=target><tr><td>x</td></tr></table>", "box-sizing"));
+        }
+
+        [Test]
+        public void TablesDoNotInheritTextIndent()
+        {
+            Assert.AreEqual("0px", Computed("<div style=\"text-indent: 40px\"><table id=target><tr><td>x</td></tr></table></div>", "text-indent"));
+        }
+
         [TestCase("td")]
         [TestCase("th")]
         public void TableCellsHavePadding(string tagName)

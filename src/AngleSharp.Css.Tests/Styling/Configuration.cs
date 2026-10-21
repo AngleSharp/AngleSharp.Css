@@ -44,7 +44,9 @@ namespace AngleSharp.Css.Tests.Styling
             // 70, not 60: the UA stylesheet now also follows the HTML Standard's rendering
             // section for bidi isolation, `summary`, `fieldset`, `mark`, `abbr[title]`, links,
             // and the block margins / list padding.
-            Assert.AreEqual(70, sheet.Rules.Length);
+            // 72, not 70: the UA stylesheet now also generates quotes for `q::before` and
+            // `q::after`.
+            Assert.AreEqual(72, sheet.Rules.Length);
         }
     }
 }

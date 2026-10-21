@@ -350,7 +350,12 @@ namespace AngleSharp.Css.Dom
             ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
 
         internal void UpdateDeclarations(IEnumerable<ICssProperty> decls) =>
-            ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited);
+            ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited && !IsExplicitInitial(o));
+
+        // IsInherited also holds for an explicit `initial` on an inherited property,
+        // which must still resolve to the initial value rather than the parent's.
+        private static Boolean IsExplicitInitial(ICssProperty property) =>
+            property.RawValue is not null && property.RawValue.CssText.Is(CssKeywords.Initial);
 
         #endregion
 

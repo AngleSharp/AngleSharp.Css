@@ -143,7 +143,7 @@ big             { font-size: 1.17em }
 small, sub, sup { font-size: .83em }
 sub             { vertical-align: sub }
 sup             { vertical-align: super }
-table           { border-spacing: 2px; }
+table           { border-spacing: 2px; box-sizing: border-box; text-indent: 0 }
 thead, tbody,
 tfoot           { vertical-align: middle }
 td, th, tr      { vertical-align: inherit }
@@ -160,6 +160,8 @@ abbr[title],
 acronym[title]  { text-decoration: dotted underline }
 mark            { background-color: yellow; color: black }
 br::before      { content: '\A'; white-space: pre-line }
+q::before       { content: open-quote }
+q::after        { content: close-quote }
 *::before, *::after { display: inline }
 center          { text-align: center }
 :link           { color: #0000ee }
