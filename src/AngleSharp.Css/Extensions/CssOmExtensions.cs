@@ -91,6 +91,11 @@ namespace AngleSharp.Css.Dom
         {
             var computedStyle = new CssStyleDeclaration(context.Context);
 
+            if (context is IFontComputeContext fonts)
+            {
+                computedStyle.RootFontSize = fonts.RootFontSize;
+            }
+
             foreach (var property in style)
             {
                 var computed = property.Compute(context);

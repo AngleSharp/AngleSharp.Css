@@ -102,7 +102,7 @@ namespace AngleSharp.Css.Values
                         size,
                         CssKeywords.At,
                         _center.CssText
-                    })));
+                    }.Where(m => !String.IsNullOrEmpty(m)))));
                 }
 
                 foreach (var stop in _stops)

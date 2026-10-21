@@ -460,6 +460,13 @@ namespace AngleSharp.Css
                     flags: TextOverflowDeclaration.Flags)
             },
             {
+                TextOrientationDeclaration.Name, new DeclarationInfo(
+                    name: TextOrientationDeclaration.Name,
+                    converter: TextOrientationDeclaration.Converter,
+                    initialValue: TextOrientationDeclaration.InitialValue,
+                    flags: TextOrientationDeclaration.Flags)
+            },
+            {
                 WritingModeDeclaration.Name, new DeclarationInfo(
                     name: WritingModeDeclaration.Name,
                     converter: WritingModeDeclaration.Converter,
@@ -1082,6 +1089,34 @@ namespace AngleSharp.Css
                     initialValue: FontVariantCapsDeclaration.InitialValue,
                     flags: FontVariantCapsDeclaration.Flags,
                     shorthands: FontVariantCapsDeclaration.Shorthands)
+            },
+            {
+                FontVariantNumericDeclaration.Name, new DeclarationInfo(
+                    name: FontVariantNumericDeclaration.Name,
+                    converter: FontVariantNumericDeclaration.Converter,
+                    initialValue: FontVariantNumericDeclaration.InitialValue,
+                    flags: FontVariantNumericDeclaration.Flags)
+            },
+            {
+                FontVariantLigaturesDeclaration.Name, new DeclarationInfo(
+                    name: FontVariantLigaturesDeclaration.Name,
+                    converter: FontVariantLigaturesDeclaration.Converter,
+                    initialValue: FontVariantLigaturesDeclaration.InitialValue,
+                    flags: FontVariantLigaturesDeclaration.Flags)
+            },
+            {
+                TransformBoxDeclaration.Name, new DeclarationInfo(
+                    name: TransformBoxDeclaration.Name,
+                    converter: TransformBoxDeclaration.Converter,
+                    initialValue: TransformBoxDeclaration.InitialValue,
+                    flags: TransformBoxDeclaration.Flags)
+            },
+            {
+                TransitionBehaviorDeclaration.Name, new DeclarationInfo(
+                    name: TransitionBehaviorDeclaration.Name,
+                    converter: TransitionBehaviorDeclaration.Converter,
+                    initialValue: TransitionBehaviorDeclaration.InitialValue,
+                    flags: TransitionBehaviorDeclaration.Flags)
             },
             {
                 FontWeightDeclaration.Name, new DeclarationInfo(

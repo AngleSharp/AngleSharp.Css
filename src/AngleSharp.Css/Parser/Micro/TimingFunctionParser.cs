@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -15,6 +16,17 @@ namespace AngleSharp.Css.Parser
         {
             { FunctionNames.Steps, ParseSteps },
             { FunctionNames.CubicBezier, ParseCubicBezier },
+            { CssKeywords.Linear, ParseLinear },
+        };
+
+        private static readonly HashSet<String> StepPositions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            CssKeywords.Start,
+            CssKeywords.End,
+            CssKeywords.JumpStart,
+            CssKeywords.JumpEnd,
+            CssKeywords.JumpNone,
+            CssKeywords.JumpBoth,
         };
 
         /// <summary>
@@ -59,23 +71,71 @@ namespace AngleSharp.Css.Parser
 
             if (intervals.HasValue)
             {
-                var start = false;
-                var end = true;
+                var position = default(String);
 
                 if (c == Symbols.Comma)
                 {
-                    start = source.IsIdentifier(CssKeywords.Start);
-                    end = source.IsIdentifier(CssKeywords.End);
+                    position = source.ParseIdent()?.ToLowerFast();
                     c = source.SkipGetSkip();
+
+                    if (position is null || !StepPositions.Contains(position))
+                    {
+                        return null;
+                    }
                 }
 
-                if (start != end && c == Symbols.RoundBracketClose)
+                // jump-none requires at least two intervals
+                if (c == Symbols.RoundBracketClose && (intervals.Value.IntValue > 1 || (intervals.Value.IntValue == 1 && !CssKeywords.JumpNone.Is(position))))
                 {
-                    return new CssStepsValue(intervals.Value, start);
+                    return new CssStepsValue(intervals.Value, position);
                 }
             }
 
             return null;
+        }
+
+        private static ICssTimingFunctionValue ParseLinear(StringSource source)
+        {
+            var stops = new List<CssTupleValue>();
+
+            while (true)
+            {
+                var output = source.ParseNumber();
+
+                if (!output.HasValue)
+                {
+                    return null;
+                }
+
+                var parts = new List<ICssValue> { output.Value };
+                source.SkipSpacesAndComments();
+
+                // Each stop has an optional input progress, given as one or two percentages.
+                for (var i = 0; i < 2; i++)
+                {
+                    var input = source.ParsePercent();
+
+                    if (!input.HasValue)
+                    {
+                        break;
+                    }
+
+                    parts.Add(new CssPercentageValue(input.Value * 100.0));
+                    source.SkipSpacesAndComments();
+                }
+
+                stops.Add(new CssTupleValue(parts.ToArray()));
+                var c = source.SkipGetSkip();
+
+                if (c == Symbols.RoundBracketClose)
+                {
+                    return stops.Count > 1 ? new CssLinearEasingValue(stops.ToArray()) : null;
+                }
+                else if (c != Symbols.Comma)
+                {
+                    return null;
+                }
+            }
         }
 
         private static ICssTimingFunctionValue ParseCubicBezier(StringSource source)

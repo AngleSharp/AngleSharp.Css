@@ -38,5 +38,9 @@ namespace AngleSharp.Css.Dom
         /// Follow the baseline.
         /// </summary>
         Baseline,
+        /// <summary>
+        /// Distribute space evenly between and around items.
+        /// </summary>
+        SpaceEvenly,
     }
 }

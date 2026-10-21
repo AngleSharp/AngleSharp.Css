@@ -60,7 +60,7 @@ namespace AngleSharp.Css.Parser
 
                 if (!color.HasValue)
                 {
-                    color = source.ParseColor();
+                    color = source.ParseCurrentColor();
                     source.SkipSpacesAndComments();
                 }
             }

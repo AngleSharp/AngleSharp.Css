@@ -13,6 +13,10 @@
 		/// Indicates that normally unbreakable words may be broken at arbitrary points 
 		/// if there are no otherwise acceptable break points in the line.
 		/// </summary>
-		BreakWord
+		BreakWord,
+		/// <summary>
+		/// Like break-word, but soft wrap opportunities are considered for min-content sizes.
+		/// </summary>
+		Anywhere
 	}
 }

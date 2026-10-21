@@ -60,7 +60,16 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
-        ICssValue ICssValue.Compute(ICssComputeContext context) => _expression.Compute(context);
+        ICssValue ICssValue.Compute(ICssComputeContext context)
+        {
+            var result = _expression.Compute(context);
+
+            // An expression that could not be resolved (e.g., a percentage of an unknown box with a
+            // length) remains a calc() of its computed operands.
+            return result is CssCalcAddExpression or CssCalcSubExpression or CssCalcMulExpression or CssCalcDivExpression or CssCalcBracketExpression ?
+                new CssCalcValue(result) :
+                result;
+        }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
 

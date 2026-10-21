@@ -43,7 +43,8 @@ namespace AngleSharp.Css.Parser
             }
             else if (checkKeyword(l))
             {
-                return KeywordToLength(l);
+                var offset = source.ParseEdgeOffset(l);
+                return offset is not null ? new CssEdgeOffsetValue(l.ToLowerFast(), offset) : KeywordToLength(l);
             }
 
             source.BackTo(pos);
@@ -55,7 +56,8 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static CssOriginValue ParseOrigin(this StringSource source)
         {
-            var pt = source.ParsePoint();
+            // An origin has no edge offsets, i.e., a trailing length is the z-component.
+            var pt = source.ParseKeywordPoint();
             source.SkipSpacesAndComments();
             var z = source.ParseLengthOrCalc();
 
@@ -70,7 +72,13 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a point value.
         /// </summary>
-        public static CssPoint2D? ParsePoint(this StringSource source)
+        public static CssPoint2D? ParsePoint(this StringSource source) =>
+            source.ParseEdgeOffsetPoint() ?? source.ParseKeywordPoint();
+
+        /// <summary>
+        /// Parses a point value given by one or two components, i.e., without edge offsets.
+        /// </summary>
+        private static CssPoint2D? ParseKeywordPoint(this StringSource source)
         {
             var pos = source.Index;
             var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
@@ -183,6 +191,69 @@ namespace AngleSharp.Css.Parser
                 
                 return new CssBackgroundSizeValue(w ?? CssLengthValue.Auto, h ?? CssLengthValue.Auto);
             }
+        }
+
+        /// <summary>
+        /// Parses the three- and four-value syntax of a position, e.g., right 10px bottom 20px,
+        /// where at least one of the edges has an offset.
+        /// </summary>
+        private static CssPoint2D? ParseEdgeOffsetPoint(this StringSource source)
+        {
+            var pos = source.Index;
+            var first = source.ParseIdent();
+            var firstOffset = first is not null ? source.ParseEdgeOffset(first) : null;
+            source.SkipSpacesAndComments();
+            var second = first is not null ? source.ParseIdent() : null;
+            var secondOffset = second is not null ? source.ParseEdgeOffset(second) : null;
+
+            if (second is not null && (firstOffset is not null || secondOffset is not null))
+            {
+                if (!IsHorizontal(first) || !IsVertical(second))
+                {
+                    var edge = first;
+                    var offset = firstOffset;
+                    first = second;
+                    firstOffset = secondOffset;
+                    second = edge;
+                    secondOffset = offset;
+                }
+
+                var valid = IsHorizontal(first) && IsVertical(second) &&
+                    (firstOffset is null || !first.Isi(CssKeywords.Center)) &&
+                    (secondOffset is null || !second.Isi(CssKeywords.Center));
+
+                if (valid)
+                {
+                    var x = firstOffset is not null ? new CssEdgeOffsetValue(first.ToLowerFast(), firstOffset) : (ICssValue)KeywordToLength(first).Value;
+                    var y = secondOffset is not null ? new CssEdgeOffsetValue(second.ToLowerFast(), secondOffset) : (ICssValue)KeywordToLength(second).Value;
+                    return new CssPoint2D(x, y);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        /// <summary>
+        /// Parses the optional offset following an edge keyword (not center).
+        /// </summary>
+        private static ICssValue ParseEdgeOffset(this StringSource source, String edge)
+        {
+            if (!edge.Isi(CssKeywords.Center))
+            {
+                var pos = source.Index;
+                source.SkipSpacesAndComments();
+                var offset = source.ParseDistanceOrCalc();
+
+                if (offset is not null)
+                {
+                    return offset;
+                }
+
+                source.BackTo(pos);
+            }
+
+            return null;
         }
 
         private static Boolean IsHorizontal(String str) =>

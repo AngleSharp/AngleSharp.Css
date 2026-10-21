@@ -69,6 +69,7 @@ namespace AngleSharp.Css.Values
                     Unit.Dpcm => UnitNames.Dpcm,
                     Unit.Dpi => UnitNames.Dpi,
                     Unit.Dppx => UnitNames.Dppx,
+                    Unit.X => UnitNames.X,
                     _ => String.Empty,
                 };
             }
@@ -80,7 +81,7 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            if (_unit != Unit.Dppx)
+            if (_unit != Unit.Dppx && _unit != Unit.X)
             {
                 var dots = ToDotsPerPixel();
                 return new CssResolutionValue(dots, Unit.Dppx);
@@ -121,6 +122,7 @@ namespace AngleSharp.Css.Values
                 "dpcm" => Unit.Dpcm,
                 "dpi" => Unit.Dpi,
                 "dppx" => Unit.Dppx,
+                "x" => Unit.X,
                 _ => Unit.None,
             };
         }
@@ -196,6 +198,10 @@ namespace AngleSharp.Css.Values
             /// The value is a resolution (dots per px).
             /// </summary>
             Dppx,
+            /// <summary>
+            /// The value is a resolution (dots per px), given by its alias x.
+            /// </summary>
+            X,
         }
 
         #endregion

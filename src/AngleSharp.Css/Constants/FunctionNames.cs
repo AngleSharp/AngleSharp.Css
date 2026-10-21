@@ -78,6 +78,21 @@ namespace AngleSharp.Css
         public static readonly String Minmax = "minmax";
 
         /// <summary>
+        /// The min function.
+        /// </summary>
+        public static readonly String Min = "min";
+
+        /// <summary>
+        /// The max function.
+        /// </summary>
+        public static readonly String Max = "max";
+
+        /// <summary>
+        /// The clamp function.
+        /// </summary>
+        public static readonly String Clamp = "clamp";
+
+        /// <summary>
         /// The var function.
         /// </summary>
         public static readonly String Var = "var";
@@ -286,6 +301,26 @@ namespace AngleSharp.Css
         /// The Oklch (Lightness, Chroma, Hue) function.
         /// </summary>
         public static readonly String Oklch = "oklch";
+
+        /// <summary>
+        /// The light-dark function (CSS Color 5).
+        /// </summary>
+        public static readonly String LightDark = "light-dark";
+
+        /// <summary>
+        /// The color-mix function (CSS Color 5).
+        /// </summary>
+        public static readonly String ColorMix = "color-mix";
+
+        /// <summary>
+        /// The image-set function (CSS Images 4).
+        /// </summary>
+        public static readonly String ImageSet = "image-set";
+
+        /// <summary>
+        /// The type function of an image-set option.
+        /// </summary>
+        public static readonly String Type = "type";
 
         /// <summary>
         /// The content function.

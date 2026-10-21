@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Declarations
         public static IValueConverter Converter = AggregateTuple(
             WithAny(
                 LineWidthConverter.Option(InitialValues.OutlineWidthDecl),
-                LineStyleConverter.Option(InitialValues.OutlineStyleDecl),
+                OutlineStyleConverter.Option(InitialValues.OutlineStyleDecl),
                 InvertedColorConverter.Option(InitialValues.OutlineColorDecl)));
 
         public static ICssValue InitialValue = null;

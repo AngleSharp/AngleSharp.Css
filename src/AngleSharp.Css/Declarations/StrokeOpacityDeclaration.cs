@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.StrokeOpacity;
 
-        public static IValueConverter Converter = NumberConverter;
+        public static IValueConverter Converter = AlphaValueConverter;
 
         public static ICssValue InitialValue = InitialValues.StrokeOpacityDecl;
 

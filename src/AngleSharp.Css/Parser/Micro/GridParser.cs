@@ -108,6 +108,36 @@ namespace AngleSharp.Css.Parser
         }
 
         /// <summary>
+        /// Parses a subgrid value, i.e., subgrid followed by optional line names.
+        /// https://drafts.csswg.org/css-grid-2/#subgrid-listing
+        /// </summary>
+        internal static ICssValue ParseSubgrid(this StringSource source)
+        {
+            if (source.IsIdentifier(CssKeywords.Subgrid))
+            {
+                var values = new List<ICssValue> { new CssIdentifierValue(CssKeywords.Subgrid) };
+                source.SkipSpacesAndComments();
+
+                while (!source.IsDone)
+                {
+                    var names = source.ParseLineNames();
+
+                    if (!names.HasValue)
+                    {
+                        break;
+                    }
+
+                    values.Add(names.Value);
+                    source.SkipSpacesAndComments();
+                }
+
+                return new CssTupleValue(values.ToArray());
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Parses a grid line name value.
         /// </summary>
         public static CssLineNamesValue? ParseLineNames(this StringSource source)

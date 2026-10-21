@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Outline,
         };
 
-        public static IValueConverter Converter = LineStyleConverter;
+        public static IValueConverter Converter = OutlineStyleConverter;
 
         public static ICssValue InitialValue = InitialValues.OutlineStyleDecl;
 

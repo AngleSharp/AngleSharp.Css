@@ -358,7 +358,7 @@ namespace AngleSharp.Css.Tests.Declarations
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("word-break", property.Name);
 			Assert.IsFalse(property.HasValue);
-			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 		}
 
@@ -688,7 +688,7 @@ namespace AngleSharp.Css.Tests.Declarations
 			var snippet = "overflow-wrap: none";
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("overflow-wrap", property.Name);
-			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 			Assert.IsFalse(property.HasValue);
 		}
@@ -699,7 +699,7 @@ namespace AngleSharp.Css.Tests.Declarations
 			var snippet = "word-wrap: none";
 			var property = ParseDeclaration(snippet);
 			Assert.AreEqual("word-wrap", property.Name);
-			Assert.IsFalse(property.IsInherited);
+			Assert.IsTrue(property.IsInherited);
 			Assert.IsFalse(property.IsImportant);
 			Assert.IsFalse(property.HasValue);
         }

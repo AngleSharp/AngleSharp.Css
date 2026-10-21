@@ -30,6 +30,10 @@
         /// Sequences of whitespace are collapsed. Lines are broken at newline characters,
         /// at br, and as necessary to fill line boxes.
         /// </summary>
-        PreLine
+        PreLine,
+        /// <summary>
+        /// Like pre-wrap, but preserved white space always takes up space and can be broken after.
+        /// </summary>
+        BreakSpaces
     }
 }

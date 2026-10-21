@@ -42,6 +42,16 @@
             Assert.AreEqual("width, height", property.Value);
         }
 
+        [TestCase("translate")]
+        [TestCase("rotate")]
+        [TestCase("scale")]
+        public void CssTransitionPropertyIndividualTransformLegal(string name)
+        {
+            var property = ParseDeclaration("transition-property : " + name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(name, property.Value);
+        }
+
         [Test]
         public void CssTransitionPropertyDashSpecificIllegal()
         {

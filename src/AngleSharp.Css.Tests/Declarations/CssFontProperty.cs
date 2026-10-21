@@ -439,7 +439,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 1.2em serif", property.Value);
+            Assert.AreEqual("italic bold large serif", property.Value);
         }
 
         [Test]
@@ -594,7 +594,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("1.5em / 110% \"New Century Schoolbook\", serif", property.Value);
+            Assert.AreEqual("x-large / 110% \"New Century Schoolbook\", serif", property.Value);
         }
 
         [Test]
@@ -606,7 +606,7 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsImportant);
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
-            Assert.AreEqual("italic bold 1.2em Palatino, serif", property.Value);
+            Assert.AreEqual("italic bold large Palatino, serif", property.Value);
         }
 
         [Test]

@@ -42,7 +42,7 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public String CssText => _separator == null ?
             FunctionNames.Counter.CssFunction(Combine(_identifier)) :
-            FunctionNames.Counters.CssFunction(Combine(String.Concat(_identifier, " ", _separator)));
+            FunctionNames.Counters.CssFunction(Combine(String.Concat(_identifier, ", ", _separator.CssString())));
 
         /// <summary>
         /// Gets the identifier of the counter.

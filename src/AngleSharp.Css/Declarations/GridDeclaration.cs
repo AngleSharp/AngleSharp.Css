@@ -135,9 +135,17 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (templateRows != null || templateColumns != null)
                 {
+                    var flow = autoFlow?.CssText ?? String.Empty;
+                    var isDense = flow.Contains(CssKeywords.Dense);
+                    var isAutoFlow = templateRows is null ? flow.Contains(CssKeywords.Row) : templateColumns is null && flow.Contains(CssKeywords.Column);
+
                     if ((autoRows ?? autoColumns) is CssTupleValue tuple)
                     {
-                        return new CssGridValue(templateRows, templateColumns, tuple.Items, autoFlow != null);
+                        return new CssGridValue(templateRows, templateColumns, tuple.Items, isDense);
+                    }
+                    else if (isAutoFlow)
+                    {
+                        return new CssGridValue(templateRows, templateColumns, Array.Empty<ICssValue>(), isDense);
                     }
 
                     return new CssGridTemplateValue(templateRows, templateColumns, templateAreas);
@@ -166,7 +174,8 @@ namespace AngleSharp.Css.Declarations
                 }
                 else if (value is CssGridValue grid)
                 {
-                    var dense = grid.Rows is not null ? CssKeywords.Row : CssKeywords.Column;
+                    // The auto-flow keyword is placed on the rows (row flow) or the columns (column flow).
+                    var flow = grid.Rows is not null ? CssKeywords.Column : CssKeywords.Row;
                     return new[]
                     {
                         grid.Rows,
@@ -174,7 +183,7 @@ namespace AngleSharp.Css.Declarations
                         null, //new Identifier(CssKeywords.None),
                         grid.Columns is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
                         grid.Rows is not null ? new CssTupleValue(grid.Sizes) : null, //new Identifier(CssKeywords.Auto),
-                        grid.IsDense ? new CssIdentifierValue(dense) : null,
+                        new CssIdentifierValue(grid.IsDense ? String.Concat(flow, " ", CssKeywords.Dense) : flow),
                         null, //Length.Zero,
                         null, //Length.Zero,
                         null, //new Identifier(CssKeywords.Normal),

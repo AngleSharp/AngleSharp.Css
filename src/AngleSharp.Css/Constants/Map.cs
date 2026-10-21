@@ -21,6 +21,7 @@ namespace AngleSharp.Css
             { CssKeywords.Nowrap, Whitespace.NoWrap },
             { CssKeywords.PreWrap, Whitespace.PreWrap },
             { CssKeywords.PreLine, Whitespace.PreLine },
+            { CssKeywords.BreakSpaces, Whitespace.BreakSpaces },
         };
 
         /// <summary>
@@ -351,6 +352,7 @@ namespace AngleSharp.Css
             { CssKeywords.Stretch, BorderRepeat.Stretch },
             { CssKeywords.Repeat, BorderRepeat.Repeat },
             { CssKeywords.Round, BorderRepeat.Round },
+            { CssKeywords.Space, BorderRepeat.Space },
         };
 
         /// <summary>
@@ -580,6 +582,8 @@ namespace AngleSharp.Css
             { CssKeywords.Left, Floating.Left },
             { CssKeywords.Right, Floating.Right },
             { CssKeywords.Footnote, Floating.Footnote },
+            { CssKeywords.InlineStart, Floating.InlineStart },
+            { CssKeywords.InlineEnd, Floating.InlineEnd },
         };
 
         /// <summary>
@@ -607,6 +611,8 @@ namespace AngleSharp.Css
             { CssKeywords.Grid, DisplayMode.Grid },
             { CssKeywords.InlineGrid, DisplayMode.InlineGrid },
             { CssKeywords.FlowRoot, DisplayMode.FlowRoot },
+            { CssKeywords.Contents, DisplayMode.Contents },
+            { CssKeywords.Ruby, DisplayMode.Ruby },
         };
 
         /// <summary>
@@ -618,6 +624,8 @@ namespace AngleSharp.Css
             { CssKeywords.Left, ClearMode.Left },
             { CssKeywords.Right, ClearMode.Right },
             { CssKeywords.Both, ClearMode.Both },
+            { CssKeywords.InlineStart, ClearMode.InlineStart },
+            { CssKeywords.InlineEnd, ClearMode.InlineEnd },
         };
 
         /// <summary>
@@ -778,6 +786,7 @@ namespace AngleSharp.Css
         {
             { CssKeywords.Normal, OverflowWrap.Normal },
             { CssKeywords.BreakWord, OverflowWrap.BreakWord },
+            { CssKeywords.Anywhere, OverflowWrap.Anywhere },
         };
 
         /// <summary>
@@ -882,6 +891,13 @@ namespace AngleSharp.Css
             { CssKeywords.Center, FlexContentMode.Center },
             { CssKeywords.SpaceBetween, FlexContentMode.SpaceBetween },
             { CssKeywords.SpaceAround, FlexContentMode.SpaceAround },
+            { CssKeywords.SpaceEvenly, FlexContentMode.SpaceEvenly },
+            { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
+            { CssKeywords.Left, FlexContentMode.Start },
+            { CssKeywords.Right, FlexContentMode.End },
         };
 
         /// <summary>
@@ -895,6 +911,11 @@ namespace AngleSharp.Css
             { CssKeywords.SpaceBetween, FlexContentMode.SpaceBetween },
             { CssKeywords.SpaceAround, FlexContentMode.SpaceAround },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.SpaceEvenly, FlexContentMode.SpaceEvenly },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Baseline, FlexContentMode.Baseline },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
         };
 
         /// <summary>
@@ -907,6 +928,11 @@ namespace AngleSharp.Css
             { CssKeywords.Center, FlexContentMode.Center },
             { CssKeywords.Baseline, FlexContentMode.Baseline },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
+            { CssKeywords.SelfStart, FlexContentMode.Start },
+            { CssKeywords.SelfEnd, FlexContentMode.End },
         };
 
         /// <summary>
@@ -920,6 +946,11 @@ namespace AngleSharp.Css
             { CssKeywords.Center, FlexContentMode.Center },
             { CssKeywords.Baseline, FlexContentMode.Baseline },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
+            { CssKeywords.SelfStart, FlexContentMode.Start },
+            { CssKeywords.SelfEnd, FlexContentMode.End },
         };
 
         /// <summary>
@@ -932,6 +963,14 @@ namespace AngleSharp.Css
             { CssKeywords.Center, FlexContentMode.Center },
             { CssKeywords.Baseline, FlexContentMode.Baseline },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Legacy, FlexContentMode.Auto },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
+            { CssKeywords.Left, FlexContentMode.Start },
+            { CssKeywords.Right, FlexContentMode.End },
+            { CssKeywords.SelfStart, FlexContentMode.Start },
+            { CssKeywords.SelfEnd, FlexContentMode.End },
         };
 
         /// <summary>
@@ -945,6 +984,13 @@ namespace AngleSharp.Css
             { CssKeywords.Center, FlexContentMode.Center },
             { CssKeywords.Baseline, FlexContentMode.Baseline },
             { CssKeywords.Stretch, FlexContentMode.Stretch },
+            { CssKeywords.Normal, FlexContentMode.Stretch },
+            { CssKeywords.Start, FlexContentMode.Start },
+            { CssKeywords.End, FlexContentMode.End },
+            { CssKeywords.Left, FlexContentMode.Start },
+            { CssKeywords.Right, FlexContentMode.End },
+            { CssKeywords.SelfStart, FlexContentMode.Start },
+            { CssKeywords.SelfEnd, FlexContentMode.End },
         };
 
         /// <summary>
@@ -984,6 +1030,7 @@ namespace AngleSharp.Css
             { CssKeywords.FitContent, Sizing.FitContent },
             { CssKeywords.MinContent, Sizing.MinContent},
             { CssKeywords.MaxContent, Sizing.MaxContent },
+            { CssKeywords.Stretch, Sizing.Stretch },
         };
 
         /// <summary>

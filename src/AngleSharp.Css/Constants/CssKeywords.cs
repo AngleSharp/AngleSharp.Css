@@ -2191,5 +2191,192 @@ namespace AngleSharp.Css
         /// The active keyword for the forced-colors media feature.
         /// </summary>
         public static readonly String Active = "active";
+    
+
+        /// <summary>
+        /// The space-evenly keyword.
+        /// </summary>
+        public static readonly String SpaceEvenly = "space-evenly";
+
+        /// <summary>
+        /// The safe keyword.
+        /// </summary>
+        public static readonly String Safe = "safe";
+
+        /// <summary>
+        /// The unsafe keyword.
+        /// </summary>
+        public static readonly String Unsafe = "unsafe";
+
+        /// <summary>
+        /// The first keyword.
+        /// </summary>
+        public static readonly String First = "first";
+
+        /// <summary>
+        /// The last keyword.
+        /// </summary>
+        public static readonly String Last = "last";
+    
+
+        /// <summary>
+        /// The break-spaces keyword.
+        /// </summary>
+        public static readonly String BreakSpaces = "break-spaces";
+
+        /// <summary>
+        /// The inline-start keyword.
+        /// </summary>
+        public static readonly String InlineStart = "inline-start";
+
+        /// <summary>
+        /// The inline-end keyword.
+        /// </summary>
+        public static readonly String InlineEnd = "inline-end";
+
+        /// <summary>
+        /// The ruby keyword.
+        /// </summary>
+        public static readonly String Ruby = "ruby";
+
+        /// <summary>
+        /// The flow keyword.
+        /// </summary>
+        public static readonly String Flow = "flow";
+
+        /// <summary>
+        /// The pixelated keyword.
+        /// </summary>
+        public static readonly String Pixelated = "pixelated";
+
+        /// <summary>
+        /// The plus-lighter keyword.
+        /// </summary>
+        public static readonly String PlusLighter = "plus-lighter";
+    
+
+        /// <summary>
+        /// The in keyword.
+        /// </summary>
+        public static readonly String In = "in";
+    
+
+        /// <summary>
+        /// The lining-nums keyword.
+        /// </summary>
+        public static readonly String LiningNums = "lining-nums";
+
+        /// <summary>
+        /// The oldstyle-nums keyword.
+        /// </summary>
+        public static readonly String OldstyleNums = "oldstyle-nums";
+
+        /// <summary>
+        /// The proportional-nums keyword.
+        /// </summary>
+        public static readonly String ProportionalNums = "proportional-nums";
+
+        /// <summary>
+        /// The tabular-nums keyword.
+        /// </summary>
+        public static readonly String TabularNums = "tabular-nums";
+
+        /// <summary>
+        /// The diagonal-fractions keyword.
+        /// </summary>
+        public static readonly String DiagonalFractions = "diagonal-fractions";
+
+        /// <summary>
+        /// The stacked-fractions keyword.
+        /// </summary>
+        public static readonly String StackedFractions = "stacked-fractions";
+
+        /// <summary>
+        /// The ordinal keyword.
+        /// </summary>
+        public static readonly String Ordinal = "ordinal";
+
+        /// <summary>
+        /// The slashed-zero keyword.
+        /// </summary>
+        public static readonly String SlashedZero = "slashed-zero";
+
+        /// <summary>
+        /// The common-ligatures keyword.
+        /// </summary>
+        public static readonly String CommonLigatures = "common-ligatures";
+
+        /// <summary>
+        /// The no-common-ligatures keyword.
+        /// </summary>
+        public static readonly String NoCommonLigatures = "no-common-ligatures";
+
+        /// <summary>
+        /// The discretionary-ligatures keyword.
+        /// </summary>
+        public static readonly String DiscretionaryLigatures = "discretionary-ligatures";
+
+        /// <summary>
+        /// The no-discretionary-ligatures keyword.
+        /// </summary>
+        public static readonly String NoDiscretionaryLigatures = "no-discretionary-ligatures";
+
+        /// <summary>
+        /// The historical-ligatures keyword.
+        /// </summary>
+        public static readonly String HistoricalLigatures = "historical-ligatures";
+
+        /// <summary>
+        /// The no-historical-ligatures keyword.
+        /// </summary>
+        public static readonly String NoHistoricalLigatures = "no-historical-ligatures";
+
+        /// <summary>
+        /// The contextual keyword.
+        /// </summary>
+        public static readonly String Contextual = "contextual";
+
+        /// <summary>
+        /// The no-contextual keyword.
+        /// </summary>
+        public static readonly String NoContextual = "no-contextual";
+
+        /// <summary>
+        /// The allow-discrete keyword.
+        /// </summary>
+        public static readonly String AllowDiscrete = "allow-discrete";
+    
+
+        /// <summary>
+        /// The jump-start keyword.
+        /// </summary>
+        public static readonly String JumpStart = "jump-start";
+
+        /// <summary>
+        /// The jump-end keyword.
+        /// </summary>
+        public static readonly String JumpEnd = "jump-end";
+
+        /// <summary>
+        /// The jump-none keyword.
+        /// </summary>
+        public static readonly String JumpNone = "jump-none";
+
+        /// <summary>
+        /// The jump-both keyword.
+        /// </summary>
+        public static readonly String JumpBoth = "jump-both";
+    
+
+        /// <summary>
+        /// The subgrid keyword.
+        /// </summary>
+        public static readonly String Subgrid = "subgrid";
+    
+
+        /// <summary>
+        /// The each-line keyword.
+        /// </summary>
+        public static readonly String EachLine = "each-line";
     }
 }

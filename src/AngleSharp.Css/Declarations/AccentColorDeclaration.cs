@@ -12,6 +12,6 @@ namespace AngleSharp.Css.Declarations
 
         public static ICssValue InitialValue = InitialValues.AccentColorDecl;
 
-        public static PropertyFlags Flags = PropertyFlags.None;
+        public static PropertyFlags Flags = PropertyFlags.Inherited;
     }
 }

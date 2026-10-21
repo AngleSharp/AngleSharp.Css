@@ -95,7 +95,7 @@ namespace AngleSharp.Css
         /// Represents a calculated number.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/calc
         /// </summary>
-        public static readonly IValueConverter CalcConverter = FromParser(CalcParser.ParseCalc);
+        public static readonly IValueConverter CalcConverter = Or(FromParser(CalcParser.ParseCalc), FromParser(CalcParser.ParseMath));
 
         /// <summary>
         /// Represents a length object.
@@ -176,6 +176,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParseWeightInteger);
 
         /// <summary>
+        /// Represents a font weight number in the range [1, 1000] (CSS Fonts 4).
+        /// </summary>
+        public static readonly IValueConverter WeightNumberConverter = new StructValueConverter<CssNumberValue>(ParseWeightNumber);
+
+        /// <summary>
         /// Represents an integer object that is greater tha zero.
         /// </summary>
         public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<CssIntegerValue>(NumberParser.ParsePositiveInteger);
@@ -195,6 +200,12 @@ namespace AngleSharp.Css
         /// Represents a (calculated) number object.
         /// </summary>
         public static readonly IValueConverter NumberConverter = Or(OnlyNumberConverter, CalcConverter);
+
+        /// <summary>
+        /// Represents an alpha value, i.e., a number or a percentage.
+        /// https://drafts.csswg.org/css-color/#typedef-alpha-value
+        /// </summary>
+        public static readonly IValueConverter AlphaValueConverter = new AlphaValueConverter(NumberConverter);
 
         /// <summary>
         /// Represents a (calculated) length object.
@@ -310,7 +321,8 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Saturation, CssKeywords.Saturation),
             Assign(CssKeywords.Color, CssKeywords.Color),
             Assign(CssKeywords.Luminosity, CssKeywords.Luminosity),
-            Assign(CssKeywords.Add, CssKeywords.Add));
+            Assign(CssKeywords.Add, CssKeywords.Add),
+            Assign(CssKeywords.PlusLighter, CssKeywords.PlusLighter));
 
         /// <summary>
         /// Represents a converter for the mix-blend-mode property.
@@ -367,7 +379,8 @@ namespace AngleSharp.Css
             Assign(CssKeywords.Auto, CssKeywords.Auto),
             Assign(CssKeywords.CrispEdges, CssKeywords.CrispEdges),
             Assign(CssKeywords.OptimizeQuality, CssKeywords.OptimizeQuality),
-            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed));
+            Assign(CssKeywords.OptimizeSpeed, CssKeywords.OptimizeSpeed),
+            Assign(CssKeywords.Pixelated, CssKeywords.Pixelated));
 
         /// <summary>
         /// Represents a converter for the image-orientation property.
@@ -856,6 +869,11 @@ namespace AngleSharp.Css
         public static readonly IValueConverter LineStyleConverter = Map.LineStyles.ToConverter();
 
         /// <summary>
+        /// Represents a converter for the outline-style property, i.e., a line style or auto.
+        /// </summary>
+        public static readonly IValueConverter OutlineStyleConverter = Or(Assign(CssKeywords.Auto, CssKeywords.Auto), LineStyleConverter);
+
+        /// <summary>
         /// Represents a converter for the BackgroundAttachment enumeration.
         /// </summary>
         public static readonly IValueConverter BackgroundAttachmentConverter = Map.BackgroundAttachments.ToConverter();
@@ -869,6 +887,11 @@ namespace AngleSharp.Css
         /// Represents a converter for the BoxModel enumeration.
         /// </summary>
         public static readonly IValueConverter BoxModelConverter = Map.BoxModels.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the background-clip property, i.e., a box or text.
+        /// </summary>
+        public static readonly IValueConverter BackgroundClipConverter = Or(BoxModelConverter, Assign(CssKeywords.Text, CssKeywords.Text));
 
         /// <summary>
         /// Represents a converter for the AnimationDirection enumeration.
@@ -1018,6 +1041,51 @@ namespace AngleSharp.Css
             Assign(CssKeywords.TitlingCaps, CssKeywords.TitlingCaps));
 
         /// <summary>
+        /// Represents a converter for the font-variant-numeric property.
+        /// https://www.w3.org/TR/css-fonts-4/#font-variant-numeric-prop
+        /// </summary>
+        public static readonly IValueConverter FontVariantNumericConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithAny(
+                Or(Assign(CssKeywords.LiningNums, CssKeywords.LiningNums), Assign(CssKeywords.OldstyleNums, CssKeywords.OldstyleNums)),
+                Or(Assign(CssKeywords.ProportionalNums, CssKeywords.ProportionalNums), Assign(CssKeywords.TabularNums, CssKeywords.TabularNums)),
+                Or(Assign(CssKeywords.DiagonalFractions, CssKeywords.DiagonalFractions), Assign(CssKeywords.StackedFractions, CssKeywords.StackedFractions)),
+                Assign(CssKeywords.Ordinal, CssKeywords.Ordinal),
+                Assign(CssKeywords.SlashedZero, CssKeywords.SlashedZero)));
+
+        /// <summary>
+        /// Represents a converter for the font-variant-ligatures property.
+        /// https://www.w3.org/TR/css-fonts-4/#font-variant-ligatures-prop
+        /// </summary>
+        public static readonly IValueConverter FontVariantLigaturesConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.None, CssKeywords.None),
+            WithAny(
+                Or(Assign(CssKeywords.CommonLigatures, CssKeywords.CommonLigatures), Assign(CssKeywords.NoCommonLigatures, CssKeywords.NoCommonLigatures)),
+                Or(Assign(CssKeywords.DiscretionaryLigatures, CssKeywords.DiscretionaryLigatures), Assign(CssKeywords.NoDiscretionaryLigatures, CssKeywords.NoDiscretionaryLigatures)),
+                Or(Assign(CssKeywords.HistoricalLigatures, CssKeywords.HistoricalLigatures), Assign(CssKeywords.NoHistoricalLigatures, CssKeywords.NoHistoricalLigatures)),
+                Or(Assign(CssKeywords.Contextual, CssKeywords.Contextual), Assign(CssKeywords.NoContextual, CssKeywords.NoContextual))));
+
+        /// <summary>
+        /// Represents a converter for the transform-box property.
+        /// https://www.w3.org/TR/css-transforms-1/#transform-box
+        /// </summary>
+        public static readonly IValueConverter TransformBoxConverter = Or(
+            Assign(CssKeywords.ContentBox, CssKeywords.ContentBox),
+            Assign(CssKeywords.BorderBox, CssKeywords.BorderBox),
+            Assign(CssKeywords.FillBox, CssKeywords.FillBox),
+            Assign(CssKeywords.StrokeBox, CssKeywords.StrokeBox),
+            Assign(CssKeywords.ViewBox, CssKeywords.ViewBox));
+
+        /// <summary>
+        /// Represents a converter for a single transition-behavior value.
+        /// https://www.w3.org/TR/css-transitions-2/#transition-behavior-property
+        /// </summary>
+        public static readonly IValueConverter TransitionBehaviorConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            Assign(CssKeywords.AllowDiscrete, CssKeywords.AllowDiscrete));
+
+        /// <summary>
         /// Represents a converter for the DirectionMode enumeration.
         /// </summary>
         public static readonly IValueConverter DirectionModeConverter = Map.DirectionModes.ToConverter();
@@ -1085,7 +1153,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the DisplayMode enumeration.
         /// </summary>
-        public static readonly IValueConverter DisplayModeConverter = Map.DisplayModes.ToConverter();
+        public static readonly IValueConverter DisplayModeConverter = new DisplayValueConverter();
 
         /// <summary>
         /// Represents a converter for the ClearMode enumeration.
@@ -1102,7 +1170,7 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the FontStyle enumeration.
         /// </summary>
-        public static readonly IValueConverter FontStyleConverter = Map.FontStyles.ToConverter();
+        public static readonly IValueConverter FontStyleConverter = new FontStyleValueConverter();
 
         /// <summary>
         /// Represents a converter for the FontWeight enumeration.
@@ -1271,7 +1339,7 @@ namespace AngleSharp.Css
 		/// <summary>
 		/// Represents a converter for the TextOverflow enumeration.
 		/// </summary>
-		public static readonly IValueConverter TextOverflowConverter = Map.TextOverflows.ToConverter();
+		public static readonly IValueConverter TextOverflowConverter = Map.TextOverflows.ToConverter().Many(1, 2);
 
         /// <summary>
         /// Represents a converter for the BorderImageRepeat property.
@@ -1296,32 +1364,32 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the JustifyContent enumeration.
         /// </summary>
-        public static readonly IValueConverter JustifyContentConverter = Map.JustifyContentModes.ToConverter();
+        public static readonly IValueConverter JustifyContentConverter = new BoxAlignmentValueConverter(Map.JustifyContentModes);
 
         /// <summary>
         /// Represents a converter for the AlignContent enumeration.
         /// </summary>
-        public static readonly IValueConverter AlignContentConverter = Map.AlignContentModes.ToConverter();
+        public static readonly IValueConverter AlignContentConverter = new BoxAlignmentValueConverter(Map.AlignContentModes);
 
         /// <summary>
         /// Represents a converter for the AlignSelf enumeration.
         /// </summary>
-        public static readonly IValueConverter AlignSelfConverter = Map.AlignSelfModes.ToConverter();
+        public static readonly IValueConverter AlignSelfConverter = new BoxAlignmentValueConverter(Map.AlignSelfModes);
 
         /// <summary>
         /// Represents a converter for the AlignItems enumeration.
         /// </summary>
-        public static readonly IValueConverter AlignItemsConverter = Map.AlignItemsModes.ToConverter();
+        public static readonly IValueConverter AlignItemsConverter = new BoxAlignmentValueConverter(Map.AlignItemsModes);
 
         /// <summary>
         /// Represents a converter for the JustifyItems enumeration.
         /// </summary>
-        public static readonly IValueConverter JustifyItemsConverter = Map.JustifyItemsModes.ToConverter();
+        public static readonly IValueConverter JustifyItemsConverter = new BoxAlignmentValueConverter(Map.JustifyItemsModes);
 
         /// <summary>
         /// Represents a converter for the JustifySelf enumeration.
         /// </summary>
-        public static readonly IValueConverter JustifySelfConverter = Map.JustifySelfModes.ToConverter();
+        public static readonly IValueConverter JustifySelfConverter = new BoxAlignmentValueConverter(Map.JustifySelfModes);
 
         /// <summary>
         /// Represents a converter for the FlexDirection enumeration.
@@ -1349,9 +1417,12 @@ namespace AngleSharp.Css
         public static readonly IValueConverter FootnotePolicyConverter = Map.FootnotePolicies.ToConverter();
 
         /// <summary>
-        /// Represents a converter for the Visibility enumeration.
+        /// Represents a converter for the content-visibility property.
         /// </summary>
-        public static readonly IValueConverter ContentVisibilityConverter = Map.Visibilities.ToConverter();
+        public static readonly IValueConverter ContentVisibilityConverter = Or(
+            Assign(CssKeywords.Visible, CssKeywords.Visible),
+            Assign(CssKeywords.Auto, CssKeywords.Auto),
+            Assign(CssKeywords.Hidden, CssKeywords.Hidden));
 
         /// <summary>
         /// Represents a converter for the ScrollSnapAlignment enumeration.
@@ -1427,11 +1498,32 @@ namespace AngleSharp.Css
         public static readonly IValueConverter ScrollPaddingConverter = AutoLengthOrPercentConverter;
         
         /// <summary>
+        /// Represents a converter for the text-indent property.
+        /// https://drafts.csswg.org/css-text-3/#text-indent-property
+        /// </summary>
+        public static readonly IValueConverter TextIndentConverter = Or(FromParser(ParseTextIndent), LengthOrPercentConverter);
+
+        /// <summary>
+        /// Represents a fit-content(length-percentage) function.
+        /// </summary>
+        public static readonly IValueConverter FitContentFunctionConverter = FromParser(ParseFitContent);
+
+        /// <summary>
         /// Represents a value for a width.
         /// </summary>
         public static readonly IValueConverter WidthConverter = Or(
             LengthOrPercentConverter,
             Auto,
+            FitContentFunctionConverter,
+            Map.Sizings.ToConverter());
+
+        /// <summary>
+        /// Represents a value for a maximum width.
+        /// </summary>
+        public static readonly IValueConverter MaxWidthConverter = Or(
+            LengthOrPercentConverter,
+            None,
+            FitContentFunctionConverter,
             Map.Sizings.ToConverter());
 
         /// <summary>
@@ -1439,7 +1531,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter FontSizeConverter = Or(
             LengthOrPercentConverter,
-            Map.FontSizes.ToConverter());
+            FromParser(UnitParser.ParseFontSizeKeyword));
 
         #endregion
 
@@ -1557,7 +1649,7 @@ namespace AngleSharp.Css
         /// Represents a converter for the aspect-ratio property (auto | &lt;ratio&gt;).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
         /// </summary>
-        public static readonly IValueConverter AspectRatioConverter = Or(Auto, RatioConverter);
+        public static readonly IValueConverter AspectRatioConverter = Or(FromParser(ParseAutoRatio), Auto, RatioConverter);
 
         /// <summary>
         /// Represents a converter for the overflow-anchor property (auto | none).
@@ -1586,6 +1678,7 @@ namespace AngleSharp.Css
         public static readonly IValueConverter OptionalImageSourceConverter = Or(
             UrlConverter,
             GradientConverter,
+            FromParser(CompoundParser.ParseImageSet),
             None);
 
         /// <summary>
@@ -1746,7 +1839,7 @@ namespace AngleSharp.Css
                 Or(LineStyleConverter, VarConverter).Option(lineStyle),
                 Or(CurrentColorConverter, VarConverter).Option(lineColor)));
 
-        public static readonly IValueConverter GridTemplateConverter = Or(None, TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
+        public static readonly IValueConverter GridTemplateConverter = Or(None, FromParser(GridParser.ParseSubgrid), TrackListConverter.Exclusive(), AutoTrackListConverter.Exclusive());
 
         public static readonly IValueConverter GridAutoConverter = TrackSizeConverter.Many();
 
@@ -1769,6 +1862,112 @@ namespace AngleSharp.Css
 
         private static IValueConverter FromParser<T>(Func<StringSource, T> converter)
             where T : class, ICssValue => new ClassValueConverter<T>(converter);
+
+        private static CssNumberValue? ParseWeightNumber(this StringSource source)
+        {
+            var pos = source.Index;
+            var number = source.ParseNumber();
+
+            if (number.HasValue && number.Value.Value >= 1.0 && number.Value.Value <= 1000.0)
+            {
+                return number;
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static CssTupleValue ParseTextIndent(this StringSource source)
+        {
+            var pos = source.Index;
+            var length = default(ICssValue);
+            var hanging = default(ICssValue);
+            var eachLine = default(ICssValue);
+
+            for (var i = 0; i < 3; i++)
+            {
+                var value = length is null ? LengthOrPercentConverter.Convert(source) : null;
+
+                if (value is not null)
+                {
+                    length = value;
+                }
+                else if (hanging is null && source.IsIdentifier(CssKeywords.Hanging))
+                {
+                    hanging = new CssIdentifierValue(CssKeywords.Hanging);
+                }
+                else if (eachLine is null && source.IsIdentifier(CssKeywords.EachLine))
+                {
+                    eachLine = new CssIdentifierValue(CssKeywords.EachLine);
+                }
+                else
+                {
+                    break;
+                }
+
+                source.SkipSpacesAndComments();
+            }
+
+            // A plain length is handled by the length converter.
+            if (length is not null && (hanging is not null || eachLine is not null))
+            {
+                return new CssTupleValue(new[] { length, hanging, eachLine }.Where(m => m is not null).ToArray());
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static CssTupleValue ParseAutoRatio(this StringSource source)
+        {
+            var pos = source.Index;
+            var ratio = default(CssRatioValue?);
+
+            if (source.IsIdentifier(CssKeywords.Auto))
+            {
+                source.SkipSpacesAndComments();
+                ratio = source.ParseRatio();
+            }
+            else
+            {
+                ratio = source.ParseRatio();
+                source.SkipSpacesAndComments();
+
+                if (!source.IsIdentifier(CssKeywords.Auto))
+                {
+                    ratio = null;
+                }
+            }
+
+            if (ratio.HasValue)
+            {
+                var auto = new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto);
+                return new CssTupleValue(new ICssValue[] { auto, ratio.Value });
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static CssFitContentValue ParseFitContent(this StringSource source)
+        {
+            var pos = source.Index;
+
+            if (source.IsFunction(FunctionNames.FitContent))
+            {
+                var dim = source.ParseDistanceOrCalc();
+                var c = source.SkipSpacesAndComments();
+
+                if (dim != null && c == Symbols.RoundBracketClose)
+                {
+                    source.Next();
+                    return new CssFitContentValue(dim);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
 
         private static CssPercentageValue? ParseOnlyPercent(this StringSource source)
         {

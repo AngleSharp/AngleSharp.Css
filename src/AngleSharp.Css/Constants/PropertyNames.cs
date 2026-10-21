@@ -893,6 +893,16 @@ namespace AngleSharp.Css
         public static readonly String FontVariantCaps = "font-variant-caps";
 
         /// <summary>
+        /// The font-variant-numeric declaration.
+        /// </summary>
+        public static readonly String FontVariantNumeric = "font-variant-numeric";
+
+        /// <summary>
+        /// The font-variant-ligatures declaration.
+        /// </summary>
+        public static readonly String FontVariantLigatures = "font-variant-ligatures";
+
+        /// <summary>
         /// The font-weight declaration.
         /// </summary>
         public static readonly String FontWeight = "font-weight";
@@ -2043,6 +2053,11 @@ namespace AngleSharp.Css
         public static readonly String TextOverflow = "text-overflow";
 
         /// <summary>
+        /// The text-orientation declaration.
+        /// </summary>
+        public static readonly String TextOrientation = "text-orientation";
+
+        /// <summary>
         /// The text-shadow declaration.
         /// </summary>
         public static readonly String TextShadow = "text-shadow";
@@ -2093,6 +2108,11 @@ namespace AngleSharp.Css
         public static readonly String TransformStyle = "transform-style";
 
         /// <summary>
+        /// The transform-box declaration.
+        /// </summary>
+        public static readonly String TransformBox = "transform-box";
+
+        /// <summary>
         /// The translate declaration.
         /// </summary>
         public static readonly String Translate = "translate";
@@ -2116,6 +2136,11 @@ namespace AngleSharp.Css
         /// The transition-timing-function declaration.
         /// </summary>
         public static readonly String TransitionTimingFunction = "transition-timing-function";
+
+        /// <summary>
+        /// The transition-behavior declaration.
+        /// </summary>
+        public static readonly String TransitionBehavior = "transition-behavior";
 
         /// <summary>
         /// The transition-property declaration.

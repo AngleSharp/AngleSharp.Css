@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.MinBlockSize;
 
-        public static IValueConverter Converter = LengthOrPercentConverter;
+        public static IValueConverter Converter = WidthConverter;
 
         public static ICssValue InitialValue = InitialValues.MinBlockSizeDecl;
 

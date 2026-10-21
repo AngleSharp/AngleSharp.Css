@@ -472,6 +472,17 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void InitialKeywordIsNotReplacedByInheritedValue()
+        {
+            var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());
+            var htmlParser = browsingContext.GetService<IHtmlParser>();
+            var document = htmlParser.ParseDocument("<html><body><div style=\"text-indent: 40px; color: red\"><p style=\"text-indent: initial; color: initial\">x</p></div></body></html>");
+            var style = document.QuerySelector("p").ComputeCurrentStyle();
+            Assert.AreEqual("0px", style.GetPropertyValue("text-indent"));
+            Assert.AreEqual("rgba(0, 0, 0, 1)", style.GetPropertyValue("color"));
+        }
+
+        [Test]
         public void MediaRuleCssCausesException_Issue20()
         {
             var browsingContext = BrowsingContext.New(Configuration.Default.WithCss());

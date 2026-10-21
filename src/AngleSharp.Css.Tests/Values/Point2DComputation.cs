@@ -35,24 +35,16 @@ namespace AngleSharp.Css.Tests.Values
             // A radial-gradient's `at <position>` is a CssPoint2D. Before the fix, Y always came
             // out equal to X's own computed value regardless of what Y itself was authored as -
             // 20% 80% computed to "200px 200px" (both from X's 20%), not "200px 800px".
+            // Percentages of a gradient position refer to the gradient box, which is only known
+            // during layout, so they remain percentages in the computed value (they are no longer
+            // resolved against the viewport's width, which also made Y ignore the height).
             var document = ParseWithRenderDevice(
                 "<div id=target style=\"background-image: radial-gradient(circle at 20% 80%, red, blue);\"></div>", 1000, 1000);
             var target = document.GetElementById("target");
 
             var computed = target.ComputeCurrentStyle().GetPropertyValue("background-image");
 
-            StringAssert.Contains("200px 800px", computed);
+            StringAssert.Contains("at 20% 80%", computed);
         }
-
-        // A separate, still-open, narrower issue surfaced alongside this fix: Y always resolves
-        // its own percentage/length against the viewport's *width*, never its height (confirmed:
-        // "20% 80%" resolves to "200px 800px" regardless of viewport height, i.e. 80% of the 1000px
-        // *width* - matching a coincidence in this test's own numbers, not genuine height-tracking).
-        // That is a materially different, deeper problem (percentage resolution mode not threaded
-        // per-axis through a point's own Compute() at all) than the X-value-copied-into-Y typo this
-        // test pins down, and is not fixed here - a downstream renderer relying on correct Y-axis
-        // percentage resolution for a computed point still needs to read the pre-Compute() specified
-        // value instead (as AngleSharp.Renderer's own ResolveExplicitBackgroundImage now does for
-        // exactly this reason), not the computed one.
     }
 }

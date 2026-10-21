@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.TextIndent;
 
-        public static IValueConverter Converter = LengthOrPercentConverter;
+        public static IValueConverter Converter = TextIndentConverter;
 
         public static ICssValue InitialValue = InitialValues.TextIndentDecl;
 

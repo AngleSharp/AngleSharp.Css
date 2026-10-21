@@ -103,6 +103,66 @@ namespace AngleSharp.Css
         public static readonly String Vmax = "vmax";
 
         /// <summary>
+        /// The svw unit (relative to the small viewport width).
+        /// </summary>
+        public static readonly String Svw = "svw";
+
+        /// <summary>
+        /// The svh unit (relative to the small viewport height).
+        /// </summary>
+        public static readonly String Svh = "svh";
+
+        /// <summary>
+        /// The svmin unit (relative to the small minimum viewport dimension).
+        /// </summary>
+        public static readonly String Svmin = "svmin";
+
+        /// <summary>
+        /// The svmax unit (relative to the small maximum viewport dimension).
+        /// </summary>
+        public static readonly String Svmax = "svmax";
+
+        /// <summary>
+        /// The lvw unit (relative to the large viewport width).
+        /// </summary>
+        public static readonly String Lvw = "lvw";
+
+        /// <summary>
+        /// The lvh unit (relative to the large viewport height).
+        /// </summary>
+        public static readonly String Lvh = "lvh";
+
+        /// <summary>
+        /// The lvmin unit (relative to the large minimum viewport dimension).
+        /// </summary>
+        public static readonly String Lvmin = "lvmin";
+
+        /// <summary>
+        /// The lvmax unit (relative to the large maximum viewport dimension).
+        /// </summary>
+        public static readonly String Lvmax = "lvmax";
+
+        /// <summary>
+        /// The dvw unit (relative to the dynamic viewport width).
+        /// </summary>
+        public static readonly String Dvw = "dvw";
+
+        /// <summary>
+        /// The dvh unit (relative to the dynamic viewport height).
+        /// </summary>
+        public static readonly String Dvh = "dvh";
+
+        /// <summary>
+        /// The dvmin unit (relative to the dynamic minimum viewport dimension).
+        /// </summary>
+        public static readonly String Dvmin = "dvmin";
+
+        /// <summary>
+        /// The dvmax unit (relative to the dynamic maximum viewport dimension).
+        /// </summary>
+        public static readonly String Dvmax = "dvmax";
+
+        /// <summary>
         /// Dots per inch.
         /// </summary>
         public static readonly String Dpi = "dpi";
@@ -116,6 +176,11 @@ namespace AngleSharp.Css
         /// Dots per pixel.
         /// </summary>
         public static readonly String Dppx = "dppx";
+
+        /// <summary>
+        /// Dots per pixel, given by its alias x.
+        /// </summary>
+        public static readonly String X = "x";
 
         /// <summary>
         /// Points.

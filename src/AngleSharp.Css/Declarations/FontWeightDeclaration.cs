@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Declarations
             PropertyNames.Font,
         };
 
-        public static IValueConverter Converter = Or(FontWeightConverter, WeightIntegerConverter.Many(1, 2));
+        public static IValueConverter Converter = Or(FontWeightConverter, WeightIntegerConverter.Many(1, 2), WeightNumberConverter);
 
         public static ICssValue InitialValue = InitialValues.FontWeightDecl;
 

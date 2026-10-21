@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.Height;
 
-        public static IValueConverter Converter = AutoLengthOrPercentConverter;
+        public static IValueConverter Converter = WidthConverter;
 
         public static ICssValue InitialValue = InitialValues.HeightDecl;
 

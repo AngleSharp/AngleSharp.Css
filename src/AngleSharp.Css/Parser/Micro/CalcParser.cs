@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
 
     /// <summary>
@@ -26,6 +27,53 @@ namespace AngleSharp.Css.Parser
                 if (expression != null)
                 {
                     return new CssCalcValue(expression);
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        /// <summary>
+        /// Parses a comparison function value (min, max, or clamp), if any.
+        /// </summary>
+        internal static ICssValue ParseMath(this StringSource source)
+        {
+            var pos = source.Index;
+            var name = source.IsFunction(FunctionNames.Min) ? FunctionNames.Min :
+                source.IsFunction(FunctionNames.Max) ? FunctionNames.Max :
+                source.IsFunction(FunctionNames.Clamp) ? FunctionNames.Clamp :
+                null;
+
+            if (name != null)
+            {
+                var arguments = new List<ICssValue>();
+
+                while (true)
+                {
+                    var argument = source.ParseAddExpression();
+
+                    if (argument == null)
+                    {
+                        break;
+                    }
+
+                    arguments.Add(argument);
+
+                    if (source.Current == Symbols.Comma)
+                    {
+                        source.SkipCurrentAndSpaces();
+                    }
+                    else if (source.Current == Symbols.RoundBracketClose)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        var valid = name == FunctionNames.Clamp ? arguments.Count == 3 : arguments.Count > 0;
+                        return valid ? new CssMathValue(name, arguments.ToArray()) : null;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -106,7 +154,7 @@ namespace AngleSharp.Css.Parser
                 return new CssCalcBracketExpression(content);
             }
 
-            return source.ParseAtomicExpression();
+            return source.ParseMath() ?? source.ParseAtomicExpression();
         }
         
         /// <summary>
