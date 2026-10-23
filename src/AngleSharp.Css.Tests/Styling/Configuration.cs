@@ -46,7 +46,8 @@ namespace AngleSharp.Css.Tests.Styling
             // and the block margins / list padding.
             // 72, not 70: the UA stylesheet now also generates quotes for `q::before` and
             // `q::after`.
-            Assert.AreEqual(72, sheet.Rules.Length);
+            // 73, not 72: the UA stylesheet now also gives `::placeholder` its default look.
+            Assert.AreEqual(73, sheet.Rules.Length);
         }
     }
 }

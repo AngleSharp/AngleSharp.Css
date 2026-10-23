@@ -139,6 +139,7 @@ input[type=radio] { border-radius: 50% }
 input[type=range] { border: none; padding: 0px; background-color: transparent }
 input[type=hidden] { display: none }
 textarea        { white-space: pre-wrap }
+::placeholder   { color: darkgray }
 big             { font-size: 1.17em }
 small, sub, sup { font-size: .83em }
 sub             { vertical-align: sub }

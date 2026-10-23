@@ -162,5 +162,95 @@ namespace AngleSharp.Css.Dom
             declarations.UpdateDeclarations(parent);
             return declarations;
         }
+
+        /// <summary>
+        /// Blockifies the computed display of a floated box, an absolutely positioned box
+        /// and the root element, see CSS Display 3 §2.7 and CSS 2.1 §9.7.
+        /// </summary>
+        /// <param name="style">The computed style of the element.</param>
+        /// <param name="element">The element the style was computed for.</param>
+        /// <returns>The computed style, adjusted if needed.</returns>
+        internal static ICssStyleDeclaration Blockify(this ICssStyleDeclaration style, IElement element)
+        {
+            if (style is CssStyleDeclaration declarations && IsBlockified(declarations, element))
+            {
+                var current = declarations.GetProperty(PropertyNames.Display);
+                var value = Blockify(current?.RawValue);
+
+                if (value is not null)
+                {
+                    var info = element.Owner.Context.GetDeclarationInfo(PropertyNames.Display);
+
+                    if (current is not null)
+                    {
+                        declarations.RemoveProperty(current);
+                    }
+
+                    declarations.AddProperty(new CssProperty(PropertyNames.Display, info.Converter, info.Flags, value, current?.IsImportant ?? false));
+                }
+            }
+
+            return style;
+        }
+
+        private static Boolean IsBlockified(CssStyleDeclaration style, IElement element)
+        {
+            if (element is not IPseudoElement && element.Owner?.DocumentElement == element)
+            {
+                return true;
+            }
+
+            var floating = style.GetPropertyValue(PropertyNames.Float);
+            var position = style.GetPropertyValue(PropertyNames.Position);
+            return (!String.IsNullOrEmpty(floating) && !floating.Isi(CssKeywords.None)) ||
+                position.Isi(CssKeywords.Absolute) || position.Isi(CssKeywords.Fixed);
+        }
+
+        private static ICssValue Blockify(ICssValue display)
+        {
+            // A missing display property computes to its initial value, i.e., inline.
+            if (display is null)
+            {
+                return CreateDisplay(CssKeywords.Block, DisplayMode.Block);
+            }
+            else if (display is CssConstantValue<DisplayMode> mode)
+            {
+                return Blockify(mode);
+            }
+
+            return null;
+        }
+
+        private static ICssValue Blockify(CssConstantValue<DisplayMode> mode)
+        {
+            switch (mode.Value)
+            {
+                case DisplayMode.Inline:
+                case DisplayMode.InlineBlock:
+                case DisplayMode.TableCaption:
+                case DisplayMode.TableCell:
+                case DisplayMode.TableColumn:
+                case DisplayMode.TableColumnGroup:
+                case DisplayMode.TableFooterGroup:
+                case DisplayMode.TableHeaderGroup:
+                case DisplayMode.TableRow:
+                case DisplayMode.TableRowGroup:
+                    return CreateDisplay(CssKeywords.Block, DisplayMode.Block);
+                case DisplayMode.InlineTable:
+                    return CreateDisplay(CssKeywords.Table, DisplayMode.Table);
+                case DisplayMode.InlineFlex:
+                    return CreateDisplay(CssKeywords.Flex, DisplayMode.Flex);
+                case DisplayMode.InlineGrid:
+                    return CreateDisplay(CssKeywords.Grid, DisplayMode.Grid);
+                case DisplayMode.ListItem when mode.CssText.StartsWith(CssKeywords.Inline + " ", StringComparison.OrdinalIgnoreCase):
+                    return CreateDisplay(mode.CssText.Substring(CssKeywords.Inline.Length + 1), DisplayMode.ListItem);
+                case DisplayMode.Ruby when mode.CssText.Isi(CssKeywords.Ruby):
+                    return CreateDisplay(String.Concat(CssKeywords.Block, " ", CssKeywords.Ruby), DisplayMode.Ruby);
+                default:
+                    return null;
+            }
+        }
+
+        private static ICssValue CreateDisplay(String keyword, DisplayMode mode) => new CssConstantValue<DisplayMode>(keyword, mode);
     }
 }

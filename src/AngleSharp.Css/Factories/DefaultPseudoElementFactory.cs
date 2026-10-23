@@ -3,6 +3,7 @@ namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using System;
     using System.Collections.Generic;
 
@@ -23,7 +24,19 @@ namespace AngleSharp.Css
             { PseudoElementNames.Before, element => new PseudoElement(element, PseudoElementNames.Before) },
             { PseudoElementNames.After, element => new PseudoElement(element, PseudoElementNames.After) },
             { PseudoElementNames.Slotted, element => new PseudoElement(element, PseudoElementNames.Slotted) },
+            { CssPseudoElementSelectorFactory.Placeholder, CreatePlaceholder },
         };
+
+        private static IPseudoElement CreatePlaceholder(IElement host)
+        {
+            // Only an input or a textarea with placeholder text has a placeholder.
+            if ((host is IHtmlInputElement || host is IHtmlTextAreaElement) && host.HasAttribute(AttributeNames.Placeholder))
+            {
+                return new PseudoElement(host, CssPseudoElementSelectorFactory.Placeholder);
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Registers a new creator for the specified pseudo type.
