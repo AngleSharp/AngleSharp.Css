@@ -63,6 +63,15 @@ namespace AngleSharp
                 configuration = configuration.WithOnly<IPseudoClassSelectorFactory>(new ForcingPseudoClassSelectorFactory(pseudoClassFactory));
             }
 
+            // Wraps whatever pseudo-element selector factory is registered so that pseudo-elements
+            // only supported with CSS (e.g. ::placeholder) are recognized as well.
+            var pseudoElementFactory = configuration.Services.OfType<IPseudoElementSelectorFactory>().FirstOrDefault();
+
+            if (pseudoElementFactory is not null && pseudoElementFactory is not CssPseudoElementSelectorFactory)
+            {
+                configuration = configuration.WithOnly<IPseudoElementSelectorFactory>(new CssPseudoElementSelectorFactory(pseudoElementFactory));
+            }
+
             return configuration
                 .WithOnly(Factory.Observer)
                 .WithOnly<IStylingService>(service);

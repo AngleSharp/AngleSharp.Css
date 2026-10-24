@@ -1,3 +1,12 @@
+# 1.2.1
+
+Released on Friday, October 23 2026.
+
+- Fixed computed `display` not blockified for floats
+- Fixed computed `display` not blockified for absolutely positioned boxes
+- FIxed computed `display` not blockified for the root element
+- Added support for `::placeholder`
+
 # 1.2.0
 
 Released on Wednesday, October 21 2026.
