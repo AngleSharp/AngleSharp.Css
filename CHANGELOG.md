@@ -4,6 +4,8 @@ Released on Monday, October 26 2026.
 
 - Improved the render tree to inherit declarations from the parent's style instead of copying them to every element (e.g. thousands of custom properties on `:root`)
 - Improved merging declarations in the cascade, which was quadratic in the number of declarations
+- Fixed a declaration starting with `*` (the IE7 hack `*zoom: 1`) being taken for a nested rule that swallowed the following declarations or the rest of the style sheet; it is dropped up to its semicolon
+- Added `CssParserOptions.IsNotResolvingRelativeUrls` to prevent resolving the relative URLs in linked and imported style sheets
 
 # 1.2.2
 

@@ -523,5 +523,47 @@ namespace AngleSharp.Css.Tests.Styling
             var style = document.Body.ComputeCurrentStyle();
             Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
         }
+
+        [Test]
+        public async Task RelativeUrlsOfLinkedStyleSheetsResolveAgainstTheirAddress()
+        {
+            // found on www.florian-rappl.de: /Content/style refers to img/title.png in /Content
+            var files = new Dictionary<String, String>
+            {
+                { "index.html", "<link rel=stylesheet href='/Content/style'><style>p { background-image: url(img/inline.png) }</style><div id=t></div><p></p>" },
+                { "Content/style", "#t { background-image: url(img/title.png), url('/abs.png'), url(data:image/png;base64,AA==) } @font-face { font-family: X; src: url(\"fonts/x.ttf\") }" },
+            };
+            var config = Configuration.Default
+                .With(new TestServerRequester(files))
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+                .WithCss();
+            var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
+            await Task.Delay(100);
+            var linked = document.QuerySelector<IHtmlLinkElement>("link").Sheet as ICssStyleSheet;
+            var inline = document.QuerySelector<IHtmlStyleElement>("style").Sheet as ICssStyleSheet;
+
+            Assert.AreEqual("url(\"http://localhost/Content/img/title.png\"), url(\"http://localhost/abs.png\"), url(\"data:image/png;base64,AA==\")", ((ICssStyleRule)linked.Rules[0]).Style.GetPropertyValue("background-image"));
+            Assert.AreEqual("url(\"http://localhost/Content/fonts/x.ttf\")", ((ICssFontFaceRule)linked.Rules[1]).Source);
+            Assert.AreEqual("url(\"img/inline.png\")", ((ICssStyleRule)inline.Rules[0]).Style.GetPropertyValue("background-image"));
+        }
+
+        [Test]
+        public async Task RelativeUrlsOfLinkedStyleSheetsStayAsWrittenWhenNotResolving()
+        {
+            var files = new Dictionary<String, String>
+            {
+                { "index.html", "<link rel=stylesheet href='/Content/style'>" },
+                { "Content/style", "#t { background-image: url(img/title.png) }" },
+            };
+            var config = Configuration.Default
+                .With(new TestServerRequester(files))
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+                .WithCss(new CssParserOptions { IsNotResolvingRelativeUrls = true });
+            var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
+            await Task.Delay(100);
+            var linked = document.QuerySelector<IHtmlLinkElement>("link").Sheet as ICssStyleSheet;
+
+            Assert.AreEqual("url(\"img/title.png\")", ((ICssStyleRule)linked.Rules[0]).Style.GetPropertyValue("background-image"));
+        }
     }
 }

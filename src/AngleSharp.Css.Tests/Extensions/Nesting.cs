@@ -135,5 +135,20 @@ namespace AngleSharp.Css.Tests.Extensions
 
             Assert.AreEqual("rgba(0, 128, 0, 1)", style.GetColor());
         }
+
+        // the IE hacks of old style sheets, found on www.florian-rappl.de: a declaration starting
+        // with `*` looks like a nested rule, whose prelude ends at `;` or `}` and is dropped,
+        // instead of taking the rest of the style sheet with it
+        [TestCase("a{color:red;*zoom:1}b{color:blue}", "a { color: rgba(255, 0, 0, 1) }", "b { color: rgba(0, 0, 255, 1) }")]
+        [TestCase("a{*zoom:1;color:red}b{color:blue}", "a { color: rgba(255, 0, 0, 1) }", "b { color: rgba(0, 0, 255, 1) }")]
+        [TestCase("a{*display:inline;*zoom:1;color:red;}b{color:blue}", "a { color: rgba(255, 0, 0, 1) }", "b { color: rgba(0, 0, 255, 1) }")]
+        public void InvalidNestedRuleIsDroppedUpToItsSemicolon(string css, string first, string second)
+        {
+            var sheet = ParseStyleSheet(css);
+
+            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.AreEqual(first, sheet.Rules[0].CssText);
+            Assert.AreEqual(second, sheet.Rules[1].CssText);
+        }
     }
 }
