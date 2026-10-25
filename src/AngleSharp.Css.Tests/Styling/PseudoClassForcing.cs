@@ -140,16 +140,15 @@ namespace AngleSharp.Css.Tests.Styling
         [Test]
         public void RemovingFocusAttemptsToBlurTheElement()
         {
-            // AngleSharp core does not currently implement DoBlur() for any element (it is a
-            // no-op everywhere), so this only calls into that hook - it cannot itself force focus
-            // to be cleared. Documented here since it is a separate, existing core limitation.
+            // removing the forced focus calls DoBlur(), which clears the focus since AngleSharp
+            // 1.8.6 (a no-op before), so :focus then follows the real focus state
             var document = ParseDocument("<a id=target href=\"#foo\"></a>");
             var target = document.GetElementById("target") as IHtmlElement;
 
             target.SetPseudoClass("focus");
             target.RemovePseudoClass("focus");
 
-            Assert.IsTrue(target.Matches(":focus"), "DoBlur() is a no-op in AngleSharp core today, so focus is not actually cleared.");
+            Assert.AreEqual(target.IsFocused, target.Matches(":focus"));
         }
     }
 }

@@ -304,21 +304,27 @@ namespace AngleSharp.Css
             // Resolving the scope once is equivalent to letting every TryMatch call
             // fall back to it, but avoids re-reading DocumentElement per rule.
             var scope = (styles as StyleCollection)?.Scope ?? element.Owner?.DocumentElement;
-            var matches = new List<RuleMatch>();
+            List<RuleMatch> matches;
 
             if (styles is StyleCollection collection)
             {
                 var rules = collection.GetRules();
                 var defaultRuleCount = collection.GetDefaultRuleCount();
+                var candidates = collection.GetIndex().GetCandidates(element);
+                // sized for the candidates, of which many match, instead of growing step by step
+                matches = new List<RuleMatch>(candidates.Count);
 
                 // the candidates keep the order of the rules, as required by the cascade
-                foreach (var i in collection.GetIndex().GetCandidates(element))
+                for (var j = 0; j < candidates.Count; j++)
                 {
+                    var i = candidates[j];
                     MapPriority(rules[i], element, scope, i < defaultRuleCount, collection.GetLayerRank(i), matches);
                 }
             }
             else
             {
+                matches = new List<RuleMatch>();
+
                 foreach (var rule in styles)
                 {
                     MapPriority(rule, element, scope, false, 0, matches);

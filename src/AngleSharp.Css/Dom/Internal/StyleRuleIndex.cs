@@ -17,12 +17,9 @@ namespace AngleSharp.Css.Dom
     {
         #region Fields
 
-        // ids and classes match case-insensitively in quirks mode, tag names
-        // in HTML documents; a superset of candidates is fine
-        private readonly Dictionary<String, List<Int32>> _ids = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<String, List<Int32>> _classes = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<String, List<Int32>> _tags = new(StringComparer.OrdinalIgnoreCase);
-        private readonly List<Int32> _ungrouped = new();
+        private readonly KeyedRules _keys = new();
+        // the rules targeting pseudo-elements, again grouped by the element they belong to
+        private readonly KeyedRules _pseudoKeys = new();
         private readonly List<Int32> _pseudo = new();
 
         #endregion
@@ -49,48 +46,13 @@ namespace AngleSharp.Css.Dom
         {
             if (element is IPseudoElement)
             {
-                return _pseudo;
+                // a pseudo-element is matched by the rules for the element it belongs to
+                return element is PseudoElement { Host: { } host }
+                    ? Collect(host, _pseudoKeys)
+                    : _pseudo;
             }
 
-            var candidates = new List<Int32>(_ungrouped);
-            var id = element.Id;
-
-            if (!String.IsNullOrEmpty(id) && _ids.TryGetValue(id!, out var rules))
-            {
-                candidates.AddRange(rules);
-            }
-
-            foreach (var name in element.ClassList)
-            {
-                if (_classes.TryGetValue(name, out rules))
-                {
-                    candidates.AddRange(rules);
-                }
-            }
-
-            if (_tags.TryGetValue(element.LocalName, out rules))
-            {
-                candidates.AddRange(rules);
-            }
-
-            if (candidates.Count > _ungrouped.Count)
-            {
-                // a rule may be found via several keys, e.g., ".a, .b" for class="a b"
-                candidates.Sort();
-                var count = 0;
-
-                for (var i = 0; i < candidates.Count; i++)
-                {
-                    if (count == 0 || candidates[count - 1] != candidates[i])
-                    {
-                        candidates[count++] = candidates[i];
-                    }
-                }
-
-                candidates.RemoveRange(count, candidates.Count - count);
-            }
-
-            return candidates;
+            return Collect(element, _keys);
         }
 
         #endregion
@@ -107,33 +69,111 @@ namespace AngleSharp.Css.Dom
             if (hasNested || info.TargetsPseudo)
             {
                 _pseudo.Add(index);
+                _pseudoKeys.Add(keys, index);
             }
 
-            if (keys is null)
+            _keys.Add(keys, index);
+        }
+
+        private static IReadOnlyList<Int32> Collect(IElement element, KeyedRules keyed)
+        {
+            List<Int32>? candidates = null;
+            var id = element.Id;
+
+            if (!String.IsNullOrEmpty(id) && keyed.Ids.TryGetValue(id!, out var rules))
             {
-                _ungrouped.Add(index);
-                return;
+                AddGroup(ref candidates, keyed.Ungrouped, rules);
             }
 
-            foreach (var key in keys)
+            foreach (var name in element.ClassList)
             {
-                var map = key.Kind switch
+                if (keyed.Classes.TryGetValue(name, out rules))
                 {
-                    SubjectKeyKind.Id => _ids,
-                    SubjectKeyKind.Class => _classes,
-                    _ => _tags,
-                };
+                    AddGroup(ref candidates, keyed.Ungrouped, rules);
+                }
+            }
 
-                if (!map.TryGetValue(key.Name, out var rules))
+            if (keyed.Tags.TryGetValue(element.LocalName, out rules))
+            {
+                AddGroup(ref candidates, keyed.Ungrouped, rules);
+            }
+
+            // without a group the ungrouped rules are all there is, which need no copy
+            if (candidates is null)
+            {
+                return keyed.Ungrouped;
+            }
+
+            // a rule may be found via several keys, e.g., ".a, .b" for class="a b"
+            candidates.Sort();
+            var count = 0;
+
+            for (var i = 0; i < candidates.Count; i++)
+            {
+                if (count == 0 || candidates[count - 1] != candidates[i])
                 {
-                    rules = new List<Int32>();
-                    map.Add(key.Name, rules);
+                    candidates[count++] = candidates[i];
+                }
+            }
+
+            candidates.RemoveRange(count, candidates.Count - count);
+            return candidates;
+        }
+
+        private static void AddGroup(ref List<Int32>? candidates, List<Int32> ungrouped, List<Int32> rules)
+        {
+            if (candidates is null)
+            {
+                candidates = new List<Int32>(ungrouped.Count + rules.Count);
+                candidates.AddRange(ungrouped);
+            }
+
+            candidates.AddRange(rules);
+        }
+
+        /// <summary>
+        /// Rules grouped by the id, class, or tag name their subject requires.
+        /// </summary>
+        private sealed class KeyedRules
+        {
+            // ids and classes match case-insensitively in quirks mode, tag names
+            // in HTML documents; a superset of candidates is fine
+            public Dictionary<String, List<Int32>> Ids { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+            public Dictionary<String, List<Int32>> Classes { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+            public Dictionary<String, List<Int32>> Tags { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+            public List<Int32> Ungrouped { get; } = new();
+
+            public void Add(SubjectKey[]? keys, Int32 index)
+            {
+                if (keys is null)
+                {
+                    Ungrouped.Add(index);
+                    return;
                 }
 
-                // the same key may appear more than once, e.g., ".a:hover, .a:focus"
-                if (rules.Count == 0 || rules[rules.Count - 1] != index)
+                foreach (var key in keys)
                 {
-                    rules.Add(index);
+                    var map = key.Kind switch
+                    {
+                        SubjectKeyKind.Id => Ids,
+                        SubjectKeyKind.Class => Classes,
+                        _ => Tags,
+                    };
+
+                    if (!map.TryGetValue(key.Name, out var rules))
+                    {
+                        rules = new List<Int32>();
+                        map.Add(key.Name, rules);
+                    }
+
+                    // the same key may appear more than once, e.g., ".a:hover, .a:focus"
+                    if (rules.Count == 0 || rules[rules.Count - 1] != index)
+                    {
+                        rules.Add(index);
+                    }
                 }
             }
         }

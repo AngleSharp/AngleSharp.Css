@@ -93,6 +93,24 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(0, c.Length);
         }
 
+        [TestCase("#t::before { content: 'x' }", "<p id=t>A</p>", true)]
+        [TestCase(".a::after { content: 'x' }", "<p id=t class='b a'>A</p>", true)]
+        [TestCase(".a::after { content: 'x' }", "<p id=t class=b>A</p>", false)]
+        [TestCase("p::before { content: 'x' }", "<p id=t>A</p>", true)]
+        [TestCase("p::before { content: 'x' }", "<div id=t>A</div>", false)]
+        [TestCase(".a:before { content: 'x' }", "<p id=t class=a>A</p>", true)]
+        [TestCase(".a .b::after { content: 'x' }", "<div class=a><p id=t class=b>A</p></div>", true)]
+        [TestCase("::before { content: 'x' }", "<p id=t>A</p>", true)]
+        [TestCase(".x::before, #t::after { content: 'x' }", "<p id=t>A</p>", true)]
+        public void PseudoElementRulesAreFoundViaTheirElement(string css, string body, bool generated)
+        {
+            var document = CssConstructionFunctions.ParseDocument($"<html><head><style>{css}</style></head><body>{body}</body></html>");
+            var root = (ElementRenderNode)document.DefaultView.Render(new PlainRenderDevice());
+            var target = Flatten(root).First(m => m.Ref.Id == "t");
+
+            Assert.AreEqual(generated, target.Children.OfType<ElementRenderNode>().Any(m => m.Ref is IPseudoElement));
+        }
+
         private static System.Collections.Generic.IEnumerable<ElementRenderNode> Flatten(ElementRenderNode node) =>
             new[] { node }.Concat(node.Children.OfType<ElementRenderNode>().SelectMany(Flatten));
     }
