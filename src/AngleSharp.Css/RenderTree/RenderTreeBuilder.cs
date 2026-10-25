@@ -125,13 +125,13 @@ namespace AngleSharp.Css.RenderTree
                 children.Add(beforeNode);
             }
 
-            foreach (var (child, childCollection, childSlottedCollection) in GetFlatChildren(element, collection, shadowCollection, slottedCollection))
+            foreach (var child in GetFlatChildren(element, collection, shadowCollection, slottedCollection))
             {
-                if (child is IElement childElement)
+                if (child.Node is IElement childElement)
                 {
-                    children.Add(RenderElement(childElement, childCollection, node, specifiedStyle, computedStyle, slottedCollection: childSlottedCollection));
+                    children.Add(RenderElement(childElement, child.Collection, node, specifiedStyle, computedStyle, slottedCollection: child.SlottedCollection));
                 }
-                else if (child is IText childText)
+                else if (child.Node is IText childText)
                 {
                     children.Add(new TextRenderNode(childText, node));
                 }
@@ -152,7 +152,7 @@ namespace AngleSharp.Css.RenderTree
         /// is styled by the shadow root's own style sheets, and a slot in there shows the light
         /// nodes assigned to it (styled as part of the host's tree) or else its own children.
         /// </summary>
-        private static IEnumerable<(INode Node, StyleCollection Collection, StyleCollection? SlottedCollection)> GetFlatChildren(
+        private static IEnumerable<FlatChild> GetFlatChildren(
             IElement element,
             StyleCollection collection,
             StyleCollection? shadowCollection,
@@ -181,7 +181,7 @@ namespace AngleSharp.Css.RenderTree
             return new StyleCollection(_defaultSheets, shadowSheets, collection.Device, element);
         }
 
-        private static IEnumerable<(INode Node, StyleCollection Collection, StyleCollection? SlottedCollection)> ExpandSlots(
+        private static IEnumerable<FlatChild> ExpandSlots(
             INodeList nodes,
             StyleCollection collection,
             StyleCollection? slottedCollection)
@@ -202,7 +202,7 @@ namespace AngleSharp.Css.RenderTree
                     {
                         foreach (var assignedNode in assigned)
                         {
-                            yield return (assignedNode, slottedCollection, null);
+                            yield return new FlatChild(assignedNode, slottedCollection, null);
                         }
                     }
                     else
@@ -215,9 +215,23 @@ namespace AngleSharp.Css.RenderTree
                 }
                 else
                 {
-                    yield return (node, collection, slottedCollection);
+                    yield return new FlatChild(node, collection, slottedCollection);
                 }
             }
+        }
+
+        private readonly struct FlatChild
+        {
+            public FlatChild(INode node, StyleCollection collection, StyleCollection? slottedCollection)
+            {
+                Node = node;
+                Collection = collection;
+                SlottedCollection = slottedCollection;
+            }
+
+            public INode Node { get; }
+            public StyleCollection Collection { get; }
+            public StyleCollection? SlottedCollection { get; }
         }
 
         private ElementRenderNode? RenderPseudoElement(

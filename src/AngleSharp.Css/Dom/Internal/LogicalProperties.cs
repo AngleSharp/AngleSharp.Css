@@ -13,16 +13,16 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     static class LogicalProperties
     {
-        private static readonly Dictionary<String, (String Prefix, String Side, String Suffix)> Sides = CreateSides();
+        private static readonly Dictionary<String, SideMapping> Sides = CreateSides();
 
-        private static readonly Dictionary<String, (String Prefix, Boolean IsInline)> Sizes = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, SizeMapping> Sizes = new(StringComparer.OrdinalIgnoreCase)
         {
-            { PropertyNames.InlineSize, ("", true) },
-            { PropertyNames.BlockSize, ("", false) },
-            { PropertyNames.MinInlineSize, ("min-", true) },
-            { PropertyNames.MinBlockSize, ("min-", false) },
-            { PropertyNames.MaxInlineSize, ("max-", true) },
-            { PropertyNames.MaxBlockSize, ("max-", false) },
+            { PropertyNames.InlineSize, new SizeMapping("", true) },
+            { PropertyNames.BlockSize, new SizeMapping("", false) },
+            { PropertyNames.MinInlineSize, new SizeMapping("min-", true) },
+            { PropertyNames.MinBlockSize, new SizeMapping("min-", false) },
+            { PropertyNames.MaxInlineSize, new SizeMapping("max-", true) },
+            { PropertyNames.MaxBlockSize, new SizeMapping("max-", false) },
         };
 
         /// <summary>
@@ -88,30 +88,54 @@ namespace AngleSharp.Css.Dom
             _ => vertical ? (inlineReversed ? "top" : "bottom") : (inlineReversed ? "left" : "right"),
         };
 
-        private static Dictionary<String, (String, String, String)> CreateSides()
+        private static Dictionary<String, SideMapping> CreateSides()
         {
-            var sides = new Dictionary<String, (String, String, String)>(StringComparer.OrdinalIgnoreCase);
-            var groups = new[]
-            {
-                ("margin-", "margin-", ""),
-                ("padding-", "padding-", ""),
-                ("inset-", "", ""),
-                ("scroll-margin-", "scroll-margin-", ""),
-                ("scroll-padding-", "scroll-padding-", ""),
-                ("border-", "border-", "-width"),
-                ("border-", "border-", "-style"),
-                ("border-", "border-", "-color"),
-            };
+            var sides = new Dictionary<String, SideMapping>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (var (logicalPrefix, physicalPrefix, suffix) in groups)
+            AddGroup("margin-", "margin-", "");
+            AddGroup("padding-", "padding-", "");
+            AddGroup("inset-", "", "");
+            AddGroup("scroll-margin-", "scroll-margin-", "");
+            AddGroup("scroll-padding-", "scroll-padding-", "");
+            AddGroup("border-", "border-", "-width");
+            AddGroup("border-", "border-", "-style");
+            AddGroup("border-", "border-", "-color");
+
+            return sides;
+
+            void AddGroup(String logicalPrefix, String physicalPrefix, String suffix)
             {
                 foreach (var side in new[] { "block-start", "block-end", "inline-start", "inline-end" })
                 {
-                    sides[logicalPrefix + side + suffix] = (physicalPrefix, side, suffix);
+                    sides[logicalPrefix + side + suffix] = new SideMapping(physicalPrefix, side, suffix);
                 }
             }
+        }
 
-            return sides;
+        private readonly struct SideMapping
+        {
+            public SideMapping(String prefix, String side, String suffix)
+            {
+                Prefix = prefix;
+                Side = side;
+                Suffix = suffix;
+            }
+
+            public String Prefix { get; }
+            public String Side { get; }
+            public String Suffix { get; }
+        }
+
+        private readonly struct SizeMapping
+        {
+            public SizeMapping(String prefix, Boolean isInline)
+            {
+                Prefix = prefix;
+                IsInline = isInline;
+            }
+
+            public String Prefix { get; }
+            public Boolean IsInline { get; }
         }
     }
 }
