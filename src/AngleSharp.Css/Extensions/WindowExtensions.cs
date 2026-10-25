@@ -25,7 +25,9 @@ namespace AngleSharp.Dom
         public static IMediaQueryList MatchMedia(this IWindow window, String mediaText)
         {
             var document = window.Document;
-            var media = new MediaList(document.Context) { MediaText = mediaText };
+            var media = new MediaList(document.Context);
+            // an invalid query does not throw, but becomes "not all" (CSSOM View, 4.2)
+            media.SetMediaText(mediaText, throwOnError: false);
             return new CssMediaQueryList(window, media);
         }
 

@@ -1,3 +1,30 @@
+# 1.2.2
+
+Released on Sunday, October 25 2026.
+
+- Improved the cascade to only match the rules that can apply to an element (grouped by the id, class, or tag name of their subject)
+- Improved the render tree to skip computing `::before` and `::after` without a `content` declaration
+- Improved the lookup of property declarations
+- Fixed stack overflow for `rem` in the `font-size` of the root element (now refers to the initial font size)
+- Fixed media queries in the range syntax of Media Queries 4 (`(width >= 600px)`, `(400px < width <= 700px)`), which never matched
+- Fixed media queries combined with `or`, nested conditions (`(a) and ((b) or (c))`), and `not` applying to the whole query
+- Fixed media queries with math functions as values (`(width < calc(50rem + 2rem))`), which were invalid
+- Fixed `var()` substitution separating tokens with comments where they could not merge (e.g. `minmax(/**/15rem/**/,1fr)`), which made grid track lists invalid
+- Fixed `gap` with a single value (e.g. `gap: 8px` or `gap: var(--gap)`) not setting `column-gap`
+- Fixed flow-relative properties (e.g. `padding-inline`, `margin-inline-end`, `inset-inline-start`, `inline-size`) not applying to the physical sides; they are now mapped according to `writing-mode` and `direction`, sharing one cascade with the physical properties
+- Fixed `orientation` media feature to follow the viewport instead of the device
+- Fixed `matchMedia` throwing for an invalid query instead of evaluating it as `not all`
+- Fixed the pseudo-elements of CSS 2 written with a single colon (e.g. `li:after`) not applying to the pseudo-element
+- Fixed pseudo-classes before a pseudo-element (e.g. `li:first-child::after`) being matched against the pseudo-element instead of its originating element
+- Fixed the `background` shorthand not accepting `currentcolor` as its color
+- Fixed `aspect-ratio` not accepting a single number (e.g. `aspect-ratio: 1.8`, meaning `1.8 / 1`)
+- Fixed grid area and line names (e.g. `grid-area: leadingVisual`) and other custom identifiers (`view-transition-name`, `anchor-name`, `position-anchor`, `animation-timeline`, `font-palette`) being lowercased, so they no longer matched case-sensitive names like the ones of `grid-template-areas`
+- Fixed `em` and percentage lengths throwing for an element with `font-size: 0` or an empty box (e.g. in `translate()`)
+- Added cascade layers (`@layer`) to the cascade, whose rules were ignored before
+- Added shadow trees to the render tree: a shadow host renders its shadow tree (styled by the shadow root's style sheets, with the host as scope for `:host`) with slots showing their assigned nodes, unless hidden
+- Added `:host` rules of a shadow tree styling the shadow host in the render tree; they lose against the author rules of the host's own tree unless important
+- Added the presentational hints of HTML elements to the cascade: dimension attributes (e.g. `<img width=40 height=30>`, `<td width>`) and `bgcolor`/`text`/`color` attributes map to their CSS properties, before all author rules
+
 # 1.2.1
 
 Released on Friday, October 23 2026.

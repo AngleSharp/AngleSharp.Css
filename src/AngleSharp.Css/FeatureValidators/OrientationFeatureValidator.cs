@@ -14,7 +14,8 @@ namespace AngleSharp.Css.FeatureValidators
             if (portrait != null)
             {
                 var desired = portrait.Is(CssKeywords.Portrait);
-                var available = renderDevice.DeviceHeight >= renderDevice.DeviceWidth;
+                // the orientation of the viewport, not the device (Media Queries 4, 4.4)
+                var available = renderDevice.ViewPortHeight >= renderDevice.ViewPortWidth;
                 return desired == available;
             }
 

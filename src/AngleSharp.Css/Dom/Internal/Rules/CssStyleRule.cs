@@ -25,6 +25,7 @@ namespace AngleSharp.Css.Dom
         private Boolean[] _selectorListTargetsPseudo;
         private Boolean _selectorTargetsPseudo;
         private Boolean _nested;
+        private StyleRuleIndex.SelectorInfo _indexInfo;
 
         #endregion
 
@@ -65,6 +66,12 @@ namespace AngleSharp.Css.Dom
         public CssStyleDeclaration Style => _style;
 
         public ICssRuleList Rules => _rules;
+
+        internal StyleRuleIndex.SelectorInfo IndexInfo
+        {
+            get => _indexInfo;
+            set => _indexInfo = value;
+        }
 
         #endregion
 
@@ -152,6 +159,33 @@ namespace AngleSharp.Css.Dom
             return false;
         }
 
+        /// <summary>
+        /// Matches the rule of a shadow tree against its host. The host is featureless
+        /// there, i.e. only a selector whose subject is a :host compound matches it.
+        /// </summary>
+        internal Boolean TryMatchHost(IElement host, out Priority specificity)
+        {
+            specificity = Priority.Zero;
+
+            if (_nested || Parent is CssStyleRule)
+            {
+                return false;
+            }
+
+            var selectors = _selectorList ?? (_selector is not null ? new[] { _selector } : Array.Empty<ISelector>());
+
+            foreach (var selector in selectors)
+            {
+                if (selector.Text.StartsWith(":host", StringComparison.OrdinalIgnoreCase) && selector.Match(host, host))
+                {
+                    specificity = selector.Specificity;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var block = _style.ToCssBlock(formatter);
@@ -166,6 +200,7 @@ namespace AngleSharp.Css.Dom
         {
             _selectorList = null;
             _selectorListTargetsPseudo = null;
+            _indexInfo = null;
             _selector = value;
             _selectorTargetsPseudo = PseudoElementSubjectVisitor.TargetsPseudoElement(value);
             value?.Accept(this);

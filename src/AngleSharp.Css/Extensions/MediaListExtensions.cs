@@ -27,29 +27,73 @@ namespace AngleSharp.Css.Dom
 
         public static Boolean Validate(this IMediaFeature feature, IRenderDevice device)
         {
+            if (feature is MediaCondition condition)
+            {
+                return condition.Medium.Validate(device);
+            }
+
             AssociatedValidators.TryGetValue(feature, out var validator);
+
+            if (validator is not null && feature is MediaFeature { Comparisons: { } comparisons })
+            {
+                return comparisons.All(m => validator.Validate(feature.Name, m, device));
+            }
+
             return validator?.Validate(feature, device) ?? false;
+        }
+
+        /// <summary>
+        /// Evaluates a comparison of the range syntax with what the validators know: the min- and
+        /// max- prefixed (inclusive) forms of the feature and the plain one (equality).
+        /// </summary>
+        private static Boolean Validate(this IFeatureValidator validator, String name, MediaFeature.RangeComparison comparison, IRenderDevice device)
+        {
+            Boolean AtLeast() => validator.Validate(new MediaFeature($"min-{name}", comparison.Value), device);
+            Boolean AtMost() => validator.Validate(new MediaFeature($"max-{name}", comparison.Value), device);
+            Boolean Equal() => validator.Validate(new MediaFeature(name, comparison.Value), device);
+
+            return comparison.Operator switch
+            {
+                ">=" => AtLeast(),
+                "<=" => AtMost(),
+                ">" => AtLeast() && !Equal(),
+                "<" => AtMost() && !Equal(),
+                _ => Equal(),
+            };
         }
 
         public static Boolean Validate(this IMediaList list, IRenderDevice device) => !list.Any() || list.Any(m => m.Validate(device));
 
         public static Boolean Validate(this ICssMedium medium, IRenderDevice device)
         {
-            if (!String.IsNullOrEmpty(medium.Type) &&
-                ((medium.Type.Is(CssKeywords.All) && medium.IsInverse) || (!KnownTypes.Contains(medium.Type) && !medium.IsInverse)))
+            // `not` negates the whole query, i.e. the media type and all features together
+            var matches = medium.MatchesType(device) && medium.MatchesFeatures(device);
+            return matches != medium.IsInverse;
+        }
+
+        private static Boolean MatchesType(this ICssMedium medium, IRenderDevice device)
+        {
+            var type = medium.Type;
+
+            if (String.IsNullOrEmpty(type) || type.Is(CssKeywords.All))
+            {
+                return true;
+            }
+
+            if (!KnownTypes.Any(m => m.Is(type)))
             {
                 return false;
             }
 
-            return !medium.IsInvalid(device) && !medium.Features.Any(m => m.Validate(device) == medium.IsInverse);
+            return device is null ||
+                (type.Is(CssKeywords.Screen) && device.Category == DeviceCategory.Screen) ||
+                (type.Is(CssKeywords.Speech) && device.Category == DeviceCategory.Speech) ||
+                (type.Is(CssKeywords.Print) && device.Category == DeviceCategory.Printer);
         }
 
-        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device) =>
-            medium.IsInvalid(device, CssKeywords.Screen, DeviceCategory.Screen) ||
-            medium.IsInvalid(device, CssKeywords.Speech, DeviceCategory.Speech) ||
-            medium.IsInvalid(device, CssKeywords.Print, DeviceCategory.Printer);
-
-        private static Boolean IsInvalid(this ICssMedium medium, IRenderDevice device, String keyword, DeviceCategory category) =>
-            device != null && keyword.Is(medium.Type) && device.Category == category == medium.IsInverse;
+        private static Boolean MatchesFeatures(this ICssMedium medium, IRenderDevice device) =>
+            medium is CssMedium { Connector: var connector } && connector.Is(CssKeywords.Or)
+                ? medium.Features.Any(m => m.Validate(device))
+                : medium.Features.All(m => m.Validate(device));
     }
 }

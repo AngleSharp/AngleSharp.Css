@@ -35,7 +35,7 @@ namespace AngleSharp.Css.Declarations
             private static readonly IValueConverter converter = SlashSeparated(Or(
                 Assign<Object>(CssKeywords.Auto, null),
                 VarConverter,
-                WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter))).Many(1, 4, seperator);
+                WithAny(Assign(CssKeywords.Span, true), IntegerConverter, CustomIdentConverter))).Many(1, 4, seperator);
 
             public ICssValue Convert(StringSource source) => converter.Convert(source);
 

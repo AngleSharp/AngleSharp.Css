@@ -132,7 +132,7 @@ namespace AngleSharp.Css.Values
             {
                 if (fallbacks.Count > 0 && fallbacks.Peek() == i)
                 {
-                    if (!Append(result, cursor, Offset(i)) || !Separate(result, NeedsSeparator(EndOffset(i))))
+                    if (!Append(result, cursor, Offset(i)) || !Separate(result, CharAt(EndOffset(i))))
                     {
                         return null;
                     }
@@ -142,7 +142,7 @@ namespace AngleSharp.Css.Values
                 }
                 else if (_references.TryGetValue(i, out var reference))
                 {
-                    if (!Append(result, cursor, Offset(i)) || !Separate(result, result.Length > 0))
+                    if (!Append(result, cursor, Offset(i)))
                     {
                         return null;
                     }
@@ -153,7 +153,7 @@ namespace AngleSharp.Css.Values
                     {
                         var text = value.CssText;
 
-                        if (text.Length > MaxSubstitutionLength - result.Length)
+                        if (!Separate(result, text.Length > 0 ? text[0] : Symbols.EndOfFile) || text.Length > MaxSubstitutionLength - result.Length)
                         {
                             return null;
                         }
@@ -162,7 +162,7 @@ namespace AngleSharp.Css.Values
                         cursor = EndOffset(reference.End);
                         i = reference.End;
 
-                        if (!Separate(result, NeedsSeparator(cursor)))
+                        if (!Separate(result, CharAt(cursor)))
                         {
                             return null;
                         }
@@ -170,6 +170,12 @@ namespace AngleSharp.Css.Values
                     else if (reference.Fallback >= 0)
                     {
                         cursor = Offset(reference.Fallback - 1) + 1;
+
+                        if (!Separate(result, CharAt(cursor)))
+                        {
+                            return null;
+                        }
+
                         i = reference.Fallback - 1;
                         fallbacks.Push(reference.End);
                     }
@@ -196,9 +202,9 @@ namespace AngleSharp.Css.Values
             return true;
         }
 
-        private static Boolean Separate(StringBuilder result, Boolean needed)
+        private static Boolean Separate(StringBuilder result, Char next)
         {
-            if (needed && result.Length > 0 && !result[result.Length - 1].IsSpaceCharacter())
+            if (result.Length > 0 && WouldMerge(result[result.Length - 1], next))
             {
                 if (result.Length > MaxSubstitutionLength - 4)
                 {
@@ -217,7 +223,17 @@ namespace AngleSharp.Css.Values
 
         private Int32 EndOffset(Int32 index) => Math.Min(Offset(index) + 1, Text.Length);
 
-        private Boolean NeedsSeparator(Int32 index) => index < Text.Length && !Text[index].IsSpaceCharacter();
+        private Char CharAt(Int32 index) => index < Text.Length ? Text[index] : Symbols.EndOfFile;
+
+        /// <summary>
+        /// Whether the two characters could be part of the same token (e.g. a number and a unit,
+        /// or the slash and asterisk of a comment), only then a separator is needed between them.
+        /// </summary>
+        private static Boolean WouldMerge(Char before, Char after) =>
+            IsTokenCharacter(before) && IsTokenCharacter(after) || (before == Symbols.Solidus && after == Symbols.Asterisk);
+
+        private static Boolean IsTokenCharacter(Char c) =>
+            c != Symbols.EndOfFile && (c.IsLetter() || c.IsDigit() || c >= 0x80 || c is '-' or '_' or '.' or '%' or '#' or '@' or '+' or '\\');
 
         private Int32 SkipTrivia(Int32 index)
         {

@@ -63,6 +63,13 @@ namespace AngleSharp.Dom
                         }
                     }
                 }
+                else if (rule is ICssLayerRule { IsStatement: false } layer)
+                {
+                    foreach (var subrule in layer.Rules.GetMatchingStyles(device))
+                    {
+                        yield return subrule;
+                    }
+                }
                 else if (rule.Type == CssRuleType.Style)
                 {
                     yield return (ICssStyleRule)rule;

@@ -6,6 +6,17 @@ namespace AngleSharp.Css.Tests.Declarations
     [TestFixture]
     public class CssBackgroundPropertyTests
     {
+        [TestCase("background: currentcolor", "currentColor")]
+        [TestCase("background: url(i.svg) currentColor", "url(\"i.svg\") currentColor")]
+        [TestCase("background: CURRENTCOLOR no-repeat", "no-repeat currentColor")]
+        public void CssBackgroundWithCurrentColorLegal(string snippet, string expected)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(expected, property.Value);
+        }
+
         [Test]
         public void CssBackgroundSizeCoverTest()
         {

@@ -6,6 +6,7 @@ namespace AngleSharp.Css
     using AngleSharp.Dom;
     using AngleSharp.Io;
     using System;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -14,6 +15,9 @@ namespace AngleSharp.Css
     /// </summary>
     public static class BrowsingContextExtensions
     {
+        // the services of a context are fixed; resolving them walks all services
+        private static readonly ConditionalWeakTable<IBrowsingContext, IDeclarationFactory> DeclarationFactories = new();
+
         /// <summary>
         /// Loads a stylesheet resource via its URL.
         /// </summary>
@@ -52,15 +56,18 @@ namespace AngleSharp.Css
             return null;
         }
 
+        internal static IDeclarationFactory GetDeclarationFactory(this IBrowsingContext context) =>
+            DeclarationFactories.GetValue(context, ctx => ctx.GetFactory<IDeclarationFactory>());
+
         internal static DeclarationInfo GetDeclarationInfo(this IBrowsingContext context, String propertyName)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetDeclarationFactory();
             return factory.Create(propertyName);
         }
 
         internal static ICssProperty CreateShorthand(this IBrowsingContext context, String name, ICssValue[] longhands, Boolean important)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetDeclarationFactory();
             var info = factory.Create(name);
             var value = info.Collapse(factory, longhands);
 
@@ -74,7 +81,7 @@ namespace AngleSharp.Css
 
         internal static ICssProperty[] CreateLonghands(this IBrowsingContext context, ICssProperty shorthand)
         {
-            var factory = context.GetFactory<IDeclarationFactory>();
+            var factory = context.GetDeclarationFactory();
             var info = factory.Create(shorthand.Name);
             var values = info.Expand(factory, shorthand.RawValue);
             return factory.CreateProperties(info.Longhands, values, shorthand.IsImportant);

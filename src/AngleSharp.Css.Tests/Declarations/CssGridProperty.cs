@@ -517,6 +517,19 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.AreEqual("2 / foobar / auto / foobar", property.Value);
         }
 
+        // area and line names are case-sensitive, like the ones of grid-template-areas (found on GitHub)
+        [TestCase("grid-area: leadingVisual", "leadingVisual")]
+        [TestCase("grid-row-start: Header", "Header")]
+        [TestCase("grid-column: span Main", "span Main")]
+        [TestCase("view-transition-name: Card", "Card")]
+        [TestCase("animation-timeline: --Scroller", "--Scroller")]
+        public void CssGridLineNamesKeepTheirCase(string snippet, string expected)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.IsTrue(property.HasValue);
+            StringAssert.StartsWith(expected, property.Value);
+        }
+
         [Test]
         public void CssGridAreaSingleValueLegal()
         {

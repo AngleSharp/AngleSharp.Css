@@ -75,7 +75,7 @@ namespace AngleSharp.Css.Tests.Rules
             var landscape = CreateValidator(FeatureNames.Orientation, "landscape");
             var interlace = CreateValidator(FeatureNames.Scan, "interlace");
             var progressive = CreateValidator(FeatureNames.Scan, "progressive");
-            var landscapeDevice = new DefaultRenderDevice { DeviceWidth = 1024, DeviceHeight = 768 };
+            var landscapeDevice = new DefaultRenderDevice { DeviceWidth = 1024, DeviceHeight = 768, ViewPortWidth = 1024, ViewPortHeight = 768 };
             var interlacedDevice = new DefaultRenderDevice { IsInterlaced = true };
 
             Assert.IsFalse(portrait(landscapeDevice));

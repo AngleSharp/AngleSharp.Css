@@ -119,7 +119,7 @@ namespace AngleSharp.Css.Dom
                 computedStyle.AddProperty(computed);
             }
 
-            var factory = context.Context.GetFactory<IDeclarationFactory>();
+            var factory = context.Context.GetDeclarationFactory();
             var preservedShorthands = style
                 .Where(property => (factory.Create(property.Name).Flags & PropertyFlags.PreserveShorthand) != 0)
                 .ToArray();
@@ -160,6 +160,7 @@ namespace AngleSharp.Css.Dom
             }
 
             declarations.UpdateDeclarations(parent);
+            LogicalProperties.Apply(declarations, context);
             return declarations;
         }
 

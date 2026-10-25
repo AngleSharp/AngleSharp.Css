@@ -33,14 +33,26 @@ namespace AngleSharp.Css.Parser
 
             if (medium is not null)
             {
-                foreach (var feature in medium.Features)
+                AssociateValidators(medium, factory);
+            }
+
+            return medium;
+        }
+
+        private static void AssociateValidators(CssMedium medium, IFeatureValidatorFactory factory)
+        {
+            foreach (var feature in medium.Features)
+            {
+                if (feature is MediaCondition condition)
+                {
+                    AssociateValidators(condition.Medium, factory);
+                }
+                else
                 {
                     var validator = factory?.Create(feature.Name);
                     feature.AssociateValidator(validator);
                 }
             }
-
-            return medium;
         }
 
         private static CssMedium ParseMediaCondition(this StringSource source)
@@ -138,6 +150,13 @@ namespace AngleSharp.Css.Parser
                 if (medium is not null && source.Current == Symbols.RoundBracketClose)
                 {
                     source.SkipCurrentAndSpaces();
+
+                    // a nested condition keeps its own connector and negation
+                    if (medium.IsInverse || medium.Features.Count() > 1)
+                    {
+                        return new CssMedium(String.Empty, false, false, new IMediaFeature[] { new MediaCondition(medium) }, CssKeywords.And);
+                    }
+
                     return medium;
                 }
 
@@ -310,68 +329,120 @@ namespace AngleSharp.Css.Parser
             //     | <mf-value> '>' '='? <ident> '>' '='? <mf-value>
 
             var pos = source.Index;
-            var name = source.ParseIdentAsValue() ?? source.ParseMediaFeatureValue();
+            var name = source.ParseIdent();
 
             if (name is not null)
             {
                 source.SkipSpacesAndComments();
-                var op = "";
+                var op = source.ParseRangeOperator();
 
-                if (source.Current == Symbols.LessThan || source.Current == Symbols.GreaterThan)
-                {
-                    var c = source.Current;
-
-                    if (source.Next() == Symbols.Equality)
-                    {
-                        op = $"{c}=";
-                        source.SkipCurrentAndSpaces();
-                    }
-                    else
-                    {
-                        op = $"{c}";
-                        source.SkipSpacesAndComments();
-                    }
-                }
-                else if (source.Current == Symbols.Equality)
-                {
-                    op = "=";
-                    source.SkipCurrentAndSpaces();
-                }
-                else
-                {
-                    source.BackTo(pos);
-                    return null;
-                }
-
-                if (name is CssIdentifierValue)
+                if (op is not null)
                 {
                     var value = source.ParseMediaFeatureValue();
 
                     if (value is not null)
                     {
-                        return new MediaFeature(name, value, op);
-                    }
-                }
-                else
-                {
-                    var value = source.ParseIdentAsValue();
-
-                    if (value is not null)
-                    {
-                        return new MediaFeature(name, value, op);
+                        source.SkipSpacesAndComments();
+                        var comparisons = new[] { new MediaFeature.RangeComparison(op, value) };
+                        return new MediaFeature(name, comparisons, $"{name} {op} {value.CssText}");
                     }
                 }
 
                 source.BackTo(pos);
             }
 
+            var lower = source.ParseMediaFeatureValue();
+
+            if (lower is not null)
+            {
+                source.SkipSpacesAndComments();
+                var lowerOp = source.ParseRangeOperator();
+                name = lowerOp is not null ? source.ParseIdent() : null;
+
+                if (name is not null)
+                {
+                    source.SkipSpacesAndComments();
+                    // "value op name" compares the other way around, e.g. 600px <= width means width >= 600px
+                    var comparisons = new List<MediaFeature.RangeComparison> { new(FlipRangeOperator(lowerOp), lower) };
+                    var text = $"{lower.CssText} {lowerOp} {name}";
+                    var upperPos = source.Index;
+                    var upperOp = source.ParseRangeOperator();
+
+                    if (upperOp is not null)
+                    {
+                        var upper = source.ParseMediaFeatureValue();
+
+                        // both comparisons of a double range must point the same way, and = is not allowed
+                        if (upper is null || lowerOp[0] != upperOp[0] || lowerOp[0] == Symbols.Equality)
+                        {
+                            source.BackTo(pos);
+                            return null;
+                        }
+
+                        source.SkipSpacesAndComments();
+                        comparisons.Add(new MediaFeature.RangeComparison(upperOp, upper));
+                        text = $"{text} {upperOp} {upper.CssText}";
+                    }
+                    else
+                    {
+                        source.BackTo(upperPos);
+                    }
+
+                    return new MediaFeature(name, comparisons, text);
+                }
+            }
+
+            source.BackTo(pos);
             return null;
         }
+
+        private static String ParseRangeOperator(this StringSource source)
+        {
+            // '<' '='? | '>' '='? | '='
+
+            var c = source.Current;
+
+            if (c == Symbols.LessThan || c == Symbols.GreaterThan)
+            {
+                if (source.Next() == Symbols.Equality)
+                {
+                    source.SkipCurrentAndSpaces();
+                    return $"{c}=";
+                }
+
+                source.SkipSpacesAndComments();
+                return $"{c}";
+            }
+            else if (c == Symbols.Equality)
+            {
+                source.SkipCurrentAndSpaces();
+                return "=";
+            }
+
+            return null;
+        }
+
+        private static String FlipRangeOperator(String op) => op switch
+        {
+            "<" => ">",
+            "<=" => ">=",
+            ">" => "<",
+            ">=" => "<=",
+            _ => op,
+        };
 
         private static ICssValue ParseMediaFeatureValue(this StringSource source)
         {
             // Syntax:
             // <mf-value> = <number> | <dimension> | <ident> | <ratio>
+            // where math functions (calc(), min(), ...) may stand for numbers and dimensions
+
+            var math = (ICssValue)source.ParseCalc() ?? source.ParseMath();
+
+            if (math is not null)
+            {
+                return math;
+            }
 
             var ident = source.ParseIdent();
             

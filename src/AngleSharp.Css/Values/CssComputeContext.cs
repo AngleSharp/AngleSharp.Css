@@ -53,6 +53,9 @@ namespace AngleSharp.Css.Values
 
         public Double RootFontSize => _parent is null ? FontSize : (_parent as CssStyleDeclaration)?.RootFontSize ?? DefaultFontSize;
 
+        // rem in the font-size of the root refers to the initial font size (CSS Values 4, 6.1.1)
+        public Double FontSizeRemBase => _parent is null ? DefaultFontSize : RootFontSize;
+
         private Double DefaultFontSize => _device.FontSize > 0 ? _device.FontSize : 16.0;
 
         private static Double? ToPixels(ICssValue? value) =>

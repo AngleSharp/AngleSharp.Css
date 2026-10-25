@@ -57,6 +57,40 @@ namespace AngleSharp.Css.Tests.Values
         }
 
         [Test]
+        public void LengthToPixelsEmIsZeroForAnElementWithoutFontSize()
+        {
+            // e.g. translate(1em) on an element with font-size: 0, found on GitHub
+            var l = new CssLengthValue(50, CssLengthValue.Unit.Em);
+            Assert.AreEqual(0.0, l.ToPixel(new ElementDimensions(), RenderMode.Undefined));
+        }
+
+        [Test]
+        public void LengthToPixelsPercentIsZeroForAnEmptyElement()
+        {
+            // e.g. translate(-50%) on an element without a width
+            var l = new CssLengthValue(-50, CssLengthValue.Unit.Percent);
+            Assert.AreEqual(0.0, l.ToPixel(new EmptyElementDimensions(), RenderMode.Horizontal));
+        }
+
+        private sealed class EmptyElementDimensions : IRenderDimensions
+        {
+            public double RenderWidth => 0;
+
+            public double RenderHeight => 0;
+
+            public double FontSize => 16;
+        }
+
+        private sealed class ElementDimensions : IRenderDimensions
+        {
+            public double RenderWidth => 100;
+
+            public double RenderHeight => 50;
+
+            public double FontSize => 0;
+        }
+
+        [Test]
         public void LengthToPixelsCorrectPercentWidth()
         {
             var l = new CssLengthValue(50, CssLengthValue.Unit.Percent);

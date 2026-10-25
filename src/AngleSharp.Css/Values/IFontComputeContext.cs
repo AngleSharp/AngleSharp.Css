@@ -21,4 +21,9 @@ interface IFontComputeContext
     /// Gets the computed font size (in px) of the root element.
     /// </summary>
     Double RootFontSize { get; }
+
+    /// <summary>
+    /// Gets the font size (in px) that rem refers to in the font-size of the element.
+    /// </summary>
+    Double FontSizeRemBase { get; }
 }

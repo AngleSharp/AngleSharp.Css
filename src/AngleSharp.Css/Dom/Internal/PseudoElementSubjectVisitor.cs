@@ -12,11 +12,25 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     sealed class PseudoElementSubjectVisitor : ISelectorVisitor
     {
+        private static readonly HashSet<string> LegacyPseudoElements = new(System.StringComparer.OrdinalIgnoreCase)
+        {
+            PseudoElementNames.Before,
+            PseudoElementNames.After,
+            PseudoElementNames.FirstLine,
+            PseudoElementNames.FirstLetter,
+        };
+
         private bool _result;
 
         private PseudoElementSubjectVisitor()
         {
         }
+
+        /// <summary>
+        /// Checks if the name is one of the pseudo-elements of CSS 2, which can also be
+        /// written like a pseudo-class with a single colon, e.g. li:after.
+        /// </summary>
+        public static bool IsLegacyPseudoElement(string name) => LegacyPseudoElements.Contains(name);
 
         public static bool TargetsPseudoElement(ISelector selector)
         {
@@ -47,6 +61,7 @@ namespace AngleSharp.Css.Dom
 
         void ISelectorVisitor.PseudoClass(string name)
         {
+            _result = _result || IsLegacyPseudoElement(name);
         }
 
         void ISelectorVisitor.PseudoElement(string name)
