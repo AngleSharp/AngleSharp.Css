@@ -1,3 +1,10 @@
+# 1.3.0
+
+Released on Monday, October 26 2026.
+
+- Improved the render tree to inherit declarations from the parent's style instead of copying them to every element (e.g. thousands of custom properties on `:root`)
+- Improved merging declarations in the cascade, which was quadratic in the number of declarations
+
 # 1.2.2
 
 Released on Sunday, October 25 2026.

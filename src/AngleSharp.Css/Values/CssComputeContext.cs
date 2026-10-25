@@ -31,7 +31,9 @@ namespace AngleSharp.Css.Values
 
         public ICssValue? Resolve(String name) => _variables.Resolve(name);
 
-        public ICssValue? InheritedValue(String name) => _parent?.FirstOrDefault(m => m.Name == name)?.RawValue;
+        public ICssValue? InheritedValue(String name) => _parent is CssStyleDeclaration parent
+            ? parent.GetDeclaration(name)?.RawValue
+            : _parent?.FirstOrDefault(m => m.Name == name)?.RawValue;
 
         public Double ParentFontSize => ToPixels(InheritedValue(PropertyNames.FontSize)) ?? DefaultFontSize;
 
@@ -42,7 +44,9 @@ namespace AngleSharp.Css.Values
                 if (!_fontSize.HasValue)
                 {
                     // The font size of the element is computed against the font size of the parent.
-                    var declared = Properties.FirstOrDefault(m => m.Name == PropertyNames.FontSize);
+                    var declared = Properties is CssStyleDeclaration properties
+                        ? properties.GetDeclaration(PropertyNames.FontSize)
+                        : Properties.FirstOrDefault(m => m.Name == PropertyNames.FontSize);
                     var computed = declared?.Compute(this).RawValue;
                     _fontSize = computed is CssInitialValue ? DefaultFontSize : ToPixels(computed) ?? ParentFontSize;
                 }

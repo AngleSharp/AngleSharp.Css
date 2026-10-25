@@ -90,13 +90,18 @@ namespace AngleSharp.Css.Dom
         public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, ICssComputeContext context)
         {
             var computedStyle = new CssStyleDeclaration(context.Context);
+            var cascaded = style as CssStyleDeclaration;
 
             if (context is IFontComputeContext fonts)
             {
                 computedStyle.RootFontSize = fonts.RootFontSize;
             }
 
-            foreach (var property in style)
+            // The declarations inherited from the parent's computed style are already computed,
+            // hence only the local ones are computed - the inherited ones are shared.
+            var local = cascaded?.GetLocalDeclarations() ?? style;
+
+            foreach (var property in local)
             {
                 var computed = property.Compute(context);
 
@@ -120,7 +125,7 @@ namespace AngleSharp.Css.Dom
             }
 
             var factory = context.Context.GetDeclarationFactory();
-            var preservedShorthands = style
+            var preservedShorthands = local
                 .Where(property => (factory.Create(property.Name).Flags & PropertyFlags.PreserveShorthand) != 0)
                 .ToArray();
 
@@ -134,15 +139,22 @@ namespace AngleSharp.Css.Dom
                 {
                     for (var i = 0; i < info.Longhands.Length; i++)
                     {
-                        if (style.Any(property => property.Name.Is(info.Longhands[i])))
+                        var name = info.Longhands[i];
+
+                        if (cascaded is not null ? cascaded.GetDeclaration(name) is not null : style.Any(property => property.Name.Is(name)))
                         {
                             continue;
                         }
 
-                        var longhand = factory.Create(info.Longhands[i]);
-                        computedStyle.AddProperty(new CssProperty(info.Longhands[i], longhand.Converter, longhand.Flags, values[i], shorthand.IsImportant));
+                        var longhand = factory.Create(name);
+                        computedStyle.AddProperty(new CssProperty(name, longhand.Converter, longhand.Flags, values[i], shorthand.IsImportant));
                     }
                 }
+            }
+
+            if (cascaded is not null)
+            {
+                computedStyle.InheritLike(cascaded);
             }
 
             return computedStyle;
@@ -159,7 +171,7 @@ namespace AngleSharp.Css.Dom
                 declarations.AddProperty(property.Name.StartsWith("--", StringComparison.Ordinal) ? property.Compute(context) : property);
             }
 
-            declarations.UpdateDeclarations(parent);
+            declarations.InheritFrom(parent);
             LogicalProperties.Apply(declarations, context);
             return declarations;
         }

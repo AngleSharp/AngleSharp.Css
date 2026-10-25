@@ -96,7 +96,7 @@ namespace AngleSharp.Css.RenderTree
 
             if (parentSpecifiedStyle is not null)
             {
-                specifiedStyle.UpdateDeclarations(parentSpecifiedStyle);
+                specifiedStyle.InheritFrom(parentSpecifiedStyle);
             }
 
             var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);

@@ -259,7 +259,7 @@ namespace AngleSharp.Css
 
             foreach (var match in matches)
             {
-                if (!match.IsDefault && match.Rule.Style.Any(m => m.IsImportant))
+                if (!match.IsDefault && HasImportant(match.Rule.Style))
                 {
                     important ??= new List<RuleMatch>();
                     layered = layered || (important.Count > 0 && important[0].LayerRank != match.LayerRank);
@@ -277,6 +277,10 @@ namespace AngleSharp.Css
                 }
             }
         }
+
+        private static Boolean HasImportant(ICssStyleDeclaration style) => style is CssStyleDeclaration declaration ?
+            declaration.HasImportantDeclarations() :
+            style.Any(m => m.IsImportant);
 
         private static List<RuleMatch> MatchHost(StyleCollection shadowStyles, IElement host)
         {
