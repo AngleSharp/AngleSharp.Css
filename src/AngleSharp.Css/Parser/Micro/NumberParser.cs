@@ -48,6 +48,30 @@ namespace AngleSharp.Css.Parser
         }
 
         /// <summary>
+        /// Parses a ratio, where a single number n is the ratio n/1 (e.g. aspect-ratio: 2).
+        /// </summary>
+        public static CssRatioValue? ParseRatioOrNumber(this StringSource source)
+        {
+            var ratio = source.ParseRatio();
+
+            if (ratio.HasValue)
+            {
+                return ratio;
+            }
+
+            var pos = source.Index;
+            var number = source.ParseNumber();
+
+            if (number.HasValue && number.Value.Value >= 0)
+            {
+                return new CssRatioValue(number.Value, new CssNumberValue(1));
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        /// <summary>
         /// Parses the integer (double) value.
         /// </summary>
         public static CssNumberValue? ParseNaturalNumber(this StringSource source)

@@ -38,6 +38,11 @@ namespace AngleSharp.Css.Declarations
                 var row = values[0];
                 var col = values[1];
 
+                if (row != null && col != null && row.CssText.Is(col.CssText))
+                {
+                    return new CssTupleValue(new[] { row });
+                }
+
                 if (row != null || col != null)
                 {
                     return new CssTupleValue(new[] { row, col });
@@ -50,10 +55,11 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue list)
                 {
+                    // `gap: 8px` sets both gaps
                     return new[]
                     {
                         list.Items[0],
-                        list.Items[1],
+                        list.Items.Length > 1 && list.Items[1] != null ? list.Items[1] : list.Items[0],
                     };
                 }
 

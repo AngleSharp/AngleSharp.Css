@@ -26,7 +26,15 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => _inner.Accept(visitor);
 
-        public Boolean Match(IElement element, IElement? scope) =>
-            PseudoClassStateStore.TryGet(element, _name, out var forced) ? forced : _inner.Match(element, scope);
+        public Boolean Match(IElement element, IElement? scope)
+        {
+            // in li:first-child::after the pseudo-class refers to the originating element
+            if (element is PseudoElement pseudo && !PseudoElementSubjectVisitor.IsLegacyPseudoElement(_name))
+            {
+                element = pseudo.Host;
+            }
+
+            return PseudoClassStateStore.TryGet(element, _name, out var forced) ? forced : _inner.Match(element, scope);
+        }
     }
 }

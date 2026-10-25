@@ -30,7 +30,7 @@ namespace AngleSharp.Css.Dom
 
         internal CssProperty(String name, IValueConverter converter, PropertyFlags flags = PropertyFlags.None, ICssValue value = null, Boolean important = false)
         {
-            _name = name.StartsWith("--") ? name : name.ToLowerFast();
+            _name = name.StartsWith("--", StringComparison.Ordinal) ? name : name.ToLowerFast();
             _converter = converter;
             _flags = flags;
             _value = value;
@@ -158,7 +158,7 @@ namespace AngleSharp.Css.Dom
             // em in font-size refers to the font size of the parent, everywhere else to the one of the element.
             public Double? EmBase => _name.Is(PropertyNames.FontSize) ? Fonts?.ParentFontSize : Fonts?.FontSize;
 
-            public Double? RootFontSize => Fonts?.RootFontSize;
+            public Double? RootFontSize => _name.Is(PropertyNames.FontSize) ? Fonts?.FontSizeRemBase : Fonts?.RootFontSize;
 
             // Except for font-size and line-height, percentages refer to a box (or a length) that is only known during layout.
             public Boolean KeepsPercentages => Fonts is not null && PercentageBasis is null;

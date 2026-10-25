@@ -53,6 +53,29 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
         }
 
+        // a single number n is the ratio n/1 (found on MDN: aspect-ratio: 1.8)
+        [TestCase("aspect-ratio: 2", "2/1")]
+        [TestCase("aspect-ratio: 1.8", "1.8/1")]
+        [TestCase("aspect-ratio: auto 2", "auto 2/1")]
+        [TestCase("aspect-ratio: 2 auto", "auto 2/1")]
+        public void AspectRatioNumberLegal(string snippet, string expected)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("aspect-ratio", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual(expected, property.Value);
+        }
+
+        [TestCase("aspect-ratio: 2px")]
+        [TestCase("aspect-ratio: -2")]
+        [TestCase("aspect-ratio: 2 3")]
+        public void AspectRatioNumberIllegal(string snippet)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("aspect-ratio", property.Name);
+            Assert.IsFalse(property.HasValue);
+        }
+
         [Test]
         public void AspectRatioStringIllegal()
         {

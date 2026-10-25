@@ -494,15 +494,19 @@ namespace AngleSharp.Css.Values
 
         private void CheckForValidRenderDimensions(IRenderDimensions renderDimensions, RenderMode mode)
         {
-            if (renderDimensions == null || mode == RenderMode.Undefined || (mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight) <= 0)
+            var size = renderDimensions is null ? 0 : mode == RenderMode.Horizontal ? renderDimensions.RenderWidth : renderDimensions.RenderHeight;
+
+            // a device without a size cannot resolve them, but an element's box may well be empty
+            if (renderDimensions == null || mode == RenderMode.Undefined || size < 0 || (size == 0 && renderDimensions is IRenderDevice))
             {
-                throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
+                throw new ArgumentException("A non null render device with a size is required to calculate relative units.");
             }
         }
 
         private void CheckForValidRenderDimensionsForFont(IRenderDimensions renderDimensions)
         {
-            if (renderDimensions == null || renderDimensions.FontSize <= 0)
+            // a device without a font size cannot resolve them, but an element may well have font-size: 0
+            if (renderDimensions == null || renderDimensions.FontSize < 0 || (renderDimensions.FontSize == 0 && renderDimensions is IRenderDevice))
             {
                 throw new ArgumentException("A non null render device with a font size is required to calculate em or rem units.");
             }

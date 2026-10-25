@@ -392,17 +392,17 @@ namespace AngleSharp.Css
         /// <summary>
         /// Represents a converter for the view-transition-name property.
         /// </summary>
-        public static readonly IValueConverter ViewTransitionNameConverter = Or(None, IdentifierConverter.FromList());
+        public static readonly IValueConverter ViewTransitionNameConverter = Or(None, CustomIdentConverter.FromList());
 
         /// <summary>
         /// Represents a converter for the view-transition-class property.
         /// </summary>
-        public static readonly IValueConverter ViewTransitionClassConverter = Or(None, IdentifierConverter.FromList());
+        public static readonly IValueConverter ViewTransitionClassConverter = Or(None, CustomIdentConverter.FromList());
 
         /// <summary>
         /// Represents a converter for the anchor-name property.
         /// </summary>
-        public static readonly IValueConverter AnchorNameConverter = Or(None, IdentifierConverter.FromList());
+        public static readonly IValueConverter AnchorNameConverter = Or(None, CustomIdentConverter.FromList());
 
         /// <summary>
         /// Represents a converter for the anchor-scope property.
@@ -410,14 +410,14 @@ namespace AngleSharp.Css
         public static readonly IValueConverter AnchorScopeConverter = Or(
             Assign(CssKeywords.All, CssKeywords.All),
             Assign(CssKeywords.Own, CssKeywords.Own),
-            IdentifierConverter.FromList());
+            CustomIdentConverter.FromList());
 
         /// <summary>
         /// Represents a converter for the position-anchor property.
         /// </summary>
         public static readonly IValueConverter PositionAnchorConverter = Or(
             Assign(CssKeywords.Auto, CssKeywords.Auto),
-            IdentifierConverter);
+            CustomIdentConverter);
 
         /// <summary>
         /// Represents a converter for the position-area property.
@@ -916,7 +916,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter AnimationTimelineConverter = Or(
             Assign(CssKeywords.Auto, CssKeywords.Auto),
-            IdentifierConverter).FromList();
+            CustomIdentConverter).FromList();
 
         /// <summary>
         /// Represents a converter for a single animation-range-start/end value.
@@ -1238,7 +1238,7 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly IValueConverter FontPaletteConverter = Or(
             Assign(CssKeywords.Normal, CssKeywords.Normal),
-            IdentifierConverter);
+            CustomIdentConverter);
 
         /// <summary>
         /// Represents a converter for the font-synthesis property (shorthand).
@@ -1649,7 +1649,7 @@ namespace AngleSharp.Css
         /// Represents a converter for the aspect-ratio property (auto | &lt;ratio&gt;).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
         /// </summary>
-        public static readonly IValueConverter AspectRatioConverter = Or(FromParser(ParseAutoRatio), Auto, RatioConverter);
+        public static readonly IValueConverter AspectRatioConverter = Or(FromParser(ParseAutoRatio), Auto, new StructValueConverter<CssRatioValue>(NumberParser.ParseRatioOrNumber));
 
         /// <summary>
         /// Represents a converter for the overflow-anchor property (auto | none).
@@ -1845,7 +1845,7 @@ namespace AngleSharp.Css
 
         public static readonly IValueConverter GridLineConverter = Or(
             Assign(CssKeywords.Auto, CssKeywords.Auto),
-            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter));
+            WithAny(Assign(CssKeywords.Span, true), IntegerConverter, CustomIdentConverter));
 
         public static readonly IValueConverter SrcListConverter =
             WithOrder(
@@ -1926,11 +1926,11 @@ namespace AngleSharp.Css
             if (source.IsIdentifier(CssKeywords.Auto))
             {
                 source.SkipSpacesAndComments();
-                ratio = source.ParseRatio();
+                ratio = source.ParseRatioOrNumber();
             }
             else
             {
-                ratio = source.ParseRatio();
+                ratio = source.ParseRatioOrNumber();
                 source.SkipSpacesAndComments();
 
                 if (!source.IsIdentifier(CssKeywords.Auto))

@@ -52,6 +52,31 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual("20px", Computed("<html style=\"font-size: 10px\"><body><p id=target style=\"width: 2rem\">x</p></body></html>", "width"));
         }
 
+        // rem in the font-size of the root refers to the initial font size (CSS Values 4, 6.1.1),
+        // instead of recursing into the font size being computed - found on developer.mozilla.org
+        [TestCase("font-size: 2rem", "32px")]
+        [TestCase("--size: 2rem; font-size: var(--size)", "32px")]
+        [TestCase("--size: 1.5rem; font-size: calc(var(--size) + 2px)", "26px")]
+        public void RemInTheFontSizeOfTheRootRefersToTheInitialFontSize(string declarations, string expected)
+        {
+            var html = $"<html id=target style=\"{declarations}\"><body><p style=\"width: 1rem\">x</p></body></html>";
+
+            Assert.AreEqual(expected, Computed(html, "font-size"));
+        }
+
+        [Test]
+        public void RemInTheFontSizeOfTheRootCanBeRendered()
+        {
+            var config = Configuration.Default.WithCss().WithRenderDevice(new DefaultRenderDevice { FontSize = 16 });
+            var document = BrowsingContext.New(config).GetService<IHtmlParser>().ParseDocument(
+                "<html style=\"--size: 0.625rem; font-size: var(--size)\"><body><p id=target style=\"width: 2rem\">x</p></body></html>");
+
+            var tree = document.DefaultView.Render();
+
+            Assert.IsNotNull(tree);
+            Assert.AreEqual("20px", document.GetElementById("target").ComputeCurrentStyle().GetPropertyValue("width"));
+        }
+
         [TestCase("width: 50%", "width", "50%", "100px")]
         [TestCase("margin-left: 10%", "margin-left", "10%", "20px")]
         [TestCase("padding-top: 5%", "padding-top", "5%", "10px")]

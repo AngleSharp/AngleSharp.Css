@@ -3373,7 +3373,7 @@ namespace AngleSharp.Css
         /// <returns>The default (any) declaration.</returns>
         protected virtual DeclarationInfo CreateDefault(String propertyName)
         {
-            if (propertyName.StartsWith("--"))
+            if (propertyName.StartsWith("--", StringComparison.Ordinal))
             {
                 return new DeclarationInfo(propertyName, ValueConverters.Any, flags: PropertyFlags.Inherited);
             }

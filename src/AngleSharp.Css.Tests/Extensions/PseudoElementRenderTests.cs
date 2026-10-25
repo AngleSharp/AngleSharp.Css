@@ -178,5 +178,24 @@ namespace AngleSharp.Css.Tests.Extensions
 
             Assert.AreEqual("inline", before.ComputedStyle.GetDisplay());
         }
-    }
+
+        // the pseudo-elements of CSS 2 can be written with a single colon, and the pseudo-classes
+        // before the pseudo-element refer to the originating element (e.g. MDN's breadcrumbs)
+        [TestCase("#target:after", true)]
+        [TestCase("li:after", true)]
+        [TestCase("#target:not(.x):after", true)]
+        [TestCase("li:first-child::after", true)]
+        [TestCase("li:first-child:after", true)]
+        [TestCase(":is(ul li):not(:last-child):after", true)]
+        [TestCase("li:last-child::after", false)]
+        [TestCase("li:not(:last-child)::after", true)]
+        public void PseudoClassesBeforeAPseudoElementReferToTheOriginatingElement(string selector, bool expected)
+        {
+            var root = Render($"<html><head><style>{selector} {{ content: \"X\"; }}</style></head>" +
+                "<body><ul><li id=target>A</li><li>B</li></ul></body></html>");
+            var target = FindElement(root, "target");
+
+            Assert.AreEqual(expected, target.Children.Any(m => m.Ref is IPseudoElement));
+        }
+}
 }

@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Declarations
             private static readonly String seperator = " / ";
             private static readonly IValueConverter converter = SlashSeparated(Or(
                 Assign<Object>(CssKeywords.Auto, null),
-                WithAny(Assign(CssKeywords.Span, true), IntegerConverter, IdentifierConverter))).Many(1, 2, seperator);
+                WithAny(Assign(CssKeywords.Span, true), IntegerConverter, CustomIdentConverter))).Many(1, 2, seperator);
 
             public ICssValue Convert(StringSource source)
             {

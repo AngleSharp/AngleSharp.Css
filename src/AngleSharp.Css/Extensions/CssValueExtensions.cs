@@ -90,8 +90,34 @@ namespace AngleSharp.Css.Dom
             {
                 return special.Value.AsPx(renderDimensions, mode);
             }
+            else if (value is ICssFunctionValue && renderDimensions is IRenderDevice device)
+            {
+                // math functions, e.g. calc(50rem + 2px) in a media query, resolve against the device
+                var computed = value.Compute(new DeviceComputeContext(device));
+
+                if (computed is CssLengthValue)
+                {
+                    return computed.AsPx(renderDimensions, mode);
+                }
+            }
 
             return 0.0;
+        }
+
+        private sealed class DeviceComputeContext : ICssComputeContext
+        {
+            public DeviceComputeContext(IRenderDevice device)
+            {
+                Device = device;
+            }
+
+            public IRenderDevice Device { get; }
+
+            public IBrowsingContext? Context => null;
+
+            public IValueConverter? Converter => null;
+
+            public ICssValue? Resolve(String name) => null;
         }
 
         /// <summary>

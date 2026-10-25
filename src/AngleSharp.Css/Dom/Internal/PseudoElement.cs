@@ -30,6 +30,11 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
+        /// <summary>
+        /// Gets the originating element of the pseudo-element.
+        /// </summary>
+        internal IElement Host => _host;
+
         public IElement AssignedSlot => _host.AssignedSlot;
 
         public String Slot

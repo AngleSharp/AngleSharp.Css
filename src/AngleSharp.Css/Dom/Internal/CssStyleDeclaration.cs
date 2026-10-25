@@ -135,7 +135,7 @@ namespace AngleSharp.Css.Dom
 
         private ICssProperty TryCreateShorthand(String shorthandName, IEnumerable<String> serialized, List<String> usedProperties, Boolean force)
         {
-            var factory = _context.GetFactory<IDeclarationFactory>();
+            var factory = _context.GetDeclarationFactory();
             var shorthand = factory.Create(shorthandName);
             var requiredProperties = shorthand.Longhands;
 
@@ -174,7 +174,7 @@ namespace AngleSharp.Css.Dom
         {
             var list = new List<ICssProperty>();
             var serialized = new List<String>();
-            var factory = _context.GetFactory<IDeclarationFactory>();
+            var factory = _context.GetDeclarationFactory();
 
             foreach (var declaration in Declarations)
             {
@@ -546,7 +546,7 @@ namespace AngleSharp.Css.Dom
         private ICssProperty GetPropertyFromShorthand(String name)
         {
             var info = _context.GetDeclarationInfo(name);
-            var factory = _context.GetFactory<IDeclarationFactory>();
+            var factory = _context.GetDeclarationFactory();
 
             foreach (var shorthandName in info.Shorthands)
             {
