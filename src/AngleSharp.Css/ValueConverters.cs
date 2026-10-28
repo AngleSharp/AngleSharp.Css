@@ -1067,6 +1067,23 @@ namespace AngleSharp.Css
                 Or(Assign(CssKeywords.Contextual, CssKeywords.Contextual), Assign(CssKeywords.NoContextual, CssKeywords.NoContextual))));
 
         /// <summary>
+        /// Represents a converter for the font-variant-east-asian property.
+        /// https://www.w3.org/TR/css-fonts-4/#font-variant-east-asian-prop
+        /// </summary>
+        public static readonly IValueConverter FontVariantEastAsianConverter = Or(
+            Assign(CssKeywords.Normal, CssKeywords.Normal),
+            WithAny(
+                Or(
+                    Assign(CssKeywords.Jis78, CssKeywords.Jis78),
+                    Assign(CssKeywords.Jis83, CssKeywords.Jis83),
+                    Assign(CssKeywords.Jis90, CssKeywords.Jis90),
+                    Assign(CssKeywords.Jis04, CssKeywords.Jis04),
+                    Assign(CssKeywords.Simplified, CssKeywords.Simplified),
+                    Assign(CssKeywords.Traditional, CssKeywords.Traditional)),
+                Or(Assign(CssKeywords.FullWidth, CssKeywords.FullWidth), Assign(CssKeywords.ProportionalWidth, CssKeywords.ProportionalWidth)),
+                Assign(CssKeywords.Ruby, CssKeywords.Ruby)));
+
+        /// <summary>
         /// Represents a converter for the transform-box property.
         /// https://www.w3.org/TR/css-transforms-1/#transform-box
         /// </summary>

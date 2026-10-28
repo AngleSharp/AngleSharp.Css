@@ -2282,6 +2282,41 @@ namespace AngleSharp.Css
         public static readonly String TabularNums = "tabular-nums";
 
         /// <summary>
+        /// The jis78 keyword.
+        /// </summary>
+        public static readonly String Jis78 = "jis78";
+
+        /// <summary>
+        /// The jis83 keyword.
+        /// </summary>
+        public static readonly String Jis83 = "jis83";
+
+        /// <summary>
+        /// The jis90 keyword.
+        /// </summary>
+        public static readonly String Jis90 = "jis90";
+
+        /// <summary>
+        /// The jis04 keyword.
+        /// </summary>
+        public static readonly String Jis04 = "jis04";
+
+        /// <summary>
+        /// The simplified keyword.
+        /// </summary>
+        public static readonly String Simplified = "simplified";
+
+        /// <summary>
+        /// The traditional keyword.
+        /// </summary>
+        public static readonly String Traditional = "traditional";
+
+        /// <summary>
+        /// The proportional-width keyword.
+        /// </summary>
+        public static readonly String ProportionalWidth = "proportional-width";
+
+        /// <summary>
         /// The diagonal-fractions keyword.
         /// </summary>
         public static readonly String DiagonalFractions = "diagonal-fractions";

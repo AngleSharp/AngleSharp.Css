@@ -1,12 +1,13 @@
 # 1.3.0
 
-Released on Monday, October 26 2026.
+Released on Wednesday, October 28 2026.
 
 - Improved the render tree to inherit declarations from the parent's style instead of copying them to every element (e.g. thousands of custom properties on `:root`)
 - Improved merging declarations in the cascade, which was quadratic in the number of declarations
 - Improved matching `::before` and `::after` by grouping the rules targeting pseudo-elements by the id, class, or tag name of the element they belong to, instead of matching all of them against every element
 - Fixed a declaration starting with `*` (the IE7 hack `*zoom: 1`) being taken for a nested rule that swallowed the following declarations or the rest of the style sheet; it is dropped up to its semicolon
 - Added `CssParserOptions.IsNotResolvingRelativeUrls` to prevent resolving the relative URLs in linked and imported style sheets
+- Added `font-variant-east-asian` (`normal`, `jis78`/`jis83`/`jis90`/`jis04`/`simplified`/`traditional`, `full-width`/`proportional-width`, `ruby`), which used to be dropped as an unknown property
 
 # 1.2.2
 
