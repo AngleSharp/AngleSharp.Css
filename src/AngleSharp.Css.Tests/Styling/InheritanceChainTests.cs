@@ -90,6 +90,46 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void BlockifiedElementsKeepTheirInheritedDeclarations()
+        {
+            var document = Parse("<style>:root { --a: 1px; color: red } .abs { position: absolute } .float { float: left; display: inline-flex }</style>" +
+                "<div><span id=abs class=abs>x</span><span id=float class=float>y</span><span id=inline>z</span></div>");
+            var tree = document.DefaultView.Render();
+            var abs = Find(tree, "abs").ComputedStyle;
+            var floating = Find(tree, "float").ComputedStyle;
+
+            Assert.AreEqual("block", abs.GetPropertyValue("display"));
+            Assert.AreEqual("flex", floating.GetPropertyValue("display"));
+            Assert.AreEqual("", Find(tree, "inline").ComputedStyle.GetPropertyValue("display"));
+            Assert.AreEqual("1px", abs.GetPropertyValue("--a"));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", abs.GetPropertyValue("color"));
+            Assert.AreEqual(1, abs.Count(m => m.Name == "display"));
+            Assert.AreEqual(1, floating.Count(m => m.Name == "display"));
+        }
+
+        [Test]
+        public void ShorthandsWithVariablesAreSubstitutedPerElement()
+        {
+            var document = Parse("<style>.b { border: var(--w) solid var(--c) }</style>" +
+                "<div style=\"--w: 1px; --c: red\"><p id=first class=b>x</p></div>" +
+                "<div style=\"--w: 2px; --c: blue\"><p id=second class=b>y</p></div>" +
+                "<div style=\"--w: 1px; --c: red\"><p id=third class=b>z</p></div>");
+            var tree = document.DefaultView.Render();
+
+            foreach (var (id, width, color) in new[] { ("first", "1px", "rgba(255, 0, 0, 1)"), ("second", "2px", "rgba(0, 0, 255, 1)"), ("third", "1px", "rgba(255, 0, 0, 1)") })
+            {
+                var computed = Find(tree, id).ComputedStyle;
+
+                foreach (var side in new[] { "top", "right", "bottom", "left" })
+                {
+                    Assert.AreEqual(width, computed.GetPropertyValue($"border-{side}-width"), id);
+                    Assert.AreEqual("solid", computed.GetPropertyValue($"border-{side}-style"), id);
+                    Assert.AreEqual(color, computed.GetPropertyValue($"border-{side}-color"), id);
+                }
+            }
+        }
+
+        [Test]
         public void MutatingAChildStyleDoesNotChangeItsParent()
         {
             var document = Parse("<div id=parent style=\"color: red\"><p id=child>x</p></div>");

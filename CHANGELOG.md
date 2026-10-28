@@ -4,6 +4,9 @@ Released on Wednesday, October 28 2026.
 
 - Improved the render tree to inherit declarations from the parent's style instead of copying them to every element (e.g. thousands of custom properties on `:root`)
 - Improved merging declarations in the cascade, which was quadratic in the number of declarations
+- Improved blockifying (e.g. `position: absolute` or `float`) to not merge all inherited declarations into the element's computed style
+- Improved the cascade to also group rules by an attribute their subject requires (e.g. `[data-color-mode]`) and by the arguments of `:is()`, `:where()`, and `:matches()`, and to skip rules with an invalid selector
+- Improved substituting variables by reusing the parsed shorthand (e.g. `border: var(--w) solid var(--c)`) and the tokens of custom properties across elements
 - Improved matching `::before` and `::after` by grouping the rules targeting pseudo-elements by the id, class, or tag name of the element they belong to, instead of matching all of them against every element
 - Fixed a declaration starting with `*` (the IE7 hack `*zoom: 1`) being taken for a nested rule that swallowed the following declarations or the rest of the style sheet; it is dropped up to its semicolon
 - Added `CssParserOptions.IsNotResolvingRelativeUrls` to prevent resolving the relative URLs in linked and imported style sheets

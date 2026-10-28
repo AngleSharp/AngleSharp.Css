@@ -423,6 +423,27 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
+        /// Sets the given declaration as an own one, replacing the own declaration with the
+        /// same name, if any. An inherited declaration with the same name is shadowed, hence
+        /// in contrast to RemoveProperty the inherited declarations do not need to be merged.
+        /// </summary>
+        internal void ReplaceDeclaration(ICssProperty declaration)
+        {
+            EnsureWritable();
+            var index = IndexOf(declaration.Name, _declarations.Count);
+
+            if (index >= 0)
+            {
+                _declarations[index] = declaration;
+            }
+            else
+            {
+                _declarationIndex[declaration.Name] = _declarations.Count;
+                _declarations.Add(declaration);
+            }
+        }
+
+        /// <summary>
         /// Gets the declarations that are not just inherited from the parent, i.e., the
         /// own ones and the ones that explicitly inherit (e.g., "color: inherit").
         /// </summary>

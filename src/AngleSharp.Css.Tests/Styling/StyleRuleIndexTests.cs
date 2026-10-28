@@ -56,6 +56,27 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase(".parent { .child { color: green } }", "<div class=parent><p id=t class=child>A</p></div>")]
         [TestCase(".parent { & .child { color: green } }", "<div class=parent><p id=t class=child>A</p></div>")]
         [TestCase("@media screen { .a { color: green } }", "<p id=t class=a>A</p>")]
+        [TestCase("[data-x] { color: green }", "<p id=t data-x>A</p>")]
+        [TestCase("[DATA-X] { color: green }", "<p id=t data-x>A</p>")]
+        [TestCase("[data-x=\"a\"] { color: green }", "<p id=t data-x=a>A</p>")]
+        [TestCase("[data-x~=\"a\"] { color: green }", "<p id=t data-x='b a'>A</p>")]
+        [TestCase("[data-x|=\"a\"] { color: green }", "<p id=t data-x=a-b>A</p>")]
+        [TestCase("[data-x^=\"a\"] { color: green }", "<p id=t data-x=ab>A</p>")]
+        [TestCase("[data-x$=\"b\"] { color: green }", "<p id=t data-x=ab>A</p>")]
+        [TestCase("[data-x*=\"b\"] { color: green }", "<p id=t data-x=abc>A</p>")]
+        [TestCase("[data-x!=\"a\"] { color: green }", "<p id=t>A</p>")]
+        [TestCase("[*|data-x] { color: green }", "<p id=t data-x>A</p>")]
+        [TestCase(".a [data-x]:hover, [data-y] { color: green }", "<p id=t data-y>A</p>")]
+        [TestCase(":is(.x .a, #t) { color: green }", "<div id=t>A</div>")]
+        [TestCase(":is(.x, [data-y]) { color: green }", "<div id=t data-y>A</div>")]
+        [TestCase(":where(.x .a, div) { color: green }", "<div id=t>A</div>")]
+        [TestCase(":matches(.x, .b) { color: green }", "<div id=t class=b>A</div>")]
+        [TestCase(":is(:is(.x, .b)) { color: green }", "<div id=t class=b>A</div>")]
+        [TestCase(":is(.x, *) { color: green }", "<div id=t>A</div>")]
+        [TestCase(":is(.x, :not(.y)) { color: green }", "<div id=t>A</div>")]
+        [TestCase(".parent { :is(&) { color: green } }", "<p id=t class=parent>A</p>")]
+        [TestCase(".parent { :is(& .child, .x) { color: green } }", "<div class=parent><p id=t class=child>A</p></div>")]
+        [TestCase("! { color: red } .a { color: green }", "<p id=t class=a>A</p>")]
         public async Task RulesAreFoundViaTheirSubject(string css, string body)
         {
             var color = await ColorOfAsync(css, body);
@@ -66,11 +87,30 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase("#x.y { color: red }", "<p id=t class=y>A</p>")]
         [TestCase(".a span { color: red }", "<div class=a><b id=t>A</b></div>")]
         [TestCase(".a .b { color: red }", "<div class=b><p id=t class=a>A</p></div>")]
+        [TestCase("[data-x] { color: red }", "<p id=t data-y>A</p>")]
+        [TestCase(":is(.x .a, .b) { color: red }", "<p id=t class=a>A</p>")]
         public async Task RulesForOtherSubjectsDoNotApply(string css, string body)
         {
             var color = await ColorOfAsync(css, body);
 
             Assert.AreNotEqual("rgba(255, 0, 0, 1)", color);
+        }
+
+        [TestCase("[data-x] { color: red }", 0)]
+        [TestCase("[data-y] { color: red }", 1)]
+        [TestCase(":is(.x, .y) { color: red }", 0)]
+        [TestCase(":is(.x, .a) { color: red }", 1)]
+        [TestCase(":where(.x .y, #z) { color: red }", 0)]
+        [TestCase(":is(.x, :not(.y)) { color: red }", 1)]
+        [TestCase("! { color: red }", 0)]
+        public void OnlyRulesThatMayMatchAreCandidates(string css, int count)
+        {
+            var document = CssConstructionFunctions.ParseDocument($"<html><head><style>{css}</style></head><body><p id=t class=a data-y>A</p></body></html>");
+            var sheets = document.StyleSheets.OfType<ICssStyleSheet>().ToList();
+            var collection = new StyleCollection(Enumerable.Empty<ICssStyleSheet>(), sheets, new PlainRenderDevice());
+            var candidates = collection.GetIndex().GetCandidates(document.GetElementById("t"));
+
+            Assert.AreEqual(count, candidates.Count);
         }
 
         [Test]

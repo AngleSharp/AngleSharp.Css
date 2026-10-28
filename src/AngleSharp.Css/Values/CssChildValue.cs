@@ -16,6 +16,9 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _parent;
         private readonly ICssValue _value;
         private readonly String _shorthandName;
+        // the last substitution, which is usually the same for all elements (and
+        // longhands, as the value of a shorthand is shared by them)
+        private Substitution _substitution;
 
         #endregion
 
@@ -115,15 +118,51 @@ namespace AngleSharp.Css.Values
                 // Parse the substituted shorthand once its complete token stream
                 // is known, rather than feeding it to an individual longhand's
                 // converter and discarding the remaining components.
-                var parser = context.Context?.GetService<ICssParser>() ?? new CssParser(context.Context);
-                var declarations = parser.ParseDeclaration(shorthandName + ":" + text);
-                return declarations.GetProperty(longhandName)?.RawValue?.Compute(context);
+                var substitution = _substitution;
+
+                if (substitution is null || !substitution.Matches(context.Context, text))
+                {
+                    var parser = context.Context?.GetService<ICssParser>() ?? new CssParser(context.Context);
+                    var declarations = parser.ParseDeclaration(shorthandName + ":" + text);
+                    substitution = new Substitution(context.Context, text, declarations);
+                    _substitution = substitution;
+                }
+
+                return substitution.Declarations.GetProperty(longhandName)?.RawValue?.Compute(context);
             }
 
             return ((ICssValue)this).Compute(context);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssChildValue value && Equals(value);
+
+        #endregion
+
+        #region Substitution
+
+        /// <summary>
+        /// The (uncomputed) declarations parsed from the substituted shorthand, which
+        /// are only read. Immutable, such that it can be shared without synchronization.
+        /// </summary>
+        private sealed class Substitution
+        {
+            public Substitution(IBrowsingContext context, String text, ICssStyleDeclaration declarations)
+            {
+                Context = context;
+                Text = text;
+                Declarations = declarations;
+            }
+
+            // the parser (and hence the result) is determined by the context
+            public IBrowsingContext Context { get; }
+
+            public String Text { get; }
+
+            public ICssStyleDeclaration Declarations { get; }
+
+            public Boolean Matches(IBrowsingContext context, String text) =>
+                Object.ReferenceEquals(Context, context) && Text.Equals(text, StringComparison.Ordinal);
+        }
 
         #endregion
     }

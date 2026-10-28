@@ -15,6 +15,8 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly String _text;
+        // the tokens are only needed for substituting variables, but then for every element
+        private CssVariableValue _tokens;
 
         #endregion
 
@@ -32,6 +34,12 @@ namespace AngleSharp.Css.Values
         }
 
         internal Boolean IsResolved { get; }
+
+        /// <summary>
+        /// Gets the (immutable) token stream of the value, which is shared by all
+        /// elements the value is substituted for.
+        /// </summary>
+        internal CssVariableValue Tokens => _tokens ??= new CssVariableValue(_text);
 
         #endregion
 

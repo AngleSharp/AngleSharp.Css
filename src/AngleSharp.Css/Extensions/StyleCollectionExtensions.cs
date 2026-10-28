@@ -311,13 +311,13 @@ namespace AngleSharp.Css
                 var rules = collection.GetRules();
                 var defaultRuleCount = collection.GetDefaultRuleCount();
                 var candidates = collection.GetIndex().GetCandidates(element);
-                // sized for the candidates, of which many match, instead of growing step by step
-                matches = new List<RuleMatch>(candidates.Count);
+                // not sized for the candidates: the unkeyed rules (e.g., [data-theme] or :root)
+                // are candidates for every element, but only a few of them match
+                matches = new List<RuleMatch>();
 
                 // the candidates keep the order of the rules, as required by the cascade
-                for (var j = 0; j < candidates.Count; j++)
+                foreach (var i in candidates)
                 {
-                    var i = candidates[j];
                     MapPriority(rules[i], element, scope, i < defaultRuleCount, collection.GetLayerRank(i), matches);
                 }
             }

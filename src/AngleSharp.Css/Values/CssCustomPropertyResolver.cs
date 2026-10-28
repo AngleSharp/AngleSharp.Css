@@ -43,6 +43,7 @@ namespace AngleSharp.Css.Values
 
                     var values = value is CssReferenceValue references ? references.GetVariableValues().ToArray() :
                         value is null || value is CssInvalidValue ? Array.Empty<CssVariableValue>() :
+                        value is CssAnyValue any ? new[] { any.Tokens } :
                         new[] { new CssVariableValue(value.CssText) };
                     var keyword = values.Length == 1 ? values[0].Keyword : null;
 

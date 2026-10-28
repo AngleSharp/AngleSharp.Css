@@ -187,19 +187,18 @@ namespace AngleSharp.Css.Dom
         {
             if (style is CssStyleDeclaration declarations && IsBlockified(declarations, element))
             {
-                var current = declarations.GetProperty(PropertyNames.Display);
+                // display has neither shorthands nor is it inherited, i.e., there is nothing to
+                // derive: a missing declaration is the same as one without a value.
+                var current = declarations.GetDeclaration(PropertyNames.Display);
                 var value = Blockify(current?.RawValue);
 
                 if (value is not null)
                 {
                     var info = element.Owner.Context.GetDeclarationInfo(PropertyNames.Display);
 
-                    if (current is not null)
-                    {
-                        declarations.RemoveProperty(current);
-                    }
-
-                    declarations.AddProperty(new CssProperty(PropertyNames.Display, info.Converter, info.Flags, value, current?.IsImportant ?? false));
+                    // Replacing the own declaration avoids merging all the inherited declarations
+                    // (e.g., thousands of custom properties on :root) into this style.
+                    declarations.ReplaceDeclaration(new CssProperty(PropertyNames.Display, info.Converter, info.Flags, value, current?.IsImportant ?? false));
                 }
             }
 
@@ -213,8 +212,9 @@ namespace AngleSharp.Css.Dom
                 return true;
             }
 
-            var floating = style.GetPropertyValue(PropertyNames.Float);
-            var position = style.GetPropertyValue(PropertyNames.Position);
+            // neither has shorthands, i.e., nothing needs to be derived from other declarations
+            var floating = style.GetDeclaration(PropertyNames.Float)?.Value;
+            var position = style.GetDeclaration(PropertyNames.Position)?.Value ?? String.Empty;
             return (!String.IsNullOrEmpty(floating) && !floating.Isi(CssKeywords.None)) ||
                 position.Isi(CssKeywords.Absolute) || position.Isi(CssKeywords.Fixed);
         }
