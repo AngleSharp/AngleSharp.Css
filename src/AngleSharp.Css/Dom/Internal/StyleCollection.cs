@@ -101,7 +101,7 @@ namespace AngleSharp.Css.Dom
             var layers = new List<Layer>();
             AddRules(rules, layers, _defaultSheets);
             _defaultRuleCount = rules.Count;
-            AddRules(rules, layers, _sheets);
+            AddRules(rules, layers, WithoutEarlierDuplicates(_sheets));
             _layerRanks = layers.ConvertAll(m => m.Rank);
             return rules;
         }
@@ -120,6 +120,62 @@ namespace AngleSharp.Css.Dom
             }
 
             root.AssignRanks(0);
+        }
+
+        /// <summary>
+        /// Leaves out a style sheet linked again later on (e.g. a page linking its style sheets
+        /// twice). The later copy wins every tie the earlier one could, so the cascade stays the
+        /// same, but every element would be matched against both. Sheets with cascade layers
+        /// are kept, as layers are ordered by their first appearance.
+        /// </summary>
+        private static IEnumerable<ICssStyleSheet> WithoutEarlierDuplicates(IEnumerable<ICssStyleSheet> sheets)
+        {
+            var list = sheets as IReadOnlyList<ICssStyleSheet> ?? sheets.ToList();
+            var duplicates = default(HashSet<Int32>);
+            var seen = default(Dictionary<String, Int32>);
+
+            for (var i = list.Count - 1; i >= 0; i--)
+            {
+                var sheet = list[i];
+                var href = sheet.Href;
+
+                if (String.IsNullOrEmpty(href) || HasLayers(sheet.Rules))
+                {
+                    continue;
+                }
+
+                var key = String.Concat(href, "\n", sheet.Media.MediaText, "\n", sheet.IsDisabled ? "1" : "0", "\n", sheet.Rules.Length.ToString());
+                seen ??= new Dictionary<String, Int32>(StringComparer.Ordinal);
+
+                if (seen.ContainsKey(key))
+                {
+                    (duplicates ??= new HashSet<Int32>()).Add(i);
+                }
+                else
+                {
+                    seen.Add(key, i);
+                }
+            }
+
+            if (duplicates is null)
+            {
+                return list;
+            }
+
+            return list.Where((_, index) => !duplicates.Contains(index));
+        }
+
+        private static Boolean HasLayers(ICssRuleList rules)
+        {
+            foreach (var rule in rules)
+            {
+                if (rule is ICssLayerRule || (rule is ICssGroupingRule group && HasLayers(group.Rules)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void AddRules(List<ICssStyleRule> rules, List<Layer> layers, ICssRuleList list, Layer layer)

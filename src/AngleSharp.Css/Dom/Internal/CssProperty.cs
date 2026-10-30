@@ -23,6 +23,7 @@ namespace AngleSharp.Css.Dom
 
         private Boolean _important;
         private ICssValue _value;
+        private KeywordState _keyword;
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace AngleSharp.Css.Dom
         public ICssValue RawValue
         {
             get => _value;
-            set => _value = value;
+            set => SetValue(value);
         }
 
         public String Value
@@ -61,12 +62,12 @@ namespace AngleSharp.Css.Dom
 
                     if (parsed != null && source.IsDone && parsed is not CssVarValue)
                     {
-                        _value = parsed;
+                        SetValue(parsed);
                         return;
                     }
                 }
 
-                _value = _converter.Convert(value);
+                SetValue(_converter.Convert(value));
             }
         }
 
@@ -74,13 +75,20 @@ namespace AngleSharp.Css.Dom
 
         public PropertyFlags Flags => _flags;
 
-        public Boolean IsInherited => (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (HasValue && _value.CssText.Is(CssKeywords.Inherit));
+        public Boolean IsInherited
+        {
+            get
+            {
+                var keyword = GetKeyword();
+                return keyword == KeywordState.Inherit || (keyword == KeywordState.Initial && CanBeInherited);
+            }
+        }
 
         public Boolean CanBeInherited => (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited;
 
         public Boolean IsAnimatable => (_flags & PropertyFlags.Animatable) == PropertyFlags.Animatable;
 
-        public Boolean IsInitial => !HasValue || _value.CssText.Is(CssKeywords.Initial);
+        public Boolean IsInitial => GetKeyword() == KeywordState.Initial;
 
         public Boolean IsShorthand => (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand;
 
@@ -108,6 +116,33 @@ namespace AngleSharp.Css.Dom
 
         #region Methods
 
+        private void SetValue(ICssValue value)
+        {
+            _value = value;
+            _keyword = KeywordState.Unknown;
+        }
+
+        private KeywordState GetKeyword()
+        {
+            if (_keyword == KeywordState.Unknown)
+            {
+                _keyword = _value switch
+                {
+                    null => KeywordState.Initial,
+                    CssInitialValue => KeywordState.Initial,
+                    CssInheritValue => KeywordState.Inherit,
+                    _ => _value.CssText switch
+                    {
+                        var text when text.Is(CssKeywords.Initial) => KeywordState.Initial,
+                        var text when text.Is(CssKeywords.Inherit) => KeywordState.Inherit,
+                        _ => KeywordState.Other,
+                    },
+                };
+            }
+
+            return _keyword;
+        }
+
         public ICssProperty Compute(ICssComputeContext context)
         {
             var propertyContext = new PropertyComputeContext(context, _converter, _name);
@@ -122,6 +157,18 @@ namespace AngleSharp.Css.Dom
             }
 
             return this;
+        }
+
+        #endregion
+
+        #region Keyword State
+
+        private enum KeywordState : Byte
+        {
+            Unknown,
+            Initial,
+            Inherit,
+            Other,
         }
 
         #endregion

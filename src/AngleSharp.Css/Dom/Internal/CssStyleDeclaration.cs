@@ -18,11 +18,20 @@ namespace AngleSharp.Css.Dom
     {
         #region Fields
 
-        private readonly List<ICssProperty> _declarations;
-        private readonly Dictionary<String, Int32> _declarationIndex;
+        private List<ICssProperty> _declarations;
+        private Dictionary<String, Int32> _declarationIndex;
         private readonly IBrowsingContext _context;
         private ICssRule _parent;
         private Boolean _updating;
+
+        // The declarations inherited from the parent are not copied, but looked up in
+        // a snapshot of the parent until the full list is requested (see Materialize).
+        private Snapshot _inherited;
+        // Names of own declarations (e.g. "color: inherit") replaced by the parent's.
+        private HashSet<String> _forced;
+        // The snapshot of this declaration handed out to children; while it exists the
+        // lists above are shared with it and must be copied before they are modified.
+        private Snapshot _snapshot;
 
         #endregion
 
@@ -51,7 +60,14 @@ namespace AngleSharp.Css.Dom
 
         #region Index
 
-        public String this[Int32 index] => _declarations[index]?.Name;
+        public String this[Int32 index]
+        {
+            get
+            {
+                Materialize();
+                return _declarations[index]?.Name;
+            }
+        }
 
         public String this[String name] => GetPropertyValue(name);
 
@@ -59,7 +75,14 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
-        public IEnumerable<ICssProperty> Declarations => _declarations;
+        public IEnumerable<ICssProperty> Declarations
+        {
+            get
+            {
+                Materialize();
+                return _declarations;
+            }
+        }
 
         public String CssText
         {
@@ -69,7 +92,14 @@ namespace AngleSharp.Css.Dom
 
         public Boolean IsReadOnly => _context == null;
 
-        public Int32 Length => Declarations.Count();
+        public Int32 Length
+        {
+            get
+            {
+                Materialize();
+                return _declarations.Count;
+            }
+        }
 
         public ICssRule Parent => _parent;
 
@@ -86,15 +116,11 @@ namespace AngleSharp.Css.Dom
         public ICssProperty GetProperty(String name)
         {
             name = name.StartsWith("--", StringComparison.Ordinal) ? name : name.ToLowerFast();
+            var declaration = GetDeclaration(name);
 
-            if (_declarationIndex.TryGetValue(name, out var index) && index < _declarations.Count)
+            if (declaration is not null)
             {
-                var declaration = _declarations[index];
-
-                if (declaration.Name.Is(name))
-                {
-                    return declaration;
-                }
+                return declaration;
             }
 
             var related = GetPropertyFromShorthand(name);
@@ -116,6 +142,9 @@ namespace AngleSharp.Css.Dom
 
             if (!_updating)
             {
+                EnsureWritable();
+                _inherited = null;
+                _forced = null;
                 _declarations.Clear();
                 _declarationIndex.Clear();
 
@@ -313,6 +342,7 @@ namespace AngleSharp.Css.Dom
                         if (property.RawValue is not null)
                         {
                             property.IsImportant = priority is not null;
+                            Materialize();
                             SetProperty(property);
                             RaiseChanged();
                         }
@@ -327,6 +357,7 @@ namespace AngleSharp.Css.Dom
 
         public void AddProperty(ICssProperty declaration)
         {
+            EnsureWritable();
             _declarationIndex[declaration.Name] = _declarations.Count;
             _declarations.Add(declaration);
         }
@@ -335,8 +366,16 @@ namespace AngleSharp.Css.Dom
         {
             var index = _declarations.IndexOf(declaration);
 
+            if (index < 0 && _inherited is not null)
+            {
+                // the declaration may only be inherited
+                Materialize();
+                index = _declarations.IndexOf(declaration);
+            }
+
             if (index >= 0)
             {
+                EnsureWritable();
                 _declarations.RemoveAt(index);
                 RebuildIndex();
             }
@@ -346,16 +385,303 @@ namespace AngleSharp.Css.Dom
 
         #region Internal Methods
 
+        internal Boolean HasImportantDeclarations()
+        {
+            Materialize();
+
+            foreach (var declaration in _declarations)
+            {
+                if (declaration.IsImportant)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         internal void SetDeclarations(IEnumerable<ICssProperty> decls) =>
             ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
 
         internal void UpdateDeclarations(IEnumerable<ICssProperty> decls) =>
             ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited && !IsExplicitInitial(o));
 
+        /// <summary>
+        /// Gets the declaration with the given (normalized) name, if any. In contrast
+        /// to GetProperty no shorthand / longhand is derived from the other declarations.
+        /// </summary>
+        internal ICssProperty GetDeclaration(String name)
+        {
+            var index = IndexOf(name, _declarations.Count);
+
+            if (index >= 0)
+            {
+                return _declarations[index];
+            }
+
+            return _inherited is not null && MayInherit(name) ? Snapshot.Inherit(_inherited, _forced, name) : null;
+        }
+
+        /// <summary>
+        /// Whether a declaration with the given name may come from the parent: only an inherited
+        /// property, or one inheriting explicitly. Everything else would walk up the ancestors
+        /// just to drop what it finds, which a computed style is asked for constantly (e.g. for
+        /// every undeclared non-inherited longhand and its shorthands, by a renderer).
+        /// </summary>
+        private Boolean MayInherit(String name) =>
+            (_forced is not null && _forced.Contains(name)) ||
+            (_context.GetDeclarationInfo(name).Flags & PropertyFlags.Inherited) == PropertyFlags.Inherited;
+
+        /// <summary>
+        /// Sets the given declaration as an own one, replacing the own declaration with the
+        /// same name, if any. An inherited declaration with the same name is shadowed, hence
+        /// in contrast to RemoveProperty the inherited declarations do not need to be merged.
+        /// </summary>
+        internal void ReplaceDeclaration(ICssProperty declaration)
+        {
+            EnsureWritable();
+            var index = IndexOf(declaration.Name, _declarations.Count);
+
+            if (index >= 0)
+            {
+                _declarations[index] = declaration;
+            }
+            else
+            {
+                _declarationIndex[declaration.Name] = _declarations.Count;
+                _declarations.Add(declaration);
+            }
+        }
+
+        /// <summary>
+        /// Gets the declarations that are not just inherited from the parent, i.e., the
+        /// own ones and the ones that explicitly inherit (e.g., "color: inherit").
+        /// </summary>
+        internal IEnumerable<ICssProperty> GetLocalDeclarations()
+        {
+            if (_inherited is null || _forced is null)
+            {
+                return _declarations;
+            }
+
+            var local = new List<ICssProperty>(_declarations);
+
+            foreach (var name in _forced)
+            {
+                local.Add(Snapshot.Inherit(_inherited, _forced, name));
+            }
+
+            return local;
+        }
+
+        /// <summary>
+        /// Same as UpdateDeclarations with the declarations of the parent, but without
+        /// copying them: the inherited declarations are looked up in the parent instead,
+        /// until the full list is requested. The own declarations need to be complete.
+        /// </summary>
+        internal void InheritFrom(ICssStyleDeclaration parent)
+        {
+            if (parent is not CssStyleDeclaration style)
+            {
+                UpdateDeclarations(parent);
+                return;
+            }
+
+            Materialize();
+            EnsureWritable();
+            var snapshot = style.GetSnapshot();
+            var removed = false;
+
+            for (var i = 0; i < _declarations.Count; i++)
+            {
+                var declaration = _declarations[i];
+
+                if (declaration.IsInherited && !IsExplicitInitial(declaration) && snapshot.Find(declaration.Name) is not null)
+                {
+                    _declarations[i] = null;
+                    (_forced ??= new HashSet<String>(StringComparer.Ordinal)).Add(declaration.Name);
+                    removed = true;
+                }
+            }
+
+            if (removed)
+            {
+                _declarations.RemoveAll(m => m is null);
+                RebuildIndex();
+            }
+
+            _inherited = snapshot;
+        }
+
+        /// <summary>
+        /// Makes this declaration inherit the same declarations as the given one,
+        /// except the local ones (see GetLocalDeclarations), which need to be added.
+        /// </summary>
+        internal void InheritLike(CssStyleDeclaration style)
+        {
+            if (style._inherited is not null)
+            {
+                Materialize();
+                EnsureWritable();
+                _inherited = style._inherited;
+            }
+        }
+
         // IsInherited also holds for an explicit `initial` on an inherited property,
         // which must still resolve to the initial value rather than the parent's.
         private static Boolean IsExplicitInitial(ICssProperty property) =>
             property.RawValue is not null && property.RawValue.CssText.Is(CssKeywords.Initial);
+
+        #endregion
+
+        #region Inheritance
+
+        private Snapshot GetSnapshot() => _snapshot ??= new Snapshot(_declarations, _declarationIndex, _inherited, _forced);
+
+        /// <summary>
+        /// Copies the lists if they are shared with a snapshot, such that the snapshot
+        /// (i.e., what children inherited) is not changed by modifications.
+        /// </summary>
+        private void EnsureWritable()
+        {
+            if (_snapshot is not null)
+            {
+                _declarations = new List<ICssProperty>(_declarations);
+                _declarationIndex = new Dictionary<String, Int32>(_declarationIndex, StringComparer.Ordinal);
+                _forced = _forced is null ? null : new HashSet<String>(_forced, StringComparer.Ordinal);
+                _snapshot = null;
+            }
+        }
+
+        /// <summary>
+        /// Merges the inherited declarations into the own ones, which yields the same
+        /// list as UpdateDeclarations with the declarations of the parent would have.
+        /// </summary>
+        private void Materialize()
+        {
+            if (_inherited is not null)
+            {
+                var declarations = new List<ICssProperty>(_declarations);
+                var index = new Dictionary<String, Int32>(_declarationIndex, StringComparer.Ordinal);
+                Snapshot.Merge(declarations, index, _inherited.GetDeclarations(), _forced);
+                _declarations = declarations;
+                _declarationIndex = index;
+                _inherited = null;
+                _forced = null;
+                _snapshot = null;
+            }
+        }
+
+        /// <summary>
+        /// An immutable view of the declarations of a parent.
+        /// </summary>
+        private sealed class Snapshot
+        {
+            private readonly List<ICssProperty> _declarations;
+            private readonly Dictionary<String, Int32> _index;
+            private readonly Snapshot _parent;
+            private readonly HashSet<String> _forced;
+            private List<ICssProperty> _merged;
+
+            public Snapshot(List<ICssProperty> declarations, Dictionary<String, Int32> index, Snapshot parent, HashSet<String> forced)
+            {
+                _declarations = declarations;
+                _index = index;
+                _parent = parent;
+                _forced = forced;
+            }
+
+            /// <summary>
+            /// Finds the declaration with the given name, including the inherited ones.
+            /// </summary>
+            public ICssProperty Find(String name) => FindOwn(name) ?? (_parent is not null ? Inherit(_parent, _forced, name) : null);
+
+            /// <summary>
+            /// Gets the declaration that a child with the given forced names inherits
+            /// from the given parent.
+            /// </summary>
+            public static ICssProperty Inherit(Snapshot parent, HashSet<String> forced, String name)
+            {
+                // a non-inheritable declaration is only taken if forced on every level
+                var allForced = forced is not null && forced.Contains(name);
+
+                for (var current = parent; current is not null; current = current._parent)
+                {
+                    var declaration = current.FindOwn(name);
+
+                    if (declaration is not null)
+                    {
+                        return allForced || declaration.CanBeInherited ? declaration : null;
+                    }
+
+                    allForced = allForced && current._forced is not null && current._forced.Contains(name);
+                }
+
+                return null;
+            }
+
+            /// <summary>
+            /// Gets the full list of declarations, including the inherited ones.
+            /// </summary>
+            public List<ICssProperty> GetDeclarations()
+            {
+                if (_parent is null)
+                {
+                    return _declarations;
+                }
+
+                if (_merged is null)
+                {
+                    // resolve top-down without recursion, as the chain is as deep as the DOM
+                    var pending = new Stack<Snapshot>();
+
+                    for (var current = this; current._parent is not null && current._merged is null; current = current._parent)
+                    {
+                        pending.Push(current);
+                    }
+
+                    while (pending.Count > 0)
+                    {
+                        var current = pending.Pop();
+                        var declarations = new List<ICssProperty>(current._declarations);
+                        var index = new Dictionary<String, Int32>(current._index, StringComparer.Ordinal);
+                        Merge(declarations, index, current._parent.GetDeclarations(), current._forced);
+                        current._merged = declarations;
+                    }
+                }
+
+                return _merged;
+            }
+
+            public static void Merge(List<ICssProperty> declarations, Dictionary<String, Int32> index, List<ICssProperty> inherited, HashSet<String> forced)
+            {
+                foreach (var declaration in inherited)
+                {
+                    var name = declaration.Name;
+
+                    if (!index.ContainsKey(name) && (declaration.CanBeInherited || (forced is not null && forced.Contains(name))))
+                    {
+                        index[name] = declarations.Count;
+                        declarations.Add(declaration);
+                    }
+                }
+            }
+
+            private ICssProperty FindOwn(String name)
+            {
+                if (_index.TryGetValue(name, out var i) && i < _declarations.Count)
+                {
+                    var declaration = _declarations[i];
+
+                    if (declaration is not null && declaration.Name.Is(name))
+                    {
+                        return declaration;
+                    }
+                }
+
+                return null;
+            }
+        }
 
         #endregion
 
@@ -394,7 +720,7 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            return null;
+            return _inherited is not null && MayInherit(name) ? Snapshot.Inherit(_inherited, _forced, name) : null;
         }
 
         private void SetProperty(ICssProperty property)
@@ -414,6 +740,8 @@ namespace AngleSharp.Css.Dom
             propertyName = propertyName.StartsWith("--", StringComparison.Ordinal) ? propertyName : propertyName.ToLowerFast();
             var info = _context.GetDeclarationInfo(propertyName);
             var longhands = info.Longhands;
+            Materialize();
+            EnsureWritable();
 
             if (_declarationIndex.TryGetValue(propertyName, out var index) && index < _declarations.Count &&
                 _declarations[index].Name.Is(propertyName))
@@ -449,18 +777,27 @@ namespace AngleSharp.Css.Dom
                 return;
             }
 
-            var declarations = new List<ICssProperty>();
+            Materialize();
+            EnsureWritable();
+
+            // Replaced declarations are moved to the end. Instead of removing them one by one
+            // (shifting the list and invalidating the index each time) they are cleared and
+            // the list is compacted once, which keeps merging linear in the number of entries.
+            var count = _declarations.Count;
+            var removed = false;
 
             foreach (var newdecl in decls)
             {
                 var skip = defaultSkip(newdecl);
+                var idx = IndexOf(newdecl.Name, count);
 
-                if (_declarationIndex.TryGetValue(newdecl.Name, out var idx) && idx < _declarations.Count &&
-                    _declarations[idx].Name.Is(newdecl.Name))
+                if (idx >= 0)
                 {
                     if (removeExisting.Invoke(_declarations[idx], newdecl))
                     {
-                        _declarations.RemoveAt(idx);
+                        _declarations[idx] = null;
+                        _declarationIndex.Remove(newdecl.Name);
+                        removed = true;
                         skip = false;
                     }
                     else
@@ -468,42 +805,50 @@ namespace AngleSharp.Css.Dom
                         skip = true;
                     }
                 }
-                else
-                {
-                    for (var i = 0; i < _declarations.Count; i++)
-                    {
-                        var olddecl = _declarations[i];
-
-                        if (olddecl.Name.Is(newdecl.Name))
-                        {
-                            if (removeExisting.Invoke(olddecl, newdecl))
-                            {
-                                _declarations.RemoveAt(i);
-                                skip = false;
-                            }
-                            else
-                            {
-                                skip = true;
-                            }
-
-                            break;
-                        }
-                    }
-                }
 
                 if (!skip)
                 {
-                    declarations.Add(newdecl);
+                    _declarations.Add(newdecl);
                 }
             }
 
-            _declarations.AddRange(declarations);
+            if (removed)
+            {
+                _declarations.RemoveAll(m => m is null);
+                RebuildIndex();
+            }
+            else
+            {
+                for (var i = count; i < _declarations.Count; i++)
+                {
+                    _declarationIndex[_declarations[i].Name] = i;
+                }
+            }
+        }
 
-            RebuildIndex();
+        /// <summary>
+        /// Gets the index of the own declaration with the given name among the
+        /// first count entries, or -1 if there is none.
+        /// </summary>
+        private Int32 IndexOf(String name, Int32 count)
+        {
+            if (_declarationIndex.TryGetValue(name, out var index) && index < count)
+            {
+                var declaration = _declarations[index];
+
+                if (declaration is not null && declaration.Name.Is(name))
+                {
+                    return index;
+                }
+            }
+
+            return -1;
         }
 
         private void SetLonghand(ICssProperty property)
         {
+            EnsureWritable();
+
             if (_declarationIndex.TryGetValue(property.Name, out var index) && index < _declarations.Count)
             {
                 var declaration = _declarations[index];
@@ -550,10 +895,10 @@ namespace AngleSharp.Css.Dom
 
             foreach (var shorthandName in info.Shorthands)
             {
-                if (_declarationIndex.TryGetValue(shorthandName, out var index) && index < _declarations.Count)
-                {
-                    var shorthand = _declarations[index];
+                var shorthand = GetDeclaration(shorthandName);
 
+                if (shorthand is not null)
+                {
                     var shorthandInfo = factory.Create(shorthandName);
                     var rawValue = shorthand.RawValue ?? shorthandInfo.Converter.Convert(new StringSource(shorthand.Value));
 

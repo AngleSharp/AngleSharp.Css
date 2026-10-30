@@ -37,6 +37,15 @@ namespace AngleSharp.Css.Tests.Styling
 
         [TestCase("margin-top")]
         [TestCase("margin-bottom")]
+        public void FormHasNoMargins(string property)
+        {
+            // only a quirks mode form has a bottom margin; forms in grids (e.g. dev.to's sign-in
+            // buttons) were spaced apart
+            Assert.AreEqual(Computed("<!doctype html><div id=target>x</div>", property), Computed("<!doctype html><form id=target>x</form>", property));
+        }
+
+        [TestCase("margin-top")]
+        [TestCase("margin-bottom")]
         public void PreHasBlockMargins(string property)
         {
             Assert.AreEqual("16px", Computed("<pre id=target>x</pre>", property));

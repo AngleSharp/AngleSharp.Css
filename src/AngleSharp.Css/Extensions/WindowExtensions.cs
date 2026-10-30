@@ -71,6 +71,38 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Gets the width of the viewport in CSS pixels, as given by the render device.
+        /// </summary>
+        /// <param name="window">The window to extend with the functionality.</param>
+        /// <returns>The width of the viewport.</returns>
+        [DomName("innerWidth")]
+        [DomAccessor(Accessors.Getter)]
+        public static Int32 InnerWidth(this IWindow window) => window.GetRenderDevice().ViewPortWidth;
+
+        /// <summary>
+        /// Gets the height of the viewport in CSS pixels, as given by the render device.
+        /// </summary>
+        /// <param name="window">The window to extend with the functionality.</param>
+        /// <returns>The height of the viewport.</returns>
+        [DomName("innerHeight")]
+        [DomAccessor(Accessors.Getter)]
+        public static Int32 InnerHeight(this IWindow window) => window.GetRenderDevice().ViewPortHeight;
+
+        /// <summary>
+        /// Gets the ratio of device pixels to CSS pixels, derived from the resolution of the
+        /// render device (96 dpi being one device pixel per CSS pixel).
+        /// </summary>
+        /// <param name="window">The window to extend with the functionality.</param>
+        /// <returns>The device pixel ratio.</returns>
+        [DomName("devicePixelRatio")]
+        [DomAccessor(Accessors.Getter)]
+        public static Double DevicePixelRatio(this IWindow window)
+        {
+            var resolution = window.GetRenderDevice().Resolution;
+            return resolution > 0 ? resolution / 96.0 : 1.0;
+        }
+
+        /// <summary>
         /// Gives the values of all the CSS properties of an element after
         /// applying the active stylesheets and resolving any basic computation
         /// those values may contain.
@@ -82,7 +114,7 @@ namespace AngleSharp.Dom
         [DomName("getComputedStyle")]
         public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
-            var device = window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
+            var device = window.GetRenderDevice();
             var styleCollection = window.GetStyleCollection(device);
             return styleCollection.ComputeDeclarations(element, pseudo);
         }
@@ -137,5 +169,8 @@ namespace AngleSharp.Dom
             var builder = RenderTreeBuilder.GetInstance(window);
             return builder.RenderDocument(renderDevice);
         }
+
+        private static IRenderDevice GetRenderDevice(this IWindow window) =>
+            window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
     }
 }

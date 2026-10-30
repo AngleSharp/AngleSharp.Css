@@ -9,7 +9,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var interlace = ScanModeConverter.Convert(feature.Value);
+            var interlace = ScanModeConverter.Convert(feature);
 
             if (interlace != null)
             {

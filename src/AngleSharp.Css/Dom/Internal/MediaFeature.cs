@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
     using System;
@@ -20,6 +21,8 @@ namespace AngleSharp.Css.Dom
         private readonly ICssValue _value;
         private readonly IReadOnlyList<RangeComparison> _comparisons;
         private readonly String _rangeText;
+        private Tuple<IValueConverter, ICssValue> _conversion;
+        private MediaFeature[] _bounds;
 
         #endregion
 
@@ -74,6 +77,41 @@ namespace AngleSharp.Css.Dom
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Converts the value of the feature with the given converter. Media queries are
+        /// evaluated again for every style computation, so the result of the last converter
+        /// is kept instead of serializing and parsing the value over and over.
+        /// </summary>
+        /// <param name="converter">The converter to use.</param>
+        /// <returns>The converted value, if valid.</returns>
+        internal ICssValue ConvertValue(IValueConverter converter)
+        {
+            var conversion = _conversion;
+
+            if (conversion is null || !ReferenceEquals(conversion.Item1, converter))
+            {
+                conversion = Tuple.Create(converter, converter.Convert(Value));
+                _conversion = conversion;
+            }
+
+            return conversion.Item2;
+        }
+
+        /// <summary>
+        /// Gets the feature a comparison of the range syntax is evaluated as, i.e. the
+        /// min-, max-, or plain form of the feature with the value of the comparison.
+        /// </summary>
+        /// <param name="index">The index of the comparison.</param>
+        /// <param name="prefix">The prefix: min-, max-, or none.</param>
+        /// <returns>The feature to validate.</returns>
+        internal MediaFeature GetBound(Int32 index, String prefix)
+        {
+            var kind = prefix.Length == 0 ? 0 : prefix[1] == 'i' ? 1 : 2;
+            var bounds = _bounds ??= new MediaFeature[_comparisons.Count * 3];
+            var slot = index * 3 + kind;
+            return bounds[slot] ??= new MediaFeature(prefix + Name, _comparisons[index].Value);
+        }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {

@@ -146,6 +146,7 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase("font-style", "oblique 10deg", "oblique 10deg")]
         [TestCase("font-variant-numeric", "tabular-nums", "tabular-nums")]
         [TestCase("font-variant-ligatures", "none", "none")]
+        [TestCase("font-variant-east-asian", "proportional-width", "proportional-width")]
         [TestCase("overflow-wrap", "anywhere", "anywhere")]
         [TestCase("word-wrap", "anywhere", "anywhere")]
         [TestCase("white-space", "break-spaces", "break-spaces")]

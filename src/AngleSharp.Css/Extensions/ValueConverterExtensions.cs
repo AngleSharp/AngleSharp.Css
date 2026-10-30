@@ -6,6 +6,7 @@ namespace AngleSharp.Css.Converters
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Text;
     using static ValueConverters;
 
     /// <summary>
@@ -13,6 +14,13 @@ namespace AngleSharp.Css.Converters
     /// </summary>
     static class ValueConverterExtensions
     {
+        /// <summary>
+        /// Converts the value of the given media feature, reusing the conversion of an earlier
+        /// evaluation where possible.
+        /// </summary>
+        internal static ICssValue? Convert(this IValueConverter converter, IMediaFeature feature) =>
+            feature is MediaFeature known ? known.ConvertValue(converter) : converter.Convert(feature.Value);
+
         public static ICssValue? Convert(this IValueConverter converter, String value)
         {
             var source = new StringSource(value);
@@ -74,26 +82,33 @@ namespace AngleSharp.Css.Converters
         public static String Join<T>(this IEnumerable<T> values, String separator)
             where T : ICssValue
         {
-            var buffer = StringBuilderPool.Obtain();
-            var previous = false;
+            // Serialized for every property read of a computed style, and nearly all lists hold a
+            // single entry or two (e.g. one background layer, a tuple of two lengths), which need
+            // no buffer at all.
+            var first = default(String);
+            var buffer = default(StringBuilder);
 
             foreach (var value in values)
             {
                 var str = value?.CssText;
 
-                if (!String.IsNullOrEmpty(str))
+                if (String.IsNullOrEmpty(str))
                 {
-                    if (previous)
-                    {
-                        buffer.Append(separator);
-                    }
+                    continue;
+                }
 
-                    buffer.Append(str);
-                    previous = true;
+                if (first is null)
+                {
+                    first = str;
+                }
+                else
+                {
+                    buffer ??= StringBuilderPool.Obtain().Append(first);
+                    buffer.Append(separator).Append(str);
                 }
             }
 
-            return buffer.ToPool();
+            return buffer?.ToPool() ?? first ?? String.Empty;
         }
     }
 }

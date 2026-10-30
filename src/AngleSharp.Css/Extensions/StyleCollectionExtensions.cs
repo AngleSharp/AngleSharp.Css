@@ -259,7 +259,7 @@ namespace AngleSharp.Css
 
             foreach (var match in matches)
             {
-                if (!match.IsDefault && match.Rule.Style.Any(m => m.IsImportant))
+                if (!match.IsDefault && HasImportant(match.Rule.Style))
                 {
                     important ??= new List<RuleMatch>();
                     layered = layered || (important.Count > 0 && important[0].LayerRank != match.LayerRank);
@@ -277,6 +277,10 @@ namespace AngleSharp.Css
                 }
             }
         }
+
+        private static Boolean HasImportant(ICssStyleDeclaration style) => style is CssStyleDeclaration declaration ?
+            declaration.HasImportantDeclarations() :
+            style.Any(m => m.IsImportant);
 
         private static List<RuleMatch> MatchHost(StyleCollection shadowStyles, IElement host)
         {
@@ -300,21 +304,27 @@ namespace AngleSharp.Css
             // Resolving the scope once is equivalent to letting every TryMatch call
             // fall back to it, but avoids re-reading DocumentElement per rule.
             var scope = (styles as StyleCollection)?.Scope ?? element.Owner?.DocumentElement;
-            var matches = new List<RuleMatch>();
+            List<RuleMatch> matches;
 
             if (styles is StyleCollection collection)
             {
                 var rules = collection.GetRules();
                 var defaultRuleCount = collection.GetDefaultRuleCount();
+                var candidates = collection.GetIndex().GetCandidates(element);
+                // not sized for the candidates: the unkeyed rules (e.g., [data-theme] or :root)
+                // are candidates for every element, but only a few of them match
+                matches = new List<RuleMatch>();
 
                 // the candidates keep the order of the rules, as required by the cascade
-                foreach (var i in collection.GetIndex().GetCandidates(element))
+                foreach (var i in candidates)
                 {
                     MapPriority(rules[i], element, scope, i < defaultRuleCount, collection.GetLayerRank(i), matches);
                 }
             }
             else
             {
+                matches = new List<RuleMatch>();
+
                 foreach (var rule in styles)
                 {
                     MapPriority(rule, element, scope, false, 0, matches);

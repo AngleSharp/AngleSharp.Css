@@ -23,7 +23,7 @@ namespace AngleSharp.Css.FeatureValidators
                 return PreferenceFeatureValidator.Matches(feature, preference, CssKeywords.None);
             }
 
-            var hover = HoverAbilityConverter.Convert(feature.Value);
+            var hover = HoverAbilityConverter.Convert(feature);
 
             if (hover != null)
             {

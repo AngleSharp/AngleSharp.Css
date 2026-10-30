@@ -903,6 +903,11 @@ namespace AngleSharp.Css
         public static readonly String FontVariantLigatures = "font-variant-ligatures";
 
         /// <summary>
+        /// The font-variant-east-asian declaration.
+        /// </summary>
+        public static readonly String FontVariantEastAsian = "font-variant-east-asian";
+
+        /// <summary>
         /// The font-weight declaration.
         /// </summary>
         public static readonly String FontWeight = "font-weight";

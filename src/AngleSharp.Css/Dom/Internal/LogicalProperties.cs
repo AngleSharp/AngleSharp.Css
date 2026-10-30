@@ -34,7 +34,8 @@ namespace AngleSharp.Css.Dom
             List<ICssProperty>? logical = null;
             var order = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (var property in declarations.Declarations)
+            // logical properties are not inherited, so only the local declarations matter
+            foreach (var property in declarations.GetLocalDeclarations())
             {
                 order[property.Name] = order.Count;
 

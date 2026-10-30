@@ -3,9 +3,12 @@ namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser.Tokens;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
@@ -536,6 +539,35 @@ namespace AngleSharp.Css.Parser
             return rule;
         }
 
+        /// <summary>
+        /// Creates a style rule nested in the declarations of another one. Its prelude ends at a
+        /// semicolon or at the end of the enclosing block (CSS Syntax 3, consume a qualified rule
+        /// with nested set): the rule is then dropped, and the declarations continue after it,
+        /// e.g. after the IE hack <c>*zoom: 1;</c> - before, the rest of the style sheet was lost.
+        /// </summary>
+        private CssStyleRule CreateNestedStyle(CssStyleRule rule, ref CssToken current)
+        {
+            CollectTrivia(rule.Owner, ref current);
+            var position = current.Position;
+            var selectorText = GetArgument(ref current);
+
+            if (current.Type != CssTokenType.CurlyBracketOpen)
+            {
+                RaiseErrorOccurred(CssParseError.InvalidToken, position);
+                return null;
+            }
+
+            rule.SelectorText = selectorText;
+
+            if (rule.Selector is null && _options.IsToleratingInvalidSelectors)
+            {
+                rule.SetInvalidSelector(selectorText);
+            }
+
+            FillDeclarations(rule.Owner, rule.Style, NextToken());
+            return rule;
+        }
+
         public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
             CollectTrivia(rule.Owner, ref current);
@@ -741,7 +773,7 @@ namespace AngleSharp.Css.Parser
                     rule.IsNested = true;
                     return new ReferencedNestedSelector(style.Selector);
                 });
-                var result = CreateStyle(rule, token);
+                var result = CreateNestedStyle(rule, ref token);
                 factory.Unregister("&");
 
                 if (previous is not null)
@@ -753,8 +785,13 @@ namespace AngleSharp.Css.Parser
                 {
                     style.Add(result);
                     token = NextToken();
-                    return;
                 }
+                else if (token.Type == CssTokenType.Semicolon)
+                {
+                    token = NextToken();
+                }
+
+                return;
             }
 
             if (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose, CssTokenType.Colon) &&
@@ -791,6 +828,11 @@ namespace AngleSharp.Css.Parser
                     }
                     else
                     {
+                        if (!_options.IsNotResolvingRelativeUrls)
+                        {
+                            value = ResolveRelativeUrls(owner, value);
+                        }
+
                         properties.SetProperty(name, value, important ? CssKeywords.Important : null);
                     }
                 }
@@ -947,6 +989,45 @@ namespace AngleSharp.Css.Parser
 
             return value.Substring(0, end);
         }
+
+        /// <summary>
+        /// Resolves the relative URLs of a declaration's value against the address of a linked
+        /// or imported style sheet; those of a style element refer to the document anyway.
+        /// </summary>
+        private static String ResolveRelativeUrls(ICssStyleSheet owner, String value)
+        {
+            if (value.IndexOf("url(", StringComparison.OrdinalIgnoreCase) < 0 ||
+                String.IsNullOrEmpty(owner?.Href) ||
+                owner.OwnerNode is IHtmlStyleElement)
+            {
+                return value;
+            }
+
+            var baseUrl = new Url(owner.Href);
+
+            if (baseUrl.IsInvalid)
+            {
+                return value;
+            }
+
+            return UrlPattern.Replace(value, match =>
+            {
+                var path = match.Groups["path"].Value;
+
+                if (path.Length == 0 || path.StartsWith("data:", StringComparison.OrdinalIgnoreCase) || path.StartsWith("#", StringComparison.Ordinal))
+                {
+                    return match.Value;
+                }
+
+                var url = new Url(baseUrl, path);
+                var quote = match.Groups["quote"].Value;
+                return url.IsInvalid ? match.Value : String.Concat("url(", quote, url.Href, quote, ")");
+            });
+        }
+
+        private static readonly Regex UrlPattern = new Regex(
+            @"url\(\s*(?<quote>[""']?)(?<path>[^""')]*)\k<quote>\s*\)",
+            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
         private String GetArgument(ref CssToken token)
         {

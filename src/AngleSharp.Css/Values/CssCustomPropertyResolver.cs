@@ -8,10 +8,15 @@ namespace AngleSharp.Css.Values
     sealed class CssCustomPropertyResolver
     {
         private readonly Dictionary<String, ICssValue?> _values = new(StringComparer.Ordinal);
+        private readonly CssStyleDeclaration? _parent;
 
         public CssCustomPropertyResolver(IEnumerable<ICssProperty> properties, ICssProperties? parent = null)
         {
-            if (parent is not null)
+            // the custom properties of the parent are looked up on demand instead of copied,
+            // as there may be thousands of them (e.g., design tokens on :root)
+            _parent = parent as CssStyleDeclaration;
+
+            if (parent is not null && _parent is null)
             {
                 foreach (var property in parent)
                 {
@@ -38,6 +43,7 @@ namespace AngleSharp.Css.Values
 
                     var values = value is CssReferenceValue references ? references.GetVariableValues().ToArray() :
                         value is null || value is CssInvalidValue ? Array.Empty<CssVariableValue>() :
+                        value is CssAnyValue any ? new[] { any.Tokens } :
                         new[] { new CssVariableValue(value.CssText) };
                     var keyword = values.Length == 1 ? values[0].Keyword : null;
 
@@ -158,7 +164,21 @@ namespace AngleSharp.Css.Values
             }
         }
 
-        public ICssValue? Resolve(String name) => _values.TryGetValue(name, out var value) ? value : null;
+        public ICssValue? Resolve(String name)
+        {
+            if (_values.TryGetValue(name, out var value))
+            {
+                return value;
+            }
+
+            if (_parent is not null && name.StartsWith("--", StringComparison.Ordinal))
+            {
+                var inherited = _parent.GetDeclaration(name)?.RawValue;
+                return inherited is CssInvalidValue ? null : inherited;
+            }
+
+            return null;
+        }
 
         private sealed class Node
         {

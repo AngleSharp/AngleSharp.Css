@@ -49,5 +49,18 @@ namespace AngleSharp.Css.Parser
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets if relative URLs in the declarations of a style
+        /// sheet with an address of its own (linked or imported) should
+        /// not be resolved against that address, as browsers do. Otherwise
+        /// they stay as written and resolve against the document. Enabled
+        /// by default.
+        /// </summary>
+        public Boolean IsNotResolvingRelativeUrls
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1098,6 +1098,13 @@ namespace AngleSharp.Css
                     flags: FontVariantNumericDeclaration.Flags)
             },
             {
+                FontVariantEastAsianDeclaration.Name, new DeclarationInfo(
+                    name: FontVariantEastAsianDeclaration.Name,
+                    converter: FontVariantEastAsianDeclaration.Converter,
+                    initialValue: FontVariantEastAsianDeclaration.InitialValue,
+                    flags: FontVariantEastAsianDeclaration.Flags)
+            },
+            {
                 FontVariantLigaturesDeclaration.Name, new DeclarationInfo(
                     name: FontVariantLigaturesDeclaration.Name,
                     converter: FontVariantLigaturesDeclaration.Converter,
