@@ -9,7 +9,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var res = ResolutionConverter.Convert(feature.Value);
+            var res = ResolutionConverter.Convert(feature);
 
             if (res != null)
             {

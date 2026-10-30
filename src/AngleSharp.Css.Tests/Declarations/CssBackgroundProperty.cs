@@ -17,6 +17,19 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.AreEqual(expected, property.Value);
         }
 
+        [TestCase("background: center no-repeat", "center", "no-repeat")]
+        [TestCase("background: red center no-repeat", "center", "no-repeat")]
+        [TestCase("background: center red", "center", "initial")]
+        [TestCase("background: url(i.svg) center center no-repeat", "center", "no-repeat")]
+        [TestCase("background: left top repeat-x", "left top", "repeat-x")]
+        public void CssBackgroundPositionFollowedByOtherValuesLegal(string snippet, string position, string repeat)
+        {
+            // a keyword after a single position keyword used to be taken for its second component
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual(position, style.GetPropertyValue("background-position"));
+            Assert.AreEqual(repeat, style.GetPropertyValue("background-repeat"));
+        }
+
         [Test]
         public void CssBackgroundSizeCoverTest()
         {

@@ -23,7 +23,7 @@ namespace AngleSharp.Css.FeatureValidators
                 return PreferenceFeatureValidator.Matches(feature, preference, CssKeywords.None);
             }
 
-            var accuracy = PointerAccuracyConverter.Convert(feature.Value);
+            var accuracy = PointerAccuracyConverter.Convert(feature);
 
             if (accuracy != null)
             {

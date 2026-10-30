@@ -84,6 +84,7 @@ namespace AngleSharp.Css.Parser
             var x = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var y = new CssLengthValue(50f, CssLengthValue.Unit.Percent);
             var l = source.ParseIdent();
+            var afterLeft = source.Index;
             source.SkipSpacesAndComments();
             var r = source.ParseIdent();
 
@@ -102,8 +103,14 @@ namespace AngleSharp.Css.Parser
                     y = KeywordToLength(r).Value;
                     return new CssPoint2D(x, y);
                 }
+
+                // Not a second component, e.g. the repeat in `background: center no-repeat`.
+                source.BackTo(afterLeft);
+                source.SkipSpacesAndComments();
+                r = null;
             }
-            else if (l != null)
+
+            if (r == null && l != null)
             {
                 var s = source.ParseDistanceOrCalc();
 

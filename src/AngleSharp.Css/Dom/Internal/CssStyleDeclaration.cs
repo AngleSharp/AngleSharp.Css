@@ -419,8 +419,18 @@ namespace AngleSharp.Css.Dom
                 return _declarations[index];
             }
 
-            return _inherited is not null ? Snapshot.Inherit(_inherited, _forced, name) : null;
+            return _inherited is not null && MayInherit(name) ? Snapshot.Inherit(_inherited, _forced, name) : null;
         }
+
+        /// <summary>
+        /// Whether a declaration with the given name may come from the parent: only an inherited
+        /// property, or one inheriting explicitly. Everything else would walk up the ancestors
+        /// just to drop what it finds, which a computed style is asked for constantly (e.g. for
+        /// every undeclared non-inherited longhand and its shorthands, by a renderer).
+        /// </summary>
+        private Boolean MayInherit(String name) =>
+            (_forced is not null && _forced.Contains(name)) ||
+            (_context.GetDeclarationInfo(name).Flags & PropertyFlags.Inherited) == PropertyFlags.Inherited;
 
         /// <summary>
         /// Sets the given declaration as an own one, replacing the own declaration with the
@@ -710,7 +720,7 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            return _inherited is not null ? Snapshot.Inherit(_inherited, _forced, name) : null;
+            return _inherited is not null && MayInherit(name) ? Snapshot.Inherit(_inherited, _forced, name) : null;
         }
 
         private void SetProperty(ICssProperty property)

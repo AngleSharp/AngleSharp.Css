@@ -34,9 +34,17 @@ namespace AngleSharp.Css.Dom
 
             AssociatedValidators.TryGetValue(feature, out var validator);
 
-            if (validator is not null && feature is MediaFeature { Comparisons: { } comparisons })
+            if (validator is not null && feature is MediaFeature { Comparisons: { } comparisons } range)
             {
-                return comparisons.All(m => validator.Validate(feature.Name, m, device));
+                for (var i = 0; i < comparisons.Count; i++)
+                {
+                    if (!validator.Validate(range, i, device))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             return validator?.Validate(feature, device) ?? false;
@@ -46,13 +54,13 @@ namespace AngleSharp.Css.Dom
         /// Evaluates a comparison of the range syntax with what the validators know: the min- and
         /// max- prefixed (inclusive) forms of the feature and the plain one (equality).
         /// </summary>
-        private static Boolean Validate(this IFeatureValidator validator, String name, MediaFeature.RangeComparison comparison, IRenderDevice device)
+        private static Boolean Validate(this IFeatureValidator validator, MediaFeature feature, Int32 index, IRenderDevice device)
         {
-            Boolean AtLeast() => validator.Validate(new MediaFeature($"min-{name}", comparison.Value), device);
-            Boolean AtMost() => validator.Validate(new MediaFeature($"max-{name}", comparison.Value), device);
-            Boolean Equal() => validator.Validate(new MediaFeature(name, comparison.Value), device);
+            Boolean AtLeast() => validator.Validate(feature.GetBound(index, "min-"), device);
+            Boolean AtMost() => validator.Validate(feature.GetBound(index, "max-"), device);
+            Boolean Equal() => validator.Validate(feature.GetBound(index, String.Empty), device);
 
-            return comparison.Operator switch
+            return feature.Comparisons[index].Operator switch
             {
                 ">=" => AtLeast(),
                 "<=" => AtMost(),

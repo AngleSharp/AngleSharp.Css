@@ -9,7 +9,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var length = LengthConverter.Convert(feature.Value);
+            var length = LengthConverter.Convert(feature);
 
             if (length != null)
             {

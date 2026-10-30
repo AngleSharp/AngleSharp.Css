@@ -9,7 +9,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var portrait = OrientationModeConverter.Convert(feature.Value);
+            var portrait = OrientationModeConverter.Convert(feature);
 
             if (portrait != null)
             {

@@ -9,7 +9,7 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var frequency = UpdateFrequencyConverter.Convert(feature.Value);
+            var frequency = UpdateFrequencyConverter.Convert(feature);
 
             if (frequency != null)
             {

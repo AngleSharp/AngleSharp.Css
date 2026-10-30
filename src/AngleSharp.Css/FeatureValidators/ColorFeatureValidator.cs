@@ -12,7 +12,7 @@ namespace AngleSharp.Css.FeatureValidators
         {
             var defaultValue = new CssLengthValue(1.0, CssLengthValue.Unit.None);
             var converter = feature.IsMinimum || feature.IsMaximum ? PositiveIntegerConverter : PositiveIntegerConverter.Option(defaultValue);
-            var color = converter.Convert(feature.Value);
+            var color = converter.Convert(feature);
 
             if (color != null)
             {

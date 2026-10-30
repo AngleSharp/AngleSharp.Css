@@ -8,9 +8,16 @@ Released on Wednesday, October 28 2026.
 - Improved the cascade to also group rules by an attribute their subject requires (e.g. `[data-color-mode]`) and by the arguments of `:is()`, `:where()`, and `:matches()`, and to skip rules with an invalid selector
 - Improved substituting variables by reusing the parsed shorthand (e.g. `border: var(--w) solid var(--c)`) and the tokens of custom properties across elements
 - Improved matching `::before` and `::after` by grouping the rules targeting pseudo-elements by the id, class, or tag name of the element they belong to, instead of matching all of them against every element
+- Improved reading a property of a computed style that is neither declared nor inherited (e.g. `border-bottom-width`), which looked through the declarations of all ancestors, and of the shorthands containing it, only to discard what it found
+- Improved serializing lists of a single entry or two (e.g. one background layer), which needed no buffer
+- Improved evaluating media queries, which serialized and parsed the value of every feature (e.g. `(min-width: 768px)`) again for each style computation
+- Improved the cascade to leave out a style sheet linked again later (e.g. dev.to links each of its style sheets twice), which the later copy overrides anyway
 - Fixed a declaration starting with `*` (the IE7 hack `*zoom: 1`) being taken for a nested rule that swallowed the following declarations or the rest of the style sheet; it is dropped up to its semicolon
+- Fixed a `background` shorthand with a single position keyword followed by another value (e.g. `background: url(i.svg) center no-repeat` or `center red`) being dropped as invalid
+- Fixed forms having a vertical margin (`1.12em`), which only quirks mode gives them
 - Added `CssParserOptions.IsNotResolvingRelativeUrls` to prevent resolving the relative URLs in linked and imported style sheets
 - Added `font-variant-east-asian` (`normal`, `jis78`/`jis83`/`jis90`/`jis04`/`simplified`/`traditional`, `full-width`/`proportional-width`, `ruby`), which used to be dropped as an unknown property
+- Added `innerWidth`, `innerHeight`, and `devicePixelRatio` to the window, taken from the render device
 
 # 1.2.2
 
