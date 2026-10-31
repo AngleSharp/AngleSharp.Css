@@ -170,6 +170,25 @@ namespace AngleSharp.Dom
             return builder.RenderDocument(renderDevice);
         }
 
+        /// <summary>
+        /// Renders the element and its subtree again, below the render node of its parent from an
+        /// earlier render tree, which stays as it is. This is for a change confined to the subtree
+        /// (e.g. the inline style of the element), where rendering the whole document again would
+        /// give the same nodes for everything else.
+        ///
+        /// In case no render device is supplied the context's default render device is chosen.
+        /// </summary>
+        /// <param name="window">The window to extend.</param>
+        /// <param name="element">The element to render.</param>
+        /// <param name="parent">The render node of the element's parent.</param>
+        /// <param name="renderDevice">The device for rendering, if any.</param>
+        /// <returns>The created render node, whose parent is the given one.</returns>
+        public static ElementRenderNode Render(this IWindow window, IElement element, ElementRenderNode parent, IRenderDevice? renderDevice = null)
+        {
+            var builder = RenderTreeBuilder.GetInstance(window);
+            return builder.RenderElement(element, parent, renderDevice ?? builder.DefaultDevice);
+        }
+
         private static IRenderDevice GetRenderDevice(this IWindow window) =>
             window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
     }

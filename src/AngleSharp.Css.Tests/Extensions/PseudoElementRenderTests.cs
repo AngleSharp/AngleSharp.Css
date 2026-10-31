@@ -48,6 +48,25 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void ElementRenderedAgainBelowItsParentTakesItsNewStyleAndInherits()
+        {
+            var document = ParseDocument("<html><head><style>#parent { color: red } #target { display: none } #target::before { content: 'x' }</style></head>" +
+                "<body><div id=parent><div id=target><span id=child>text</span></div></div></body></html>");
+            var window = document.DefaultView;
+            var root = (ElementRenderNode)window.Render(new PlainRenderDevice());
+            var parent = FindElement(root, "parent");
+            var target = document.GetElementById("target");
+            target.SetAttribute("style", "display: block");
+
+            var node = window.Render(target, parent, new PlainRenderDevice());
+
+            Assert.AreSame(parent, node.Parent);
+            Assert.AreEqual("block", node.ComputedStyle.GetDisplay());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", FindElement(node, "child").ComputedStyle.GetColor());
+            Assert.IsInstanceOf<IPseudoElement>(node.Children.OfType<ElementRenderNode>().First().Ref);
+        }
+
+        [Test]
         public void BeforePseudoElementIsTheFirstChildWithItsGeneratedTextContent()
         {
             var root = Render("<html><head><style>#target::before { content: \"PREFIX-\"; }</style></head>" +
