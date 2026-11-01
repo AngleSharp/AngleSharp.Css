@@ -47,6 +47,12 @@ namespace AngleSharp.Css.Parser
         private readonly IBrowsingContext _context;
         private CssRuleList _commentRuleTarget;
 
+        // The blocks that hold rules are parsed recursively, one set of frames per level, so the
+        // depth is capped (CssParserOptions.MaxNestingDepth) to keep a hostile style sheet from
+        // overflowing the stack. Counted: grouping rules and style rules (nested style rules).
+        private readonly Int32 _maxDepth;
+        private Int32 _depth;
+
         #endregion
 
         #region ctor
@@ -56,6 +62,7 @@ namespace AngleSharp.Css.Parser
             _tokenizer = tokenizer;
             _options = options;
             _context = context;
+            _maxDepth = options.MaxNestingDepth > 0 ? options.MaxNestingDepth : CssParserOptions.DefaultMaxNestingDepth;
         }
 
         #endregion
@@ -64,6 +71,13 @@ namespace AngleSharp.Css.Parser
 
         public ICssRule CreateRule(ICssStyleSheet sheet, CssToken token)
         {
+            if (_depth > _maxDepth)
+            {
+                RaiseErrorOccurred(CssParseError.NestingTooDeep, token.Position);
+                JumpToRuleEnd(ref token);
+                return null;
+            }
+
             switch (token.Type)
             {
                 case CssTokenType.AtKeyword:
@@ -535,7 +549,10 @@ namespace AngleSharp.Css.Parser
                 return null;
             }
 
+            // the declarations may hold nested style rules
+            _depth++;
             FillDeclarations(rule.Owner, rule.Style, NextToken());
+            _depth--;
             return rule;
         }
 
@@ -557,6 +574,15 @@ namespace AngleSharp.Css.Parser
                 return null;
             }
 
+            if (_depth > _maxDepth)
+            {
+                // drop the rule with its block; the declarations continue after it
+                RaiseErrorOccurred(CssParseError.NestingTooDeep, position);
+                SkipBlock();
+                current = NextToken();
+                return null;
+            }
+
             rule.SelectorText = selectorText;
 
             if (rule.Selector is null && _options.IsToleratingInvalidSelectors)
@@ -564,7 +590,9 @@ namespace AngleSharp.Css.Parser
                 rule.SetInvalidSelector(selectorText);
             }
 
+            _depth++;
             FillDeclarations(rule.Owner, rule.Style, NextToken());
+            _depth--;
             return rule;
         }
 
@@ -682,6 +710,7 @@ namespace AngleSharp.Css.Parser
         {
             var previousRuleTarget = _commentRuleTarget;
             _commentRuleTarget = group.Rules as CssRuleList;
+            _depth++;
 
             var token = NextToken();
             CollectTrivia(group.Owner, ref token);
@@ -698,6 +727,7 @@ namespace AngleSharp.Css.Parser
                 CollectTrivia(group.Owner, ref token);
             }
 
+            _depth--;
             _commentRuleTarget = previousRuleTarget;
 
             return token.Type == CssTokenType.CurlyBracketClose;
@@ -865,6 +895,34 @@ namespace AngleSharp.Css.Parser
             {
                 current = NextToken();
             }
+        }
+
+        /// <summary>
+        /// Skips the tokens of a block whose opening curly bracket was just read, up to and
+        /// including its closing one, without parsing what it holds.
+        /// </summary>
+        private void SkipBlock()
+        {
+            var curly = 1;
+
+            do
+            {
+                var token = NextToken();
+
+                switch (token.Type)
+                {
+                    case CssTokenType.CurlyBracketOpen:
+                        curly++;
+                        break;
+                    case CssTokenType.CurlyBracketClose:
+                        curly--;
+                        break;
+                    case CssTokenType.EndOfFile:
+                        curly = 0;
+                        break;
+                }
+            }
+            while (curly != 0);
         }
 
         private void JumpToRuleEnd(ref CssToken current)

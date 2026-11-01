@@ -7,6 +7,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Html.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -96,17 +97,46 @@ namespace AngleSharp.Dom
         /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <typeparam name="TProperties">The declared type whose properties are the declarations.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="properties">
         /// An enumeration of properties in form of an anonymous object, that
         /// carries key-value pairs.
         /// </param>
         /// <returns>The collection itself.</returns>
+        public static T Css<T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] TProperties>(this T elements, TProperties properties)
+            where T : class, IEnumerable<IElement>
+        {
+            // Typed as the interface so this binds to the key value pair overload, not back to itself.
+            IEnumerable<KeyValuePair<String, String>> realProperties = properties.ToDictionary();
+            return elements.Css(realProperties);
+        }
+
+        /// <summary>
+        /// Extends the CSS of the given elements with the specified
+        /// declarations.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="properties">
+        /// An enumeration of properties in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
+        /// <returns>The collection itself.</returns>
+        [Obsolete(RuntimePropertiesObsolete)]
+        [RequiresUnreferencedCode(RuntimePropertiesTrimming)]
         public static T Css<T>(this T elements, Object properties)
             where T : class, IEnumerable<IElement>
         {
-            var realProperties = properties.ToDictionary();
+            // Kept so code compiled against it keeps working; a recompile binds everything but a
+            // value declared as Object to the generic overload. Being obsolete itself, it may call
+            // the obsolete Object overload of ToDictionary without a warning.
+            IEnumerable<KeyValuePair<String, String>> realProperties = properties.ToDictionary();
             return elements.Css(realProperties);
         }
+
+        private const String RuntimePropertiesObsolete = "Reads the properties of the value's runtime type, which trimming can remove. Pass the value with its own type, such as an anonymous object, or as a dictionary, to use the generic overload.";
+
+        private const String RuntimePropertiesTrimming = "Reads the public properties of the value's runtime type, which trimming can remove.";
     }
 }

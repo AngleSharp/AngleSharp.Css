@@ -70,6 +70,12 @@ namespace AngleSharp.Css.RenderTree
             return RenderElement(element, collection, null, parentSpecifiedStyle, parentComputedStyle);
         }
 
+        public ElementRenderNode RenderElement(IElement element, ElementRenderNode parent, IRenderDevice device)
+        {
+            var collection = CreateStyleCollection(device);
+            return RenderElement(element, collection, parent, parent.SpecifiedStyle, parent.ComputedStyle);
+        }
+
         private StyleCollection CreateStyleCollection(IRenderDevice device)
         {
             var document = _window.Document;

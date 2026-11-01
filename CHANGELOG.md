@@ -1,3 +1,13 @@
+# 1.3.1
+
+Released on Sunday, November 1 2026.
+
+- Improved the parser with a nesting limit for rules (`MaxNestingDepth`) (#258) @michaelthyregod
+- Updated to use a minimum of AngleSharp 1.9 (#257) @michaelthyregod
+- Added `Render(element, parent)` to the window, rendering the subtree of an element again below its parent's render node from an earlier render tree (e.g. after its inline style changed)
+- Added trimming and Native AOT compatibility (#257) @michaelthyregod
+- Added a trim-safe generic `Css` overload; the `Object` overload is obsolete (#257) @michaelthyregod
+
 # 1.3.0
 
 Released on Wednesday, October 28 2026.
