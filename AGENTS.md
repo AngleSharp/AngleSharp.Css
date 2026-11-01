@@ -138,6 +138,7 @@ dotnet test src/AngleSharp.Css.Tests/AngleSharp.Css.Tests.csproj
 - Keep public API changes intentional; many files under `Dom` are effectively surface area.
 - Existing code mixes nullable contexts (`#nullable enable` and `#nullable disable`); do not normalize unrelated files.
 - In `src/AngleSharp.Css/ValueConverters.cs`, avoid static field initializers that reference converters declared later in the same file. Forward references can capture `null` during type initialization and only fail at runtime.
+- Untrusted input can nest arbitrarily deep, and a stack overflow ends the process. `CssBuilder` parses nested blocks recursively and carries a depth that stops at `CssParserOptions.MaxNestingDepth`; a new recursive parsing path needs the same. The limit is a mitigation, not a fix: the recursion is still there, so a raised limit can still overflow the stack. `src/AngleSharp.Css.Tests/Parsing/DeepNesting.cs` holds the tests, which parse on a 256 KB stack.
 
 ## 8) Documentation and onboarding references
 

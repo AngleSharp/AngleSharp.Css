@@ -8,6 +8,32 @@ namespace AngleSharp.Css.Parser
     public struct CssParserOptions
     {
         /// <summary>
+        /// The number of blocks a rule may be nested in when <see cref="MaxNestingDepth"/> is
+        /// not set: 64.
+        /// </summary>
+        public const Int32 DefaultMaxNestingDepth = 64;
+
+        /// <summary>
+        /// Gets or sets the number of blocks a rule may be nested in, counting grouping rules
+        /// such as @media, @supports, @layer or @container, and style rules holding nested
+        /// style rules. A rule nested deeper is dropped like an invalid rule, raising
+        /// <see cref="CssParseError.NestingTooDeep"/>; parsing continues after it. 0, the
+        /// default, uses <see cref="DefaultMaxNestingDepth"/>.
+        /// <para>
+        /// This is a mitigation, not a fix: rules are still parsed recursively, once per level,
+        /// and only this limit keeps a hostile style sheet from overflowing the stack, which
+        /// ends the process. Raising it brings that crash back: without a limit, about 580
+        /// nested @media rules overflow a 1 MB stack and about 125 a 256 KB thread stack (.NET 8,
+        /// before the JIT optimizes the code).
+        /// </para>
+        /// </summary>
+        public Int32 MaxNestingDepth
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets if unknown declarations (CSS properties) should be included.
         /// If they are not included unknown property names will be ignored.
         /// </summary>
