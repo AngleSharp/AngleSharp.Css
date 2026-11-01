@@ -48,6 +48,11 @@
         [DomDescription("This position does not support a linebreak (LF, FF).")]
         LineBreakUnexpected = 0x16,
         /// <summary>
+        /// The rule is nested deeper than the parser allows.
+        /// </summary>
+        [DomDescription("The rule is nested deeper than the parser allows.")]
+        NestingTooDeep = 0x17,
+        /// <summary>
         /// The name of the @-rule is unknown.
         /// </summary>
         [DomDescription("The name of the @-rule is unknown.")]
