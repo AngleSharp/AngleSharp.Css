@@ -5,6 +5,7 @@ namespace AngleSharp.Css.Dom
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     sealed class StyleCollection : IStyleCollection
     {
@@ -16,6 +17,7 @@ namespace AngleSharp.Css.Dom
         private List<ICssStyleRule>? _rules;
         private List<Int32>? _layerRanks;
         private StyleRuleIndex? _index;
+        private List<StyleCollectionExtensions.RuleMatch>? _matches;
         private Int32 _defaultRuleCount;
 
         #endregion
@@ -68,6 +70,24 @@ namespace AngleSharp.Css.Dom
         /// rules that need to be matched against an element.
         /// </summary>
         internal StyleRuleIndex GetIndex() => _index ??= new StyleRuleIndex(GetRules());
+
+        /// <summary>
+        /// Takes the list for the rules matching an element, which is reused from
+        /// element to element instead of growing a new one each time. The list is
+        /// taken atomically, so a concurrent cascade on the same collection gets
+        /// a new one.
+        /// </summary>
+        internal List<StyleCollectionExtensions.RuleMatch> TakeMatches() =>
+            Interlocked.Exchange(ref _matches, null) ?? new List<StyleCollectionExtensions.RuleMatch>();
+
+        /// <summary>
+        /// Gives back the list from TakeMatches once the element's style is computed.
+        /// </summary>
+        internal void ReturnMatches(List<StyleCollectionExtensions.RuleMatch> matches)
+        {
+            matches.Clear();
+            Volatile.Write(ref _matches, matches);
+        }
 
         /// <summary>
         /// Gets the rank of the cascade layer of the rule at the given index of

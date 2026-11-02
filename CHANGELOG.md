@@ -4,6 +4,7 @@ Released on Monday, November 2 2026.
 
 - Improved the parser with a nesting limit for values and conditions (`MaxValueNestingDepth`) (#260) @michaelthyregod
 - Improved indexing rules with deeply nested `:is()`, `:where()`, or `:matches()` (#261) @michaelthyregod
+- Improved reading inherited properties on deep trees (e.g. `visibility` in `IsVisible` and `GetInnerText`) (#263) @michaelthyregod
 
 # 1.3.1
 
