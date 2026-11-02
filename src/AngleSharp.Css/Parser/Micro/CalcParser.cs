@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Parser
 
             if (source.IsFunction(FunctionNames.Calc))
             {
-                var expression = source.ParseExpression();
+                var expression = source.ParseExpression(1);
 
                 if (expression != null)
                 {
@@ -37,8 +37,18 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// Parses a comparison function value (min, max, or clamp), if any.
         /// </summary>
-        internal static ICssValue ParseMath(this StringSource source)
+        internal static ICssValue ParseMath(this StringSource source) => source.ParseMath(0);
+
+        // The depth counts the enclosing parentheses and math functions. Each level recurses, so
+        // beyond the limit (CssParserOptions.MaxValueNestingDepth, see ValueNesting) the value
+        // is invalid rather than a risk to the stack.
+        private static ICssValue ParseMath(this StringSource source, Int32 depth)
         {
+            if (depth >= ValueNesting.Limit)
+            {
+                return null;
+            }
+
             var pos = source.Index;
             var name = source.IsFunction(FunctionNames.Min) ? FunctionNames.Min :
                 source.IsFunction(FunctionNames.Max) ? FunctionNames.Max :
@@ -51,7 +61,7 @@ namespace AngleSharp.Css.Parser
 
                 while (true)
                 {
-                    var argument = source.ParseAddExpression();
+                    var argument = source.ParseAddExpression(depth + 1);
 
                     if (argument == null)
                     {
@@ -81,9 +91,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static ICssValue ParseExpression(this StringSource source)
+        private static ICssValue ParseExpression(this StringSource source, Int32 depth)
         {
-            var expression = source.ParseAddExpression();
+            var expression = source.ParseAddExpression(depth);
 
             if (expression != null && source.Current == Symbols.RoundBracketClose)
             {
@@ -94,15 +104,15 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static ICssValue ParseAddExpression(this StringSource source)
+        private static ICssValue ParseAddExpression(this StringSource source, Int32 depth)
         {
-            var left = ParseMulExpression(source);
+            var left = ParseMulExpression(source, depth);
 
             while (left != null && (source.Current == Symbols.Plus || source.Current == Symbols.Minus))
             {
                 var add = source.Current == Symbols.Plus;
                 source.SkipCurrentAndSpaces();
-                var right = ParseMulExpression(source);
+                var right = ParseMulExpression(source, depth);
 
                 if (right == null)
                 {
@@ -117,15 +127,15 @@ namespace AngleSharp.Css.Parser
             return left;
         }
 
-        private static ICssValue ParseMulExpression(this StringSource source)
+        private static ICssValue ParseMulExpression(this StringSource source, Int32 depth)
         {
-            var left = ParseBracketExpression(source);
+            var left = ParseBracketExpression(source, depth);
 
             while (left != null && (source.Current == Symbols.Asterisk || source.Current == Symbols.Solidus))
             {
                 var mul = source.Current == Symbols.Asterisk;
                 source.SkipCurrentAndSpaces();
-                var right = ParseBracketExpression(source);
+                var right = ParseBracketExpression(source, depth);
 
                 if (right == null)
                 {
@@ -140,21 +150,31 @@ namespace AngleSharp.Css.Parser
             return left;
         }
 
-        private static ICssValue ParseBracketExpression(this StringSource source)
+        private static ICssValue ParseBracketExpression(this StringSource source, Int32 depth)
         {
             if (source.Current == Symbols.RoundBracketOpen)
             {
+                if (depth >= ValueNesting.Limit)
+                {
+                    return null;
+                }
+
                 source.SkipCurrentAndSpaces();
-                var content = source.ParseExpression();
+                var content = source.ParseExpression(depth + 1);
                 return new CssCalcBracketExpression(content);
             }
             else if (source.IsFunction(FunctionNames.Calc))
             {
-                var content = source.ParseExpression();
+                if (depth >= ValueNesting.Limit)
+                {
+                    return null;
+                }
+
+                var content = source.ParseExpression(depth + 1);
                 return new CssCalcBracketExpression(content);
             }
 
-            return source.ParseMath() ?? source.ParseAtomicExpression();
+            return source.ParseMath(depth) ?? source.ParseAtomicExpression();
         }
         
         /// <summary>

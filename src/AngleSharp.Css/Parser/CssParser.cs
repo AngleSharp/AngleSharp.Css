@@ -206,7 +206,12 @@ namespace AngleSharp.Css.Parser
             var tokenizer = CreateTokenizer(source);
             var builder = new CssBuilder(_options, tokenizer, _context);
             InvokeEventListener(new CssParseEvent(sheet, completed: false));
-            builder.CreateRules(sheet);
+
+            using (ValueNesting.Use(_options))
+            {
+                builder.CreateRules(sheet);
+            }
+
             InvokeEventListener(new CssParseEvent(sheet, completed: true));
             return sheet;
         }
@@ -229,7 +234,12 @@ namespace AngleSharp.Css.Parser
 
             var tasks = new List<Task>();
             InvokeEventListener(new CssParseEvent(sheet, completed: false));
-            builder.CreateRules(sheet);
+
+            using (ValueNesting.Use(_options))
+            {
+                builder.CreateRules(sheet);
+            }
+
             InvokeEventListener(new CssParseEvent(sheet, completed: true));
 
             foreach (var rule in sheet.Rules)
@@ -290,7 +300,13 @@ namespace AngleSharp.Css.Parser
             var tokenizer = CreateTokenizer(source);
             var token = tokenizer.Get();
             var builder = new CssBuilder(_options, tokenizer, _context);
-            var rule = create.Invoke(builder, token);
+            T? rule;
+
+            using (ValueNesting.Use(_options))
+            {
+                rule = create.Invoke(builder, token);
+            }
+
             return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default;
         }
 
@@ -299,7 +315,13 @@ namespace AngleSharp.Css.Parser
             var tokenizer = CreateTokenizer(source);
             var token = tokenizer.Get();
             var builder = new CssBuilder(_options, tokenizer, _context);
-            var pair = create.Invoke(builder, token);
+            Tuple<T, CssToken> pair;
+
+            using (ValueNesting.Use(_options))
+            {
+                pair = create.Invoke(builder, token);
+            }
+
             return pair.Item2.Type == CssTokenType.EndOfFile ? pair.Item1 : default;
         }
 

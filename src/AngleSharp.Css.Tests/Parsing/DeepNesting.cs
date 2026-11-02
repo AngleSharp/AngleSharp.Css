@@ -4,6 +4,8 @@ namespace AngleSharp.Css.Tests.Parsing
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Dom.Events;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -167,6 +169,134 @@ namespace AngleSharp.Css.Tests.Parsing
             var b = (ICssStyleRule)a.Rules[0];
             Assert.AreEqual("rgba(0, 128, 0, 1)", b.Style.GetPropertyValue("color"));
             Assert.AreEqual(0, b.Rules.Length);
+        }
+
+        [TestCase("calc(", "(1px + ", ")", ")")]
+        [TestCase("", "calc(", ")", "")]
+        [TestCase("", "min(1px, ", ")", "")]
+        public void DeeplyNestedMathIsInvalid(String prefix, String open, String close, String suffix)
+        {
+            var value = prefix + Repeat(open, Deep) + "1px" + Repeat(close, Deep) + suffix;
+            var sheet = ParseOnSmallStack("a{width:" + value + "}");
+            Assert.AreEqual("", ((ICssStyleRule)sheet.Rules[0]).Style.GetPropertyValue("width"));
+        }
+
+        [Test]
+        public void MathNestedUpToTheLimitIsValid()
+        {
+            // calc() itself is the first level
+            var limit = CssParserOptions.DefaultMaxValueNestingDepth;
+            var style = OnSmallStack(() => ParseDeclarations("width: " + NestedCalc(limit - 1)));
+            Assert.AreNotEqual("", style.GetPropertyValue("width"));
+            style = OnSmallStack(() => ParseDeclarations("width: " + NestedCalc(limit)));
+            Assert.AreEqual("", style.GetPropertyValue("width"));
+        }
+
+        [Test]
+        public void DeeplyNestedMathSetThroughTheCssomIsInvalid()
+        {
+            var document = ParseDocument("<div></div>");
+            var style = document.QuerySelector("div").GetStyle();
+            OnSmallStack(() => { style.SetProperty("width", "calc(" + Repeat("(1px + ", Deep) + "1px" + Repeat(")", Deep) + ")"); return style; });
+            Assert.AreEqual("", style.GetPropertyValue("width"));
+        }
+
+        [Test]
+        public void DeeplyNestedSupportsConditionIsInvalid()
+        {
+            var sheet = ParseOnSmallStack("@supports " + Repeat("(", Deep) + "display: block" + Repeat(")", Deep) + " { a { color: red } } b { color: blue }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual("b", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
+        }
+
+        [Test]
+        public void SupportsConditionNestedUpToTheLimitIsValid()
+        {
+            var limit = CssParserOptions.DefaultMaxValueNestingDepth;
+            var valid = ParseOnSmallStack("@supports " + Repeat("(", limit) + "display: block" + Repeat(")", limit) + " { a { color: red } }");
+            var invalid = ParseOnSmallStack("@supports " + Repeat("(", limit + 1) + "display: block" + Repeat(")", limit + 1) + " { a { color: red } }");
+            Assert.AreEqual(1, valid.Rules.Length);
+            Assert.AreEqual(0, invalid.Rules.Length);
+        }
+
+        [Test]
+        public void DeeplyNestedMediaConditionDoesNotOverflow()
+        {
+            var sheet = ParseOnSmallStack("@media " + Repeat("(", Deep) + "min-width: 1px" + Repeat(")", Deep) + " { a { color: red } } b { color: blue }");
+            Assert.AreEqual("b", ((ICssStyleRule)sheet.Rules[sheet.Rules.Length - 1]).SelectorText);
+        }
+
+        [Test]
+        public void ModeratelyNestedMediaConditionIsStillValid()
+        {
+            var sheet = ParseStyleSheet("@media " + Repeat("(", 10) + "min-width: 1px" + Repeat(")", 10) + " { a { color: red } }");
+            Assert.AreEqual("(min-width: 1px)", ((ICssMediaRule)sheet.Rules[0]).ConditionText);
+        }
+
+        private static String NestedCalc(Int32 parentheses) =>
+            "calc(" + Repeat("(", parentheses) + "1px" + Repeat(")", parentheses) + ")";
+
+        private static String WidthOf(ICssStyleSheet sheet) =>
+            ((ICssStyleRule)sheet.Rules[0]).Style.GetPropertyValue("width");
+
+        [Test]
+        public void ValueNestingLimitIsConfigurable()
+        {
+            // calc() itself is the first level
+            var options = new CssParserOptions { MaxValueNestingDepth = 3 };
+            Assert.AreNotEqual("", WidthOf(ParseStyleSheet("a{width:" + NestedCalc(2) + "}", options)));
+            Assert.AreEqual("", WidthOf(ParseStyleSheet("a{width:" + NestedCalc(3) + "}", options)));
+        }
+
+        [Test]
+        public void ValueNestingLimitAboveTheDefaultIsHonored()
+        {
+            var options = new CssParserOptions { MaxValueNestingDepth = 100 };
+            Assert.AreEqual("", WidthOf(ParseStyleSheet("a{width:" + NestedCalc(99) + "}")));
+            Assert.AreNotEqual("", WidthOf(ParseStyleSheet("a{width:" + NestedCalc(99) + "}", options)));
+        }
+
+        [Test]
+        public void ValueNestingLimitAppliesToSupportsConditions()
+        {
+            var options = new CssParserOptions { MaxValueNestingDepth = 3 };
+            var valid = ParseStyleSheet("@supports " + Repeat("(", 3) + "display: block" + Repeat(")", 3) + " { a { color: red } }", options);
+            var invalid = ParseStyleSheet("@supports " + Repeat("(", 4) + "display: block" + Repeat(")", 4) + " { a { color: red } }", options);
+            Assert.AreEqual(1, valid.Rules.Length);
+            Assert.AreEqual(0, invalid.Rules.Length);
+        }
+
+        [Test]
+        public void ValueNestingLimitOfTheBrowsingContextAppliesToItsStyleSheets()
+        {
+            var config = Configuration.Default.WithCss(new CssParserOptions { MaxValueNestingDepth = 3 });
+            var document = BrowsingContext.New(config).GetService<IHtmlParser>().ParseDocument("<style>a{width:" + NestedCalc(3) + "}</style>");
+            Assert.AreEqual("", WidthOf((ICssStyleSheet)document.StyleSheets[0]));
+        }
+
+        [Test]
+        public void ValueNestingLimitDoesNotOutliveItsParser()
+        {
+            ParseStyleSheet("a{width:" + NestedCalc(3) + "}", new CssParserOptions { MaxValueNestingDepth = 3 });
+            // a value set without a parser right after, on the same thread, gets the default again
+            var style = ParseDocument("<div></div>").QuerySelector("div").GetStyle();
+            style.SetProperty("width", NestedCalc(10));
+            Assert.AreNotEqual("", style.GetPropertyValue("width"));
+        }
+
+        [Test]
+        public void ValuesSetThroughTheCssomUseTheDefaultLimit()
+        {
+            var config = Configuration.Default.WithCss(new CssParserOptions { MaxValueNestingDepth = 3 });
+            var document = BrowsingContext.New(config).GetService<IHtmlParser>().ParseDocument("<div></div><div></div>");
+            var divs = document.QuerySelectorAll("div");
+            // an invalid value is ignored by SetProperty, so each case gets its own element
+            var accepted = divs[0].GetStyle();
+            accepted.SetProperty("width", NestedCalc(10));
+            Assert.AreNotEqual("", accepted.GetPropertyValue("width"));
+            var rejected = divs[1].GetStyle();
+            rejected.SetProperty("width", NestedCalc(CssParserOptions.DefaultMaxValueNestingDepth));
+            Assert.AreEqual("", rejected.GetPropertyValue("width"));
         }
     }
 }
