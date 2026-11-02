@@ -10,6 +10,7 @@ namespace AngleSharp.Css.Dom
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Represents a single CSS declaration block.
@@ -582,6 +583,8 @@ namespace AngleSharp.Css.Dom
             private readonly Snapshot _parent;
             private readonly HashSet<String> _forced;
             private List<ICssProperty> _merged;
+            // the names looked up through this snapshot, with the nearest declaration found
+            private NearestEntry[] _nearest;
 
             public Snapshot(List<ICssProperty> declarations, Dictionary<String, Int32> index, Snapshot parent, HashSet<String> forced)
             {
@@ -602,8 +605,15 @@ namespace AngleSharp.Css.Dom
             /// </summary>
             public static ICssProperty Inherit(Snapshot parent, HashSet<String> forced, String name)
             {
+                if (forced is null || !forced.Contains(name))
+                {
+                    // the nearest declaration decides, and a non-inheritable one is not taken
+                    var nearest = parent.Nearest(name);
+                    return nearest is not null && nearest.CanBeInherited ? nearest : null;
+                }
+
                 // a non-inheritable declaration is only taken if forced on every level
-                var allForced = forced is not null && forced.Contains(name);
+                var allForced = true;
 
                 for (var current = parent; current is not null; current = current._parent)
                 {
@@ -665,6 +675,107 @@ namespace AngleSharp.Css.Dom
                         declarations.Add(declaration);
                     }
                 }
+            }
+
+            /// <summary>
+            /// Finds the nearest declaration with the given name, this snapshot's own or an
+            /// ancestor's. The chain is as deep as the DOM, and a name declared nowhere (e.g.
+            /// visibility) would be looked up through all of it for every element, so the
+            /// answer is kept on the snapshots passed: they never change.
+            /// </summary>
+            private ICssProperty Nearest(String name)
+            {
+                var result = default(ICssProperty);
+                var stop = default(Snapshot);
+
+                for (var current = this; current is not null; current = current._parent)
+                {
+                    result = current.FindOwn(name);
+
+                    if (result is not null || current.TryGetNearest(name, out result))
+                    {
+                        stop = current;
+                        break;
+                    }
+                }
+
+                for (var current = this; current != stop; current = current._parent)
+                {
+                    current.AddNearest(name, result);
+                }
+
+                return result;
+            }
+
+            private Boolean TryGetNearest(String name, out ICssProperty declaration)
+            {
+                var entries = Volatile.Read(ref _nearest);
+
+                if (entries is not null)
+                {
+                    for (var i = 0; i < entries.Length; i++)
+                    {
+                        if (String.Equals(entries[i].Name, name, StringComparison.Ordinal))
+                        {
+                            declaration = entries[i].Declaration;
+                            return true;
+                        }
+                    }
+                }
+
+                declaration = null;
+                return false;
+            }
+
+            private void AddNearest(String name, ICssProperty declaration)
+            {
+                // only a few names are looked up, so the entries are copied on write; a
+                // concurrent reader of the same computed style sees either list
+                var entries = Volatile.Read(ref _nearest);
+
+                while (true)
+                {
+                    var count = entries?.Length ?? 0;
+
+                    for (var i = 0; i < count; i++)
+                    {
+                        if (String.Equals(entries[i].Name, name, StringComparison.Ordinal))
+                        {
+                            return;
+                        }
+                    }
+
+                    var updated = new NearestEntry[count + 1];
+
+                    if (count > 0)
+                    {
+                        Array.Copy(entries, updated, count);
+                    }
+
+                    updated[count] = new NearestEntry(name, declaration);
+                    var previous = Interlocked.CompareExchange(ref _nearest, updated, entries);
+
+                    if (previous == entries)
+                    {
+                        return;
+                    }
+
+                    entries = previous;
+                }
+            }
+
+            private readonly struct NearestEntry
+            {
+                public NearestEntry(String name, ICssProperty declaration)
+                {
+                    Name = name;
+                    Declaration = declaration;
+                }
+
+                public String Name { get; }
+
+                // null if no snapshot up the chain declares the name
+                public ICssProperty Declaration { get; }
             }
 
             private ICssProperty FindOwn(String name)
