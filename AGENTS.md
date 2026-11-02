@@ -35,7 +35,7 @@ dotnet run --project src/AngleSharp.Performance.Css/AngleSharp.Performance.Css.c
 
 Notes:
 
-- CI invokes `./build.sh -AngleSharpVersion 1.9.0` on Linux and `./build.ps1` on Windows.
+- CI invokes `./build.sh -AngleSharpVersion 1.9.1` on Linux and `./build.ps1` on Windows.
 - Treat warnings as errors is enabled in `src/Directory.Build.props`.
 
 ## 3) Build and target framework facts
@@ -43,7 +43,7 @@ Notes:
 - Library project: `src/AngleSharp.Css/AngleSharp.Css.csproj`
   - Targets: `netstandard2.0;net8.0;net10.0`
   - Additional Windows-only targets: `net462;net472`
-  - The AngleSharp dependency defaults to version `1.9.0` and allows versions below `2.0.0`.
+  - The AngleSharp dependency defaults to version `1.9.1` and allows versions below `2.0.0`.
   - The `net8.0` and `net10.0` targets set `IsAotCompatible`, so trim and AOT analyzer warnings fail the build.
 - Test project: `src/AngleSharp.Css.Tests/AngleSharp.Css.Tests.csproj`
   - Targets: `net8.0`
