@@ -51,6 +51,17 @@ namespace AngleSharp.Css.Dom
             _context = context;
         }
 
+        /// <summary>
+        /// Creates the declarations with room for the given number of entries, e.g. for
+        /// a cascade that knows how many declarations its matching rules bring.
+        /// </summary>
+        internal CssStyleDeclaration(IBrowsingContext context, Int32 capacity)
+        {
+            _declarations = new List<ICssProperty>(capacity);
+            _declarationIndex = new Dictionary<String, Int32>(capacity, StringComparer.Ordinal);
+            _context = context;
+        }
+
         public CssStyleDeclaration(ICssRule parent)
             : this(parent.Owner?.Context)
         {

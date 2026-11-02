@@ -134,8 +134,8 @@ namespace AngleSharp.Css
         public static ICssStyleDeclaration ComputeExplicitStyle(this IStyleCollection styles, IElement element)
         {
             var ctx = element.Owner?.Context ?? throw new InvalidOperationException("The element must be associated with a browsing context.");
-            var computedStyle = new CssStyleDeclaration(ctx);
             var matches = styles.SortBySpecificity(element);
+            var computedStyle = new CssStyleDeclaration(ctx, CountDeclarations(matches));
             var i = 0;
 
             for (; i < matches.Count && matches[i].IsDefault; i++)
@@ -151,6 +151,7 @@ namespace AngleSharp.Css
             }
 
             ApplyImportantLayerOrder(computedStyle, matches);
+            ReturnMatches(styles, matches);
 
             if (element is IHtmlElement || element is ISvgElement)
             {
@@ -221,6 +222,7 @@ namespace AngleSharp.Css
             }
 
             ApplyImportantLayerOrder(computedStyle, matches);
+            ReturnMatches(styles, matches);
             computedStyle.SetDeclarations(host.GetStyle());
             computedStyle.SetDeclarations(shadowStyle.Where(m => m.IsImportant).ToList());
             return computedStyle;
@@ -312,8 +314,9 @@ namespace AngleSharp.Css
                 var defaultRuleCount = collection.GetDefaultRuleCount();
                 var candidates = collection.GetIndex().GetCandidates(element);
                 // not sized for the candidates: the unkeyed rules (e.g., [data-theme] or :root)
-                // are candidates for every element, but only a few of them match
-                matches = new List<RuleMatch>();
+                // are candidates for every element, but only a few of them match; the list
+                // is reused from element to element instead
+                matches = collection.TakeMatches();
 
                 // the candidates keep the order of the rules, as required by the cascade
                 foreach (var i in candidates)
@@ -337,6 +340,30 @@ namespace AngleSharp.Css
             return matches;
         }
 
+        /// <summary>
+        /// Counts the declarations of the matching rules: the cascade keeps at most
+        /// these, so the explicit style does not grow while they are applied.
+        /// </summary>
+        private static Int32 CountDeclarations(List<RuleMatch> matches)
+        {
+            var count = 0;
+
+            foreach (var match in matches)
+            {
+                count += match.Rule.Style.Length;
+            }
+
+            return count;
+        }
+
+        private static void ReturnMatches(IStyleCollection styles, List<RuleMatch> matches)
+        {
+            if (styles is StyleCollection collection)
+            {
+                collection.ReturnMatches(matches);
+            }
+        }
+
         private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, Boolean isDefault, Int32 layerRank, List<RuleMatch> matches)
         {
             if (rule.TryMatch(element, scope, out var specificity))
@@ -355,7 +382,7 @@ namespace AngleSharp.Css
             }
         }
 
-        private readonly struct RuleMatch
+        internal readonly struct RuleMatch
         {
             public RuleMatch(ICssStyleRule rule, Boolean isDefault, Int32 layerRank, Priority priority, Int32 index)
             {
