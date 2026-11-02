@@ -3,6 +3,7 @@
 Released on Monday, November 2 2026.
 
 - Improved the parser with a nesting limit for values and conditions (`MaxValueNestingDepth`) (#260) @michaelthyregod
+- Improved indexing rules with deeply nested `:is()`, `:where()`, or `:matches()` (#261) @michaelthyregod
 
 # 1.3.1
 
