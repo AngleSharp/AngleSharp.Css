@@ -1,3 +1,9 @@
+# 1.3.2
+
+Released on Monday, November 2 2026.
+
+- Improved the parser with a nesting limit for values and conditions (`MaxValueNestingDepth`) (#260) @michaelthyregod
+
 # 1.3.1
 
 Released on Sunday, November 1 2026.
