@@ -1,5 +1,6 @@
 using AngleSharp.Css.Dom;
 using AngleSharp.Css.Parser;
+using System;
 
 namespace AngleSharp.Css.Tests.Declarations
 {
@@ -363,6 +364,17 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsFalse(property.IsInherited);
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("5px", property.Value);
+        }
+
+        [TestCase("border-width: max(1px, 2px)")]
+        [TestCase("border-top-width: min(1px, 2px)")]
+        [TestCase("border-width: clamp(1px, 2px, 3px)")]
+        [TestCase("border: max(1px, .0625rem) solid red")]
+        [TestCase("outline-width: max(1px, 2px)")]
+        public void CssLineWidthAcceptsComparisonFunctions(String snippet)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.IsTrue(property.HasValue);
         }
 
         [Test]

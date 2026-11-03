@@ -47,7 +47,10 @@ namespace AngleSharp.Css.Tests.Styling
             // 72, not 70: the UA stylesheet now also generates quotes for `q::before` and
             // `q::after`.
             // 73, not 72: the UA stylesheet now also gives `::placeholder` its default look.
-            Assert.AreEqual(73, sheet.Rules.Length);
+            // 80, not 73: the UA stylesheet now also has rules of its own for text areas, selects,
+            // list boxes, file, search and date/time inputs, progress bars and meters.
+            // 81, not 80: the UA stylesheet now also gives `iframe` its default border.
+            Assert.AreEqual(81, sheet.Rules.Length);
         }
     }
 }

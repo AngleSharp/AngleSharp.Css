@@ -65,6 +65,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         public static ICssValue ParseLineWidth(this StringSource source) =>
             source.ParseLengthOrCalc() ??
+            source.ParseMath() ??
             source.ParseConstant(Map.BorderWidths);
 
         /// <summary>
@@ -264,7 +265,7 @@ namespace AngleSharp.Css.Parser
             }
 
             source.BackTo(pos);
-            return source.ParseCalc();
+            return (ICssValue)source.ParseCalc() ?? source.ParseMath();
         }
 
         /// <summary>
@@ -609,7 +610,7 @@ namespace AngleSharp.Css.Parser
                 return value.Value;
             }
 
-            return source.ParseCalc();
+            return (ICssValue)source.ParseCalc() ?? source.ParseMath();
         }
     }
 }

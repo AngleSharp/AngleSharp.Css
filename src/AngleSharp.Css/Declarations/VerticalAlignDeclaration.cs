@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Declarations
     {
         public static String Name = PropertyNames.VerticalAlign;
 
-        public static IValueConverter Converter = Or(LengthOrPercentConverter, VerticalAlignmentConverter);
+        public static IValueConverter Converter = Or(LengthOrPercentConverter, VerticalAlignmentConverter, Assign("-webkit-baseline-middle", "-webkit-baseline-middle"));
 
         public static ICssValue InitialValue = InitialValues.VerticalAlignDecl;
 

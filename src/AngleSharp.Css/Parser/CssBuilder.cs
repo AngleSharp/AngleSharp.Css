@@ -863,6 +863,11 @@ namespace AngleSharp.Css.Parser
                             value = ResolveRelativeUrls(owner, value);
                         }
 
+                        if ((owner?.OwnerNode?.Owner ?? _context.Active)?.CompatMode == "BackCompat")
+                        {
+                            value = ApplyQuirks(name, value);
+                        }
+
                         properties.SetProperty(name, value, important ? CssKeywords.Important : null);
                     }
                 }
@@ -888,6 +893,31 @@ namespace AngleSharp.Css.Parser
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// The quirks mode lets some properties have lengths without a unit and colors without a
+        /// hash (Quirks Mode Standard 3.3, 3.4).
+        /// </summary>
+        private String ApplyQuirks(String name, String value)
+        {
+            var isNumbers = Regex.IsMatch(value, @"^\s*[+-]?(\d+\.?\d*|\.\d+)(\s+[+-]?(\d+\.?\d*|\.\d+))*\s*$");
+            var isHexColor = Regex.IsMatch(value, @"^\s*([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\s*$");
+
+            if ((isNumbers || isHexColor) && _context.CreateProperty(name) is CssProperty property)
+            {
+                if (isNumbers && property.CanBeUnitless)
+                {
+                    return Regex.Replace(value, @"[+-]?(\d+\.?\d*|\.\d+)", "$0px");
+                }
+
+                if (isHexColor && property.CanBeHashless)
+                {
+                    return "#" + value.Trim();
+                }
+            }
+
+            return value;
+        }
 
         private void JumpToEnd(ref CssToken current)
         {

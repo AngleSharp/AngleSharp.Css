@@ -104,6 +104,9 @@ namespace AngleSharp.Css
             { CssKeywords.End, TextAlign.End },
             { CssKeywords.JustifyAll, TextAlign.JustifyAll },
             { CssKeywords.MatchParent, TextAlign.MatchParent },
+            { "-webkit-center", TextAlign.WebkitCenter },
+            { "-webkit-left", TextAlign.WebkitLeft },
+            { "-webkit-right", TextAlign.WebkitRight },
         };
 
         /// <summary>
@@ -309,11 +312,11 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly Dictionary<String, CssLengthValue> FontSizes = new(StringComparer.OrdinalIgnoreCase)
         {
-            { CssKeywords.XxSmall, new CssLengthValue(0.6, CssLengthValue.Unit.Em) },
-            { CssKeywords.XSmall, new CssLengthValue(0.75, CssLengthValue.Unit.Em) },
-            { CssKeywords.Small, new CssLengthValue(8.0 / 9.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.XxSmall, new CssLengthValue(9.0 / 16.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.XSmall, new CssLengthValue(10.0 / 16.0, CssLengthValue.Unit.Em) },
+            { CssKeywords.Small, new CssLengthValue(13.0 / 16.0, CssLengthValue.Unit.Em) },
             { CssKeywords.Medium, new CssLengthValue(1.0, CssLengthValue.Unit.Em) },
-            { CssKeywords.Large, new CssLengthValue(1.2, CssLengthValue.Unit.Em) },
+            { CssKeywords.Large, new CssLengthValue(18.0 / 16.0, CssLengthValue.Unit.Em) },
             { CssKeywords.XLarge, new CssLengthValue(1.5, CssLengthValue.Unit.Em) },
             { CssKeywords.XxLarge, new CssLengthValue(2.0, CssLengthValue.Unit.Em) },
             { CssKeywords.XxxLarge, new CssLengthValue(3.0, CssLengthValue.Unit.Em) },

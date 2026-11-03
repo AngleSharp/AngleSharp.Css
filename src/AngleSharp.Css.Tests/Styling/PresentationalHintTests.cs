@@ -4,68 +4,118 @@ namespace AngleSharp.Css.Tests.Styling
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System.Threading.Tasks;
+    using static CssConstructionFunctions;
 
     /// <summary>
-    /// Attributes like the width of an img were ignored, so images showed in their natural size.
-    /// Found on MDN. They map to CSS (HTML 15.3 - 15.4) like author rules of no specificity,
-    /// which precede all other author rules.
+    /// The attributes of HTML elements mapping to CSS (HTML 15.3), and the quirks mode sheet.
     /// </summary>
     [TestFixture]
     public class PresentationalHintTests
     {
-        private static async Task<ICssStyleDeclaration> StyleOfAsync(string css, string html)
+        private static ICssStyleDeclaration Style(string html, string doctype = "<!doctype html>") =>
+            ParseDocument($"{doctype}<html><body>{html}</body></html>").GetElementById("t").ComputeCurrentStyle();
+
+        [TestCase("<table id=t cellspacing=5></table>", "border-spacing", "5px")]
+        [TestCase("<table cellpadding=7><tr><td id=t></td></tr></table>", "padding-left", "7px")]
+        [TestCase("<table cellpadding=10%><tr><td id=t></td></tr></table>", "padding-left", "10px")]
+        [TestCase("<table border=3 id=t></table>", "border-top-width", "3px")]
+        [TestCase("<table border=3 id=t></table>", "border-top-style", "outset")]
+        [TestCase("<table border=3><tr><td id=t></td></tr></table>", "border-top-width", "1px")]
+        [TestCase("<table border=3><tr><td id=t></td></tr></table>", "border-top-style", "inset")]
+        [TestCase("<table align=right id=t></table>", "float", "right")]
+        [TestCase("<table align=center id=t></table>", "margin-left", "auto")]
+        [TestCase("<table><tr><td id=t align=center></td></tr></table>", "text-align", "-webkit-center")]
+        [TestCase("<table><tr><td id=t valign=top></td></tr></table>", "vertical-align", "top")]
+        [TestCase("<table><tr valign=bottom><td id=t></td></tr></table>", "vertical-align", "bottom")]
+        [TestCase("<table><tr><td id=t nowrap></td></tr></table>", "white-space", "nowrap")]
+        [TestCase("<div id=t align=right></div>", "text-align", "-webkit-right")]
+        [TestCase("<p id=t align=center></p>", "text-align", "center")]
+        [TestCase("<center id=t></center>", "text-align", "-webkit-center")]
+        [TestCase("<img id=t align=left>", "float", "left")]
+        [TestCase("<img id=t align=top>", "vertical-align", "top")]
+        [TestCase("<img id=t align=middle>", "vertical-align", "-webkit-baseline-middle")]
+        [TestCase("<img id=t align=absmiddle>", "vertical-align", "middle")]
+        [TestCase("<img id=t hspace=5>", "margin-right", "5px")]
+        [TestCase("<img id=t vspace=7>", "margin-top", "7px")]
+        [TestCase("<img id=t border=2>", "border-left-width", "2px")]
+        [TestCase("<font id=t size=1></font>", "font-size", "10px")]
+        [TestCase("<font id=t size=5></font>", "font-size", "24px")]
+        [TestCase("<font id=t size=+1></font>", "font-size", "18px")]
+        [TestCase("<font id=t face=monospace></font>", "font-family", "monospace")]
+        [TestCase("<hr id=t align=right>", "margin-left", "auto")]
+        [TestCase("<hr id=t size=5>", "height", "3px")]
+        [TestCase("<ul id=t type=square></ul>", "list-style-type", "square")]
+        [TestCase("<ol id=t type=a></ol>", "list-style-type", "lower-alpha")]
+        public void AttributeMapsToProperty(string html, string property, string expected)
         {
-            var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var document = await context.OpenAsync(req => req.Content($"<!doctype html><style>{css}</style>{html}"));
-            return document.DefaultView.GetComputedStyle(document.GetElementById("t"));
+            Assert.AreEqual(expected, Style(html).GetPropertyValue(property));
         }
 
-        // an empty value means none was set
-        [TestCase("<img id=t width=40 height=30>", "40px", "30px")]
-        [TestCase("<img id=t width='40.5' height=' 30px'>", "40.5px", "30px")]
-        [TestCase("<img id=t width=50%>", "50%", "")]
-        [TestCase("<img id=t width=abc height=-3>", "", "")]
-        [TestCase("<video id=t width=40 height=30></video>", "40px", "30px")]
-        [TestCase("<iframe id=t width=40 height=30></iframe>", "40px", "30px")]
-        [TestCase("<input id=t type=image width=40 height=30>", "40px", "30px")]
-        [TestCase("<input id=t type=text width=40 height=30>", "", "")]
-        [TestCase("<div id=t width=40 height=30></div>", "", "")]
-        [TestCase("<table><tr><td id=t width=0 height=30></td></tr></table>", "", "30px")]
-        public async Task DimensionAttributesMapToTheirProperties(string html, string width, string height)
+        [TestCase("<iframe id=t></iframe>", "border-top-width", "2px")]
+        [TestCase("<iframe id=t></iframe>", "border-top-style", "inset")]
+        [TestCase("<iframe id=t frameborder=0></iframe>", "border-top-style", "none")]
+        [TestCase("<iframe id=t width=50 height=20></iframe>", "width", "50px")]
+        public void IframeHasItsDefaultBorderAndHints(string html, string property, string expected)
         {
-            var style = await StyleOfAsync("", html);
-
-            Assert.AreEqual(width, style.GetWidth());
-            Assert.AreEqual(height, style.GetHeight());
+            Assert.AreEqual(expected, Style(html).GetPropertyValue(property));
         }
 
-        [TestCase("img { width: 20px }", "20px")]
-        [TestCase("* { width: 20px }", "20px")]
-        [TestCase("", "40px")]
-        public async Task AuthorRulesOverrideTheHints(string css, string width)
+        [TestCase("<div id=t style=\"box-shadow: 1px 2px\"></div>", "box-shadow")]
+        [TestCase("<div id=t style=\"text-shadow: 1px 2px\"></div>", "text-shadow")]
+        public void ShadowWithoutAColorCanBeComputed(string html, string property)
         {
-            var style = await StyleOfAsync(css, "<img id=t width=40>");
-
-            Assert.AreEqual(width, style.GetWidth());
+            StringAssert.Contains("1px 2px", Style(html).GetPropertyValue(property));
         }
 
         [Test]
-        public async Task InlineStylesOverrideTheHints()
+        public void AuthorRulesWinOverHints()
         {
-            var style = await StyleOfAsync("", "<img id=t width=40 style='width: 20px'>");
-
-            Assert.AreEqual("20px", style.GetWidth());
+            Assert.AreEqual("1px", Style("<style>td { padding: 1px }</style><table cellpadding=7><tr><td id=t></td></tr></table>").GetPropertyValue("padding-left"));
         }
 
-        [TestCase("<table><tr><td id=t bgcolor=red></td></tr></table>")]
-        [TestCase("<table><tr id=t bgcolor='#ff0000'><td></td></tr></table>")]
-        [TestCase("<table id=t bgcolor=red></table>")]
-        public async Task BackgroundColorAttributesMapToTheBackgroundColor(string html)
+        [TestCase("<div style=\"font-size: 30px\"><table id=t></table></div>", "font-size", "16px")]
+        [TestCase("<div style=\"text-align: right\"><table id=t></table></div>", "text-align", "start")]
+        [TestCase("<div style=\"white-space: pre\"><table id=t></table></div>", "white-space", "normal")]
+        [TestCase("<form id=t></form>", "margin-bottom", "16px")]
+        [TestCase("<input id=t>", "box-sizing", "border-box")]
+        [TestCase("<img id=t align=left>", "margin-right", "3px")]
+        public void QuirksModeHasItsOwnRules(string html, string property, string expected)
         {
-            var style = await StyleOfAsync("", html);
+            Assert.AreEqual(expected, Style(html, doctype: string.Empty).GetPropertyValue(property));
+        }
 
-            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetBackgroundColor());
+        [Test]
+        public void StandardsModeHasNoneOfThem()
+        {
+            Assert.AreEqual("right", Style("<div style=\"text-align: right\"><table id=t></table></div>").GetPropertyValue("text-align"));
+            Assert.AreNotEqual("16px", Style("<form id=t></form>").GetPropertyValue("margin-bottom"));
+        }
+
+        [TestCase("<div id=t style=\"width: 100\"></div>", "width", "100px")]
+        [TestCase("<div id=t style=\"margin-left: 20\"></div>", "margin-left", "20px")]
+        [TestCase("<div id=t style=\"color: 0f0\"></div>", "color", "rgba(0, 255, 0, 1)")]
+        public void QuirksModeAllowsLengthsWithoutUnitsAndColorsWithoutHash(string html, string property, string expected)
+        {
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
+            var document = context.OpenAsync(request => request.Content($"<html><body>{html}</body></html>")).Result;
+
+            Assert.AreEqual(expected, document.GetElementById("t").ComputeCurrentStyle().GetPropertyValue(property));
+        }
+
+        [TestCase("<div id=t style=\"grid-template-columns: min(50%, 300px) 1fr\"></div>", "grid-template-columns", "min(50%, 300px) 1fr")]
+        [TestCase("<div id=t style=\"grid-template-columns: minmax(max(1px, 2%), 1fr)\"></div>", "grid-template-columns", "minmax(max(1px, 2%), 1fr)")]
+        [TestCase("<div id=t style=\"grid-template-columns: clamp(10px, 1px + 5%, 100px) 1fr\"></div>", "grid-template-columns", "clamp(10px, 1px + 5%, 100px) 1fr")]
+        [TestCase("<div id=t style=\"background-size: max(18px, 10px)\"></div>", "background-size", "18px")]
+        [TestCase("<div id=t style=\"mask-size: min(18px, 10px)\"></div>", "mask-size", "10px")]
+        public void MathFunctionsAreSizes(string html, string property, string expected)
+        {
+            Assert.AreEqual(expected, Style(html).GetPropertyValue(property));
+        }
+
+        [Test]
+        public void StandardsModeRejectsThem()
+        {
+            Assert.AreNotEqual("100px", Style("<div id=t style=\"width: 100\"></div>").GetPropertyValue("width"));
         }
     }
 }

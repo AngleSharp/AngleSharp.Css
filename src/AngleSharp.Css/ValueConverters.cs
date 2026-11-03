@@ -270,7 +270,10 @@ namespace AngleSharp.Css
             WithAny(
                 Or(
                     Assign(CssKeywords.Light, CssKeywords.Light),
-                    Assign(CssKeywords.Dark, CssKeywords.Dark)
+                    Assign(CssKeywords.Dark, CssKeywords.Dark),
+                    Assign(CssKeywords.Only, CssKeywords.Only),
+                    // the name of a scheme this does not know, which is ignored
+                    IdentifierConverter
                 )
             ).Many());
 

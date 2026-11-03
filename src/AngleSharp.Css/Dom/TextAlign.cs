@@ -40,5 +40,17 @@ namespace AngleSharp.Css.Dom
         /// Similar to inherit, but the values start and end are calculated according to the parent's direction and are replaced by the appropriate left or right value.
         /// </summary>
         MatchParent,
+        /// <summary>
+        /// Centers the content, and the block-level boxes in it (-webkit-center).
+        /// </summary>
+        WebkitCenter,
+        /// <summary>
+        /// Aligns the content, and the block-level boxes in it, to the left (-webkit-left).
+        /// </summary>
+        WebkitLeft,
+        /// <summary>
+        /// Aligns the content, and the block-level boxes in it, to the right (-webkit-right).
+        /// </summary>
+        WebkitRight
     }
 }

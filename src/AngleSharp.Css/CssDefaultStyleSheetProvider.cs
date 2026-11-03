@@ -119,24 +119,36 @@ pre, tt, code,
 kbd, samp       { font-family: monospace }
 pre             { white-space: pre }
 button, textarea,
-input, select   { display: inline-block }
+input, select,
+progress, meter { display: inline-block; font: 13.3333px/normal Arial, sans-serif }
+progress, meter { box-sizing: border-box; vertical-align: -0.2em; font: inherit }
 input, textarea,
-select, button  { border: 1px solid rgb(118, 118, 118); padding: 2px 4px; background-color: rgb(255, 255, 255) }
+select, button  { border: 1px solid rgb(118, 118, 118); padding: 1px 2px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0) }
+textarea        { padding: 2px }
+select          { padding: 0px; box-sizing: border-box }
 select, button,
 input[type=button],
 input[type=submit],
 input[type=reset],
-input[type=file] { background-color: rgb(232, 232, 232) }
+input[type=color] { background-color: rgb(232, 232, 232) }
+select[multiple],
+select[size]    { background-color: rgb(255, 255, 255) }
 button,
 input[type=button],
 input[type=submit],
-input[type=reset],
-input[type=file] { padding: 2px 10px }
-input[type=color] { padding: 2px }
+input[type=reset] { padding: 1px 6px; box-sizing: border-box }
+input[type=file] { border: none; padding: 0px; background-color: transparent; color: inherit }
+input[type=search] { box-sizing: border-box }
+input[type=color] { padding: 1px 2px; box-sizing: border-box }
+input[type=date],
+input[type=time],
+input[type=datetime-local],
+input[type=month],
+input[type=week] { padding: 0px 0px 0px 1px }
 input[type=checkbox],
-input[type=radio] { padding: 0px; margin: 3px 3px 3px 4px }
-input[type=radio] { border-radius: 50% }
-input[type=range] { border: none; padding: 0px; background-color: transparent }
+input[type=radio] { padding: 0px; box-sizing: border-box; margin: 3px 3px 3px 4px }
+input[type=radio] { border-radius: 50%; margin: 3px 3px 0px 5px }
+input[type=range] { border: none; padding: 0px; margin: 2px; background-color: transparent }
 input[type=hidden] { display: none }
 textarea        { white-space: pre-wrap }
 ::placeholder   { color: darkgray }
@@ -144,6 +156,7 @@ big             { font-size: 1.17em }
 small, sub, sup { font-size: .83em }
 sub             { vertical-align: sub }
 sup             { vertical-align: super }
+iframe          { border: 2px inset rgb(238, 238, 238) }
 table           { border-spacing: 2px; box-sizing: border-box; text-indent: 0 }
 thead, tbody,
 tfoot           { vertical-align: middle }
@@ -164,7 +177,7 @@ br::before      { content: '\A'; white-space: pre-line }
 q::before       { content: open-quote }
 q::after        { content: close-quote }
 *::before, *::after { display: inline }
-center          { text-align: center }
+center          { text-align: -webkit-center }
 :link           { color: #0000ee }
 :visited        { color: #551a8b }
 :link, :visited { text-decoration: underline }
