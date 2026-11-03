@@ -47,14 +47,46 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase("<input id=target type=email>")]
         [TestCase("<input id=target type=number>")]
         [TestCase("<input id=target type=password>")]
-        [TestCase("<textarea id=target></textarea>")]
         public void TextFieldsHaveABorderPaddingAndAWhiteBackground(string html)
         {
             var style = ComputedStyle(html);
 
             AssertBorder(style, "1px", "solid", "rgba(118, 118, 118, 1)");
-            AssertPadding(style, "2px", "4px");
+            AssertPadding(style, "1px", "2px");
             Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetPropertyValue("background-color"));
+        }
+
+        [Test]
+        public void TextAreaHasABorderPaddingAndAWhiteBackground()
+        {
+            var style = ComputedStyle("<textarea id=target></textarea>");
+
+            AssertBorder(style, "1px", "solid", "rgba(118, 118, 118, 1)");
+            AssertPadding(style, "2px", "2px");
+            Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetPropertyValue("background-color"));
+        }
+
+        [TestCase("<input id=target>")]
+        [TestCase("<button id=target>Go</button>")]
+        [TestCase("<select id=target></select>")]
+        [TestCase("<textarea id=target></textarea>")]
+        public void ControlsDoNotInheritTheFontOfThePage(string html)
+        {
+            var style = ComputedStyle(html);
+
+            Assert.AreEqual("13.3333px", style.GetPropertyValue("font-size"));
+            StringAssert.StartsWith("Arial", style.GetPropertyValue("font-family"));
+        }
+
+        [TestCase("<input id=target>")]
+        [TestCase("<button id=target>Go</button>")]
+        [TestCase("<select id=target></select>")]
+        [TestCase("<textarea id=target></textarea>")]
+        public void ControlsDoNotInheritTheLineHeightOfThePage(string html)
+        {
+            var style = ComputedStyle(html);
+
+            Assert.AreEqual("normal", style.GetPropertyValue("line-height"));
         }
 
         [Test]
@@ -63,7 +95,8 @@ namespace AngleSharp.Css.Tests.Styling
             var style = ComputedStyle("<select id=target><option>One</option></select>");
 
             AssertBorder(style, "1px", "solid", "rgba(118, 118, 118, 1)");
-            AssertPadding(style, "2px", "4px");
+            AssertPadding(style, "0px", "0px");
+            Assert.AreEqual("border-box", style.GetPropertyValue("box-sizing"));
             Assert.AreEqual("rgba(232, 232, 232, 1)", style.GetPropertyValue("background-color"));
         }
 
@@ -71,14 +104,63 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase("<input id=target type=button value=Go>")]
         [TestCase("<input id=target type=submit>")]
         [TestCase("<input id=target type=reset>")]
-        [TestCase("<input id=target type=file>")]
         public void ButtonsHaveABorderWidePaddingAndAGrayBackground(string html)
         {
             var style = ComputedStyle(html);
 
             AssertBorder(style, "1px", "solid", "rgba(118, 118, 118, 1)");
-            AssertPadding(style, "2px", "10px");
+            AssertPadding(style, "1px", "6px");
             Assert.AreEqual("rgba(232, 232, 232, 1)", style.GetPropertyValue("background-color"));
+        }
+
+        [Test]
+        public void FileInputIsATransparentBoxWithoutPadding()
+        {
+            var style = ComputedStyle("<input id=target type=file>");
+
+            Assert.AreEqual("none", style.GetPropertyValue("border-top-style"));
+            AssertPadding(style, "0px", "0px");
+        }
+
+        [TestCase("<select id=target multiple></select>")]
+        [TestCase("<select id=target size=3></select>")]
+        public void ListBoxesAreWhite(string html)
+        {
+            Assert.AreEqual("rgba(255, 255, 255, 1)", ComputedStyle(html).GetPropertyValue("background-color"));
+        }
+
+        [TestCase("<progress id=target></progress>")]
+        [TestCase("<meter id=target></meter>")]
+        public void ProgressAndMeterAreInlineBlocksInheritingTheFont(string html)
+        {
+            var style = ComputedStyle("<style>body { font-size: 20px }</style>" + html);
+
+            Assert.AreEqual("inline-block", style.GetPropertyValue("display"));
+            Assert.AreEqual("border-box", style.GetPropertyValue("box-sizing"));
+            Assert.AreEqual("20px", style.GetPropertyValue("font-size"));
+        }
+
+        [TestCase("<input id=target>")]
+        [TestCase("<input id=target type=submit>")]
+        [TestCase("<input id=target type=checkbox>")]
+        [TestCase("<button id=target>Go</button>")]
+        [TestCase("<select id=target></select>")]
+        [TestCase("<textarea id=target></textarea>")]
+        public void ControlsDoNotInheritTheTextColorOfThePage(string html)
+        {
+            var style = ComputedStyle("<style>body { color: rgb(200, 0, 0) }</style>" + html);
+
+            Assert.AreEqual("rgba(0, 0, 0, 1)", style.GetPropertyValue("color"));
+        }
+
+        [TestCase("<input id=target type=file>")]
+        [TestCase("<progress id=target></progress>")]
+        [TestCase("<meter id=target></meter>")]
+        public void SomeControlsInheritTheTextColorOfThePage(string html)
+        {
+            var style = ComputedStyle("<style>body { color: rgb(200, 0, 0) }</style>" + html);
+
+            Assert.AreEqual("rgba(200, 0, 0, 1)", style.GetPropertyValue("color"));
         }
 
         [Test]
@@ -87,8 +169,8 @@ namespace AngleSharp.Css.Tests.Styling
             var style = ComputedStyle("<input id=target type=color>");
 
             AssertBorder(style, "1px", "solid", "rgba(118, 118, 118, 1)");
-            AssertPadding(style, "2px", "2px");
-            Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetPropertyValue("background-color"));
+            AssertPadding(style, "1px", "2px");
+            Assert.AreEqual("rgba(232, 232, 232, 1)", style.GetPropertyValue("background-color"));
         }
 
         [TestCase("checkbox")]
@@ -102,8 +184,8 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual("rgba(255, 255, 255, 1)", style.GetPropertyValue("background-color"));
             Assert.AreEqual("3px", style.GetPropertyValue("margin-top"));
             Assert.AreEqual("3px", style.GetPropertyValue("margin-right"));
-            Assert.AreEqual("3px", style.GetPropertyValue("margin-bottom"));
-            Assert.AreEqual("4px", style.GetPropertyValue("margin-left"));
+            Assert.AreEqual(type == "radio" ? "0px" : "3px", style.GetPropertyValue("margin-bottom"));
+            Assert.AreEqual(type == "radio" ? "5px" : "4px", style.GetPropertyValue("margin-left"));
         }
 
         [Test]

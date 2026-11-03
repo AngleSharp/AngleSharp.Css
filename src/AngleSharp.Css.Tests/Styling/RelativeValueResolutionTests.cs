@@ -52,7 +52,9 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(expected, ComputedInParent(declarations, property));
         }
 
-        [TestCase("font: large serif", "font-size", "19.2px")]
+        [TestCase("font: large serif", "font-size", "18px")]
+        [TestCase("font-size: x-small", "font-size", "10px")]
+        [TestCase("font-size: small", "font-size", "13px")]
         [TestCase("font: larger serif", "font-size", "24px")]
         [TestCase("font-size: xx-large", "font-size", "32px")]
         public void FontSizeKeywordsComputeToLengths(string declarations, string property, string expected)

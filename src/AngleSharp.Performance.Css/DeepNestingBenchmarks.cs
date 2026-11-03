@@ -6,10 +6,10 @@ namespace AngleSharp.Performance.Css
     using System.Text;
 
     /// <summary>
-    /// Parsing style sheets that nest deeply. The shapes stay within the default nesting limit
-    /// (64) and within what a parser without the limit survives (on a 1 MB stack, before the
-    /// JIT optimizes, about 580 nested @media rules), so builds with and without the limit do
-    /// the same work.
+    /// Parsing style sheets that nest deeply. The shapes stay within the default nesting limits
+    /// (64 nested blocks, 63 parentheses inside calc()) and within what a parser without them
+    /// survives (on a 1 MB stack, before the JIT optimizes, about 580 nested @media rules and
+    /// 1900 calc() parentheses), so builds with and without the limits do the same work.
     /// </summary>
     [MemoryDiagnoser]
     public class DeepStyleSheetBenchmarks
@@ -18,7 +18,7 @@ namespace AngleSharp.Performance.Css
 
         private String _source = null!;
 
-        [Params("media-10", "media-60", "style-10", "style-60")]
+        [Params("media-10", "media-60", "style-10", "style-60", "calc-10", "calc-60", "supports-10", "supports-60")]
         public String Shape { get; set; } = null!;
 
         [GlobalSetup]
@@ -31,6 +31,8 @@ namespace AngleSharp.Performance.Css
             {
                 "media" => Repeat("@media screen{", depth) + "a{color:red}" + Repeat("}", depth),
                 "style" => "a{" + Repeat("& b{", depth) + "color:red" + Repeat("}", depth + 1),
+                "calc" => "a{width:calc(" + Repeat("(1px + ", depth) + "1px" + Repeat(")", depth) + ")}",
+                "supports" => "@supports " + Repeat("(", depth) + "display:block" + Repeat(")", depth) + "{a{color:red}}",
                 _ => throw new ArgumentException(Shape),
             };
         }

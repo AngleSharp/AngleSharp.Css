@@ -1,3 +1,21 @@
+# 1.3.2
+
+Released on Tuesday, November 3 2026.
+
+- Improved the parser with a nesting limit for values and conditions (`MaxValueNestingDepth`) (#260) @michaelthyregod
+- Improved indexing rules with deeply nested `:is()`, `:where()`, or `:matches()` (#261) @michaelthyregod
+- Improved reading inherited properties on deep trees (e.g. `visibility` in `IsVisible` and `GetInnerText`) (#263) @michaelthyregod
+- Fixed `min()`, `max()`, and `clamp()` being rejected in line widths such as `border-width` and the `border` shorthand
+- Fixed `only` and the names of unknown schemes being rejected in `color-scheme`
+- Fixed the default style of form controls to use the text color (not inherited, except for file inputs), font (`13.3333px Arial`, with a `normal` line height), padding, margins, and `box-sizing` of browsers, and added the one of `progress` and `meter`
+- Fixed `font-size` keywords being relative to the parent's size, instead of absolute sizes matching browsers (`x-small` 10px, `small` 13px, `large` 18px, ...)
+- Fixed `min()`, `max()` and `clamp()` being rejected in grid tracks and `background-size`/`mask-size`
+- Fixed computing a `box-shadow` or `text-shadow` without a color throwing
+- Added the default border of `iframe` and its `frameborder` attribute
+- Added the presentational hints `cellspacing`, `cellpadding`, `border`, `align`, `valign`, `nowrap`, `background`, `hspace`, `vspace`, `size` and `face` of fonts and rules, `type` of lists, and the margin attributes of the body
+- Added the quirks mode sheet of documents without a doctype (tables not inheriting font and alignment, the bottom margin of forms) and lengths without units and colors without a hash there
+- Added `-webkit-center`, `-webkit-left` and `-webkit-right` for `text-align` (used for `<center>`) and `-webkit-baseline-middle` for `vertical-align`
+
 # 1.3.1
 
 Released on Sunday, November 1 2026.

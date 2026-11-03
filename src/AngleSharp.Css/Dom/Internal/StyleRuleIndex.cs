@@ -355,17 +355,27 @@ namespace AngleSharp.Css.Dom
                 PseudoClassNames.Matches,
             };
 
+            // How many :is() levels are looked into. Each one parses its arguments again, so a
+            // deeply nested selector would cost quadratic time (and stack) to index; real ones
+            // nest a level or two. Deeper, the rule just stays ungrouped, which is always correct.
+            private const Int32 MaxArgumentDepth = 8;
+
             private readonly ISelector _selector;
             private readonly ICssSelectorParser? _parser;
+            private readonly Int32 _depth;
             private SubjectKey[]? _keys;
 
-            private SubjectKeyVisitor(ISelector selector, ICssSelectorParser? parser)
+            private SubjectKeyVisitor(ISelector selector, ICssSelectorParser? parser, Int32 depth)
             {
                 _selector = selector;
                 _parser = parser;
+                _depth = depth;
             }
 
-            public static SubjectKey[]? GetKeys(ISelector? selector, ICssSelectorParser? parser)
+            public static SubjectKey[]? GetKeys(ISelector? selector, ICssSelectorParser? parser) =>
+                GetKeys(selector, parser, 0);
+
+            private static SubjectKey[]? GetKeys(ISelector? selector, ICssSelectorParser? parser, Int32 depth)
             {
                 // a forced pseudo-class matches independent of its own selector
                 if (selector is null || selector is ForcingPseudoClassSelector)
@@ -373,7 +383,7 @@ namespace AngleSharp.Css.Dom
                     return null;
                 }
 
-                var visitor = new SubjectKeyVisitor(selector, parser);
+                var visitor = new SubjectKeyVisitor(selector, parser, depth);
                 selector.Accept(visitor);
                 return visitor._keys;
             }
@@ -409,7 +419,7 @@ namespace AngleSharp.Css.Dom
             {
                 // :is(.a .b, .c) only exposes its text, but an element matching it matches one
                 // of the arguments, i.e., it requires one of their keys - just as a list does
-                var arguments = GetArguments(name);
+                var arguments = _depth < MaxArgumentDepth ? GetArguments(name) : null;
 
                 if (arguments is not null && _parser is not null)
                 {
@@ -419,7 +429,7 @@ namespace AngleSharp.Css.Dom
                     // are valid only where the rule is (e.g., nested); then the keys are incomplete
                     if (selector is not null && selector.Text.Equals(arguments, StringComparison.Ordinal))
                     {
-                        _keys = GetKeys(selector, _parser);
+                        _keys = GetKeys(selector, _parser, _depth + 1);
                     }
                 }
             }
@@ -434,7 +444,7 @@ namespace AngleSharp.Css.Dom
 
                 foreach (var selector in selectors)
                 {
-                    var alternative = GetKeys(selector, _parser);
+                    var alternative = GetKeys(selector, _parser, _depth);
 
                     if (alternative is null)
                     {
@@ -449,7 +459,7 @@ namespace AngleSharp.Css.Dom
 
             void ISelectorVisitor.Combinator(IEnumerable<ISelector> selectors, IEnumerable<String> symbols)
             {
-                _keys = GetKeys(selectors.LastOrDefault(), _parser);
+                _keys = GetKeys(selectors.LastOrDefault(), _parser, _depth);
             }
 
             void ISelectorVisitor.Many(IEnumerable<ISelector> selectors)
@@ -457,7 +467,7 @@ namespace AngleSharp.Css.Dom
                 // all parts of a compound must match, so any key of a part is required
                 foreach (var selector in selectors)
                 {
-                    var keys = GetKeys(selector, _parser);
+                    var keys = GetKeys(selector, _parser, _depth);
 
                     if (keys is not null && (_keys is null || IsBetter(keys, _keys)))
                     {

@@ -72,6 +72,7 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase(":where(.x .a, div) { color: green }", "<div id=t>A</div>")]
         [TestCase(":matches(.x, .b) { color: green }", "<div id=t class=b>A</div>")]
         [TestCase(":is(:is(.x, .b)) { color: green }", "<div id=t class=b>A</div>")]
+        [TestCase(":is(:is(:is(:is(:is(:is(:is(:is(:is(.b))))))))) { color: green }", "<div id=t class=b>A</div>")]
         [TestCase(":is(.x, *) { color: green }", "<div id=t>A</div>")]
         [TestCase(":is(.x, :not(.y)) { color: green }", "<div id=t>A</div>")]
         [TestCase(".parent { :is(&) { color: green } }", "<p id=t class=parent>A</p>")]
@@ -89,6 +90,7 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase(".a .b { color: red }", "<div class=b><p id=t class=a>A</p></div>")]
         [TestCase("[data-x] { color: red }", "<p id=t data-y>A</p>")]
         [TestCase(":is(.x .a, .b) { color: red }", "<p id=t class=a>A</p>")]
+        [TestCase(":is(:is(:is(:is(:is(:is(:is(:is(:is(.x))))))))) { color: red }", "<p id=t class=a>A</p>")]
         public async Task RulesForOtherSubjectsDoNotApply(string css, string body)
         {
             var color = await ColorOfAsync(css, body);
@@ -102,6 +104,9 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase(":is(.x, .a) { color: red }", 1)]
         [TestCase(":where(.x .y, #z) { color: red }", 0)]
         [TestCase(":is(.x, :not(.y)) { color: red }", 1)]
+        // the index looks into 8 levels of :is(); a deeper rule stays ungrouped, i.e., a candidate
+        [TestCase(":is(:is(:is(:is(:is(:is(:is(:is(.x)))))))) { color: red }", 0)]
+        [TestCase(":is(:is(:is(:is(:is(:is(:is(:is(:is(.x))))))))) { color: red }", 1)]
         [TestCase("! { color: red }", 0)]
         public void OnlyRulesThatMayMatchAreCandidates(string css, int count)
         {

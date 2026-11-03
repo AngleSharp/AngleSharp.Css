@@ -29,7 +29,7 @@ namespace AngleSharp.Css.Parser
             // <media-query> = <media-condition> | <media-type>
 
             source.SkipSpacesAndComments();
-            var medium = source.ParseMediaCondition() ?? source.ParseMediaType();
+            var medium = source.ParseMediaCondition(0) ?? source.ParseMediaType();
 
             if (medium is not null)
             {
@@ -55,21 +55,21 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private static CssMedium ParseMediaCondition(this StringSource source)
+        private static CssMedium ParseMediaCondition(this StringSource source, Int32 depth)
         {
             // Syntax:
             // <media-condition> = <media-not> | <media-in-parens> [ <media-and>* | <media-or>* ]
 
-            var medium = source.ParseMediaNot();
+            var medium = source.ParseMediaNot(depth);
 
             if (medium is null)
             {
-                medium = source.ParseMediaInParens();
+                medium = source.ParseMediaInParens(depth);
 
                 if (medium is not null)
                 {
                     source.SkipSpacesAndComments();
-                    var other = source.ParseMediaConnectorMultiple(CssKeywords.And) ?? source.ParseMediaConnectorMultiple(CssKeywords.Or);
+                    var other = source.ParseMediaConnectorMultiple(CssKeywords.And, depth) ?? source.ParseMediaConnectorMultiple(CssKeywords.Or, depth);
 
                     if (other is not null)
                     {
@@ -81,23 +81,23 @@ namespace AngleSharp.Css.Parser
             return medium;
         }
 
-        private static CssMedium ParseMediaConditionWithoutOr(this StringSource source)
+        private static CssMedium ParseMediaConditionWithoutOr(this StringSource source, Int32 depth)
         {
             // Syntax:
             // <media-condition-without-or> = <media-not> | <media-in-parens> <media-and>*
 
-            var medium = source.ParseMediaNot();
+            var medium = source.ParseMediaNot(depth);
 
             if (medium is null)
             {
-                medium = source.ParseMediaInParens();
+                medium = source.ParseMediaInParens(depth);
 
                 if (medium is not null)
                 {
                     do
                     {
                         source.SkipSpacesAndComments();
-                        var other = source.ParseMediaConnector(CssKeywords.And);
+                        var other = source.ParseMediaConnector(CssKeywords.And, depth);
 
                         if (other is null)
                         {
@@ -113,7 +113,7 @@ namespace AngleSharp.Css.Parser
             return medium;
         }
 
-        private static CssMedium ParseMediaNot(this StringSource source)
+        private static CssMedium ParseMediaNot(this StringSource source, Int32 depth)
         {
             // Syntax:
             // <media-not> = not <media-in-parens>
@@ -123,7 +123,7 @@ namespace AngleSharp.Css.Parser
             if (source.IsIdentifier(CssKeywords.Not))
             {
                 source.SkipSpacesAndComments();
-                var medium = source.ParseMediaInParens();
+                var medium = source.ParseMediaInParens(depth);
 
                 if (medium is not null)
                 {
@@ -136,16 +136,17 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static CssMedium ParseMediaInParens(this StringSource source)
+        private static CssMedium ParseMediaInParens(this StringSource source, Int32 depth)
         {
             // Syntax:
             // <media-in-parens> = ( <media-condition> ) | <media-feature> | <general-enclosed>
 
-            if (source.Current == Symbols.RoundBracketOpen)
+            // each nested condition recurses, so beyond the limit it is invalid
+            if (source.Current == Symbols.RoundBracketOpen && depth < ValueNesting.Limit)
             {
                 var pos = source.Index;
                 source.SkipCurrentAndSpaces();
-                var medium = source.ParseMediaCondition();
+                var medium = source.ParseMediaCondition(depth + 1);
 
                 if (medium is not null && source.Current == Symbols.RoundBracketClose)
                 {
@@ -166,12 +167,12 @@ namespace AngleSharp.Css.Parser
             return source.ParseMediaFeature() ?? source.ParseGeneralEnclosed();
         }
 
-        private static CssMedium ParseMediaConnectorMultiple(this StringSource source, String connector)
+        private static CssMedium ParseMediaConnectorMultiple(this StringSource source, String connector, Int32 depth)
         {
             // Syntax:
             // [ <media-and>* | <media-or>* ]
 
-            var part = source.ParseMediaConnector(connector);
+            var part = source.ParseMediaConnector(connector, depth);
 
             if (part is not null)
             {
@@ -181,7 +182,7 @@ namespace AngleSharp.Css.Parser
                 {
                     source.SkipSpacesAndComments();
                     features = features.Concat(part.Features);
-                    part = source.ParseMediaConnector(connector);
+                    part = source.ParseMediaConnector(connector, depth);
                 }
 
                 return new CssMedium(String.Empty, false, false, features, connector);
@@ -190,7 +191,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static CssMedium ParseMediaConnector(this StringSource source, String connector)
+        private static CssMedium ParseMediaConnector(this StringSource source, String connector, Int32 depth)
         {
             // Syntax:
             // <media-and> = and <media-in-parens>
@@ -202,7 +203,7 @@ namespace AngleSharp.Css.Parser
             if (source.IsIdentifier(connector))
             {
                 source.SkipSpacesAndComments();
-                var medium = source.ParseMediaInParens();
+                var medium = source.ParseMediaInParens(depth);
 
                 if (medium is not null)
                 {
@@ -236,7 +237,7 @@ namespace AngleSharp.Css.Parser
                 }
 
                 source.SkipSpacesAndComments();
-                var features = source.ParseMediaConditionWithoutOr();
+                var features = source.ParseMediaConditionWithoutOr(0);
 
                 if (features is not null)
                 {

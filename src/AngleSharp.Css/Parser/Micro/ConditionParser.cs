@@ -23,12 +23,12 @@ namespace AngleSharp.Css.Parser
         /// Parse a CSS condition function using the current browsing context.
         /// </summary>
         public static IConditionFunction ParseConditionFunction(this StringSource source, IBrowsingContext context) =>
-            source.Condition(context);
+            source.Condition(context, 0);
 
-        private static IConditionFunction Condition(this StringSource source, IBrowsingContext context) =>
-            source.Negation(context) ?? source.ConjunctionOrDisjunction(context);
+        private static IConditionFunction Condition(this StringSource source, IBrowsingContext context, Int32 depth) =>
+            source.Negation(context, depth) ?? source.ConjunctionOrDisjunction(context, depth);
 
-        private static IConditionFunction Negation(this StringSource source, IBrowsingContext context)
+        private static IConditionFunction Negation(this StringSource source, IBrowsingContext context, Int32 depth)
         {
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -36,7 +36,7 @@ namespace AngleSharp.Css.Parser
             if (ident != null && ident.Isi(CssKeywords.Not))
             {
                 source.SkipSpacesAndComments();
-                var condition = source.Group(context);
+                var condition = source.Group(context, depth);
 
                 if (condition != null)
                 {
@@ -48,9 +48,9 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static IConditionFunction ConjunctionOrDisjunction(this StringSource source, IBrowsingContext context)
+        private static IConditionFunction ConjunctionOrDisjunction(this StringSource source, IBrowsingContext context, Int32 depth)
         {
-            var condition = source.Group(context);
+            var condition = source.Group(context, depth);
             source.SkipSpacesAndComments();
             var pos = source.Index;
             var ident = source.ParseIdent();
@@ -62,7 +62,7 @@ namespace AngleSharp.Css.Parser
 
                 if (isAnd || isOr)
                 {
-                    var conditions = source.Scan(ident, condition, context);
+                    var conditions = source.Scan(ident, condition, context, depth);
 
                     if (isAnd)
                     {
@@ -79,16 +79,17 @@ namespace AngleSharp.Css.Parser
             return condition;
         }
 
-        private static IConditionFunction Group(this StringSource source, IBrowsingContext context)
+        private static IConditionFunction Group(this StringSource source, IBrowsingContext context, Int32 depth)
         {
-            if (source.Current == Symbols.RoundBracketOpen)
+            // each parenthesis recurses, so beyond the limit the condition is invalid
+            if (source.Current == Symbols.RoundBracketOpen && depth < ValueNesting.Limit)
             {
                 var current = source.SkipCurrentAndSpaces();
                 var condition = default(IConditionFunction);
 
                 if (current != Symbols.RoundBracketClose)
                 {
-                    condition = source.Condition(context) ?? source.Declaration(context);
+                    condition = source.Condition(context, depth + 1) ?? source.Declaration(context);
                     current = source.SkipSpacesAndComments();
 
                     if (condition == null)
@@ -123,7 +124,7 @@ namespace AngleSharp.Css.Parser
             return null;
         }
 
-        private static IEnumerable<IConditionFunction> Scan(this StringSource source, String keyword, IConditionFunction condition, IBrowsingContext context)
+        private static IEnumerable<IConditionFunction> Scan(this StringSource source, String keyword, IConditionFunction condition, IBrowsingContext context, Int32 depth)
         {
             var conditions = new List<IConditionFunction>();
             var ident = String.Empty;
@@ -132,7 +133,7 @@ namespace AngleSharp.Css.Parser
             do
             {
                 source.SkipSpacesAndComments();
-                condition = source.Group(context);
+                condition = source.Group(context, depth);
 
                 if (condition == null)
                     break;

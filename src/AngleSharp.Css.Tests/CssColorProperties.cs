@@ -1,3 +1,4 @@
+using System;
 namespace AngleSharp.Css.Tests
 {
     using AngleSharp.Css.Dom;
@@ -56,6 +57,18 @@ namespace AngleSharp.Css.Tests
         {
             var property = ParseDeclaration("caret-color: rgb(100, 150, 200)");
             Assert.That(property.HasValue, Is.True);
+        }
+
+        [TestCase("color-scheme: only dark", "only dark")]
+        [TestCase("color-scheme: dark only", "dark only")]
+        [TestCase("color-scheme: only light", "only light")]
+        [TestCase("color-scheme: light dark only", "light dark only")]
+        [TestCase("color-scheme: foo dark", "foo dark")]
+        public void CssColorSchemeAcceptsOnlyAndUnknownSchemes(String snippet, String expected)
+        {
+            var property = ParseDeclaration(snippet);
+            Assert.That(property.HasValue, Is.True);
+            Assert.That(property.Value, Is.EqualTo(expected));
         }
 
         [Test]

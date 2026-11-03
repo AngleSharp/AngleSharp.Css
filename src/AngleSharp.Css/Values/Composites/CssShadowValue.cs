@@ -148,7 +148,8 @@ namespace AngleSharp.Css.Values
             var offsetY = _offsetY.Compute(context);
             var blurRadius = _blurRadius?.Compute(context);
             var spreadRadius = _spreadRadius?.Compute(context);
-            var color = (CssColorValue)((ICssValue)_color).Compute(context);
+            // a shadow without a color has the one of the text
+            var color = _color is { } own ? (CssColorValue?)(CssColorValue)((ICssValue)own).Compute(context) : null;
             return new CssShadowValue(_inset, offsetX, offsetY, blurRadius, spreadRadius, color);
         }
 
