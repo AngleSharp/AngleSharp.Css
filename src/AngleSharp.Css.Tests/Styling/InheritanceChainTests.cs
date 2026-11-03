@@ -6,6 +6,7 @@ namespace AngleSharp.Css.Tests.Styling
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser;
     using NUnit.Framework;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -142,6 +143,78 @@ namespace AngleSharp.Css.Tests.Styling
 
             Assert.AreEqual("rgba(0, 0, 255, 1)", child.ComputedStyle.GetPropertyValue("color"));
             Assert.AreEqual("rgba(255, 0, 0, 1)", parent.ComputedStyle.GetPropertyValue("color"));
+        }
+
+        // Lookups through the parents are remembered on the way, so the levels are read deepest
+        // first and then again: a value remembered below a declaration must not leak above it.
+        [Test]
+        public void DeepChainInheritsFromTheNearestDeclaringAncestor()
+        {
+            var levels = BuildChain(300, level => level switch
+            {
+                100 => "color: red",
+                200 => "color: blue",
+                _ => null,
+            });
+
+            for (var pass = 0; pass < 2; pass++)
+            {
+                for (var level = levels.Count - 1; level >= 0; level--)
+                {
+                    // above the first declaration nothing is inherited (a computed style leaves it empty)
+                    var expected = level >= 200 ? "rgba(0, 0, 255, 1)" : level >= 100 ? "rgba(255, 0, 0, 1)" : String.Empty;
+                    Assert.AreEqual(expected, levels[level].ComputedStyle.GetPropertyValue("color"), $"level {level}, pass {pass}");
+                }
+            }
+        }
+
+        [Test]
+        public void DeepChainWithoutADeclarationKeepsTheInitialValue()
+        {
+            var levels = BuildChain(300, level => level == 150 ? "visibility: hidden" : null);
+
+            for (var pass = 0; pass < 2; pass++)
+            {
+                for (var level = levels.Count - 1; level >= 0; level--)
+                {
+                    Assert.AreEqual(level < 150, levels[level].IsVisible(), $"level {level}, pass {pass}");
+                }
+            }
+
+            Assert.AreEqual(String.Empty, levels[0].ComputedStyle.GetPropertyValue("--undeclared"));
+        }
+
+        // a chain of divs built with the DOM API, with the given inline style per level
+        private static List<ElementRenderNode> BuildChain(int depth, Func<int, string> style)
+        {
+            var document = Parse("<style>div { margin-left: 1px }</style>");
+            IElement current = document.Body;
+
+            for (var level = 0; level < depth; level++)
+            {
+                var child = document.CreateElement("div");
+                child.Id = "level" + level;
+
+                if (style(level) is string css)
+                {
+                    child.SetAttribute("style", css);
+                }
+
+                current.AppendChild(child);
+                current = child;
+            }
+
+            current.TextContent = "x";
+            var levels = new List<ElementRenderNode>();
+            var node = Find(document.DefaultView.Render(), "level0");
+
+            while (node is not null)
+            {
+                levels.Add(node);
+                node = node.Children.OfType<ElementRenderNode>().FirstOrDefault();
+            }
+
+            return levels;
         }
     }
 }

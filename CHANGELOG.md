@@ -3,6 +3,8 @@
 Released on Tuesday, November 3 2026.
 
 - Improved the parser with a nesting limit for values and conditions (`MaxValueNestingDepth`) (#260) @michaelthyregod
+- Improved indexing rules with deeply nested `:is()`, `:where()`, or `:matches()` (#261) @michaelthyregod
+- Improved reading inherited properties on deep trees (e.g. `visibility` in `IsVisible` and `GetInnerText`) (#263) @michaelthyregod
 - Fixed `min()`, `max()`, and `clamp()` being rejected in line widths such as `border-width` and the `border` shorthand
 - Fixed `only` and the names of unknown schemes being rejected in `color-scheme`
 - Fixed the default style of form controls to use the text color (not inherited, except for file inputs), font (`13.3333px Arial`, with a `normal` line height), padding, margins, and `box-sizing` of browsers, and added the one of `progress` and `meter`
