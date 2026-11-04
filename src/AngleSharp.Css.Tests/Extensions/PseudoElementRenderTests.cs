@@ -225,5 +225,35 @@ namespace AngleSharp.Css.Tests.Extensions
 
             Assert.AreEqual(expected, target.Children.Any(m => m.Ref is IPseudoElement));
         }
+
+        // only a rule declaring the content gives a pseudo-element a box, wherever it comes from
+        [TestCase("*::before { color: red }", false, false)]
+        [TestCase("*::before { color: red } #target::before { content: 'X' }", true, false)]
+        [TestCase("*::before { content: 'X' }", true, true)]
+        [TestCase("#target::before { color: red } .other::before { content: 'X' }", false, true)]
+        [TestCase("#target { &::before { content: 'X' } }", true, false)]
+        [TestCase("@media screen { #target::before { content: 'X' } }", true, false)]
+        public void OnlyPseudoElementsWithDeclaredContentGenerateNodes(string css, bool target, bool other)
+        {
+            var root = Render($"<html><head><style>{css}</style></head>" +
+                "<body><div id=target>A</div><div id=other class=other>B</div></body></html>");
+
+            Assert.AreEqual(target, FindElement(root, "target").Children.Any(m => m.Ref is IPseudoElement), "target");
+            Assert.AreEqual(other, FindElement(root, "other").Children.Any(m => m.Ref is IPseudoElement), "other");
+        }
+
+        [Test]
+        public void ContentAddedThroughTheObjectModelGeneratesANode()
+        {
+            var document = ParseDocument("<html><head><style>#target::before { color: red }</style></head>" +
+                "<body><div id=target>A</div></body></html>");
+            var window = document.DefaultView;
+            var rule = (ICssStyleRule)((ICssStyleSheet)document.StyleSheets[0]).Rules[0];
+            Assert.IsFalse(FindElement((ElementRenderNode)window.Render(new PlainRenderDevice()), "target").Children.Any(m => m.Ref is IPseudoElement));
+
+            rule.Style.SetProperty("content", "'X'");
+
+            Assert.IsTrue(FindElement((ElementRenderNode)window.Render(new PlainRenderDevice()), "target").Children.Any(m => m.Ref is IPseudoElement));
+        }
 }
 }

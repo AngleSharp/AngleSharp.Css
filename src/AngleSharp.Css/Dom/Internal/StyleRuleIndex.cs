@@ -22,6 +22,9 @@ namespace AngleSharp.Css.Dom
         // the rules targeting pseudo-elements, again grouped by the element they belong to
         private readonly KeyedRules _pseudoKeys = new();
         private readonly List<Int32> _pseudo = new();
+        // the rules targeting pseudo-elements that may declare their content
+        private readonly KeyedRules _contentKeys = new();
+        private Int32 _contentCount;
 
         #endregion
 
@@ -56,6 +59,21 @@ namespace AngleSharp.Css.Dom
             return Collect(element, _keys);
         }
 
+        /// <summary>
+        /// Checks if a rule that may match the given pseudo-element declares its
+        /// content. Without content a ::before or ::after has no box, and rules
+        /// such as *::before only setting other properties do not change that.
+        /// </summary>
+        public Boolean MayDeclareContent(IElement pseudoElement)
+        {
+            if (_contentCount == 0)
+            {
+                return false;
+            }
+
+            return pseudoElement is not PseudoElement { Host: { } host } || Collect(host, _contentKeys).Count > 0;
+        }
+
         #endregion
 
         #region Helpers
@@ -78,10 +96,21 @@ namespace AngleSharp.Css.Dom
             {
                 _pseudo.Add(index);
                 _pseudoKeys.Add(keys, index);
+
+                // a nested rule is matched on its own, so it may declare the content
+                if (hasNested || DeclaresContent(rule.Style))
+                {
+                    _contentKeys.Add(keys, index);
+                    _contentCount++;
+                }
             }
 
             _keys.Add(keys, index);
         }
+
+        private static Boolean DeclaresContent(ICssStyleDeclaration style) => style is CssStyleDeclaration declaration ?
+            declaration.GetDeclaration(PropertyNames.Content) is not null :
+            style.Any(m => PropertyNames.Content.Equals(m.Name, StringComparison.OrdinalIgnoreCase));
 
         private static Candidates Collect(IElement element, KeyedRules keyed)
         {
