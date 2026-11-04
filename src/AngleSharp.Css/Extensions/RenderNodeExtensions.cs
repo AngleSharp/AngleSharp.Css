@@ -182,6 +182,14 @@ namespace AngleSharp.Css.RenderTree
         }
 
         /// <summary>
+        /// Gets the rendered text (innerText) of the element of the given render node,
+        /// e.g. from a render tree that is already there, without styling anything again.
+        /// </summary>
+        /// <param name="node">The render node of the element.</param>
+        /// <returns>The rendered text of the element.</returns>
+        public static String GetInnerText(this ElementRenderNode node) => InnerText.Get(node ?? throw new ArgumentNullException(nameof(node)));
+
+        /// <summary>
         /// Finds a particular render node based on the given reference node.
         /// </summary>
         /// <param name="node">The render tree root.</param>
