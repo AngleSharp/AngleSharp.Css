@@ -2,8 +2,8 @@
 
 Released on Friday, November 6 2026.
 
+- Improved rendering by building pseudo-elements and specified styles only when needed
 - Added support for `::selection` pseudo elements
-- Improved rendering by building pseudo-elements and specified styles only when needed (#266) @michaelthyregod
 - Improved `GetInnerText` by using the render tree, skipping hidden content and reading shadow hosts through their slots (#267) @michaelthyregod
 
 # 1.3.2
