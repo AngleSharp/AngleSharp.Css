@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Tests.Extensions
 {
+    using AngleSharp.Css.RenderTree;
     using AngleSharp.Dom;
     using NUnit.Framework;
     using System;
@@ -95,6 +96,54 @@ namespace AngleSharp.Css.Tests.Extensions
             var element = document.QuerySelector("div");
 
             Assert.AreEqual("Div with a span in it.", element.GetInnerText());
+        }
+
+        // the rendered text walks the element's own children: a shadow tree is left out, and
+        // a light child only counts if it is rendered, i.e. assigned to a slot
+        [TestCase("<p>shadow</p><slot></slot>", "<span>light</span>", "light")]
+        [TestCase("<p>shadow</p>", "<span>light</span>", "")]
+        [TestCase("<div><slot name=b></slot></div><slot></slot>", "<span slot=b>b</span><p>a</p>", "b\n\na")]
+        [TestCase("<slot name=b></slot>", "<span slot=b>b</span><span>unassigned</span>", "b")]
+        public void ShadowHostGivesTheTextOfItsRenderedChildren(String shadow, String light, String expected)
+        {
+            var document = "<div id=host></div>".ToHtmlDocument(Configuration.Default.WithCss());
+            var host = document.GetElementById("host");
+            host.AttachShadow().InnerHtml = shadow;
+            host.InnerHtml = light;
+
+            Assert.AreEqual(expected, host.GetInnerText());
+        }
+
+        [Test]
+        public void GeneratedContentIsNotPartOfTheText()
+        {
+            var document = "<style>p::before { content: 'B' } p::after { content: 'A' }</style><p id=target>x<br>y</p>".ToHtmlDocument(Configuration.Default.WithCss());
+
+            Assert.AreEqual("x\ny", document.GetElementById("target").GetInnerText());
+        }
+
+        [TestCase("<p>a</p><div style=\"display: none\">b</div><table><tr><td>1</td><td>2</td></tr></table><span style=\"text-transform: uppercase\">c</span>")]
+        [TestCase("<ul><li>a<li style=\"visibility: hidden\">b<li>c</ul><pre> x\n  y </pre>")]
+        public void TextOfARenderedNodeIsTheTextOfItsElement(String html)
+        {
+            var document = $"<div id=target>{html}</div>".ToHtmlDocument(Configuration.Default.WithCss());
+            var target = document.GetElementById("target");
+            var node = (ElementRenderNode)document.DefaultView.Render().Find(target);
+
+            Assert.AreEqual(target.GetInnerText(), node.GetInnerText());
+        }
+
+        // the walk of an element releases what it has walked, the walk of a rendered node does not
+        [Test]
+        public void TextOfAShadowHostIsTheTextOfItsRenderedNode()
+        {
+            var document = "<div id=target><p>a</p><div id=host><span slot=s>b</span><table><tr><td>1</td><td>2</td></tr><tr><td>3</td></tr></table></div><p>c</p></div>".ToHtmlDocument(Configuration.Default.WithCss());
+            var target = document.GetElementById("target");
+            document.GetElementById("host").AttachShadow().InnerHtml = "<div><slot name=s></slot></div><ul><li><slot></slot></ul>";
+            var node = (ElementRenderNode)document.DefaultView.Render().Find(target);
+
+            Assert.AreEqual("a\n\nb\n1\t2\n3\n\nc", target.GetInnerText());
+            Assert.AreEqual(target.GetInnerText(), node.GetInnerText());
         }
     }
 }
