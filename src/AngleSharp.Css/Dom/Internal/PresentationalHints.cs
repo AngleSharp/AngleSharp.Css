@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html.Construction;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -15,6 +16,15 @@ namespace AngleSharp.Css.Dom
     static class PresentationalHints
     {
         /// <summary>
+        /// Gets whether the document is in quirks mode, i.e. its compatMode is "BackCompat".
+        /// The mode is read directly: AngleSharp gets the compatMode string through reflection
+        /// on every read, which costs more than the rest of an element's cascade.
+        /// </summary>
+        public static Boolean IsQuirksMode(IDocument? document) => document is IConstructableDocument constructable
+            ? constructable.QuirksMode == QuirksMode.On
+            : document?.CompatMode == "BackCompat";
+
+        /// <summary>
         /// Gets the declarations the attributes of the element map to, if any.
         /// </summary>
         public static String? GetDeclarations(IElement element)
@@ -26,7 +36,7 @@ namespace AngleSharp.Css.Dom
 
             var hints = new StringBuilder();
 
-            if (element.Owner?.CompatMode == "BackCompat")
+            if (IsQuirksMode(element.Owner))
             {
                 AddQuirks(hints, element);
             }
