@@ -1,3 +1,9 @@
+# 1.4.0
+
+Released on Friday, November 6 2026.
+
+- Added support for `::selection` pseudo elements
+
 # 1.3.2
 
 Released on Tuesday, November 3 2026.

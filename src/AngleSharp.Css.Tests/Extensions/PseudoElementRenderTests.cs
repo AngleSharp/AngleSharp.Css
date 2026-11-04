@@ -67,6 +67,15 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void SelectionPseudoElementCanBeCreated()
+        {
+            var document = BrowsingContext.New(Configuration.Default.WithCss()).OpenNewAsync().Result;
+            var element = document.CreateElement("p");
+
+            Assert.AreEqual("selection", element.Pseudo("selection")?.PseudoName);
+        }
+
+        [Test]
         public void BeforePseudoElementIsTheFirstChildWithItsGeneratedTextContent()
         {
             var root = Render("<html><head><style>#target::before { content: \"PREFIX-\"; }</style></head>" +
