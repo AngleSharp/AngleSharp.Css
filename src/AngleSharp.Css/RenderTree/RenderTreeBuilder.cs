@@ -20,6 +20,7 @@ namespace AngleSharp.Css.RenderTree
         private readonly IWindow _window;
         private readonly List<ICssStyleSheet> _defaultSheets;
         private readonly Dictionary<IElement, ICssStyleDeclaration> _cascadedStyles = new();
+        private readonly Dictionary<IElement, ElementRenderNode> _renderedNodes = new();
 
         private RenderTreeBuilder(IWindow window)
         {
@@ -41,12 +42,18 @@ namespace AngleSharp.Css.RenderTree
             var collection = CreateStyleCollection(device ?? DefaultDevice);
 
             _cascadedStyles.Clear();
+            _renderedNodes.Clear();
 
             return RenderElement(root, collection, null, null, null);
         }
 
         public ICssStyleDeclaration GetElementStyle(IElement element, IRenderDevice? device = null)
         {
+            if (_renderedNodes.TryGetValue(element, out var node))
+            {
+                return node.SpecifiedStyle;
+            }
+
             if (_cascadedStyles.TryGetValue(element, out var cascadedStyle))
             {
                 return cascadedStyle;
@@ -62,10 +69,11 @@ namespace AngleSharp.Css.RenderTree
         {
             var collection = CreateStyleCollection(device);
             var parent = element.ParentElement;
-            var parentSpecifiedStyle = parent is not null ? collection.GetDeclarations(parent) : null;
+            var parentSpecifiedStyle = parent is not null ? (CssStyleDeclaration)collection.GetDeclarations(parent) : null;
             var parentComputedStyle = parent is not null ? collection.ComputeDeclarations(parent) : null;
 
             _cascadedStyles.Clear();
+            _renderedNodes.Clear();
 
             return RenderElement(element, collection, null, parentSpecifiedStyle, parentComputedStyle);
         }
@@ -73,7 +81,16 @@ namespace AngleSharp.Css.RenderTree
         public ElementRenderNode RenderElement(IElement element, ElementRenderNode parent, IRenderDevice device)
         {
             var collection = CreateStyleCollection(device);
-            return RenderElement(element, collection, parent, parent.SpecifiedStyle, parent.ComputedStyle);
+            // the specified style of the parent as it is now, also if modified since
+            var parentSpecifiedStyle = parent.SpecifiedStyle is CssStyleDeclaration style ? style.Freeze() : Copy(parent.SpecifiedStyle);
+            return RenderElement(element, collection, parent, parentSpecifiedStyle, parent.ComputedStyle);
+        }
+
+        private CssStyleDeclaration Copy(ICssStyleDeclaration style)
+        {
+            var copy = new CssStyleDeclaration(_context);
+            copy.SetDeclarations(style);
+            return copy;
         }
 
         private StyleCollection CreateStyleCollection(IRenderDevice device)
@@ -87,7 +104,7 @@ namespace AngleSharp.Css.RenderTree
             IElement element,
             StyleCollection collection,
             ElementRenderNode? parent,
-            ICssStyleDeclaration? parentSpecifiedStyle,
+            CssStyleDeclaration? inheritedStyle,
             ICssStyleDeclaration? parentComputedStyle,
             ICssStyleDeclaration? explicitStyle = null,
             StyleCollection? slottedCollection = null)
@@ -97,20 +114,13 @@ namespace AngleSharp.Css.RenderTree
                 ? collection.ComputeHostStyle(shadowCollection, element)
                 : collection.ComputeExplicitStyle(element);
 
-            var specifiedStyle = new CssStyleDeclaration(_context);
-            specifiedStyle.SetDeclarations(explicitStyle);
-
-            if (parentSpecifiedStyle is not null)
-            {
-                specifiedStyle.InheritFrom(parentSpecifiedStyle);
-            }
-
             var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);
             var computedStyle = explicitStyle.PrepareComputedDeclarations(parentComputedStyle!, computeContext).Compute(computeContext).Blockify(element);
             var children = new List<IRenderNode>();
-            var node = new ElementRenderNode(element, parent, children, specifiedStyle, computedStyle);
+            // inherits the specified style of the parent node, unless another one is given
+            var node = new ElementRenderNode(element, parent, children, explicitStyle, inheritedStyle, computedStyle, _context);
 
-            _cascadedStyles[element] = specifiedStyle;
+            _renderedNodes[element] = node;
 
             if (element is IPseudoElement)
             {
@@ -124,7 +134,7 @@ namespace AngleSharp.Css.RenderTree
                 return node;
             }
 
-            var beforeNode = RenderPseudoElement(element, "before", collection, node, specifiedStyle, computedStyle);
+            var beforeNode = RenderPseudoElement(element, "before", collection, node, computedStyle);
 
             if (beforeNode is not null)
             {
@@ -135,7 +145,7 @@ namespace AngleSharp.Css.RenderTree
             {
                 if (child.Node is IElement childElement)
                 {
-                    children.Add(RenderElement(childElement, child.Collection, node, specifiedStyle, computedStyle, slottedCollection: child.SlottedCollection));
+                    children.Add(RenderElement(childElement, child.Collection, node, null, computedStyle, slottedCollection: child.SlottedCollection));
                 }
                 else if (child.Node is IText childText)
                 {
@@ -143,7 +153,7 @@ namespace AngleSharp.Css.RenderTree
                 }
             }
 
-            var afterNode = RenderPseudoElement(element, "after", collection, node, specifiedStyle, computedStyle);
+            var afterNode = RenderPseudoElement(element, "after", collection, node, computedStyle);
 
             if (afterNode is not null)
             {
@@ -245,12 +255,13 @@ namespace AngleSharp.Css.RenderTree
             String name,
             StyleCollection collection,
             ElementRenderNode parent,
-            ICssStyleDeclaration parentSpecifiedStyle,
             ICssStyleDeclaration parentComputedStyle)
         {
             var pseudo = element.Pseudo(name);
 
-            if (pseudo is null)
+            // Only a rule can declare `content`: without one that may match the pseudo-element
+            // (most elements have none) it has no box, and its style is not computed at all.
+            if (pseudo is null || !collection.GetIndex().MayDeclareContent(pseudo))
             {
                 return null;
             }
@@ -264,7 +275,7 @@ namespace AngleSharp.Css.RenderTree
                 return null;
             }
 
-            var node = RenderElement(pseudo, collection, parent, parentSpecifiedStyle, parentComputedStyle, explicitStyle);
+            var node = RenderElement(pseudo, collection, parent, null, parentComputedStyle, explicitStyle);
 
             // Per spec, `content: none` (and the initial/unset `normal`, equivalent for these two
             // pseudo-elements specifically) means no box is generated at all - not merely an empty

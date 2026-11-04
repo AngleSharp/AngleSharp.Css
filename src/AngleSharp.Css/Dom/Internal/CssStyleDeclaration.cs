@@ -68,6 +68,18 @@ namespace AngleSharp.Css.Dom
             _parent = parent;
         }
 
+        // shares the lists of the source until either of the two is modified
+        private CssStyleDeclaration(CssStyleDeclaration source)
+        {
+            _snapshot = source.GetSnapshot();
+            _declarations = source._declarations;
+            _declarationIndex = source._declarationIndex;
+            _inherited = source._inherited;
+            _forced = source._forced;
+            _context = source._context;
+            RootFontSize = source.RootFontSize;
+        }
+
         #endregion
 
         #region Index
@@ -485,6 +497,13 @@ namespace AngleSharp.Css.Dom
 
             return local;
         }
+
+        /// <summary>
+        /// Creates a copy of the current declarations that later modifications of this
+        /// one do not change, e.g. for children inheriting from it later on. Nothing is
+        /// copied until either of the two is modified.
+        /// </summary>
+        internal CssStyleDeclaration Freeze() => new(this);
 
         /// <summary>
         /// Same as UpdateDeclarations with the declarations of the parent, but without
