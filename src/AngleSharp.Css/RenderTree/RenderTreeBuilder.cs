@@ -11,6 +11,7 @@ namespace AngleSharp.Css.RenderTree
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading;
 
     sealed class RenderTreeBuilder
     {
@@ -133,10 +134,10 @@ namespace AngleSharp.Css.RenderTree
 
             var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);
             var computedStyle = explicitStyle.PrepareComputedDeclarations(parentComputedStyle!, computeContext).Compute(computeContext).Blockify(element);
-            var pending = partial ? new PendingChildren(this, collection, shadowCollection, slottedCollection) : null;
+            var pending = partial ? new PendingChildren(this, collection, shadowCollection, slottedCollection, getInheritedStyle) : null;
             var children = partial ? null : new List<IRenderNode>();
             // inherits the specified style of the parent node, unless another one is given
-            var node = new ElementRenderNode(element, parent, children, explicitStyle, inheritedStyle, getInheritedStyle, computedStyle, _context, pending);
+            var node = new ElementRenderNode(element, parent, children, explicitStyle, inheritedStyle, computedStyle, _context, pending);
 
             if (children is not null)
             {
@@ -201,7 +202,8 @@ namespace AngleSharp.Css.RenderTree
         }
 
         /// <summary>
-        /// What is needed to build the children of a node later on.
+        /// What is needed to build the children of a node of a partial tree later on, and what
+        /// only such a node needs.
         /// </summary>
         internal sealed class PendingChildren
         {
@@ -209,24 +211,46 @@ namespace AngleSharp.Css.RenderTree
             private readonly StyleCollection _collection;
             private readonly StyleCollection? _shadowCollection;
             private readonly StyleCollection? _slottedCollection;
+            private List<IRenderNode>? _content;
 
-            public PendingChildren(RenderTreeBuilder builder, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection)
+            public PendingChildren(RenderTreeBuilder builder, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection, Func<ICssStyleDeclaration?>? getInheritedStyle)
             {
                 _builder = builder;
                 _collection = collection;
                 _shadowCollection = shadowCollection;
                 _slottedCollection = slottedCollection;
+                GetInheritedStyle = getInheritedStyle;
             }
 
             /// <summary>
-            /// Builds the children of the node, without its ::before and ::after.
+            /// Gets the specified style to inherit from for the root of the partial tree, if
+            /// it has a parent element.
             /// </summary>
-            public List<IRenderNode> BuildContent(ElementRenderNode node)
+            public Func<ICssStyleDeclaration?>? GetInheritedStyle { get; }
+
+            /// <summary>
+            /// Gets the children of the node without its ::before and ::after, which are built
+            /// on first read.
+            /// </summary>
+            public List<IRenderNode> GetContent(ElementRenderNode node)
             {
-                var children = new List<IRenderNode>();
-                _builder.AddContent(node, children, _collection, _shadowCollection, _slottedCollection, true);
-                return children;
+                var content = Volatile.Read(ref _content);
+
+                if (content is null)
+                {
+                    content = new List<IRenderNode>();
+                    _builder.AddContent(node, content, _collection, _shadowCollection, _slottedCollection, true);
+                    // another thread may have been faster: then its children are the ones of the node
+                    content = Interlocked.CompareExchange(ref _content, content, null) ?? content;
+                }
+
+                return content;
             }
+
+            /// <summary>
+            /// Forgets the children without the ::before and ::after.
+            /// </summary>
+            public void ReleaseContent() => Volatile.Write(ref _content, null);
 
             /// <summary>
             /// Builds the ::before or ::after of the node, if it has one.
