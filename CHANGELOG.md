@@ -2,6 +2,7 @@
 
 Released on Friday, November 6 2026.
 
+- Improved rendering by building pseudo-elements and specified styles only when needed
 - Added support for `::selection` pseudo elements
 
 # 1.3.2
