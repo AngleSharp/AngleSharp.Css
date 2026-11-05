@@ -111,12 +111,34 @@ namespace AngleSharp.Dom
         /// <param name="element">The element to compute the style for.</param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
-        [DomName("getComputedStyle")]
         public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
             var device = window.GetRenderDevice();
             var styleCollection = window.GetStyleCollection(device);
             return styleCollection.ComputeDeclarations(element, pseudo);
+        }
+
+        /// <summary>
+        /// Gets the computed style as script sees it, where a property that was not declared has
+        /// its initial value instead of being empty.
+        /// </summary>
+        /// <param name="window">The window to extend with the functionality.</param>
+        /// <param name="element">The element to compute the style for.</param>
+        /// <param name="pseudo">The optional pseudo selector to use.</param>
+        /// <returns>The style declaration describing the element.</returns>
+        [DomName("getComputedStyle")]
+        public static ICssStyleDeclaration GetComputedStyleOfScript(this IWindow window, IElement element, String? pseudo = null)
+        {
+            var style = window.GetComputedStyle(element, pseudo);
+
+            if (style is not CssStyleDeclaration declaration)
+            {
+                return style;
+            }
+
+            //  what is known from layout is what script gets to see (CSSOM 9), which a pseudo element has none of
+            var provider = String.IsNullOrEmpty(pseudo) ? element.Owner?.Context.GetUsedValueProvider() : null;
+            return declaration.WithInitialValues(provider != null ? name => provider.GetUsedValue(element, name) : null);
         }
 
         /// <summary>

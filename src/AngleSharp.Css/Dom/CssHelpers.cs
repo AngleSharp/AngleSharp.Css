@@ -87,8 +87,9 @@ namespace AngleSharp.Css.Dom
         public static Boolean Supports(this IWindow window, String conditionText)
         {
             var context = window.Document?.Context;
-            var condition = ConditionParser.Parse(conditionText, context);
-            return condition.Check(null);
+            //  a declaration without its parentheses is fine here (CSS Conditional Rules 3, 9.1)
+            var condition = String.IsNullOrWhiteSpace(conditionText) ? null : ConditionParser.Parse(conditionText, context) ?? ConditionParser.Parse($"({conditionText})", context);
+            return condition?.Check(null) ?? false;
         }
     }
 }

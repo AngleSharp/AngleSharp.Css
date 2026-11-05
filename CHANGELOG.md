@@ -3,7 +3,15 @@
 Released on Friday, November 6 2026.
 
 - Improved rendering by building pseudo-elements and specified styles only when needed
+- Fixed `maxWidth` of a style being a method for script
+- Fixed the initial values of `position` and `background-origin` being named `inline` and `border-box`
+- Fixed `getComputedStyle` giving script empty values for what was not declared instead of the initial values, e.g. `position` not being `static`
+- Fixed `CSS.supports` throwing for a condition it can't parse, and not taking a declaration without parentheses
 - Added support for `::selection` pseudo elements
+- Added `addListener` and `removeListener` to `MediaQueryList`
+- Added `selector()` to supports conditions
+- Added the accessors of all style properties for script that can be applied (e.g. `gap`, `aspectRatio`, `gridTemplateColumns`, `inset`), with the names having hyphens (`style['max-width']`) and `float`
+- Added `ICssUsedValueProvider`, for `getComputedStyle` to give script what layout found
 
 # 1.3.2
 

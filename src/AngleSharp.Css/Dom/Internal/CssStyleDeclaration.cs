@@ -22,6 +22,8 @@ namespace AngleSharp.Css.Dom
         private List<ICssProperty> _declarations;
         private Dictionary<String, Int32> _declarationIndex;
         private readonly IBrowsingContext _context;
+        private Boolean _reportsInitialValues;
+        private Func<String, String> _usedValues;
         private ICssRule _parent;
         private Boolean _updating;
 
@@ -314,8 +316,65 @@ namespace AngleSharp.Css.Dom
             return CssKeywords.Important;
         }
 
-        public String GetPropertyValue(String propertyName) =>
-            GetProperty(propertyName)?.Value ?? String.Empty;
+        public String GetPropertyValue(String propertyName)
+        {
+            var used = _usedValues?.Invoke(propertyName);
+
+            if (used != null)
+            {
+                return used;
+            }
+
+            var value = GetProperty(propertyName)?.Value;
+
+            if (String.IsNullOrEmpty(value) && _reportsInitialValues)
+            {
+                return GetInitialValue(propertyName);
+            }
+
+            return value ?? String.Empty;
+        }
+
+        /// <summary>
+        /// Gets the copy script sees of a computed style, where nothing is left empty (CSSOM 9):
+        /// a script compares with the initial values, as with position !== 'static'. Layout on
+        /// the other hand has to know what was not declared at all.
+        /// </summary>
+        internal CssStyleDeclaration WithInitialValues(Func<String, String> usedValues) =>
+            new CssStyleDeclaration(this) { _reportsInitialValues = true, _usedValues = usedValues };
+
+        private String GetInitialValue(String propertyName)
+        {
+            var info = _context.GetDeclarationInfo(propertyName);
+            var initial = info?.InitialValue?.CssText;
+
+            if (!String.IsNullOrEmpty(initial))
+            {
+                return initial;
+            }
+
+            //  a shorthand tells it by its longhands, as with overflow
+            var longhands = info?.Longhands;
+
+            if (longhands == null || longhands.Length == 0)
+            {
+                return String.Empty;
+            }
+
+            var values = new System.Collections.Generic.List<String>();
+
+            foreach (var longhand in longhands)
+            {
+                var value = GetPropertyValue(longhand);
+
+                if (!values.Contains(value))
+                {
+                    values.Add(value);
+                }
+            }
+
+            return String.Join(" ", values);
+        }
 
         public void SetPropertyValue(String propertyName, String propertyValue) =>
             SetProperty(propertyName, propertyValue);
