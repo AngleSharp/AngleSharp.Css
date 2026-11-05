@@ -212,6 +212,7 @@ namespace AngleSharp.Css.RenderTree
             private readonly StyleCollection? _shadowCollection;
             private readonly StyleCollection? _slottedCollection;
             private List<IRenderNode>? _content;
+            private List<IRenderNode>? _children;
 
             public PendingChildren(RenderTreeBuilder builder, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection, Func<ICssStyleDeclaration?>? getInheritedStyle)
             {
@@ -251,6 +252,39 @@ namespace AngleSharp.Css.RenderTree
             /// Forgets the children without the ::before and ::after.
             /// </summary>
             public void ReleaseContent() => Volatile.Write(ref _content, null);
+
+            /// <summary>
+            /// Gets all children of the node, which are built on first read.
+            /// </summary>
+            public IEnumerable<IRenderNode> GetChildren(ElementRenderNode node)
+            {
+                var children = Volatile.Read(ref _children);
+
+                if (children is null)
+                {
+                    var before = BuildPseudoElement(node, "before");
+                    var content = GetContent(node);
+                    var after = BuildPseudoElement(node, "after");
+                    children = new List<IRenderNode>(content.Count + 2);
+
+                    if (before is not null)
+                    {
+                        children.Add(before);
+                    }
+
+                    children.AddRange(content);
+
+                    if (after is not null)
+                    {
+                        children.Add(after);
+                    }
+
+                    // another thread may have been faster: then its children are the ones of the node
+                    children = Interlocked.CompareExchange(ref _children, children, null) ?? children;
+                }
+
+                return children;
+            }
 
             /// <summary>
             /// Builds the ::before or ::after of the node, if it has one.

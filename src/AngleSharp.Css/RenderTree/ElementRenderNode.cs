@@ -15,10 +15,10 @@ namespace AngleSharp.Css.RenderTree
         private readonly IElement _reference;
         private readonly ElementRenderNode? _parent;
         private readonly ICssStyleDeclaration _computedStyle;
-        // The children of a partial render tree are only built when they are read; what only
-        // a partial tree needs is kept there, so a complete one has just this field in addition.
-        private readonly RenderTreeBuilder.PendingChildren? _pendingChildren;
-        private IEnumerable<IRenderNode>? _children;
+        // Either the children (IEnumerable<IRenderNode>) or, in a partial render tree, what
+        // builds them on first read (RenderTreeBuilder.PendingChildren), which also keeps what
+        // only a partial tree needs: a complete node has no field for that.
+        private readonly Object _children;
 
         // The specified style is only built when it is read: from the explicit style of the
         // element and the specified style its parent had when it was built (or, for the root
@@ -75,12 +75,11 @@ namespace AngleSharp.Css.RenderTree
         {
             _reference = reference;
             _parent = parent;
-            _children = children;
+            _children = (Object?)pendingChildren ?? children!;
             _explicitStyle = explicitStyle;
             _inheritedStyle = inheritedStyle;
             _context = context;
             _computedStyle = computedStyle;
-            _pendingChildren = pendingChildren;
         }
 
         /// <summary>
@@ -93,7 +92,11 @@ namespace AngleSharp.Css.RenderTree
         /// <summary>
         /// Gets the contained render nodes.
         /// </summary>
-        public IEnumerable<IRenderNode> Children => Volatile.Read(ref _children) ?? BuildChildren();
+        public IEnumerable<IRenderNode> Children => _children is RenderTreeBuilder.PendingChildren pending
+            ? pending.GetChildren(this)
+            : (IEnumerable<IRenderNode>)_children;
+
+        private RenderTreeBuilder.PendingChildren? Pending => _children as RenderTreeBuilder.PendingChildren;
 
         /// <summary>
         /// Gets the parent of the node.
@@ -110,44 +113,20 @@ namespace AngleSharp.Css.RenderTree
         /// </summary>
         public ICssStyleDeclaration ComputedStyle => _computedStyle;
 
-        private Boolean InheritsFromParent => _inheritedStyle is null && _pendingChildren?.GetInheritedStyle is null && _parent is not null;
+        private Boolean InheritsFromParent => _inheritedStyle is null && Pending?.GetInheritedStyle is null && _parent is not null;
 
         /// <summary>
         /// Gets the children without the ::before and ::after. In a partial tree these are only
         /// built when all children are read; in a complete one they are taken from them.
         /// </summary>
-        internal List<IRenderNode> Content => _pendingChildren?.GetContent(this) ?? Children.Where(m => m.Ref is not IPseudoElement).ToList();
+        internal List<IRenderNode> Content => Pending?.GetContent(this) ?? Children.Where(m => m.Ref is not IPseudoElement).ToList();
 
         /// <summary>
         /// Forgets the children without the ::before and ::after of a partial tree, so they can
         /// be collected once nothing else refers to them; reading them again builds them again.
         /// Only for a partial tree that nobody else sees.
         /// </summary>
-        internal void ReleaseContent() => _pendingChildren?.ReleaseContent();
-
-        private IEnumerable<IRenderNode> BuildChildren()
-        {
-            var pending = _pendingChildren!;
-            var before = pending.BuildPseudoElement(this, "before");
-            var content = pending.GetContent(this);
-            var after = pending.BuildPseudoElement(this, "after");
-            var children = new List<IRenderNode>(content.Count + 2);
-
-            if (before is not null)
-            {
-                children.Add(before);
-            }
-
-            children.AddRange(content);
-
-            if (after is not null)
-            {
-                children.Add(after);
-            }
-
-            // another thread may have been faster: then its children are the ones of the node
-            return Interlocked.CompareExchange(ref _children, children, null) ?? children;
-        }
+        internal void ReleaseContent() => Pending?.ReleaseContent();
 
         private SpecifiedStyles GetSpecifiedStyles()
         {
@@ -176,7 +155,7 @@ namespace AngleSharp.Css.RenderTree
 
         private SpecifiedStyles BuildSpecifiedStyles()
         {
-            var inherited = InheritsFromParent ? Volatile.Read(ref _parent!._specified)!.ForChildren : _inheritedStyle ?? _pendingChildren?.GetInheritedStyle?.Invoke();
+            var inherited = InheritsFromParent ? Volatile.Read(ref _parent!._specified)!.ForChildren : _inheritedStyle ?? Pending?.GetInheritedStyle?.Invoke();
             var style = new CssStyleDeclaration(_context);
             style.SetDeclarations(_explicitStyle!);
 
