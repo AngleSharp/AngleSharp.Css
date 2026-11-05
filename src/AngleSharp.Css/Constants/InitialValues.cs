@@ -21,7 +21,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue BackgroundPositionYDecl = new CssLengthValue(0, CssLengthValue.Unit.Percent);
         public static readonly ICssValue BackgroundPositionDecl = new CssTupleValue(new [] { BackgroundPositionXDecl, BackgroundPositionYDecl });
         public static readonly ICssValue BackgroundSizeDecl = new CssBackgroundSizeValue(new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto), new CssConstantValue<CssLengthValue>(CssKeywords.Auto, CssLengthValue.Auto));
-        public static readonly ICssValue BackgroundOriginDecl = new CssConstantValue<BoxModel>(CssKeywords.BorderBox, BoxModel.PaddingBox);
+        public static readonly ICssValue BackgroundOriginDecl = new CssConstantValue<BoxModel>(CssKeywords.PaddingBox, BoxModel.PaddingBox);
         public static readonly ICssValue BackgroundClipDecl = new CssConstantValue<BoxModel>(CssKeywords.BorderBox, BoxModel.BorderBox);
         public static readonly ICssValue BackgroundAttachmentDecl = new CssConstantValue<BackgroundAttachment>(CssKeywords.Scroll, BackgroundAttachment.Scroll);
         public static readonly ICssValue BookmarkStateDecl = new CssConstantValue<BookmarkState>(CssKeywords.Open, BookmarkState.Open);
@@ -217,7 +217,7 @@ namespace AngleSharp.Css
         public static readonly ICssValue RowGapDecl = new CssConstantValue<CssLengthValue>(CssKeywords.Normal, CssLengthValue.Normal);
         public static readonly ICssValue PerspectiveDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue PerspectiveOriginDecl = CssPoint2D.Center;
-        public static readonly ICssValue PositionDecl = new CssConstantValue<PositionMode>(CssKeywords.Inline, PositionMode.Static);
+        public static readonly ICssValue PositionDecl = new CssConstantValue<PositionMode>(CssKeywords.Static, PositionMode.Static);
         public static readonly ICssValue TransformDecl = new CssConstantValue<Object>(CssKeywords.None, null);
         public static readonly ICssValue TransformStyleDecl = new CssConstantValue<Boolean>(CssKeywords.Flat, true);
         public static readonly ICssValue TransformBoxDecl = new CssConstantValue<String>(CssKeywords.ViewBox, CssKeywords.ViewBox);
