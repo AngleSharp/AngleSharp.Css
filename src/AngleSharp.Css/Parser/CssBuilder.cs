@@ -863,7 +863,7 @@ namespace AngleSharp.Css.Parser
                             value = ResolveRelativeUrls(owner, value);
                         }
 
-                        if ((owner?.OwnerNode?.Owner ?? _context.Active)?.CompatMode == "BackCompat")
+                        if (PresentationalHints.IsQuirksMode(owner?.OwnerNode?.Owner ?? _context.Active))
                         {
                             value = ApplyQuirks(name, value);
                         }

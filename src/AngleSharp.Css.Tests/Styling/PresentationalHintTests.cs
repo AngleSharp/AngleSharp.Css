@@ -91,6 +91,19 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreNotEqual("16px", Style("<form id=t></form>").GetPropertyValue("margin-bottom"));
         }
 
+        // a limited-quirks document (compatMode "CSS1Compat") has no quirks
+        [TestCase("<div style=\"text-align: right\"><table id=t></table></div>", "text-align", "right")]
+        [TestCase("<div id=t style=\"width: 100\"></div>", "width", "")]
+        public void LimitedQuirksModeHasNoneOfThem(string html, string property, string expected)
+        {
+            const string doctype = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
+            var document = context.OpenAsync(request => request.Content($"{doctype}<html><body>{html}</body></html>")).Result;
+
+            Assert.AreEqual("CSS1Compat", document.CompatMode);
+            Assert.AreEqual(expected, document.GetElementById("t").ComputeCurrentStyle().GetPropertyValue(property));
+        }
+
         [TestCase("<div id=t style=\"width: 100\"></div>", "width", "100px")]
         [TestCase("<div id=t style=\"margin-left: 20\"></div>", "margin-left", "20px")]
         [TestCase("<div id=t style=\"color: 0f0\"></div>", "color", "rgba(0, 255, 0, 1)")]
