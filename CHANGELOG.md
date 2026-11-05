@@ -5,6 +5,7 @@ Released on Friday, November 6 2026.
 - Improved rendering by building pseudo-elements and specified styles only when needed
 - Improved presentational hints by reading the quirks mode without reflection (#268) @michaelthyregod
 - Improved `GetInnerText` by using the render tree, skipping hidden content and reading shadow hosts through their slots (#267) @michaelthyregod
+- Improved the memory use of render trees (#269) @michaelthyregod
 - Fixed `maxWidth` of a style being a method for script
 - Fixed the initial values of `position` and `background-origin` being named `inline` and `border-box`
 - Fixed `getComputedStyle` giving script empty values for what was not declared instead of the initial values, e.g. `position` not being `static`
