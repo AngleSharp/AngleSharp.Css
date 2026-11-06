@@ -11,6 +11,7 @@ namespace AngleSharp.Css.RenderTree
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading;
 
     sealed class RenderTreeBuilder
     {
@@ -20,6 +21,7 @@ namespace AngleSharp.Css.RenderTree
         private readonly IWindow _window;
         private readonly List<ICssStyleSheet> _defaultSheets;
         private readonly Dictionary<IElement, ICssStyleDeclaration> _cascadedStyles = new();
+        private readonly Dictionary<IElement, ElementRenderNode> _renderedNodes = new();
 
         private RenderTreeBuilder(IWindow window)
         {
@@ -41,12 +43,18 @@ namespace AngleSharp.Css.RenderTree
             var collection = CreateStyleCollection(device ?? DefaultDevice);
 
             _cascadedStyles.Clear();
+            _renderedNodes.Clear();
 
             return RenderElement(root, collection, null, null, null);
         }
 
         public ICssStyleDeclaration GetElementStyle(IElement element, IRenderDevice? device = null)
         {
+            if (_renderedNodes.TryGetValue(element, out var node))
+            {
+                return node.SpecifiedStyle;
+            }
+
             if (_cascadedStyles.TryGetValue(element, out var cascadedStyle))
             {
                 return cascadedStyle;
@@ -62,10 +70,11 @@ namespace AngleSharp.Css.RenderTree
         {
             var collection = CreateStyleCollection(device);
             var parent = element.ParentElement;
-            var parentSpecifiedStyle = parent is not null ? collection.GetDeclarations(parent) : null;
+            var parentSpecifiedStyle = parent is not null ? (CssStyleDeclaration)collection.GetDeclarations(parent) : null;
             var parentComputedStyle = parent is not null ? collection.ComputeDeclarations(parent) : null;
 
             _cascadedStyles.Clear();
+            _renderedNodes.Clear();
 
             return RenderElement(element, collection, null, parentSpecifiedStyle, parentComputedStyle);
         }
@@ -73,13 +82,37 @@ namespace AngleSharp.Css.RenderTree
         public ElementRenderNode RenderElement(IElement element, ElementRenderNode parent, IRenderDevice device)
         {
             var collection = CreateStyleCollection(device);
-            return RenderElement(element, collection, parent, parent.SpecifiedStyle, parent.ComputedStyle);
+            // the specified style of the parent as it is now, also if modified since
+            var parentSpecifiedStyle = parent.SpecifiedStyle is CssStyleDeclaration style ? style.Freeze() : Copy(parent.SpecifiedStyle);
+            return RenderElement(element, collection, parent, parentSpecifiedStyle, parent.ComputedStyle);
+        }
+
+        /// <summary>
+        /// Renders the element into a partial render tree: the children of a node are only
+        /// built when they are read, so e.g. the content of a hidden element is never styled.
+        /// The parts are built from the DOM and style sheets of the moment they are read, and
+        /// the tree is not remembered (as GetElementStyle does for complete ones).
+        /// </summary>
+        public ElementRenderNode RenderPartial(IElement element, IRenderDevice device)
+        {
+            var collection = CreateStyleCollection(device);
+            var parent = element.ParentElement;
+            var parentComputedStyle = parent is not null ? collection.ComputeDeclarations(parent) : null;
+            var getInheritedStyle = parent is not null ? () => collection.GetDeclarations(parent) : default(Func<ICssStyleDeclaration?>);
+            return RenderElement(element, collection, null, null, parentComputedStyle, getInheritedStyle: getInheritedStyle, partial: true);
+        }
+
+        private CssStyleDeclaration Copy(ICssStyleDeclaration style)
+        {
+            var copy = new CssStyleDeclaration(_context);
+            copy.SetDeclarations(style);
+            return copy;
         }
 
         private StyleCollection CreateStyleCollection(IRenderDevice device)
         {
             var document = _window.Document;
-            var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
+            var currentSheets = document.GetEffectiveStyleSheets();
             return new StyleCollection(_defaultSheets, currentSheets.ToList(), device);
         }
 
@@ -87,30 +120,61 @@ namespace AngleSharp.Css.RenderTree
             IElement element,
             StyleCollection collection,
             ElementRenderNode? parent,
-            ICssStyleDeclaration? parentSpecifiedStyle,
+            CssStyleDeclaration? inheritedStyle,
             ICssStyleDeclaration? parentComputedStyle,
             ICssStyleDeclaration? explicitStyle = null,
-            StyleCollection? slottedCollection = null)
+            StyleCollection? slottedCollection = null,
+            Func<ICssStyleDeclaration?>? getInheritedStyle = null,
+            Boolean partial = false)
         {
             var shadowCollection = CreateShadowCollection(element, collection);
             explicitStyle ??= shadowCollection is not null
                 ? collection.ComputeHostStyle(shadowCollection, element)
                 : collection.ComputeExplicitStyle(element);
 
-            var specifiedStyle = new CssStyleDeclaration(_context);
-            specifiedStyle.SetDeclarations(explicitStyle);
-
-            if (parentSpecifiedStyle is not null)
-            {
-                specifiedStyle.InheritFrom(parentSpecifiedStyle);
-            }
-
             var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);
             var computedStyle = explicitStyle.PrepareComputedDeclarations(parentComputedStyle!, computeContext).Compute(computeContext).Blockify(element);
-            var children = new List<IRenderNode>();
-            var node = new ElementRenderNode(element, parent, children, specifiedStyle, computedStyle);
+            var pending = partial ? new PendingChildren(this, collection, shadowCollection, slottedCollection, getInheritedStyle) : null;
+            var children = partial ? null : new List<IRenderNode>();
+            // inherits the specified style of the parent node, unless another one is given
+            var node = new ElementRenderNode(element, parent, children, explicitStyle, inheritedStyle, computedStyle, _context, pending);
 
-            _cascadedStyles[element] = specifiedStyle;
+            if (children is not null)
+            {
+                _renderedNodes[element] = node;
+                AddChildren(node, children, collection, shadowCollection, slottedCollection, false);
+            }
+
+            return node;
+        }
+
+        private void AddChildren(ElementRenderNode node, List<IRenderNode> children, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection, Boolean partial)
+        {
+            var element = node.Ref;
+            var beforeNode = element is IPseudoElement ? null : RenderPseudoElement(element, "before", collection, node, node.ComputedStyle, partial);
+
+            if (beforeNode is not null)
+            {
+                children.Add(beforeNode);
+            }
+
+            AddContent(node, children, collection, shadowCollection, slottedCollection, partial);
+
+            var afterNode = element is IPseudoElement ? null : RenderPseudoElement(element, "after", collection, node, node.ComputedStyle, partial);
+
+            if (afterNode is not null)
+            {
+                children.Add(afterNode);
+            }
+        }
+
+        /// <summary>
+        /// Adds the children of the node without its ::before and ::after.
+        /// </summary>
+        private void AddContent(ElementRenderNode node, List<IRenderNode> children, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection, Boolean partial)
+        {
+            var element = node.Ref;
+            var computedStyle = node.ComputedStyle;
 
             if (element is IPseudoElement)
             {
@@ -121,36 +185,113 @@ namespace AngleSharp.Css.RenderTree
                 // this same element, since a pseudo-element has no attributes of its own to differ from
                 // its host's).
                 children.Add(new TextRenderNode(_window.Document.CreateTextNode(ContentDeclaration.Stringify(computedStyle, element)), node));
-                return node;
-            }
-
-            var beforeNode = RenderPseudoElement(element, "before", collection, node, specifiedStyle, computedStyle);
-
-            if (beforeNode is not null)
-            {
-                children.Add(beforeNode);
+                return;
             }
 
             foreach (var child in GetFlatChildren(element, collection, shadowCollection, slottedCollection))
             {
                 if (child.Node is IElement childElement)
                 {
-                    children.Add(RenderElement(childElement, child.Collection, node, specifiedStyle, computedStyle, slottedCollection: child.SlottedCollection));
+                    children.Add(RenderElement(childElement, child.Collection, node, null, computedStyle, slottedCollection: child.SlottedCollection, partial: partial));
                 }
                 else if (child.Node is IText childText)
                 {
                     children.Add(new TextRenderNode(childText, node));
                 }
             }
+        }
 
-            var afterNode = RenderPseudoElement(element, "after", collection, node, specifiedStyle, computedStyle);
+        /// <summary>
+        /// What is needed to build the children of a node of a partial tree later on, and what
+        /// only such a node needs.
+        /// </summary>
+        internal sealed class PendingChildren
+        {
+            private readonly RenderTreeBuilder _builder;
+            private readonly StyleCollection _collection;
+            private readonly StyleCollection? _shadowCollection;
+            private readonly StyleCollection? _slottedCollection;
+            private List<IRenderNode>? _content;
+            private List<IRenderNode>? _children;
 
-            if (afterNode is not null)
+            public PendingChildren(RenderTreeBuilder builder, StyleCollection collection, StyleCollection? shadowCollection, StyleCollection? slottedCollection, Func<ICssStyleDeclaration?>? getInheritedStyle)
             {
-                children.Add(afterNode);
+                _builder = builder;
+                _collection = collection;
+                _shadowCollection = shadowCollection;
+                _slottedCollection = slottedCollection;
+                GetInheritedStyle = getInheritedStyle;
             }
 
-            return node;
+            /// <summary>
+            /// Gets the specified style to inherit from for the root of the partial tree, if
+            /// it has a parent element.
+            /// </summary>
+            public Func<ICssStyleDeclaration?>? GetInheritedStyle { get; }
+
+            /// <summary>
+            /// Gets the children of the node without its ::before and ::after, which are built
+            /// on first read.
+            /// </summary>
+            public List<IRenderNode> GetContent(ElementRenderNode node)
+            {
+                var content = Volatile.Read(ref _content);
+
+                if (content is null)
+                {
+                    content = new List<IRenderNode>();
+                    _builder.AddContent(node, content, _collection, _shadowCollection, _slottedCollection, true);
+                    // another thread may have been faster: then its children are the ones of the node
+                    content = Interlocked.CompareExchange(ref _content, content, null) ?? content;
+                }
+
+                return content;
+            }
+
+            /// <summary>
+            /// Forgets the children without the ::before and ::after.
+            /// </summary>
+            public void ReleaseContent() => Volatile.Write(ref _content, null);
+
+            /// <summary>
+            /// Gets all children of the node, which are built on first read.
+            /// </summary>
+            public IEnumerable<IRenderNode> GetChildren(ElementRenderNode node)
+            {
+                var children = Volatile.Read(ref _children);
+
+                if (children is null)
+                {
+                    var before = BuildPseudoElement(node, "before");
+                    var content = GetContent(node);
+                    var after = BuildPseudoElement(node, "after");
+                    children = new List<IRenderNode>(content.Count + 2);
+
+                    if (before is not null)
+                    {
+                        children.Add(before);
+                    }
+
+                    children.AddRange(content);
+
+                    if (after is not null)
+                    {
+                        children.Add(after);
+                    }
+
+                    // another thread may have been faster: then its children are the ones of the node
+                    children = Interlocked.CompareExchange(ref _children, children, null) ?? children;
+                }
+
+                return children;
+            }
+
+            /// <summary>
+            /// Builds the ::before or ::after of the node, if it has one.
+            /// </summary>
+            public ElementRenderNode? BuildPseudoElement(ElementRenderNode node, String name) => node.Ref is IPseudoElement ?
+                null :
+                _builder.RenderPseudoElement(node.Ref, name, _collection, node, node.ComputedStyle, true);
         }
 
         /// <summary>
@@ -183,7 +324,7 @@ namespace AngleSharp.Css.RenderTree
                 return null;
             }
 
-            var shadowSheets = shadowRoot.StyleSheets.OfType<ICssStyleSheet>().ToList();
+            var shadowSheets = shadowRoot.GetEffectiveStyleSheets().ToList();
             return new StyleCollection(_defaultSheets, shadowSheets, collection.Device, element);
         }
 
@@ -245,12 +386,14 @@ namespace AngleSharp.Css.RenderTree
             String name,
             StyleCollection collection,
             ElementRenderNode parent,
-            ICssStyleDeclaration parentSpecifiedStyle,
-            ICssStyleDeclaration parentComputedStyle)
+            ICssStyleDeclaration parentComputedStyle,
+            Boolean partial)
         {
             var pseudo = element.Pseudo(name);
 
-            if (pseudo is null)
+            // Only a rule can declare `content`: without one that may match the pseudo-element
+            // (most elements have none) it has no box, and its style is not computed at all.
+            if (pseudo is null || !collection.GetIndex().MayDeclareContent(pseudo))
             {
                 return null;
             }
@@ -264,7 +407,7 @@ namespace AngleSharp.Css.RenderTree
                 return null;
             }
 
-            var node = RenderElement(pseudo, collection, parent, parentSpecifiedStyle, parentComputedStyle, explicitStyle);
+            var node = RenderElement(pseudo, collection, parent, null, parentComputedStyle, explicitStyle, partial: partial);
 
             // Per spec, `content: none` (and the initial/unset `normal`, equivalent for these two
             // pseudo-elements specifically) means no box is generated at all - not merely an empty

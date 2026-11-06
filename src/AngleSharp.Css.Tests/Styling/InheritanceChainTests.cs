@@ -184,6 +184,72 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(String.Empty, levels[0].ComputedStyle.GetPropertyValue("--undeclared"));
         }
 
+        // The specified style is built when it is first read, from the one the parent had
+        // when it was built: the order of reading and later modifications must not matter.
+        [Test]
+        public void SpecifiedStylesAreTheSameInAnyReadingOrder()
+        {
+            var html = "<style>div { color: red } p { --a: 1px }</style><div id=parent style=\"margin-left: 2px\"><p id=child>x</p></div>";
+            var tree = Parse(html).DefaultView.Render();
+            var childFirst = Find(tree, "child").SpecifiedStyle;
+            var parentAfter = Find(tree, "parent").SpecifiedStyle;
+            var other = Parse(html).DefaultView.Render();
+            var parentFirst = Find(other, "parent").SpecifiedStyle;
+            parentFirst.SetProperty("color", "blue");
+            var childAfter = Find(other, "child").SpecifiedStyle;
+
+            Assert.AreEqual("rgba(255, 0, 0, 1)", childFirst.GetPropertyValue("color"));
+            Assert.AreEqual("1px", childFirst.GetPropertyValue("--a"));
+            Assert.AreEqual(childFirst.CssText, childAfter.CssText);
+            Assert.AreEqual("2px", parentAfter.GetPropertyValue("margin-left"));
+            Assert.AreEqual("rgba(0, 0, 255, 1)", parentFirst.GetPropertyValue("color"));
+        }
+
+        [Test]
+        public void ElementRenderedAgainInheritsTheCurrentSpecifiedStyleOfItsParent()
+        {
+            var document = Parse("<div id=parent style=\"color: red\"><p id=child>x</p></div>");
+            var window = document.DefaultView;
+            var parent = Find(window.Render(), "parent");
+            parent.SpecifiedStyle.SetProperty("color", "blue");
+
+            var child = window.Render(document.GetElementById("child"), parent);
+            parent.SpecifiedStyle.SetProperty("color", "green");
+
+            Assert.AreEqual("rgba(0, 0, 255, 1)", child.SpecifiedStyle.GetPropertyValue("color"));
+        }
+
+        [Test]
+        public void ConcurrentFirstReadsOfTheSpecifiedStyleGetTheSameOne()
+        {
+            var levels = BuildChain(50, level => level == 10 ? "color: red" : null);
+            var target = levels[levels.Count - 1];
+            var results = new ICssStyleDeclaration[4];
+
+            using (var barrier = new System.Threading.Barrier(results.Length))
+            {
+                var threads = Enumerable.Range(0, results.Length).Select(i => new System.Threading.Thread(() =>
+                {
+                    barrier.SignalAndWait();
+                    results[i] = target.SpecifiedStyle;
+                })).ToList();
+                threads.ForEach(m => m.Start());
+                threads.ForEach(m => m.Join());
+            }
+
+            Assert.IsTrue(results.All(m => ReferenceEquals(m, results[0])));
+            Assert.AreEqual("rgba(255, 0, 0, 1)", results[0].GetPropertyValue("color"));
+        }
+
+        [Test]
+        public void CascadedStyleOfARenderedPseudoElementIsItsSpecifiedStyle()
+        {
+            var tree = Parse("<style>#target::before { content: 'x'; color: red }</style><div id=target>y</div>").DefaultView.Render();
+            var before = Find(tree, "target").Children.OfType<ElementRenderNode>().Single();
+
+            Assert.AreSame(before.SpecifiedStyle, ((IPseudoElement)before.Ref).GetCascadedStyle());
+        }
+
         // a chain of divs built with the DOM API, with the given inline style per level
         private static List<ElementRenderNode> BuildChain(int depth, Func<int, string> style)
         {

@@ -1,3 +1,24 @@
+# 1.4.0
+
+Released on Friday, November 6 2026.
+
+- Updated to use a minimum of AngleSharp 1.10
+- Improved rendering by building pseudo-elements and specified styles only when needed
+- Improved presentational hints by reading the quirks mode without reflection (#268) @michaelthyregod
+- Improved `GetInnerText` by using the render tree, skipping hidden content and reading shadow hosts through their slots (#267) @michaelthyregod
+- Improved the memory use of render trees (#269) @michaelthyregod
+- Fixed `maxWidth` of a style being a method for script
+- Fixed the initial values of `position` and `background-origin` being named `inline` and `border-box`
+- Fixed `getComputedStyle` giving script empty values for what was not declared instead of the initial values, e.g. `position` not being `static`
+- Fixed `CSS.supports` throwing for a condition it can't parse, and not taking a declaration without parentheses
+- Added support for `::selection` pseudo elements
+- Added `addListener` and `removeListener` to `MediaQueryList`
+- Added `selector()` to supports conditions
+- Added the accessors of all style properties for script that can be applied (e.g. `gap`, `aspectRatio`, `gridTemplateColumns`, `inset`), with the names having hyphens (`style['max-width']`) and `float`
+- Added `ICssUsedValueProvider`, for `getComputedStyle` to give script what layout found
+- Added `CSSStyleSheet` and `adoptedStyleSheets` to the document
+- Added support for the popover API using the `:popover-open` pseudo-class, the `::backdrop` pseudo-element
+
 # 1.3.2
 
 Released on Tuesday, November 3 2026.

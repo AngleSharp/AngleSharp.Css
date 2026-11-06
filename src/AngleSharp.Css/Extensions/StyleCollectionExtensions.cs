@@ -30,7 +30,7 @@ namespace AngleSharp.Css
             var ctx = document.Context;
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
-            var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
+            var currentSheets = document.GetEffectiveStyleSheets();
             return new StyleCollection(defaultSheets, currentSheets, renderDevice);
         }
 

@@ -202,7 +202,11 @@ namespace AngleSharp.Css.Parser
 
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
-            var sheet = new CssStyleSheet(_context, source);
+            return ParseStylesheet(source, new CssStyleSheet(_context, source));
+        }
+
+        internal ICssStyleSheet ParseStylesheet(TextSource source, CssStyleSheet sheet)
+        {
             var tokenizer = CreateTokenizer(source);
             var builder = new CssBuilder(_options, tokenizer, _context);
             InvokeEventListener(new CssParseEvent(sheet, completed: false));

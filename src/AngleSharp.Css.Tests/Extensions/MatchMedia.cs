@@ -10,6 +10,167 @@ namespace AngleSharp.Css.Tests.Extensions
     [TestFixture]
     public class MatchMediaTests
     {
+        [TestCase("selector(div)", true)]
+        [TestCase("selector(:hover)", true)]
+        [TestCase("selector(:not-a-real-pseudo-class)", false)]
+        [TestCase("not selector(:not-a-real-pseudo-class)", true)]
+        [TestCase("selector(div) and (color: red)", true)]
+        [TestCase("(color: red)", true)]
+        [TestCase("color: red", true)]
+        [TestCase("(color: notacolor)", false)]
+        [TestCase("this is ( not parseable", false)]
+        [TestCase("", false)]
+        public void SupportsAnswersWithoutThrowing(System.String condition, System.Boolean expected)
+        {
+            var window = CreateWindow(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
+            Assert.AreEqual(expected, window.Supports(condition));
+        }
+
+        private static (IWindow Window, IElement Element) CreateStyled(System.String style)
+        {
+            var document = new HtmlParser(new HtmlParserOptions(), BrowsingContext.New(Configuration.Default.WithCss())).ParseDocument($"<!doctype html><div id=d style=\"{style}\"></div>");
+            return (document.DefaultView, document.GetElementById("d"));
+        }
+
+        [TestCase("position", "static")]
+        [TestCase("visibility", "visible")]
+        [TestCase("overflow-x", "visible")]
+        [TestCase("overflow-y", "visible")]
+        [TestCase("overflow", "visible")]
+        [TestCase("opacity", "1")]
+        [TestCase("flex-direction", "row")]
+        public void ScriptSeesInitialValuesOfWhatWasNotDeclared(System.String property, System.String expected)
+        {
+            var (window, element) = CreateStyled("");
+            Assert.AreEqual(expected, window.GetComputedStyleOfScript(element).GetPropertyValue(property));
+        }
+
+        [Test]
+        public void ScriptSeesWhatWasDeclared()
+        {
+            var (window, element) = CreateStyled("position: absolute; overflow: hidden");
+            var style = window.GetComputedStyleOfScript(element);
+
+            Assert.AreEqual("absolute", style.GetPropertyValue("position"));
+            Assert.AreEqual("hidden", style.GetPropertyValue("overflow"));
+            Assert.AreEqual("visible", style.GetPropertyValue("visibility"));
+        }
+
+        [Test]
+        public void TheComputedStyleForDotNetStillTellsWhatWasNotDeclared()
+        {
+            var (window, element) = CreateStyled("");
+            window.GetComputedStyleOfScript(element);
+
+            Assert.AreEqual(System.String.Empty, window.GetComputedStyle(element).GetPropertyValue("position"));
+        }
+
+        private static readonly System.Collections.Generic.HashSet<System.String> NotForScript = new System.Collections.Generic.HashSet<System.String>
+        {
+            // pages test for these to rely on them, but nothing applies them
+            "anchor-name", "anchor-scope", "position-anchor", "position-area", "position-try-fallbacks", "position-try-order", "position-visibility",
+            "animation-timeline", "animation-range", "animation-range-start", "animation-range-end", "view-transition-name", "view-transition-class",
+            // these are not properties of a style
+            "src", "unicode-range", "font-display", "size-adjust", "ascent-override", "descent-override", "line-gap-override",
+            "min-zoom", "max-zoom", "user-zoom", "orientation", "string-set", "running", "footnote-display", "footnote-policy",
+            "bookmark-level", "bookmark-label", "bookmark-state", "background-repeat-x", "background-repeat-y", "scrollbar-base-color",
+        };
+
+        private static System.Collections.Generic.IEnumerable<System.String> AllProperties() =>
+            typeof(ICssStyleDeclaration).Assembly.GetType("AngleSharp.Css.PropertyNames")
+                .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                .Select(m => (System.String)m.GetValue(null));
+
+        private static ILookup<System.String, System.Reflection.MethodInfo> ScriptMembers() =>
+            typeof(StyleDeclarationExtensions).GetMethods()
+                .SelectMany(m => m.GetCustomAttributes(typeof(AngleSharp.Attributes.DomNameAttribute), false)
+                    .Cast<AngleSharp.Attributes.DomNameAttribute>()
+                    .Select(n => new { n.OfficialName, Method = m }))
+                .ToLookup(m => m.OfficialName, m => m.Method);
+
+        private static System.String ToCamelCase(System.String name)
+        {
+            var parts = name.TrimStart('-').Split('-');
+            return parts[0] + System.String.Concat(parts.Skip(1).Select(m => char.ToUpperInvariant(m[0]) + m.Substring(1)));
+        }
+
+        [Test]
+        public void EveryPropertyThatCanBeAppliedHasAnAccessorAndAHyphenatedName()
+        {
+            var members = ScriptMembers();
+            var missing = AllProperties()
+                .Where(m => !NotForScript.Contains(m) && m != "float")
+                .Where(m => members[ToCamelCase(m)].Count() != 2 || members[m].Count() != 2)
+                .ToArray();
+
+            Assert.IsEmpty(missing);
+        }
+
+        [Test]
+        public void WhatCanNotBeAppliedHasNoAccessorSoThatPagesDoNotRelyOnIt()
+        {
+            var members = ScriptMembers();
+            var exposed = NotForScript.Where(m => members[ToCamelCase(m)].Any() || members[m].Any()).ToArray();
+
+            Assert.IsEmpty(exposed);
+        }
+
+        [Test]
+        public void EveryMemberIsAnAccessor()
+        {
+            var plain = typeof(StyleDeclarationExtensions).GetMethods()
+                .Where(m => m.IsDefined(typeof(AngleSharp.Attributes.DomNameAttribute), false) && !m.IsDefined(typeof(AngleSharp.Attributes.DomAccessorAttribute), false))
+                .Select(m => m.Name)
+                .ToArray();
+
+            Assert.IsEmpty(plain);
+        }
+
+        [Test]
+        public void FloatHasBothOfItsNames()
+        {
+            var members = ScriptMembers();
+
+            Assert.AreEqual(2, members["cssFloat"].Count());
+            Assert.AreEqual(2, members["float"].Count());
+        }
+
+        private sealed class FixedUsedValues : ICssUsedValueProvider
+        {
+            public System.String GetUsedValue(IElement element, System.String propertyName) => propertyName == "width" ? "123px" : null;
+        }
+
+        [Test]
+        public void ScriptSeesWhatLayoutFound()
+        {
+            var config = Configuration.Default.WithCss();
+            var context = BrowsingContext.New(config);
+            context.SetUsedValueProvider(new FixedUsedValues());
+            var document = new HtmlParser(new HtmlParserOptions(), context).ParseDocument("<!doctype html><div id=d style='height: 5px'></div>");
+            var element = document.GetElementById("d");
+            var style = document.DefaultView.GetComputedStyleOfScript(element);
+
+            Assert.AreEqual("123px", style.GetPropertyValue("width"));
+            Assert.AreEqual("5px", style.GetPropertyValue("height"));
+            Assert.AreEqual(System.String.Empty, document.DefaultView.GetComputedStyle(element).GetPropertyValue("width"));
+        }
+
+        [Test]
+        public void AddListenerListensToChangesUntilRemoved()
+        {
+            var window = CreateWindow(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
+            var list = window.MatchMedia("all");
+            var calls = 0;
+            DomEventHandler listener = (_, _) => calls++;
+
+            list.AddListener(listener);
+            list.Dispatch(new AngleSharp.Dom.Events.Event("change"));
+            list.RemoveListener(listener);
+            list.Dispatch(new AngleSharp.Dom.Events.Event("change"));
+
+            Assert.AreEqual(1, calls);
+        }
+
         [Test]
         public void MatchMediaWithoutAnyQueryIsMatched()
         {

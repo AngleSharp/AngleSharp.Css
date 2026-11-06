@@ -54,13 +54,15 @@ namespace AngleSharp
             }
 
             // Wraps whatever pseudo-class selector factory is registered so that pseudo-classes
+            // only supported with CSS (e.g. :popover-open) are recognized, and so that pseudo-classes
             // it recognizes (e.g. :hover, :active) can be forced per element via
             // ElementExtensions.SetPseudoClass, regardless of which factory instance is in use.
             var pseudoClassFactory = configuration.Services.OfType<IPseudoClassSelectorFactory>().FirstOrDefault();
 
             if (pseudoClassFactory is not null && pseudoClassFactory is not ForcingPseudoClassSelectorFactory)
             {
-                configuration = configuration.WithOnly<IPseudoClassSelectorFactory>(new ForcingPseudoClassSelectorFactory(pseudoClassFactory));
+                configuration = configuration.WithOnly<IPseudoClassSelectorFactory>(
+                    new ForcingPseudoClassSelectorFactory(new CssPseudoClassSelectorFactory(pseudoClassFactory)));
             }
 
             // Wraps whatever pseudo-element selector factory is registered so that pseudo-elements

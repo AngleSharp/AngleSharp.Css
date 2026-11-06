@@ -81,6 +81,24 @@ namespace AngleSharp.Css.Parser
 
         private static IConditionFunction Group(this StringSource source, IBrowsingContext context, Int32 depth)
         {
+            var start = source.Index;
+
+            if (source.ParseIdent() is String name && name.Isi("selector") && source.Current == Symbols.RoundBracketOpen)
+            {
+                source.SkipCurrentAndSpaces();
+                var selector = source.TakeUntilClosed();
+
+                if (selector != null && source.Current == Symbols.RoundBracketClose)
+                {
+                    source.SkipCurrentAndSpaces();
+                    return new SelectorCondition(context, selector);
+                }
+
+                return null;
+            }
+
+            source.BackTo(start);
+
             // each parenthesis recurses, so beyond the limit the condition is invalid
             if (source.Current == Symbols.RoundBracketOpen && depth < ValueNesting.Limit)
             {

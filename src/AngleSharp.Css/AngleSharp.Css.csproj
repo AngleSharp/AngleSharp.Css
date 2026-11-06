@@ -40,7 +40,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AngleSharpVersion Condition=" '$(AngleSharpVersion)' == '' ">1.9.0</AngleSharpVersion>
+    <AngleSharpVersion Condition=" '$(AngleSharpVersion)' == '' ">1.10.0</AngleSharpVersion>
   </PropertyGroup>
 
   <ItemGroup>

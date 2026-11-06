@@ -15,7 +15,14 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly String Placeholder = "placeholder";
 
+        /// <summary>
+        /// The name of the `::backdrop` pseudo-element (CSS Position 4 §4.2).
+        /// </summary>
+        public static readonly String Backdrop = "backdrop";
+
         private static readonly ISelector PlaceholderSelector = new CssPseudoElementSelector(Placeholder);
+
+        private static readonly ISelector BackdropSelector = new CssPseudoElementSelector(Backdrop);
 
         private readonly IPseudoElementSelectorFactory _inner;
 
@@ -28,9 +35,17 @@ namespace AngleSharp.Css
         {
             var selector = _inner.Create(name);
 
-            if (selector is null && name.Equals(Placeholder, StringComparison.OrdinalIgnoreCase))
+            if (selector is null)
             {
-                return PlaceholderSelector;
+                if (name.Equals(Placeholder, StringComparison.OrdinalIgnoreCase))
+                {
+                    return PlaceholderSelector;
+                }
+
+                if (name.Equals(Backdrop, StringComparison.OrdinalIgnoreCase))
+                {
+                    return BackdropSelector;
+                }
             }
 
             return selector;

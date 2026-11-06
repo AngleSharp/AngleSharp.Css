@@ -863,7 +863,7 @@ namespace AngleSharp.Css.Parser
                             value = ResolveRelativeUrls(owner, value);
                         }
 
-                        if ((owner?.OwnerNode?.Owner ?? _context.Active)?.CompatMode == "BackCompat")
+                        if (PresentationalHints.IsQuirksMode(owner?.OwnerNode?.Owner ?? _context.Active))
                         {
                             value = ApplyQuirks(name, value);
                         }
@@ -1084,16 +1084,19 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static String ResolveRelativeUrls(ICssStyleSheet owner, String value)
         {
+            var constructedSheet = owner as CssStyleSheet;
+            var isConstructed = constructedSheet?.IsConstructed == true;
+
             if (value.IndexOf("url(", StringComparison.OrdinalIgnoreCase) < 0 ||
-                String.IsNullOrEmpty(owner?.Href) ||
-                owner.OwnerNode is IHtmlStyleElement)
+                (!isConstructed && String.IsNullOrEmpty(owner?.Href)) ||
+                (!isConstructed && owner.OwnerNode is IHtmlStyleElement))
             {
                 return value;
             }
 
-            var baseUrl = new Url(owner.Href);
+            var baseUrl = isConstructed ? constructedSheet.BaseUrl : new Url(owner.Href);
 
-            if (baseUrl.IsInvalid)
+            if (baseUrl is null || baseUrl.IsInvalid)
             {
                 return value;
             }
