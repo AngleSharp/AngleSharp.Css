@@ -15,6 +15,7 @@ Released on Friday, November 6 2026.
 - Added `selector()` to supports conditions
 - Added the accessors of all style properties for script that can be applied (e.g. `gap`, `aspectRatio`, `gridTemplateColumns`, `inset`), with the names having hyphens (`style['max-width']`) and `float`
 - Added `ICssUsedValueProvider`, for `getComputedStyle` to give script what layout found
+- Added `CSSStyleSheet` and `adoptedStyleSheets` to the document
 
 # 1.3.2
 

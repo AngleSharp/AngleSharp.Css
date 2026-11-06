@@ -112,7 +112,7 @@ namespace AngleSharp.Css.RenderTree
         private StyleCollection CreateStyleCollection(IRenderDevice device)
         {
             var document = _window.Document;
-            var currentSheets = document.GetStyleSheets().OfType<ICssStyleSheet>();
+            var currentSheets = document.GetEffectiveStyleSheets();
             return new StyleCollection(_defaultSheets, currentSheets.ToList(), device);
         }
 
@@ -324,7 +324,7 @@ namespace AngleSharp.Css.RenderTree
                 return null;
             }
 
-            var shadowSheets = shadowRoot.StyleSheets.OfType<ICssStyleSheet>().ToList();
+            var shadowSheets = shadowRoot.GetEffectiveStyleSheets().ToList();
             return new StyleCollection(_defaultSheets, shadowSheets, collection.Device, element);
         }
 

@@ -149,5 +149,27 @@ namespace AngleSharp.Css.Tests.Extensions
             Assert.AreEqual("rgba(0, 128, 0, 1)", shadow.ComputedStyle.GetColor());
             Assert.AreEqual("rgba(255, 0, 0, 1)", light.ComputedStyle.GetColor());
         }
+
+        [Test]
+        public void AdoptedSheetsAreScopedToTheirShadowRootAndStyleItsHost()
+        {
+            AssumeHostIsSupported();
+
+            var document = CreateHost("<span id=light>Light</span>", "<span id=shadow>Shadow</span><slot></slot>");
+            var host = document.GetElementById("host");
+            var shadowRoot = host.ShadowRoot;
+            var sheet = new CssStyleSheet(document.DefaultView);
+            sheet.ReplaceSync(":host { display: inline-block } span { color: green }");
+            shadowRoot.SetAdoptedStyleSheets(new[] { sheet });
+
+            var nodes = Flatten(Render(document)).ToList();
+            var renderedHost = nodes.First(m => m.Ref.Id == "host");
+            var shadow = nodes.First(m => m.Ref.Id == "shadow");
+            var light = nodes.First(m => m.Ref.Id == "light");
+
+            Assert.AreEqual("inline-block", renderedHost.ComputedStyle.GetDisplay());
+            Assert.AreEqual("rgba(0, 128, 0, 1)", shadow.ComputedStyle.GetColor());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", light.ComputedStyle.GetColor());
+        }
     }
 }
