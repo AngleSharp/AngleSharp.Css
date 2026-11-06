@@ -50,7 +50,9 @@ namespace AngleSharp.Css.Tests.Styling
             // 80, not 73: the UA stylesheet now also has rules of its own for text areas, selects,
             // list boxes, file, search and date/time inputs, progress bars and meters.
             // 81, not 80: the UA stylesheet now also gives `iframe` its default border.
-            Assert.AreEqual(81, sheet.Rules.Length);
+            // 85, not 81: the UA stylesheet now also carries the popover rules (hidden unless
+            // shown, centered in the viewport, and the `::backdrop` of a shown popover).
+            Assert.AreEqual(85, sheet.Rules.Length);
         }
     }
 }

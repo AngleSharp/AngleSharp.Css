@@ -25,6 +25,7 @@ namespace AngleSharp.Css
             { PseudoElementNames.After, element => new PseudoElement(element, PseudoElementNames.After) },
             { PseudoElementNames.Slotted, element => new PseudoElement(element, PseudoElementNames.Slotted) },
             { CssPseudoElementSelectorFactory.Placeholder, CreatePlaceholder },
+            { CssPseudoElementSelectorFactory.Backdrop, CreateBackdrop },
             { PseudoElementNames.Selection, element => new PseudoElement(element, PseudoElementNames.Selection) },
         };
 
@@ -34,6 +35,17 @@ namespace AngleSharp.Css
             if ((host is IHtmlInputElement || host is IHtmlTextAreaElement) && host.HasAttribute(AttributeNames.Placeholder))
             {
                 return new PseudoElement(host, CssPseudoElementSelectorFactory.Placeholder);
+            }
+
+            return null;
+        }
+
+        private static IPseudoElement CreateBackdrop(IElement host)
+        {
+            // Only an element in the top layer has a backdrop; for now that is a shown popover.
+            if (host is IHtmlElement html && html.IsPopoverOpen())
+            {
+                return new PseudoElement(host, CssPseudoElementSelectorFactory.Backdrop);
             }
 
             return null;

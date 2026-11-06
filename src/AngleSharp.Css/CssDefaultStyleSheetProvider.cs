@@ -83,6 +83,10 @@ param, rp, script,
 style, template,
 title           { display: none }
 [hidden]        { display: none }
+[popover]:not(:popover-open):not(dialog[open]) { display: none }
+dialog:popover-open { display: block }
+[popover]       { position: fixed; inset: 0; width: fit-content; height: fit-content; margin: auto; border: solid; padding: 0.25em; overflow: auto; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255) }
+:popover-open::backdrop { position: fixed; inset: 0; pointer-events: none !important; background-color: transparent }
 table           { display: table }
 tr              { display: table-row }
 thead           { display: table-header-group }
