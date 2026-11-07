@@ -20,6 +20,9 @@ namespace AngleSharp.Css.Dom
         #region Fields
 
         private List<ICssProperty> _declarations;
+        // where the declaration of a name is; null as long as there are just a few, which are
+        // found by a scan (see Find): there is a declaration for the computed and the specified
+        // style of every element, which live as long as the render tree
         private Dictionary<String, Int32> _declarationIndex;
         private readonly IBrowsingContext _context;
         private Boolean _reportsInitialValues;
@@ -49,7 +52,6 @@ namespace AngleSharp.Css.Dom
         public CssStyleDeclaration(IBrowsingContext context)
         {
             _declarations = new List<ICssProperty>();
-            _declarationIndex = new Dictionary<String, Int32>(StringComparer.Ordinal);
             _context = context;
         }
 
@@ -60,8 +62,23 @@ namespace AngleSharp.Css.Dom
         internal CssStyleDeclaration(IBrowsingContext context, Int32 capacity)
         {
             _declarations = new List<ICssProperty>(capacity);
-            _declarationIndex = new Dictionary<String, Int32>(capacity, StringComparer.Ordinal);
+            _declarationIndex = capacity > MaxUnindexed ? new Dictionary<String, Int32>(capacity, StringComparer.Ordinal) : null;
             _context = context;
+        }
+
+        /// <summary>
+        /// Gives back the room of a declaration created with more capacity than it ended up
+        /// using (see the constructor), e.g. a cascade where many declarations replace each
+        /// other. It lives as long as the render tree, and would be copied with all its room
+        /// by every garbage collection meanwhile.
+        /// </summary>
+        internal void TrimExcess()
+        {
+            if (_snapshot is null && _declarations.Capacity > 2 * _declarations.Count + 8)
+            {
+                _declarations.TrimExcess();
+                _declarationIndex = _declarations.Count > MaxUnindexed ? CreateIndex(_declarations, _declarationIndex) : null;
+            }
         }
 
         public CssStyleDeclaration(ICssRule parent)
@@ -172,7 +189,7 @@ namespace AngleSharp.Css.Dom
                 _inherited = null;
                 _forced = null;
                 _declarations.Clear();
-                _declarationIndex.Clear();
+                _declarationIndex = null;
 
                 if (!String.IsNullOrEmpty(value))
                 {
@@ -325,7 +342,7 @@ namespace AngleSharp.Css.Dom
                 return used;
             }
 
-            var value = GetProperty(propertyName)?.Value;
+            var value = GetPropertyValueCore(propertyName);
 
             if (String.IsNullOrEmpty(value) && _reportsInitialValues)
             {
@@ -333,6 +350,30 @@ namespace AngleSharp.Css.Dom
             }
 
             return value ?? String.Empty;
+        }
+
+        /// <summary>
+        /// Gets the value as GetProperty would, without creating the empty property of an
+        /// undeclared longhand: a renderer asks for many properties that most elements never
+        /// declare, such as counter-set.
+        /// </summary>
+        private String GetPropertyValueCore(String name)
+        {
+            name = name.StartsWith("--", StringComparison.Ordinal) ? name : name.ToLowerFast();
+            var declaration = GetDeclaration(name) ?? GetPropertyFromShorthand(name);
+
+            if (declaration is not null)
+            {
+                return declaration.Value;
+            }
+
+            // only a shorthand can be put together from its longhands
+            if (_context.GetDeclarationInfo(name).Longhands.Length == 0)
+            {
+                return String.Empty;
+            }
+
+            return GetPropertyShorthand(name)?.Value;
         }
 
         /// <summary>
@@ -441,8 +482,8 @@ namespace AngleSharp.Css.Dom
         public void AddProperty(ICssProperty declaration)
         {
             EnsureWritable();
-            _declarationIndex[declaration.Name] = _declarations.Count;
             _declarations.Add(declaration);
+            Indexed(declaration.Name, _declarations.Count - 1);
         }
 
         public void RemoveProperty(ICssProperty declaration)
@@ -531,8 +572,8 @@ namespace AngleSharp.Css.Dom
             }
             else
             {
-                _declarationIndex[declaration.Name] = _declarations.Count;
                 _declarations.Add(declaration);
+                Indexed(declaration.Name, _declarations.Count - 1);
             }
         }
 
@@ -637,7 +678,7 @@ namespace AngleSharp.Css.Dom
             if (_snapshot is not null)
             {
                 _declarations = new List<ICssProperty>(_declarations);
-                _declarationIndex = new Dictionary<String, Int32>(_declarationIndex, StringComparer.Ordinal);
+                _declarationIndex = _declarationIndex is null ? null : new Dictionary<String, Int32>(_declarationIndex, StringComparer.Ordinal);
                 _forced = _forced is null ? null : new HashSet<String>(_forced, StringComparer.Ordinal);
                 _snapshot = null;
             }
@@ -652,10 +693,10 @@ namespace AngleSharp.Css.Dom
             if (_inherited is not null)
             {
                 var declarations = new List<ICssProperty>(_declarations);
-                var index = new Dictionary<String, Int32>(_declarationIndex, StringComparer.Ordinal);
+                var index = CreateIndex(_declarations, _declarationIndex);
                 Snapshot.Merge(declarations, index, _inherited.GetDeclarations(), _forced);
                 _declarations = declarations;
-                _declarationIndex = index;
+                _declarationIndex = declarations.Count > MaxUnindexed ? index : null;
                 _inherited = null;
                 _forced = null;
                 _snapshot = null;
@@ -672,8 +713,10 @@ namespace AngleSharp.Css.Dom
             private readonly Snapshot _parent;
             private readonly HashSet<String> _forced;
             private List<ICssProperty> _merged;
-            // the names looked up through this snapshot, with the nearest declaration found
+            // the names looked up through this snapshot, with the nearest declaration found:
+            // the first _nearestCount entries are set (see AddNearest)
             private NearestEntry[] _nearest;
+            private Int32 _nearestCount;
 
             public Snapshot(List<ICssProperty> declarations, Dictionary<String, Int32> index, Snapshot parent, HashSet<String> forced)
             {
@@ -729,12 +772,12 @@ namespace AngleSharp.Css.Dom
                     return _declarations;
                 }
 
-                if (_merged is null)
+                if (Volatile.Read(ref _merged) is null)
                 {
                     // resolve top-down without recursion, as the chain is as deep as the DOM
                     var pending = new Stack<Snapshot>();
 
-                    for (var current = this; current._parent is not null && current._merged is null; current = current._parent)
+                    for (var current = this; current._parent is not null && Volatile.Read(ref current._merged) is null; current = current._parent)
                     {
                         pending.Push(current);
                     }
@@ -743,13 +786,14 @@ namespace AngleSharp.Css.Dom
                     {
                         var current = pending.Pop();
                         var declarations = new List<ICssProperty>(current._declarations);
-                        var index = new Dictionary<String, Int32>(current._index, StringComparer.Ordinal);
+                        var index = CreateIndex(current._declarations, current._index);
                         Merge(declarations, index, current._parent.GetDeclarations(), current._forced);
-                        current._merged = declarations;
+                        // a computed style may be read from several threads: the first list wins
+                        Interlocked.CompareExchange(ref current._merged, declarations, null);
                     }
                 }
 
-                return _merged;
+                return Volatile.Read(ref _merged);
             }
 
             public static void Merge(List<ICssProperty> declarations, Dictionary<String, Int32> index, List<ICssProperty> inherited, HashSet<String> forced)
@@ -798,11 +842,15 @@ namespace AngleSharp.Css.Dom
 
             private Boolean TryGetNearest(String name, out ICssProperty declaration)
             {
+                // the count is published after the entries it covers (see AddNearest)
+                var count = Volatile.Read(ref _nearestCount);
                 var entries = Volatile.Read(ref _nearest);
 
                 if (entries is not null)
                 {
-                    for (var i = 0; i < entries.Length; i++)
+                    count = Math.Min(count, entries.Length);
+
+                    for (var i = 0; i < count; i++)
                     {
                         if (String.Equals(entries[i].Name, name, StringComparison.Ordinal))
                         {
@@ -818,13 +866,14 @@ namespace AngleSharp.Css.Dom
 
             private void AddNearest(String name, ICssProperty declaration)
             {
-                // only a few names are looked up, so the entries are copied on write; a
-                // concurrent reader of the same computed style sees either list
-                var entries = Volatile.Read(ref _nearest);
-
-                while (true)
+                // a computed style may be read from several threads: readers never lock, as an
+                // entry is written before the count including it is published, and an array is
+                // only replaced by a larger copy (instead of a copy per name, which made looking
+                // up the few dozen names of a renderer quadratic per element)
+                lock (this)
                 {
-                    var count = entries?.Length ?? 0;
+                    var entries = _nearest;
+                    var count = _nearestCount;
 
                     for (var i = 0; i < count; i++)
                     {
@@ -834,22 +883,24 @@ namespace AngleSharp.Css.Dom
                         }
                     }
 
-                    var updated = new NearestEntry[count + 1];
-
-                    if (count > 0)
+                    if (entries is null || count == entries.Length)
                     {
-                        Array.Copy(entries, updated, count);
+                        var grown = new NearestEntry[Math.Max(8, count * 2)];
+
+                        if (count > 0)
+                        {
+                            Array.Copy(entries, grown, count);
+                        }
+
+                        grown[count] = new NearestEntry(name, declaration);
+                        Volatile.Write(ref _nearest, grown);
+                    }
+                    else
+                    {
+                        entries[count] = new NearestEntry(name, declaration);
                     }
 
-                    updated[count] = new NearestEntry(name, declaration);
-                    var previous = Interlocked.CompareExchange(ref _nearest, updated, entries);
-
-                    if (previous == entries)
-                    {
-                        return;
-                    }
-
-                    entries = previous;
+                    Volatile.Write(ref _nearestCount, count + 1);
                 }
             }
 
@@ -869,7 +920,9 @@ namespace AngleSharp.Css.Dom
 
             private ICssProperty FindOwn(String name)
             {
-                if (_index.TryGetValue(name, out var i) && i < _declarations.Count)
+                var i = CssStyleDeclaration.Find(_declarations, _index, name, _declarations.Count);
+
+                if (i >= 0)
                 {
                     var declaration = _declarations[i];
 
@@ -943,8 +996,9 @@ namespace AngleSharp.Css.Dom
             Materialize();
             EnsureWritable();
 
-            if (_declarationIndex.TryGetValue(propertyName, out var index) && index < _declarations.Count &&
-                _declarations[index].Name.Is(propertyName))
+            var index = Find(_declarations, _declarationIndex, propertyName, _declarations.Count);
+
+            if (index >= 0 && _declarations[index].Name.Is(propertyName))
             {
                 _declarations.RemoveAt(index);
                 RebuildIndex();
@@ -996,7 +1050,7 @@ namespace AngleSharp.Css.Dom
                     if (removeExisting.Invoke(_declarations[idx], newdecl))
                     {
                         _declarations[idx] = null;
-                        _declarationIndex.Remove(newdecl.Name);
+                        _declarationIndex?.Remove(newdecl.Name);
                         removed = true;
                         skip = false;
                     }
@@ -1014,15 +1068,52 @@ namespace AngleSharp.Css.Dom
 
             if (removed)
             {
-                _declarations.RemoveAll(m => m is null);
-                RebuildIndex();
+                // compacted in place: only the entries that moved need a new index, the index
+                // is not cleared (it may have room for thousands of entries, e.g., the custom
+                // properties of :root) and built again for every rule replacing a declaration
+                var write = 0;
+
+                for (var read = 0; read < _declarations.Count; read++)
+                {
+                    var declaration = _declarations[read];
+
+                    if (declaration is not null)
+                    {
+                        if (write != read)
+                        {
+                            _declarations[write] = declaration;
+
+                            if (_declarationIndex is not null)
+                            {
+                                _declarationIndex[declaration.Name] = write;
+                            }
+                        }
+                        else if (read >= count && _declarationIndex is not null)
+                        {
+                            _declarationIndex[declaration.Name] = write;
+                        }
+
+                        write++;
+                    }
+                }
+
+                _declarations.RemoveRange(write, _declarations.Count - write);
+
+                if (_declarationIndex is null && _declarations.Count > MaxUnindexed)
+                {
+                    RebuildIndex();
+                }
             }
-            else
+            else if (_declarationIndex is not null)
             {
                 for (var i = count; i < _declarations.Count; i++)
                 {
                     _declarationIndex[_declarations[i].Name] = i;
                 }
+            }
+            else if (_declarations.Count > MaxUnindexed)
+            {
+                RebuildIndex();
             }
         }
 
@@ -1032,7 +1123,9 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         private Int32 IndexOf(String name, Int32 count)
         {
-            if (_declarationIndex.TryGetValue(name, out var index) && index < count)
+            var index = Find(_declarations, _declarationIndex, name, count);
+
+            if (index >= 0)
             {
                 var declaration = _declarations[index];
 
@@ -1048,8 +1141,9 @@ namespace AngleSharp.Css.Dom
         private void SetLonghand(ICssProperty property)
         {
             EnsureWritable();
+            var index = Find(_declarations, _declarationIndex, property.Name, _declarations.Count);
 
-            if (_declarationIndex.TryGetValue(property.Name, out var index) && index < _declarations.Count)
+            if (index >= 0)
             {
                 var declaration = _declarations[index];
 
@@ -1065,8 +1159,8 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            _declarationIndex[property.Name] = _declarations.Count;
             _declarations.Add(property);
+            Indexed(property.Name, _declarations.Count - 1);
         }
 
         private void SetShorthand(ICssProperty shorthand)
@@ -1118,14 +1212,91 @@ namespace AngleSharp.Css.Dom
             return null;
         }
 
+        // below, a scan of the declarations is about as fast as an index, which is a lot larger
+        private const Int32 MaxUnindexed = 16;
+
         private void RebuildIndex()
         {
-            _declarationIndex.Clear();
+            if (_declarations.Count <= MaxUnindexed)
+            {
+                _declarationIndex = null;
+                return;
+            }
+
+            var index = _declarationIndex ?? new Dictionary<String, Int32>(_declarations.Count, StringComparer.Ordinal);
+            index.Clear();
 
             for (var i = 0; i < _declarations.Count; i++)
             {
-                _declarationIndex[_declarations[i].Name] = i;
+                index[_declarations[i].Name] = i;
             }
+
+            _declarationIndex = index;
+        }
+
+        /// <summary>
+        /// Takes the declaration just added at the given position into the index, which is
+        /// created once there are too many to scan.
+        /// </summary>
+        private void Indexed(String name, Int32 position)
+        {
+            if (_declarationIndex is not null)
+            {
+                _declarationIndex[name] = position;
+            }
+            else if (_declarations.Count > MaxUnindexed)
+            {
+                RebuildIndex();
+            }
+        }
+
+        /// <summary>
+        /// Finds the position of the declaration with the given name among the first count
+        /// ones: by the index, or by a scan when there is none. The index has the last
+        /// position set for a name, hence the scan starts at the end.
+        /// </summary>
+        private static Int32 Find(List<ICssProperty> declarations, Dictionary<String, Int32> index, String name, Int32 count)
+        {
+            if (index is not null)
+            {
+                return index.TryGetValue(name, out var position) && position < count ? position : -1;
+            }
+
+            for (var i = Math.Min(count, declarations.Count) - 1; i >= 0; i--)
+            {
+                var declaration = declarations[i];
+
+                if (declaration is not null && String.Equals(declaration.Name, name, StringComparison.Ordinal))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Creates a copy of the index (with room for more), or an index of the declarations
+        /// if there is none.
+        /// </summary>
+        private static Dictionary<String, Int32> CreateIndex(List<ICssProperty> declarations, Dictionary<String, Int32> index)
+        {
+            if (index is not null)
+            {
+                return new Dictionary<String, Int32>(index, StringComparer.Ordinal);
+            }
+
+            var created = new Dictionary<String, Int32>(declarations.Count, StringComparer.Ordinal);
+
+            for (var i = 0; i < declarations.Count; i++)
+            {
+                if (declarations[i] is { } declaration)
+                {
+                    created[declaration.Name] = i;
+                }
+            }
+
+            return created;
         }
 
         private void RaiseChanged()

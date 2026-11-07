@@ -45,6 +45,18 @@ namespace AngleSharp.Css.Tests.Styling
         }
 
         [Test]
+        public void EmptyCustomPropertyIsSubstitutedAsWhiteSpace()
+        {
+            // what Tailwind declares for the parts of a filter not in use
+            using var document = ParseDocument("<style>* { --blur: ; --invert: ; } div { --invert: invert(100%); filter: var(--blur) var(--invert); }</style><div></div>");
+            var element = document.QuerySelector("div");
+            var styles = document.DefaultView.GetStyleCollection(new DefaultRenderDevice());
+
+            Assert.AreEqual(2, ((ICssStyleRule)document.GetStyleSheets().OfType<ICssStyleSheet>().Single().Rules[0]).Style.Length);
+            Assert.AreEqual("invert(100%)", styles.ComputeDeclarations(element).GetPropertyValue("filter"));
+        }
+
+        [Test]
         public void PublicFallbackParserPreservesNestedVariableObjects()
         {
             var source = new StringSource("var(--a,var(--b,red)))");

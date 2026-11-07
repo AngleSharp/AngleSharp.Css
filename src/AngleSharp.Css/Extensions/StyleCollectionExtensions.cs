@@ -35,6 +35,24 @@ namespace AngleSharp.Css
         }
 
         /// <summary>
+        /// Generates the style collection for the tree of the given shadow root: its elements are
+        /// styled by the rules of its own style sheets (and the user agent's), scoped to its host,
+        /// like the render tree styles them.
+        /// </summary>
+        /// <param name="shadowRoot">The shadow root whose elements are styled.</param>
+        /// <param name="renderDevice">The device to get the style collection for.</param>
+        /// <returns>The device-bound style collection.</returns>
+        public static IStyleCollection GetStyleCollection(this IShadowRoot shadowRoot, IRenderDevice renderDevice)
+        {
+            var host = shadowRoot.Host;
+            var ctx = host.Owner?.Context ?? throw new InvalidOperationException("The shadow root must be associated with a browsing context.");
+            var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
+            var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null).ToList();
+            var shadowSheets = shadowRoot.GetEffectiveStyleSheets().ToList();
+            return new StyleCollection(defaultSheets, shadowSheets, renderDevice, host);
+        }
+
+        /// <summary>
         /// Computes the declarations for the given element in the context of
         /// the specified styling rules.
         /// </summary>
@@ -158,18 +176,23 @@ namespace AngleSharp.Css
                 computedStyle.SetDeclarations(element.GetStyle());
             }
 
+            computedStyle.TrimExcess();
             return computedStyle;
         }
 
         /// <summary>
         /// Computes the declarations for the given element using a pre-computed
-        /// parent style for inheritance, avoiding the O(depth) ancestor walk.
+        /// parent style for inheritance, avoiding the O(depth) ancestor walk of
+        /// <see cref="ComputeDeclarations"/>, e.g., with the computed style of a
+        /// node of a render tree. For a pseudo-element (see
+        /// <see cref="AngleSharp.Dom.ElementExtensions.Pseudo"/>) the parent is the element
+        /// it belongs to.
         /// </summary>
         /// <param name="styles">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
         /// <param name="parentComputedStyle">The parent's already-computed style.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        internal static ICssStyleDeclaration ComputeDeclarationsWithParent(this IStyleCollection styles, IElement element, ICssStyleDeclaration parentComputedStyle)
+        public static ICssStyleDeclaration ComputeDeclarationsWithParent(this IStyleCollection styles, IElement element, ICssStyleDeclaration parentComputedStyle)
         {
             var ctx = element.Owner?.Context;
             var explicitStyle = styles.ComputeExplicitStyle(element);

@@ -211,6 +211,25 @@ namespace AngleSharp.Dom
             return builder.RenderElement(element, parent, renderDevice ?? builder.DefaultDevice);
         }
 
+        /// <summary>
+        /// Renders the element below the render node of its parent like
+        /// <see cref="Render(IWindow, IElement, ElementRenderNode, IRenderDevice)"/>, but with the given
+        /// styles of the window (see <see cref="StyleCollectionExtensions.GetStyleCollection(IWindow, IRenderDevice)"/>)
+        /// instead of gathering them anew, and the children of a node are only built when they
+        /// are read, e.g. to find out if a change of state (like hovering) changes what is
+        /// shown of an element without styling all of its subtree.
+        /// </summary>
+        /// <param name="window">The window to extend.</param>
+        /// <param name="element">The element to render.</param>
+        /// <param name="parent">The render node of the element's parent.</param>
+        /// <param name="styles">The styles of the window to use.</param>
+        /// <returns>The created render node, whose parent is the given one.</returns>
+        public static ElementRenderNode RenderPartial(this IWindow window, IElement element, ElementRenderNode parent, IStyleCollection styles)
+        {
+            var builder = RenderTreeBuilder.GetInstance(window);
+            return builder.RenderPartial(element, parent, styles);
+        }
+
         private static IRenderDevice GetRenderDevice(this IWindow window) =>
             window.Document.Context.GetService<IRenderDevice>() ?? new DefaultRenderDevice();
     }

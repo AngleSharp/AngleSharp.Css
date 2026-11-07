@@ -1,3 +1,17 @@
+# 1.4.1
+
+Released on Saturday, November 7 2026.
+
+- Improved finding the rules of an element: `:root` rules and rules whose subject requires no id or class (e.g., `.list > *`, `.menu a`) are only tried on elements of that context, which made building GitHub's render tree about twice as fast
+- Improved the cascade of many declarations replacing each other (e.g., the custom properties of a design system on `:root`)
+- Improved reading values of computed styles, e.g., of properties that are not declared
+- Improved the memory use of styles: declarations of a few entries have no index of their names, the explicit style of an element gives back the room it did not use, and resolving custom properties allocates nothing for elements without any
+- Improved building the render tree of large documents by matching the selectors of their elements on all cores (turned off by the AppContext switch `AngleSharp.Css.DisableParallelism`)
+- Fixed an empty custom property (e.g. `--tw-blur: ;`) being dropped, which made every value using it invalid, e.g. the `filter` of Tailwind's utilities
+- Added `GetStyleCollection` to shadow roots, for the rules that style the elements of a shadow tree
+- Added `RenderPartial` to the window for rendering an element into a render tree whose children are only built when they are read, e.g., to style an element again after a change of its state
+- Added `ComputeDeclarationsWithParent` to compute the style of an element (or of a pseudo-element) from the computed style of its parent, e.g., of a render tree, instead of computing the styles of all its ancestors
+
 # 1.4.0
 
 Released on Friday, November 6 2026.

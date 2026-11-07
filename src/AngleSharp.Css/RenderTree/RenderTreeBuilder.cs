@@ -12,9 +12,18 @@ namespace AngleSharp.Css.RenderTree
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading;
+    using System.Threading.Tasks;
 
     sealed class RenderTreeBuilder
     {
+        // below, computing the styles on several threads costs more than it saves
+        private const Int32 MinElementsComputedInParallel = 200;
+
+        /// <summary>
+        /// The name of the AppContext switch turning off computing styles on several threads.
+        /// </summary>
+        internal const String DisableParallelismSwitch = "AngleSharp.Css.DisableParallelism";
+
         private static readonly ConditionalWeakTable<IWindow, RenderTreeBuilder> _windowRenderTrees = new();
 
         private readonly IBrowsingContext _context;
@@ -22,6 +31,9 @@ namespace AngleSharp.Css.RenderTree
         private readonly List<ICssStyleSheet> _defaultSheets;
         private readonly Dictionary<IElement, ICssStyleDeclaration> _cascadedStyles = new();
         private readonly Dictionary<IElement, ElementRenderNode> _renderedNodes = new();
+        // the explicit styles computed up front for RenderDocument (see ComputeExplicitStyles)
+        private Dictionary<IElement, ICssStyleDeclaration>? _explicitStyles;
+        private StyleCollection? _explicitStylesCollection;
 
         private RenderTreeBuilder(IWindow window)
         {
@@ -44,8 +56,74 @@ namespace AngleSharp.Css.RenderTree
 
             _cascadedStyles.Clear();
             _renderedNodes.Clear();
+            _explicitStyles = ComputeExplicitStyles(root, collection);
+            _explicitStylesCollection = collection;
 
-            return RenderElement(root, collection, null, null, null);
+            try
+            {
+                return RenderElement(root, collection, null, null, null);
+            }
+            finally
+            {
+                _explicitStyles = null;
+                _explicitStylesCollection = null;
+            }
+        }
+
+        /// <summary>
+        /// Matching the selectors and running the cascade of an element is independent of all other
+        /// elements, and makes up most of the time to build the render tree of a page, so it is done
+        /// for all elements of the document on all cores first. Only the inheritance needs the
+        /// parent's computed style, and is done while the tree is built. The DOM is just read.
+        /// </summary>
+        private static Dictionary<IElement, ICssStyleDeclaration>? ComputeExplicitStyles(IElement root, StyleCollection collection)
+        {
+            var elements = new List<IElement>();
+
+            // shadow hosts (and the shadow trees) are styled by more than the document's rules
+            foreach (var element in root.DescendantsAndSelf<IElement>())
+            {
+                if (element.ShadowRoot is null)
+                {
+                    elements.Add(element);
+                }
+            }
+
+            if (elements.Count < MinElementsComputedInParallel || Environment.ProcessorCount < 2 ||
+                (AppContext.TryGetSwitch(DisableParallelismSwitch, out var isDisabled) && isDisabled))
+            {
+                return null;
+            }
+
+            // built once, before the threads read them
+            collection.GetIndex();
+            collection.GetDefaultRuleCount();
+
+            var styles = new ICssStyleDeclaration?[elements.Count];
+
+            Parallel.For(0, elements.Count, i =>
+            {
+                try
+                {
+                    styles[i] = collection.ComputeExplicitStyle(elements[i]);
+                }
+                catch
+                {
+                    // computed (and thrown) once more in order, as without computing it up front
+                }
+            });
+
+            var result = new Dictionary<IElement, ICssStyleDeclaration>(elements.Count);
+
+            for (var i = 0; i < elements.Count; i++)
+            {
+                if (styles[i] is { } style)
+                {
+                    result[elements[i]] = style;
+                }
+            }
+
+            return result;
         }
 
         public ICssStyleDeclaration GetElementStyle(IElement element, IRenderDevice? device = null)
@@ -85,6 +163,19 @@ namespace AngleSharp.Css.RenderTree
             // the specified style of the parent as it is now, also if modified since
             var parentSpecifiedStyle = parent.SpecifiedStyle is CssStyleDeclaration style ? style.Freeze() : Copy(parent.SpecifiedStyle);
             return RenderElement(element, collection, parent, parentSpecifiedStyle, parent.ComputedStyle);
+        }
+
+        /// <summary>
+        /// Renders the element below the given node of its parent into a partial render tree (see
+        /// RenderPartial below) with the given styles, which are gathered anew if they are not a
+        /// collection of this window's.
+        /// </summary>
+        public ElementRenderNode RenderPartial(IElement element, ElementRenderNode parent, IStyleCollection styles)
+        {
+            var collection = styles as StyleCollection ?? CreateStyleCollection(styles.Device);
+            // the specified style of the parent as it is now, also if modified since
+            var parentSpecifiedStyle = parent.SpecifiedStyle is CssStyleDeclaration style ? style.Freeze() : Copy(parent.SpecifiedStyle);
+            return RenderElement(element, collection, parent, parentSpecifiedStyle, parent.ComputedStyle, partial: true);
         }
 
         /// <summary>
@@ -128,6 +219,13 @@ namespace AngleSharp.Css.RenderTree
             Boolean partial = false)
         {
             var shadowCollection = CreateShadowCollection(element, collection);
+
+            if (explicitStyle is null && shadowCollection is null && _explicitStyles is not null &&
+                ReferenceEquals(collection, _explicitStylesCollection) && _explicitStyles.TryGetValue(element, out var precomputed))
+            {
+                explicitStyle = precomputed;
+            }
+
             explicitStyle ??= shadowCollection is not null
                 ? collection.ComputeHostStyle(shadowCollection, element)
                 : collection.ComputeExplicitStyle(element);

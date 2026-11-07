@@ -32,22 +32,28 @@ namespace AngleSharp.Css.Dom
         public static void Apply(CssStyleDeclaration declarations, ICssComputeContext context)
         {
             List<ICssProperty>? logical = null;
-            var order = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase);
+            var locals = declarations.GetLocalDeclarations();
 
             // logical properties are not inherited, so only the local declarations matter
-            foreach (var property in declarations.GetLocalDeclarations())
+            foreach (var property in locals)
             {
-                order[property.Name] = order.Count;
-
                 if (Sides.ContainsKey(property.Name) || Sizes.ContainsKey(property.Name))
                 {
                     (logical ??= new List<ICssProperty>()).Add(property);
                 }
             }
 
+            // most elements have none (and the order of thousands of custom properties is not needed)
             if (logical is null)
             {
                 return;
+            }
+
+            var order = new Dictionary<String, Int32>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var property in locals)
+            {
+                order[property.Name] = order.Count;
             }
 
             var writingMode = declarations.GetPropertyValue(PropertyNames.WritingMode);

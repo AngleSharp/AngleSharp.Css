@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -119,34 +120,20 @@ namespace AngleSharp.Css.Dom
             // iterating. Only the (few) groups of the element are combined, if needed.
             List<Int32>? first = null;
             List<Int32>? combined = null;
-            var id = element.Id;
+            AddGroups(element, keyed, ref first, ref combined);
 
-            if (!String.IsNullOrEmpty(id) && keyed.Ids.TryGetValue(id!, out var rules))
+            // the rules for children of an element with a key, e.g., .list > *
+            if (keyed.ParentRules is { } parentRules && element.ParentElement is { } parent)
             {
-                AddGroup(ref first, ref combined, rules);
+                AddGroups(parent, parentRules, ref first, ref combined);
             }
 
-            foreach (var name in element.ClassList)
+            // the rules for descendants of an element with a key, e.g., .prose *
+            if (keyed.AncestorRules is { } ancestorRules)
             {
-                if (keyed.Classes.TryGetValue(name, out rules))
+                for (var ancestor = element.ParentElement; ancestor is not null; ancestor = ancestor.ParentElement)
                 {
-                    AddGroup(ref first, ref combined, rules);
-                }
-            }
-
-            if (keyed.Tags.TryGetValue(element.LocalName, out rules))
-            {
-                AddGroup(ref first, ref combined, rules);
-            }
-
-            if (keyed.Attributes.Count > 0)
-            {
-                foreach (var attribute in element.Attributes)
-                {
-                    if (keyed.Attributes.TryGetValue(attribute.Name, out rules))
-                    {
-                        AddGroup(ref first, ref combined, rules);
-                    }
+                    AddGroups(ancestor, ancestorRules, ref first, ref combined);
                 }
             }
 
@@ -169,6 +156,56 @@ namespace AngleSharp.Css.Dom
             }
 
             return new Candidates(keyed.Ungrouped, first);
+        }
+
+        /// <summary>
+        /// Adds the groups of the keys the element has.
+        /// </summary>
+        private static void AddGroups(IElement element, KeyedRules keyed, ref List<Int32>? first, ref List<Int32>? combined)
+        {
+            var id = element.Id;
+
+            // e.g., the hundreds of rules declaring the custom properties of a design system
+            if (keyed.Root.Count > 0 && ((element.ParentElement is null && element.Owner?.DocumentElement == element) ||
+                PseudoClassStateStore.TryGet(element, PseudoClassNames.Root, out _)))
+            {
+                AddGroup(ref first, ref combined, keyed.Root);
+            }
+
+            if (!String.IsNullOrEmpty(id) && keyed.Ids.TryGetValue(id!, out var rules))
+            {
+                AddGroup(ref first, ref combined, rules);
+            }
+
+            if (keyed.Classes.Count > 0 && element.HasAttribute(AttributeNames.Class))
+            {
+                // by index, as enumerating the list allocates (for every element and its ancestors)
+                var classes = element.ClassList;
+
+                for (var i = 0; i < classes.Length; i++)
+                {
+                    if (classes[i] is { } name && keyed.Classes.TryGetValue(name, out rules))
+                    {
+                        AddGroup(ref first, ref combined, rules);
+                    }
+                }
+            }
+
+            if (keyed.Tags.TryGetValue(element.LocalName, out rules))
+            {
+                AddGroup(ref first, ref combined, rules);
+            }
+
+            if (keyed.Attributes.Count > 0)
+            {
+                foreach (var attribute in element.Attributes)
+                {
+                    if (keyed.Attributes.TryGetValue(attribute.Name, out rules))
+                    {
+                        AddGroup(ref first, ref combined, rules);
+                    }
+                }
+            }
         }
 
         private static void AddGroup(ref List<Int32>? first, ref List<Int32>? combined, List<Int32> rules)
@@ -271,7 +308,15 @@ namespace AngleSharp.Css.Dom
 
             public Dictionary<String, List<Int32>> Attributes { get; } = new(StringComparer.OrdinalIgnoreCase);
 
+            // the rules for :root, i.e., the document element
+            public List<Int32> Root { get; } = new();
+
             public List<Int32> Ungrouped { get; } = new();
+
+            // the rules keyed by the parent or an ancestor of their subject (only the groups are used)
+            public KeyedRules? ParentRules { get; private set; }
+
+            public KeyedRules? AncestorRules { get; private set; }
 
             public void Add(SubjectKey[]? keys, Int32 index)
             {
@@ -283,6 +328,23 @@ namespace AngleSharp.Css.Dom
 
                 foreach (var key in keys)
                 {
+                    if (key.Relation != KeyRelation.Self)
+                    {
+                        var context = key.Relation == KeyRelation.Parent ? ParentRules ??= new KeyedRules() : AncestorRules ??= new KeyedRules();
+                        context.Add(new[] { new SubjectKey(key.Kind, key.Name) }, index);
+                        continue;
+                    }
+
+                    if (key.Kind == SubjectKeyKind.Root)
+                    {
+                        if (Root.Count == 0 || Root[Root.Count - 1] != index)
+                        {
+                            Root.Add(index);
+                        }
+
+                        continue;
+                    }
+
                     var map = key.Kind switch
                     {
                         SubjectKeyKind.Id => Ids,
@@ -347,23 +409,38 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         internal enum SubjectKeyKind
         {
+            Root,
             Id,
             Class,
             Tag,
             Attribute,
         }
 
+        /// <summary>
+        /// Which element has to have a key: the subject itself, or (if the subject requires
+        /// none) its parent or one of its ancestors, as with .list > * or .prose *.
+        /// </summary>
+        internal enum KeyRelation
+        {
+            Self,
+            Parent,
+            Ancestor,
+        }
+
         internal readonly struct SubjectKey
         {
-            public SubjectKey(SubjectKeyKind kind, String name)
+            public SubjectKey(SubjectKeyKind kind, String name, KeyRelation relation = KeyRelation.Self)
             {
                 Kind = kind;
                 Name = name;
+                Relation = relation;
             }
 
             public SubjectKeyKind Kind { get; }
 
             public String Name { get; }
+
+            public KeyRelation Relation { get; }
         }
 
         #endregion
@@ -406,8 +483,13 @@ namespace AngleSharp.Css.Dom
 
             private static SubjectKey[]? GetKeys(ISelector? selector, ICssSelectorParser? parser, Int32 depth)
             {
-                // a forced pseudo-class matches independent of its own selector
-                if (selector is null || selector is ForcingPseudoClassSelector)
+                // a forced pseudo-class matches independent of its own selector, which the
+                // root group considers (see Collect)
+                if (selector is ForcingPseudoClassSelector forcing && forcing.Name.Is(PseudoClassNames.Root))
+                {
+                    return new[] { new SubjectKey(SubjectKeyKind.Root, PseudoClassNames.Root) };
+                }
+                else if (selector is null || selector is ForcingPseudoClassSelector)
                 {
                     return null;
                 }
@@ -446,6 +528,12 @@ namespace AngleSharp.Css.Dom
 
             void ISelectorVisitor.PseudoClass(String name)
             {
+                if (name.Is(PseudoClassNames.Root))
+                {
+                    Set(SubjectKeyKind.Root, name);
+                    return;
+                }
+
                 // :is(.a .b, .c) only exposes its text, but an element matching it matches one
                 // of the arguments, i.e., it requires one of their keys - just as a list does
                 var arguments = _depth < MaxArgumentDepth ? GetArguments(name) : null;
@@ -488,7 +576,93 @@ namespace AngleSharp.Css.Dom
 
             void ISelectorVisitor.Combinator(IEnumerable<ISelector> selectors, IEnumerable<String> symbols)
             {
-                _keys = GetKeys(selectors.LastOrDefault(), _parser, _depth);
+                var compounds = selectors.ToList();
+                _keys = GetKeys(compounds.LastOrDefault(), _parser, _depth);
+
+                // a subject without a key, or just a common one (e.g., the a of .menu a, or the
+                // [class] of .card [class*=icon]) is better found by the id or class of its context
+                if (compounds.Count > 1 && (_keys is null || _keys.All(key => key.Kind >= SubjectKeyKind.Tag)) &&
+                    GetContextKeys(compounds, symbols.ToList()) is { } context &&
+                    (_keys is null || context.All(key => key.Kind < SubjectKeyKind.Tag)))
+                {
+                    _keys = context;
+                }
+            }
+
+            /// <summary>
+            /// Finds the keys of the closest compound left of the subject that matches its parent
+            /// or one of its ancestors, e.g., .list in .list > :first-child. Going left, the
+            /// position of the matched element relative to the subject is tracked: it is the subject
+            /// or a sibling of it, its parent or a sibling of that, or an ancestor or a sibling of
+            /// one. Only the parent and the ancestors are looked up for an element (see Collect).
+            /// </summary>
+            private SubjectKey[]? GetContextKeys(List<ISelector> compounds, List<String> symbols)
+            {
+                var position = Position.SelfOrSibling;
+
+                for (var i = Math.Min(compounds.Count - 2, symbols.Count - 1); i >= 0; i--)
+                {
+                    position = Move(position, symbols[i]);
+
+                    if (position == Position.Unknown)
+                    {
+                        return null;
+                    }
+
+                    var relation = position switch
+                    {
+                        Position.Parent => KeyRelation.Parent,
+                        Position.Ancestor => KeyRelation.Ancestor,
+                        _ => KeyRelation.Self,
+                    };
+
+                    // a shadow host is matched from its shadow tree, but it is no parent element
+                    if (relation != KeyRelation.Self && !compounds[i].Text.StartsWith(":host", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var keys = GetKeys(compounds[i], _parser, _depth);
+
+                        if (keys is not null && keys.All(key => key.Relation == KeyRelation.Self))
+                        {
+                            return keys.Select(key => new SubjectKey(key.Kind, key.Name, relation)).ToArray();
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            private static Position Move(Position position, String combinator)
+            {
+                if (combinator == CombinatorSymbols.Child)
+                {
+                    return position == Position.SelfOrSibling ? Position.Parent : Position.Ancestor;
+                }
+                else if (combinator == CombinatorSymbols.Descendant)
+                {
+                    return Position.Ancestor;
+                }
+                else if (combinator == CombinatorSymbols.Adjacent || combinator == CombinatorSymbols.Sibling)
+                {
+                    return position switch
+                    {
+                        Position.SelfOrSibling => Position.SelfOrSibling,
+                        Position.Parent or Position.ParentSibling => Position.ParentSibling,
+                        _ => Position.AncestorSibling,
+                    };
+                }
+
+                // e.g., a column or a shadow-piercing combinator
+                return Position.Unknown;
+            }
+
+            private enum Position
+            {
+                Unknown,
+                SelfOrSibling,
+                Parent,
+                ParentSibling,
+                Ancestor,
+                AncestorSibling,
             }
 
             void ISelectorVisitor.Many(IEnumerable<ISelector> selectors)
@@ -531,9 +705,20 @@ namespace AngleSharp.Css.Dom
                 }
             }
 
-            // a single key is more selective than a list of keys
-            private static Boolean IsBetter(SubjectKey[] keys, SubjectKey[] current) =>
-                keys.Length < current.Length || (keys.Length == 1 && current.Length == 1 && keys[0].Kind < current[0].Kind);
+            // a key of the element itself is more selective than one of an ancestor, and a single
+            // key is more selective than a list of keys
+            private static Boolean IsBetter(SubjectKey[] keys, SubjectKey[] current)
+            {
+                var own = keys.All(key => key.Relation == KeyRelation.Self);
+                var currentOwn = current.All(key => key.Relation == KeyRelation.Self);
+
+                if (own != currentOwn)
+                {
+                    return own;
+                }
+
+                return keys.Length < current.Length || (keys.Length == 1 && current.Length == 1 && keys[0].Kind < current[0].Kind);
+            }
         }
 
         #endregion

@@ -20,6 +20,11 @@ namespace AngleSharp.Css.Dom
             _inner = inner;
         }
 
+        /// <summary>
+        /// Gets the name of the pseudo-class.
+        /// </summary>
+        public String Name => _name;
+
         public Priority Specificity => _inner.Specificity;
 
         public String Text => _inner.Text;
