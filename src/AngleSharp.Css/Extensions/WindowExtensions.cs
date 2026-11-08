@@ -6,6 +6,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.RenderTree;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -193,6 +194,22 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Renders the currently available document into a render tree like
+        /// <see cref="Render(IWindow, IRenderDevice)"/>, but with the given styles of the window
+        /// (see <see cref="StyleCollectionExtensions.GetStyleCollection(IWindow, IRenderDevice)"/>)
+        /// instead of gathering and indexing its rules anew, e.g. the ones that the styles of
+        /// some elements were computed with already.
+        /// </summary>
+        /// <param name="window">The window to extend.</param>
+        /// <param name="styles">The styles of the window to use.</param>
+        /// <returns>The created render node.</returns>
+        public static IRenderNode RenderDocument(this IWindow window, IStyleCollection styles)
+        {
+            var builder = RenderTreeBuilder.GetInstance(window);
+            return builder.RenderDocument(styles);
+        }
+
+        /// <summary>
         /// Renders the element and its subtree again, below the render node of its parent from an
         /// earlier render tree, which stays as it is. This is for a change confined to the subtree
         /// (e.g. the inline style of the element), where rendering the whole document again would
@@ -228,6 +245,25 @@ namespace AngleSharp.Dom
         {
             var builder = RenderTreeBuilder.GetInstance(window);
             return builder.RenderPartial(element, parent, styles);
+        }
+
+        /// <summary>
+        /// Renders the currently available document into a render tree whose children are only
+        /// built when they are read (like
+        /// <see cref="RenderPartial(IWindow, IElement, ElementRenderNode, IStyleCollection)"/>), with
+        /// the given styles of the window, e.g. to lay out just the part of a page that is in view
+        /// without styling the rest. The given action gets the children of each node once they are
+        /// built, before they are read, e.g. to complete them for the layout. The parts are built
+        /// from the DOM and style sheets of the moment they are read.
+        /// </summary>
+        /// <param name="window">The window to extend.</param>
+        /// <param name="styles">The styles of the window to use.</param>
+        /// <param name="childrenBuilt">Gets a node and its children once they are built, if given.</param>
+        /// <returns>The render node of the document element.</returns>
+        public static ElementRenderNode RenderPartial(this IWindow window, IStyleCollection styles, Action<ElementRenderNode, IList<IRenderNode>>? childrenBuilt = null)
+        {
+            var builder = RenderTreeBuilder.GetInstance(window);
+            return builder.RenderPartial(styles, childrenBuilt);
         }
 
         private static IRenderDevice GetRenderDevice(this IWindow window) =>

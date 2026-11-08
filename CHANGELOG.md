@@ -9,7 +9,8 @@ Released on Saturday, November 7 2026.
 - Improved building the render tree of large documents by matching the selectors of their elements on all cores (turned off by the AppContext switch `AngleSharp.Css.DisableParallelism`)
 - Fixed an empty custom property (e.g. `--tw-blur: ;`) being dropped, which made every value using it invalid, e.g. the `filter` of Tailwind's utilities
 - Added `GetStyleCollection` to shadow roots, for the rules that style the elements of a shadow tree
-- Added `RenderPartial` to the window for rendering an element into a render tree whose children are only built when they are read, e.g., to style an element again after a change of its state
+- Added `RenderPartial` to the window for rendering an element into a render tree whose children are only built when they are read, e.g., to style an element again after a change of its state, or the document, telling about the children of each node once they are built, e.g., to style just what is laid out
+- Added `RenderDocument` to the window for rendering the document with the given styles instead of gathering and indexing the rules of its style sheets anew
 - Added `ComputeDeclarationsWithParent` to compute the style of an element (or of a pseudo-element) from the computed style of its parent, e.g., of a render tree, instead of computing the styles of all its ancestors
 
 # 1.4.0
