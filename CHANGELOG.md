@@ -1,6 +1,6 @@
 # 1.4.1
 
-Released on Saturday, November 7 2026.
+Released on Sunday, November 8 2026.
 
 - Improved finding the rules of an element: `:root` rules and rules whose subject requires no id or class (e.g., `.list > *`, `.menu a`) are only tried on elements of that context, which made building GitHub's render tree about twice as fast
 - Improved the cascade of many declarations replacing each other (e.g., the custom properties of a design system on `:root`)
