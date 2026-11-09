@@ -852,6 +852,13 @@ namespace AngleSharp.Css.Parser
                     CollectTrivia(owner, ref token);
                     var value = CreateValue(ref token, out var important);
 
+                    // a custom property may be empty (e.g. `--tw-blur: ;`), and is substituted as
+                    // white space then, as CSS Variables 1 says: only for others it is missing
+                    if (String.IsNullOrEmpty(value) && name.StartsWith("--", StringComparison.Ordinal))
+                    {
+                        value = " ";
+                    }
+
                     if (String.IsNullOrEmpty(value))
                     {
                         RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);

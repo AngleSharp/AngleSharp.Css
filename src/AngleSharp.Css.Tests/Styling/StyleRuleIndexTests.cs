@@ -118,6 +118,103 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(count, candidates.Count);
         }
 
+        [TestCase(".a > * { color: green }", "<div class=a><p id=t>A</p></div>")]
+        [TestCase(".a > :first-child { color: green }", "<div class=a><p id=t>A</p><p>B</p></div>")]
+        [TestCase(".a * { color: green }", "<div class=a><section><p id=t>A</p></section></div>")]
+        [TestCase(".a > * > * { color: green }", "<div class=a><section><p id=t>A</p></section></div>")]
+        [TestCase(".a > * + * { color: green }", "<div class=a><p>A</p><p id=t>B</p></div>")]
+        [TestCase(".a > * ~ * { color: green }", "<div class=a><p>A</p><i></i><p id=t>B</p></div>")]
+        [TestCase(".a + * > * { color: green }", "<div class=a></div><div><p id=t>A</p></div>")]
+        [TestCase(".x .a + * > * { color: green }", "<div class=x><div class=a></div><div><p id=t>A</p></div></div>")]
+        [TestCase(".a span { color: green }", "<div class=a><b><span id=t>A</span></b></div>")]
+        [TestCase(".a [data-x] { color: green }", "<div class=a><p id=t data-x>A</p></div>")]
+        [TestCase(".a, .b > * { color: green }", "<div class=b><p id=t>A</p></div>")]
+        [TestCase("#x > * { color: green }", "<div id=x><p id=t>A</p></div>")]
+        [TestCase(":root > * > * { color: green }", "<p id=t>A</p>")]
+        [TestCase("div > * { color: green }", "<div><p id=t>A</p></div>")]
+        [TestCase(".a:hover > * { color: green }", "<div class=a><p id=t>A</p></div>", "a")]
+        [TestCase(".a > *::before, .a > * { color: green }", "<div class=a><p id=t>A</p></div>")]
+        public async Task RulesAreFoundViaTheParentOrAncestorOfTheirSubject(string css, string body, string forcedHover = null)
+        {
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
+            var document = await context.OpenAsync(req => req.Content($"<!doctype html><style>{css}</style>{body}"));
+
+            if (forcedHover is not null)
+            {
+                document.QuerySelector("." + forcedHover).SetPseudoClass("hover", true);
+            }
+
+            var color = document.DefaultView.GetComputedStyle(document.GetElementById("t")).GetColor();
+
+            Assert.AreEqual(Green, color);
+        }
+
+        [TestCase("* { color: blue } .a > * { color: red }", "<div class=a><div><p id=t>A</p></div></div>")]
+        [TestCase("* { color: blue } .a * { color: red }", "<div class=b><p id=t>A</p></div><div class=a></div>")]
+        [TestCase("* { color: blue } .a + * { color: red }", "<div class=a><p id=t>A</p></div>")]
+        [TestCase("* { color: blue } .a span { color: red }", "<div class=a><b id=t>A</b></div>")]
+        public async Task RulesForOtherContextsDoNotApply(string css, string body)
+        {
+            var color = await ColorOfAsync(css, body);
+
+            Assert.AreNotEqual("rgba(255, 0, 0, 1)", color);
+        }
+
+        [TestCase(".a > * { color: red }", 1)]
+        [TestCase(".x > * { color: red }", 0)]
+        [TestCase(".a * { color: red }", 1)]
+        [TestCase(".b * { color: red }", 1)]
+        [TestCase(".x * { color: red }", 0)]
+        [TestCase(".b > * { color: red }", 0)]
+        [TestCase(".x + * { color: red }", 1)]
+        [TestCase(".x > * + * { color: red }", 0)]
+        [TestCase(".x span { color: red }", 0)]
+        [TestCase(".a p { color: red }", 1)]
+        [TestCase(":root > * > * > * { color: red }", 1)]
+        [TestCase(":root { color: red } html > * { color: blue }", 0)]
+        [TestCase(".x || p { color: red }", 1)]
+        public void OnlyRulesWhoseContextMayMatchAreCandidates(string css, int count)
+        {
+            var document = CssConstructionFunctions.ParseDocument($"<html><head><style>{css}</style></head><body><div class=b><div class=a><p id=t>A</p></div></div></body></html>");
+            var sheets = document.StyleSheets.OfType<ICssStyleSheet>().ToList();
+            var collection = new StyleCollection(Enumerable.Empty<ICssStyleSheet>(), sheets, new PlainRenderDevice());
+            var candidates = collection.GetIndex().GetCandidates(document.GetElementById("t"));
+
+            Assert.AreEqual(count, candidates.Count);
+        }
+
+        [Test]
+        public void ForcedRootIsFoundViaTheRootGroup()
+        {
+            var document = CssConstructionFunctions.ParseDocument("<html><head><style>:root { color: red }</style></head><body><p id=t>A</p></body></html>");
+            var sheets = document.StyleSheets.OfType<ICssStyleSheet>().ToList();
+            var collection = new StyleCollection(Enumerable.Empty<ICssStyleSheet>(), sheets, new PlainRenderDevice());
+            var element = document.GetElementById("t");
+
+            Assert.AreEqual(0, collection.GetIndex().GetCandidates(element).Count);
+            Assert.AreEqual(1, collection.GetIndex().GetCandidates(document.DocumentElement).Count);
+
+            element.SetPseudoClass("root", true);
+
+            Assert.AreEqual(1, collection.GetIndex().GetCandidates(element).Count);
+        }
+
+        [Test]
+        public async Task ContextOfTheShadowHostIsMatched()
+        {
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
+            var document = await context.OpenAsync(req => req.Content(
+                "<!doctype html><div id=host class=h><template shadowrootmode=open>" +
+                "<style>:host(.h) > * { color: green } :host .a > * { background-color: green }</style>" +
+                "<p id=t>A</p><div class=a><p id=u>B</p></div></template></div>"));
+            var shadow = document.GetElementById("host").ShadowRoot;
+            var tree = document.DefaultView.Render(new PlainRenderDevice());
+            var nodes = Flatten((ElementRenderNode)tree).ToArray();
+
+            Assert.AreEqual(Green, nodes.First(m => m.Ref == shadow.GetElementById("t")).ComputedStyle.GetPropertyValue("color"));
+            Assert.AreEqual(Green, nodes.First(m => m.Ref == shadow.GetElementById("u")).ComputedStyle.GetPropertyValue("background-color"));
+        }
+
         [Test]
         public void PseudoElementsAreOnlyGeneratedWithContent()
         {
@@ -145,6 +242,9 @@ namespace AngleSharp.Css.Tests.Styling
         [TestCase("p::before { content: 'x' }", "<div id=t>A</div>", false)]
         [TestCase(".a:before { content: 'x' }", "<p id=t class=a>A</p>", true)]
         [TestCase(".a .b::after { content: 'x' }", "<div class=a><p id=t class=b>A</p></div>", true)]
+        [TestCase(".a > *::after { content: 'x' }", "<div class=a><p id=t>A</p></div>", true)]
+        [TestCase(".a > *::after { content: 'x' }", "<div class=b><p id=t>A</p></div>", false)]
+        [TestCase(".a span::after { content: 'x' }", "<div class=a><b><span id=t>A</span></b></div>", true)]
         [TestCase("::before { content: 'x' }", "<p id=t>A</p>", true)]
         [TestCase(".x::before, #t::after { content: 'x' }", "<p id=t>A</p>", true)]
         public void PseudoElementRulesAreFoundViaTheirElement(string css, string body, bool generated)

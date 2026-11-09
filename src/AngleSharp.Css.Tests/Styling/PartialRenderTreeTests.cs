@@ -74,6 +74,45 @@ namespace AngleSharp.Css.Tests.Styling
             CollectionAssert.AreEqual((System.Collections.IEnumerable)results[1], partial.Children.Where(m => m.Ref is not IPseudoElement));
         }
 
+        [Test]
+        public void APartialTreeOfTheDocumentWithItsStylesIsTheRenderedTree()
+        {
+            var document = Parse();
+            var expected = (ElementRenderNode)document.DefaultView.Render();
+            var styles = document.DefaultView.GetStyleCollection(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
+            var partial = document.DefaultView.RenderPartial(styles);
+
+            AssertSame(expected, partial);
+        }
+
+        [Test]
+        public void APartialTreeOfTheDocumentTellsAboutTheChildrenItBuilds()
+        {
+            var document = Parse();
+            var styles = document.DefaultView.GetStyleCollection(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
+            var built = new System.Collections.Generic.List<(ElementRenderNode, System.Collections.Generic.IList<IRenderNode>)>();
+            var partial = document.DefaultView.RenderPartial(styles, (node, children) => built.Add((node, children.ToList())));
+            var body = partial.Children.OfType<ElementRenderNode>().Single(m => m.Ref.LocalName == "body");
+            var bodyChildren = body.Children.ToList();
+            _ = partial.Children.ToList();
+
+            // the ones read, once; not the ones of the elements in the body
+            CollectionAssert.AreEqual(new[] { partial, body }, built.Select(m => m.Item1));
+            CollectionAssert.AreEqual(partial.Children, built[0].Item2);
+            CollectionAssert.AreEqual(bodyChildren, built[1].Item2);
+        }
+
+        [Test]
+        public void TheDocumentRenderedWithItsStylesIsTheRenderedTree()
+        {
+            var document = Parse();
+            var expected = (ElementRenderNode)document.DefaultView.Render();
+            var styles = document.DefaultView.GetStyleCollection(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
+            var actual = document.DefaultView.RenderDocument(styles);
+
+            AssertSame(expected, actual);
+        }
+
         private static bool IsGenerated(IRenderNode node) => node.Ref is IPseudoElement || node.Ref.Parent is null;
 
         private static void AssertSame(IRenderNode expected, IRenderNode actual)

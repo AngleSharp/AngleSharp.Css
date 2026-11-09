@@ -7,8 +7,10 @@ namespace AngleSharp.Css.Values
 
     sealed class CssCustomPropertyResolver
     {
-        private readonly Dictionary<String, ICssValue?> _values = new(StringComparer.Ordinal);
+        // created on demand: most elements declare no custom properties (but are computed with a resolver)
+        private Dictionary<String, ICssValue?>? _values;
         private readonly CssStyleDeclaration? _parent;
+        private Func<String, ICssValue?>? _resolve;
 
         public CssCustomPropertyResolver(IEnumerable<ICssProperty> properties, ICssProperties? parent = null)
         {
@@ -22,12 +24,12 @@ namespace AngleSharp.Css.Values
                 {
                     if (property.Name.StartsWith("--", StringComparison.Ordinal))
                     {
-                        _values[property.Name] = property.RawValue is CssInvalidValue ? null : property.RawValue;
+                        SetValue(property.Name, property.RawValue is CssInvalidValue ? null : property.RawValue);
                     }
                 }
             }
 
-            var nodes = new Dictionary<String, Node>(StringComparer.Ordinal);
+            Dictionary<String, Node>? nodes = null;
 
             foreach (var property in properties)
             {
@@ -37,7 +39,7 @@ namespace AngleSharp.Css.Values
 
                     if (value is CssAnyValue { IsResolved: true })
                     {
-                        _values[property.Name] = value;
+                        SetValue(property.Name, value);
                         continue;
                     }
 
@@ -53,13 +55,19 @@ namespace AngleSharp.Css.Values
                         continue;
                     }
 
-                    _values[property.Name] = null;
+                    SetValue(property.Name, null);
 
                     if (values.Length > 0 && !String.Equals(keyword, CssKeywords.Initial, StringComparison.OrdinalIgnoreCase))
                     {
+                        nodes ??= new Dictionary<String, Node>(StringComparer.Ordinal);
                         nodes[property.Name] = new Node(property.Name, values);
                     }
                 }
+            }
+
+            if (nodes is null)
+            {
+                return;
             }
 
             foreach (var node in nodes.Values)
@@ -142,11 +150,11 @@ namespace AngleSharp.Css.Values
                         {
                             foreach (var value in node.Values)
                             {
-                                var text = value.Substitute(Resolve);
+                                var text = value.Substitute(_resolve ??= Resolve);
 
                                 if (text is not null)
                                 {
-                                    _values[node.Name] = new CssAnyValue(text, isResolved: true);
+                                    SetValue(node.Name, new CssAnyValue(text, isResolved: true));
                                     break;
                                 }
                             }
@@ -164,9 +172,11 @@ namespace AngleSharp.Css.Values
             }
         }
 
+        private void SetValue(String name, ICssValue? value) => (_values ??= new Dictionary<String, ICssValue?>(StringComparer.Ordinal))[name] = value;
+
         public ICssValue? Resolve(String name)
         {
-            if (_values.TryGetValue(name, out var value))
+            if (_values is not null && _values.TryGetValue(name, out var value))
             {
                 return value;
             }

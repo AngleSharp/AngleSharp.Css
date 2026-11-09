@@ -124,13 +124,28 @@ namespace AngleSharp.Css.Values
                 return Text;
             }
 
-            var result = new StringBuilder();
-            var fallbacks = new Stack<Int32>();
+            // substituted for every element using the value; the builder is taken while in use
+            var result = t_builder ?? new StringBuilder();
+            t_builder = null;
+            result.Clear();
+            Stack<Int32>? fallbacks = null;
             var cursor = 0;
+            var text = Substitute(resolve, result, ref fallbacks, ref cursor);
+            t_builder = result.Capacity <= MaxPooledCapacity ? result : null;
+            return text;
+        }
 
+        // one per thread, as Substitute is called for many elements on several threads
+        [ThreadStatic]
+        private static StringBuilder? t_builder;
+
+        private const Int32 MaxPooledCapacity = 4096;
+
+        private String? Substitute(Func<String, ICssValue?> resolve, StringBuilder result, ref Stack<Int32>? fallbacks, ref Int32 cursor)
+        {
             for (var i = 0; i < _tokens.Count; i++)
             {
-                if (fallbacks.Count > 0 && fallbacks.Peek() == i)
+                if (fallbacks is { Count: > 0 } && fallbacks.Peek() == i)
                 {
                     if (!Append(result, cursor, Offset(i)) || !Separate(result, CharAt(EndOffset(i))))
                     {
@@ -177,7 +192,7 @@ namespace AngleSharp.Css.Values
                         }
 
                         i = reference.Fallback - 1;
-                        fallbacks.Push(reference.End);
+                        (fallbacks ??= new Stack<Int32>()).Push(reference.End);
                     }
                     else
                     {

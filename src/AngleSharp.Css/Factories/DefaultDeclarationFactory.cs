@@ -3,6 +3,7 @@ namespace AngleSharp.Css
 {
     using AngleSharp.Css.Declarations;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     /// <summary>
@@ -10,6 +11,11 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultDeclarationFactory : IDeclarationFactory
     {
+        // a page defines a few thousand at most, the cap only guards against unbounded growth
+        private const Int32 MaxCachedCustomProperties = 65536;
+
+        private readonly ConcurrentDictionary<String, DeclarationInfo> _customProperties = new(StringComparer.Ordinal);
+
         private readonly Dictionary<String, DeclarationInfo> _declarations = new(StringComparer.OrdinalIgnoreCase)
         {
             {
@@ -3399,6 +3405,26 @@ namespace AngleSharp.Css
 
             if (!String.IsNullOrEmpty(propertyName) && _declarations.TryGetValue(propertyName, out info))
             {
+                return info;
+            }
+
+            // custom properties are looked up constantly (e.g., inheriting the thousands of a
+            // design system), but each info is the same for the same name (unless a derived
+            // factory creates them otherwise)
+            if (propertyName is not null && propertyName.StartsWith("--", StringComparison.Ordinal) && GetType() == typeof(DefaultDeclarationFactory))
+            {
+                if (_customProperties.TryGetValue(propertyName, out info))
+                {
+                    return info;
+                }
+
+                info = CreateDefault(propertyName);
+
+                if (_customProperties.Count < MaxCachedCustomProperties)
+                {
+                    _customProperties.TryAdd(propertyName, info);
+                }
+
                 return info;
             }
 
