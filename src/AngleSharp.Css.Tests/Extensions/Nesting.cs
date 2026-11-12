@@ -150,5 +150,53 @@ namespace AngleSharp.Css.Tests.Extensions
             Assert.AreEqual(first, sheet.Rules[0].CssText);
             Assert.AreEqual(second, sheet.Rules[1].CssText);
         }
+    
+        // declarations directly in a nested conditional group rule apply to the elements of the
+        // style rule (the tractor store: .e_HomePage { @media (min-width: 500px) { display: grid } })
+        [TestCase(".foo { color: red; @media (min-width: 500px) { color: green } }", "rgba(0, 128, 0, 1)")]
+        [TestCase(".foo { color: red; @media (max-width: 499px) { color: blue } }", "rgba(255, 0, 0, 1)")]
+        [TestCase(".foo{color:red;@media(max-width:499px){color:blue}@media(min-width:500px){color:green}}", "rgba(0, 128, 0, 1)")]
+        [TestCase(".foo { @supports (display: grid) { color: green } }", "rgba(0, 128, 0, 1)")]
+        [TestCase(".bar { color: red } .foo { @media (min-width: 500px) { color: green } }", "rgba(0, 128, 0, 1)")]
+        public void NestedConditionalGroupRuleWithDeclarations(string css, string color)
+        {
+            var source = $"<!doctype html><head><style>{css}</style></head><body><div class='foo bar'>text";
+            var document = ParseDocumentOnScreen(source);
+            var style = document.DefaultView!.GetComputedStyle(document.QuerySelector("div")!);
+
+            Assert.AreEqual(color, style.GetColor());
+        }
+
+        [Test]
+        public void NestedConditionalGroupRuleWithNestedStyleRule()
+        {
+            var source = @"<!doctype html><head><style>.foo {
+  @media (min-width: 500px) {
+    .bar { color: green }
+  }
+}</style></head><body><div class='foo'><span class='bar'>green</span></div><span class='bar'>not";
+            var document = ParseDocumentOnScreen(source);
+            var window = document.DefaultView!;
+            var elements = document.QuerySelectorAll(".bar");
+
+            Assert.AreEqual("rgba(0, 128, 0, 1)", window.GetComputedStyle(elements[0]).GetColor());
+            Assert.AreNotEqual("rgba(0, 128, 0, 1)", window.GetComputedStyle(elements[1]).GetColor());
+        }
+
+        [Test]
+        public void NestedConditionalGroupRuleInNestedStyleRule()
+        {
+            var source = @"<!doctype html><head><style>.foo {
+  .bar {
+    @media (min-width: 500px) { color: green }
+  }
+}</style></head><body><div class='foo'><span class='bar'>green</span></div><span class='bar'>not";
+            var document = ParseDocumentOnScreen(source);
+            var window = document.DefaultView!;
+            var elements = document.QuerySelectorAll(".bar");
+
+            Assert.AreEqual("rgba(0, 128, 0, 1)", window.GetComputedStyle(elements[0]).GetColor());
+            Assert.AreNotEqual("rgba(0, 128, 0, 1)", window.GetComputedStyle(elements[1]).GetColor());
+        }
     }
 }

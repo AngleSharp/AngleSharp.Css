@@ -344,7 +344,7 @@ namespace AngleSharp.Css
                 // the candidates keep the order of the rules, as required by the cascade
                 foreach (var i in candidates)
                 {
-                    MapPriority(rules[i], element, scope, i < defaultRuleCount, collection.GetLayerRank(i), matches);
+                    MapPriority(rules[i], element, scope, collection.Device, i < defaultRuleCount, collection.GetLayerRank(i), matches);
                 }
             }
             else
@@ -353,7 +353,7 @@ namespace AngleSharp.Css
 
                 foreach (var rule in styles)
                 {
-                    MapPriority(rule, element, scope, false, 0, matches);
+                    MapPriority(rule, element, scope, styles.Device, false, 0, matches);
                 }
             }
 
@@ -387,20 +387,32 @@ namespace AngleSharp.Css
             }
         }
 
-        private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, Boolean isDefault, Int32 layerRank, List<RuleMatch> matches)
+        private static void MapPriority(ICssStyleRule rule, IElement element, IElement? scope, IRenderDevice? device, Boolean isDefault, Int32 layerRank, List<RuleMatch> matches)
         {
             if (rule.TryMatch(element, scope, out var specificity))
             {
                 matches.Add(new RuleMatch(rule, isDefault, layerRank, specificity, matches.Count));
             }
 
-            var subRules = rule.Rules;
+            MapNestedPriorities(rule.Rules, element, scope, device, isDefault, layerRank, matches);
+        }
 
+        private static void MapNestedPriorities(ICssRuleList subRules, IElement element, IElement? scope, IRenderDevice? device, Boolean isDefault, Int32 layerRank, List<RuleMatch> matches)
+        {
             for (var i = 0; i < subRules.Length; i++)
             {
-                if (subRules[i] is ICssStyleRule style)
+                switch (subRules[i])
                 {
-                    MapPriority(style, element, scope, isDefault, layerRank, matches);
+                    case ICssStyleRule style:
+                        MapPriority(style, element, scope, device, isDefault, layerRank, matches);
+                        break;
+                    // a conditional group rule nested in a style rule, e.g. .a { @media (...) { ... } }
+                    case ICssMediaRule media when device is null || media.IsValid(device):
+                        MapNestedPriorities(media.Rules, element, scope, device, isDefault, layerRank, matches);
+                        break;
+                    case ICssSupportsRule supports when device is null || supports.IsValid(device):
+                        MapNestedPriorities(supports.Rules, element, scope, device, isDefault, layerRank, matches);
+                        break;
                 }
             }
         }

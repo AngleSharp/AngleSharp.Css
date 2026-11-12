@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Tests
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -251,6 +252,21 @@ namespace AngleSharp.Css.Tests
             Assert.That(rule, Is.Not.Null);
             var style = rule!.Style;
             Assert.That(style["place-self"], Is.Not.Null);
+        }
+    
+        // a single value sets both longhands (justify-content had no value before)
+        [TestCase("place-content: center", "align-content", "center", "justify-content", "center")]
+        [TestCase("place-content: center space-between", "align-content", "center", "justify-content", "space-between")]
+        [TestCase("place-content: baseline", "align-content", "baseline", "justify-content", "start")]
+        [TestCase("place-items: center", "align-items", "center", "justify-items", "center")]
+        [TestCase("place-self: end", "align-self", "end", "justify-self", "end")]
+        public void PlaceShorthandSetsBothLonghands(string declaration, string align, string alignValue, string justify, string justifyValue)
+        {
+            var document = ParseDocumentOnScreen($"<!doctype html><style>div {{ display: grid; {declaration} }}</style><div></div>");
+            var style = document.DefaultView!.GetComputedStyle(document.QuerySelector("div")!);
+
+            Assert.AreEqual(alignValue, style.GetPropertyValue(align));
+            Assert.AreEqual(justifyValue, style.GetPropertyValue(justify));
         }
     }
 }

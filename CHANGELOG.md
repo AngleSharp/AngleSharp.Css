@@ -1,3 +1,11 @@
+# 1.4.2
+
+Released on Friday, November 13 2026.
+
+- Fixed computing a `background` whose final layer only has a color (e.g., `background: linear-gradient(...), var(--accent)`), which threw a `NullReferenceException` for the element and all of its descendants
+- Fixed `place-content`, `place-items` and `place-self` with a single value only setting the align longhand (e.g., `place-content: center` left `justify-content` without a value)
+- Fixed declarations in an `@media` or `@supports` rule nested in a style rule (e.g., `.a { @media (min-width: 500px) { display: grid } }`) being dropped: they apply to the elements of the style rule
+
 # 1.4.1
 
 Released on Sunday, November 8 2026.

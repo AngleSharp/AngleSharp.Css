@@ -18,6 +18,18 @@ namespace AngleSharp.Css.Tests
             return parser.ParseDocument(source);
         }
 
+        /// <summary>
+        /// Parses the document for a screen of 1280 x 800 pixels, e.g. to compute styles with
+        /// media queries or relative units.
+        /// </summary>
+        internal static IHtmlDocument ParseDocumentOnScreen(String source)
+        {
+            var device = new DefaultRenderDevice { DeviceWidth = 1280, DeviceHeight = 800, ViewPortWidth = 1280, ViewPortHeight = 800 };
+            var context = BrowsingContext.New(Configuration.Default.WithCss().WithRenderDevice(device));
+            var parser = context.GetService<IHtmlParser>();
+            return parser.ParseDocument(source);
+        }
+
         internal static CssStyleRule ParseStyle(String source)
         {
             var parser = new CssParser();

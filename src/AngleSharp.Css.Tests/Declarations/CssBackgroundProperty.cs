@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Tests.Declarations
 {
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using static CssConstructionFunctions;
 
@@ -777,6 +778,26 @@ namespace AngleSharp.Css.Tests.Declarations
             Assert.IsTrue(property.HasValue);
             Assert.AreEqual("center / cover", property.Value);
         }
+    
+        // the final layer may only have a color (the tractor store: a gradient over its accent color)
+        [TestCase("linear-gradient(180deg,#a8a8a8,#fff),#fff", "rgba(255, 255, 255, 1)")]
+        [TestCase("linear-gradient(180deg,#a8a8a8,#fff),var(--accent)", "rgba(0, 128, 0, 1)")]
+        public void CssBackgroundFinalLayerWithColorOnlyComputes(string background, string color)
+        {
+            var source = $"<!doctype html><style>div {{ --accent: green; background: {background} }}</style><div></div>";
+            var document = ParseDocumentOnScreen(source);
+            var style = document.DefaultView!.GetComputedStyle(document.QuerySelector("div")!);
+
+            Assert.AreEqual("linear-gradient(180deg, rgba(168, 168, 168, 1), rgba(255, 255, 255, 1)), none", style.GetPropertyValue("background-image"));
+            Assert.AreEqual(color, style.GetPropertyValue("background-color"));
+        }
+
+        [Test]
+        public void CssBackgroundFinalLayerWithColorOnlySerializesItsLayer()
+        {
+            var property = ParseDeclaration("background: url(a.png) no-repeat, red");
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("url(\"a.png\") no-repeat, rgba(255, 0, 0, 1)", property.Value);
+        }
     }
 }
-
