@@ -10,6 +10,7 @@ namespace AngleSharp.Css.Dom
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Threading;
 
     /// <summary>
@@ -205,6 +206,48 @@ namespace AngleSharp.Css.Dom
             }
         }
 
+        // the longhands of shorthands, all the way down (e.g. background-position-x of background)
+        private static readonly ConditionalWeakTable<DeclarationInfo, String[]> LeafLonghands = new();
+
+        private Boolean HasAllLonghands(IDeclarationFactory factory, String shorthandName, HashSet<String> serialized)
+        {
+            var info = factory.Create(shorthandName);
+
+            var leaves = LeafLonghands.GetValue(info, shorthand =>
+            {
+                var collected = new List<String>();
+                CollectLeaves(shorthand);
+                return collected.ToArray();
+
+                void CollectLeaves(DeclarationInfo current)
+                {
+                    foreach (var name in current.Longhands)
+                    {
+                        var longhand = factory.Create(name);
+
+                        if (longhand.Longhands.Length > 0)
+                        {
+                            CollectLeaves(longhand);
+                        }
+                        else
+                        {
+                            collected.Add(name);
+                        }
+                    }
+                }
+            });
+
+            foreach (var leaf in leaves)
+            {
+                if (serialized.Contains(leaf) || GetDeclaration(leaf) is null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private ICssProperty TryCreateShorthand(String shorthandName, IEnumerable<String> serialized, List<String> usedProperties, Boolean force)
         {
             var factory = _context.GetDeclarationFactory();
@@ -244,8 +287,9 @@ namespace AngleSharp.Css.Dom
 
         public String ToCssBlock(IStyleFormatter formatter)
         {
-            var list = new List<ICssProperty>();
-            var serialized = new List<String>();
+            var count = _declarations.Count;
+            var list = new List<ICssProperty>(count);
+            var serialized = new HashSet<String>(StringComparer.Ordinal);
             var factory = _context.GetDeclarationFactory();
 
             foreach (var declaration in Declarations)
@@ -257,12 +301,16 @@ namespace AngleSharp.Css.Dom
                     var info = factory.Create(property);
                     var shorthands = info.Shorthands;
 
-                    if (shorthands.Any())
+                    if (shorthands.Length > 0)
                     {
-                        var sortedShorthands = shorthands.OrderByDescending(shorthand => factory.Create(property).Longhands.Length);
-
-                        foreach (var shorthandName in sortedShorthands)
+                        foreach (var shorthandName in shorthands)
                         {
+                            // a shorthand needs all of its longhands, which most declarations lack
+                            if (!HasAllLonghands(factory, shorthandName, serialized))
+                            {
+                                continue;
+                            }
+
                             var usedProperties = new List<String>();
                             var shorthand = TryCreateShorthand(shorthandName, serialized, usedProperties, false);
 

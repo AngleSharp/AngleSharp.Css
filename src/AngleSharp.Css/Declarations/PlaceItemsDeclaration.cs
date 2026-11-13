@@ -1,6 +1,7 @@
 #nullable disable
 namespace AngleSharp.Css.Declarations
 {
+    using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
     using AngleSharp.Text;
@@ -25,43 +26,19 @@ namespace AngleSharp.Css.Declarations
 
         sealed class PlaceItemsAggregator : IValueAggregator, IValueConverter
         {
-            private static readonly IValueConverter converter = WithAny(
+            private static readonly PlaceShorthandConverter converter = new PlaceShorthandConverter(
                 AlignItemsConverter,
-                JustifyItemsConverter);
+                JustifyItemsConverter,
+                null);
 
             public ICssValue Convert(StringSource source)
             {
                 return converter.Convert(source);
             }
 
-            public ICssValue Merge(ICssValue[] values)
-            {
-                var alignItems = values[0];
-                var justifyItems = values[1];
+            public ICssValue Merge(ICssValue[] values) => converter.Merge(values[0], values[1]);
 
-                if (alignItems != null || justifyItems != null)
-                {
-                    return new CssTupleValue(new[] { alignItems, justifyItems });
-                }
-
-                return null;
-            }
-
-            public ICssValue[] Split(ICssValue value)
-            {
-                var options = value as CssTupleValue;
-
-                if (options != null)
-                {
-                    return new[]
-                    {
-                        options.Items[0],
-                        options.Items[1],
-                    };
-                }
-
-                return null;
-            }
+            public ICssValue[] Split(ICssValue value) => converter.Split(value);
         }
     }
 }

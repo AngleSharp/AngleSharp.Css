@@ -254,13 +254,13 @@ namespace AngleSharp.Css.Declarations
                     for (var i = 0; i < count; i++)
                     {
                         layers[i] = new CssBackgroundLayerValue(
-                            GetValue(image, i),
-                            GetValue(position, i),
-                            GetValue(size, i),
-                            GetValue(repeat, i),
-                            GetValue(attachment, i),
-                            GetValue(origin, i),
-                            GetValue(clip, i));
+                            GetValue(image, i, InitialValues.BackgroundImageDecl),
+                            GetValue(position, i, InitialValues.BackgroundPositionDecl),
+                            GetValue(size, i, InitialValues.BackgroundSizeDecl),
+                            GetValue(repeat, i, InitialValues.BackgroundRepeatDecl),
+                            GetValue(attachment, i, InitialValues.BackgroundAttachmentDecl),
+                            GetValue(origin, i, InitialValues.BackgroundOriginDecl),
+                            GetValue(clip, i, InitialValues.BackgroundClipDecl));
                     }
 
                     return new CssListValue(layers);
@@ -281,11 +281,13 @@ namespace AngleSharp.Css.Declarations
                 return count;
             }
 
-            private static ICssValue GetValue(CssListValue container, Int32 index)
+            private static ICssValue GetValue(CssListValue container, Int32 index, ICssValue initialValue)
             {
                 if (container != null && index < container.Items.Length)
                 {
-                    return container.Items[index];
+                    var value = container.Items[index];
+                    // a layer that omitted the value got the initial one in the longhand
+                    return initialValue.Equals(value) ? null : value;
                 }
 
                 return null;
@@ -299,7 +301,8 @@ namespace AngleSharp.Css.Declarations
 
                     if (values.Any(m => m != null))
                     {
-                        return new CssListValue(values.ToArray());
+                        // a value the layer omitted is the initial one (e.g., the image of a layer with just a color)
+                        return new CssListValue(values.Select(m => m ?? initialValue).ToArray());
                     }
                 }
 

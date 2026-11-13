@@ -596,6 +596,77 @@ namespace AngleSharp.Css.Parser
             return rule;
         }
 
+        /// <summary>
+        /// Creates a conditional group rule (@media, @supports) nested in the declarations of a
+        /// style rule (CSS Nesting 1, 3.2). Its declarations apply to the elements of the style
+        /// rule, as if they were in a nested <c>&amp; { }</c> rule, and its nested style rules
+        /// are relative to the style rule. Other at-rules are left to the declarations.
+        /// </summary>
+        private Boolean TryCreateNestedGroup(CssStyleRule parent, ref CssToken current)
+        {
+            if (!AtRuleMap.TryGetValue(current.Data, out var ruleId) || (ruleId != 1 && ruleId != 8))
+            {
+                return false;
+            }
+
+            var owner = parent.Owner;
+            var position = current.Position;
+            var token = NextToken();
+            CollectTrivia(owner, ref token);
+            var condition = GetArgument(ref token);
+            var isValid = true;
+            CssGroupingRule group;
+
+            if (ruleId == 1)
+            {
+                var media = new CssMediaRule(owner);
+                media.Media.SetMediaText(condition, throwOnError: false);
+                group = media;
+            }
+            else
+            {
+                var supports = new CssSupportsRule(owner);
+                isValid = supports.SetConditionText(condition, throwOnError: false);
+                group = supports;
+            }
+
+            CollectTrivia(owner, ref token);
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
+                // the declarations continue after the semicolon (or end with the block)
+                RaiseErrorOccurred(CssParseError.InvalidToken, position);
+                current = token.Type == CssTokenType.Semicolon ? NextToken() : token;
+                return true;
+            }
+
+            if (_depth > _maxDepth)
+            {
+                RaiseErrorOccurred(CssParseError.NestingTooDeep, position);
+                SkipBlock();
+                current = NextToken();
+                return true;
+            }
+
+            var declarations = new CssStyleRule(owner)
+            {
+                IsNested = true,
+            };
+            declarations.ChangeSelector(new NestedDeclarationsSelector(parent));
+            _depth++;
+            FillDeclarations(owner, declarations.Style, NextToken());
+            _depth--;
+            group.Add(declarations);
+
+            if (isValid)
+            {
+                parent.Add(group);
+            }
+
+            current = NextToken();
+            return true;
+        }
+
         public CssKeyframeRule CreateKeyframeRule(CssKeyframeRule rule, CssToken current)
         {
             CollectTrivia(rule.Owner, ref current);
@@ -792,6 +863,11 @@ namespace AngleSharp.Css.Parser
         {
             CollectTrivia(owner, ref token);
             var start = token.Position;
+
+            if (!_options.IsExcludingNesting && token.Type == CssTokenType.AtKeyword && properties is ICssStyleDeclaration groupDecl && groupDecl.Parent is CssStyleRule groupParent && TryCreateNestedGroup(groupParent, ref token))
+            {
+                return;
+            }
 
             if (!_options.IsExcludingNesting && token.IsPotentiallyNested() && properties is ICssStyleDeclaration decl && decl.Parent is CssStyleRule style)
             {

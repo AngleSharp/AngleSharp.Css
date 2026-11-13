@@ -57,7 +57,9 @@ namespace AngleSharp.Css.Values
 
                     if (_color != null && _color is CssInitialValue == false)
                     {
-                        var sep = layer.Length > 0 ? " " : "";
+                        // the color is part of the final layer, which may have nothing else
+                        var finalLayerEmpty = _layers is CssListValue list && list.Count > 1 && list.Items[list.Count - 1].CssText.Length == 0;
+                        var sep = layer.Length == 0 ? "" : (finalLayerEmpty ? ", " : " ");
                         var color = _color.CssText;
                         return String.Concat(layer, sep, color);
                     }

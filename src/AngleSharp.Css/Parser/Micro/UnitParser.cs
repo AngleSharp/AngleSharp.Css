@@ -375,7 +375,8 @@ namespace AngleSharp.Css.Parser
             {
                 var unit = CssLengthValue.Unit.Px;
 
-                if ((test.Dimension == String.Empty && test.Value == "0") ||
+                // a number without unit is a length when it is zero, as -0 or 0.0 are (CSS Values 4 §6.1)
+                if ((test.Dimension == String.Empty && value == 0) ||
                     (unit = CssLengthValue.GetUnit(test.Dimension)) != CssLengthValue.Unit.None)
                 {
                     return new CssLengthValue(value, unit);

@@ -12,11 +12,14 @@ namespace AngleSharp.Css.Declarations
         public static readonly String Name = PropertyNames.GridGap;
 
         // Same fix, same reasoning as GapDeclaration.Longhands - order must match
-        // GridGapAggregagtor.Split()'s own [row, col] convention.
+        // GridGapAggregagtor.Split()'s own [row, col] convention. The legacy name of
+        // `gap` also sets `row-gap` and `column-gap`, which layouts read.
         public static readonly String[] Longhands = new[]
         {
             PropertyNames.GridRowGap,
             PropertyNames.GridColumnGap,
+            PropertyNames.RowGap,
+            PropertyNames.ColumnGap,
         };
 
         public static readonly IValueConverter Converter = new GridGapAggregagtor();
@@ -48,11 +51,10 @@ namespace AngleSharp.Css.Declarations
             {
                 if (value is CssTupleValue list)
                 {
-                    return new[]
-                    {
-                        list.Items[0],
-                        list.Items[1],
-                    };
+                    // `grid-gap: 8px` sets both gaps, as `gap` does
+                    var row = list.Items[0];
+                    var col = list.Items.Length > 1 && list.Items[1] != null ? list.Items[1] : row;
+                    return new[] { row, col, row, col };
                 }
 
                 return null;
