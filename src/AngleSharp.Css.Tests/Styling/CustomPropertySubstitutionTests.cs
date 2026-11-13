@@ -41,5 +41,24 @@ namespace AngleSharp.Css.Tests.Styling
 
             Assert.AreEqual("0px", style.GetPropertyValue("margin-left"));
         }
+
+        [Test]
+        public async Task AShorthandKeptAsWrittenGivesItsLonghandsTheSubstitutedValue()
+        {
+            // as Elementor's containers do: the longhands stayed visible, so nothing was clipped
+            var style = await ComputeAsync("--overflow: hidden; overflow: var(--overflow)");
+
+            Assert.AreEqual("hidden", style.GetPropertyValue("overflow-x"));
+            Assert.AreEqual("hidden", style.GetPropertyValue("overflow-y"));
+        }
+
+        [Test]
+        public async Task AShorthandKeptAsWrittenGivesItsLonghandsTheFallbackValue()
+        {
+            var style = await ComputeAsync("overflow: var(--missing, clip auto)");
+
+            Assert.AreEqual("clip", style.GetPropertyValue("overflow-x"));
+            Assert.AreEqual("auto", style.GetPropertyValue("overflow-y"));
+        }
     }
 }

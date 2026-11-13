@@ -132,7 +132,10 @@ namespace AngleSharp.Css.Dom
             foreach (var shorthand in preservedShorthands)
             {
                 var info = factory.Create(shorthand.Name);
-                var rawValue = shorthand.RawValue ?? info.Converter.Convert(new StringSource(shorthand.Value));
+                // the computed value, as the declared one may refer to custom properties (e.g.
+                // `overflow: var(--overflow)`), which only the computed one has substituted
+                var computedShorthand = computedStyle.GetDeclaration(shorthand.Name) ?? shorthand;
+                var rawValue = computedShorthand.RawValue ?? info.Converter.Convert(new StringSource(computedShorthand.Value));
                 var values = rawValue is null ? null : info.Expand(factory, rawValue);
 
                 if (values is not null)
