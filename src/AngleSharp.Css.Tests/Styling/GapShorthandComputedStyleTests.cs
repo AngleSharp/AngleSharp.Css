@@ -37,5 +37,40 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual("10px", style.GetPropertyValue("grid-row-gap"));
             Assert.AreEqual("20px", style.GetPropertyValue("grid-column-gap"));
         }
+
+        [Test]
+        public void GridGapShorthandSetsTheGapsOfTheStandard()
+        {
+            var document = ParseDocument("<div id=target style=\"grid-gap: 10px 20px;\"></div>");
+            var target = document.GetElementById("target");
+            var style = target.ComputeCurrentStyle();
+
+            Assert.AreEqual("10px", style.GetPropertyValue("row-gap"));
+            Assert.AreEqual("20px", style.GetPropertyValue("column-gap"));
+        }
+
+        [Test]
+        public void GridGapShorthandWithOneValueSetsBothGaps()
+        {
+            var document = ParseDocument("<style>#target { grid-gap: 10px }</style><div id=target></div>");
+            var target = document.GetElementById("target");
+            var style = target.ComputeCurrentStyle();
+
+            Assert.AreEqual("10px", style.GetPropertyValue("row-gap"));
+            Assert.AreEqual("10px", style.GetPropertyValue("column-gap"));
+            Assert.AreEqual("10px", style.GetPropertyValue("grid-row-gap"));
+            Assert.AreEqual("10px", style.GetPropertyValue("grid-column-gap"));
+        }
+
+        [Test]
+        public void GridGapAfterGapWins()
+        {
+            var document = ParseDocument("<style>#target { gap: 4px; grid-gap: 10px }</style><div id=target></div>");
+            var target = document.GetElementById("target");
+            var style = target.ComputeCurrentStyle();
+
+            Assert.AreEqual("10px", style.GetPropertyValue("row-gap"));
+            Assert.AreEqual("10px", style.GetPropertyValue("column-gap"));
+        }
     }
 }
