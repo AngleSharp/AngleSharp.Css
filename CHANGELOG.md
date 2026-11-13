@@ -2,7 +2,9 @@
 
 Released on Friday, November 13 2026.
 
+- Improved serializing a style declaration, which happens with every change of an element's `style` by script (about 7 times faster): numbers are no longer formatted with a long custom format string, property names are only escaped when they need it, a `url()` is serialized once, and shorthands are only tried when all of their longhands are declared
 - Fixed `grid-gap` not setting `row-gap` and `column-gap`, whose legacy name it is, and its single value (`grid-gap: 10px`) leaving the column gap unset
+- Fixed a unitless zero with a sign or fraction (`-0`, `+0`, `0.0`) not being a length, so that a style attribute written with one (e.g. `background-position: -80px -0`, as a style set to `-0px` is serialized) lost the declaration when it was parsed again
 - Fixed computing a `background` whose final layer only has a color (e.g., `background: linear-gradient(...), var(--accent)`), which threw a `NullReferenceException` for the element and all of its descendants
 - Fixed `place-content`, `place-items` and `place-self` with a single value only setting the align longhand (e.g., `place-content: center` left `justify-content` without a value)
 - Fixed declarations in an `@media` or `@supports` rule nested in a style rule (e.g., `.a { @media (min-width: 500px) { display: grid } }`) being dropped: they apply to the elements of the style rule

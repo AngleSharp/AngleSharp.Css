@@ -14,6 +14,8 @@ namespace AngleSharp.Css.Values
         #region Fields
 
         private readonly String _path;
+        // serialized once: an image of a style attribute is serialized with every change of it
+        private String _cssText;
 
         #endregion
 
@@ -45,7 +47,7 @@ namespace AngleSharp.Css.Values
         /// <summary>
         /// Gets the CSS text representation.
         /// </summary>
-        public String CssText => Name.CssFunction(_path.CssString());
+        public String CssText => _cssText ??= Name.CssFunction(_path.CssString());
 
         /// <summary>
         /// Gets the referenced path.

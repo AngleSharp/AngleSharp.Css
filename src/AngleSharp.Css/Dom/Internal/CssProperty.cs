@@ -220,7 +220,27 @@ namespace AngleSharp.Css.Dom
 
         #region String Representation
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Declaration(CssUtilities.Escape(Name), Value, IsImportant));
+        public void ToCss(TextWriter writer, IStyleFormatter formatter) => writer.Write(formatter.Declaration(EscapeName(Name), Value, IsImportant));
+
+        // a property name is a plain identifier almost always, which needs no escaping (the
+        // escaping costs more than the rest of serializing a declaration of a style attribute)
+        private static String EscapeName(String name)
+        {
+            if (name.Length == 0 || name[0] is >= '0' and <= '9' || (name.Length > 1 && name[0] == '-' && name[1] is >= '0' and <= '9') || name == "-")
+            {
+                return CssUtilities.Escape(name);
+            }
+
+            foreach (var ch in name)
+            {
+                if (!(ch is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or >= '0' and <= '9' or '-' or '_' || ch >= 0x80))
+                {
+                    return CssUtilities.Escape(name);
+                }
+            }
+
+            return name;
+        }
 
         #endregion
     }
