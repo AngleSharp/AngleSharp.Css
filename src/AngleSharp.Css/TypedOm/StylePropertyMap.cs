@@ -2,6 +2,7 @@ namespace AngleSharp.Css.TypedOm
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Linq;
@@ -9,14 +10,15 @@ namespace AngleSharp.Css.TypedOm
     /// <summary>
     /// A writable view of style declarations as typed values. The typed values are
     /// serialized and validated by the converter of the property, i.e., the same way
-    /// as values set via the CSSOM.
+    /// as values set via the CSSOM. The values of a registered custom property also
+    /// have to match its syntax, which is list-valued for a syntax such as &lt;length&gt;#.
     /// </summary>
     sealed class StylePropertyMap : StylePropertyMapReadOnly, IStylePropertyMap
     {
         #region ctor
 
-        public StylePropertyMap(ICssStyleDeclaration declaration, IBrowsingContext? context)
-            : base(declaration, context, false)
+        public StylePropertyMap(ICssStyleDeclaration declaration, IBrowsingContext? context, IDocument? document = null)
+            : base(declaration, context, false, document)
         {
         }
 
@@ -83,22 +85,27 @@ namespace AngleSharp.Css.TypedOm
                 throw new ArgumentException("At least one value is required.", nameof(texts));
             }
 
-            if (custom && (append || texts.Length > 1))
+            // only a registered custom property with a list syntax (e.g., <length>#) is list-valued
+            var registration = custom ? GetRegistration(name) : null;
+            var separator = custom ? registration?.Syntax.ListSeparator : ", ";
+
+            if (separator is null && (append || texts.Length > 1))
             {
                 throw new ArgumentException($"The custom property '{name}' is not list-valued.", nameof(name));
             }
 
-            var text = String.Join(", ", texts);
+            var text = String.Join(separator ?? String.Empty, texts);
 
             if (append)
             {
                 var existing = Declaration.GetPropertyValue(name);
-                text = String.IsNullOrEmpty(existing) ? text : String.Concat(existing, ", ", text);
+                text = String.IsNullOrEmpty(existing) ? text : String.Concat(existing, separator, text);
             }
 
-            var property = TypedOmProperties.Parse(Context, name, text);
+            var property = TypedOmProperties.Parse(Context, name, text, registration);
 
-            if ((append || texts.Length > 1) && property.RawValue is not CssListValue<ICssValue> && property.RawValue is not CssReferenceValue)
+            // the values of a registered list were matched against its syntax already
+            if (!custom && (append || texts.Length > 1) && property.RawValue is not CssListValue<ICssValue> && property.RawValue is not CssReferenceValue)
             {
                 throw new ArgumentException($"The property '{name}' is not list-valued.", nameof(name));
             }

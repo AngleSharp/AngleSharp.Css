@@ -33,6 +33,13 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         protected virtual Boolean IsValidDescriptor(String name, String value) => true;
 
+        /// <summary>
+        /// Called after a descriptor has been added, changed, or removed.
+        /// </summary>
+        protected virtual void OnDescriptorsChanged()
+        {
+        }
+
         public ICssProperty GetProperty(String propertyName)
         {
             for (var i = 0; i < _descriptors.Count; i++)
@@ -74,6 +81,7 @@ namespace AngleSharp.Css.Dom
                 if (property is not null)
                 {
                     _descriptors.Remove(property);
+                    OnDescriptorsChanged();
                 }
 
                 return;
@@ -87,12 +95,13 @@ namespace AngleSharp.Css.Dom
 
             if (property is null)
             {
-                property = new DescriptorProperty(propertyName);
+                property = new DescriptorProperty(this, propertyName);
                 _descriptors.Add(property);
             }
 
-            property.Value = propertyValue;
             property.IsImportant = priority.Is(CssKeywords.Important);
+            // notifies about the change
+            property.Value = propertyValue;
         }
 
         public String RemoveProperty(String propertyName)
@@ -104,6 +113,7 @@ namespace AngleSharp.Css.Dom
                 if (descriptor.Name.Is(propertyName))
                 {
                     _descriptors.RemoveAt(i);
+                    OnDescriptorsChanged();
                     return descriptor.Value;
                 }
             }
@@ -130,6 +140,7 @@ namespace AngleSharp.Css.Dom
         protected void ReplaceWith(ICssProperties properties)
         {
             _descriptors.Clear();
+            OnDescriptorsChanged();
 
             foreach (var property in properties)
             {
@@ -139,10 +150,13 @@ namespace AngleSharp.Css.Dom
 
         private sealed class DescriptorProperty : ICssProperty
         {
+            private readonly CssDescriptorRule _owner;
             private readonly String _name;
+            private String _value = String.Empty;
 
-            public DescriptorProperty(String name)
+            public DescriptorProperty(CssDescriptorRule owner, String name)
             {
+                _owner = owner;
                 _name = name;
             }
 
@@ -150,7 +164,15 @@ namespace AngleSharp.Css.Dom
 
             public ICssValue RawValue => null;
 
-            public String Value { get; set; } = String.Empty;
+            public String Value
+            {
+                get => _value;
+                set
+                {
+                    _value = value;
+                    _owner.OnDescriptorsChanged();
+                }
+            }
 
             public Boolean IsImportant { get; set; }
 

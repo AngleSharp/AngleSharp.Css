@@ -1,6 +1,8 @@
 namespace AngleSharp.Css.TypedOm
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
 
@@ -39,9 +41,24 @@ namespace AngleSharp.Css.TypedOm
         }
 
         /// <summary>
-        /// Parses the text for the given property, or throws (TypeError) if it is invalid.
+        /// Gets the registrations in effect for the document, if any.
         /// </summary>
-        public static CssProperty Parse(IBrowsingContext? context, String name, String text)
+        public static CssPropertyRegistry? GetRegistry(IDocument? document) =>
+            document is not null ? CssPropertyRegistry.ForDocument(document) : null;
+
+        /// <summary>
+        /// Gets the registration of the custom property in the document of the context.
+        /// </summary>
+        public static CssPropertyRegistration? GetRegistration(IBrowsingContext? context, String name) =>
+            IsCustom(name) ? GetRegistry(context?.Active)?.Get(name) : null;
+
+        /// <summary>
+        /// Parses the text for the given property, or throws (TypeError) if it is invalid.
+        /// The value of a registered custom property has to match its syntax, unless it is
+        /// a CSS-wide keyword or has references (e.g., var()), which are only resolved at
+        /// computed-value time.
+        /// </summary>
+        public static CssProperty Parse(IBrowsingContext? context, String name, String text, CssPropertyRegistration? registration = null)
         {
             name = Normalize(name);
             var info = GetInfo(context, name);
@@ -50,12 +67,17 @@ namespace AngleSharp.Css.TypedOm
                 Value = text,
             };
 
-            if (property.RawValue is null)
+            if (property.RawValue is null || !MatchesRegistration(registration, property.RawValue))
             {
                 throw new ArgumentException($"The value '{text}' is not valid for the property '{name}'.", nameof(text));
             }
 
             return property;
         }
+
+        private static Boolean MatchesRegistration(CssPropertyRegistration? registration, ICssValue value) =>
+            registration is null || registration.IsUniversal || value is ICssSpecialValue ||
+            CssPropertySyntax.IsCssWideKeyword(value.CssText.Trim()) ||
+            CssPropertySyntax.HasReferences(value.CssText) || registration.Syntax.Match(value) is not null;
     }
 }

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using System;
     using System.Collections;
@@ -74,6 +75,7 @@ namespace AngleSharp.Css.Dom
         public void Clear()
         {
             _rules.Clear();
+            CssPropertyRegistryCache.Invalidate();
         }
 
         public void RemoveAt(Int32 index)
@@ -98,6 +100,7 @@ namespace AngleSharp.Css.Dom
                 if (index >= 0)
                 {
                     _rules.RemoveAt(index);
+                    Invalidate(rule);
                 }
             }
         }
@@ -126,6 +129,8 @@ namespace AngleSharp.Css.Dom
             {
                 _rules.Insert(actualIndex, rule);
             }
+
+            Invalidate(rule);
         }
 
         public void Add(ICssRule rule)
@@ -133,6 +138,7 @@ namespace AngleSharp.Css.Dom
             if (rule != null)
             {
                 _rules.Add(rule);
+                Invalidate(rule);
             }
         }
 
@@ -145,6 +151,19 @@ namespace AngleSharp.Css.Dom
 
             var oldLength = _rules.Count;
             _rules.AddRange(rules);
+            CssPropertyRegistryCache.Invalidate();
+        }
+
+        /// <summary>
+        /// Marks the registered custom properties as outdated, unless the rule cannot hold
+        /// a @property rule, i.e., is a style rule (whose nested rules are not registered).
+        /// </summary>
+        private static void Invalidate(ICssRule rule)
+        {
+            if (rule is not ICssStyleRule)
+            {
+                CssPropertyRegistryCache.Invalidate();
+            }
         }
 
         internal IEnumerable<IStyleFormattable> GetFormattables() => _rules;

@@ -40,7 +40,8 @@ namespace AngleSharp.Css.TypedOm
         /// </summary>
         /// <param name="property">The name of the property, e.g., width.</param>
         /// <param name="cssText">The text to parse, e.g., 10px.</param>
-        /// <param name="context">The browsing context determining the known properties, if any.</param>
+        /// <param name="context">The browsing context determining the known properties, if any. A custom
+        /// property registered for its active document is parsed and typed according to its syntax.</param>
         /// <returns>The typed value.</returns>
         /// <exception cref="ArgumentException">The property is unknown or the text is not valid for it.</exception>
         public static CssStyleValue Parse(String property, String cssText, IBrowsingContext? context) =>
@@ -63,7 +64,8 @@ namespace AngleSharp.Css.TypedOm
         /// </summary>
         /// <param name="property">The name of the property, e.g., background-image.</param>
         /// <param name="cssText">The text to parse, e.g., url(a.png), url(b.png).</param>
-        /// <param name="context">The browsing context determining the known properties, if any.</param>
+        /// <param name="context">The browsing context determining the known properties, if any. A custom
+        /// property registered for its active document is parsed and typed according to its syntax.</param>
         /// <returns>The typed values.</returns>
         /// <exception cref="ArgumentException">The property is unknown or the text is not valid for it.</exception>
         public static IReadOnlyList<CssStyleValue> ParseAll(String property, String cssText, IBrowsingContext? context)
@@ -74,8 +76,9 @@ namespace AngleSharp.Css.TypedOm
             if (cssText is null)
                 throw new ArgumentNullException(nameof(cssText));
 
-            var declaration = TypedOmProperties.Parse(context, property, cssText);
-            return CssStyleValueReifier.ReifyAll(declaration.Name, declaration.RawValue);
+            var registration = TypedOmProperties.GetRegistration(context, TypedOmProperties.Normalize(property));
+            var declaration = TypedOmProperties.Parse(context, property, cssText, registration);
+            return CssStyleValueReifier.ReifyAll(declaration.Name, declaration.RawValue, registration);
         }
 
         /// <summary>

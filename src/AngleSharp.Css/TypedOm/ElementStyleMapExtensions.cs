@@ -20,6 +20,6 @@ namespace AngleSharp.Css.TypedOm
         [DomName("attributeStyleMap")]
         [DomAccessor(Accessors.Getter)]
         public static IStylePropertyMap? GetAttributeStyleMap(this IElement element) =>
-            element.GetStyle()?.GetStyleMap();
+            element.GetStyle()?.GetStyleMap(element.Owner);
     }
 }

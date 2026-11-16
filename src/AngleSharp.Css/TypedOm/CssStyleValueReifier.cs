@@ -37,6 +37,30 @@ namespace AngleSharp.Css.TypedOm
         }
 
         /// <summary>
+        /// Reifies the value of a property, which is typed according to the syntax of the
+        /// given registration if it is a registered custom property: a declared value that
+        /// matches the syntax and has no references (e.g., 10px for &lt;length&gt;) is typed
+        /// like the computed value is, and a list syntax (e.g., &lt;length&gt;+) yields one
+        /// item per entry. Otherwise, e.g., with var(), it is a CssUnparsedValue.
+        /// </summary>
+        public static IReadOnlyList<CssStyleValue> ReifyAll(String property, ICssValue? value, CssPropertyRegistration? registration)
+        {
+            if (registration is null || value is null)
+            {
+                return ReifyAll(property, value);
+            }
+
+            value = registration.MatchDeclared(value) ?? value;
+
+            if (value is CssTupleValue tuple && registration.Syntax.ListSeparator == " ")
+            {
+                return tuple.Items.Select(item => Reify(property, item)).ToArray();
+            }
+
+            return ReifyAll(property, value);
+        }
+
+        /// <summary>
         /// Reifies a single value of the given property.
         /// </summary>
         public static CssStyleValue Reify(String property, ICssValue value)

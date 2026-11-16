@@ -69,6 +69,38 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public Boolean IsUniversal => _components.Length == 0;
 
+        /// <summary>
+        /// Gets the separator of the items if the syntax is list-valued, i.e., ", " if all
+        /// components are multiplied by # and " " if all are multiplied by +, otherwise null.
+        /// </summary>
+        public String? ListSeparator
+        {
+            get
+            {
+                if (_components.Length == 0)
+                {
+                    return null;
+                }
+
+                var multiplier = _components[0].Multiplier;
+
+                for (var i = 1; i < _components.Length; i++)
+                {
+                    if (_components[i].Multiplier != multiplier)
+                    {
+                        return null;
+                    }
+                }
+
+                return multiplier switch
+                {
+                    Symbols.Num => ", ",
+                    Symbols.Plus => " ",
+                    _ => null,
+                };
+            }
+        }
+
         #endregion
 
         #region Parsing
@@ -131,10 +163,10 @@ namespace AngleSharp.Css.Values
                     return null;
                 }
 
-                return new Component(Multiply(converter, multiplier));
+                return new Component(Multiply(converter, multiplier), multiplier);
             }
 
-            return IsCustomIdent(name) ? new Component(Multiply(new IdentConverter(name), multiplier)) : null;
+            return IsCustomIdent(name) ? new Component(Multiply(new IdentConverter(name), multiplier), multiplier) : null;
         }
 
         private static IValueConverter Multiply(IValueConverter converter, Char? multiplier) => multiplier switch
@@ -151,7 +183,10 @@ namespace AngleSharp.Css.Values
             return ident is not null && ident.Length == text.Length && source.IsDone && !IsCssWideKeyword(ident);
         }
 
-        private static Boolean IsCssWideKeyword(String ident) =>
+        /// <summary>
+        /// Checks if the identifier is a CSS-wide keyword, e.g., initial.
+        /// </summary>
+        public static Boolean IsCssWideKeyword(String ident) =>
             ident.Isi(CssKeywords.Initial) || ident.Isi(CssKeywords.Inherit) || ident.Isi(CssKeywords.Unset) ||
             ident.Isi(CssKeywords.Revert) || ident.Isi(CssKeywords.RevertLayer) || ident.Isi(CssKeywords.Default);
 
@@ -196,7 +231,15 @@ namespace AngleSharp.Css.Values
         /// refer to custom properties or to the font of the element or the root.
         /// https://www.w3.org/TR/css-properties-values-api-1/#computationally-independent
         /// </summary>
-        public static Boolean IsComputationallyIndependent(String text)
+        public static Boolean IsComputationallyIndependent(String text) => !Contains(text, true);
+
+        /// <summary>
+        /// Checks if the value refers to other values, i.e., contains var(), env(), or attr(),
+        /// which are only substituted at computed-value time.
+        /// </summary>
+        public static Boolean HasReferences(String text) => Contains(text, false);
+
+        private static Boolean Contains(String text, Boolean dependentUnits)
         {
             var tokenizer = new CssTokenizer(new TextSource(text));
 
@@ -207,11 +250,11 @@ namespace AngleSharp.Css.Values
                 switch (token.Type)
                 {
                     case CssTokenType.EndOfFile:
-                        return true;
+                        return false;
                     case CssTokenType.Function when IsReference(token.Data):
-                        return false;
-                    case CssTokenType.Dimension when DependentUnits.Contains(token.Data.CssUnit(out _)):
-                        return false;
+                        return true;
+                    case CssTokenType.Dimension when dependentUnits && DependentUnits.Contains(token.Data.CssUnit(out _)):
+                        return true;
                 }
             }
         }
@@ -228,12 +271,15 @@ namespace AngleSharp.Css.Values
 
         private sealed class Component
         {
-            public Component(IValueConverter converter)
+            public Component(IValueConverter converter, Char? multiplier)
             {
                 Converter = converter;
+                Multiplier = multiplier;
             }
 
             public IValueConverter Converter { get; }
+
+            public Char? Multiplier { get; }
         }
 
         /// <summary>

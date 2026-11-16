@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading;
 
@@ -11,14 +12,15 @@ namespace AngleSharp.Css.Values
     /// The registration of a custom property, e.g., by a valid @property rule.
     /// https://www.w3.org/TR/css-properties-values-api-1/#custom-property-registration
     /// </summary>
-    sealed class CssPropertyRegistration
+    sealed class CssPropertyRegistration : ICssPropertyRegistration
     {
-        public CssPropertyRegistration(String name, CssPropertySyntax syntax, Boolean inherits, ICssValue? initialValue)
+        public CssPropertyRegistration(String name, CssPropertySyntax syntax, Boolean inherits, ICssValue? initialValue, CssPropertyRegistrationOrigin origin = CssPropertyRegistrationOrigin.Rule)
         {
             Name = name;
             Syntax = syntax;
             Inherits = inherits;
             InitialValue = initialValue;
+            Origin = origin;
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace AngleSharp.Css.Values
         /// which has to match the syntax and be computationally independent.
         /// </summary>
         /// <returns>The registration or null if the initial value is not valid.</returns>
-        public static CssPropertyRegistration? Create(String name, CssPropertySyntax syntax, Boolean inherits, String? initialText)
+        public static CssPropertyRegistration? Create(String name, CssPropertySyntax syntax, Boolean inherits, String? initialText, CssPropertyRegistrationOrigin origin = CssPropertyRegistrationOrigin.Rule)
         {
             var initial = default(ICssValue);
 
@@ -45,7 +47,7 @@ namespace AngleSharp.Css.Values
                 return null;
             }
 
-            return new CssPropertyRegistration(name, syntax, inherits, initial);
+            return new CssPropertyRegistration(name, syntax, inherits, initial, origin);
         }
 
         /// <summary>
@@ -74,6 +76,46 @@ namespace AngleSharp.Css.Values
         /// guaranteed-invalid value, for the universal syntax without an initial value.
         /// </summary>
         public ICssValue? InitialValue { get; }
+
+        public CssPropertyRegistrationOrigin Origin { get; }
+
+        public Boolean IsUniversal => Syntax.IsUniversal;
+
+        public Boolean IsList => Syntax.ListSeparator is not null;
+
+        String ICssPropertyRegistration.Syntax => Syntax.Text;
+
+        String? ICssPropertyRegistration.InitialValue => InitialValue?.CssText;
+
+        ICssValue? ICssPropertyRegistration.RawInitialValue => InitialValue;
+
+        public ICssValue? Match(String cssText)
+        {
+            if (cssText is null)
+                throw new ArgumentNullException(nameof(cssText));
+
+            if (!IsUniversal && CssPropertySyntax.HasReferences(cssText))
+            {
+                return null;
+            }
+
+            return Syntax.Match(new CssAnyValue(cssText, isResolved: true));
+        }
+
+        /// <summary>
+        /// Matches a declared (not yet substituted) value against the syntax, which is only
+        /// possible without references, i.e., for a value that is no CssReferenceValue.
+        /// </summary>
+        /// <returns>The matched value, or null if it does not match or has references.</returns>
+        internal ICssValue? MatchDeclared(ICssValue value)
+        {
+            if (IsUniversal || value is not CssAnyValue || CssPropertySyntax.HasReferences(value.CssText))
+            {
+                return null;
+            }
+
+            return Syntax.Match(value);
+        }
     }
 
     /// <summary>
@@ -82,6 +124,15 @@ namespace AngleSharp.Css.Values
     /// </summary>
     sealed class CssPropertyRegistry
     {
+        /// <summary>
+        /// Gets the registrations in effect for the document: the ones of the valid @property
+        /// rules of its (effective) style sheets, which apply under the same conditions as the
+        /// style rules (e.g., of an enclosing @media rule), and the ones of script, which win.
+        /// The registrations reflect the current style sheets: they are kept until something
+        /// they depend on changes, i.e., the result must not be modified.
+        /// </summary>
+        public static CssPropertyRegistry ForDocument(IDocument document) => CssPropertyRegistryCache.Get(document);
+
         private readonly Dictionary<String, CssPropertyRegistration> _registrations;
 
         public CssPropertyRegistry()

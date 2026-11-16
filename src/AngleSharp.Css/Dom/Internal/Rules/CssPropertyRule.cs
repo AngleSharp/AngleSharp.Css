@@ -23,7 +23,17 @@ namespace AngleSharp.Css.Dom
         {
         }
 
-        public String Name { get; set; }
+        private String _name;
+
+        public String Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                CssPropertyRegistryCache.Invalidate();
+            }
+        }
 
         public String Syntax => ParseSyntaxString(GetPropertyValue(SyntaxDescriptor)) ?? String.Empty;
 
@@ -50,7 +60,7 @@ namespace AngleSharp.Css.Dom
                 return null;
             }
 
-            return CssPropertyRegistration.Create(Name, syntax, Inherits, GetProperty(InitialValueDescriptor)?.Value);
+            return CssPropertyRegistration.Create(Name, syntax, Inherits, GetProperty(InitialValueDescriptor)?.Value, CssPropertyRegistrationOrigin.Rule);
         }
 
         /// <summary>
@@ -72,6 +82,9 @@ namespace AngleSharp.Css.Dom
 
             return name.Isi(InitialValueDescriptor);
         }
+
+        // the registrations of documents may change
+        protected override void OnDescriptorsChanged() => CssPropertyRegistryCache.Invalidate();
 
         protected override void ReplaceWith(ICssRule rule)
         {

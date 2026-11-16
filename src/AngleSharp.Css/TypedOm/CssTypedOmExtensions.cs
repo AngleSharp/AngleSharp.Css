@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.TypedOm
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
@@ -24,6 +25,22 @@ namespace AngleSharp.Css.TypedOm
                 throw new ArgumentNullException(nameof(declaration));
 
             return Maps.GetValue(declaration, m => new StylePropertyMap(m, null));
+        }
+
+        /// <summary>
+        /// Gets the (always same) typed view of the declarations, whose registered custom
+        /// properties are the ones of the given document.
+        /// </summary>
+        internal static IStylePropertyMap GetStyleMap(this ICssStyleDeclaration declaration, IDocument? document)
+        {
+            var map = declaration.GetStyleMap();
+
+            if (map is StylePropertyMapReadOnly typed && typed.Document is null)
+            {
+                typed.Document = document;
+            }
+
+            return map;
         }
 
         /// <summary>

@@ -58,8 +58,8 @@ namespace AngleSharp.Css.Dom
             if (CssScriptPropertyRegistrations.Get(document)?.Contains(definition.Name) == true)
                 throw new DomException(DomError.InvalidModification);
 
-            var syntax =CssPropertySyntax.Parse(definition.Syntax ?? String.Empty) ?? throw new DomException(DomError.Syntax);
-            var registration = CssPropertyRegistration.Create(definition.Name, syntax, definition.Inherits, definition.InitialValue) ??
+            var syntax = CssPropertySyntax.Parse(definition.Syntax ?? String.Empty) ?? throw new DomException(DomError.Syntax);
+            var registration = CssPropertyRegistration.Create(definition.Name, syntax, definition.Inherits, definition.InitialValue, CssPropertyRegistrationOrigin.Script) ??
                 throw new DomException(DomError.Syntax);
 
             if (!CssScriptPropertyRegistrations.TryAdd(document, registration))

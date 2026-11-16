@@ -1,6 +1,8 @@
 namespace AngleSharp.Css.TypedOm
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,7 +10,9 @@ namespace AngleSharp.Css.TypedOm
 
     /// <summary>
     /// A view of style declarations as typed values. Nothing is copied: the values
-    /// are reified from the declarations whenever they are requested.
+    /// are reified from the declarations whenever they are requested. The values of
+    /// custom properties are typed according to their registration in the document,
+    /// which is looked up when they are requested, too.
     /// </summary>
     class StylePropertyMapReadOnly : IStylePropertyMapReadOnly
     {
@@ -22,11 +26,12 @@ namespace AngleSharp.Css.TypedOm
 
         #region ctor
 
-        public StylePropertyMapReadOnly(ICssStyleDeclaration declaration, IBrowsingContext? context, Boolean sorted)
+        public StylePropertyMapReadOnly(ICssStyleDeclaration declaration, IBrowsingContext? context, Boolean sorted, IDocument? document = null)
         {
             _declaration = declaration;
             _context = context ?? (declaration as CssStyleDeclaration)?.Context;
             _sorted = sorted;
+            Document = document;
         }
 
         #endregion
@@ -37,7 +42,21 @@ namespace AngleSharp.Css.TypedOm
 
         protected IBrowsingContext? Context => _context;
 
-        public Int32 Size => GetNames().Count(name => GetAllCore(name).Count > 0);
+        /// <summary>
+        /// Gets or sets the document whose registered custom properties apply, which is
+        /// otherwise the one of the style sheet of the declarations' rule, or the active
+        /// document of the context.
+        /// </summary>
+        internal IDocument? Document { get; set; }
+
+        public Int32 Size
+        {
+            get
+            {
+                var registry = new Lazy<CssPropertyRegistry?>(GetRegistry);
+                return GetNames().Count(name => GetAllCore(name, registry).Count > 0);
+            }
+        }
 
         #endregion
 
@@ -49,15 +68,18 @@ namespace AngleSharp.Css.TypedOm
             return values.Count > 0 ? values[0] : null;
         }
 
-        public IReadOnlyList<CssStyleValue> GetAll(String property) => GetAllCore(Validate(property));
+        public IReadOnlyList<CssStyleValue> GetAll(String property) =>
+            GetAllCore(Validate(property), new Lazy<CssPropertyRegistry?>(GetRegistry));
 
         public Boolean Has(String property) => !String.IsNullOrEmpty(_declaration.GetPropertyValue(Validate(property)));
 
         public IEnumerator<KeyValuePair<String, IReadOnlyList<CssStyleValue>>> GetEnumerator()
         {
+            var registry = new Lazy<CssPropertyRegistry?>(GetRegistry);
+
             foreach (var name in GetNames())
             {
-                var values = GetAllCore(name);
+                var values = GetAllCore(name, registry);
 
                 if (values.Count > 0)
                 {
@@ -79,7 +101,16 @@ namespace AngleSharp.Css.TypedOm
             return name;
         }
 
-        private IReadOnlyList<CssStyleValue> GetAllCore(String name)
+        /// <summary>
+        /// Gets the registration of the custom property in effect for the declarations.
+        /// </summary>
+        protected CssPropertyRegistration? GetRegistration(String name) =>
+            TypedOmProperties.IsCustom(name) ? GetRegistry()?.Get(name) : null;
+
+        private CssPropertyRegistry? GetRegistry() =>
+            TypedOmProperties.GetRegistry(Document ?? _declaration.Parent?.Owner?.OwnerNode?.Owner ?? _context?.Active);
+
+        private IReadOnlyList<CssStyleValue> GetAllCore(String name, Lazy<CssPropertyRegistry?> registry)
         {
             // the text also covers used values, e.g., of a computed style
             var text = _declaration.GetPropertyValue(name);
@@ -94,8 +125,11 @@ namespace AngleSharp.Css.TypedOm
                 property.RawValue :
                 TryParse(name, text);
 
+            // the registry is only needed (and collected) for custom properties
+            var registration = TypedOmProperties.IsCustom(name) ? registry.Value?.Get(name) : null;
+
             return value is not null ?
-                CssStyleValueReifier.ReifyAll(name, value) :
+                CssStyleValueReifier.ReifyAll(name, value, registration) :
                 new CssStyleValue[] { new CssUnsupportedValue(name, text) };
         }
 

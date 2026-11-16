@@ -22,7 +22,7 @@ namespace AngleSharp.Css.TypedOm
         {
             var window = element.Owner?.DefaultView;
             var style = window?.GetComputedStyleOfScript(element);
-            return style is not null ? new StylePropertyMapReadOnly(style, element.Owner?.Context, true) : null;
+            return style is not null ? new StylePropertyMapReadOnly(style, element.Owner?.Context, true, element.Owner) : null;
         }
     }
 }
