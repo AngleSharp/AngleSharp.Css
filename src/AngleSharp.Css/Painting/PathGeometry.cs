@@ -210,16 +210,24 @@ namespace AngleSharp.Css.Painting
             {
                 x += w;
                 w = -w;
-                (tl, tr) = (tr, tl);
-                (bl, br) = (br, bl);
+                var radius = tl;
+                tl = tr;
+                tr = radius;
+                radius = bl;
+                bl = br;
+                br = radius;
             }
 
             if (h < 0)
             {
                 y += h;
                 h = -h;
-                (tl, bl) = (bl, tl);
-                (tr, br) = (br, tr);
+                var radius = tl;
+                tl = bl;
+                bl = radius;
+                radius = tr;
+                tr = br;
+                br = radius;
             }
 
             // overlapping corners are scaled down

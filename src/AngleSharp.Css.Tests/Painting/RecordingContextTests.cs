@@ -246,6 +246,22 @@ namespace AngleSharp.Css.Tests.Painting
         }
 
         [Test]
+        public void PointInRoundedRectangleWithNegativeDimensions()
+        {
+            var ctx = Create();
+            ctx.RoundRect(40, 0, -40, 40, 0, 20, 0, 0);
+
+            Assert.IsFalse(ctx.IsPointInPath(1, 1));
+            Assert.IsTrue(ctx.IsPointInPath(19, 1));
+
+            ctx.Reset();
+            ctx.RoundRect(0, 40, 40, -40, 0, 0, 0, 20);
+
+            Assert.IsFalse(ctx.IsPointInPath(1, 1));
+            Assert.IsTrue(ctx.IsPointInPath(19, 1));
+        }
+
+        [Test]
         public void PointInRoundedCornerOfArcTo()
         {
             var ctx = Create();
