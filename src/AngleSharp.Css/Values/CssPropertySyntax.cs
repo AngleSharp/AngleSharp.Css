@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Values
             { "percentage", ValueConverters.PercentConverter },
             { "length-percentage", ValueConverters.LengthOrPercentConverter },
             { "color", ValueConverters.CurrentColorConverter },
-            { "image", ValueConverters.Or(ValueConverters.UrlConverter, ValueConverters.GradientConverter, new ClassValueConverter<ICssImageValue>(CompoundParser.ParseImageSet)) },
+            { "image", ValueConverters.Or(ValueConverters.UrlConverter, ValueConverters.GradientConverter, new ClassValueConverter<ICssImageValue>(CompoundParser.ParseImageSet), new ClassValueConverter<ICssImageValue>(CompoundParser.ParsePaint)) },
             { "url", ValueConverters.UrlConverter },
             { "integer", ValueConverters.IntegerConverter },
             { "angle", new ClassValueConverter<ICssValue>(UnitParser.ParseAngleOrCalc) },

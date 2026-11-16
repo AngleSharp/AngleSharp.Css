@@ -13,6 +13,7 @@ We have more detailed information regarding the following subjects:
 - [Supported At-Rules](general/07-Supported-At-Rules.md)
 - [Supported Declarations](general/08-Supported-Declarations.md)
 - [Typed OM](general/09-Typed-OM.md)
+- [Painting API](general/10-Painting-API.md)
 
 ## Tutorials
 
@@ -31,7 +32,7 @@ If you are new to AngleSharp.Css, this order gives a practical ramp-up:
 4. [CSSOM](general/03-CSSOM.md) and [Core Interfaces](general/04-Core-Interfaces.md) once you need a deeper model understanding.
 5. [Supported At-Rules](general/07-Supported-At-Rules.md) and [Supported Declarations](general/08-Supported-Declarations.md) when checking implementation coverage and constraints.
 6. [Value Model](general/02-Values.md) and [Render Tree Examples](tutorials/03-Render-Tree.md) for style computation workflows.
-7. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations.
+7. [Extensibility](general/05-Extensibility.md) and [Provided Services](general/06-Provided-Services.md) for custom integrations, and the [Painting API](general/10-Painting-API.md) for drawing `paint()` images with your own painters or scripting engine.
 8. [FAQ](tutorials/04-Questions.md) for common pitfalls and output customization.
 
 ## What You Can Do With AngleSharp.Css
