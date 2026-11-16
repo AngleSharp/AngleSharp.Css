@@ -12,6 +12,7 @@ We have more detailed information regarding the following subjects:
 - [Provided Services](general/06-Provided-Services.md)
 - [Supported At-Rules](general/07-Supported-At-Rules.md)
 - [Supported Declarations](general/08-Supported-Declarations.md)
+- [Typed OM](general/09-Typed-OM.md)
 
 ## Tutorials
 

@@ -1,3 +1,9 @@
+# 1.5.0
+
+Released on tbd.
+
+- Added the CSS Typed OM (#276) in the `AngleSharp.Css.TypedOm` namespace: typed values (`CssUnitValue`, `CssKeywordValue`, `CssUnparsedValue`, the math values such as `CssMathSum`, `CssTransformValue`, `CssPositionValue`, `CssImageValue`) with unit-aware arithmetic and conversions, the `CSS.px()`-style factories on `CssHelpers`, and style property maps over declared (`attributeStyleMap`, `styleMap` of a rule) and computed (`computedStyleMap()`) styles, which read from and write to the existing declarations
+
 # 1.4.2
 
 Released on Friday, November 13 2026.

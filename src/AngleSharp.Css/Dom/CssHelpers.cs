@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     [DomName("CSS")]
     [DomExposed("Window")]
-    public static class CssHelpers
+    public static partial class CssHelpers
     {
         /// <summary>
         /// Returns a string containing the escaped string passed as parameter,

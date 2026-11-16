@@ -153,6 +153,11 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         internal Double? RootFontSize { get; set; }
 
+        /// <summary>
+        /// Gets the browsing context of the declarations, if any.
+        /// </summary>
+        internal IBrowsingContext Context => _context;
+
         #endregion
 
         #region Methods
@@ -525,6 +530,20 @@ namespace AngleSharp.Css.Dom
             {
                 RemoveProperty(propertyName);
             }
+        }
+
+        /// <summary>
+        /// Sets a property that has already been parsed, e.g., by the Typed OM, as
+        /// SetProperty does with the text of a value.
+        /// </summary>
+        internal void SetParsedProperty(ICssProperty property)
+        {
+            if (IsReadOnly)
+                throw new DomException(DomError.NoModificationAllowed);
+
+            Materialize();
+            SetProperty(property);
+            RaiseChanged();
         }
 
         public void AddProperty(ICssProperty declaration)
