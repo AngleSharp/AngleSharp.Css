@@ -26,10 +26,23 @@ namespace AngleSharp.Css.Tests.Extensions
             Assert.AreEqual(expected, window.Supports(condition));
         }
 
-        private static (IWindow Window, IElement Element) CreateStyled(System.String style)
+        private readonly struct StyledElement
+        {
+            public StyledElement(IWindow window, IElement element)
+            {
+                Window = window;
+                Element = element;
+            }
+
+            public IWindow Window { get; }
+
+            public IElement Element { get; }
+        }
+
+        private static StyledElement CreateStyled(System.String style)
         {
             var document = new HtmlParser(new HtmlParserOptions(), BrowsingContext.New(Configuration.Default.WithCss())).ParseDocument($"<!doctype html><div id=d style=\"{style}\"></div>");
-            return (document.DefaultView, document.GetElementById("d"));
+            return new StyledElement(document.DefaultView, document.GetElementById("d"));
         }
 
         [TestCase("position", "static")]
@@ -41,14 +54,18 @@ namespace AngleSharp.Css.Tests.Extensions
         [TestCase("flex-direction", "row")]
         public void ScriptSeesInitialValuesOfWhatWasNotDeclared(System.String property, System.String expected)
         {
-            var (window, element) = CreateStyled("");
+            var styled = CreateStyled("");
+            var window = styled.Window;
+            var element = styled.Element;
             Assert.AreEqual(expected, window.GetComputedStyleOfScript(element).GetPropertyValue(property));
         }
 
         [Test]
         public void ScriptSeesWhatWasDeclared()
         {
-            var (window, element) = CreateStyled("position: absolute; overflow: hidden");
+            var styled = CreateStyled("position: absolute; overflow: hidden");
+            var window = styled.Window;
+            var element = styled.Element;
             var style = window.GetComputedStyleOfScript(element);
 
             Assert.AreEqual("absolute", style.GetPropertyValue("position"));
@@ -59,7 +76,9 @@ namespace AngleSharp.Css.Tests.Extensions
         [Test]
         public void TheComputedStyleForDotNetStillTellsWhatWasNotDeclared()
         {
-            var (window, element) = CreateStyled("");
+            var styled = CreateStyled("");
+            var window = styled.Window;
+            var element = styled.Element;
             window.GetComputedStyleOfScript(element);
 
             Assert.AreEqual(System.String.Empty, window.GetComputedStyle(element).GetPropertyValue("position"));
