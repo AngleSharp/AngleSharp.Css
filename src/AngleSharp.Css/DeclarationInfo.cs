@@ -4,6 +4,7 @@ namespace AngleSharp.Css
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
     using System;
+    using System.Threading;
     using static ValueConverters;
 
     /// <summary>
@@ -72,5 +73,36 @@ namespace AngleSharp.Css
         /// Gets the names of related required longhand declarations.
         /// </summary>
         public String[] Longhands { get; }
+
+        // the initial value as the converter reads it from its text (see ConvertInitialValue)
+        private ICssValue? _convertedInitialValue;
+        private Boolean _hasConvertedInitialValue;
+
+        /// <summary>
+        /// Gets the initial value as the given converter reads its text, which is what a
+        /// declaration computing to its initial value gets. Values are immutable, hence the one
+        /// of the converter of the declaration is converted once instead of for every element.
+        /// </summary>
+        internal ICssValue? ConvertInitialValue(IValueConverter converter)
+        {
+            var initial = InitialValue;
+
+            if (initial is null)
+            {
+                return null;
+            }
+            else if (!ReferenceEquals(converter, Converter))
+            {
+                return converter.Convert(initial.CssText);
+            }
+            else if (!Volatile.Read(ref _hasConvertedInitialValue))
+            {
+                // a race converts it twice, with equal results
+                _convertedInitialValue = converter.Convert(initial.CssText);
+                Volatile.Write(ref _hasConvertedInitialValue, true);
+            }
+
+            return _convertedInitialValue;
+        }
     }
 }

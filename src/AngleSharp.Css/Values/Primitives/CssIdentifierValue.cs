@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS identifier value.
     /// </summary>
-    public readonly struct CssIdentifierValue : ICssPrimitiveValue, IEquatable<CssIdentifierValue>
+    public readonly struct CssIdentifierValue : ICssPrimitiveValue, IEquatable<CssIdentifierValue>, ICssComputedValue
     {
         #region Fields
 
@@ -69,6 +69,8 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode() => _text.GetHashCode();
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

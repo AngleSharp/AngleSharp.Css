@@ -63,15 +63,19 @@ namespace AngleSharp.Css.RenderTree
 
             _cascadedStyles.Clear();
             _renderedNodes.Clear();
-            _explicitStyles = ComputeExplicitStyles(root, collection);
-            _explicitStylesCollection = collection;
+            // the DOM does not change while the tree is built
+            var index = collection.GetIndex();
+            index.RememberAncestors(true);
 
             try
             {
+                _explicitStyles = ComputeExplicitStyles(root, collection);
+                _explicitStylesCollection = collection;
                 return RenderElement(root, collection, null, null, null);
             }
             finally
             {
+                index.RememberAncestors(false);
                 _explicitStyles = null;
                 _explicitStylesCollection = null;
             }

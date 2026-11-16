@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS initial value.
     /// </summary>
-    readonly struct CssInitialValue : ICssSpecialValue
+    readonly struct CssInitialValue : ICssSpecialValue, ICssComputedValue
     {
         #region Fields
 
@@ -44,6 +44,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 

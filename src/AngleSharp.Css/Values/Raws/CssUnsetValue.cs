@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS unset value.
     /// </summary>
-    readonly struct CssUnsetValue : ICssSpecialValue
+    readonly struct CssUnsetValue : ICssSpecialValue, ICssComputedValue
     {
         #region Fields
 
@@ -44,6 +44,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

@@ -7,6 +7,7 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -89,26 +90,44 @@ namespace AngleSharp.Css.Dom
         /// <returns>A new style declaration with the existing or computed values.</returns>
         public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, ICssComputeContext context)
         {
-            var computedStyle = new CssStyleDeclaration(context.Context);
             var cascaded = style as CssStyleDeclaration;
+            // The declarations inherited from the parent's computed style are already computed,
+            // hence only the local ones are computed - the inherited ones are shared.
+            var local = cascaded?.GetLocalDeclarations() ?? style;
+            var localList = local as IReadOnlyList<ICssProperty>;
+            var computedStyle = new CssStyleDeclaration(context.Context, localList?.Count ?? 0);
+            var factory = context.Context.GetDeclarationFactory();
+            var preservedShorthands = default(List<ICssProperty>);
 
             if (context is IFontComputeContext fonts)
             {
                 computedStyle.RootFontSize = fonts.RootFontSize;
             }
 
-            // The declarations inherited from the parent's computed style are already computed,
-            // hence only the local ones are computed - the inherited ones are shared.
-            var local = cascaded?.GetLocalDeclarations() ?? style;
+            if (localList is not null)
+            {
+                // by index, as enumerating the list through its interface allocates (for every element)
+                for (var i = 0; i < localList.Count; i++)
+                {
+                    ComputeLocal(localList[i]);
+                }
+            }
+            else
+            {
+                foreach (var property in local)
+                {
+                    ComputeLocal(property);
+                }
+            }
 
-            foreach (var property in local)
+            void ComputeLocal(ICssProperty property)
             {
                 var computed = property.Compute(context);
-
                 var substitutedKeyword = property.RawValue is not ICssSpecialValue && computed.RawValue is ICssSpecialValue;
-                var info = context.Context.GetDeclarationInfo(property.Name);
+                // the info is only needed for a value that may be a keyword
+                var info = default(DeclarationInfo);
                 var initialValue = computed.RawValue is CssInitialValue ||
-                    (info.Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
+                    (CssProperty.MaySerializeAsKeyword(computed.RawValue) && (info = factory.Create(property.Name)).Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
 
                 if ((computed.RawValue is null || substitutedKeyword || initialValue) && property.RawValue is not null && property is CssProperty cssProperty)
                 {
@@ -116,18 +135,30 @@ namespace AngleSharp.Css.Dom
                         (computed.RawValue is not CssInitialValue && property.CanBeInherited);
                     var inherited = inherit && context is CssComputeContext cssContext ?
                         cssContext.InheritedValue(property.Name) : null;
-                    var initial = context.Context.GetDeclarationInfo(property.Name).InitialValue;
-                    var value = inherited ?? (initial is null ? null : cssProperty.Converter.Convert(initial.CssText)?.Compute(context));
+                    var value = inherited ?? (info ?? factory.Create(property.Name)).ConvertInitialValue(cssProperty.Converter)?.Compute(context);
                     computed = new CssProperty(property.Name, cssProperty.Converter, cssProperty.Flags, value, property.IsImportant);
                 }
 
                 computedStyle.AddProperty(computed);
+
+                // the flags of a declaration are the ones of its info
+                var flags = property is CssProperty declaration ? declaration.Flags : factory.Create(property.Name).Flags;
+
+                if ((flags & PropertyFlags.PreserveShorthand) != 0)
+                {
+                    (preservedShorthands ??= new List<ICssProperty>()).Add(property);
+                }
             }
 
-            var factory = context.Context.GetDeclarationFactory();
-            var preservedShorthands = local
-                .Where(property => (factory.Create(property.Name).Flags & PropertyFlags.PreserveShorthand) != 0)
-                .ToArray();
+            if (preservedShorthands is null)
+            {
+                if (cascaded is not null)
+                {
+                    computedStyle.InheritLike(cascaded);
+                }
+
+                return computedStyle;
+            }
 
             foreach (var shorthand in preservedShorthands)
             {
@@ -165,7 +196,7 @@ namespace AngleSharp.Css.Dom
 
         internal static CssStyleDeclaration PrepareComputedDeclarations(this ICssStyleDeclaration style, ICssStyleDeclaration parent, ICssComputeContext context)
         {
-            var declarations = new CssStyleDeclaration(context.Context);
+            var declarations = new CssStyleDeclaration(context.Context, style.Length);
 
             // Resolve local custom declarations before merging the parent. In
             // particular, initial must not disappear through IsInherited.

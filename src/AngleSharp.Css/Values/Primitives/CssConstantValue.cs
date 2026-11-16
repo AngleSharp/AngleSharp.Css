@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a selected CSS enum value.
     /// </summary>
-    public readonly struct CssConstantValue<T> : ICssPrimitiveValue, IEquatable<CssConstantValue<T>>
+    public readonly struct CssConstantValue<T> : ICssPrimitiveValue, IEquatable<CssConstantValue<T>>, ICssComputedValue
     {
         #region Fields
 
@@ -70,6 +70,8 @@ namespace AngleSharp.Css.Values
         /// </summary>
         /// <returns>The hash code of the object.</returns>
         public override Int32 GetHashCode() => _data.GetHashCode();
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

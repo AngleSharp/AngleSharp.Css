@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Values
     /// Represents an URL object.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
     /// </summary>
-    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue, IEquatable<CssUrlValue>
+    public sealed class CssUrlValue : ICssImageValue, ICssFunctionValue, IEquatable<CssUrlValue>, ICssComputedValue
     {
         #region Fields
 
@@ -69,6 +69,8 @@ namespace AngleSharp.Css.Values
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssUrlValue value && Equals(value);
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

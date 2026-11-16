@@ -173,7 +173,7 @@ namespace AngleSharp.Css
 
             if (element is IHtmlElement || element is ISvgElement)
             {
-                computedStyle.SetDeclarations(element.GetStyle());
+                computedStyle.SetDeclarations(element.GetStyleIfDeclared());
             }
 
             computedStyle.TrimExcess();
@@ -246,7 +246,7 @@ namespace AngleSharp.Css
 
             ApplyImportantLayerOrder(computedStyle, matches);
             ReturnMatches(styles, matches);
-            computedStyle.SetDeclarations(host.GetStyle());
+            computedStyle.SetDeclarations(host.GetStyleIfDeclared());
             computedStyle.SetDeclarations(shadowStyle.Where(m => m.IsImportant).ToList());
             return computedStyle;
         }

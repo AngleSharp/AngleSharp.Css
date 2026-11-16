@@ -1,7 +1,8 @@
 # 1.5.0
 
-Released on Wednesday, November 18.
+Released on Wednesday, November 18 2026.
 
+- Improved CSS render tree construction performance - gains up to 50%
 - Added the CSS Painting API with the `paint()` image function (#277)
 - Added support for registered custom properties via `@property` (#274)
 - Added `CSS.registerProperty()`

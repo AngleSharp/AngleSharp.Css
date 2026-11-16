@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public readonly struct CssPercentageValue : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue
+    public readonly struct CssPercentageValue : IEquatable<CssPercentageValue>, IComparable<CssPercentageValue>, ICssMetricValue, ICssComputedValue
     {
         #region Basic percentages
 
@@ -94,6 +94,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
