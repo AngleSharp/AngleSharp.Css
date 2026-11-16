@@ -2,6 +2,8 @@
 
 Released on tbd.
 
+- Added support for registered custom properties via `@property` (#274): the rule validates its descriptors (`syntax`, `inherits`, `initial-value`) and exposes them on `ICssPropertyRule` (`Syntax`, `Inherits`, `InitialValue`, `IsValid`), and a valid registration makes the custom property match its syntax (otherwise it is invalid at computed-value time), have its initial value, be computed (e.g., `2em` to `32px`), and only be inherited if registered so
+- Added `CSS.registerProperty()` (`RegisterProperty` on `CssHelpers` for a window or a document, with a `PropertyDefinition`), which registers a custom property for the document like `@property` does and wins over `@property` rules of the same name; an invalid definition is a `SyntaxError`, registering a name twice an `InvalidModificationError`
 - Added the CSS Typed OM (#276) in the `AngleSharp.Css.TypedOm` namespace: typed values (`CssUnitValue`, `CssKeywordValue`, `CssUnparsedValue`, the math values such as `CssMathSum`, `CssTransformValue`, `CssPositionValue`, `CssImageValue`) with unit-aware arithmetic and conversions, the `CSS.px()`-style factories on `CssHelpers`, and style property maps over declared (`attributeStyleMap`, `styleMap` of a rule) and computed (`computedStyleMap()`) styles, which read from and write to the existing declarations
 
 # 1.4.2

@@ -74,4 +74,4 @@ var t = b.Type();                                     // length: 1
 
 - The computed style map is a snapshot of the computed style at the time of the call.
 - Colors and other values beyond the Typed OM Level 1 are given as plain `CssStyleValue`.
-- Registered custom properties (`@property`) are still given as `CssUnparsedValue`.
+- Custom properties are given as `CssUnparsedValue`, except for the computed values of registered ones (`@property`), which are typed according to their syntax, e.g., a `CssUnitValue` for `<length>`.

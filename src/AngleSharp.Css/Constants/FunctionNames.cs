@@ -58,6 +58,11 @@ namespace AngleSharp.Css
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The env function.
+        /// </summary>
+        public static readonly String Env = "env";
+
+        /// <summary>
         /// The symbols function.
         /// </summary>
         public static readonly String Symbols = "symbols";

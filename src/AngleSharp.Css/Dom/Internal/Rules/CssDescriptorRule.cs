@@ -27,6 +27,12 @@ namespace AngleSharp.Css.Dom
 
         protected abstract String PreludeText { get; }
 
+        /// <summary>
+        /// Checks if the descriptor with the given (non-empty) value is valid for the rule,
+        /// otherwise it is ignored. By default every descriptor is kept.
+        /// </summary>
+        protected virtual Boolean IsValidDescriptor(String name, String value) => true;
+
         public ICssProperty GetProperty(String propertyName)
         {
             for (var i = 0; i < _descriptors.Count; i++)
@@ -70,6 +76,12 @@ namespace AngleSharp.Css.Dom
                     _descriptors.Remove(property);
                 }
 
+                return;
+            }
+
+            if (!IsValidDescriptor(propertyName, propertyValue))
+            {
+                // an invalid descriptor is ignored, i.e., keeps the current one
                 return;
             }
 

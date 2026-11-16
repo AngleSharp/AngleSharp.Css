@@ -159,6 +159,13 @@ namespace AngleSharp.Css.Dom
             return this;
         }
 
+        /// <summary>
+        /// Computes a value as the value of a property with the given name and converter,
+        /// e.g., the value of a registered custom property against its syntax.
+        /// </summary>
+        internal static ICssValue ComputeValue(ICssValue value, IValueConverter converter, String name, ICssComputeContext context) =>
+            value.Compute(new PropertyComputeContext(context, converter, name));
+
         #endregion
 
         #region Keyword State
@@ -196,7 +203,8 @@ namespace AngleSharp.Css.Dom
 
             public IValueConverter Converter => _converter;
 
-            public ICssValue Resolve(String name) =>_parent.Resolve(name);
+            public ICssValue Resolve(String name) =>
+                _parent is CssComputeContext context && _name.Is(PropertyNames.FontSize) ? context.ResolveForFontSize(name) : _parent.Resolve(name);
 
             public ICssValue InheritedValue(String name) => (_parent as IInheritingComputeContext)?.InheritedValue(name);
 

@@ -18,7 +18,8 @@ namespace AngleSharp.Css.TypedOm
 
         /// <summary>
         /// Reifies the value of the given property, which yields one item per entry
-        /// of a comma separated list, e.g., of background-image.
+        /// of a comma separated list, e.g., of background-image (or of a registered
+        /// custom property with the syntax &lt;length&gt;#).
         /// </summary>
         public static IReadOnlyList<CssStyleValue> ReifyAll(String property, ICssValue? value)
         {
@@ -27,7 +28,7 @@ namespace AngleSharp.Css.TypedOm
                 return Array.Empty<CssStyleValue>();
             }
 
-            if (!TypedOmProperties.IsCustom(property) && value is CssListValue<ICssValue> list)
+            if (value is CssListValue<ICssValue> list)
             {
                 return list.Items.Select(item => Reify(property, item)).ToArray();
             }
@@ -40,7 +41,9 @@ namespace AngleSharp.Css.TypedOm
         /// </summary>
         public static CssStyleValue Reify(String property, ICssValue value)
         {
-            if (TypedOmProperties.IsCustom(property))
+            // the value of a custom property is only typed if it is the computed value of a
+            // registered (@property) one, e.g., a length
+            if (TypedOmProperties.IsCustom(property) && value is CssAnyValue or CssReferenceValue or CssInvalidValue)
             {
                 return CssUnparsedValue.FromText(value.CssText);
             }

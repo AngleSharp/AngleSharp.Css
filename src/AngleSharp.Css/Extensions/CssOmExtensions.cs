@@ -174,9 +174,38 @@ namespace AngleSharp.Css.Dom
                 declarations.AddProperty(property.Name.StartsWith("--", StringComparison.Ordinal) ? property.Compute(context) : property);
             }
 
+            AddRegisteredProperties(declarations, style, context);
             declarations.InheritFrom(parent);
             LogicalProperties.Apply(declarations, context);
             return declarations;
+        }
+
+        /// <summary>
+        /// Gives every registered custom property (@property) that is not declared its computed
+        /// value, i.e., the initial value or the value of the parent (CSS Properties and Values
+        /// API 2.4). Being an own declaration, the value also shadows the one of the parent for
+        /// a property that is not inherited.
+        /// </summary>
+        private static void AddRegisteredProperties(CssStyleDeclaration declarations, ICssStyleDeclaration style, ICssComputeContext context)
+        {
+            var registry = (context as CssComputeContext)?.Registry;
+
+            if (registry is null || registry.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var registration in registry.Registrations)
+            {
+                if (style.GetProperty(registration.Name) is { RawValue: not null })
+                {
+                    continue;
+                }
+
+                var info = context.Context?.GetDeclarationInfo(registration.Name);
+                var value = context.Resolve(registration.Name) ?? CssInvalidValue.Instance;
+                declarations.AddProperty(new CssProperty(registration.Name, info?.Converter ?? ValueConverters.Any, info?.Flags ?? PropertyFlags.Inherited, value));
+            }
         }
 
         /// <summary>

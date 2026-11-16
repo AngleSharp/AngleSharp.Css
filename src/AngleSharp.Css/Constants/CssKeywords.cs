@@ -2413,5 +2413,25 @@ namespace AngleSharp.Css
         /// The each-line keyword.
         /// </summary>
         public static readonly String EachLine = "each-line";
+
+        /// <summary>
+        /// The true keyword.
+        /// </summary>
+        public static readonly String True = "true";
+
+        /// <summary>
+        /// The false keyword.
+        /// </summary>
+        public static readonly String False = "false";
+
+        /// <summary>
+        /// The revert keyword.
+        /// </summary>
+        public static readonly String Revert = "revert";
+
+        /// <summary>
+        /// The revert-layer keyword.
+        /// </summary>
+        public static readonly String RevertLayer = "revert-layer";
     }
 }

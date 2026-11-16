@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Dom
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using System;
     using System.Collections;
@@ -14,11 +15,13 @@ namespace AngleSharp.Css.Dom
         private readonly IEnumerable<ICssStyleSheet> _defaultSheets;
         private readonly IEnumerable<ICssStyleSheet> _sheets;
         private readonly IRenderDevice _device;
+        private readonly IDocument? _document;
         private List<ICssStyleRule>? _rules;
         private List<Int32>? _layerRanks;
         private StyleRuleIndex? _index;
         private List<StyleCollectionExtensions.RuleMatch>? _matches;
         private Int32 _defaultRuleCount;
+        private CssPropertyRegistry? _registry;
 
         #endregion
 
@@ -29,11 +32,12 @@ namespace AngleSharp.Css.Dom
         {
         }
 
-        public StyleCollection(IEnumerable<ICssStyleSheet> defaultSheets, IEnumerable<ICssStyleSheet> sheets, IRenderDevice device, IElement? scope = null)
+        public StyleCollection(IEnumerable<ICssStyleSheet> defaultSheets, IEnumerable<ICssStyleSheet> sheets, IRenderDevice device, IElement? scope = null, IDocument? document = null)
         {
             _defaultSheets = defaultSheets;
             _sheets = sheets;
             _device = device;
+            _document = document ?? scope?.Owner;
             Scope = scope;
         }
 
@@ -111,6 +115,17 @@ namespace AngleSharp.Css.Dom
             return _defaultRuleCount;
         }
 
+        /// <summary>
+        /// Gets the custom properties registered by the valid @property rules of the style
+        /// sheets, which are collected with the rules: the last registration of a name wins.
+        /// The registrations of script (CSS.registerProperty) of the document win over them.
+        /// </summary>
+        internal CssPropertyRegistry GetRegistrations()
+        {
+            GetRules();
+            return _registry!;
+        }
+
         #endregion
 
         #region Helpers
@@ -119,9 +134,16 @@ namespace AngleSharp.Css.Dom
         {
             var rules = new List<ICssStyleRule>();
             var layers = new List<Layer>();
+            _registry = new CssPropertyRegistry();
             AddRules(rules, layers, _defaultSheets);
             _defaultRuleCount = rules.Count;
             AddRules(rules, layers, WithoutEarlierDuplicates(_sheets));
+            var scripted = _document is not null ? CssScriptPropertyRegistrations.Get(_document) : null;
+
+            if (scripted is not null)
+            {
+                _registry.RegisterAll(scripted);
+            }
             _layerRanks = layers.ConvertAll(m => m.Rank);
             return rules;
         }
@@ -207,6 +229,15 @@ namespace AngleSharp.Css.Dom
                     case ICssStyleRule style:
                         rules.Add(style);
                         layers.Add(layer);
+                        break;
+                    case CssPropertyRule property:
+                        var registration = property.CreateRegistration();
+
+                        if (registration is not null)
+                        {
+                            _registry!.Register(registration);
+                        }
+
                         break;
                     case ICssMediaRule media when media.IsValid(_device):
                         AddRules(rules, layers, media.Rules, layer);
