@@ -148,7 +148,8 @@ namespace AngleSharp.Css.Dom
 
             GetRules();
             other.GetRules();
-            var (mine, theirs) = (_signature!, other._signature!);
+            var mine = _signature!;
+            var theirs = other._signature!;
 
             if (mine.Count != theirs.Count)
             {
