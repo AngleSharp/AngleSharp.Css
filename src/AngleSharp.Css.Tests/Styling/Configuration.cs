@@ -52,7 +52,9 @@ namespace AngleSharp.Css.Tests.Styling
             // 81, not 80: the UA stylesheet now also gives `iframe` its default border.
             // 85, not 81: the UA stylesheet now also carries the popover rules (hidden unless
             // shown, centered in the viewport, and the `::backdrop` of a shown popover).
-            Assert.AreEqual(85, sheet.Rules.Length);
+            // 86, not 85: headings and `th` are `bold` (as in the HTML standard), `b` and
+            // `strong` stay `bolder`, which takes a rule of its own.
+            Assert.AreEqual(86, sheet.Rules.Length);
         }
     }
 }

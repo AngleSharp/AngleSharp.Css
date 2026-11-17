@@ -66,7 +66,7 @@ namespace AngleSharp.Css.Tests.Extensions
 
             var computedStyle = window.GetComputedStyle(element);
             Assert.AreEqual("rgba(255, 0, 0, 1)", computedStyle.GetColor());
-            Assert.AreEqual("bold", computedStyle.GetFontWeight());
+            Assert.AreEqual("700", computedStyle.GetFontWeight());
             Assert.AreEqual(3, computedStyle.Length);
         }
 
@@ -177,7 +177,7 @@ em { font-style: italic !important; }
 
             Assert.AreEqual("0px", style.GetMargin());
             Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
-            Assert.AreEqual("bold", style.GetFontWeight());
+            Assert.AreEqual("700", style.GetFontWeight());
             Assert.AreEqual("italic", style.GetFontStyle());
             Assert.AreEqual("20px", style.GetFontSize());
         }

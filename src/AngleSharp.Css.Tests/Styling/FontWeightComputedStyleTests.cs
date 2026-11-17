@@ -77,5 +77,19 @@ namespace AngleSharp.Css.Tests.Styling
         {
             Assert.AreEqual("700", ComputedFontWeight("<h1 id=target>Title</h1>", "target"));
         }
+
+        [Test]
+        public void HeadingIsBoldInALightParent()
+        {
+            // the UA rule of headings and table headers is `bold`, not `bolder` (which gives 400 after 300)
+            Assert.AreEqual("700", ComputedFontWeight("<div style=\"font-weight: 300\"><h1 id=target>Title</h1></div>", "target"));
+            Assert.AreEqual("700", ComputedFontWeight("<table style=\"font-weight: 300\"><tr><th id=target>Title</th></tr></table>", "target"));
+        }
+
+        [Test]
+        public void StrongIsBolderInALightParent()
+        {
+            Assert.AreEqual("400", ComputedFontWeight("<div style=\"font-weight: 300\"><strong id=target>x</strong></div>", "target"));
+        }
     }
 }

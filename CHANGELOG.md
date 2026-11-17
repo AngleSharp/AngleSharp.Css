@@ -3,6 +3,8 @@
 Released on Wednesday, November 18 2026.
 
 - Improved CSS render tree construction performance - gains up to 50%
+- Improved `getComputedStyle` called many times in a row to be much faster
+- Fixed headings and table headers in a lighter parent (e.g. `body { font-weight: 300 }`) not being bold
 - Added the CSS Painting API with the `paint()` image function (#277)
 - Added support for registered custom properties via `@property` (#274)
 - Added `CSS.registerProperty()`

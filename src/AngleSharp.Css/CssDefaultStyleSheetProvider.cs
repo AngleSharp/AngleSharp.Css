@@ -96,7 +96,7 @@ col             { display: table-column }
 colgroup        { display: table-column-group }
 td, th          { display: table-cell; padding: 1px }
 caption         { display: table-caption }
-th              { font-weight: bolder; text-align: center }
+th              { font-weight: bold; text-align: center }
 caption         { text-align: center }
 body            { margin: 8px }
 h1              { font-size: 2em; margin: .67em 0 }
@@ -112,8 +112,8 @@ ol, ul          { margin: 1em 0 }
 h5              { font-size: .83em; margin: 1.5em 0 }
 h6              { font-size: .75em; margin: 1.67em 0 }
 h1, h2, h3, h4,
-h5, h6, b,
-strong          { font-weight: bolder }
+h5, h6          { font-weight: bold }
+b, strong       { font-weight: bolder }
 blockquote,
 figure          { margin-left: 40px; margin-right: 40px }
 fieldset        { margin-left: 2px; margin-right: 2px; border: 2px groove rgb(192, 192, 192); padding: 0.35em 0.75em 0.625em }

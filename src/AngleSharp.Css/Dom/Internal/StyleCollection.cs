@@ -22,6 +22,10 @@ namespace AngleSharp.Css.Dom
         private List<StyleCollectionExtensions.RuleMatch>? _matches;
         private Int32 _defaultRuleCount;
         private CssPropertyRegistry? _registry;
+        private List<Object>? _signature;
+
+        // separates the rules of the default sheets from the author's in the signature
+        private static readonly Object AuthorSheets = new();
 
         #endregion
 
@@ -130,18 +134,53 @@ namespace AngleSharp.Css.Dom
 
         #region Helpers
 
+        /// <summary>
+        /// Gets if the other collection is made of the same rules as this one (the same
+        /// objects, with the same selectors, in the same order, valid for the same device and
+        /// registrations), so this one's index serves it as well.
+        /// </summary>
+        internal Boolean HasSameRules(StyleCollection other)
+        {
+            if (!ReferenceEquals(_device, other._device) || !ReferenceEquals(Scope, other.Scope))
+            {
+                return false;
+            }
+
+            GetRules();
+            other.GetRules();
+            var (mine, theirs) = (_signature!, other._signature!);
+
+            if (mine.Count != theirs.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < mine.Count; i++)
+            {
+                if (!ReferenceEquals(mine[i], theirs[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private List<ICssStyleRule> CollectRules()
         {
             var rules = new List<ICssStyleRule>();
             var layers = new List<Layer>();
             _registry = new CssPropertyRegistry();
+            _signature = new List<Object>();
             AddRules(rules, layers, _defaultSheets);
             _defaultRuleCount = rules.Count;
+            _signature.Add(AuthorSheets);
             AddRules(rules, layers, WithoutEarlierDuplicates(_sheets));
             var scripted = _document is not null ? CssScriptPropertyRegistrations.Get(_document) : null;
 
             if (scripted is not null)
             {
+                _signature.Add(scripted);
                 _registry.RegisterAll(scripted);
             }
             _layerRanks = layers.ConvertAll(m => m.Rank);
@@ -157,6 +196,7 @@ namespace AngleSharp.Css.Dom
             {
                 if (!sheet.IsDisabled && sheet.Media.Validate(_device))
                 {
+                    _signature!.Add(sheet);
                     AddRules(rules, layers, sheet.Rules, root);
                 }
             }
@@ -224,9 +264,13 @@ namespace AngleSharp.Css.Dom
         {
             foreach (var rule in list)
             {
+                _signature!.Add(rule);
+
                 switch (rule)
                 {
                     case ICssStyleRule style:
+                        // a rule given another selector text gets another selector
+                        _signature.Add(style.Selector);
                         rules.Add(style);
                         layers.Add(layer);
                         break;
@@ -240,9 +284,11 @@ namespace AngleSharp.Css.Dom
 
                         break;
                     case ICssMediaRule media when media.IsValid(_device):
+                        _signature.Add(media.Rules);
                         AddRules(rules, layers, media.Rules, layer);
                         break;
                     case ICssSupportsRule supports when supports.IsValid(_device):
+                        _signature.Add(supports.Rules);
                         AddRules(rules, layers, supports.Rules, layer);
                         break;
                     case ICssLayerRule { IsStatement: true } statement:
