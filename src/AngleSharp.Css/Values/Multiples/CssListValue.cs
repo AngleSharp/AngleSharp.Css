@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS value list.
     /// </summary>
-    public class CssListValue<T> : ICssMultipleValue, IEquatable<CssListValue<T>>
+    public class CssListValue<T> : ICssMultipleValue, IEquatable<CssListValue<T>>, ICssComputedValue
         where T : ICssValue
     {
         #region Fields
@@ -88,9 +88,16 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
+        Boolean ICssComputedValue.IsComputed => CssComputedValues.AreComputed(_items);
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            var items = _items.Select(v => (T)v.Compute(context)).ToArray();
+            var items = CssComputedValues.Compute(_items, context);
+
+            if (items is null)
+            {
+                return this;
+            }
 
             // Keep the specific type, e.g., such that shorthands can merge the computed list.
             if (this is CssListValue)

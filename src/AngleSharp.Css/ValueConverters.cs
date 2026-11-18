@@ -1699,6 +1699,7 @@ namespace AngleSharp.Css
             UrlConverter,
             GradientConverter,
             FromParser(CompoundParser.ParseImageSet),
+            FromParser(CompoundParser.ParsePaint),
             None);
 
         /// <summary>

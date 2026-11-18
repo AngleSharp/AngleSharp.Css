@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Values
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct CssColorValue : IEquatable<CssColorValue>, IComparable<CssColorValue>, ICssPrimitiveValue
+    public struct CssColorValue : IEquatable<CssColorValue>, IComparable<CssColorValue>, ICssPrimitiveValue, ICssComputedValue
     {
         #region Basic colors
 
@@ -614,6 +614,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

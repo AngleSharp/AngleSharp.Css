@@ -128,7 +128,7 @@ namespace AngleSharp.Css.Parser
 
             if (url == null)
             {
-                return source.ParseGradient() ?? source.ParseImageSet();
+                return source.ParseGradient() ?? source.ParseImageSet() ?? source.ParsePaint();
             }
 
             return url;
@@ -149,7 +149,7 @@ namespace AngleSharp.Css.Parser
                 while (true)
                 {
                     var parts = new List<ICssValue>();
-                    var image = source.ParseUri() ?? source.ParseGradient() ?? (ICssValue)ParseStringValue(source);
+                    var image = source.ParseUri() ?? source.ParseGradient() ?? source.ParsePaint() ?? (ICssValue)ParseStringValue(source);
 
                     if (image is null)
                     {
@@ -193,6 +193,127 @@ namespace AngleSharp.Css.Parser
             }
 
             source.BackTo(pos);
+            return null;
+        }
+
+        /// <summary>
+        /// Parses a paint function, i.e., paint( &lt;ident&gt;, &lt;declaration-value&gt;? ),
+        /// where the arguments are kept as written (split at the top-level commas), as only
+        /// the paint definition knows their syntax.
+        /// https://www.w3.org/TR/css-paint-api-1/#paint-notation
+        /// </summary>
+        internal static ICssImageValue ParsePaint(this StringSource source)
+        {
+            var pos = source.Index;
+
+            if (source.IsFunction(FunctionNames.Paint))
+            {
+                var name = source.ParseIdent();
+
+                if (name is not null)
+                {
+                    var c = source.SkipSpacesAndComments();
+
+                    if (c == Symbols.RoundBracketClose)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        return new CssPaintValue(name, Array.Empty<ICssValue>());
+                    }
+                    else if (c == Symbols.Comma)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        var arguments = ParsePaintArguments(source);
+
+                        if (arguments is not null)
+                        {
+                            return new CssPaintValue(name, arguments);
+                        }
+                    }
+                }
+            }
+
+            source.BackTo(pos);
+            return null;
+        }
+
+        private static ICssValue[] ParsePaintArguments(StringSource source)
+        {
+            var arguments = new List<ICssValue>();
+            var closers = new Stack<Char>();
+            var content = source.Content;
+            var start = source.Index;
+            var current = source.Current;
+
+            while (!source.IsDone)
+            {
+                if (closers.Count == 0 && current is Symbols.Comma or Symbols.RoundBracketClose)
+                {
+                    var text = content.Substring(start, source.Index - start).Trim();
+
+                    if (text.Length == 0)
+                    {
+                        return null;
+                    }
+
+                    arguments.Add(new CssAnyValue(text, isResolved: true));
+
+                    if (current == Symbols.RoundBracketClose)
+                    {
+                        source.SkipCurrentAndSpaces();
+                        return arguments.ToArray();
+                    }
+
+                    source.SkipCurrentAndSpaces();
+                    start = source.Index;
+                    current = source.Current;
+                    continue;
+                }
+                else if (current == Symbols.RoundBracketOpen)
+                {
+                    closers.Push(Symbols.RoundBracketClose);
+                }
+                else if (current == Symbols.SquareBracketOpen)
+                {
+                    closers.Push(Symbols.SquareBracketClose);
+                }
+                else if (current == Symbols.CurlyBracketOpen)
+                {
+                    closers.Push(Symbols.CurlyBracketClose);
+                }
+                else if (current is Symbols.RoundBracketClose or Symbols.SquareBracketClose or Symbols.CurlyBracketClose)
+                {
+                    if (closers.Count == 0 || closers.Pop() != current)
+                    {
+                        return null;
+                    }
+                }
+                else if (current is Symbols.SingleQuote or Symbols.DoubleQuote)
+                {
+                    if (source.ParseString() is null)
+                    {
+                        return null;
+                    }
+
+                    current = source.Current;
+                    continue;
+                }
+                else if (current == Symbols.Solidus && source.Peek() == Symbols.Asterisk)
+                {
+                    source.Next();
+                    current = source.SkipCssComment();
+                    continue;
+                }
+                else if (current == Symbols.ReverseSolidus && source.IsValidEscape())
+                {
+                    source.ConsumeEscape();
+                    current = source.Current;
+                    continue;
+                }
+
+                current = source.Next();
+            }
+
+            // the function has not been closed
             return null;
         }
 

@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a CSS string value.
     /// </summary>
-    public readonly struct CssStringValue : ICssPrimitiveValue, IEquatable<CssStringValue>
+    public readonly struct CssStringValue : ICssPrimitiveValue, IEquatable<CssStringValue>, ICssComputedValue
     {
         #region Fields
 
@@ -44,6 +44,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

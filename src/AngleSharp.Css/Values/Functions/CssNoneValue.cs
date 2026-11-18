@@ -4,7 +4,7 @@ namespace AngleSharp.Css.Values
     using AngleSharp.Css.Dom;
     using System;
 
-    sealed class CssNoneValue : ICssImageValue
+    sealed class CssNoneValue : ICssImageValue, ICssComputedValue
     {
         #region Properties
 
@@ -19,6 +19,8 @@ namespace AngleSharp.Css.Values
         #region Methods
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => Object.ReferenceEquals(this, other);
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 

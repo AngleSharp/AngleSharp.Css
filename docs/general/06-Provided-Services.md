@@ -52,6 +52,13 @@ This is the bridge that enables stylesheet loading from DOM resources.
 - render-tree generation (`window.Render(...)`),
 - media query feature validation.
 
+## Optional Painting Services
+
+`WithCss()` registers nothing for the [Painting API](10-Painting-API.md); the following services can be added to the configuration with `With(...)`:
+
+- `IPaintWorkletModuleLoader` runs the modules given to `CSS.paintWorklet.addModule()`, e.g., with a scripting engine. Without it, `AddModule` fails with a `NotSupportedError`.
+- `IPaintRenderingContextFactory` creates the rendering contexts paint definitions draw with, e.g., into a bitmap. Without it, the operations are recorded by a `RecordingPaintRenderingContext2D`.
+
 ## Practical Checks
 
 ```cs

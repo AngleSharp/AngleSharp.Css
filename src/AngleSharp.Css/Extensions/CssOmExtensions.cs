@@ -7,6 +7,7 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -89,26 +90,45 @@ namespace AngleSharp.Css.Dom
         /// <returns>A new style declaration with the existing or computed values.</returns>
         public static ICssStyleDeclaration Compute(this ICssStyleDeclaration style, ICssComputeContext context)
         {
-            var computedStyle = new CssStyleDeclaration(context.Context);
             var cascaded = style as CssStyleDeclaration;
+            // The declarations inherited from the parent's computed style are already computed,
+            // hence only the local ones are computed - the inherited ones are shared.
+            var local = cascaded?.GetLocalDeclarations() ?? style;
+            var localList = local as IReadOnlyList<ICssProperty>;
+            var computedStyle = new CssStyleDeclaration(context.Context, localList?.Count ?? 0);
+            var factory = context.Context.GetDeclarationFactory();
+            var preservedShorthands = default(List<ICssProperty>);
 
             if (context is IFontComputeContext fonts)
             {
                 computedStyle.RootFontSize = fonts.RootFontSize;
             }
 
-            // The declarations inherited from the parent's computed style are already computed,
-            // hence only the local ones are computed - the inherited ones are shared.
-            var local = cascaded?.GetLocalDeclarations() ?? style;
+            if (localList is not null)
+            {
+                // by index, as enumerating the list through its interface allocates (for every element)
+                for (var i = 0; i < localList.Count; i++)
+                {
+                    ComputeLocal(localList[i]);
+                }
+            }
+            else
+            {
+                foreach (var property in local)
+                {
+                    ComputeLocal(property);
+                }
+            }
 
-            foreach (var property in local)
+            void ComputeLocal(ICssProperty property)
             {
                 var computed = property.Compute(context);
-
                 var substitutedKeyword = property.RawValue is not ICssSpecialValue && computed.RawValue is ICssSpecialValue;
-                var info = context.Context.GetDeclarationInfo(property.Name);
-                var initialValue = computed.RawValue is CssInitialValue ||
-                    (info.Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
+                // the info is only needed for a value that may be a keyword
+                var info = default(DeclarationInfo);
+                // `unset` is `inherit` for an inherited property and `initial` otherwise
+                var initialValue = computed.RawValue is CssInitialValue or CssUnsetValue ||
+                    (CssProperty.MaySerializeAsKeyword(computed.RawValue) && (info = factory.Create(property.Name)).Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
 
                 if ((computed.RawValue is null || substitutedKeyword || initialValue) && property.RawValue is not null && property is CssProperty cssProperty)
                 {
@@ -116,18 +136,30 @@ namespace AngleSharp.Css.Dom
                         (computed.RawValue is not CssInitialValue && property.CanBeInherited);
                     var inherited = inherit && context is CssComputeContext cssContext ?
                         cssContext.InheritedValue(property.Name) : null;
-                    var initial = context.Context.GetDeclarationInfo(property.Name).InitialValue;
-                    var value = inherited ?? (initial is null ? null : cssProperty.Converter.Convert(initial.CssText)?.Compute(context));
+                    var value = inherited ?? (info ?? factory.Create(property.Name)).ConvertInitialValue(cssProperty.Converter)?.Compute(context);
                     computed = new CssProperty(property.Name, cssProperty.Converter, cssProperty.Flags, value, property.IsImportant);
                 }
 
                 computedStyle.AddProperty(computed);
+
+                // the flags of a declaration are the ones of its info
+                var flags = property is CssProperty declaration ? declaration.Flags : factory.Create(property.Name).Flags;
+
+                if ((flags & PropertyFlags.PreserveShorthand) != 0)
+                {
+                    (preservedShorthands ??= new List<ICssProperty>()).Add(property);
+                }
             }
 
-            var factory = context.Context.GetDeclarationFactory();
-            var preservedShorthands = local
-                .Where(property => (factory.Create(property.Name).Flags & PropertyFlags.PreserveShorthand) != 0)
-                .ToArray();
+            if (preservedShorthands is null)
+            {
+                if (cascaded is not null)
+                {
+                    computedStyle.InheritLike(cascaded);
+                }
+
+                return computedStyle;
+            }
 
             foreach (var shorthand in preservedShorthands)
             {
@@ -165,7 +197,7 @@ namespace AngleSharp.Css.Dom
 
         internal static CssStyleDeclaration PrepareComputedDeclarations(this ICssStyleDeclaration style, ICssStyleDeclaration parent, ICssComputeContext context)
         {
-            var declarations = new CssStyleDeclaration(context.Context);
+            var declarations = new CssStyleDeclaration(context.Context, style.Length);
 
             // Resolve local custom declarations before merging the parent. In
             // particular, initial must not disappear through IsInherited.
@@ -174,21 +206,51 @@ namespace AngleSharp.Css.Dom
                 declarations.AddProperty(property.Name.StartsWith("--", StringComparison.Ordinal) ? property.Compute(context) : property);
             }
 
+            AddRegisteredProperties(declarations, style, context);
             declarations.InheritFrom(parent);
             LogicalProperties.Apply(declarations, context);
             return declarations;
         }
 
         /// <summary>
-        /// Blockifies the computed display of a floated box, an absolutely positioned box
-        /// and the root element, see CSS Display 3 §2.7 and CSS 2.1 §9.7.
+        /// Gives every registered custom property (@property) that is not declared its computed
+        /// value, i.e., the initial value or the value of the parent (CSS Properties and Values
+        /// API 2.4). Being an own declaration, the value also shadows the one of the parent for
+        /// a property that is not inherited.
+        /// </summary>
+        private static void AddRegisteredProperties(CssStyleDeclaration declarations, ICssStyleDeclaration style, ICssComputeContext context)
+        {
+            var registry = (context as CssComputeContext)?.Registry;
+
+            if (registry is null || registry.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var registration in registry.Registrations)
+            {
+                if (style.GetProperty(registration.Name) is { RawValue: not null })
+                {
+                    continue;
+                }
+
+                var info = context.Context?.GetDeclarationInfo(registration.Name);
+                var value = context.Resolve(registration.Name) ?? CssInvalidValue.Instance;
+                declarations.AddProperty(new CssProperty(registration.Name, info?.Converter ?? ValueConverters.Any, info?.Flags ?? PropertyFlags.Inherited, value));
+            }
+        }
+
+        /// <summary>
+        /// Blockifies the computed display of a floated box, an absolutely positioned box,
+        /// a flex or grid item and the root element, see CSS Display 3 §2.7 and CSS 2.1 §9.7.
         /// </summary>
         /// <param name="style">The computed style of the element.</param>
         /// <param name="element">The element the style was computed for.</param>
+        /// <param name="parent">The computed style of the element's parent, if any.</param>
         /// <returns>The computed style, adjusted if needed.</returns>
-        internal static ICssStyleDeclaration Blockify(this ICssStyleDeclaration style, IElement element)
+        internal static ICssStyleDeclaration Blockify(this ICssStyleDeclaration style, IElement element, ICssStyleDeclaration parent = null)
         {
-            if (style is CssStyleDeclaration declarations && IsBlockified(declarations, element))
+            if (style is CssStyleDeclaration declarations && (IsBlockified(declarations, element) || IsFlexOrGridItem(parent)))
             {
                 // display has neither shorthands nor is it inherited, i.e., there is nothing to
                 // derive: a missing declaration is the same as one without a value.
@@ -221,6 +283,12 @@ namespace AngleSharp.Css.Dom
             return (!String.IsNullOrEmpty(floating) && !floating.Isi(CssKeywords.None)) ||
                 position.Isi(CssKeywords.Absolute) || position.Isi(CssKeywords.Fixed);
         }
+
+        // the children of a flex or grid container are its items (CSS Flexbox §4, CSS Grid §6)
+        private static Boolean IsFlexOrGridItem(ICssStyleDeclaration parent) =>
+            parent is CssStyleDeclaration declarations &&
+            declarations.GetDeclaration(PropertyNames.Display)?.RawValue is CssConstantValue<DisplayMode> mode &&
+            mode.Value is DisplayMode.Flex or DisplayMode.InlineFlex or DisplayMode.Grid or DisplayMode.InlineGrid;
 
         private static ICssValue Blockify(ICssValue display)
         {

@@ -31,6 +31,15 @@ namespace AngleSharp.Css.Dom
         [DomAccessor(Accessors.Setter)]
         public static void SetStyle(this IElement element, String value) => element.SetAttribute(AttributeNames.Style, value);
 
+        /// <summary>
+        /// Gets the style declaration of an element for the cascade: null if the element has
+        /// none yet and no style attribute, i.e., nothing to declare, which spares creating
+        /// (and remembering) an empty declaration for every element that is styled.
+        /// </summary>
+        internal static ICssStyleDeclaration GetStyleIfDeclared(this IElement element) =>
+            _styles.TryGetValue(element, out var style) ? style :
+            element.HasAttribute(AttributeNames.Style) ? element.GetStyle() : null;
+
         internal static void UpdateStyle(this IElement element, String value) => element.GetStyle()?.Update(value);
 
         private static ICssStyleDeclaration CreateStyle(IElement element) => CreateStyle(element, null);

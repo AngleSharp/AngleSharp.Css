@@ -62,8 +62,9 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         internal CssStyleDeclaration(IBrowsingContext context, Int32 capacity)
         {
+            // the index is only created once there are too many declarations to scan (see Indexed):
+            // the capacity is an upper bound, e.g., the declarations of all matching rules
             _declarations = new List<ICssProperty>(capacity);
-            _declarationIndex = capacity > MaxUnindexed ? new Dictionary<String, Int32>(capacity, StringComparer.Ordinal) : null;
             _context = context;
         }
 
@@ -152,6 +153,11 @@ namespace AngleSharp.Css.Dom
         /// along from computed style to computed style to resolve rem units.
         /// </summary>
         internal Double? RootFontSize { get; set; }
+
+        /// <summary>
+        /// Gets the browsing context of the declarations, if any.
+        /// </summary>
+        internal IBrowsingContext Context => _context;
 
         #endregion
 
@@ -527,6 +533,20 @@ namespace AngleSharp.Css.Dom
             }
         }
 
+        /// <summary>
+        /// Sets a property that has already been parsed, e.g., by the Typed OM, as
+        /// SetProperty does with the text of a value.
+        /// </summary>
+        internal void SetParsedProperty(ICssProperty property)
+        {
+            if (IsReadOnly)
+                throw new DomException(DomError.NoModificationAllowed);
+
+            Materialize();
+            SetProperty(property);
+            RaiseChanged();
+        }
+
         public void AddProperty(ICssProperty declaration)
         {
             EnsureWritable();
@@ -709,7 +729,7 @@ namespace AngleSharp.Css.Dom
         // IsInherited also holds for an explicit `initial` on an inherited property,
         // which must still resolve to the initial value rather than the parent's.
         private static Boolean IsExplicitInitial(ICssProperty property) =>
-            property.RawValue is not null && property.RawValue.CssText.Is(CssKeywords.Initial);
+            property.RawValue is not null && CssProperty.MaySerializeAsKeyword(property.RawValue) && property.RawValue.CssText.Is(CssKeywords.Initial);
 
         #endregion
 
@@ -1261,7 +1281,7 @@ namespace AngleSharp.Css.Dom
         }
 
         // below, a scan of the declarations is about as fast as an index, which is a lot larger
-        private const Int32 MaxUnindexed = 16;
+        private const Int32 MaxUnindexed = 32;
 
         private void RebuildIndex()
         {
@@ -1271,7 +1291,8 @@ namespace AngleSharp.Css.Dom
                 return;
             }
 
-            var index = _declarationIndex ?? new Dictionary<String, Int32>(_declarations.Count, StringComparer.Ordinal);
+            // sized for the room of the list, e.g., the declarations of all matching rules
+            var index = _declarationIndex ?? new Dictionary<String, Int32>(_declarations.Capacity, StringComparer.Ordinal);
             index.Clear();
 
             for (var i = 0; i < _declarations.Count; i++)

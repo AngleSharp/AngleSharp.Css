@@ -58,6 +58,11 @@ namespace AngleSharp.Css
         public static readonly String Attr = "attr";
 
         /// <summary>
+        /// The env function.
+        /// </summary>
+        public static readonly String Env = "env";
+
+        /// <summary>
         /// The symbols function.
         /// </summary>
         public static readonly String Symbols = "symbols";
@@ -316,6 +321,11 @@ namespace AngleSharp.Css
         /// The image-set function (CSS Images 4).
         /// </summary>
         public static readonly String ImageSet = "image-set";
+
+        /// <summary>
+        /// The paint function (CSS Painting API 1).
+        /// </summary>
+        public static readonly String Paint = "paint";
 
         /// <summary>
         /// The type function of an image-set option.

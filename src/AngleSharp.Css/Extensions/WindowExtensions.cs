@@ -8,6 +8,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// A set of useful extension methods for the Window class.
@@ -115,8 +116,45 @@ namespace AngleSharp.Dom
         public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
             var device = window.GetRenderDevice();
-            var styleCollection = window.GetStyleCollection(device);
+            var styleCollection = ComputedStyleCollections.Get(window.Document, window.GetStyleCollection(device));
             return styleCollection.ComputeDeclarations(element, pseudo);
+        }
+
+        /// <summary>
+        /// The style collection of the last computed style of each document: scripts ask for
+        /// computed styles many times in a row (e.g. Elementor reads the device mode from the
+        /// body's ::after for every widget), and a new collection indexes all rules again (about
+        /// 6 ms for 6000 rules). The last one is taken as long as it has the same rules.
+        /// </summary>
+        private static class ComputedStyleCollections
+        {
+            private static readonly ConditionalWeakTable<IDocument, Holder> Collections = new();
+
+            public static IStyleCollection Get(IDocument? document, IStyleCollection fresh)
+            {
+                if (document is null || fresh is not StyleCollection collection)
+                {
+                    return fresh;
+                }
+
+                var holder = Collections.GetValue(document, _ => new Holder());
+
+                lock (holder)
+                {
+                    if (holder.Last is { } last && last.HasSameRules(collection))
+                    {
+                        return last;
+                    }
+
+                    holder.Last = collection;
+                    return collection;
+                }
+            }
+
+            private sealed class Holder
+            {
+                public StyleCollection? Last;
+            }
         }
 
         /// <summary>

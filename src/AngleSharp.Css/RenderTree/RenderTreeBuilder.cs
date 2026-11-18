@@ -63,15 +63,19 @@ namespace AngleSharp.Css.RenderTree
 
             _cascadedStyles.Clear();
             _renderedNodes.Clear();
-            _explicitStyles = ComputeExplicitStyles(root, collection);
-            _explicitStylesCollection = collection;
+            // the DOM does not change while the tree is built
+            var index = collection.GetIndex();
+            index.RememberAncestors(true);
 
             try
             {
+                _explicitStyles = ComputeExplicitStyles(root, collection);
+                _explicitStylesCollection = collection;
                 return RenderElement(root, collection, null, null, null);
             }
             finally
             {
+                index.RememberAncestors(false);
                 _explicitStyles = null;
                 _explicitStylesCollection = null;
             }
@@ -223,7 +227,7 @@ namespace AngleSharp.Css.RenderTree
         {
             var document = _window.Document;
             var currentSheets = document.GetEffectiveStyleSheets();
-            return new StyleCollection(_defaultSheets, currentSheets.ToList(), device);
+            return new StyleCollection(_defaultSheets, currentSheets.ToList(), device, document: document);
         }
 
         private ElementRenderNode RenderElement(
@@ -250,7 +254,7 @@ namespace AngleSharp.Css.RenderTree
                 ? collection.ComputeHostStyle(shadowCollection, element)
                 : collection.ComputeExplicitStyle(element);
 
-            var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle);
+            var computeContext = new CssComputeContext(collection.Device, _context, explicitStyle, parentComputedStyle, collection.GetRegistrations());
             var computedStyle = explicitStyle.PrepareComputedDeclarations(parentComputedStyle!, computeContext).Compute(computeContext).Blockify(element);
             var pending = partial ? new PendingChildren(this, collection, shadowCollection, slottedCollection, getInheritedStyle, childrenBuilt) : null;
             var children = partial ? null : new List<IRenderNode>();

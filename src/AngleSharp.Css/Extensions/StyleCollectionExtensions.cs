@@ -31,7 +31,7 @@ namespace AngleSharp.Css
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null);
             var currentSheets = document.GetEffectiveStyleSheets();
-            return new StyleCollection(defaultSheets, currentSheets, renderDevice);
+            return new StyleCollection(defaultSheets, currentSheets, renderDevice, document: document);
         }
 
         /// <summary>
@@ -119,8 +119,8 @@ namespace AngleSharp.Css
             {
                 var node = nodes.Pop();
                 var explicitStyle = styles.ComputeExplicitStyle(node);
-                var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parent);
-                parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context).Blockify(node);
+                var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parent, (styles as StyleCollection)?.GetRegistrations());
+                parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context).Blockify(node, parent);
             }
 
             return parent!;
@@ -173,7 +173,7 @@ namespace AngleSharp.Css
 
             if (element is IHtmlElement || element is ISvgElement)
             {
-                computedStyle.SetDeclarations(element.GetStyle());
+                computedStyle.SetDeclarations(element.GetStyleIfDeclared());
             }
 
             computedStyle.TrimExcess();
@@ -196,8 +196,8 @@ namespace AngleSharp.Css
         {
             var ctx = element.Owner?.Context;
             var explicitStyle = styles.ComputeExplicitStyle(element);
-            var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parentComputedStyle);
-            return explicitStyle.PrepareComputedDeclarations(parentComputedStyle, context).Compute(context).Blockify(element);
+            var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parentComputedStyle, (styles as StyleCollection)?.GetRegistrations());
+            return explicitStyle.PrepareComputedDeclarations(parentComputedStyle, context).Compute(context).Blockify(element, parentComputedStyle);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace AngleSharp.Css
 
             ApplyImportantLayerOrder(computedStyle, matches);
             ReturnMatches(styles, matches);
-            computedStyle.SetDeclarations(host.GetStyle());
+            computedStyle.SetDeclarations(host.GetStyleIfDeclared());
             computedStyle.SetDeclarations(shadowStyle.Where(m => m.IsImportant).ToList());
             return computedStyle;
         }

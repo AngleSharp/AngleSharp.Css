@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an integer value.
     /// </summary>
-    public readonly struct CssIntegerValue : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue
+    public readonly struct CssIntegerValue : IEquatable<CssIntegerValue>, IComparable<CssIntegerValue>, ICssMetricValue, ICssComputedValue
     {
         #region Basic lengths
 
@@ -76,6 +76,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

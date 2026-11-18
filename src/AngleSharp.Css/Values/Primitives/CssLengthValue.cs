@@ -8,7 +8,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public readonly struct CssLengthValue : IEquatable<CssLengthValue>, IComparable<CssLengthValue>, ICssMetricValue
+    public readonly struct CssLengthValue : IEquatable<CssLengthValue>, IComparable<CssLengthValue>, ICssMetricValue, ICssComputedValue
     {
         #region Basic lengths
 
@@ -248,6 +248,10 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        // see Compute: a number, a keyword or a length in pixels (a zero one marked as computed)
+        Boolean ICssComputedValue.IsComputed =>
+            _unit == Unit.None || Double.IsNaN(_value) || (_unit == Unit.Px && (_value != 0.0 || _computed));
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {

@@ -4,19 +4,46 @@ namespace AngleSharp.Css.Values
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Text;
 
     sealed class CssCustomPropertyResolver
     {
         // created on demand: most elements declare no custom properties (but are computed with a resolver)
         private Dictionary<String, ICssValue?>? _values;
+        // the custom properties of a parent that is not a CssStyleDeclaration, which are copied
+        private Dictionary<String, ICssValue?>? _parentValues;
         private readonly CssStyleDeclaration? _parent;
         private Func<String, ICssValue?>? _resolve;
 
+        // the registered custom properties (@property) and what is known about them on the element
+        private readonly CssPropertyRegistry? _registry;
+        private readonly ICssComputeContext? _context;
+        private Dictionary<String, String>? _keywords;
+        private Dictionary<String, ICssValue?>? _computed;
+        private HashSet<String>? _computing;
+        private Boolean _initializing;
+        // the font size of the element refers to custom properties, i.e., cannot be computed
+        // while they are substituted
+        private Boolean _fontSizeHasReferences;
+
         public CssCustomPropertyResolver(IEnumerable<ICssProperty> properties, ICssProperties? parent = null)
+            : this(properties, parent, null, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates the resolver of the custom properties of an element. The values of registered
+        /// custom properties are validated against their syntax and computed (with the given
+        /// context) when they are resolved, which must not happen before the context is usable.
+        /// </summary>
+        public CssCustomPropertyResolver(IEnumerable<ICssProperty> properties, ICssProperties? parent, CssPropertyRegistry? registry, ICssComputeContext? context)
         {
             // the custom properties of the parent are looked up on demand instead of copied,
             // as there may be thousands of them (e.g., design tokens on :root)
             _parent = parent as CssStyleDeclaration;
+            _registry = registry is { Count: > 0 } ? registry : null;
+            _context = context;
+            _initializing = true;
 
             if (parent is not null && _parent is null)
             {
@@ -24,15 +51,33 @@ namespace AngleSharp.Css.Values
                 {
                     if (property.Name.StartsWith("--", StringComparison.Ordinal))
                     {
-                        SetValue(property.Name, property.RawValue is CssInvalidValue ? null : property.RawValue);
+                        (_parentValues ??= new Dictionary<String, ICssValue?>(StringComparer.Ordinal))[property.Name] = property.RawValue is CssInvalidValue ? null : property.RawValue;
                     }
                 }
             }
+
+            try
+            {
+                Initialize(properties);
+            }
+            finally
+            {
+                _initializing = false;
+            }
+        }
+
+        private void Initialize(IEnumerable<ICssProperty> properties)
+        {
 
             Dictionary<String, Node>? nodes = null;
 
             foreach (var property in properties)
             {
+                if (property.RawValue is CssReferenceValue && property.Name.Is(PropertyNames.FontSize))
+                {
+                    _fontSizeHasReferences = true;
+                }
+
                 if (property.Name.StartsWith("--", StringComparison.Ordinal))
                 {
                     var value = property.RawValue;
@@ -48,6 +93,11 @@ namespace AngleSharp.Css.Values
                         value is CssAnyValue any ? new[] { any.Tokens } :
                         new[] { new CssVariableValue(value.CssText) };
                     var keyword = values.Length == 1 ? values[0].Keyword : null;
+
+                    if (keyword is not null && _registry?.Get(property.Name) is not null && IsCssWideKeyword(keyword))
+                    {
+                        (_keywords ??= new Dictionary<String, String>(StringComparer.Ordinal))[property.Name] = keyword.ToLowerInvariant();
+                    }
 
                     if (String.Equals(keyword, CssKeywords.Inherit, StringComparison.OrdinalIgnoreCase) ||
                         String.Equals(keyword, CssKeywords.Unset, StringComparison.OrdinalIgnoreCase))
@@ -176,9 +226,26 @@ namespace AngleSharp.Css.Values
 
         public ICssValue? Resolve(String name)
         {
+            var registration = _registry?.Get(name);
+
+            if (registration is not null)
+            {
+                return ResolveRegistered(registration);
+            }
+
             if (_values is not null && _values.TryGetValue(name, out var value))
             {
                 return value;
+            }
+
+            return ResolveParent(name);
+        }
+
+        private ICssValue? ResolveParent(String name)
+        {
+            if (_parentValues is not null && _parentValues.TryGetValue(name, out var copied))
+            {
+                return copied;
             }
 
             if (_parent is not null && name.StartsWith("--", StringComparison.Ordinal))
@@ -189,6 +256,149 @@ namespace AngleSharp.Css.Values
 
             return null;
         }
+
+        #region Registered Custom Properties
+
+        /// <summary>
+        /// Resolves the computed value of a registered custom property (CSS Properties and
+        /// Values API 2.4): a value not matching the syntax is invalid at computed-value time,
+        /// i.e., behaves as unset, which (as when nothing is declared) is the value of the
+        /// parent for an inherited property and otherwise the initial value.
+        /// </summary>
+        private ICssValue? ResolveRegistered(CssPropertyRegistration registration)
+        {
+            var name = registration.Name;
+
+            if (_computed is not null && _computed.TryGetValue(name, out var cached))
+            {
+                return cached;
+            }
+
+            // the value refers to itself while it is computed, e.g., via the font size
+            if (_computing is not null && _computing.Contains(name))
+            {
+                return null;
+            }
+
+            // While the custom properties are substituted (in dependency order), a value that
+            // depends on the font size is computed only if the font size does not depend on the
+            // custom properties in question, otherwise it is given as specified.
+            if (_initializing && _fontSizeHasReferences)
+            {
+                var specified = Evaluate(registration, false);
+
+                if (specified is not null && !CssPropertySyntax.IsComputationallyIndependent(specified.CssText))
+                {
+                    return specified;
+                }
+            }
+
+            (_computing ??= new HashSet<String>(StringComparer.Ordinal)).Add(name);
+
+            try
+            {
+                var value = Evaluate(registration, true);
+                (_computed ??= new Dictionary<String, ICssValue?>(StringComparer.Ordinal))[name] = value;
+                return value;
+            }
+            finally
+            {
+                _computing.Remove(name);
+            }
+        }
+
+        /// <summary>
+        /// Resolves the custom property for font-size: a registered property whose value
+        /// depends on the font size, e.g., 2em, makes a cycle with it (CSS Properties and
+        /// Values API 2.7), i.e., is the guaranteed-invalid value for font-size.
+        /// </summary>
+        public ICssValue? ResolveForFontSize(String name)
+        {
+            var registration = _registry?.Get(name);
+
+            if (registration is not null)
+            {
+                var specified = Evaluate(registration, false);
+
+                if (specified is not null && !CssPropertySyntax.IsComputationallyIndependent(specified.CssText))
+                {
+                    return null;
+                }
+            }
+
+            return Resolve(name);
+        }
+
+        private ICssValue? Evaluate(CssPropertyRegistration registration, Boolean compute)
+        {
+            var name = registration.Name;
+
+            if (_keywords is not null && _keywords.TryGetValue(name, out var keyword))
+            {
+                return keyword switch
+                {
+                    "initial" => Initial(registration, compute),
+                    "inherit" => Parent(registration, compute),
+                    _ => Unset(registration, compute),
+                };
+            }
+
+            if (_values is not null && _values.TryGetValue(name, out var declared) && declared is not null)
+            {
+                var matched = registration.Syntax.Match(declared);
+
+                if (matched is not null)
+                {
+                    return compute ? ComputeValue(registration, matched) : matched;
+                }
+            }
+
+            // not declared, or invalid at computed-value time
+            return Unset(registration, compute);
+        }
+
+        private ICssValue? Unset(CssPropertyRegistration registration, Boolean compute) =>
+            registration.Inherits ? Parent(registration, compute) : Initial(registration, compute);
+
+        // the parent's value is computed already, unless it was computed without the registration
+        private ICssValue? Parent(CssPropertyRegistration registration, Boolean compute)
+        {
+            var inherited = ResolveParent(registration.Name);
+
+            if (inherited is not null)
+            {
+                var matched = registration.Syntax.Match(inherited);
+
+                if (matched is not null)
+                {
+                    // a typed value is the computed value of the parent already
+                    return inherited is not CssAnyValue ? inherited : compute ? ComputeValue(registration, matched) : matched;
+                }
+            }
+
+            return Initial(registration, compute);
+        }
+
+        private ICssValue? Initial(CssPropertyRegistration registration, Boolean compute)
+        {
+            var initial = registration.InitialValue;
+            return initial is not null && compute ? ComputeValue(registration, initial) : initial;
+        }
+
+        private ICssValue? ComputeValue(CssPropertyRegistration registration, ICssValue value)
+        {
+            if (registration.Syntax.IsUniversal || _context is null)
+            {
+                return value;
+            }
+
+            return CssProperty.ComputeValue(value, ValueConverters.Any, registration.Name, _context) ?? value;
+        }
+
+        private static Boolean IsCssWideKeyword(String keyword) =>
+            keyword.Isi(CssKeywords.Initial) || keyword.Isi(CssKeywords.Inherit) || keyword.Isi(CssKeywords.Unset);
+
+        #endregion
 
         private sealed class Node
         {

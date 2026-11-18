@@ -11,7 +11,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents a tuple of CSS values.
     /// </summary>
-    public class CssTupleValue<T> : ICssMultipleValue, IEquatable<CssTupleValue<T>>
+    public class CssTupleValue<T> : ICssMultipleValue, IEquatable<CssTupleValue<T>>, ICssComputedValue
         where T : ICssValue
     {
         #region Fields
@@ -96,12 +96,20 @@ namespace AngleSharp.Css.Values
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
+        Boolean ICssComputedValue.IsComputed => CssComputedValues.AreComputed(_items);
+
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
             // An item can legitimately be null - e.g. `grid-column: 2 / span 2` (the omitted end
             // line) - calling .Compute() on it unconditionally threw a NullReferenceException for
             // that ordinary case.
-            var items = _items.Select(v => v == null ? v : (T)v.Compute(context)).ToArray();
+            var items = CssComputedValues.Compute(_items, context);
+
+            if (items is null)
+            {
+                return this;
+            }
+
             // Keep the specific type, e.g., such that shorthands can merge the computed tuple.
             if (this is CssTupleValue)
             {

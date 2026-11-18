@@ -108,6 +108,22 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(1, floating.Count(m => m.Name == "display"));
         }
 
+        private readonly struct BorderExpectation
+        {
+            public BorderExpectation(string id, string width, string color)
+            {
+                Id = id;
+                Width = width;
+                Color = color;
+            }
+
+            public string Id { get; }
+
+            public string Width { get; }
+
+            public string Color { get; }
+        }
+
         [Test]
         public void ShorthandsWithVariablesAreSubstitutedPerElement()
         {
@@ -117,8 +133,11 @@ namespace AngleSharp.Css.Tests.Styling
                 "<div style=\"--w: 1px; --c: red\"><p id=third class=b>z</p></div>");
             var tree = document.DefaultView.Render();
 
-            foreach (var (id, width, color) in new[] { ("first", "1px", "rgba(255, 0, 0, 1)"), ("second", "2px", "rgba(0, 0, 255, 1)"), ("third", "1px", "rgba(255, 0, 0, 1)") })
+            foreach (var expectation in new[] { new BorderExpectation("first", "1px", "rgba(255, 0, 0, 1)"), new BorderExpectation("second", "2px", "rgba(0, 0, 255, 1)"), new BorderExpectation("third", "1px", "rgba(255, 0, 0, 1)") })
             {
+                var id = expectation.Id;
+                var width = expectation.Width;
+                var color = expectation.Color;
                 var computed = Find(tree, id).ComputedStyle;
 
                 foreach (var side in new[] { "top", "right", "bottom", "left" })

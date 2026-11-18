@@ -85,21 +85,34 @@ namespace AngleSharp.Css.Tests.Styling
             AssertSame(expected, partial);
         }
 
+        private readonly struct BuiltChildren
+        {
+            public BuiltChildren(ElementRenderNode node, System.Collections.Generic.IList<IRenderNode> children)
+            {
+                Node = node;
+                Children = children;
+            }
+
+            public ElementRenderNode Node { get; }
+
+            public System.Collections.Generic.IList<IRenderNode> Children { get; }
+        }
+
         [Test]
         public void APartialTreeOfTheDocumentTellsAboutTheChildrenItBuilds()
         {
             var document = Parse();
             var styles = document.DefaultView.GetStyleCollection(new DefaultRenderDevice { ViewPortWidth = 1000, ViewPortHeight = 800 });
-            var built = new System.Collections.Generic.List<(ElementRenderNode, System.Collections.Generic.IList<IRenderNode>)>();
-            var partial = document.DefaultView.RenderPartial(styles, (node, children) => built.Add((node, children.ToList())));
+            var built = new System.Collections.Generic.List<BuiltChildren>();
+            var partial = document.DefaultView.RenderPartial(styles, (node, children) => built.Add(new BuiltChildren(node, children.ToList())));
             var body = partial.Children.OfType<ElementRenderNode>().Single(m => m.Ref.LocalName == "body");
             var bodyChildren = body.Children.ToList();
             _ = partial.Children.ToList();
 
             // the ones read, once; not the ones of the elements in the body
-            CollectionAssert.AreEqual(new[] { partial, body }, built.Select(m => m.Item1));
-            CollectionAssert.AreEqual(partial.Children, built[0].Item2);
-            CollectionAssert.AreEqual(bodyChildren, built[1].Item2);
+            CollectionAssert.AreEqual(new[] { partial, body }, built.Select(m => m.Node));
+            CollectionAssert.AreEqual(partial.Children, built[0].Children);
+            CollectionAssert.AreEqual(bodyChildren, built[1].Children);
         }
 
         [Test]

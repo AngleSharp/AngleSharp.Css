@@ -4,6 +4,7 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -58,6 +59,19 @@ namespace AngleSharp.Css.Dom
             }
 
             return Collect(element, _keys);
+        }
+
+        /// <summary>
+        /// Starts or stops remembering the candidates the ancestors of an element bring (rules
+        /// such as `.prose *`), which are the same for all children of an element: without,
+        /// they are looked up through all ancestors for every element. The DOM must not change
+        /// while they are remembered, e.g., while a render tree is built.
+        /// </summary>
+        public void RememberAncestors(Boolean remember)
+        {
+            _keys.RememberAncestors(remember);
+            _pseudoKeys.RememberAncestors(remember);
+            _contentKeys.RememberAncestors(remember);
         }
 
         /// <summary>
@@ -131,32 +145,112 @@ namespace AngleSharp.Css.Dom
             // the rules for descendants of an element with a key, e.g., .prose *
             if (keyed.AncestorRules is { } ancestorRules)
             {
-                for (var ancestor = element.ParentElement; ancestor is not null; ancestor = ancestor.ParentElement)
+                if (keyed.AncestorGroups is { } remembered)
                 {
-                    AddGroups(ancestor, ancestorRules, ref first, ref combined);
-                }
-            }
-
-            if (combined is not null)
-            {
-                // a rule may be found via several keys, e.g., ".a, .b" for class="a b"
-                combined.Sort();
-                var count = 0;
-
-                for (var i = 0; i < combined.Count; i++)
-                {
-                    if (count == 0 || combined[count - 1] != combined[i])
+                    if (element.ParentElement is { } parentElement)
                     {
-                        combined[count++] = combined[i];
+                        var groups = GetAncestorGroups(parentElement, ancestorRules, remembered);
+
+                        if (groups.Count > 0)
+                        {
+                            AddGroup(ref first, ref combined, groups);
+                        }
                     }
                 }
-
-                combined.RemoveRange(count, combined.Count - count);
-                first = combined;
+                else
+                {
+                    for (var ancestor = element.ParentElement; ancestor is not null; ancestor = ancestor.ParentElement)
+                    {
+                        AddGroups(ancestor, ancestorRules, ref first, ref combined);
+                    }
+                }
             }
 
-            return new Candidates(keyed.Ungrouped, first);
+            return new Candidates(keyed.Ungrouped, Distinct(first, combined));
         }
+
+        /// <summary>
+        /// Gets the (ascending) rules keyed by the element or one of its ancestors, which are
+        /// remembered for every element (see RememberAncestors). The ancestors are taken from
+        /// the nearest one already known, without recursion, as the tree may be deep.
+        /// </summary>
+        private static List<Int32> GetAncestorGroups(IElement element, KeyedRules ancestorRules, ConcurrentDictionary<IElement, List<Int32>> remembered)
+        {
+            if (remembered.TryGetValue(element, out var known))
+            {
+                return known;
+            }
+
+            var parent = element.ParentElement;
+            List<Int32> inherited;
+
+            if (parent is null)
+            {
+                inherited = NoRules;
+            }
+            else if (!remembered.TryGetValue(parent, out inherited!))
+            {
+                // e.g., the first element styled, or one styled out of order on another thread
+                var pending = new Stack<IElement>();
+
+                for (var ancestor = parent; ancestor is not null && !remembered.ContainsKey(ancestor); ancestor = ancestor.ParentElement)
+                {
+                    pending.Push(ancestor);
+                }
+
+                while (pending.Count > 0)
+                {
+                    var ancestor = pending.Pop();
+                    var groups = ancestor.ParentElement is { } grandParent && remembered.TryGetValue(grandParent, out var outer) ? outer : NoRules;
+                    remembered[ancestor] = CombineGroups(groups, ancestor, ancestorRules);
+                }
+
+                inherited = remembered[parent];
+            }
+
+            var result = CombineGroups(inherited, element, ancestorRules);
+            // another thread may have been faster, with the same result
+            remembered[element] = result;
+            return result;
+        }
+
+        private static List<Int32> CombineGroups(List<Int32> inherited, IElement element, KeyedRules ancestorRules)
+        {
+            var first = inherited.Count > 0 ? inherited : null;
+            var combined = default(List<Int32>);
+            AddGroups(element, ancestorRules, ref first, ref combined);
+            return Distinct(first, combined) ?? NoRules;
+        }
+
+        /// <summary>
+        /// Gives the rules of the groups as one ascending list without duplicates: the only
+        /// group, or the combined ones, as a rule may be found via several keys (e.g., ".a, .b"
+        /// for class="a b").
+        /// </summary>
+        private static List<Int32>? Distinct(List<Int32>? first, List<Int32>? combined)
+        {
+            if (combined is null)
+            {
+                return first;
+            }
+
+            combined.Sort();
+            var count = 0;
+
+            for (var i = 0; i < combined.Count; i++)
+            {
+                if (count == 0 || combined[count - 1] != combined[i])
+                {
+                    combined[count++] = combined[i];
+                }
+            }
+
+            combined.RemoveRange(count, combined.Count - count);
+            return combined;
+        }
+
+        // shared, never modified
+        private static readonly List<Int32> NoRules = new();
 
         /// <summary>
         /// Adds the groups of the keys the element has.
@@ -317,6 +411,12 @@ namespace AngleSharp.Css.Dom
             public KeyedRules? ParentRules { get; private set; }
 
             public KeyedRules? AncestorRules { get; private set; }
+
+            // the rules the ancestors (and the element) bring for each element, see RememberAncestors
+            public ConcurrentDictionary<IElement, List<Int32>>? AncestorGroups { get; private set; }
+
+            public void RememberAncestors(Boolean remember) =>
+                AncestorGroups = remember && AncestorRules is not null ? new ConcurrentDictionary<IElement, List<Int32>>() : null;
 
             public void Add(SubjectKey[]? keys, Int32 index)
             {

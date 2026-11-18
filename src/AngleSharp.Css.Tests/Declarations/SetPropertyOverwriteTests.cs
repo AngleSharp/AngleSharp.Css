@@ -21,36 +21,49 @@ namespace AngleSharp.Css.Tests.Declarations
     [TestFixture]
     public class SetPropertyOverwriteTests
     {
-        private static readonly (String Input, String Expected)[] Cases =
+        private readonly struct OverwriteCase
         {
-            ("color:red;color:blue", "color: rgba(0, 0, 255, 1)"),
-            ("color:blue;color:red", "color: rgba(255, 0, 0, 1)"),
-            ("color:red;color:notacolor", "color: rgba(255, 0, 0, 1)"),
-            ("color:red !important;color:blue", "color: rgba(255, 0, 0, 1) !important"),
-            ("color:red;color:blue !important", "color: rgba(0, 0, 255, 1) !important"),
-            ("color:red !important;color:blue !important", "color: rgba(0, 0, 255, 1) !important"),
-            ("--x:1;--x:2", "--x: 2"),
-            ("--x:1;color:red", "--x: 1; color: rgba(255, 0, 0, 1)"),
-            ("margin:1px;margin-top:2px", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 2px"),
-            ("margin-top:2px;margin:1px", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 1px"),
-            ("margin:1px;margin:notalength", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 1px"),
-            ("margin:1px !important;margin-top:2px", "margin-bottom: 1px !important; margin-left: 1px !important; margin-right: 1px !important; margin-top: 1px !important"),
-            ("padding:1px 2px;padding-left:9px;padding:3px", "padding-bottom: 3px; padding-left: 3px; padding-right: 3px; padding-top: 3px"),
-            ("border-radius:4px;border-top-left-radius:9px", "border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-top-left-radius: 9px; border-top-right-radius: 4px"),
-            ("flex:1 1 auto;flex-grow:5", "flex-basis: auto; flex-grow: 5; flex-shrink: 1"),
-            ("overflow:hidden;overflow-x:scroll", "overflow-x: scroll; overflow: hidden"),
-            ("grid-area:a;grid-row:2", "grid-column-end: a; grid-column-start: a; grid-row-end: auto; grid-row-start: 2"),
-            ("grid-row:2;grid-area:a", "grid-column-end: a; grid-column-start: a; grid-row-end: a; grid-row-start: a"),
-            ("transition:all .3s;transition-duration:1s", "transition-delay: initial; transition-duration: 1s; transition-property: all; transition-timing-function: initial"),
-            ("font:bold 14px/1.2 Arial;font-size:20px", "font-family: Arial; font-size: 20px; font-stretch: ; font-style: ; font-variant-caps: ; font-weight: bold; line-height: 1.2"),
-            ("font-size:20px;font:bold 14px/1.2 Arial", "font-family: Arial; font-size: 14px; font-stretch: ; font-style: ; font-variant-caps: ; font-weight: bold; line-height: 1.2"),
-            ("border:1px solid red;border-width:3px", "border-bottom-color: rgba(255, 0, 0, 1); border-bottom-style: solid; border-bottom-width: 3px; border-left-color: rgba(255, 0, 0, 1); border-left-style: solid; border-left-width: 3px; border-right-color: rgba(255, 0, 0, 1); border-right-style: solid; border-right-width: 3px; border-top-color: rgba(255, 0, 0, 1); border-top-style: solid; border-top-width: 3px"),
-            ("border-width:3px;border:1px solid red", "border-bottom-color: rgba(255, 0, 0, 1); border-bottom-style: solid; border-bottom-width: 1px; border-left-color: rgba(255, 0, 0, 1); border-left-style: solid; border-left-width: 1px; border-right-color: rgba(255, 0, 0, 1); border-right-style: solid; border-right-width: 1px; border-top-color: rgba(255, 0, 0, 1); border-top-style: solid; border-top-width: 1px"),
-            ("background:red;background:blue", "background-attachment: initial; background-clip: initial; background-color: rgba(0, 0, 255, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
-            ("background:red;background-color:blue", "background-attachment: initial; background-clip: initial; background-color: rgba(0, 0, 255, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
-            ("background-color:blue;background:red", "background-attachment: initial; background-clip: initial; background-color: rgba(255, 0, 0, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
-            ("background:red;background:", "background-attachment: initial; background-clip: initial; background-color: rgba(255, 0, 0, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
-            ("background:linear-gradient(red,blue);background:none", "background-attachment: initial; background-clip: initial; background-color: initial; background-image: none; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
+            public OverwriteCase(String input, String expected)
+            {
+                Input = input;
+                Expected = expected;
+            }
+
+            public String Input { get; }
+
+            public String Expected { get; }
+        }
+
+        private static readonly OverwriteCase[] Cases =
+        {
+            new OverwriteCase("color:red;color:blue", "color: rgba(0, 0, 255, 1)"),
+            new OverwriteCase("color:blue;color:red", "color: rgba(255, 0, 0, 1)"),
+            new OverwriteCase("color:red;color:notacolor", "color: rgba(255, 0, 0, 1)"),
+            new OverwriteCase("color:red !important;color:blue", "color: rgba(255, 0, 0, 1) !important"),
+            new OverwriteCase("color:red;color:blue !important", "color: rgba(0, 0, 255, 1) !important"),
+            new OverwriteCase("color:red !important;color:blue !important", "color: rgba(0, 0, 255, 1) !important"),
+            new OverwriteCase("--x:1;--x:2", "--x: 2"),
+            new OverwriteCase("--x:1;color:red", "--x: 1; color: rgba(255, 0, 0, 1)"),
+            new OverwriteCase("margin:1px;margin-top:2px", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 2px"),
+            new OverwriteCase("margin-top:2px;margin:1px", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 1px"),
+            new OverwriteCase("margin:1px;margin:notalength", "margin-bottom: 1px; margin-left: 1px; margin-right: 1px; margin-top: 1px"),
+            new OverwriteCase("margin:1px !important;margin-top:2px", "margin-bottom: 1px !important; margin-left: 1px !important; margin-right: 1px !important; margin-top: 1px !important"),
+            new OverwriteCase("padding:1px 2px;padding-left:9px;padding:3px", "padding-bottom: 3px; padding-left: 3px; padding-right: 3px; padding-top: 3px"),
+            new OverwriteCase("border-radius:4px;border-top-left-radius:9px", "border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-top-left-radius: 9px; border-top-right-radius: 4px"),
+            new OverwriteCase("flex:1 1 auto;flex-grow:5", "flex-basis: auto; flex-grow: 5; flex-shrink: 1"),
+            new OverwriteCase("overflow:hidden;overflow-x:scroll", "overflow-x: scroll; overflow: hidden"),
+            new OverwriteCase("grid-area:a;grid-row:2", "grid-column-end: a; grid-column-start: a; grid-row-end: auto; grid-row-start: 2"),
+            new OverwriteCase("grid-row:2;grid-area:a", "grid-column-end: a; grid-column-start: a; grid-row-end: a; grid-row-start: a"),
+            new OverwriteCase("transition:all .3s;transition-duration:1s", "transition-delay: initial; transition-duration: 1s; transition-property: all; transition-timing-function: initial"),
+            new OverwriteCase("font:bold 14px/1.2 Arial;font-size:20px", "font-family: Arial; font-size: 20px; font-stretch: ; font-style: ; font-variant-caps: ; font-weight: bold; line-height: 1.2"),
+            new OverwriteCase("font-size:20px;font:bold 14px/1.2 Arial", "font-family: Arial; font-size: 14px; font-stretch: ; font-style: ; font-variant-caps: ; font-weight: bold; line-height: 1.2"),
+            new OverwriteCase("border:1px solid red;border-width:3px", "border-bottom-color: rgba(255, 0, 0, 1); border-bottom-style: solid; border-bottom-width: 3px; border-left-color: rgba(255, 0, 0, 1); border-left-style: solid; border-left-width: 3px; border-right-color: rgba(255, 0, 0, 1); border-right-style: solid; border-right-width: 3px; border-top-color: rgba(255, 0, 0, 1); border-top-style: solid; border-top-width: 3px"),
+            new OverwriteCase("border-width:3px;border:1px solid red", "border-bottom-color: rgba(255, 0, 0, 1); border-bottom-style: solid; border-bottom-width: 1px; border-left-color: rgba(255, 0, 0, 1); border-left-style: solid; border-left-width: 1px; border-right-color: rgba(255, 0, 0, 1); border-right-style: solid; border-right-width: 1px; border-top-color: rgba(255, 0, 0, 1); border-top-style: solid; border-top-width: 1px"),
+            new OverwriteCase("background:red;background:blue", "background-attachment: initial; background-clip: initial; background-color: rgba(0, 0, 255, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
+            new OverwriteCase("background:red;background-color:blue", "background-attachment: initial; background-clip: initial; background-color: rgba(0, 0, 255, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
+            new OverwriteCase("background-color:blue;background:red", "background-attachment: initial; background-clip: initial; background-color: rgba(255, 0, 0, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
+            new OverwriteCase("background:red;background:", "background-attachment: initial; background-clip: initial; background-color: rgba(255, 0, 0, 1); background-image: initial; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
+            new OverwriteCase("background:linear-gradient(red,blue);background:none", "background-attachment: initial; background-clip: initial; background-color: initial; background-image: none; background-origin: initial; background-position-x: initial; background-position-y: initial; background-repeat-x: initial; background-repeat-y: initial; background-size: initial"),
         };
 
         [Test]
@@ -58,8 +71,10 @@ namespace AngleSharp.Css.Tests.Declarations
         {
             var failures = new List<String>();
 
-            foreach (var (input, expected) in Cases)
+            foreach (var testCase in Cases)
             {
+                var input = testCase.Input;
+                var expected = testCase.Expected;
                 var actual = Describe(ParseDeclarations(input));
 
                 if (!String.Equals(actual, expected, StringComparison.Ordinal))

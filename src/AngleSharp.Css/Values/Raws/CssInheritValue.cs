@@ -7,7 +7,7 @@ namespace AngleSharp.Css.Values
     /// <summary>
     /// Represents the CSS inherit value.
     /// </summary>
-    sealed class CssInheritValue : ICssSpecialValue
+    sealed class CssInheritValue : ICssSpecialValue, ICssComputedValue
     {
         #region ctor
 
@@ -37,6 +37,8 @@ namespace AngleSharp.Css.Values
         #endregion
 
         #region Methods
+
+        Boolean ICssComputedValue.IsComputed => true;
 
         ICssValue ICssValue.Compute(ICssComputeContext context) => this;
 

@@ -12,14 +12,22 @@ namespace AngleSharp.Css.Values
         private readonly ICssProperties? _parent;
         private Double? _fontSize;
 
-        public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties, ICssProperties? parent = null)
+        public CssComputeContext(IRenderDevice device, IBrowsingContext? context, ICssProperties properties, ICssProperties? parent = null, CssPropertyRegistry? registry = null)
         {
             _device = device ?? new DefaultRenderDevice();
             _context = context;
-            _variables = new CssCustomPropertyResolver(properties, parent);
             _parent = parent;
             Properties = properties;
+            Registry = registry;
+            // the resolver computes registered custom properties against this context, but only
+            // once it is constructed (resolving them before gives the specified values)
+            _variables = new CssCustomPropertyResolver(properties, parent, registry, this);
         }
+
+        /// <summary>
+        /// Gets the registered custom properties (@property), if any.
+        /// </summary>
+        public CssPropertyRegistry? Registry { get; }
 
         public ICssProperties Properties { get; }
 
@@ -29,7 +37,14 @@ namespace AngleSharp.Css.Values
 
         public IValueConverter? Converter => null;
 
-        public ICssValue? Resolve(String name) => _variables.Resolve(name);
+        // the resolver is created last, i.e., while it substitutes nothing can be resolved here
+        public ICssValue? Resolve(String name) => _variables?.Resolve(name);
+
+        /// <summary>
+        /// Resolves a custom property for the font size of the element, see
+        /// CssCustomPropertyResolver.ResolveForFontSize.
+        /// </summary>
+        internal ICssValue? ResolveForFontSize(String name) => _variables?.ResolveForFontSize(name);
 
         public ICssValue? InheritedValue(String name) => _parent is CssStyleDeclaration parent
             ? parent.GetDeclaration(name)?.RawValue

@@ -13,7 +13,7 @@ namespace AngleSharp.Css.Converters
         {
             var value = _keywords.Convert(source);
 
-            if (value is CssConstantValue<FontWeight> keyword && (keyword.Value == FontWeight.Bolder || keyword.Value == FontWeight.Lighter))
+            if (value is CssConstantValue<FontWeight> keyword && (keyword.Value == FontWeight.Bolder || keyword.Value == FontWeight.Lighter || keyword.Value == FontWeight.Bold))
             {
                 return new CssRelativeFontWeightValue(keyword);
             }

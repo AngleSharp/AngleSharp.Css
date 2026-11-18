@@ -8,6 +8,7 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using System.Threading;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -24,6 +25,8 @@ namespace AngleSharp.Css.Dom
         private Boolean _important;
         private ICssValue _value;
         private KeywordState _keyword;
+        // the last computed declaration with what its value depended on, see Compute
+        private ComputedMemo _computed;
 
         #endregion
 
@@ -120,6 +123,7 @@ namespace AngleSharp.Css.Dom
         {
             _value = value;
             _keyword = KeywordState.Unknown;
+            _computed = null;
         }
 
         private KeywordState GetKeyword()
@@ -131,6 +135,7 @@ namespace AngleSharp.Css.Dom
                     null => KeywordState.Initial,
                     CssInitialValue => KeywordState.Initial,
                     CssInheritValue => KeywordState.Inherit,
+                    _ when !MaySerializeAsKeyword(_value) => KeywordState.Other,
                     _ => _value.CssText switch
                     {
                         var text when text.Is(CssKeywords.Initial) => KeywordState.Initial,
@@ -143,21 +148,135 @@ namespace AngleSharp.Css.Dom
             return _keyword;
         }
 
+        /// <summary>
+        /// Gets if the text of the value may be a CSS-wide keyword (e.g., initial), which is
+        /// false for the kinds of values serialized from numbers, lengths, colors or functions:
+        /// telling it from their text would serialize them (for every element computed).
+        /// </summary>
+        internal static Boolean MaySerializeAsKeyword(ICssValue value)
+        {
+            switch (value)
+            {
+                case null:
+                case ICssFunctionValue:
+                case CssLengthValue:
+                case CssColorValue:
+                case CssNumberValue:
+                case CssPercentageValue:
+                case CssIntegerValue:
+                case CssAngleValue:
+                case CssTimeValue:
+                case CssStringValue:
+                    return false;
+                case ICssMultipleValue multiple:
+                    // the text of a multiple value is made of the texts of its items
+                    for (var i = 0; i < multiple.Count; i++)
+                    {
+                        if (MaySerializeAsKeyword(multiple[i]))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
         public ICssProperty Compute(ICssComputeContext context)
         {
+            if (CssComputedValues.IsComputed(_value) && !_name.StartsWith("--", StringComparison.Ordinal))
+            {
+                // e.g., a color or a keyword: computing it would just give a copy of it
+                return this;
+            }
+
+            // the declaration of a rule is computed for every element the rule matches, mostly
+            // to the same value, e.g., `margin: 1em` for all elements with the same font size
+            var memo = Volatile.Read(ref _computed);
+
+            if (memo is not null && memo.Important == _important && memo.Matches(context, _name))
+            {
+                return memo.Result;
+            }
+
             var propertyContext = new PropertyComputeContext(context, _converter, _name);
             var computedValue = _name.StartsWith("--", StringComparison.Ordinal) ?
                 context.Resolve(_name) ?? CssInvalidValue.Instance :
                 _value is CssChildValue child ? child.Compute(propertyContext, _name) :
                 _value is CssReferenceValue reference ? reference.ComputeSubstituted(propertyContext) : _value?.Compute(propertyContext);
+            var result = computedValue != _value ? new CssProperty(_name, _converter, _flags, computedValue, _important) : this;
 
-            if (computedValue != _value)
+            if (propertyContext.IsRemembered && context is CssComputeContext && _value is not CssChildValue && _value is not CssReferenceValue && !_name.StartsWith("--", StringComparison.Ordinal))
             {
-                return new CssProperty(_name, _converter, _flags, computedValue, _important);
+                Volatile.Write(ref _computed, new ComputedMemo(propertyContext, _important, result));
             }
 
-            return this;
+            return result;
         }
+
+        /// <summary>
+        /// A computed declaration and what the computation read from the context: as the value
+        /// is computed from these (e.g., em from the font size), the same declaration is the
+        /// computed one for every element giving the same.
+        /// </summary>
+        private sealed class ComputedMemo
+        {
+            private readonly ReadInputs _reads;
+            private readonly Double? _emBase;
+            private readonly Double? _rootFontSize;
+            private readonly Boolean _keepsPercentages;
+            private readonly Double? _percentageBasis;
+
+            public ComputedMemo(PropertyComputeContext context, Boolean important, ICssProperty result)
+            {
+                _reads = context.Reads;
+                _emBase = context.ReadEmBase;
+                _rootFontSize = context.ReadRootFontSize;
+                _keepsPercentages = context.ReadKeepsPercentages;
+                _percentageBasis = context.ReadPercentageBasis;
+                Important = important;
+                Result = result;
+            }
+
+            public Boolean Important { get; }
+
+            public ICssProperty Result { get; }
+
+            public Boolean Matches(ICssComputeContext context, String name)
+            {
+                if (context is not CssComputeContext)
+                {
+                    return false;
+                }
+
+                var fonts = context as IFontComputeContext;
+                return ((_reads & ReadInputs.EmBase) == 0 || _emBase == PropertyComputeContext.GetEmBase(fonts, name)) &&
+                    ((_reads & ReadInputs.RootFontSize) == 0 || _rootFontSize == PropertyComputeContext.GetRootFontSize(fonts, name)) &&
+                    ((_reads & ReadInputs.KeepsPercentages) == 0 || _keepsPercentages == PropertyComputeContext.GetKeepsPercentages(fonts, name)) &&
+                    ((_reads & ReadInputs.PercentageBasis) == 0 || _percentageBasis == PropertyComputeContext.GetPercentageBasis(fonts, name));
+            }
+        }
+
+        [Flags]
+        private enum ReadInputs : Byte
+        {
+            None = 0,
+            EmBase = 1,
+            RootFontSize = 2,
+            KeepsPercentages = 4,
+            PercentageBasis = 8,
+            // anything else, e.g., other properties or the device: not remembered
+            Other = 128,
+        }
+
+        /// <summary>
+        /// Computes a value as the value of a property with the given name and converter,
+        /// e.g., the value of a registered custom property against its syntax.
+        /// </summary>
+        internal static ICssValue ComputeValue(ICssValue value, IValueConverter converter, String name, ICssComputeContext context) =>
+            value.Compute(new PropertyComputeContext(context, converter, name));
 
         #endregion
 
@@ -188,31 +307,114 @@ namespace AngleSharp.Css.Dom
                 _name = name;
             }
 
-            public IRenderDevice Device => _parent.Device;
+            /// <summary>
+            /// Gets what has been read, i.e., what the computed value depends on.
+            /// </summary>
+            public ReadInputs Reads { get; private set; }
 
-            public ICssProperties Properties => _parent is ILocalComputeContext local ? local.Properties : null;
+            public Boolean IsRemembered => (Reads & ReadInputs.Other) == 0;
 
-            public IBrowsingContext Context => _parent.Context;
+            public Double? ReadEmBase { get; private set; }
+
+            public Double? ReadRootFontSize { get; private set; }
+
+            public Boolean ReadKeepsPercentages { get; private set; }
+
+            public Double? ReadPercentageBasis { get; private set; }
+
+            public IRenderDevice Device
+            {
+                get
+                {
+                    Reads |= ReadInputs.Other;
+                    return _parent.Device;
+                }
+            }
+
+            public ICssProperties Properties
+            {
+                get
+                {
+                    Reads |= ReadInputs.Other;
+                    return _parent is ILocalComputeContext local ? local.Properties : null;
+                }
+            }
+
+            public IBrowsingContext Context
+            {
+                get
+                {
+                    Reads |= ReadInputs.Other;
+                    return _parent.Context;
+                }
+            }
 
             public IValueConverter Converter => _converter;
 
-            public ICssValue Resolve(String name) =>_parent.Resolve(name);
+            public ICssValue Resolve(String name)
+            {
+                Reads |= ReadInputs.Other;
+                return _parent is CssComputeContext context && _name.Is(PropertyNames.FontSize) ? context.ResolveForFontSize(name) : _parent.Resolve(name);
+            }
 
-            public ICssValue InheritedValue(String name) => (_parent as IInheritingComputeContext)?.InheritedValue(name);
+            public ICssValue InheritedValue(String name)
+            {
+                Reads |= ReadInputs.Other;
+                return (_parent as IInheritingComputeContext)?.InheritedValue(name);
+            }
 
             private IFontComputeContext Fonts => _parent as IFontComputeContext;
 
-            // em in font-size refers to the font size of the parent, everywhere else to the one of the element.
-            public Double? EmBase => _name.Is(PropertyNames.FontSize) ? Fonts?.ParentFontSize : Fonts?.FontSize;
+            public Double? EmBase
+            {
+                get
+                {
+                    Reads |= ReadInputs.EmBase;
+                    return ReadEmBase = GetEmBase(Fonts, _name);
+                }
+            }
 
-            public Double? RootFontSize => _name.Is(PropertyNames.FontSize) ? Fonts?.FontSizeRemBase : Fonts?.RootFontSize;
+            public Double? RootFontSize
+            {
+                get
+                {
+                    Reads |= ReadInputs.RootFontSize;
+                    return ReadRootFontSize = GetRootFontSize(Fonts, _name);
+                }
+            }
+
+            public Boolean KeepsPercentages
+            {
+                get
+                {
+                    Reads |= ReadInputs.KeepsPercentages;
+                    return ReadKeepsPercentages = GetKeepsPercentages(Fonts, _name);
+                }
+            }
+
+            public Double? PercentageBasis
+            {
+                get
+                {
+                    Reads |= ReadInputs.PercentageBasis;
+                    return ReadPercentageBasis = GetPercentageBasis(Fonts, _name);
+                }
+            }
+
+            // em in font-size refers to the font size of the parent, everywhere else to the one of the element.
+            public static Double? GetEmBase(IFontComputeContext fonts, String name) =>
+                name.Is(PropertyNames.FontSize) ? fonts?.ParentFontSize : fonts?.FontSize;
+
+            public static Double? GetRootFontSize(IFontComputeContext fonts, String name) =>
+                name.Is(PropertyNames.FontSize) ? fonts?.FontSizeRemBase : fonts?.RootFontSize;
 
             // Except for font-size and line-height, percentages refer to a box (or a length) that is only known during layout.
-            public Boolean KeepsPercentages => Fonts is not null && PercentageBasis is null;
+            public static Boolean GetKeepsPercentages(IFontComputeContext fonts, String name) =>
+                fonts is not null && GetPercentageBasis(fonts, name) is null;
 
-            public Double? PercentageBasis =>
-                _name.Is(PropertyNames.FontSize) ? Fonts?.ParentFontSize :
-                _name.Is(PropertyNames.LineHeight) ? Fonts?.FontSize :
+            public static Double? GetPercentageBasis(IFontComputeContext fonts, String name) =>
+                name.Is(PropertyNames.FontSize) ? fonts?.ParentFontSize :
+                name.Is(PropertyNames.LineHeight) ? fonts?.FontSize :
                 null;
         }
 

@@ -31,6 +31,36 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void GetComputedStyleResolvesUnsetToInitialOrInherited()
+        {
+            // skve.de's navigation is `position: unset` inside a relative header: static, so its
+            // absolutely positioned dropdowns refer to the header
+            var source = "<!doctype html><head><style>header { position: relative; color: red } nav { position: unset; color: unset }</style></head><body><header><nav>Menu</nav></header>";
+            var document = ParseDocument(source);
+            var window = document.DefaultView;
+            var nav = document.QuerySelector("nav");
+
+            var style = window.GetComputedStyle(nav);
+
+            Assert.AreEqual("static", style.GetPosition());
+            Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
+        }
+
+        [Test]
+        public void GetComputedStyleBlockifiesFlexAndGridItems()
+        {
+            var source = "<!doctype html><head><style>.flex { display: flex } .grid { display: inline-grid } span { display: inline-flex }</style></head><body><div class=flex><a>Link</a><span>Box</span><b style='display: none'>None</b></div><div class=grid><i>Item</i></div><div><a id=plain style='display: inline-block'>Plain</a></div>";
+            var document = ParseDocument(source);
+            var window = document.DefaultView;
+
+            Assert.AreEqual("block", window.GetComputedStyle(document.QuerySelector(".flex > a")).GetDisplay());
+            Assert.AreEqual("flex", window.GetComputedStyle(document.QuerySelector(".flex > span")).GetDisplay());
+            Assert.AreEqual("none", window.GetComputedStyle(document.QuerySelector(".flex > b")).GetDisplay());
+            Assert.AreEqual("block", window.GetComputedStyle(document.QuerySelector(".grid > i")).GetDisplay());
+            Assert.AreEqual("inline-block", window.GetComputedStyle(document.QuerySelector("#plain")).GetDisplay());
+        }
+
+        [Test]
         public void GetComputedStyleImportantHigherNoInheritance()
         {
             var source = new StringBuilder("<!doctype html> ");
@@ -66,7 +96,7 @@ namespace AngleSharp.Css.Tests.Extensions
 
             var computedStyle = window.GetComputedStyle(element);
             Assert.AreEqual("rgba(255, 0, 0, 1)", computedStyle.GetColor());
-            Assert.AreEqual("bold", computedStyle.GetFontWeight());
+            Assert.AreEqual("700", computedStyle.GetFontWeight());
             Assert.AreEqual(3, computedStyle.Length);
         }
 
@@ -177,7 +207,7 @@ em { font-style: italic !important; }
 
             Assert.AreEqual("0px", style.GetMargin());
             Assert.AreEqual("rgba(255, 0, 0, 1)", style.GetColor());
-            Assert.AreEqual("bold", style.GetFontWeight());
+            Assert.AreEqual("700", style.GetFontWeight());
             Assert.AreEqual("italic", style.GetFontStyle());
             Assert.AreEqual("20px", style.GetFontSize());
         }

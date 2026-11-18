@@ -80,6 +80,10 @@ Notes:
 - `src/AngleSharp.Css/RenderTree`
   - Render tree construction and render node/value computation.
 
+- `src/AngleSharp.Css/Painting`
+  - CSS Painting API: the paint worklet registry, paint definitions, the canvas-like rendering context abstractions, and the default recording context.
+  - Scripting engines and renderers plug in through `IPaintWorkletModuleLoader` and `IPaintRenderingContextFactory`; nothing here may depend on a script engine.
+
 - `src/AngleSharp.Css/FeatureValidators`
   - Validators used for media feature / supports-style checks.
 

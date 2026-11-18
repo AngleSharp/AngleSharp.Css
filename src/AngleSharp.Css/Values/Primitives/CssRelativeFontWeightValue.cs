@@ -7,7 +7,8 @@ namespace AngleSharp.Css.Values
 
     /// <summary>
     /// Represents a relative font weight (bolder or lighter), which computes to
-    /// a number resolved against the parent's computed weight.
+    /// a number resolved against the parent's computed weight, or bold, which
+    /// computes to 700.
     /// See https://www.w3.org/TR/css-fonts-4/#relative-weights.
     /// </summary>
     sealed class CssRelativeFontWeightValue : ICssPrimitiveValue, IEquatable<CssRelativeFontWeightValue>
@@ -47,6 +48,11 @@ namespace AngleSharp.Css.Values
 
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
+            if (Value == FontWeight.Bold)
+            {
+                return new CssIntegerValue(700);
+            }
+
             var parent = (context as IInheritingComputeContext)?.InheritedValue(PropertyNames.FontWeight);
             var weight = GetWeight(parent);
             var result = Value == FontWeight.Bolder ? Bolder(weight) : Lighter(weight);
