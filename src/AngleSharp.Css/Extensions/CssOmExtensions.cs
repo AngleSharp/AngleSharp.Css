@@ -126,7 +126,8 @@ namespace AngleSharp.Css.Dom
                 var substitutedKeyword = property.RawValue is not ICssSpecialValue && computed.RawValue is ICssSpecialValue;
                 // the info is only needed for a value that may be a keyword
                 var info = default(DeclarationInfo);
-                var initialValue = computed.RawValue is CssInitialValue ||
+                // `unset` is `inherit` for an inherited property and `initial` otherwise
+                var initialValue = computed.RawValue is CssInitialValue or CssUnsetValue ||
                     (CssProperty.MaySerializeAsKeyword(computed.RawValue) && (info = factory.Create(property.Name)).Shorthands.Length > 0 && computed.Value.Isi(CssKeywords.Initial));
 
                 if ((computed.RawValue is null || substitutedKeyword || initialValue) && property.RawValue is not null && property is CssProperty cssProperty)
@@ -240,15 +241,16 @@ namespace AngleSharp.Css.Dom
         }
 
         /// <summary>
-        /// Blockifies the computed display of a floated box, an absolutely positioned box
-        /// and the root element, see CSS Display 3 §2.7 and CSS 2.1 §9.7.
+        /// Blockifies the computed display of a floated box, an absolutely positioned box,
+        /// a flex or grid item and the root element, see CSS Display 3 §2.7 and CSS 2.1 §9.7.
         /// </summary>
         /// <param name="style">The computed style of the element.</param>
         /// <param name="element">The element the style was computed for.</param>
+        /// <param name="parent">The computed style of the element's parent, if any.</param>
         /// <returns>The computed style, adjusted if needed.</returns>
-        internal static ICssStyleDeclaration Blockify(this ICssStyleDeclaration style, IElement element)
+        internal static ICssStyleDeclaration Blockify(this ICssStyleDeclaration style, IElement element, ICssStyleDeclaration parent = null)
         {
-            if (style is CssStyleDeclaration declarations && IsBlockified(declarations, element))
+            if (style is CssStyleDeclaration declarations && (IsBlockified(declarations, element) || IsFlexOrGridItem(parent)))
             {
                 // display has neither shorthands nor is it inherited, i.e., there is nothing to
                 // derive: a missing declaration is the same as one without a value.
@@ -281,6 +283,12 @@ namespace AngleSharp.Css.Dom
             return (!String.IsNullOrEmpty(floating) && !floating.Isi(CssKeywords.None)) ||
                 position.Isi(CssKeywords.Absolute) || position.Isi(CssKeywords.Fixed);
         }
+
+        // the children of a flex or grid container are its items (CSS Flexbox §4, CSS Grid §6)
+        private static Boolean IsFlexOrGridItem(ICssStyleDeclaration parent) =>
+            parent is CssStyleDeclaration declarations &&
+            declarations.GetDeclaration(PropertyNames.Display)?.RawValue is CssConstantValue<DisplayMode> mode &&
+            mode.Value is DisplayMode.Flex or DisplayMode.InlineFlex or DisplayMode.Grid or DisplayMode.InlineGrid;
 
         private static ICssValue Blockify(ICssValue display)
         {

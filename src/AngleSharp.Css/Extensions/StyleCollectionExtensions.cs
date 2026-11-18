@@ -120,7 +120,7 @@ namespace AngleSharp.Css
                 var node = nodes.Pop();
                 var explicitStyle = styles.ComputeExplicitStyle(node);
                 var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parent, (styles as StyleCollection)?.GetRegistrations());
-                parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context).Blockify(node);
+                parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context).Blockify(node, parent);
             }
 
             return parent!;
@@ -197,7 +197,7 @@ namespace AngleSharp.Css
             var ctx = element.Owner?.Context;
             var explicitStyle = styles.ComputeExplicitStyle(element);
             var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parentComputedStyle, (styles as StyleCollection)?.GetRegistrations());
-            return explicitStyle.PrepareComputedDeclarations(parentComputedStyle, context).Compute(context).Blockify(element);
+            return explicitStyle.PrepareComputedDeclarations(parentComputedStyle, context).Compute(context).Blockify(element, parentComputedStyle);
         }
 
         /// <summary>
