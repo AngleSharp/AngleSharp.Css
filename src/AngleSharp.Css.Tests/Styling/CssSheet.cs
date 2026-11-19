@@ -1349,5 +1349,39 @@ font-weight:bold;}";
             Assert.IsNotNull(hwbAlpha);
             Assert.IsNotNull(hwbAngleAlpha);
         }
+
+        [Test]
+        public void CssSheetCommentWithQuoteInValueStartsNoString()
+        {
+            // Acid2: an apostrophe in a comment used to swallow the rest of the style sheet
+            var sheet = ParseStyleSheet(@".chin { background: yellow /* shouldn't be visible */ no-repeat; }
+.next { color: red; }");
+            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.AreEqual("rgba(255, 255, 0, 1)", ((ICssStyleRule)sheet.Rules[0]).Style.GetPropertyValue("background-color"));
+            Assert.AreEqual(".next", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
+        }
+
+        [Test]
+        public void CssSheetEscapedCurlyBracketInValueDoesNotEndTheRule()
+        {
+            var sheet = ParseStyleSheet(@".parser { width: 2em; error: \}; background: yellow; }
+.next { color: red; }");
+            Assert.AreEqual(2, sheet.Rules.Length);
+            var parser = (ICssStyleRule)sheet.Rules[0];
+            Assert.AreEqual("2em", parser.Style.GetPropertyValue("width"));
+            Assert.AreEqual("rgba(255, 255, 0, 1)", parser.Style.GetPropertyValue("background-color"));
+        }
+
+        [Test]
+        public void CssSheetSemicolonAfterRuleInvalidatesTheNextSelector()
+        {
+            // a ';' is part of the prelude of the next rule, which then matches nothing
+            var sheet = ParseStyleSheet(@".parser { margin: 2em; };
+.parser { height: 3em; }
+.after { color: red; }");
+            Assert.AreEqual(3, sheet.Rules.Length);
+            Assert.IsNull(((CssStyleRule)sheet.Rules[1]).Selector);
+            Assert.AreEqual(".after", ((ICssStyleRule)sheet.Rules[2]).SelectorText);
+        }
     }
 }

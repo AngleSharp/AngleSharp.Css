@@ -536,6 +536,16 @@ namespace AngleSharp.Css.Parser
             CollectTrivia(rule.Owner, ref current);
             var selectorText = GetArgument(ref current);
 
+            // a ';' does not end the prelude of a rule outside of declarations (CSS Syntax 3,
+            // consume a qualified rule), it is part of its (then invalid) selector, e.g. of the
+            // rule after "a { color: red; };", which must not apply
+            while (current.Type == CssTokenType.Semicolon)
+            {
+                var next = NextToken();
+                selectorText = String.Concat(selectorText, ";", GetArgument(ref next));
+                current = next;
+            }
+
             rule.SelectorText = selectorText;
 
             if (rule.Selector is null && _options.IsToleratingInvalidSelectors)
