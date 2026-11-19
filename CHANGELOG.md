@@ -5,6 +5,9 @@ Released on tbd.
 - Fixed a comment in a declaration's value with a quote in it (e.g. `/* shouldn't */`) starting a string, which swallowed the rest of the style sheet (Acid2)
 - Fixed an escaped `}` or `;` in a declaration's value (e.g. `error: \}`) ending the rule
 - Fixed a `;` after a rule (e.g. `a { color: red; };`) being skipped instead of making the selector of the next rule invalid, which then applied
+- Fixed `! important` with whitespace after the `!` not making the declaration important
+- Fixed the `color` media feature, e.g. `(color)` and `(min-color: 0)` not matching, and `monochrome` without a value
+- Fixed `not` making a media query with an unknown feature (e.g. `not all and (bogus)`) match
 
 # 1.5.0
 

@@ -2,7 +2,6 @@ namespace AngleSharp.Css.FeatureValidators
 {
     using AngleSharp.Css.Converters;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Values;
     using System;
     using static ValueConverters;
 
@@ -10,14 +9,19 @@ namespace AngleSharp.Css.FeatureValidators
     {
         public Boolean Validate(IMediaFeature feature, IRenderDevice renderDevice)
         {
-            var defaultValue = new CssLengthValue(1.0, CssLengthValue.Unit.None);
-            var converter = feature.IsMinimum || feature.IsMaximum ? NaturalIntegerConverter : NaturalIntegerConverter.Option(defaultValue);
-            var index = converter.Convert(feature);
+            // the bits per color component (or of a monochrome pixel), 0 if the device has none
+            var available = renderDevice.MonochromeBits;
 
-            if (index != null)
+            if (!feature.HasValue)
             {
-                var desired = index.AsInt32();
-                var available = renderDevice.MonochromeBits;
+                return !feature.IsMinimum && !feature.IsMaximum && available > 0;
+            }
+
+            var value = NaturalIntegerConverter.Convert(feature);
+
+            if (value != null)
+            {
+                var desired = value.AsInt32();
 
                 if (feature.IsMaximum)
                 {
