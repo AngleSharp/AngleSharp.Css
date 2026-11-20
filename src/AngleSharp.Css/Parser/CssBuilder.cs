@@ -1148,11 +1148,26 @@ namespace AngleSharp.Css.Parser
 
         private String CreateValue(ref CssToken token, out Boolean important)
         {
-            var keyword = CssKeywords.BangImportant;
+            const String keyword = "important";
             var value = _tokenizer.ContentFrom(token.Position.Position);
-            var keywordStart = value.Length - keyword.Length;
-            important = keywordStart >= 0 &&
-                value[keywordStart] == Symbols.ExclamationMark &&
+            var end = value.Length;
+
+            while (end > 0 && value[end - 1].IsSpaceCharacter())
+            {
+                end--;
+            }
+
+            var keywordStart = end - keyword.Length;
+            var bang = keywordStart - 1;
+
+            // whitespace may separate the "!" from "important" (e.g., "! important")
+            while (bang >= 0 && value[bang].IsSpaceCharacter())
+            {
+                bang--;
+            }
+
+            important = keywordStart > 0 && bang >= 0 &&
+                value[bang] == Symbols.ExclamationMark &&
                 String.Compare(value, keywordStart, keyword, 0, keyword.Length, StringComparison.OrdinalIgnoreCase) == 0;
             token = NextToken();
 
@@ -1161,7 +1176,7 @@ namespace AngleSharp.Css.Parser
                 return value;
             }
 
-            var end = keywordStart;
+            end = bang;
 
             while (end > 0 && value[end - 1].IsSpaceCharacter())
             {
