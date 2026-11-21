@@ -8,6 +8,7 @@ Released on tbd.
 - Fixed `! important` with whitespace after the `!` not making the declaration important
 - Fixed the `color` media feature, e.g. `(color)` and `(min-color: 0)` not matching, and `monochrome` without a value
 - Fixed `not` making a media query with an unknown feature (e.g. `not all and (bogus)`) match
+- Fixed `minmax()` with a math function (e.g. `repeat(auto-fill, minmax(min(100%, 17rem), 1fr))`) making `grid-template-columns` invalid in an auto repeat
 
 # 1.5.0
 

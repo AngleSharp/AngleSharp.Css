@@ -197,7 +197,7 @@ namespace AngleSharp.Css.Parser
                         var max = source.ParseTrackBreadth();
                         c = source.SkipSpacesAndComments();
 
-                        if (max != null && c == Symbols.RoundBracketClose && (min is CssLengthValue? || max is CssLengthValue?))
+                        if (max != null && c == Symbols.RoundBracketClose && (IsFixedBreadth(min) || IsFixedBreadth(max)))
                         {
                             source.Next();
                             return new CssMinMaxValue(min, max);
@@ -211,6 +211,10 @@ namespace AngleSharp.Css.Parser
 
             return length;
         }
+
+        // A <fixed-breadth> is a <length-percentage>, which includes math functions such as
+        // calc() or min(); the other track breadths are keywords and flexible lengths.
+        private static Boolean IsFixedBreadth(ICssValue value) => value is not (CssIdentifierValue or CssFractionValue);
 
         /// <summary>
         /// Parses a grid track size value.

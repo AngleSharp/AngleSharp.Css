@@ -156,6 +156,33 @@ namespace AngleSharp.Css.Tests.Declarations
         }
 
         [Test]
+        public void CssGridTemplateColumnsAutoRepeatMinmaxOfMathFunctionLegal()
+        {
+            var snippet = "grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr))";
+            var property = ParseDeclaration(snippet);
+            Assert.AreEqual("grid-template-columns", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("repeat(auto-fill, minmax(min(100%, 17rem), 1fr))", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateColumnsAutoRepeatMinmaxOfCalcLegal()
+        {
+            var snippet = "grid-template-columns: repeat(auto-fit, minmax(calc(10rem + 2px), 1fr))";
+            var property = ParseDeclaration(snippet);
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("repeat(auto-fit, minmax(calc(10rem + 2px), 1fr))", property.Value);
+        }
+
+        [Test]
+        public void CssGridTemplateColumnsAutoRepeatMinmaxWithoutFixedBreadthIllegal()
+        {
+            var snippet = "grid-template-columns: repeat(auto-fill, minmax(auto, 1fr))";
+            var property = ParseDeclaration(snippet);
+            Assert.IsFalse(property.HasValue);
+        }
+
+        [Test]
         public void CssGridTemplateColumnsMultilineLinenamesAutoRepeatLegal()
         {
             var snippet = "grid-template-columns: [linename1] 100px [linename2]\n repeat(auto-fit, [linename3 linename4] 300px)\n 100px";
