@@ -10,6 +10,7 @@ namespace AngleSharp.Css
         #region Fields
 
         private ICssStyleSheet? _default;
+        private String _appended = String.Empty;
 
         #endregion
 
@@ -21,11 +22,21 @@ namespace AngleSharp.Css
 
         #region Methods
 
-        public void SetDefault(ICssStyleSheet? sheet) => _default = sheet;
+        public void SetDefault(ICssStyleSheet? sheet)
+        {
+            _default = sheet;
+            _appended = String.Empty;
+        }
 
         public void SetDefault(String source) => SetDefault(Parse(source));
 
-        public void AppendDefault(String source) => SetDefault(Parse($"{DefaultSource}\r\n{source}"));
+        // what was appended before stays (e.g. the rules of several extensions)
+        public void AppendDefault(String source)
+        {
+            var appended = $"{_appended}\r\n{source}";
+            SetDefault(Parse($"{DefaultSource}{appended}"));
+            _appended = appended;
+        }
 
         #endregion
 
@@ -90,6 +101,9 @@ dialog          { display: block; position: absolute; left: 0; right: 0; width: 
 dialog:modal    { position: fixed; overflow: auto; top: 0; bottom: 0; max-width: calc(100% - 6px - 2em); max-height: calc(100% - 6px - 2em) }
 [popover]       { position: fixed; inset: 0; width: fit-content; height: fit-content; margin: auto; border: solid; padding: 0.25em; overflow: auto; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255) }
 :popover-open::backdrop { position: fixed; inset: 0; pointer-events: none !important; background-color: transparent }
+:not(:root):fullscreen { position: fixed !important; inset: 0 !important; margin: 0 !important; box-sizing: border-box !important; min-width: 0 !important; max-width: none !important; min-height: 0 !important; max-height: none !important; width: 100% !important; height: 100% !important; transform: none !important; object-fit: contain }
+iframe:fullscreen { border: none !important; padding: 0 !important }
+:not(:root):fullscreen::backdrop { background: black }
 table           { display: table }
 tr              { display: table-row }
 thead           { display: table-header-group }

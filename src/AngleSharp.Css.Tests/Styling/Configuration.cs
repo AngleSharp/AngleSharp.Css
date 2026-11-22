@@ -56,7 +56,9 @@ namespace AngleSharp.Css.Tests.Styling
             // `strong` stay `bolder`, which takes a rule of its own.
             // 89, not 86: the UA stylesheet now also carries the dialog rules (hidden unless
             // open, centered, and fixed in the viewport while it is a modal).
-            Assert.AreEqual(89, sheet.Rules.Length);
+            // 92, not 89: the UA stylesheet now also carries the fullscreen rules (covering the
+            // viewport, without the border of an iframe, and a black `::backdrop`).
+            Assert.AreEqual(92, sheet.Rules.Length);
         }
     }
 }
