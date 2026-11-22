@@ -15,8 +15,11 @@ Released on tbd.
 - Fixed `getComputedStyle` of a shadow host leaving out the `:host` rules of its shadow tree
 - Fixed `getComputedStyle` of an element in a shadow tree ignoring the styles of its shadow root and not inheriting from the host
 - Fixed `::marker`, `::first-line` and `::first-letter` rules never matching (e.g. for `getComputedStyle(li, '::marker')`)
-- Added the `:modal` pseudo-class and the user agent styles of `dialog`
+- Fixed `AppendDefault` of the default style sheet provider dropping what was appended before
+- Fixed a closed `details` showing more than its `summary`
 - Added `::part()` styling the parts of shadow trees
+- Added the `:modal` pseudo-class and the user agent styles of `dialog`
+- Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles
 
 # 1.5.0
 
