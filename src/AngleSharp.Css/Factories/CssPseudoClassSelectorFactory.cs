@@ -15,7 +15,14 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly String PopoverOpen = "popover-open";
 
+        /// <summary>
+        /// The name of the `:modal` pseudo-class (Selectors 4 §13.4).
+        /// </summary>
+        public static readonly String Modal = "modal";
+
         private static readonly ISelector PopoverOpenSelector = new PopoverOpenPseudoClassSelector();
+
+        private static readonly ISelector ModalSelector = new ModalPseudoClassSelector();
 
         private readonly IPseudoClassSelectorFactory _inner;
 
@@ -31,6 +38,11 @@ namespace AngleSharp.Css
             if (selector is null && name.Equals(PopoverOpen, StringComparison.OrdinalIgnoreCase))
             {
                 return PopoverOpenSelector;
+            }
+
+            if (selector is null && name.Equals(Modal, StringComparison.OrdinalIgnoreCase))
+            {
+                return ModalSelector;
             }
 
             return selector;
