@@ -436,7 +436,32 @@ namespace AngleSharp.Css.RenderTree
                 return ExpandSlots(element.ShadowRoot!.ChildNodes, shadowCollection, collection);
             }
 
+            if (IsClosedDetails(element))
+            {
+                return ExpandSlots(GetSummary(element), collection, slottedCollection);
+            }
+
             return ExpandSlots(element.ChildNodes, collection, slottedCollection);
+        }
+
+        /// <summary>
+        /// A closed details element only shows its summary: the rest of its content is in a slot
+        /// of its shadow tree that is not rendered then (HTML 15.5.15).
+        /// </summary>
+        private static Boolean IsClosedDetails(IElement element) =>
+            element is not IPseudoElement && element.LocalName.Is(TagNames.Details) &&
+            element.NamespaceUri.Is(NamespaceNames.HtmlUri) && !element.HasAttribute(AttributeNames.Open);
+
+        private static IEnumerable<INode> GetSummary(IElement details)
+        {
+            foreach (var child in details.Children)
+            {
+                if (child.LocalName.Is(TagNames.Summary) && child.NamespaceUri.Is(NamespaceNames.HtmlUri))
+                {
+                    yield return child;
+                    yield break;
+                }
+            }
         }
 
         /// <summary>
@@ -455,7 +480,7 @@ namespace AngleSharp.Css.RenderTree
         }
 
         private static IEnumerable<FlatChild> ExpandSlots(
-            INodeList nodes,
+            IEnumerable<INode> nodes,
             StyleCollection collection,
             StyleCollection? slottedCollection)
         {
