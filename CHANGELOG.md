@@ -1,4 +1,4 @@
-# 1.5.1
+# 1.6.0
 
 Released on tbd.
 
@@ -9,6 +9,14 @@ Released on tbd.
 - Fixed the `color` media feature, e.g. `(color)` and `(min-color: 0)` not matching, and `monochrome` without a value
 - Fixed `not` making a media query with an unknown feature (e.g. `not all and (bogus)`) match
 - Fixed `minmax()` with a math function (e.g. `repeat(auto-fill, minmax(min(100%, 17rem), 1fr))`) making `grid-template-columns` invalid in an auto repeat
+- Fixed `@scope` rules never applying; a scope root and limit (`@scope (.a) to (.b)`) are respected
+- Fixed color hints (e.g. `linear-gradient(black, 20%, white)`) and color interpolation methods (e.g. `in oklch`, `in hsl longer hue`) making a gradient invalid
+- Fixed `conic-gradient` with both `from` and `at` being serialized with a comma between them
+- Fixed `getComputedStyle` of a shadow host leaving out the `:host` rules of its shadow tree
+- Fixed `getComputedStyle` of an element in a shadow tree ignoring the styles of its shadow root and not inheriting from the host
+- Fixed `::marker`, `::first-line` and `::first-letter` rules never matching (e.g. for `getComputedStyle(li, '::marker')`)
+- Added the `:modal` pseudo-class and the user agent styles of `dialog`
+- Added `::part()` styling the parts of shadow trees
 
 # 1.5.0
 
