@@ -17,9 +17,12 @@ Released on tbd.
 - Fixed `::marker`, `::first-line` and `::first-letter` rules never matching (e.g. for `getComputedStyle(li, '::marker')`)
 - Fixed `AppendDefault` of the default style sheet provider dropping what was appended before
 - Fixed a closed `details` showing more than its `summary`
+- Fixed `transition-property` not accepting custom properties
+- Fixed angles being computed in `rad` instead of the canonical `deg`
 - Added `::part()` styling the parts of shadow trees
 - Added the `:modal` pseudo-class and the user agent styles of `dialog`
 - Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles
+- Added `IAnimatedValueProvider` as the animation origin of the cascade
 
 # 1.5.0
 

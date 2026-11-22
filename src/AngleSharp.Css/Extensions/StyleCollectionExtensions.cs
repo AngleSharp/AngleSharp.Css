@@ -185,8 +185,33 @@ namespace AngleSharp.Css
                 computedStyle.SetDeclarations(element.GetStyleIfDeclared());
             }
 
+            ApplyAnimatedValues(computedStyle, element, ctx);
             computedStyle.TrimExcess();
             return computedStyle;
+        }
+
+        /// <summary>
+        /// Gives the declarations the animated values of the element, which win over all but the
+        /// important ones (the animation origin, CSS Cascade 5, 6.2).
+        /// </summary>
+        private static void ApplyAnimatedValues(CssStyleDeclaration style, IElement element, IBrowsingContext context)
+        {
+            var values = context.GetAnimatedValueProvider()?.GetAnimatedValues(element, style);
+
+            if (values is null || values.Count == 0)
+            {
+                return;
+            }
+
+            var animated = new CssStyleDeclaration(context);
+
+            foreach (var value in values)
+            {
+                animated.SetProperty(value.Key, value.Value);
+            }
+
+            // an important declaration stays
+            style.SetDeclarations(animated);
         }
 
         /// <summary>
@@ -257,6 +282,7 @@ namespace AngleSharp.Css
             ReturnMatches(styles, matches);
             computedStyle.SetDeclarations(host.GetStyleIfDeclared());
             computedStyle.SetDeclarations(shadowStyle.Where(m => m.IsImportant).ToList());
+            ApplyAnimatedValues(computedStyle, host, ctx);
             return computedStyle;
         }
 

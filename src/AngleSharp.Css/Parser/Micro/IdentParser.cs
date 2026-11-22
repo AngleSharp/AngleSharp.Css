@@ -266,6 +266,21 @@ namespace AngleSharp.Css.Parser
             }
 
             source.BackTo(pos);
+
+            // a custom property, animatable once registered, whose name keeps its case
+            if (test == null && source.Current == Symbols.Minus && source.Next() == Symbols.Minus)
+            {
+                var current = source.Next();
+
+                if (current.IsName() || source.IsValidEscape())
+                {
+                    var buffer = StringBuilderPool.Obtain().Append(Symbols.Minus).Append(Symbols.Minus);
+                    return Rest(source, current, buffer);
+                }
+
+                source.BackTo(pos);
+            }
+
             return null;
         }
 

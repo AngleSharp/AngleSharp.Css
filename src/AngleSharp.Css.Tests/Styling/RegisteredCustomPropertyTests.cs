@@ -239,5 +239,34 @@ namespace AngleSharp.Css.Tests.Styling
 
             Assert.AreEqual("2em", element.GetStyle().GetPropertyValue("--len"));
         }
-    }
+    
+        [Test]
+        public void AngleIsComputedInDegrees()
+        {
+            var style = Compute("@property --a { syntax: \"<angle>\"; inherits: false; initial-value: 0deg; } #target { --a: 0.5turn }", "<div id=target></div>");
+            Assert.AreEqual("180deg", style.GetPropertyValue("--a"));
+        }
+
+        private sealed class AnimatedValues : IAnimatedValueProvider
+        {
+            public System.Collections.Generic.IReadOnlyDictionary<String, String> GetAnimatedValues(IElement element, ICssStyleDeclaration declared) =>
+                element.Id == "target" ? new System.Collections.Generic.Dictionary<String, String> { { "--len", "7px" }, { "--imp", "1px" } } : null;
+        }
+
+        [Test]
+        public void AnimatedValueWinsOverTheDeclaredOneButNotOverAnImportantOne()
+        {
+            var document = ParseDocument("<style>" + Length + " #target { --len: 2px; --imp: 3px !important; width: var(--len); height: var(--imp) }</style><div id=target><span id=child></span></div>");
+            document.Context.SetAnimatedValueProvider(new AnimatedValues());
+            var style = document.GetElementById("target").ComputeCurrentStyle();
+            var child = document.GetElementById("child").ComputeCurrentStyle();
+            document.Context.SetAnimatedValueProvider(null);
+
+            Assert.AreEqual("7px", style.GetPropertyValue("--len"));
+            Assert.AreEqual("7px", style.GetPropertyValue("width"));
+            Assert.AreEqual("3px", style.GetPropertyValue("height"));
+            // inherited as any value of the element is
+            Assert.AreEqual("7px", child.GetPropertyValue("--len"));
+        }
+}
 }
