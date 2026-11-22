@@ -20,9 +20,13 @@ namespace AngleSharp.Css
         /// </summary>
         public static readonly String Modal = "modal";
 
+        public static readonly String Fullscreen = "fullscreen";
+
         private static readonly ISelector PopoverOpenSelector = new PopoverOpenPseudoClassSelector();
 
         private static readonly ISelector ModalSelector = new ModalPseudoClassSelector();
+
+        private static readonly ISelector FullscreenSelector = new FullscreenPseudoClassSelector();
 
         private readonly IPseudoClassSelectorFactory _inner;
 
@@ -43,6 +47,11 @@ namespace AngleSharp.Css
             if (selector is null && name.Equals(Modal, StringComparison.OrdinalIgnoreCase))
             {
                 return ModalSelector;
+            }
+
+            if (selector is null && name.Equals(Fullscreen, StringComparison.OrdinalIgnoreCase))
+            {
+                return FullscreenSelector;
             }
 
             return selector;
