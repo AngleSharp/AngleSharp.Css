@@ -109,6 +109,19 @@ namespace AngleSharp.Css.Dom
             // a rule matching the host itself must not apply to its pseudo-elements.
             var isPseudo = element is IPseudoElement;
 
+            // a rule in @scope applies to the elements in a scope, which is what :scope means
+            if (Parent is CssScopeRule scopeRule)
+            {
+                var subject = element is PseudoElement pseudo ? pseudo.Host : element;
+
+                if (subject is null || !scopeRule.TryGetScopeRoot(subject, out var root))
+                {
+                    return false;
+                }
+
+                scope = root;
+            }
+
             if (!_nested && Parent is CssStyleRule parent)
             {
                 var pe = element;
