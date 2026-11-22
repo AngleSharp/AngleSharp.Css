@@ -19,6 +19,7 @@ namespace AngleSharp.Css.Values
         private readonly ICssValue _center;
         private readonly ICssValue _angle;
         private readonly Boolean _repeating;
+        private readonly String _interpolation;
 
         #endregion
 
@@ -32,11 +33,25 @@ namespace AngleSharp.Css.Values
         /// <param name="stops">The stops to use.</param>
         /// <param name="repeating">Indicates if the gradient is repeating.</param>
         public CssConicGradientValue(ICssValue angle, ICssValue center, ICssValue[] stops, Boolean repeating = false)
+            : this(angle, center, stops, repeating, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new conic gradient interpolating its colors as given.
+        /// </summary>
+        /// <param name="angle">The angle of the conic gradient.</param>
+        /// <param name="center">The center to use.</param>
+        /// <param name="stops">The stops to use.</param>
+        /// <param name="repeating">Indicates if the gradient is repeating.</param>
+        /// <param name="interpolation">The color interpolation method, e.g. "in oklch", if any.</param>
+        public CssConicGradientValue(ICssValue angle, ICssValue center, ICssValue[] stops, Boolean repeating, String interpolation)
         {
             _stops = stops;
             _center = center;
             _angle = angle;
             _repeating = repeating;
+            _interpolation = interpolation;
         }
 
         #endregion
@@ -80,22 +95,34 @@ namespace AngleSharp.Css.Values
             {
                 var defaultAngle = _angle as CssAngleValue?;
                 var defaultPosition = _center as CssPoint2D?;
-                var offset = (defaultAngle.HasValue ? 1 : 0) + (defaultPosition.HasValue ? 1 : 0);
-                var args = new String[_stops.Length + offset];
+                var prelude = new List<String>();
 
+                // "from <angle> at <position>" is a single argument
                 if (defaultAngle.HasValue)
                 {
-                    args[0] = $"from {defaultAngle.Value.CssText}";
+                    prelude.Add($"from {defaultAngle.Value.CssText}");
                 }
 
                 if (defaultPosition.HasValue)
                 {
-                    args[offset - 1] = $"at {defaultPosition.Value.CssText}";
+                    prelude.Add($"at {defaultPosition.Value.CssText}");
+                }
+
+                if (_interpolation != null)
+                {
+                    prelude.Add(_interpolation);
+                }
+
+                var args = new List<String>(_stops.Length + 1);
+
+                if (prelude.Count > 0)
+                {
+                    args.Add(String.Join(" ", prelude));
                 }
 
                 for (var i = 0; i < _stops.Length; i++)
                 {
-                    args[offset++] = _stops[i].CssText;
+                    args.Add(_stops[i].CssText);
                 }
 
                 return Name.CssFunction(String.Join(", ", args));
@@ -124,6 +151,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public Boolean IsRepeating => _repeating;
 
+        /// <summary>
+        /// Gets the color interpolation method, e.g. "in oklch" or "in hsl longer hue", if any.
+        /// </summary>
+        public String Interpolation => _interpolation;
+
         #endregion
 
         #region Methods
@@ -140,7 +172,7 @@ namespace AngleSharp.Css.Values
                 var comparer = EqualityComparer<ICssValue>.Default;
                 var l = _stops.Length;
 
-                if (comparer.Equals(_angle, other._angle) && comparer.Equals(_center, other._center) && _repeating == other._repeating && l == other._stops.Length)
+                if (comparer.Equals(_angle, other._angle) && comparer.Equals(_center, other._center) && _repeating == other._repeating && _interpolation == other._interpolation && l == other._stops.Length)
                 {
                     for (var i = 0; i < l; i++)
                     {
@@ -171,7 +203,7 @@ namespace AngleSharp.Css.Values
             var center = _center?.Compute(context);
             var angle = _angle?.Compute(context);
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
-            return new CssConicGradientValue(angle, center, stops, _repeating);
+            return new CssConicGradientValue(angle, center, stops, _repeating, _interpolation);
         }
 
         #endregion
