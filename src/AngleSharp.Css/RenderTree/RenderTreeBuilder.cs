@@ -451,7 +451,7 @@ namespace AngleSharp.Css.RenderTree
             }
 
             var shadowSheets = shadowRoot.GetEffectiveStyleSheets().ToList();
-            return new StyleCollection(_defaultSheets, shadowSheets, collection.Device, element);
+            return new StyleCollection(_defaultSheets, shadowSheets, collection.Device, element) { OuterProvider = () => collection };
         }
 
         private static IEnumerable<FlatChild> ExpandSlots(

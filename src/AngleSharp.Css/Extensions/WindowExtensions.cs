@@ -116,8 +116,44 @@ namespace AngleSharp.Dom
         public static ICssStyleDeclaration GetComputedStyle(this IWindow window, IElement element, String? pseudo = null)
         {
             var device = window.GetRenderDevice();
+
+            if (element.GetRoot() is IShadowRoot)
+            {
+                return ComputeShadowTreeStyle(window, device, element, pseudo);
+            }
+
             var styleCollection = ComputedStyleCollections.Get(window.Document, window.GetStyleCollection(device));
             return styleCollection.ComputeDeclarations(element, pseudo);
+        }
+
+        /// <summary>
+        /// An element of a shadow tree is styled by the sheets of its shadow root and inherits
+        /// from the elements of its tree up to the host (CSS Scoping 1, 2.4).
+        /// </summary>
+        private static ICssStyleDeclaration ComputeShadowTreeStyle(IWindow window, IRenderDevice device, IElement element, String? pseudo)
+        {
+            var shadowRoot = (IShadowRoot)element.GetRoot();
+            var styles = shadowRoot.GetStyleCollection(device);
+            var chain = new Stack<IElement>();
+
+            for (var current = element; current is not null; current = current.ParentElement)
+            {
+                chain.Push(current);
+            }
+
+            var style = window.GetComputedStyle(shadowRoot.Host);
+
+            while (chain.Count > 0)
+            {
+                style = styles.ComputeDeclarationsWithParent(chain.Pop(), style);
+            }
+
+            if (!String.IsNullOrEmpty(pseudo) && element.Pseudo(pseudo!.TrimStart(':')) is { } pseudoElement)
+            {
+                style = styles.ComputeDeclarationsWithParent(pseudoElement, style);
+            }
+
+            return style;
         }
 
         /// <summary>
