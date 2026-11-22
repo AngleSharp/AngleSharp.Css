@@ -85,6 +85,9 @@ title           { display: none }
 [hidden]        { display: none }
 [popover]:not(:popover-open):not(dialog[open]) { display: none }
 dialog:popover-open { display: block }
+dialog:not([open]) { display: none }
+dialog          { display: block; position: absolute; left: 0; right: 0; width: fit-content; height: fit-content; margin: auto; border: solid; padding: 1em; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255) }
+dialog:modal    { position: fixed; overflow: auto; top: 0; bottom: 0; max-width: calc(100% - 6px - 2em); max-height: calc(100% - 6px - 2em) }
 [popover]       { position: fixed; inset: 0; width: fit-content; height: fit-content; margin: auto; border: solid; padding: 0.25em; overflow: auto; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255) }
 :popover-open::backdrop { position: fixed; inset: 0; pointer-events: none !important; background-color: transparent }
 table           { display: table }

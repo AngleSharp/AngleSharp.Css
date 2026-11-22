@@ -54,7 +54,9 @@ namespace AngleSharp.Css.Tests.Styling
             // shown, centered in the viewport, and the `::backdrop` of a shown popover).
             // 86, not 85: headings and `th` are `bold` (as in the HTML standard), `b` and
             // `strong` stay `bolder`, which takes a rule of its own.
-            Assert.AreEqual(86, sheet.Rules.Length);
+            // 89, not 86: the UA stylesheet now also carries the dialog rules (hidden unless
+            // open, centered, and fixed in the viewport while it is a modal).
+            Assert.AreEqual(89, sheet.Rules.Length);
         }
     }
 }
