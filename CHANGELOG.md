@@ -1,6 +1,6 @@
 # 1.6.0
 
-Released on tbd.
+Released on Monday, November 23 2026.
 
 - Fixed a comment in a declaration's value with a quote in it (e.g. `/* shouldn't */`) starting a string, which swallowed the rest of the style sheet (Acid2)
 - Fixed an escaped `}` or `;` in a declaration's value (e.g. `error: \}`) ending the rule
@@ -23,6 +23,7 @@ Released on tbd.
 - Added the `:modal` pseudo-class and the user agent styles of `dialog`
 - Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles
 - Added `IAnimatedValueProvider` as the animation origin of the cascade
+- Added `GetImageSource()` for `img` elements and `ImageSource` of render nodes
 
 # 1.5.0
 

@@ -2,6 +2,7 @@ namespace AngleSharp.Css.RenderTree
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -112,6 +113,18 @@ namespace AngleSharp.Css.RenderTree
         /// Gets the computed style of the element.
         /// </summary>
         public ICssStyleDeclaration ComputedStyle => _computedStyle;
+
+        /// <summary>
+        /// Gets the source of the image an img element shows: the candidate of its srcset (or
+        /// of the sources of the picture around it) picked for the render device of its
+        /// document, with the density its natural size is divided by
+        /// (see <see cref="ImageSourceExtensions.GetImageSource(IHtmlImageElement, IRenderDevice)"/>).
+        /// It is picked when read, so a render tree built after the viewport changed (e.g. was
+        /// resized) picks again. Null for other elements, and for an img without a source.
+        /// </summary>
+        public ImageSourceSelection? ImageSource => _reference is IHtmlImageElement image && _reference is not IPseudoElement
+            ? image.GetImageSource((_context ?? _reference.Owner?.Context)?.GetService<IRenderDevice>() ?? new DefaultRenderDevice())
+            : null;
 
         private Boolean InheritsFromParent => _inheritedStyle is null && Pending?.GetInheritedStyle is null && _parent is not null;
 
