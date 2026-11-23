@@ -81,11 +81,11 @@ namespace AngleSharp.Dom
             var hasWidth = false;
             var hasDensityOne = false;
 
-            foreach (var (url, descriptors) in ParseSourceSet(srcset))
+            foreach (var entry in ParseSourceSet(srcset))
             {
                 var density = 1.0;
 
-                foreach (var descriptor in descriptors)
+                foreach (var descriptor in entry.Descriptors)
                 {
                     var number = descriptor.Substring(0, descriptor.Length - 1);
 
@@ -103,7 +103,7 @@ namespace AngleSharp.Dom
                 }
 
                 hasDensityOne |= density == 1.0;
-                candidates.Add(new KeyValuePair<String, Double>(url, density));
+                candidates.Add(new KeyValuePair<String, Double>(entry.Url, density));
             }
 
             // the src is the candidate of density 1, unless the srcset has one (or sizes)
@@ -146,7 +146,7 @@ namespace AngleSharp.Dom
             {
                 foreach (var size in SplitTopLevel(sizes))
                 {
-                    var (media, length) = SplitSize(size.Trim());
+                    SplitSize(size.Trim(), out var media, out var length);
 
                     if (length.Length > 0 && (media.Length == 0 || Matches(context, media, device)) &&
                         ValueConverters.LengthConverter.Convert(length) is { } value &&
@@ -175,8 +175,11 @@ namespace AngleSharp.Dom
 
         // the length of a size is its last component (a dimension or a function, e.g. calc),
         // what is in front of it the media condition
-        private static (String Media, String Length) SplitSize(String size)
+        private static void SplitSize(String size, out String media, out String length)
         {
+            media = String.Empty;
+            length = String.Empty;
+
             if (size.EndsWith(")", StringComparison.Ordinal))
             {
                 var depth = 0;
@@ -197,15 +200,35 @@ namespace AngleSharp.Dom
                         }
 
                         // a parenthesized media condition alone has no length
-                        return start == index ? (size, String.Empty) : (size.Substring(0, start).Trim(), size.Substring(start));
+                        if (start == index)
+                        {
+                            media = size;
+                        }
+                        else
+                        {
+                            media = size.Substring(0, start).Trim();
+                            length = size.Substring(start);
+                        }
+
+                        return;
                     }
                 }
 
-                return (size, String.Empty);
+                media = size;
+                return;
             }
 
             var space = size.LastIndexOfAny(new[] { ' ', '\t', '\n', '\r', '\f' });
-            return space < 0 ? (String.Empty, size) : (size.Substring(0, space).Trim(), size.Substring(space + 1));
+
+            if (space < 0)
+            {
+                length = size;
+            }
+            else
+            {
+                media = size.Substring(0, space).Trim();
+                length = size.Substring(space + 1);
+            }
         }
 
         private static List<String> SplitTopLevel(String sizes)
@@ -237,7 +260,7 @@ namespace AngleSharp.Dom
 
         // the candidates of a srcset (HTML 4.8.4.3.10): a URL (commas at its end separate it
         // from the next one), then descriptors up to a comma outside of parentheses
-        private static IEnumerable<(String Url, List<String> Descriptors)> ParseSourceSet(String? srcset)
+        private static IEnumerable<SourceSetEntry> ParseSourceSet(String? srcset)
         {
             if (srcset is null)
             {
@@ -318,9 +341,22 @@ namespace AngleSharp.Dom
                 if (url.Length > 0)
                 {
                     descriptors.RemoveAll(static descriptor => descriptor.Length < 2);
-                    yield return (url, descriptors);
+                    yield return new SourceSetEntry(url, descriptors);
                 }
             }
+        }
+
+        private sealed class SourceSetEntry
+        {
+            public SourceSetEntry(String url, List<String> descriptors)
+            {
+                Url = url;
+                Descriptors = descriptors;
+            }
+
+            public String Url { get; }
+
+            public List<String> Descriptors { get; }
         }
     }
 }
