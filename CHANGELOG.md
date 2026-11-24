@@ -1,3 +1,9 @@
+# 1.6.1
+
+Released on tbd.
+
+- Added `GetHost` extension for pseudo elements
+
 # 1.6.0
 
 Released on Tuesday, November 24 2026.
