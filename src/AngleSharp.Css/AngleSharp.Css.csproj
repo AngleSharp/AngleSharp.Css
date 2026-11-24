@@ -48,16 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="[$(AngleSharpVersion),2.0.0)" />
     <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'net472'" />
-  </ItemGroup>
-
-  <!-- TEMPORARY while the DOM registration contract (AngleSharp.Scripting.DomRegistry) and its
-       generator are developed in AngleSharp.Core: build against the sibling checkout. Revert to the
-       package reference, with AngleSharpVersion raised to the release shipping them, before merging;
-       the package brings the generator as an analyzer by itself. -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\AngleSharp.Core\src\AngleSharp\AngleSharp.Core.csproj" />
-    <ProjectReference Include="..\..\..\AngleSharp.Core\src\AngleSharp.Generators\AngleSharp.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
