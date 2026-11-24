@@ -1,6 +1,6 @@
 # 1.6.0
 
-Released on Monday, November 23 2026.
+Released on Tuesday, November 24 2026.
 
 - Fixed a comment in a declaration's value with a quote in it (e.g. `/* shouldn't */`) starting a string, which swallowed the rest of the style sheet (Acid2)
 - Fixed an escaped `}` or `;` in a declaration's value (e.g. `error: \}`) ending the rule
@@ -24,6 +24,7 @@ Released on Monday, November 23 2026.
 - Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles
 - Added `IAnimatedValueProvider` as the animation origin of the cascade
 - Added `GetImageSource()` for `img` elements and `ImageSource` of render nodes
+- Added `CssDom.Register`, the DOM of this library declared for a scripting engine
 
 # 1.5.0
 

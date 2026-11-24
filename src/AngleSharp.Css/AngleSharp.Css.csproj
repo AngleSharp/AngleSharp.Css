@@ -40,7 +40,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AngleSharpVersion Condition=" '$(AngleSharpVersion)' == '' ">1.10.0</AngleSharpVersion>
+    <AngleSharpVersion Condition=" '$(AngleSharpVersion)' == '' ">1.11.0</AngleSharpVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,8 +48,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="[$(AngleSharpVersion),2.0.0)" />
     <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'net472'" />
+  </ItemGroup>
+
+  <!-- TEMPORARY while the DOM registration contract (AngleSharp.Scripting.DomRegistry) and its
+       generator are developed in AngleSharp.Core: build against the sibling checkout. Revert to the
+       package reference, with AngleSharpVersion raised to the release shipping them, before merging;
+       the package brings the generator as an analyzer by itself. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AngleSharp.Core\src\AngleSharp\AngleSharp.Core.csproj" />
+    <ProjectReference Include="..\..\..\AngleSharp.Core\src\AngleSharp.Generators\AngleSharp.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +69,10 @@
     <InternalsVisibleTo Include="AngleSharp.Css.Tests" Key="002400000480000094000000060200000024000052534131000400000100010001adf274fa2b375134e8e4558d606f1a0f96f5cd0c6b99970f7cce9887477209d7c29f814e2508d8bd2526e99e8cd273bd1158a3984f1ea74830ec5329a77c6ff201a15edeb8b36ab046abd1bce211fe8dbb076d7d806f46b15bfda44def04ead0669971e96c5f666c9eda677f28824fff7aa90d32929ed91d529a7a41699893" />
     <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
       <_Parameter1>false</_Parameter1>
+    </AssemblyAttribute>
+    <!-- the DOM of this library for a scripting engine, without reflection: CssDom.Register -->
+    <AssemblyAttribute Include="AngleSharp.Attributes.GenerateDomRegistrationAttribute">
+      <_Parameter1>AngleSharp.Css.CssDom</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
