@@ -74,10 +74,20 @@ namespace AngleSharp.Css.Dom
 
         public static Boolean Validate(this ICssMedium medium, IRenderDevice device)
         {
+            // an unknown feature makes the query unknown, which `not` doesn't turn into a match
+            // (e.g. `not all and (bogus)`, Media Queries 4, 3.2)
+            if (medium.IsInverse && medium.Features.Any(IsUnknown))
+            {
+                return false;
+            }
+
             // `not` negates the whole query, i.e. the media type and all features together
             var matches = medium.MatchesType(device) && medium.MatchesFeatures(device);
             return matches != medium.IsInverse;
         }
+
+        private static Boolean IsUnknown(IMediaFeature feature) =>
+            feature is not MediaCondition && (!AssociatedValidators.TryGetValue(feature, out var validator) || validator is null);
 
         private static Boolean MatchesType(this ICssMedium medium, IRenderDevice device)
         {

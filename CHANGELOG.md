@@ -1,3 +1,32 @@
+# 1.6.0
+
+Released on Tuesday, November 24 2026.
+
+- Fixed a comment in a declaration's value with a quote in it (e.g. `/* shouldn't */`) starting a string, which swallowed the rest of the style sheet (Acid2)
+- Fixed an escaped `}` or `;` in a declaration's value (e.g. `error: \}`) ending the rule
+- Fixed a `;` after a rule (e.g. `a { color: red; };`) being skipped instead of making the selector of the next rule invalid, which then applied
+- Fixed `! important` with whitespace after the `!` not making the declaration important
+- Fixed the `color` media feature, e.g. `(color)` and `(min-color: 0)` not matching, and `monochrome` without a value
+- Fixed `not` making a media query with an unknown feature (e.g. `not all and (bogus)`) match
+- Fixed `minmax()` with a math function (e.g. `repeat(auto-fill, minmax(min(100%, 17rem), 1fr))`) making `grid-template-columns` invalid in an auto repeat
+- Fixed `@scope` rules never applying; a scope root and limit (`@scope (.a) to (.b)`) are respected
+- Fixed color hints (e.g. `linear-gradient(black, 20%, white)`) and color interpolation methods (e.g. `in oklch`, `in hsl longer hue`) making a gradient invalid
+- Fixed `conic-gradient` with both `from` and `at` being serialized with a comma between them
+- Fixed `getComputedStyle` of a shadow host leaving out the `:host` rules of its shadow tree
+- Fixed `getComputedStyle` of an element in a shadow tree ignoring the styles of its shadow root and not inheriting from the host
+- Fixed `::marker`, `::first-line` and `::first-letter` rules never matching (e.g. for `getComputedStyle(li, '::marker')`)
+- Fixed `AppendDefault` of the default style sheet provider dropping what was appended before
+- Fixed a closed `details` showing more than its `summary`
+- Fixed `transition-property` not accepting custom properties
+- Fixed angles being computed in `rad` instead of the canonical `deg`
+- Updated minimum version of AngleSharp to 1.11.0
+- Added `::part()` styling the parts of shadow trees
+- Added the `:modal` pseudo-class and the user agent styles of `dialog`
+- Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles
+- Added `IAnimatedValueProvider` as the animation origin of the cascade
+- Added `GetImageSource()` for `img` elements and `ImageSource` of render nodes
+- Added `CssDom.Register`, the DOM of this library declared for a scripting engine
+
 # 1.5.0
 
 Released on Wednesday, November 18 2026.

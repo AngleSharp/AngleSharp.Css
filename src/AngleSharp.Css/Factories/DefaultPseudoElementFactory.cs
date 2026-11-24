@@ -27,6 +27,9 @@ namespace AngleSharp.Css
             { CssPseudoElementSelectorFactory.Placeholder, CreatePlaceholder },
             { CssPseudoElementSelectorFactory.Backdrop, CreateBackdrop },
             { PseudoElementNames.Selection, element => new PseudoElement(element, PseudoElementNames.Selection) },
+            { CssPseudoElementSelectorFactory.Marker, element => new PseudoElement(element, CssPseudoElementSelectorFactory.Marker) },
+            { CssPseudoElementSelectorFactory.FirstLine, element => new PseudoElement(element, CssPseudoElementSelectorFactory.FirstLine) },
+            { CssPseudoElementSelectorFactory.FirstLetter, element => new PseudoElement(element, CssPseudoElementSelectorFactory.FirstLetter) },
         };
 
         private static IPseudoElement CreatePlaceholder(IElement host)

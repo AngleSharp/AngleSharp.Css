@@ -57,6 +57,16 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         internal IElement? Scope { get; }
 
+        /// <summary>
+        /// Gets the styles of the tree the host of a shadow tree is in, whose ::part() rules
+        /// style the parts of the shadow tree (CSS Shadow Parts 1), if these are of a shadow tree.
+        /// </summary>
+        internal StyleCollection? Outer => _outer ??= OuterProvider?.Invoke();
+
+        internal Func<StyleCollection?>? OuterProvider { get; set; }
+
+        private StyleCollection? _outer;
+
         #endregion
 
         #region Methods
@@ -291,6 +301,10 @@ namespace AngleSharp.Css.Dom
                     case ICssSupportsRule supports when supports.IsValid(_device):
                         _signature.Add(supports.Rules);
                         AddRules(rules, layers, supports.Rules, layer);
+                        break;
+                    case ICssScopeRule scope:
+                        _signature.Add(scope.Rules);
+                        AddRules(rules, layers, scope.Rules, layer);
                         break;
                     case ICssLayerRule { IsStatement: true } statement:
                         // only declares the order of the layers, e.g. @layer reset, base;

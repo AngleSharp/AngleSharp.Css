@@ -255,5 +255,19 @@ namespace AngleSharp.Css.Tests.Extensions
 
             Assert.IsTrue(FindElement((ElementRenderNode)window.Render(new PlainRenderDevice()), "target").Children.Any(m => m.Ref is IPseudoElement));
         }
-}
+
+        [Test]
+        public void ClosedDetailsRendersItsSummaryOnly()
+        {
+            var root = Render("<details id=closed><summary id=s1>Sum</summary>Text<p id=p1>Body</p></details><details id=open open><summary id=s2>Sum</summary>Text<p id=p2>Body</p></details>");
+            var closed = FindElement(root, "closed");
+            var open = FindElement(root, "open");
+
+            Assert.AreEqual(1, closed.Children.Count());
+            Assert.IsNotNull(FindElement(closed, "s1"));
+            Assert.IsNull(FindElement(closed, "p1"));
+            Assert.AreEqual(3, open.Children.Count());
+            Assert.IsNotNull(FindElement(open, "p2"));
+        }
+    }
 }

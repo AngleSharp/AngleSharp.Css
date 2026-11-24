@@ -49,7 +49,11 @@ namespace AngleSharp.Css
             var defaultStyleSheetProvider = ctx.GetServices<ICssDefaultStyleSheetProvider>();
             var defaultSheets = defaultStyleSheetProvider.Select(m => m.Default).Where(m => m != null).ToList();
             var shadowSheets = shadowRoot.GetEffectiveStyleSheets().ToList();
-            return new StyleCollection(defaultSheets, shadowSheets, renderDevice, host);
+            return new StyleCollection(defaultSheets, shadowSheets, renderDevice, host)
+            {
+                OuterProvider = () => (host.GetRoot() is IShadowRoot outerRoot ? outerRoot.GetStyleCollection(renderDevice) :
+                    host.Owner?.DefaultView?.GetStyleCollection(renderDevice)) as StyleCollection,
+            };
         }
 
         /// <summary>
@@ -118,7 +122,11 @@ namespace AngleSharp.Css
             while (nodes.Count > 0)
             {
                 var node = nodes.Pop();
-                var explicitStyle = styles.ComputeExplicitStyle(node);
+                // a shadow host is also styled by the :host rules of its shadow tree
+                var explicitStyle = node is not IPseudoElement && node.ShadowRoot is { } shadowRoot && styles is StyleCollection &&
+                    shadowRoot.GetStyleCollection(styles.Device) is StyleCollection shadowStyles
+                    ? styles.ComputeHostStyle(shadowStyles, node)
+                    : styles.ComputeExplicitStyle(node);
                 var context = new CssComputeContext(styles.Device, ctx, explicitStyle, parent, (styles as StyleCollection)?.GetRegistrations());
                 parent = explicitStyle.PrepareComputedDeclarations(parent!, context).Compute(context).Blockify(node, parent);
             }
@@ -170,14 +178,40 @@ namespace AngleSharp.Css
 
             ApplyImportantLayerOrder(computedStyle, matches);
             ReturnMatches(styles, matches);
+            ApplyPartRules(styles, element, computedStyle);
 
             if (element is IHtmlElement || element is ISvgElement)
             {
                 computedStyle.SetDeclarations(element.GetStyleIfDeclared());
             }
 
+            ApplyAnimatedValues(computedStyle, element, ctx);
             computedStyle.TrimExcess();
             return computedStyle;
+        }
+
+        /// <summary>
+        /// Gives the declarations the animated values of the element, which win over all but the
+        /// important ones (the animation origin, CSS Cascade 5, 6.2).
+        /// </summary>
+        private static void ApplyAnimatedValues(CssStyleDeclaration style, IElement element, IBrowsingContext context)
+        {
+            var values = context.GetAnimatedValueProvider()?.GetAnimatedValues(element, style);
+
+            if (values is null || values.Count == 0)
+            {
+                return;
+            }
+
+            var animated = new CssStyleDeclaration(context);
+
+            foreach (var value in values)
+            {
+                animated.SetProperty(value.Key, value.Value);
+            }
+
+            // an important declaration stays
+            style.SetDeclarations(animated);
         }
 
         /// <summary>
@@ -248,6 +282,7 @@ namespace AngleSharp.Css
             ReturnMatches(styles, matches);
             computedStyle.SetDeclarations(host.GetStyleIfDeclared());
             computedStyle.SetDeclarations(shadowStyle.Where(m => m.IsImportant).ToList());
+            ApplyAnimatedValues(computedStyle, host, ctx);
             return computedStyle;
         }
 
@@ -377,6 +412,40 @@ namespace AngleSharp.Css
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// An element of a shadow tree with a part attribute is also styled by the ::part() rules
+        /// of the tree its host is in, which win over the ones of its own tree (CSS Shadow Parts 1).
+        /// </summary>
+        private static void ApplyPartRules(IStyleCollection styles, IElement element, CssStyleDeclaration computedStyle)
+        {
+            if (styles is not StyleCollection { Scope: { } host } collection || element is IPseudoElement ||
+                element.GetAttribute("part") is not { Length: > 0 } part || element.GetRoot() is not IShadowRoot root ||
+                root.Host != host || collection.Outer is not { } outer)
+            {
+                return;
+            }
+
+            var names = part.Split(new[] { ' ', '\t', '\n', '\r', '\f' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (names.Length == 0)
+            {
+                return;
+            }
+
+            var partElement = new PseudoElement(host, "part(" + String.Join(" ", names) + ")");
+            var matches = outer.SortBySpecificity(partElement);
+
+            foreach (var match in matches)
+            {
+                if (!match.IsDefault)
+                {
+                    computedStyle.SetDeclarations(match.Rule.Style);
+                }
+            }
+
+            ReturnMatches(outer, matches);
         }
 
         private static void ReturnMatches(IStyleCollection styles, List<RuleMatch> matches)

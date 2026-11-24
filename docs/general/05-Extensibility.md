@@ -89,6 +89,18 @@ The dictionary is keyed by the media feature name and holds the keyword the feat
 
 The value is compared to the queried keyword case insensitively, so a keyword that is newer than this library works as well. Used without a value, e.g., `@media (prefers-reduced-motion)`, the feature evaluates in a boolean context, where `no-preference` (and `none` for `forced-colors`, `hover`, `any-hover`, `pointer` and `any-pointer`) is `false`. Without a preference `hover` and `pointer` keep answering as they did before, i.e., as a device with no input mechanism.
 
+## Expose The CSSOM To Scripts Without Reflection
+
+A scripting engine such as AngleSharp.Js finds the CSSOM by reflecting over its DOM attributes by default. A trimmed or natively compiled (AoT) application can instead hand the engine the registration that is generated for this library at build time, `AngleSharp.Css.CssDom.Register` (a `DomRegistration` of AngleSharp). It declares the CSSOM types, the `CSS` namespace and the members the library adds to the DOM, such as `element.style` or `getComputedStyle`:
+
+```cs
+var config = Configuration.Default
+    .WithCss()
+    .WithJs(CssDom.Register);
+```
+
+The registration describes the version of AngleSharp.Css in use, so it never has to be kept in sync by hand. Several libraries are combined with `DomRegistrations.Combine`.
+
 ## Composition Pattern
 
 Start from the default registrations and replace only what you need:

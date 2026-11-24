@@ -148,12 +148,12 @@ namespace AngleSharp.Css.Values
 
         #region Methods
 
+        // the canonical unit of an angle is deg (CSS Values 4, 6.1), e.g. 0.5turn computes to 180deg
         ICssValue ICssValue.Compute(ICssComputeContext context)
         {
-            if (_unit != Unit.Rad)
+            if (_unit != Unit.Deg)
             {
-                var rad = ToRadian();
-                return new CssAngleValue(rad, Unit.Rad);
+                return new CssAngleValue(ToDegree(), Unit.Deg);
             }
 
             return this;

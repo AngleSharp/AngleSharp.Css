@@ -56,10 +56,27 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static ICssGradientFunctionValue ParseLinearGradient(StringSource source, Boolean repeating)
         {
+            var interpolation = ParseInterpolation(source);
+
+            if (interpolation != null)
+            {
+                source.SkipSpacesAndComments();
+            }
+
             var start = source.Index;
             var angle = ParseLinearAngle(source);
 
-            if (angle != null)
+            if (angle == null)
+            {
+                source.BackTo(start);
+            }
+            else if (interpolation == null)
+            {
+                source.SkipSpacesAndComments();
+                interpolation = ParseInterpolation(source);
+            }
+
+            if (angle != null || interpolation != null)
             {
                 var current = source.SkipSpacesAndComments();
 
@@ -70,17 +87,13 @@ namespace AngleSharp.Css.Parser
 
                 source.SkipCurrentAndSpaces();
             }
-            else
-            {
-                source.BackTo(start);
-            }
 
             var stops = ParseGradientStops(source);
 
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new CssLinearGradientValue(angle, stops, repeating);
+                return new CssLinearGradientValue(angle, stops, repeating, interpolation);
             }
 
             return null;
@@ -102,10 +115,27 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private static ICssGradientFunctionValue ParseRadialGradient(StringSource source, Boolean repeating)
         {
+            var interpolation = ParseInterpolation(source);
+
+            if (interpolation != null)
+            {
+                source.SkipSpacesAndComments();
+            }
+
             var start = source.Index;
             var options = ParseRadialOptions(source);
 
-            if (options.HasValue)
+            if (!options.HasValue)
+            {
+                source.BackTo(start);
+            }
+            else if (interpolation == null)
+            {
+                source.SkipSpacesAndComments();
+                interpolation = ParseInterpolation(source);
+            }
+
+            if (options.HasValue || interpolation != null)
             {
                 var current = source.SkipSpacesAndComments();
 
@@ -115,10 +145,6 @@ namespace AngleSharp.Css.Parser
                 }
 
                 source.SkipCurrentAndSpaces();
-            }
-            else
-            {
-                source.BackTo(start);
             }
 
             var stops = ParseGradientStops(source);
@@ -131,7 +157,7 @@ namespace AngleSharp.Css.Parser
                 var height = options?.Height;
                 var sizeMode = options?.Size ?? CssRadialGradientValue.SizeMode.None;
                 source.SkipCurrentAndSpaces();
-                return new CssRadialGradientValue(circle, center, width, height, sizeMode, stops, repeating);
+                return new CssRadialGradientValue(circle, center, width, height, sizeMode, stops, repeating, interpolation);
             }
 
             return null;
@@ -156,6 +182,8 @@ namespace AngleSharp.Css.Parser
             ICssValue angle = null;
             ICssValue center = null;
 
+            source.SkipSpacesAndComments();
+            var interpolation = ParseInterpolation(source);
             source.SkipSpacesAndComments();
 
             if (source.IsIdentifier(CssKeywords.From))
@@ -182,7 +210,13 @@ namespace AngleSharp.Css.Parser
                 }
             }
 
-            if (angle != null || center != null)
+            if (interpolation == null && (angle != null || center != null))
+            {
+                source.SkipSpacesAndComments();
+                interpolation = ParseInterpolation(source);
+            }
+
+            if (angle != null || center != null || interpolation != null)
             {
                 var current = source.SkipSpacesAndComments();
 
@@ -199,7 +233,7 @@ namespace AngleSharp.Css.Parser
             if (stops != null && source.Current == Symbols.RoundBracketClose)
             {
                 source.SkipCurrentAndSpaces();
-                return new CssConicGradientValue(angle, center, stops, repeating);
+                return new CssConicGradientValue(angle, center, stops, repeating, interpolation);
             }
 
             return null;
@@ -224,6 +258,12 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 current = source.SkipSpacesAndComments();
+            }
+
+            // a color hint is only allowed between two color stops
+            if (stops.Count == 0 || stops[stops.Count - 1].IsHint)
+            {
+                return null;
             }
 
             return stops.ToArray();
@@ -262,8 +302,70 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
+            // a color hint ("red, 20%, blue") moves the midpoint of the transition
+            if (position != null && stops.Count > 0 && !stops[stops.Count - 1].IsHint)
+            {
+                stops.Add(CssGradientStopValue.CreateHint(position));
+                return true;
+            }
+
             return false;
         }
+
+        /// <summary>
+        /// Parses the color interpolation method of a gradient (CSS Images 4 §3.1), e.g.
+        /// "in oklch" or "in hsl longer hue", returning its normalized text.
+        /// </summary>
+        private static String ParseInterpolation(StringSource source)
+        {
+            var start = source.Index;
+
+            if (source.IsIdentifier(CssKeywords.In))
+            {
+                source.SkipSpacesAndComments();
+                var space = source.ParseIdent();
+
+                if (space != null && (RectangularColorSpaces.Contains(space) || PolarColorSpaces.Contains(space)))
+                {
+                    var result = String.Concat(CssKeywords.In, " ", space.ToLowerInvariant());
+
+                    if (PolarColorSpaces.Contains(space))
+                    {
+                        var methodStart = source.Index;
+                        source.SkipSpacesAndComments();
+                        var method = source.ParseIdent();
+                        source.SkipSpacesAndComments();
+
+                        if (method != null && HueInterpolationMethods.Contains(method) && source.IsIdentifier(CssKeywords.Hue))
+                        {
+                            return String.Concat(result, " ", method.ToLowerInvariant(), " ", CssKeywords.Hue);
+                        }
+
+                        source.BackTo(methodStart);
+                    }
+
+                    return result;
+                }
+            }
+
+            source.BackTo(start);
+            return null;
+        }
+
+        private static readonly HashSet<String> RectangularColorSpaces = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "srgb", "srgb-linear", "display-p3", "a98-rgb", "prophoto-rgb", "rec2020", "lab", "oklab", "xyz", "xyz-d50", "xyz-d65",
+        };
+
+        private static readonly HashSet<String> PolarColorSpaces = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "hsl", "hwb", "lch", "oklch",
+        };
+
+        private static readonly HashSet<String> HueInterpolationMethods = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "shorter", "longer", "increasing", "decreasing",
+        };
 
         private static ICssValue ParseGradientStopPosition(StringSource source) =>
             source.ParseDistanceOrCalc() ?? source.ParseAngleOrCalc();
@@ -330,6 +432,7 @@ namespace AngleSharp.Css.Parser
             var height = default(ICssValue);
             var size = CssRadialGradientValue.SizeMode.None;
             var redo = false;
+            var identStart = source.Index;
             var ident = source.ParseIdent();
 
             if (ident != null)
@@ -379,6 +482,7 @@ namespace AngleSharp.Css.Parser
                 {
                     size = Map.RadialGradientSizeModes[ident];
                     source.SkipSpacesAndComments();
+                    identStart = source.Index;
                     ident = source.ParseIdent();
 
                     if (ident != null)
@@ -424,7 +528,15 @@ namespace AngleSharp.Css.Parser
             if (redo)
             {
                 source.SkipSpacesAndComments();
+                identStart = source.Index;
                 ident = source.ParseIdent();
+            }
+
+            if (ident != null && ident.Isi(CssKeywords.In))
+            {
+                // the color interpolation method follows
+                source.BackTo(identStart);
+                ident = null;
             }
 
             if (ident != null)

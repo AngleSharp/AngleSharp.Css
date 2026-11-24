@@ -64,6 +64,22 @@
         }
 
         [Test]
+        public void CssTransitionPropertyCustomPropertyLegal()
+        {
+            var property = ParseDeclaration("transition-property : opacity, --My-Angle");
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("opacity, --My-Angle", property.Value);
+        }
+
+        [Test]
+        public void CssTransitionWithCustomPropertyLegal()
+        {
+            var property = ParseDeclaration("transition : --angle 1s");
+            Assert.IsTrue(property.HasValue);
+            Assert.AreEqual("--angle 1s", property.Value);
+        }
+
+        [Test]
         public void CssTransitionPropertySlidingVerticallyIllegal()
         {
             var snippet = "transition-property : sliding-vertically";

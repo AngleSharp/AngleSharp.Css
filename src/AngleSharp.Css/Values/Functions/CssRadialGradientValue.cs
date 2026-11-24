@@ -23,6 +23,7 @@ namespace AngleSharp.Css.Values
         private readonly Boolean _repeating;
         private readonly Boolean _circle;
         private readonly SizeMode _sizeMode;
+        private readonly String _interpolation;
 
         #endregion
 
@@ -39,7 +40,24 @@ namespace AngleSharp.Css.Values
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
         public CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, SizeMode sizeMode, ICssValue[] stops, Boolean repeating = false)
+            : this(circle, center, width, height, sizeMode, stops, repeating, null)
         {
+        }
+
+        /// <summary>
+        /// Creates a new radial gradient interpolating its colors as given.
+        /// </summary>
+        /// <param name="circle">Determines if the radial gradient has to be forced to a circle form.</param>
+        /// <param name="center">The center point of the gradient.</param>
+        /// <param name="width">The width of the ellipsoid.</param>
+        /// <param name="height">The height of the ellipsoid.</param>
+        /// <param name="sizeMode">The size mode of the ellipsoid.</param>
+        /// <param name="stops">A collection of stops to use.</param>
+        /// <param name="repeating">The repeating setting.</param>
+        /// <param name="interpolation">The color interpolation method, e.g. "in oklch", if any.</param>
+        public CssRadialGradientValue(Boolean circle, CssPoint2D center, ICssValue width, ICssValue height, SizeMode sizeMode, ICssValue[] stops, Boolean repeating, String interpolation)
+        {
+            _interpolation = interpolation;
             _stops = stops;
             _center = center;
             _width = width;
@@ -105,6 +123,18 @@ namespace AngleSharp.Css.Values
                     }.Where(m => !String.IsNullOrEmpty(m)))));
                 }
 
+                if (_interpolation != null)
+                {
+                    if (args.Count > 0)
+                    {
+                        args[0] = new CssAnyValue(String.Concat(args[0].CssText, " ", _interpolation));
+                    }
+                    else
+                    {
+                        args.Add(new CssAnyValue(_interpolation));
+                    }
+                }
+
                 foreach (var stop in _stops)
                 {
                     args.Add(stop);
@@ -154,6 +184,11 @@ namespace AngleSharp.Css.Values
         /// </summary>
         public Boolean IsRepeating => _repeating;
 
+        /// <summary>
+        /// Gets the color interpolation method, e.g. "in oklch" or "in hsl longer hue", if any.
+        /// </summary>
+        public String Interpolation => _interpolation;
+
         #endregion
 
         #region Methods
@@ -168,7 +203,7 @@ namespace AngleSharp.Css.Values
             if (other is not null)
             {
                 var comparer = EqualityComparer<ICssValue>.Default;
-                if (comparer.Equals(_center, other._center) && comparer.Equals(_width, other._width) && comparer.Equals(_height, other._height) && _repeating == other._repeating && _sizeMode == other._sizeMode && _circle == other._circle)
+                if (comparer.Equals(_center, other._center) && comparer.Equals(_width, other._width) && comparer.Equals(_height, other._height) && _repeating == other._repeating && _sizeMode == other._sizeMode && _circle == other._circle && _interpolation == other._interpolation)
                 {
                     var count = _stops.Length;
 
@@ -203,7 +238,7 @@ namespace AngleSharp.Css.Values
             var width = _width?.Compute(context);
             var height = _height?.Compute(context);
             var stops = _stops.Select(m => (CssGradientStopValue)((ICssValue)m).Compute(context)).ToArray();
-            return new CssRadialGradientValue(_circle, center, width, height, _sizeMode, stops, _repeating);
+            return new CssRadialGradientValue(_circle, center, width, height, _sizeMode, stops, _repeating, _interpolation);
         }
 
         Boolean IEquatable<ICssValue>.Equals(ICssValue other) => other is CssRadialGradientValue value && Equals(value);

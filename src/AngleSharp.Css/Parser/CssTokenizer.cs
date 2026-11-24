@@ -81,7 +81,32 @@ namespace AngleSharp.Css.Parser
                     continue;
                 }
 
-                if ((current == Symbols.DoubleQuote || current == Symbols.SingleQuote) && previous != Symbols.ReverseSolidus)
+                // an escaped character, e.g. "\}", is part of the value, even ';', '{' or '}'
+                if (current == Symbols.ReverseSolidus)
+                {
+                    var escaped = GetNext();
+
+                    if (escaped != Symbols.EndOfFile && !escaped.IsLineBreak())
+                    {
+                        sb.Append(current).Append(escaped);
+                        trailingWhitespace = 0;
+                        previous = escaped;
+                        current = GetNext();
+                        continue;
+                    }
+
+                    Back();
+                }
+
+                // a comment is kept as it is, but quotes in it start no string
+                if (current == Symbols.Solidus && TryAppendComment(sb, ref current))
+                {
+                    trailingWhitespace = 0;
+                    previous = Symbols.Solidus;
+                    continue;
+                }
+
+                if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote)
                 {
                     trailingWhitespace = 0;
                     var quote = current;
@@ -142,6 +167,39 @@ namespace AngleSharp.Css.Parser
 
             Back();
             return sb.ToPool();
+        }
+
+        /// <summary>
+        /// Appends a comment starting at the current position, if there is one, and moves on to
+        /// the character after it.
+        /// </summary>
+        private Boolean TryAppendComment(StringBuilder sb, ref Char current)
+        {
+            if (GetNext() != Symbols.Asterisk)
+            {
+                Back();
+                return false;
+            }
+
+            sb.Append(Symbols.Solidus).Append(Symbols.Asterisk);
+            current = GetNext();
+
+            while (current != Symbols.EndOfFile)
+            {
+                sb.Append(current);
+                var next = GetNext();
+
+                if (current == Symbols.Asterisk && next == Symbols.Solidus)
+                {
+                    sb.Append(next);
+                    current = GetNext();
+                    return true;
+                }
+
+                current = next;
+            }
+
+            return true;
         }
 
         /// <summary>

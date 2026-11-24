@@ -17,6 +17,34 @@ namespace AngleSharp.Css
     {
         // the services of a context are fixed; resolving them walks all services
         private static readonly ConditionalWeakTable<IBrowsingContext, IDeclarationFactory> DeclarationFactories = new();
+        private static readonly ConditionalWeakTable<IBrowsingContext, IAnimatedValueProvider> AnimatedValueProviders = new();
+
+        // most processes never have one, which spares every computed style the lookup
+        private static volatile Boolean _anyAnimatedValueProvider;
+
+        /// <summary>
+        /// Sets what gives the animated values of the elements of the context's documents (see
+        /// <see cref="IAnimatedValueProvider"/>), or removes it with null. The styles computed from
+        /// then on include them; styles computed before stay as they are.
+        /// </summary>
+        /// <param name="context">The context to use.</param>
+        /// <param name="provider">The provider, or null.</param>
+        public static void SetAnimatedValueProvider(this IBrowsingContext context, IAnimatedValueProvider provider)
+        {
+            if (context is null)
+                throw new ArgumentNullException(nameof(context));
+
+            AnimatedValueProviders.Remove(context);
+
+            if (provider is not null)
+            {
+                _anyAnimatedValueProvider = true;
+                AnimatedValueProviders.Add(context, provider);
+            }
+        }
+
+        internal static IAnimatedValueProvider GetAnimatedValueProvider(this IBrowsingContext context) =>
+            _anyAnimatedValueProvider && context is not null && AnimatedValueProviders.TryGetValue(context, out var provider) ? provider : null;
 
         /// <summary>
         /// Loads a stylesheet resource via its URL.
