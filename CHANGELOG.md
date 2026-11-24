@@ -19,6 +19,7 @@ Released on Tuesday, November 24 2026.
 - Fixed a closed `details` showing more than its `summary`
 - Fixed `transition-property` not accepting custom properties
 - Fixed angles being computed in `rad` instead of the canonical `deg`
+- Updated minimum version of AngleSharp to 1.11.0
 - Added `::part()` styling the parts of shadow trees
 - Added the `:modal` pseudo-class and the user agent styles of `dialog`
 - Added the `:fullscreen` pseudo-class, which a host forces (`SetPseudoClass`) on the element it shows fullscreen, and its user agent styles

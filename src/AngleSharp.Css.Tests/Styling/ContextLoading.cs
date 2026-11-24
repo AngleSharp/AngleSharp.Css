@@ -77,7 +77,7 @@ namespace AngleSharp.Css.Tests.Styling
             var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
             var downloads = document.GetDownloads().ToArray();
 
-            Assert.AreEqual(6, downloads.Length);
+            Assert.AreEqual(5, downloads.Length);
 
             foreach (var download in downloads)
             {
@@ -88,9 +88,8 @@ namespace AngleSharp.Css.Tests.Styling
             Assert.AreEqual(document.QuerySelectorAll("link").Skip(0).First(), downloads[0].Source);
             Assert.AreEqual(document.QuerySelectorAll("link").Skip(1).First(), downloads[1].Source);
             Assert.AreEqual(document.QuerySelectorAll("link").Skip(2).First(), downloads[2].Source);
-            Assert.AreEqual(document.QuerySelector("img"), downloads[3].Source);
-            Assert.AreEqual(document.QuerySelector("iframe"), downloads[4].Source);
-            Assert.AreEqual(document.QuerySelectorAll("script").Skip(1).First(), downloads[5].Source);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[3].Source);
+            Assert.AreEqual(document.QuerySelectorAll("script").Skip(1).First(), downloads[4].Source);
         }
     }
 }
